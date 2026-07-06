@@ -1,0 +1,148 @@
+<div class="botanika-coupon-banner" {{ block.shopify_attributes }}>
+  <div class="botanika-coupon-banner__icon">🎟</div>
+  <div class="botanika-coupon-banner__content">
+    <div class="botanika-coupon-banner__label">PRIMEIRO CUPOM DA LOJA</div>
+    <div class="botanika-coupon-banner__text">
+      Use <strong id="botanika-coupon-code">BOTANIKA</strong> e ganhe
+      <strong>5% OFF</strong> em qualquer produto.
+    </div>
+  </div>
+  <button type="button" class="botanika-coupon-banner__btn" onclick="botanikaCopyCoupon()">
+    <span class="botanika-coupon-banner__btn-text">Copiar</span>
+  </button>
+</div>
+
+<style>
+  .botanika-coupon-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    background: #F8F0E8;
+    border: 1.5px dashed #303890;
+    border-radius: 14px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  .botanika-coupon-banner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: #D0E088;
+  }
+  .botanika-coupon-banner__icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .botanika-coupon-banner__content {
+    flex: 1;
+    min-width: 0;
+  }
+  .botanika-coupon-banner__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #303890;
+    opacity: 0.75;
+    margin-bottom: 4px;
+  }
+  .botanika-coupon-banner__text {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #181010;
+  }
+  .botanika-coupon-banner__text strong {
+    color: #303890;
+    font-weight: 700;
+  }
+  #botanika-coupon-code {
+    background: #F8C840;
+    padding: 1px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    color: #303890;
+  }
+  .botanika-coupon-banner__btn {
+    background: #303890;
+    color: #F8F0E8;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 150ms ease-out;
+    flex-shrink: 0;
+  }
+  .botanika-coupon-banner__btn:hover {
+    background: #1f2670;
+    transform: translateY(-1px);
+  }
+  .botanika-coupon-banner__btn.copied {
+    background: #4A7C3E;
+  }
+  @media (max-width: 600px) {
+    .botanika-coupon-banner {
+      flex-wrap: wrap;
+      padding: 14px 16px;
+    }
+    .botanika-coupon-banner__btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+    .botanika-coupon-banner__text {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  function botanikaCopyCoupon() {
+    var code = document.getElementById('botanika-coupon-code').innerText;
+    var btn = document.querySelector('.botanika-coupon-banner__btn');
+    var btnText = btn.querySelector('.botanika-coupon-banner__btn-text');
+    var done = function () {
+      btnText.innerText = '✓ Copiado';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btnText.innerText = 'Copiar';
+        btn.classList.remove('copied');
+      }, 2500);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(code).then(done).catch(function () {
+        var t = document.createElement('textarea');
+        t.value = code;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand('copy');
+        document.body.removeChild(t);
+        done();
+      });
+    } else {
+      var t = document.createElement('textarea');
+      t.value = code;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
+      done();
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Cupom Botanika",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,294 @@
+﻿{% liquid
+  assign section_st = section.settings
+  assign meta_subheading = product.metafields.custom.ingredients_subheading.value
+  assign meta_why_body = product.metafields.custom.why_combo_body.value
+  assign why_body = meta_why_body | default: section_st.why_combo_body
+  assign subheading_text = meta_subheading | default: section_st.subheading
+%}
+{%- capture style -%}
+  padding-top: {{ section_st.padding_top }}px; padding-bottom: {{ section_st.padding_bottom }}px;
+{%- endcapture -%}
+<div class="sec__botanika-ingredients" style="{{ style | strip | strip_newlines }}">
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank or subheading_text != blank -%}
+      <div class="botanika-ingredients__header">
+        {%- if section_st.heading != blank -%}
+          <h2 class="botanika-ingredients__heading">{{ section_st.heading | replace: '[produto]', product.title }}</h2>
+        {%- endif -%}
+        {%- if subheading_text != blank -%}
+          <div class="botanika-ingredients__subheading rte">{{ subheading_text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="botanika-ingredients__grid">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign title_key = 'ingredient_' | append: i | append: '_title'
+          assign desc_key = 'ingredient_' | append: i | append: '_description'
+          assign icon_key = 'ingredient_' | append: i | append: '_icon'
+          assign ing_title = product.metafields.custom[title_key].value
+          assign ing_desc = product.metafields.custom[desc_key].value
+          assign ing_icon = product.metafields.custom[icon_key].value
+        -%}
+        {%- if ing_title != blank -%}
+          <div class="botanika-ingredients__card">
+            <div class="botanika-ingredients__badge">
+              {%- if ing_icon != blank -%}
+                {{- ing_icon | image_url: width: 64 | image_tag: width: 64, height: 64, loading: 'lazy' -}}
+              {%- else -%}
+                <span aria-hidden="true">{{ i }}</span>
+              {%- endif -%}
+            </div>
+            <h3 class="botanika-ingredients__title">{{ ing_title }}</h3>
+            {%- if ing_desc != blank -%}
+              <p class="botanika-ingredients__desc">{{ ing_desc }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section_st.why_combo_title != blank or why_body != blank -%}
+      <div class="botanika-ingredients__why-combo">
+        {%- if section_st.why_combo_title != blank -%}
+          <h3 class="botanika-ingredients__why-title">{{ section_st.why_combo_title }}</h3>
+        {%- endif -%}
+        {%- if why_body != blank -%}
+          <p class="botanika-ingredients__why-body">{{ why_body }}</p>
+        {%- endif -%}
+        {%- if section_st.why_combo_cta != blank -%}
+          <a href="{{ product.url }}" class="botanika-ingredients__why-cta" data-pdp-add-to-cart>{{ section_st.why_combo_cta }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-ingredients {
+  background: linear-gradient(147.6deg, #101828 0%, #1e2939 100%);
+  color: #fff;
+  padding-top: var(--section-pt, 80px);
+  padding-bottom: var(--section-pb, 80px);
+}
+.sec__botanika-ingredients .container {
+  background: linear-gradient(135deg, #101828 0%, #1E2939 100%);
+}
+.sec__botanika-ingredients .container,
+.sec__botanika-ingredients .fluid_container,
+.sec__botanika-ingredients .full_width {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.botanika-ingredients__header {
+  margin-bottom: 64px;
+  text-align: center;
+}
+.botanika-ingredients__heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 40px;
+  color: white;
+  margin: 0 0 16px;
+  letter-spacing: 0.37px;
+}
+.botanika-ingredients__subheading,
+.botanika-ingredients__subheading p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  line-height: 28px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+.botanika-ingredients__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.botanika-ingredients__card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.botanika-ingredients__badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #c4d78a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.botanika-ingredients__badge span {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3f4a9c;
+  line-height: 1;
+}
+.botanika-ingredients__badge img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+.botanika-ingredients__title {
+  color: #c4d78a;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  margin: 0 0 16px;
+  letter-spacing: 0.07px;
+}
+.botanika-ingredients__desc {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  letter-spacing: -0.31px;
+}
+.botanika-ingredients__why-combo {
+  margin-top: 34px;
+  background: linear-gradient(120deg, rgba(143, 188, 63, 0.12), rgba(74, 74, 166, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px 34px;
+  text-align: center;
+}
+.botanika-ingredients__why-title {
+  font-size: 21px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 10px;
+}
+.botanika-ingredients__why-body {
+  color: #aab6c9;
+  max-width: 760px;
+  margin: 0 auto 22px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.botanika-ingredients__why-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #8fbc3f;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 15px 30px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.botanika-ingredients__why-cta:hover {
+  background: #6f9a2e;
+}
+@media (max-width: 899px) {
+  .botanika-ingredients__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .botanika-ingredients__heading {
+    font-size: 28px;
+  }
+  .botanika-ingredients__subheading,
+  .botanika-ingredients__subheading p {
+    font-size: 16px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Ingredientes",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "info": "Use [produto] para inserir o nome do produto dinamicamente",
+      "default": "O que tem dentro do nosso [produto]"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "<p>Uma fórmula pensada para que você se sinta energizado, disposto e focado.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Por que essa combinação?"
+    },
+    {
+      "type": "text",
+      "id": "why_combo_title",
+      "label": "Título",
+      "default": "Por que essa combinação?"
+    },
+    {
+      "type": "textarea",
+      "id": "why_combo_body",
+      "label": "Texto explicativo"
+    },
+    {
+      "type": "text",
+      "id": "why_combo_cta",
+      "label": "Texto do botão CTA",
+      "default": "Adicionar ao carrinho"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Ingredientes"
+    }
+  ]
+}
+{% endschema %}

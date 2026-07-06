@@ -1,0 +1,252 @@
+{% liquid
+  assign section_st = section.settings
+  assign nt = product.metafields.custom.nutrition_table.value
+  assign long_desc = product.metafields.custom.long_description.value
+%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-nutrition color-{{ section_st.color_scheme }} gradient"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <h2 class="botanika-nutrition__heading">{{ section_st.heading }}</h2>
+    {%- endif -%}
+    <div class="botanika-nutrition__grid{% if long_desc == blank %} botanika-nutrition__grid--single{% endif %}">
+
+      {%- if nt != blank -%}
+        <!-- Tabela Nutricional ANVISA -->
+        <div class="botanika-nutrition__label-wrap">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" class="botanika-nt">
+            <!-- Título -->
+            <tr>
+              <td style="padding:24px 28px 0;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="text-align:center;font-size:26px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:12px;color:#000;">
+                      INFORMAÇÃO NUTRICIONAL
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="background:#000;height:1px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Porção -->
+            <tr>
+              <td style="padding:12px 28px 0;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size:15px;line-height:1.6;padding-bottom:4px;font-family:Arial,Helvetica,sans-serif;color:#000;">
+                      <span style="font-weight:bold;">Porções por embalagem:</span> {{ nt.porcoes_embalagem }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:15px;line-height:1.6;padding-bottom:14px;font-family:Arial,Helvetica,sans-serif;color:#000;">
+                      <span style="font-weight:bold;">Porção:</span> {{ nt.porcao }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="background:#000;height:1px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Cabeçalho colunas -->
+            <tr>
+              <td style="padding:0 28px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td width="55%" style="font-size:14px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;padding:10px 0;text-align:left;color:#000;">&nbsp;</td>
+                    <td width="25%" style="font-size:14px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;padding:10px 0;text-align:center;color:#000;">Por porção</td>
+                    <td width="20%" style="font-size:14px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;padding:10px 0;text-align:center;color:#000;">%VD*</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="background:#000;height:1px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Linhas de nutrientes -->
+            <tr>
+              <td style="padding:0 28px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  {%- for nutriente in nt.nutrientes -%}
+                  <tr>
+                    <td width="55%" style="font-size:15px;line-height:1.6;padding:9px 0;text-align:left;font-family:Arial,Helvetica,sans-serif;color:#000;">{{ nutriente.nome }}</td>
+                    <td width="25%" style="font-size:15px;line-height:1.6;padding:9px 0;text-align:center;font-family:Arial,Helvetica,sans-serif;color:#000;">{{ nutriente.por_porcao }}</td>
+                    <td width="20%" style="font-size:15px;line-height:1.6;padding:9px 0;text-align:center;font-family:Arial,Helvetica,sans-serif;color:#000;">{{ nutriente.vd }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="background:#000;height:1px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+                  </tr>
+                  {%- endfor -%}
+                  <tr>
+                    <td colspan="3" style="background:#000;height:1px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Observação -->
+            {%- if nt.observacao != blank -%}
+            <tr>
+              <td style="padding:16px 28px 0;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size:13px;line-height:1.6;color:#000;font-family:Arial,Helvetica,sans-serif;">
+                      {{ nt.observacao }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {%- endif -%}
+            <!-- Rodapé -->
+            {%- if nt.rodape != blank -%}
+            <tr>
+              <td style="padding:14px 28px 24px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size:13px;font-weight:bold;color:#000;font-family:Arial,Helvetica,sans-serif;">
+                      {{ nt.rodape }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {%- endif -%}
+          </table>
+        </div>
+      {%- endif -%}
+
+      {%- if long_desc != blank -%}
+        <div class="botanika-nutrition__description rte">
+          {{ long_desc }}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-nutrition {
+  background: #f9fafb;
+}
+.botanika-nutrition__heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 40px;
+  margin: 0 0 40px;
+  text-align: center;
+  letter-spacing: 0.37px;
+  color: #3f4a9c;
+}
+.botanika-nutrition__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.botanika-nutrition__grid--single {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.botanika-nutrition__label-wrap {
+  min-width: 0;
+}
+.botanika-nt {
+  border: 4px solid #000;
+  background: #fff;
+  width: 100%;
+  max-width: 520px;
+}
+.botanika-nutrition__description {
+  font-size: 16px;
+  line-height: 26px;
+  color: rgba(0, 0, 0, 0.8);
+}
+.botanika-nutrition__description p {
+  margin: 0 0 20px;
+}
+.botanika-nutrition__description p:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 767px) {
+  .botanika-nutrition__heading {
+    font-size: 26px;
+  }
+  .botanika-nutrition__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .botanika-nt {
+    max-width: 100%;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Nutricionais",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Informações Nutricionais"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Informações Nutricionais"
+    }
+  ]
+}
+{% endschema %}

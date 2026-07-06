@@ -1,0 +1,79 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "store_info_tUhcyD": {
+          "type": "store_info",
+          "settings": {
+            "image": "shopify://shop_images/logo-w.png",
+            "image_width": 150,
+            "store_heading": "",
+            "store_description": "",
+            "store_address": true,
+            "store_phone": true,
+            "store_email": true,
+            "content_width": "33.333%"
+          }
+        },
+        "link_list_JTq77M": {
+          "type": "link_list",
+          "settings": {
+            "heading": "",
+            "menu": "main-menu",
+            "content_width": "16%"
+          }
+        },
+        "newsletter_Rk8BD6": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Assine nossa Newsletter",
+            "description": "Cadastre-se em nossa newsletter e fique por dentro das promoções e novidades.",
+            "email_placeholder": "Digite seu e-mail...",
+            "button_label": "Cadastrar",
+            "note": "",
+            "content_width": "50%"
+          }
+        }
+      },
+      "block_order": [
+        "store_info_tUhcyD",
+        "link_list_JTq77M",
+        "newsletter_Rk8BD6"
+      ],
+      "settings": {
+        "section_width": "fluid_container",
+        "color_scheme": "scheme-bb1431b0-be4a-4b03-a450-f572c07e3904",
+        "enable_back_top": true,
+        "separator_line": "all-page",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "enable_follow_on_shop": true,
+        "menu_store_policies": "footer",
+        "show_social": true,
+        "payment_enable": true,
+        "payment_width": 340,
+        "copyright_text": "© 2025 Botanika. Todos os direitos reservados.",
+        "same_line_with_country_language": false,
+        "footer_heading_size": 16,
+        "padding_top": 60,
+        "padding_bottom": 45,
+        "reset_spacing_on_homepage": false
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

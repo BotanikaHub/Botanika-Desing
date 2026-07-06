@@ -1,0 +1,111 @@
+{%- liquid
+  assign st = section.settings
+-%}
+<div class="color-{{ st.color_scheme }} gradient prescritor-hero relative">
+  {%- if st.background_image != blank -%}
+    {% render 'responsive-image',
+      type: 'banner',
+      image: st.background_image,
+      image_alt: st.background_image.alt | default: section.settings.heading,
+      class: 'absolute inset-0 z--1 pointer-none w-full h-full object-position-center object-fit-cover'
+    %}
+    <span class="prescritor-hero__overlay absolute inset-0 z--1"></span>
+  {%- endif -%}
+  <div class="container">
+    <div class="prescritor-hero__grid grid gap-30 px-20">
+      <div class="prescritor-hero__col">
+        {%- if st.eyebrow != blank -%}
+          <p class="prescritor-hero__eyebrow fs-14 mb-15">{{ st.eyebrow }}</p>
+        {%- endif -%}
+        {%- if st.heading != blank -%}
+          <h1 class="prescritor-hero__heading h1-size mt-0 mb-20">{{ st.heading }}</h1>
+        {%- endif -%}
+        {%- if st.description != blank -%}
+          <div class="prescritor-hero__text rich__text-m0 mb-25">{{ st.description }}</div>
+        {%- endif -%}
+        {%- if st.eligibility_title != blank or st.eligibility_text != blank -%}
+          <div class="prescritor-hero__eligibility">
+            {%- if st.eligibility_title != blank -%}
+              <h2 class="h4 mt-0 mb-10">{{ st.eligibility_title }}</h2>
+            {%- endif -%}
+            {%- if st.eligibility_text != blank -%}
+              <div class="rich__text-m0 fs-14">{{ st.eligibility_text }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="prescritor-hero__col prescritor-hero__form-col flex align-center">
+        <div class="prescritor-hero__card color-{{ st.card_color_scheme }} gradient p-30 w-full" id="cadastro">
+          {%- if st.card_heading != blank -%}
+            <h2 class="prescritor-hero__card-heading h3 mt-0 mb-10">{{ st.card_heading }}</h2>
+          {%- endif -%}
+          {%- if st.card_text != blank -%}
+            <p class="fs-14 mb-20">{{ st.card_text }}</p>
+          {%- endif -%}
+          {%- form 'customer', class: 'prescritor-hero__form flex flex-column gap-10' -%}
+            {%- if form.posted_successfully? -%}
+              <p class="prescritor-hero__success fs-14">{{ st.success_text | default: 'Cadastro recebido! Em breve entraremos em contato.' }}</p>
+            {%- endif -%}
+            <input type="hidden" name="contact[tags]" value="prescritor-pendente">
+            <input
+              type="email"
+              name="contact[email]"
+              required
+              placeholder="{{ st.email_placeholder | default: 'E-mail' }}"
+              class="prescritor-hero__input w-full"
+              aria-label="E-mail"
+            >
+            <button type="submit" name="commit" class="btn-primary w-full text-center no-underline">
+              {{ st.button_text | default: 'Continuar' }}
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .prescritor-hero__grid { grid-template-columns: 1fr; padding-top: 60px; padding-bottom: 60px; }
+  .prescritor-hero__overlay { background: rgba(0,0,0,0.45); }
+  .prescritor-hero__eyebrow { opacity: .85; letter-spacing: .15em; text-transform: uppercase; }
+  .prescritor-hero__card { border-radius: 8px; }
+  .prescritor-hero__card-heading { text-transform: uppercase; }
+  .prescritor-hero__input {
+    border: 1px solid rgba(0,0,0,.18);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 1.4rem;
+    background: #fff;
+    color: #111;
+  }
+  @media (min-width: 768px) {
+    .prescritor-hero__grid { grid-template-columns: 1.1fr 0.9fr; align-items: center; padding-top: 100px; padding-bottom: 100px; }
+    .prescritor-hero__card { padding: 40px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Prescritor: Hero",
+  "tag": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "scheme-bb1431b0-be4a-4b03-a450-f572c07e3904" },
+    { "type": "image_picker", "id": "background_image", "label": "Imagem de fundo (opcional)" },
+    { "type": "text", "id": "eyebrow", "label": "Selo", "default": "PROGRAMA PRESCRITOR" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Queremos estar cada vez mais perto de você" },
+    { "type": "richtext", "id": "description", "label": "Descrição", "default": "<p>O Programa Prescritor Botanika é um relacionamento exclusivo para profissionais da saúde, com benefícios pensados para o seu dia a dia.</p>" },
+    { "type": "text", "id": "eligibility_title", "label": "Título elegibilidade", "default": "Quem pode participar" },
+    { "type": "richtext", "id": "eligibility_text", "label": "Texto elegibilidade", "default": "<p>Médicos, dentistas, nutricionistas, farmacêuticos, fisioterapeutas, educadores físicos, biomédicos e psicólogos com registro ativo.</p>" },
+    { "type": "header", "content": "Card de cadastro" },
+    { "type": "color_scheme", "id": "card_color_scheme", "label": "Esquema de cor do card", "default": "default" },
+    { "type": "text", "id": "card_heading", "label": "Título do card", "default": "SEJA UM PRESCRITOR" },
+    { "type": "text", "id": "card_text", "label": "Texto do card", "default": "Cadastre-se gratuitamente e acesse seus benefícios." },
+    { "type": "text", "id": "email_placeholder", "label": "Placeholder do e-mail", "default": "E-mail" },
+    { "type": "text", "id": "button_text", "label": "Texto do botão", "default": "Continuar" },
+    { "type": "text", "id": "success_text", "label": "Mensagem de sucesso", "default": "Cadastro recebido! Em breve entraremos em contato." }
+  ],
+  "presets": [ { "name": "Prescritor: Hero" } ]
+}
+{% endschema %}

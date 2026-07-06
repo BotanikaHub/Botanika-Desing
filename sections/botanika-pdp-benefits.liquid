@@ -1,0 +1,206 @@
+{% liquid
+  assign section_st = section.settings
+  assign benefit_items = product.metafields.custom.benefit_items.value
+%}
+{%- if benefit_items == blank -%}
+  {%- comment -%}Sem dados, não renderiza nada{%- endcomment -%}
+  {% break %}
+{%- endif -%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-benefits"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <div class="botanika-benefits__head">
+        <h2 class="botanika-benefits__heading">{{ section_st.heading }}</h2>
+      </div>
+    {%- endif -%}
+    <div class="botanika-benefits__grid">
+      {%- for item in benefit_items -%}
+        <div class="botanika-benefits__card">
+          <div class="botanika-benefits__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+          <h3 class="botanika-benefits__title">{{ item.title }}</h3>
+          {%- if item.description != blank -%}
+            <p class="botanika-benefits__desc">{{ item.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section_st.cta_text != blank -%}
+      <div class="botanika-benefits__cta-wrap">
+        <a href="{{ section_st.cta_link | default: product.url }}" class="botanika-benefits__cta" data-pdp-add-to-cart>
+          {{ section_st.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-benefits {
+  background: #f6f7f9;
+}
+.botanika-benefits__head {
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto 40px;
+}
+.botanika-benefits__heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: 0.37px;
+  color: #3f4a9c;
+  margin: 0;
+}
+.botanika-benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.botanika-benefits__card {
+  background: #fff;
+  border: 1px solid #e6e8ee;
+  border-radius: 16px;
+  padding: 26px 22px;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.botanika-benefits__card:hover {
+  box-shadow: 0 8px 30px rgba(20, 24, 48, 0.08);
+  transform: translateY(-3px);
+}
+.botanika-benefits__num {
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+  background: #8fbc3f;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.botanika-benefits__title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #1c2030;
+  line-height: 1.4;
+}
+.botanika-benefits__desc {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+.botanika-benefits__cta-wrap {
+  text-align: center;
+  margin-top: 42px;
+}
+.botanika-benefits__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2b2b63;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 17px 40px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+}
+.botanika-benefits__cta:hover {
+  background: #33337a;
+  transform: translateY(-1px);
+}
+@media (max-width: 980px) {
+  .botanika-benefits__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 520px) {
+  .botanika-benefits__grid {
+    grid-template-columns: 1fr;
+  }
+  .botanika-benefits__heading {
+    font-size: 26px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP O que muda na rotina",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "O que muda na rotina ao usar todos os dias?"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão CTA",
+      "default": "Comprar agora"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link do CTA"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP O que muda na rotina"
+    }
+  ]
+}
+{% endschema %}

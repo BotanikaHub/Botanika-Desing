@@ -1,0 +1,108 @@
+{%- liquid
+  assign st = section.settings
+  assign width_class = st.section_width | default: 'container'
+-%}
+<div class="color-{{ st.color_scheme }} gradient">
+  <div class="{{ width_class }}">
+    <div class="prescritor-benefits py-50 px-20">
+      <div class="prescritor-benefits__grid grid gap-30">
+        <div class="prescritor-benefits__head">
+          {%- if st.heading != blank -%}
+            <h2 class="prescritor-benefits__heading h2 mt-0 mb-10">{{ st.heading }}</h2>
+          {%- endif -%}
+          {%- if st.subheading != blank -%}
+            <div class="rich__text-m0 fs-15 dark-grey">{{ st.subheading }}</div>
+          {%- endif -%}
+        </div>
+        <div class="prescritor-benefits__list">
+          {%- for block in section.blocks -%}
+            <div class="prescritor-benefits__item flex gap-20 py-20" {{ block.shopify_attributes }}>
+              <div class="prescritor-benefits__icon flex align-center justify-content-center">
+                {%- if block.settings.badge != blank -%}
+                  <span class="prescritor-benefits__badge primary-color">{{ block.settings.badge }}</span>
+                {%- elsif block.settings.icon != blank -%}
+                  <img src="{{ block.settings.icon | image_url: width: 52 }}" alt="{{ block.settings.title | escape }}" width="26" height="26" loading="lazy" class="prescritor-benefits__icon-img">
+                {%- else -%}
+                  <svg class="prescritor-benefits__default-icon primary-color" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                {%- endif -%}
+              </div>
+              <div class="prescritor-benefits__content">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="h5 mt-0 mb-10">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <div class="rich__text-m0 fs-14 dark-grey">{{ block.settings.description }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .prescritor-benefits__grid { grid-template-columns: 1fr; }
+  .prescritor-benefits__item { border-bottom: 1px solid rgba(0,0,0,.08); align-items: center; }
+  .prescritor-benefits__item:last-child { border-bottom: 0; }
+  .prescritor-benefits__icon {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--color-primary, #323c91);
+    background: color-mix(in srgb, var(--color-primary, #323c91) 8%, transparent);
+  }
+  .prescritor-benefits__icon-img { width: 26px; height: 26px; object-fit: contain; }
+  .prescritor-benefits__default-icon { display: block; }
+  .prescritor-benefits__badge { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .prescritor-benefits__content { min-width: 0; }
+  .prescritor-benefits__heading { text-transform: uppercase; line-height: 1.05; }
+  @media (min-width: 768px) {
+    .prescritor-benefits { padding-top: 80px; padding-bottom: 80px; }
+    .prescritor-benefits__grid { grid-template-columns: 0.8fr 1.6fr; gap: 60px; }
+    .prescritor-benefits__head { position: sticky; top: 30px; align-self: start; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Prescritor: Benefícios",
+  "tag": "section",
+  "settings": [
+    { "type": "select", "id": "section_width", "label": "Largura", "default": "container",
+      "options": [ {"value":"container","label":"Container"}, {"value":"full_width","label":"Largura total"} ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "default" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "BENEFÍCIOS EXCLUSIVOS" },
+    { "type": "richtext", "id": "subheading", "label": "Subtítulo", "default": "<p>Aproveite as vantagens de fazer parte do Programa Prescritor Botanika.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefício",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Ícone (imagem)" },
+        { "type": "text", "id": "badge", "label": "Selo de texto (ex.: 25%)", "info": "Se preenchido, substitui o ícone." },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "richtext", "id": "description", "label": "Descrição" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prescritor: Benefícios",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Materiais técnicos", "description": "<p>Acesso a materiais técnicos e artigos científicos atualizados.</p>" } },
+        { "type": "benefit", "settings": { "title": "Consultoria especializada", "description": "<p>Suporte técnico disponível em diferentes canais de atendimento.</p>" } },
+        { "type": "benefit", "settings": { "title": "Conteúdo para redes sociais", "description": "<p>Conteúdos sobre saúde prontos para você postar e compartilhar.</p>" } },
+        { "type": "benefit", "settings": { "title": "Lançamentos", "description": "<p>Amostras e informações sobre os novos produtos em primeira mão.</p>" } },
+        { "type": "benefit", "settings": { "badge": "25%", "title": "Descontos", "description": "<p>25% de desconto em produtos Botanika para o seu uso pessoal.</p>" } },
+        { "type": "benefit", "settings": { "title": "Surpresas", "description": "<p>Brindes especiais ao longo do ano.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

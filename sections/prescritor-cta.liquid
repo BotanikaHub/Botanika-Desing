@@ -1,0 +1,44 @@
+{%- liquid
+  assign st = section.settings
+-%}
+<div class="color-{{ st.color_scheme }} gradient">
+  <div class="container">
+    <div class="prescritor-cta grid gap-30 py-50 px-20">
+      <div>
+        {%- if st.heading != blank -%}
+          <h2 class="h2 mt-0 mb-0">{{ st.heading }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="prescritor-cta__body">
+        {%- if st.text != blank -%}
+          <div class="rich__text-m0 fs-15 mb-25">{{ st.text }}</div>
+        {%- endif -%}
+        {%- if st.button_text != blank -%}
+          <a href="{{ st.button_link | default: '#cadastro' }}" class="btn-primary no-underline inline-block">{{ st.button_text }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .prescritor-cta { grid-template-columns: 1fr; }
+  @media (min-width: 768px) {
+    .prescritor-cta { grid-template-columns: 1fr 1.4fr; align-items: start; gap: 60px; padding-top: 80px; padding-bottom: 80px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Prescritor: CTA",
+  "tag": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "scheme-2b5c6c91-201d-4fb1-aba3-e6d562656976" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Junte-se a nós" },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>O Programa Prescritor Botanika é exclusivo para profissionais da saúde que multiplicam o cuidado e a qualidade de vida das pessoas.</p>" },
+    { "type": "text", "id": "button_text", "label": "Texto do botão", "default": "Quero me cadastrar" },
+    { "type": "url", "id": "button_link", "label": "Link do botão", "info": "Padrão: rola até o formulário (#cadastro)." }
+  ],
+  "presets": [ { "name": "Prescritor: CTA" } ]
+}
+{% endschema %}

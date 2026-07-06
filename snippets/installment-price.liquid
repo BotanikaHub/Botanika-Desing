@@ -1,0 +1,55 @@
+{% comment %}
+  Renders installment price highlight.
+  - 3x sem juros
+
+  @param price {number} unit price in cents
+  @param scope {string} 'detail' | 'item' | 'sticky'
+{% endcomment %}
+{%- liquid
+  assign installments_free = 3
+  assign per_free = price | divided_by: installments_free
+  assign size_class = scope | default: 'item'
+-%}
+{%- if price and price > 0 -%}
+  <div class="installment-price installment-price--{{ size_class }}">
+    <span class="installment-price__parc primary-color">{{ installments_free }}x de {{ per_free | money }} <span class="installment-price__tag">sem juros</span></span>
+    <span class="installment-price__cash">ou {{ price | money }} à vista</span>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .installment-price {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    gap: 1px;
+  }
+  .installment-price__parc {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .installment-price__tag {
+    font-size: 0.75em;
+    font-weight: 600;
+    background: #e8f5d0;
+    color: #4a7c20;
+    border-radius: 4px;
+    padding: 1px 5px;
+    vertical-align: middle;
+    margin-left: 3px;
+  }
+  .installment-price__cash {
+    color: var(--color-text);
+    opacity: 0.65;
+  }
+  .installment-price--item .installment-price__parc { font-size: 1.6rem; }
+  .installment-price--item .installment-price__cash { font-size: 1.2rem; }
+  /* Sticky */
+  .sticky__installment { flex: 0 0 auto; }
+  .installment-price--sticky { white-space: nowrap; }
+  .installment-price--sticky .installment-price__parc { font-size: 1.5rem; }
+  .installment-price--sticky .installment-price__cash { font-size: 1.15rem; }
+  /* Detail (PDP) */
+  .installment-price--detail .installment-price__parc { font-size: 2.8rem; }
+  .installment-price--detail .installment-price__cash { font-size: 1.5rem; }
+{% endstylesheet %}

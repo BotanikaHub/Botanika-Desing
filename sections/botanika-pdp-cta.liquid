@@ -1,0 +1,168 @@
+{% liquid
+  assign section_st = section.settings
+%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-cta"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <h2 class="botanika-cta__heading">{{ section_st.heading }}</h2>
+    {%- endif -%}
+    {%- if section_st.subheading != blank -%}
+      <p class="botanika-cta__subheading">{{ section_st.subheading }}</p>
+    {%- endif -%}
+    {%- if section_st.motto != blank -%}
+      <p class="botanika-cta__motto">{{ section_st.motto }}</p>
+    {%- endif -%}
+    {%- if section_st.cta_text != blank -%}
+      <a href="{{ section_st.cta_link | default: product.url }}" class="botanika-cta__btn" data-pdp-add-to-cart>
+        {{ section_st.cta_text }}
+      </a>
+    {%- endif -%}
+    {%- if section_st.trust_text != blank -%}
+      <p class="botanika-cta__trust">{{ section_st.trust_text }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-cta {
+  background: linear-gradient(120deg, #2b2b63, #3a3a86);
+  color: #fff;
+  text-align: center;
+}
+.botanika-cta__heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: #fff;
+}
+.botanika-cta__subheading {
+  font-size: 20px;
+  opacity: 0.88;
+  margin: 0 0 8px;
+}
+.botanika-cta__motto {
+  font-size: 15px;
+  opacity: 0.7;
+  margin: 0 0 30px;
+}
+.botanika-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #2b2b63;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 17px 40px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+}
+.botanika-cta__btn:hover {
+  background: #edf2dc;
+  transform: translateY(-1px);
+}
+.botanika-cta__trust {
+  margin-top: 22px;
+  font-size: 13.5px;
+  opacity: 0.72;
+}
+@media (max-width: 599px) {
+  .botanika-cta__heading {
+    font-size: 28px;
+  }
+  .botanika-cta__subheading {
+    font-size: 17px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP CTA Final",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título principal"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo"
+    },
+    {
+      "type": "text",
+      "id": "motto",
+      "label": "Motto (texto menor)"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão",
+      "default": "Comprar agora"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link do botão (deixe vazio para usar URL do produto)"
+    },
+    {
+      "type": "text",
+      "id": "trust_text",
+      "label": "Texto de confiança",
+      "default": "Compra segura • Envio para todo o Brasil • Satisfação garantida"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP CTA Final"
+    }
+  ]
+}
+{% endschema %}

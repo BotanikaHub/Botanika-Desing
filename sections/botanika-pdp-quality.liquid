@@ -1,0 +1,153 @@
+{% liquid
+  assign section_st = section.settings
+%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-quality color-{{ section_st.color_scheme }} gradient"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <h2 class="botanika-quality__heading">{{ section_st.heading }}</h2>
+    {%- endif -%}
+    {%- if section_st.subheading != blank -%}
+      <p class="botanika-quality__subheading">{{ section_st.subheading }}</p>
+    {%- endif -%}
+    <div class="botanika-quality__items">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-quality {
+  text-align: center;
+  background: #fff;
+}
+.botanika-quality__heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 40px;
+  margin: 0 0 16px;
+  letter-spacing: 0.37px;
+  color: #3f4a9c;
+}
+.botanika-quality__subheading {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0 auto 40px;
+  max-width: 640px;
+}
+.botanika-quality__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+}
+.botanika-quality__items .botanika-quality-item {
+  flex: 1 1 200px;
+  max-width: 260px;
+}
+@media (max-width: 599px) {
+  .botanika-quality__heading {
+    font-size: 26px;
+  }
+  .botanika-quality__items .botanika-quality-item {
+    flex: 1 1 140px;
+    max-width: 180px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Qualidade Garantida",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "_botanika-quality-item"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Qualidade Garantida"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Todos os nossos produtos passam por rigorosos controles de qualidade"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Qualidade Garantida",
+      "blocks": {
+        "seal_1": {
+          "type": "_botanika-quality-item",
+          "settings": { "label": "Certificado GMP" }
+        },
+        "seal_2": {
+          "type": "_botanika-quality-item",
+          "settings": { "label": "100% Natural" }
+        },
+        "seal_3": {
+          "type": "_botanika-quality-item",
+          "settings": { "label": "Testado" }
+        },
+        "seal_4": {
+          "type": "_botanika-quality-item",
+          "settings": { "label": "Aprovado" }
+        }
+      },
+      "block_order": ["seal_1", "seal_2", "seal_3", "seal_4"]
+    }
+  ]
+}
+{% endschema %}

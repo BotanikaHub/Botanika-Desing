@@ -1,0 +1,53 @@
+{%- liquid
+  assign st = section.settings
+-%}
+<div class="prescritor-banner">
+  {%- if st.image != blank -%}
+    <div class="prescritor-banner__media">
+      {% render 'responsive-image',
+        type: 'banner',
+        image: st.image,
+        image_alt: st.image.alt | default: st.heading,
+        class: 'w-full object-fit-cover prescritor-banner__img'
+      %}
+    </div>
+  {%- endif -%}
+  <div class="color-{{ st.color_scheme }} gradient">
+    <div class="container">
+      <div class="prescritor-banner__content grid gap-30 py-50 px-20">
+        <div>
+          {%- if st.heading != blank -%}
+            <h2 class="h2 mt-0 mb-0">{{ st.heading }}</h2>
+          {%- endif -%}
+        </div>
+        <div>
+          {%- if st.text != blank -%}
+            <div class="rich__text-m0 fs-15">{{ st.text }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .prescritor-banner__img { max-height: 420px; }
+  .prescritor-banner__content { grid-template-columns: 1fr; }
+  @media (min-width: 768px) {
+    .prescritor-banner__content { grid-template-columns: 1fr 1fr; align-items: start; gap: 60px; padding-top: 70px; padding-bottom: 70px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Prescritor: Banner",
+  "tag": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "scheme-4faf0e4d-27f4-4d02-bc51-617383bab1a9" },
+    { "type": "image_picker", "id": "image", "label": "Imagem (largura total)" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Nosso desejo é contribuir para o seu desenvolvimento" },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Acreditamos que cuidar de quem cuida transforma vidas. Por isso, criamos um programa para apoiar profissionais da saúde com ciência, qualidade e proximidade — para que você ofereça o melhor aos seus pacientes.</p>" }
+  ],
+  "presets": [ { "name": "Prescritor: Banner" } ]
+}
+{% endschema %}

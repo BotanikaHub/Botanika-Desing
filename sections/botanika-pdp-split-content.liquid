@@ -1,0 +1,269 @@
+﻿{% liquid
+  assign section_st = section.settings
+  assign for_whom_raw = product.metafields.custom.for_whom_items.value
+  assign how_to_take_raw = product.metafields.custom.how_to_take_steps.value
+  assign not_for_raw = product.metafields.custom.not_for_items.value
+  assign hero_img = product.metafields.custom.hero_image.value
+  if hero_img == blank
+    assign hero_img = product.featured_image
+  endif
+  if for_whom_raw != blank
+    assign for_whom_items = for_whom_raw | newline_to_br | split: "<br />"
+  endif
+  if how_to_take_raw != blank
+    assign how_to_take_steps = how_to_take_raw | newline_to_br | split: "<br />"
+  endif
+  if not_for_raw != blank
+    assign not_for_items = not_for_raw | newline_to_br | split: "<br />"
+  endif
+%}
+<div class="sec__botanika-split">
+
+  <!-- Para quem é este produto? -->
+  <div class="botanika-para-quem">
+    <div class="botanika-pdp-2col">
+      <div class="botanika-pdp-2col__img">
+        {%- assign para_quem_img = product.metafields.custom.para_quem_image.value -%}
+        {%- if para_quem_img != blank -%}
+          {{- para_quem_img | image_url: width: 960 | image_tag: width: 960, loading: 'lazy', class: 'botanika-pdp-2col__img-tag' -}}
+        {%- else -%}
+          <img src="{{ 'ImageWithFallback.png' | asset_url }}" alt="" width="480" loading="lazy" class="botanika-pdp-2col__img-tag">
+        {%- endif -%}
+      </div>
+      <div class="botanika-pdp-2col__content">
+        <h2 class="botanika-pdp-heading botanika-pdp-heading--light">{{ section_st.for_whom_heading | replace: '[produto]', product.title }}</h2>
+        {%- if for_whom_items != blank -%}
+          <ul class="botanika-check-list">
+            {%- for item in for_whom_items -%}
+              {%- assign clean = item | strip -%}
+              {%- if clean != blank -%}
+                <li class="botanika-check-list__item">{{ clean }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- Talvez não seja para você -->
+  {%- if not_for_items != blank -%}
+    <div class="botanika-not-for-wrap">
+      <div class="botanika-not-for">
+        {%- if section_st.not_for_heading != blank -%}
+          <h3 class="botanika-not-for__heading">{{ section_st.not_for_heading }}</h3>
+        {%- endif -%}
+        <ul class="botanika-not-for__list">
+          {%- for item in not_for_items -%}
+            {%- assign clean = item | strip -%}
+            {%- if clean != blank -%}
+              <li>{{ clean }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- Como tomar -->
+  <div class="botanika-como-tomar">
+    <div class="botanika-pdp-2col botanika-pdp-2col--reverse">
+      <div class="botanika-pdp-2col__img">
+        {%- if hero_img != blank -%}
+          {{- hero_img | image_url: width: 480 | image_tag: width: 480, loading: 'lazy', class: 'botanika-pdp-2col__img-tag botanika-pdp-2col__img-tag--cover' -}}
+        {%- endif -%}
+      </div>
+      <div class="botanika-pdp-2col__content">
+        {%- if section_st.how_to_take_heading != blank -%}
+          <h2 class="botanika-pdp-heading botanika-pdp-heading--brand">{{ section_st.how_to_take_heading }}</h2>
+        {%- endif -%}
+        {%- if how_to_take_steps != blank -%}
+          <ol class="botanika-steps">
+            {%- for step in how_to_take_steps -%}
+              {%- assign clean = step | strip -%}
+              {%- if clean != blank -%}
+                {%- assign parts = clean | split: ': ' -%}
+                {%- if parts.size > 1 -%}
+                  {%- assign topic = parts | first -%}
+                  {%- assign rest = clean | remove_first: topic | remove_first: ': ' -%}
+                  <li class="botanika-steps__item"><strong>{{ topic }}:</strong> {{ rest }}</li>
+                {%- else -%}
+                  <li class="botanika-steps__item">{{ clean }}</li>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% stylesheet %}
+.sec__botanika-split { display: flex; flex-direction: column; gap: 16px; padding: 0 24px; max-width: 1500px; margin: 0 auto; }
+.botanika-para-quem { background-color: #3f4a9c; color: #fff; overflow: hidden; border-radius: 10px; margin-top: 10px; }
+.botanika-para-quem .botanika-pdp-2col__img-tag { left: 0; right: unset; }
+.botanika-como-tomar { background: linear-gradient(180deg, #c4d78a 0%, #a8bd6e 100%); color: #3f4a9c; overflow: hidden; border-radius: 10px; }
+.botanika-pdp-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 520px;
+}
+.botanika-pdp-2col--reverse { direction: rtl; }
+.botanika-pdp-2col--reverse > * { direction: ltr; }
+.botanika-pdp-2col__img {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+}
+.botanika-pdp-2col__img-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: unset;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.botanika-pdp-2col__img-tag--cover {
+  object-fit: cover;
+}
+.botanika-pdp-2col__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 42px 80px;
+}
+.botanika-pdp-heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: 0.37px;
+  margin: 0 0 28px;
+}
+.botanika-pdp-heading--light { color: #fff; }
+.botanika-pdp-heading--brand { color: #3f4a9c; }
+.botanika-check-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.botanika-check-list__item {
+  padding-left: 32px;
+  position: relative;
+  color: #fff;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.44px;
+}
+.botanika-check-list__item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px;
+  width: 18px; height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14' viewBox='0 0 18 14' fill='none'%3E%3Cpath d='M1 7L6.5 12.5L17 1' stroke='%23c4d78a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.botanika-steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: step-counter; }
+.botanika-steps__item {
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.44px;
+  padding-left: 40px;
+  position: relative;
+  color: #3f4a9c;
+  counter-increment: step-counter;
+}
+.botanika-steps__item strong { font-weight: 700; color: #3f4a9c; }
+.botanika-steps__item::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0; top: 2px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: #3f4a9c;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.botanika-not-for-wrap {
+  background: #f7f8fa;
+  padding: 40px 24px;
+}
+.botanika-not-for {
+  max-width: 840px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e6e8ee;
+  border-radius: 16px;
+  padding: 28px 32px;
+}
+.botanika-not-for__heading {
+  font-size: 18px;
+  color: #1c2030;
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+.botanika-not-for__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.botanika-not-for__list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+.botanika-not-for__list li::before {
+  content: "✘";
+  color: #d05a5a;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+@media (max-width: 899px) {
+  .botanika-pdp-2col { grid-template-columns: 1fr; padding: 48px 24px; gap: 32px; direction: ltr; }
+  .botanika-pdp-2col__content { padding: 0; }
+  .botanika-pdp-heading { font-size: 26px; line-height: 34px; }
+  .botanika-check-list__item, .botanika-steps__item { font-size: 16px; line-height: 24px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Para Quem",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "for_whom_heading",
+      "label": "Título — Para quem",
+      "info": "Use [produto] para inserir o nome do produto",
+      "default": "Para quem é o [produto]?"
+    },
+    {
+      "type": "text",
+      "id": "how_to_take_heading",
+      "label": "Título — Como tomar",
+      "default": "Como tomar"
+    },
+    {
+      "type": "text",
+      "id": "not_for_heading",
+      "label": "Título — Talvez não seja para você",
+      "default": "Talvez não seja para você se:"
+    }
+  ],
+  "presets": [{ "name": "PDP Para Quem" }]
+}
+{% endschema %}

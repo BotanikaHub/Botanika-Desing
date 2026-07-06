@@ -1,0 +1,899 @@
+{% liquid
+  assign product = closest.product
+  assign current_variant = product.selected_or_first_available_variant
+  assign unit_price = current_variant.price
+  assign bs = block.settings
+  assign installments = bs.installments
+  assign show_currency = settings.show_currency_code
+%}
+
+<quantity-discount-cards
+  class="qty-cards"
+  data-unit-price="{{ unit_price }}"
+  data-installments="{{ installments }}"
+  data-money-format="{{ shop.money_format | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <fieldset class="qty-cards__fieldset">
+    <legend class="qty-cards__legend">
+      <span class="qty-cards__legend-label">{{ bs.legend_label }}</span>
+      <span class="qty-cards__legend-value"></span>
+    </legend>
+
+    <div class="qty-cards__grid">
+
+      {%- if bs.tier1_enabled -%}
+        {%- liquid
+          assign t1_total = unit_price | times: bs.tier1_quantity
+          assign t1_disc_amt = t1_total | times: bs.tier1_discount | divided_by: 100
+          assign t1_price = t1_total | minus: t1_disc_amt
+          assign t1_installment = t1_price | divided_by: installments
+        -%}
+        <div
+          class="qty-card qty-card--active"
+          data-tier="1"
+          data-quantity="{{ bs.tier1_quantity }}"
+          data-discount="{{ bs.tier1_discount }}"
+          role="radio"
+          aria-checked="true"
+          tabindex="0"
+        >
+          {%- if bs.tier1_badge1 != blank or bs.tier1_badge2 != blank -%}
+            <div class="qty-card__badges">
+              {%- if bs.tier1_badge1 != blank -%}
+                <span class="qty-card__badge qty-card__badge--1">{{ bs.tier1_badge1 }}</span>
+              {%- endif -%}
+              {%- if bs.tier1_badge2 != blank -%}
+                <span class="qty-card__badge qty-card__badge--2">{{ bs.tier1_badge2 }}</span>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="qty-card__badges qty-card__badges--empty"></div>
+          {%- endif -%}
+
+          {%- liquid
+            assign t1_meta_img = product.metafields.custom.qty_tier1_image.value
+          -%}
+          <div class="qty-card__image">
+            {%- if t1_meta_img != blank -%}
+              {{ t1_meta_img | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif bs.tier1_image != blank -%}
+              {{ bs.tier1_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif product.featured_image -%}
+              {{ product.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'qty-card__img qty-card__placeholder' }}
+            {%- endif -%}
+          </div>
+
+          <div class="qty-card__radio-wrap">
+            <span class="qty-card__radio"></span>
+          </div>
+
+          <div class="qty-card__info">
+            <span class="qty-card__title">{{ bs.tier1_title }}</span>
+            {%- if bs.tier1_discount > 0 -%}
+              <span class="qty-card__discount">{{ bs.tier1_discount }}% OFF</span>
+            {%- else -%}
+              <span class="qty-card__regular-tag">preço regular</span>
+            {%- endif -%}
+            {%- if bs.tier1_subtitle != blank -%}
+              <span class="qty-card__subtitle">{{ bs.tier1_subtitle }}</span>
+            {%- endif -%}
+            <div class="qty-card__pricing">
+              <span class="qty-card__installments-label">{{ installments }}x de</span>
+              <span class="qty-card__installment-value" data-installment>
+                {%- if show_currency -%}{{ t1_installment | money_with_currency }}{%- else -%}{{ t1_installment | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__no-interest">s/ juros</span>
+            </div>
+            <div class="qty-card__cash">
+              <span class="qty-card__cash-or">ou</span>
+              <span class="qty-card__cash-value" data-total>
+                {%- if show_currency -%}{{ t1_price | money_with_currency }}{%- else -%}{{ t1_price | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__cash-label">à vista</span>
+            </div>
+            {%- if bs.tier1_discount > 0 -%}
+              <s class="qty-card__compare" data-compare>
+                {%- if show_currency -%}{{ t1_total | money_with_currency }}{%- else -%}{{ t1_total | money }}{%- endif -%}
+              </s>
+            {%- endif -%}
+          </div>
+          {%- if bs.tier1_message != blank -%}
+            <div class="qty-card__message">{{ bs.tier1_message }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if bs.tier2_enabled -%}
+        {%- liquid
+          assign t2_total = unit_price | times: bs.tier2_quantity
+          assign t2_disc_amt = t2_total | times: bs.tier2_discount | divided_by: 100
+          assign t2_price = t2_total | minus: t2_disc_amt
+          assign t2_installment = t2_price | divided_by: installments
+        -%}
+        <div
+          class="qty-card"
+          data-tier="2"
+          data-quantity="{{ bs.tier2_quantity }}"
+          data-discount="{{ bs.tier2_discount }}"
+          role="radio"
+          aria-checked="false"
+          tabindex="0"
+        >
+          {%- if bs.tier2_badge1 != blank or bs.tier2_badge2 != blank -%}
+            <div class="qty-card__badges">
+              {%- if bs.tier2_badge1 != blank -%}
+                <span class="qty-card__badge qty-card__badge--1">{{ bs.tier2_badge1 }}</span>
+              {%- endif -%}
+              {%- if bs.tier2_badge2 != blank -%}
+                <span class="qty-card__badge qty-card__badge--2">{{ bs.tier2_badge2 }}</span>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="qty-card__badges qty-card__badges--empty"></div>
+          {%- endif -%}
+
+          {%- liquid
+            assign t2_meta_img = product.metafields.custom.qty_tier2_image.value
+          -%}
+          <div class="qty-card__image">
+            {%- if t2_meta_img != blank -%}
+              {{ t2_meta_img | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif bs.tier2_image != blank -%}
+              {{ bs.tier2_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif product.featured_image -%}
+              {{ product.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'qty-card__img qty-card__placeholder' }}
+            {%- endif -%}
+          </div>
+
+          <div class="qty-card__radio-wrap">
+            <span class="qty-card__radio"></span>
+          </div>
+
+          <div class="qty-card__info">
+            <span class="qty-card__title">{{ bs.tier2_title }}</span>
+            {%- if bs.tier2_discount > 0 -%}
+              <span class="qty-card__discount">{{ bs.tier2_discount }}% OFF</span>
+            {%- else -%}
+              <span class="qty-card__regular-tag">preço regular</span>
+            {%- endif -%}
+            {%- if bs.tier2_subtitle != blank -%}
+              <span class="qty-card__subtitle">{{ bs.tier2_subtitle }}</span>
+            {%- endif -%}
+            <div class="qty-card__pricing">
+              <span class="qty-card__installments-label">{{ installments }}x de</span>
+              <span class="qty-card__installment-value" data-installment>
+                {%- if show_currency -%}{{ t2_installment | money_with_currency }}{%- else -%}{{ t2_installment | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__no-interest">s/ juros</span>
+            </div>
+            <div class="qty-card__cash">
+              <span class="qty-card__cash-or">ou</span>
+              <span class="qty-card__cash-value" data-total>
+                {%- if show_currency -%}{{ t2_price | money_with_currency }}{%- else -%}{{ t2_price | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__cash-label">à vista</span>
+            </div>
+            {%- if bs.tier2_discount > 0 -%}
+              <s class="qty-card__compare" data-compare>
+                {%- if show_currency -%}{{ t2_total | money_with_currency }}{%- else -%}{{ t2_total | money }}{%- endif -%}
+              </s>
+            {%- endif -%}
+          </div>
+          {%- if bs.tier2_message != blank -%}
+            <div class="qty-card__message">{{ bs.tier2_message }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if bs.tier3_enabled -%}
+        {%- liquid
+          assign t3_total = unit_price | times: bs.tier3_quantity
+          assign t3_disc_amt = t3_total | times: bs.tier3_discount | divided_by: 100
+          assign t3_price = t3_total | minus: t3_disc_amt
+          assign t3_installment = t3_price | divided_by: installments
+        -%}
+        <div
+          class="qty-card"
+          data-tier="3"
+          data-quantity="{{ bs.tier3_quantity }}"
+          data-discount="{{ bs.tier3_discount }}"
+          role="radio"
+          aria-checked="false"
+          tabindex="0"
+        >
+          {%- if bs.tier3_badge1 != blank or bs.tier3_badge2 != blank -%}
+            <div class="qty-card__badges">
+              {%- if bs.tier3_badge1 != blank -%}
+                <span class="qty-card__badge qty-card__badge--1">{{ bs.tier3_badge1 }}</span>
+              {%- endif -%}
+              {%- if bs.tier3_badge2 != blank -%}
+                <span class="qty-card__badge qty-card__badge--2">{{ bs.tier3_badge2 }}</span>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="qty-card__badges qty-card__badges--empty"></div>
+          {%- endif -%}
+
+          {%- liquid
+            assign t3_meta_img = product.metafields.custom.qty_tier3_image.value
+          -%}
+          <div class="qty-card__image">
+            {%- if t3_meta_img != blank -%}
+              {{ t3_meta_img | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif bs.tier3_image != blank -%}
+              {{ bs.tier3_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- elsif product.featured_image -%}
+              {{ product.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'qty-card__img' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'qty-card__img qty-card__placeholder' }}
+            {%- endif -%}
+          </div>
+
+          <div class="qty-card__radio-wrap">
+            <span class="qty-card__radio"></span>
+          </div>
+
+          <div class="qty-card__info">
+            <span class="qty-card__title">{{ bs.tier3_title }}</span>
+            {%- if bs.tier3_discount > 0 -%}
+              <span class="qty-card__discount">{{ bs.tier3_discount }}% OFF</span>
+            {%- else -%}
+              <span class="qty-card__regular-tag">preço regular</span>
+            {%- endif -%}
+            {%- if bs.tier3_subtitle != blank -%}
+              <span class="qty-card__subtitle">{{ bs.tier3_subtitle }}</span>
+            {%- endif -%}
+            <div class="qty-card__pricing">
+              <span class="qty-card__installments-label">{{ installments }}x de</span>
+              <span class="qty-card__installment-value" data-installment>
+                {%- if show_currency -%}{{ t3_installment | money_with_currency }}{%- else -%}{{ t3_installment | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__no-interest">s/ juros</span>
+            </div>
+            <div class="qty-card__cash">
+              <span class="qty-card__cash-or">ou</span>
+              <span class="qty-card__cash-value" data-total>
+                {%- if show_currency -%}{{ t3_price | money_with_currency }}{%- else -%}{{ t3_price | money }}{%- endif -%}
+              </span>
+              <span class="qty-card__cash-label">à vista</span>
+            </div>
+            {%- if bs.tier3_discount > 0 -%}
+              <s class="qty-card__compare" data-compare>
+                {%- if show_currency -%}{{ t3_total | money_with_currency }}{%- else -%}{{ t3_total | money }}{%- endif -%}
+              </s>
+            {%- endif -%}
+          </div>
+          {%- if bs.tier3_message != blank -%}
+            <div class="qty-card__message">{{ bs.tier3_message }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </fieldset>
+</quantity-discount-cards>
+
+{% style %}
+  quantity-discount-cards {
+    --qty-active-color: {{ bs.color_active }};
+    --qty-badge1-bg: {{ bs.color_badge1 }};
+    --qty-badge2-bg: {{ bs.color_badge2 }};
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  .qty-cards__fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .qty-cards__legend {
+    font-size: var(--body-font-size, 1.4rem);
+    font-weight: 400;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .qty-cards__legend-value {
+    font-weight: 700;
+  }
+
+  .qty-cards__grid {
+    display: flex;
+    gap: 12px;
+  }
+
+  .qty-card {
+    flex: 1;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 12px 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background: #fff;
+  }
+
+  .qty-card:hover {
+    border-color: var(--qty-active-color, #54b101);
+  }
+
+  .qty-card--active {
+    border-color: var(--qty-active-color, #54b101);
+    box-shadow: 0 0 0 1px var(--qty-active-color, #54b101);
+  }
+
+  .qty-card__badges {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    min-height: 52px;
+    margin-top: -20px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+
+  .qty-card__badges--empty {
+    min-height: 52px;
+    margin-top: -20px;
+  }
+
+  .qty-card__badge {
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.8);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: #fff;
+  }
+
+  .qty-card__badge--1 {
+    background: var(--qty-badge1-bg, #2d6b22);
+  }
+
+  .qty-card__badge--2 {
+    background: var(--qty-badge2-bg, #f97316);
+  }
+
+  .qty-card__image {
+    width: 100%;
+    max-width: 160px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .qty-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .qty-card__placeholder {
+    opacity: 0.3;
+  }
+
+  .qty-card__radio-wrap {
+    margin-bottom: 8px;
+  }
+
+  .qty-card__radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cacaca;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+  }
+
+  .qty-card__radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.2s ease;
+  }
+
+  .qty-card--active .qty-card__radio {
+    border-color: var(--qty-active-color, #54b101);
+  }
+
+  .qty-card--active .qty-card__radio::after {
+    background: var(--qty-active-color, #54b101);
+  }
+
+  .qty-card__info {
+    width: 100%;
+  }
+
+  .qty-card__title {
+    display: block;
+    font-weight: 700;
+    font-size: var(--body-font-size, 1.4rem);
+    line-height: 1.1;
+    margin-bottom: 4px;
+    color: var(--color-heading);
+  }
+
+  .qty-card__discount {
+    display: inline-block;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: var(--body-font-size, 1.4rem);
+    margin-bottom: 6px;
+  }
+
+  .qty-card__regular-tag {
+    display: block;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .qty-card__subtitle {
+    display: block;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .qty-card__pricing {
+    margin-bottom: 2px;
+    line-height: 1.1;
+  }
+
+  .qty-card__installments-label {
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    color: #666;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+
+  .qty-card__installment-value {
+    display: block;
+    font-size: calc(var(--body-font-size, 1.4rem) * 1.6);
+    font-weight: 700;
+    color: var(--qty-active-color, #54b101);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .qty-card__no-interest {
+    display: block;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.8);
+    color: #888;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .qty-card__cash {
+    font-size: var(--body-font-size, 1.4rem);
+    line-height: 1.2;
+  }
+
+  .qty-card__cash-or {
+    color: #888;
+  }
+
+  .qty-card__cash-value {
+    font-weight: 700;
+    color: var(--color-heading);
+  }
+
+  .qty-card__cash-label {
+    color: #888;
+  }
+
+  .qty-card__compare {
+    display: block;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    color: #999;
+    text-decoration: line-through;
+    margin-top: 2px;
+    line-height: 1.1;
+  }
+
+  .qty-card__message {
+    margin-top: 10px;
+    background: var(--qty-active-color, #54b101);
+    color: #fff;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 1.3;
+    width: 100%;
+  }
+
+  @media (max-width: 749px) {
+    .qty-cards__grid {
+      gap: 8px;
+    }
+
+    .qty-card {
+      padding: 10px 6px;
+    }
+
+    .qty-card__image {
+      max-width: 100px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class QuantityDiscountCards extends HTMLElement {
+    connectedCallback() {
+      this.cards = this.querySelectorAll('.qty-card');
+      this.installments = parseInt(this.dataset.installments) || 10;
+      this.moneyFormat = this.dataset.moneyFormat || '';
+      this.legendValue = this.querySelector('.qty-cards__legend-value');
+
+      this.cards.forEach(function(card) {
+        card.addEventListener('click', this.selectCard.bind(this, card));
+        card.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.selectCard(card);
+          }
+        }.bind(this));
+      }.bind(this));
+
+      this.observeVariantChanges();
+
+      var activeCard = this.querySelector('.qty-card--active');
+      if (activeCard) this.updateLegend(activeCard);
+    }
+
+    selectCard(card) {
+      this.cards.forEach(function(c) {
+        c.classList.remove('qty-card--active');
+        c.setAttribute('aria-checked', 'false');
+      });
+      card.classList.add('qty-card--active');
+      card.setAttribute('aria-checked', 'true');
+
+      var qty = parseInt(card.dataset.quantity);
+      var section = this.closest('[id^="shopify-section-"]');
+      var qtyInput = section
+        ? section.querySelector('input.quantity-input')
+        : document.querySelector('input.quantity-input');
+
+      if (qtyInput) {
+        qtyInput.value = qty;
+        qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      this.updateLegend(card);
+    }
+
+    updateLegend(card) {
+      if (this.legendValue) {
+        var title = card.querySelector('.qty-card__title');
+        this.legendValue.textContent = title ? title.textContent.trim() : '';
+      }
+    }
+
+    observeVariantChanges() {
+      var self = this;
+      var section = this.closest('[id^="shopify-section-"]');
+      var variantInput = section
+        ? section.querySelector('input.product-variant-id')
+        : document.querySelector('input.product-variant-id');
+      var productJson = section
+        ? section.querySelector('.productJson')
+        : document.querySelector('.productJson');
+
+      if (!variantInput || !productJson) return;
+
+      var productData;
+      try {
+        productData = JSON.parse(productJson.textContent);
+      } catch (e) {
+        return;
+      }
+
+      var update = function() {
+        var id = parseInt(variantInput.value);
+        var variant = productData.variants.find(function(v) { return v.id === id; });
+        if (variant) self.updatePrices(variant.price);
+      };
+
+      var observer = new MutationObserver(update);
+      observer.observe(variantInput, { attributes: true, attributeFilter: ['value'] });
+      variantInput.addEventListener('change', update);
+    }
+
+    updatePrices(unitPrice) {
+      var self = this;
+      this.dataset.unitPrice = unitPrice;
+      this.cards.forEach(function(card) {
+        var qty = parseInt(card.dataset.quantity);
+        var discount = parseInt(card.dataset.discount);
+        var total = unitPrice * qty;
+        var discountAmt = Math.floor(total * discount / 100);
+        var finalPrice = total - discountAmt;
+        var perInstallment = Math.floor(finalPrice / self.installments);
+
+        var installmentEl = card.querySelector('[data-installment]');
+        var totalEl = card.querySelector('[data-total]');
+        var compareEl = card.querySelector('[data-compare]');
+
+        if (installmentEl) installmentEl.textContent = self.formatMoney(perInstallment);
+        if (totalEl) totalEl.textContent = self.formatMoney(finalPrice);
+        if (compareEl) compareEl.textContent = self.formatMoney(total);
+      });
+    }
+
+    formatMoney(cents) {
+      var amount = (cents / 100).toFixed(2);
+      var parts = amount.split('.');
+      var intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      var decPart = parts[1];
+      var fmt = this.moneyFormat;
+      var marker = function(k) { return String.fromCharCode(123,123) + k + String.fromCharCode(125,125); };
+      return fmt
+        .replace(marker('amount_with_comma_separator'), intPart + ',' + decPart)
+        .replace(marker('amount_no_decimals_with_comma_separator'), intPart)
+        .replace(marker('amount_no_decimals'), parts[0])
+        .replace(marker('amount'), amount);
+    }
+  }
+
+  customElements.define('quantity-discount-cards', QuantityDiscountCards);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Quantity discount cards",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "text",
+      "id": "legend_label",
+      "label": "Legend label",
+      "default": "Escolha sua opção:"
+    },
+    {
+      "type": "range",
+      "id": "installments",
+      "label": "Number of installments",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "color_active",
+      "label": "Active color",
+      "default": "#54b101"
+    },
+    {
+      "type": "color",
+      "id": "color_badge1",
+      "label": "Badge 1 color",
+      "default": "#2d6b22"
+    },
+    {
+      "type": "color",
+      "id": "color_badge2",
+      "label": "Badge 2 color",
+      "default": "#f97316"
+    },
+    {
+      "type": "header",
+      "content": "Tier 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier1_enabled",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "tier1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tier1_title",
+      "label": "Title",
+      "default": "1 Unidade"
+    },
+    {
+      "type": "range",
+      "id": "tier1_quantity",
+      "label": "Quantity added to cart",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "tier1_discount",
+      "label": "Discount %",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "tier1_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "tier1_badge1",
+      "label": "Badge 1"
+    },
+    {
+      "type": "text",
+      "id": "tier1_badge2",
+      "label": "Badge 2"
+    },
+    {
+      "type": "text",
+      "id": "tier1_message",
+      "label": "Extra message"
+    },
+    {
+      "type": "header",
+      "content": "Tier 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier2_enabled",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "tier2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tier2_title",
+      "label": "Title",
+      "default": "Compre 2 Leve 3"
+    },
+    {
+      "type": "range",
+      "id": "tier2_quantity",
+      "label": "Quantity added to cart",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "tier2_discount",
+      "label": "Discount %",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "tier2_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "tier2_badge1",
+      "label": "Badge 1",
+      "default": "Mais vendido"
+    },
+    {
+      "type": "text",
+      "id": "tier2_badge2",
+      "label": "Badge 2",
+      "default": "Frete Grátis"
+    },
+    {
+      "type": "text",
+      "id": "tier2_message",
+      "label": "Extra message"
+    },
+    {
+      "type": "header",
+      "content": "Tier 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "tier3_enabled",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "tier3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tier3_title",
+      "label": "Title",
+      "default": "Compre 3 Leve 5"
+    },
+    {
+      "type": "range",
+      "id": "tier3_quantity",
+      "label": "Quantity added to cart",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "tier3_discount",
+      "label": "Discount %",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "tier3_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "tier3_badge1",
+      "label": "Badge 1",
+      "default": "Menor preço"
+    },
+    {
+      "type": "text",
+      "id": "tier3_badge2",
+      "label": "Badge 2",
+      "default": "Frete Grátis"
+    },
+    {
+      "type": "text",
+      "id": "tier3_message",
+      "label": "Extra message",
+      "default": "Frete Grátis + Brinde"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quantity discount cards"
+    }
+  ]
+}
+{% endschema %}

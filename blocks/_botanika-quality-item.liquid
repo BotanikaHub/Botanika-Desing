@@ -1,0 +1,96 @@
+{% doc %}
+  Selo de qualidade individual para a seção "Qualidade Garantida" da PDP Botanika.
+  Configurado via block.settings (icon e label).
+{% enddoc %}
+{% liquid
+  assign block_st = block.settings
+%}
+<div class="botanika-quality-item" {{ block.shopify_attributes }}>
+  <div class="botanika-quality-item__icon">
+    {%- if block_st.icon != blank -%}
+      {{- block_st.icon | image_url: width: 48 | image_tag: width: 48, height: 48, loading: 'lazy' -}}
+    {%- elsif block_st.icon_asset != blank -%}
+      <img src="{{ block_st.icon_asset | asset_url }}" width="48" height="48" loading="lazy" alt="{{ block_st.label }}">
+    {%- endif -%}
+  </div>
+  {%- if block_st.label != blank -%}
+    <span class="botanika-quality-item__label">{{ block_st.label }}</span>
+  {%- endif -%}
+  {%- if block_st.sublabel != blank -%}
+    <span class="botanika-quality-item__sublabel">{{ block_st.sublabel }}</span>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+.botanika-quality-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+  padding: 8px 16px 24px;
+}
+.botanika-quality-item__icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba(63, 74, 156, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.botanika-quality-item__icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.botanika-quality-item__label {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+  margin: 0 0 4px;
+  display: block;
+}
+.botanika-quality-item__sublabel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 20px;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Selo de Qualidade",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Ícone personalizado (upload)"
+    },
+    {
+      "type": "text",
+      "id": "icon_asset",
+      "label": "Ícone do tema (ex: certificacao.svg)"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Título do selo",
+      "default": "Qualidade"
+    },
+    {
+      "type": "text",
+      "id": "sublabel",
+      "label": "Subtítulo do selo"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Selo de Qualidade"
+    }
+  ]
+}
+{% endschema %}

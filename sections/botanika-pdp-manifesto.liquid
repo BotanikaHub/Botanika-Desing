@@ -1,0 +1,207 @@
+{% liquid
+  assign section_st = section.settings
+%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-manifesto"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="botanika-manifesto__inner">
+    {%- if section_st.eyebrow != blank -%}
+      <p class="botanika-manifesto__eyebrow">{{ section_st.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section_st.heading != blank -%}
+      <h2 class="botanika-manifesto__heading">{{ section_st.heading }}</h2>
+    {%- endif -%}
+    {%- assign manifesto_raw = product.metafields.custom.manifesto_body.value -%}
+    {%- if manifesto_raw != blank -%}
+      <div class="botanika-manifesto__body rte">
+        {%- assign manifesto_lines = manifesto_raw | newline_to_br | split: '<br />' -%}
+        {%- for line in manifesto_lines -%}
+          {%- assign line_clean = line | strip -%}
+          {%- if line_clean != blank -%}
+            <p>{{ line_clean }}</p>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    {%- if section_st.cta_text != blank -%}
+      <a href="{{ section_st.cta_link | default: product.url }}" class="botanika-manifesto__cta" data-pdp-add-to-cart>
+        {{ section_st.cta_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% javascript %}
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-pdp-add-to-cart]');
+    if (!btn) return;
+    e.preventDefault();
+
+    var form = document.querySelector('form[action="/cart/add"]');
+    if (!form) return;
+
+    var variantInput = form.querySelector('[name="id"]:not([disabled])') || form.querySelector('[name="id"]');
+    if (!variantInput || !variantInput.value) return;
+    var variantId = variantInput.value;
+
+    var originalText = btn.innerHTML;
+    btn.innerHTML = 'Adicionando&hellip;';
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function () {
+        btn.innerHTML = '&#10003; Adicionado!';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('theme:cart:open'));
+        setTimeout(function () {
+          btn.innerHTML = originalText;
+          btn.style.opacity = '';
+          btn.style.pointerEvents = '';
+        }, 2500);
+      })
+      .catch(function () {
+        btn.innerHTML = originalText;
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+      });
+  });
+})();
+{% endjavascript %}
+
+{% stylesheet %}
+.sec__botanika-manifesto {
+  background: #f6f7f9;
+  text-align: center;
+}
+.botanika-manifesto__inner {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.botanika-manifesto__eyebrow {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6f9a2e;
+  margin: 0 0 16px;
+}
+.botanika-manifesto__heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1c2030;
+  line-height: 1.25;
+  margin: 0 0 14px;
+}
+.botanika-manifesto__body {
+  color: #4b5563;
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+.botanika-manifesto__body p {
+  margin: 0 0 14px;
+}
+.botanika-manifesto__body strong {
+  color: #4a4aa6;
+}
+.botanika-manifesto__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #8fbc3f;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 15px 36px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.botanika-manifesto__cta:hover {
+  background: #6f9a2e;
+}
+@media (max-width: 599px) {
+  .botanika-manifesto__heading {
+    font-size: 24px;
+  }
+  .botanika-manifesto__body {
+    font-size: 16px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Manifesto",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Por que ele existe"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título principal",
+      "info": "Deixe em branco para usar texto do metafield manifesto_body"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão CTA",
+      "default": "Quero o meu"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link do CTA (deixe vazio para usar URL do produto)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Manifesto"
+    }
+  ]
+}
+{% endschema %}

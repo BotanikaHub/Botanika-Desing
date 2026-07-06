@@ -1,0 +1,94 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page-heading": {
+      "type": "page-heading",
+      "blocks": {
+        "breadcrumb_kg6gTP": {
+          "type": "breadcrumb",
+          "settings": {}
+        },
+        "heading_fmyy8C": {
+          "type": "heading",
+          "settings": {
+            "page_title": "Fale Conosco",
+            "header_size": "default"
+          }
+        },
+        "description_TfxHmk": {
+          "type": "description",
+          "settings": {
+            "description": "<p>Use o formulário abaixo. Você também pode ligar para o atendimento ao cliente no +1 (973) 435-3638.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb_kg6gTP",
+        "heading_fmyy8C",
+        "description_TfxHmk"
+      ],
+      "settings": {
+        "section_width": "container",
+        "color_scheme": "",
+        "alignment": "center",
+        "overlay_opacity": 0,
+        "height": "adapt",
+        "padding_top": 74,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "page-contact",
+      "blocks": {
+        "text_block_bYNRjF": {
+          "type": "text_block",
+          "settings": {
+            "heading_text_block": "Atendimento ao Cliente",
+            "description_text_block": "<p>Tem alguma dúvida? Entre em contato conosco pelos canais de suporte abaixo.</p>",
+            "content": "<p><strong>Atendimento ao Cliente:<br/></strong>Telefone: +1 (973) 435-3638<br/>E-mail: contato@botanikabrasil.com.br<br/>Horário: Todos os dias 8:00 - 17:00</p><p><strong>Atacado:<br/></strong>E-mail: contato@botanikabrasil.com.br<br/></p>"
+          }
+        },
+        "contact_E6FKVE": {
+          "type": "contact",
+          "settings": {
+            "heading": "Fale Conosco",
+            "description": "<p>Envie suas dúvidas pelo formulário abaixo e entraremos em contato em breve.</p>",
+            "show_privacy": true,
+            "name": "Seu nome",
+            "email": "Seu email",
+            "your_comment": "Mensagem",
+            "button_label": "Enviar"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_bYNRjF",
+        "contact_E6FKVE"
+      ],
+      "custom_css": [
+        ".support_customer p strong {font-size: 16px; margin-block-end: 15px;}"
+      ],
+      "settings": {
+        "section_width": "container",
+        "color_scheme": "",
+        "iframe": "",
+        "column_gap": 100,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "reset_spacing": false
+      }
+    }
+  },
+  "order": [
+    "page-heading",
+    "main"
+  ]
+}

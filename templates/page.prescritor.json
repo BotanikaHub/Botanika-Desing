@@ -1,0 +1,121 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "prescritor-hero",
+      "settings": {
+        "color_scheme": "",
+        "eyebrow": "PROGRAMA PRESCRITOR",
+        "heading": "Queremos estar cada vez mais perto de você",
+        "description": "<p>O Programa Prescritor Botanika é um relacionamento exclusivo para profissionais da saúde, com benefícios pensados para o seu dia a dia.</p>",
+        "eligibility_title": "Quem pode participar",
+        "eligibility_text": "<p>Médicos, dentistas, nutricionistas, farmacêuticos, fisioterapeutas, educadores físicos, biomédicos e psicólogos com registro ativo.</p>",
+        "card_color_scheme": "",
+        "card_heading": "Seja um prescritor",
+        "card_text": "Cadastre-se gratuitamente e acesse seus benefícios.",
+        "email_placeholder": "E-mail",
+        "button_text": "Continuar",
+        "success_text": "Cadastro recebido! Em breve entraremos em contato."
+      }
+    },
+    "benefits": {
+      "type": "prescritor-benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "badge": "",
+            "title": "Materiais técnicos",
+            "description": "<p>Acesso a materiais técnicos e artigos científicos atualizados.</p>"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "badge": "",
+            "title": "Consultoria especializada",
+            "description": "<p>Suporte técnico disponível em diferentes canais de atendimento.</p>"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "badge": "",
+            "title": "Conteúdo para redes sociais",
+            "description": "<p>Conteúdos sobre saúde prontos para você postar e compartilhar.</p>"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "badge": "",
+            "title": "Lançamentos",
+            "description": "<p>Amostras e informações sobre os novos produtos em primeira mão.</p>"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "badge": "25%",
+            "title": "Descontos",
+            "description": "<p>25% de desconto em produtos Botanika para o seu uso pessoal.</p>"
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "badge": "",
+            "title": "Surpresas",
+            "description": "<p>Brindes especiais ao longo do ano.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "section_width": "container",
+        "color_scheme": "",
+        "heading": "BENEFÍCIOS EXCLUSIVOS",
+        "subheading": "<p>Aproveite as vantagens de fazer parte do Programa Prescritor Botanika.</p>"
+      }
+    },
+    "banner": {
+      "type": "prescritor-banner",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Nosso desejo é contribuir para o seu desenvolvimento",
+        "text": "<p>Acreditamos que cuidar de quem cuida transforma vidas. Por isso, criamos um programa para apoiar profissionais da saúde com ciência, qualidade e proximidade — para que você ofereça o melhor aos seus pacientes.</p>"
+      }
+    },
+    "cta": {
+      "type": "prescritor-cta",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Junte-se a nós",
+        "text": "<p>O Programa Prescritor Botanika é exclusivo para profissionais da saúde que multiplicam o cuidado e a qualidade de vida das pessoas.</p>",
+        "button_text": "Quero me cadastrar",
+        "button_link": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "benefits",
+    "banner",
+    "cta"
+  ]
+}

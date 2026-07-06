@@ -1,0 +1,321 @@
+{% liquid
+  assign section_st = section.settings
+  assign prod1 = section_st.product_1
+  assign prod2 = section_st.product_2
+%}
+{%- if prod1 == blank and prod2 == blank -%}{% break %}{%- endif -%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-crosssell"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <div class="botanika-crosssell__head">
+        <h2 class="botanika-crosssell__heading">{{ section_st.heading }}</h2>
+        {%- if section_st.subheading != blank -%}
+          <p class="botanika-crosssell__subheading">{{ section_st.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="botanika-crosssell__bumps">
+      {%- for i in (1..2) -%}
+        {%- liquid
+          if i == 1
+            assign p = prod1
+          else
+            assign p = prod2
+          endif
+          assign desc_key = 'combo_desc_' | append: i
+          assign bump_desc = section_st[desc_key]
+        -%}
+        {%- if p != blank -%}
+          {%- assign bump_variant = p.first_available_variant | default: p.variants.first -%}
+          <label class="botanika-bump" for="bump-{{ section.id }}-{{ i }}">
+            <input
+              type="checkbox"
+              id="bump-{{ section.id }}-{{ i }}"
+              class="botanika-bump__check"
+              data-bump-variant="{{ bump_variant.id }}"
+              data-bump-product="{{ p.handle }}"
+            >
+            <span class="botanika-bump__box" aria-hidden="true">
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 5.5L5 9.5L13 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div class="botanika-bump__img">
+              {%- if p.featured_image != blank -%}
+                {{- p.featured_image | image_url: width: 160 | image_tag: width: 80, loading: 'lazy', alt: p.title -}}
+              {%- endif -%}
+            </div>
+            <div class="botanika-bump__info">
+              <p class="botanika-bump__action">Adicionar à compra</p>
+              <p class="botanika-bump__name">{{ p.title }}</p>
+              {%- if bump_desc != blank -%}
+                <p class="botanika-bump__desc">{{ bump_desc }}</p>
+              {%- endif -%}
+            </div>
+            <div class="botanika-bump__price">
+              <span class="botanika-bump__price-val">{{ bump_variant.price | money }}</span>
+            </div>
+          </label>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="botanika-crosssell__cta-wrap">
+      <button type="button" class="botanika-crosssell__cta-btn" data-bump-add-all data-original-text="{{ section_st.cta_add_text | default: 'Adicionar selecionados ao carrinho' }}">
+        {{ section_st.cta_add_text | default: 'Adicionar selecionados ao carrinho' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+(function () {
+  function updateBtnState(section) {
+    var btn = section.querySelector('[data-bump-add-all]');
+    if (!btn) return;
+    var anyChecked = section.querySelector('.botanika-bump__check:checked');
+    btn.disabled = !anyChecked;
+    btn.style.opacity = anyChecked ? '1' : '0.5';
+  }
+
+  document.addEventListener('change', function (e) {
+    if (!e.target.classList.contains('botanika-bump__check')) return;
+    var section = e.target.closest('.sec__botanika-crosssell');
+    updateBtnState(section);
+  });
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-bump-add-all]');
+    if (!btn) return;
+    var section = btn.closest('.sec__botanika-crosssell');
+    var checked = section.querySelectorAll('.botanika-bump__check:checked');
+    if (!checked.length) return;
+
+    var items = Array.from(checked).map(function (cb) {
+      return { id: cb.dataset.bumpVariant, quantity: 1 };
+    });
+
+    btn.textContent = 'Adicionando…';
+    btn.disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: items })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function () {
+        btn.textContent = '✓ Adicionado!';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('theme:cart:open'));
+        setTimeout(function () {
+          var original = section.querySelector('[data-bump-add-all]');
+          if (original) {
+            original.textContent = original.dataset.originalText;
+            original.disabled = false;
+          }
+        }, 2500);
+      })
+      .catch(function () {
+        btn.textContent = btn.dataset.originalText;
+        btn.disabled = false;
+      });
+  });
+
+  document.querySelectorAll('.sec__botanika-crosssell').forEach(updateBtnState);
+})();
+{% endjavascript %}
+
+{% stylesheet %}
+.sec__botanika-crosssell { background: #f6f7f9; }
+.botanika-crosssell__head { text-align: center; margin-bottom: 32px; }
+.botanika-crosssell__heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1c2030;
+  margin: 0 0 8px;
+}
+.botanika-crosssell__subheading { color: #6b7280; font-size: 15px; margin: 0; }
+
+.botanika-crosssell__bumps { display: flex; flex-direction: column; gap: 12px; max-width: 720px; margin: 0 auto; }
+
+.botanika-bump {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 2px solid #e6e8ee;
+  border-radius: 12px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.botanika-bump:has(.botanika-bump__check:checked) {
+  border-color: #8fbc3f;
+  box-shadow: 0 0 0 3px rgba(143, 188, 63, 0.15);
+}
+.botanika-bump__check { position: absolute; opacity: 0; width: 0; height: 0; }
+.botanika-bump__box {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 2px solid #d1d5db;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  transition: background 0.15s, border-color 0.15s;
+}
+.botanika-bump:has(.botanika-bump__check:checked) .botanika-bump__box {
+  background: #8fbc3f;
+  border-color: #8fbc3f;
+}
+.botanika-bump__img {
+  width: 64px; height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f4f5f8;
+}
+.botanika-bump__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.botanika-bump__info { flex: 1; min-width: 0; }
+.botanika-bump__action {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #8fbc3f;
+  margin: 0 0 3px;
+}
+.botanika-bump__name { font-size: 15px; font-weight: 600; color: #1c2030; margin: 0 0 4px; }
+.botanika-bump__desc { font-size: 13px; color: #6b7280; margin: 0; }
+.botanika-bump__price { flex-shrink: 0; text-align: right; }
+.botanika-bump__price-val { font-size: 16px; font-weight: 700; color: #3f4a9c; }
+
+.botanika-crosssell__cta-wrap { text-align: center; margin-top: 24px; }
+.botanika-crosssell__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #8fbc3f;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, opacity 0.18s;
+  opacity: 0.5;
+}
+.botanika-crosssell__cta-btn:not(:disabled):hover { background: #6f9a2e; }
+
+@media (max-width: 599px) {
+  .botanika-bump { flex-wrap: wrap; }
+  .botanika-bump__price { width: 100%; text-align: left; padding-left: 102px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Order Bump",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Complete sua rotina Botanika"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo"
+    },
+    {
+      "type": "header",
+      "content": "Produto 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Produto 1"
+    },
+    {
+      "type": "text",
+      "id": "combo_desc_1",
+      "label": "Descrição breve"
+    },
+    {
+      "type": "header",
+      "content": "Produto 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Produto 2"
+    },
+    {
+      "type": "text",
+      "id": "combo_desc_2",
+      "label": "Descrição breve"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_add_text",
+      "label": "Texto do botão",
+      "default": "Adicionar selecionados ao carrinho"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Cross-sell / Order Bump"
+    }
+  ]
+}
+{% endschema %}

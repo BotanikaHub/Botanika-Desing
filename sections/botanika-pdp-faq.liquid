@@ -1,0 +1,185 @@
+{% liquid
+  assign section_st = section.settings
+  assign faq_items = product.metafields.custom.faq_items.value
+%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-faq color-{{ section_st.color_scheme }} gradient"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    {%- if section_st.heading != blank -%}
+      <h2 class="botanika-faq__heading">{{ section_st.heading }}</h2>
+    {%- endif -%}
+    {%- if faq_items != blank -%}
+      <div class="botanika-faq__list">
+        {%- for item in faq_items -%}
+          <details class="botanika-faq__item">
+            <summary class="botanika-faq__question">
+              <span>{{ item.question }}</span>
+              <span class="botanika-faq__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="botanika-faq__answer rte">
+              {{ item.answer }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-faq {
+  background: #f9fafb;
+}
+.botanika-faq__heading {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 40px;
+  margin: 0 0 40px;
+  text-align: center;
+  letter-spacing: 0.37px;
+  color: #3f4a9c;
+}
+.botanika-faq__list {
+  max-width: 864px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.botanika-faq__item {
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.botanika-faq__item:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.botanika-faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  list-style: none;
+  user-select: none;
+  min-height: 68px;
+}
+.botanika-faq__question::-webkit-details-marker {
+  display: none;
+}
+.botanika-faq__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+.botanika-faq__icon::before,
+.botanika-faq__icon::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.botanika-faq__icon::before {
+  width: 14px;
+  height: 2px;
+}
+.botanika-faq__icon::after {
+  width: 2px;
+  height: 14px;
+}
+details[open] .botanika-faq__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+.botanika-faq__answer {
+  padding: 4px 24px 24px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 767px) {
+  .botanika-faq__heading {
+    font-size: 26px;
+  }
+  .botanika-faq__question {
+    font-size: 16px;
+    padding: 16px;
+  }
+  .botanika-faq__answer {
+    padding: 4px 16px 20px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Perguntas Frequentes",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Perguntas Frequentes"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Perguntas Frequentes"
+    }
+  ]
+}
+{% endschema %}

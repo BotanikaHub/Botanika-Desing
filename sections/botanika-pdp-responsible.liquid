@@ -1,0 +1,143 @@
+{% liquid
+  assign section_st = section.settings
+  assign responsible_raw = product.metafields.custom.responsible_use_items.value
+  if responsible_raw != blank
+    assign responsible_items = responsible_raw | newline_to_br | split: "<br />"
+  endif
+%}
+{%- if responsible_items == blank -%}
+  {% break %}
+{%- endif -%}
+{%- capture style -%}
+  --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};
+{%- endcapture -%}
+<div
+  class="section{% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} sec__botanika-responsible"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ section_st.section_width }}">
+    <div class="botanika-responsible__box">
+      {%- if section_st.heading != blank -%}
+        <h2 class="botanika-responsible__heading">{{ section_st.heading }}</h2>
+      {%- endif -%}
+      <ul class="botanika-responsible__list">
+        {%- for item in responsible_items -%}
+          {%- assign clean = item | strip -%}
+          {%- if clean != blank -%}
+            <li>{{ clean }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.sec__botanika-responsible {
+  background: #fbfaf5;
+}
+.botanika-responsible__box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #efe9d6;
+  border-radius: 16px;
+  padding: 40px 44px;
+}
+.botanika-responsible__heading {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1c2030;
+  margin: 0 0 24px;
+  text-align: center;
+}
+.botanika-responsible__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+}
+.botanika-responsible__list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14.5px;
+  color: #555;
+  line-height: 1.6;
+}
+.botanika-responsible__list li::before {
+  content: "✔";
+  color: #6f9a2e;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+@media (max-width: 680px) {
+  .botanika-responsible__box {
+    padding: 28px 24px;
+  }
+  .botanika-responsible__list {
+    grid-template-columns: 1fr;
+  }
+  .botanika-responsible__heading {
+    font-size: 22px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PDP Uso Responsável",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "fluid_container", "label": "Fluid container" },
+        { "value": "full_width", "label": "Full width" }
+      ],
+      "default": "container",
+      "label": "t:sections.all.section_width.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Uso responsável"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_padding.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.top.label",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.section_padding.bottom.label",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP Uso Responsável"
+    }
+  ]
+}
+{% endschema %}
