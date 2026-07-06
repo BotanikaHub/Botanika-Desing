@@ -198,9 +198,26 @@
         "padding_top": 10,
         "padding_bottom": 10
       }
+    },
+    "diad_bar": {
+      "type": "dia-d-bar",
+      "settings": {
+        "message": "DIA D BOTANIKA — <strong>8% OFF</strong> em todo o site, só hoje!",
+        "deadline": "2026-07-07T23:59:59-03:00",
+        "timer_label": "Termina em",
+        "cta_label": "Aproveitar",
+        "cta_link": "/collections/all",
+        "homepage_only": false,
+        "hide_mobile": false,
+        "bg_color": "#303890",
+        "bg_color_2": "#1f2670",
+        "text_color": "#ffffff",
+        "accent_color": "#F8C840"
+      }
     }
   },
   "order": [
+    "diad_bar",
     "top_bar_CbXNYj",
     "header"
   ]
