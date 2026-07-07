@@ -1,17 +1,25 @@
 {%- comment -%}
   ============================================================
-  DIA D BOTANIKA — Hero/slideshow com banners embutidos no tema.
-  Usa imagens da pasta assets/ (desktop + mobile) para permitir
-  importação completa via .zip. Troque os nomes nos ajustes se precisar.
+  DIA D BOTANIKA — Hero/slideshow.
+  Cada slide aceita imagem por SELETOR (image_picker) OU, como fallback,
+  pelo nome do arquivo na pasta assets/. O seletor sobrepõe o arquivo.
   ============================================================
 {%- endcomment -%}
 {%- liquid
   assign st = section.settings
+  assign has1 = false
+  assign has2 = false
+  if st.s1_image != blank or st.s1_desktop != blank
+    assign has1 = true
+  endif
+  if st.s2_image != blank or st.s2_desktop != blank
+    assign has2 = true
+  endif
   assign count = 0
-  if st.s1_desktop != blank
+  if has1
     assign count = count | plus: 1
   endif
-  if st.s2_desktop != blank
+  if has2
     assign count = count | plus: 1
   endif
 -%}
@@ -23,26 +31,38 @@
     data-speed="{{ st.speed }}"
   >
     <div class="diad-hero__track">
-      {%- if st.s1_desktop != blank -%}
+      {%- if has1 -%}
         <div class="diad-hero__slide is-active" data-index="0">
           {%- if st.s1_link != blank -%}<a class="diad-hero__link" href="{{ st.s1_link }}">{%- endif -%}
           <picture>
-            {%- if st.s1_mobile != blank -%}
+            {%- if st.s1_image_mobile != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ st.s1_image_mobile | image_url: width: 1080 }}">
+            {%- elsif st.s1_mobile != blank -%}
               <source media="(max-width: 749px)" srcset="{{ st.s1_mobile | asset_url }}">
             {%- endif -%}
-            <img class="diad-hero__img" src="{{ st.s1_desktop | asset_url }}" alt="{{ st.alt | escape }}" fetchpriority="high" decoding="async">
+            {%- if st.s1_image != blank -%}
+              <img class="diad-hero__img" src="{{ st.s1_image | image_url: width: 1600 }}" srcset="{{ st.s1_image | image_url: width: 1024 }} 1024w, {{ st.s1_image | image_url: width: 1600 }} 1600w, {{ st.s1_image | image_url: width: 2200 }} 2200w" sizes="100vw" alt="{{ st.alt | escape }}" fetchpriority="high" decoding="async">
+            {%- else -%}
+              <img class="diad-hero__img" src="{{ st.s1_desktop | asset_url }}" alt="{{ st.alt | escape }}" fetchpriority="high" decoding="async">
+            {%- endif -%}
           </picture>
           {%- if st.s1_link != blank -%}</a>{%- endif -%}
         </div>
       {%- endif -%}
-      {%- if st.s2_desktop != blank -%}
-        <div class="diad-hero__slide{% if st.s1_desktop == blank %} is-active{% endif %}" data-index="1">
+      {%- if has2 -%}
+        <div class="diad-hero__slide{% unless has1 %} is-active{% endunless %}" data-index="1">
           {%- if st.s2_link != blank -%}<a class="diad-hero__link" href="{{ st.s2_link }}">{%- endif -%}
           <picture>
-            {%- if st.s2_mobile != blank -%}
+            {%- if st.s2_image_mobile != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ st.s2_image_mobile | image_url: width: 1080 }}">
+            {%- elsif st.s2_mobile != blank -%}
               <source media="(max-width: 749px)" srcset="{{ st.s2_mobile | asset_url }}">
             {%- endif -%}
-            <img class="diad-hero__img" src="{{ st.s2_desktop | asset_url }}" alt="{{ st.alt | escape }}" loading="lazy" decoding="async">
+            {%- if st.s2_image != blank -%}
+              <img class="diad-hero__img" src="{{ st.s2_image | image_url: width: 1600 }}" srcset="{{ st.s2_image | image_url: width: 1024 }} 1024w, {{ st.s2_image | image_url: width: 1600 }} 1600w, {{ st.s2_image | image_url: width: 2200 }} 2200w" sizes="100vw" alt="{{ st.alt | escape }}" loading="lazy" decoding="async">
+            {%- else -%}
+              <img class="diad-hero__img" src="{{ st.s2_desktop | asset_url }}" alt="{{ st.alt | escape }}" loading="lazy" decoding="async">
+            {%- endif -%}
           </picture>
           {%- if st.s2_link != blank -%}</a>{%- endif -%}
         </div>
@@ -117,7 +137,7 @@
 {%- else -%}
   {%- if request.design_mode -%}
     <div style="padding:40px;text-align:center;background:#f3f3f3;color:#333;">
-      Adicione os nomes das imagens (assets) desta seção nos ajustes do Dia D Hero.
+      Selecione as imagens do Dia D Hero nos ajustes desta seção.
     </div>
   {%- endif -%}
 {%- endif -%}
@@ -126,10 +146,6 @@
 {
   "name": "Dia D — Hero (banners)",
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "Use o NOME do arquivo que está na pasta assets do tema (ex: diad-banner-1-desktop.jpg)."
-    },
     {
       "type": "checkbox",
       "id": "autoplay",
@@ -163,16 +179,14 @@
       "content": "Slide 1"
     },
     {
-      "type": "text",
-      "id": "s1_desktop",
-      "label": "Imagem desktop (arquivo em assets)",
-      "default": "diad-banner-1-desktop.jpg"
+      "type": "image_picker",
+      "id": "s1_image",
+      "label": "Imagem desktop (clique para trocar)"
     },
     {
-      "type": "text",
-      "id": "s1_mobile",
-      "label": "Imagem mobile (arquivo em assets)",
-      "default": "diad-banner-1-mobile.jpg"
+      "type": "image_picker",
+      "id": "s1_image_mobile",
+      "label": "Imagem mobile (clique para trocar)"
     },
     {
       "type": "url",
@@ -181,26 +195,52 @@
       "default": "/collections/all"
     },
     {
+      "type": "text",
+      "id": "s1_desktop",
+      "label": "Avançado: arquivo desktop em assets",
+      "info": "Só usado se o seletor de imagem desktop acima estiver vazio.",
+      "default": "diad-banner-1-desktop.jpg"
+    },
+    {
+      "type": "text",
+      "id": "s1_mobile",
+      "label": "Avançado: arquivo mobile em assets",
+      "info": "Só usado se o seletor de imagem mobile acima estiver vazio.",
+      "default": "diad-banner-1-mobile.jpg"
+    },
+    {
       "type": "header",
       "content": "Slide 2"
     },
     {
-      "type": "text",
-      "id": "s2_desktop",
-      "label": "Imagem desktop (arquivo em assets)",
-      "default": "diad-banner-2-desktop.jpg"
+      "type": "image_picker",
+      "id": "s2_image",
+      "label": "Imagem desktop (clique para trocar)"
     },
     {
-      "type": "text",
-      "id": "s2_mobile",
-      "label": "Imagem mobile (arquivo em assets)",
-      "default": "diad-banner-2-mobile.jpg"
+      "type": "image_picker",
+      "id": "s2_image_mobile",
+      "label": "Imagem mobile (clique para trocar)"
     },
     {
       "type": "url",
       "id": "s2_link",
       "label": "Link do slide 2",
       "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "s2_desktop",
+      "label": "Avançado: arquivo desktop em assets",
+      "info": "Só usado se o seletor de imagem desktop acima estiver vazio.",
+      "default": "diad-banner-2-desktop.jpg"
+    },
+    {
+      "type": "text",
+      "id": "s2_mobile",
+      "label": "Avançado: arquivo mobile em assets",
+      "info": "Só usado se o seletor de imagem mobile acima estiver vazio.",
+      "default": "diad-banner-2-mobile.jpg"
     }
   ],
   "presets": [
