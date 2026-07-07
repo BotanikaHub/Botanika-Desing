@@ -1,0 +1,42 @@
+{%- comment -%}
+  Selo Dia D — 🔥 8% OFF exibido no canto dos cards de produto.
+  O CSS é impresso uma única vez por página (guarda via {% increment %}).
+{%- endcomment -%}
+{%- capture diad_css_index -%}{% increment diad_card_badge_css %}{%- endcapture -%}
+{%- if diad_css_index == '0' -%}
+  <style>
+    .diad-card-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: linear-gradient(100deg, #303890 0%, #1f2670 100%);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      box-shadow: 0 2px 8px rgba(31, 38, 112, 0.28);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .diad-card-badge__fire {
+      display: inline-block;
+      font-size: 12px;
+      animation: diadCardFlame 1.4s ease-in-out infinite;
+    }
+    @keyframes diadCardFlame {
+      0%, 100% { transform: scale(1) rotate(-4deg); }
+      50% { transform: scale(1.18) rotate(4deg); }
+    }
+    @media (max-width: 575px) {
+      .diad-card-badge { top: 8px; left: 8px; font-size: 10px; padding: 3px 7px; }
+    }
+  </style>
+{%- endif -%}
+<span class="diad-card-badge"><span class="diad-card-badge__fire">🔥</span>8% OFF</span>
