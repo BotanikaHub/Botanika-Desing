@@ -1,0 +1,208 @@
+{%- comment -%}
+  ============================================================
+  DIA D BOTANIKA — Hero/slideshow com banners embutidos no tema.
+  Usa imagens da pasta assets/ (desktop + mobile) para permitir
+  importação completa via .zip. Troque os nomes nos ajustes se precisar.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign slides = ''
+  if st.s1_desktop != blank
+    assign slides = slides | append: '1,'
+  endif
+  if st.s2_desktop != blank
+    assign slides = slides | append: '2,'
+  endif
+  assign slide_list = slides | split: ','
+-%}
+{%- if slide_list.size > 0 -%}
+  <dia-d-hero
+    class="diad-hero"
+    id="diad-hero-{{ section.id }}"
+    data-autoplay="{{ st.autoplay }}"
+    data-speed="{{ st.speed }}"
+  >
+    <div class="diad-hero__track">
+      {%- for n in slide_list -%}
+        {%- liquid
+          assign desk = 's' | append: n | append: '_desktop'
+          assign mob = 's' | append: n | append: '_mobile'
+          assign lnk = 's' | append: n | append: '_link'
+          assign desktop_file = st[desk]
+          assign mobile_file = st[mob] | default: desktop_file
+          assign link = st[lnk]
+        -%}
+        <div class="diad-hero__slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
+          {%- if link != blank -%}<a class="diad-hero__link" href="{{ link }}">{%- endif -%}
+          <picture>
+            {%- if mobile_file != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ mobile_file | asset_url }}">
+            {%- endif -%}
+            <img
+              class="diad-hero__img"
+              src="{{ desktop_file | asset_url }}"
+              alt="{{ st.alt | default: 'Dia D Botanika - 8% OFF em todo o site' | escape }}"
+              {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+              decoding="async"
+            >
+          </picture>
+          {%- if link != blank -%}</a>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if slide_list.size > 1 -%}
+      <div class="diad-hero__dots">
+        {%- for n in slide_list -%}
+          <button type="button" class="diad-hero__dot{% if forloop.first %} is-active{% endif %}" data-goto="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </dia-d-hero>
+
+  {%- style -%}
+    .diad-hero { display: block; position: relative; width: 100%; overflow: hidden; }
+    .diad-hero__track { position: relative; width: 100%; }
+    .diad-hero__slide {
+      position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease;
+      pointer-events: none;
+    }
+    .diad-hero__slide.is-active { position: relative; opacity: 1; pointer-events: auto; }
+    .diad-hero__slide:first-child { position: relative; }
+    .diad-hero__link { display: block; }
+    .diad-hero__img { display: block; width: 100%; height: auto; }
+    .diad-hero__dots {
+      position: absolute; left: 0; right: 0; bottom: 14px;
+      display: flex; gap: 8px; justify-content: center; z-index: 2;
+    }
+    .diad-hero__dot {
+      width: 9px; height: 9px; border-radius: 50%; border: none; cursor: pointer;
+      background: rgba(255,255,255,.55); padding: 0; transition: background .2s, transform .2s;
+    }
+    .diad-hero__dot.is-active { background: #fff; transform: scale(1.2); }
+    @media (max-width: 749px) { .diad-hero__dots { bottom: 10px; } }
+  {%- endstyle -%}
+
+  <script>
+    (function () {
+      var root = document.getElementById('diad-hero-{{ section.id }}');
+      if (!root || root.dataset.diadInit === '1') return;
+      root.dataset.diadInit = '1';
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.diad-hero__slide'));
+      var dots = Array.prototype.slice.call(root.querySelectorAll('.diad-hero__dot'));
+      if (slides.length < 2) return;
+      var i = 0, timer = null;
+      var speed = (parseInt(root.dataset.speed, 10) || 5) * 1000;
+      var autoplay = root.dataset.autoplay === 'true';
+
+      function show(n) {
+        slides[i].classList.remove('is-active');
+        if (dots[i]) dots[i].classList.remove('is-active');
+        i = (n + slides.length) % slides.length;
+        slides[i].classList.add('is-active');
+        if (dots[i]) dots[i].classList.add('is-active');
+      }
+      function next() { show(i + 1); }
+      function start() { if (autoplay) { stop(); timer = setInterval(next, speed); } }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+      dots.forEach(function (d) {
+        d.addEventListener('click', function () {
+          show(parseInt(d.dataset.goto, 10) || 0);
+          start();
+        });
+      });
+      start();
+    })();
+  </script>
+{%- else -%}
+  {%- if request.design_mode -%}
+    <div style="padding:40px;text-align:center;background:#f3f3f3;color:#333;">
+      Adicione os nomes das imagens (assets) desta seção nos ajustes do Dia D Hero.
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Dia D — Hero (banners)",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Suba as imagens em Conteúdo → Arquivos OU deixe-as na pasta assets do tema. Aqui use o NOME do arquivo em assets (ex: diad-banner-1-desktop.jpg)."
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Rotação automática",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "label": "Trocar a cada",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Texto alternativo (alt)",
+      "default": "Dia D Botanika - 8% OFF em todo o site"
+    },
+    {
+      "type": "header",
+      "content": "Slide 1"
+    },
+    {
+      "type": "text",
+      "id": "s1_desktop",
+      "label": "Imagem desktop (arquivo em assets)",
+      "default": "diad-banner-1-desktop.jpg"
+    },
+    {
+      "type": "text",
+      "id": "s1_mobile",
+      "label": "Imagem mobile (arquivo em assets)",
+      "default": "diad-banner-1-mobile.jpg"
+    },
+    {
+      "type": "url",
+      "id": "s1_link",
+      "label": "Link do slide 1",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2"
+    },
+    {
+      "type": "text",
+      "id": "s2_desktop",
+      "label": "Imagem desktop (arquivo em assets)",
+      "default": "diad-banner-2-desktop.jpg"
+    },
+    {
+      "type": "text",
+      "id": "s2_mobile",
+      "label": "Imagem mobile (arquivo em assets)",
+      "default": "diad-banner-2-mobile.jpg"
+    },
+    {
+      "type": "url",
+      "id": "s2_link",
+      "label": "Link do slide 2",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dia D — Hero (banners)"
+    }
+  ]
+}
+{% endschema %}

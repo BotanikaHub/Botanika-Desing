@@ -209,10 +209,10 @@
         "cta_link": "/collections/all",
         "homepage_only": false,
         "hide_mobile": false,
-        "bg_color": "#303890",
-        "bg_color_2": "#1f2670",
+        "bg_color": "#E4141C",
+        "bg_color_2": "#B00E14",
         "text_color": "#ffffff",
-        "accent_color": "#F8C840"
+        "accent_color": "#FFD84D"
       }
     }
   },
