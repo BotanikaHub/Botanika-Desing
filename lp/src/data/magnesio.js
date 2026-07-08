@@ -27,74 +27,76 @@ export const product = {
   tagline: 'Você mais saudável',
   hero: {
     eyebrow: 'Magnésio Dimalato + Citrato',
-    lines: ['Dois magnésios.', 'Uma cápsula.', 'Seu corpo em equilíbrio.'],
-    sub: 'O magnésio participa de mais de 300 reações no corpo. O Tri [Mg] Complex reúne duas formas em uma cápsula para auxiliar no relaxamento, na energia e no bem-estar do seu dia a dia.',
-    cta: 'Quero meu equilíbrio',
+    lines: ['Você dorme,', 'mas acorda', 'esgotado.'],
+    sub: 'Cãibra que te acorda de madrugada. A mente que não desliga na hora de dormir. A energia que some às 15h e o café já não resolve. Muitas vezes, o que falta é magnésio — e seu corpo gasta mais do que você repõe. O Tri [Mg] Complex junta duas formas em uma só cápsula pra te ajudar a virar esse jogo.',
+    cta: 'Quero acordar descansado',
   },
   urgency: 'SÓ HOJE — 8% OFF em todo o site',
   paraVoce: {
     eyebrow: 'Isso é pra você que...',
     items: [
-      'Acorda cansado mesmo dormindo a noite toda',
-      'Sente cãibras ou tensão muscular com frequência',
-      'Vive no modo estresse e não desliga a mente',
-      'Quer mais energia e disposição sem estimulante',
+      'Dorme a noite toda e acorda como se não tivesse dormido',
+      'É acordado por cãibra na perna no meio da madrugada',
+      'Deita, fecha os olhos e a mente dispara — não desliga',
+      'Bate uma exaustão no meio da tarde que nenhum café resolve',
+      'Anda no limite, irritado, sem paciência pra pouca coisa',
+      'Sente o corpo tenso, os ombros travados, mesmo parado',
     ],
   },
   causaRaiz: {
     eyebrow: 'A causa raiz',
-    title: 'A maioria dos brasileiros consome menos magnésio do que precisa.',
+    title: 'O problema não é preguiça. É o que está faltando no seu corpo.',
     steps: [
       {
         n: '01',
-        t: 'Solo empobrecido',
-        d: 'Alimentos cada vez mais pobres em minerais essenciais.',
+        t: 'A comida não repõe mais',
+        d: 'Os alimentos de hoje têm uma fração do magnésio de décadas atrás. Você come e, mesmo assim, falta.',
       },
       {
         n: '02',
-        t: 'Rotina que drena',
-        d: 'Estresse, cafeína e ultraprocessados aceleram a perda de magnésio.',
+        t: 'Sua rotina drena tudo',
+        d: 'Estresse, café, açúcar e treino queimam magnésio o dia inteiro. Quanto mais corrido o seu dia, mais você perde.',
       },
       {
         n: '03',
-        t: 'Corpo em desequilíbrio',
-        d: 'Cansaço, tensão e sono ruim podem ser sinais de baixa reserva.',
+        t: 'O corpo cobra a conta',
+        d: 'Sem reserva suficiente, sono, músculo e humor são os primeiros a sentir. É daí que vem o cansaço que não passa.',
       },
     ],
   },
   ingredientes: {
     eyebrow: 'O que tem dentro',
-    title: 'Transparência radical. Só o que funciona.',
+    title: 'Sem promessa mágica. Só o que o seu corpo precisa.',
     items: [
       {
         t: 'Magnésio Dimalato',
-        d: 'Forma ligada ao ácido málico. Contribui para o metabolismo energético e a redução do cansaço.',
+        d: 'Ligado ao ácido málico, participa da produção de energia nas células. Contribui para reduzir aquela sensação de cansaço que te derruba no meio do dia.',
         tag: 'Energia',
       },
       {
         t: 'Magnésio Citrato',
-        d: 'Alta biodisponibilidade. Auxilia no relaxamento muscular e no funcionamento normal do corpo.',
-        tag: 'Relaxamento',
+        d: 'Alta absorção. Auxilia no relaxamento muscular e ajuda o corpo a desacelerar na hora de dormir. É o magnésio do "finalmente relaxei".',
+        tag: 'Sono & relaxamento',
       },
       {
-        t: 'Sem enrolação',
-        d: 'Sem corantes, sem excipientes desnecessários. Rótulo aberto, dose clara.',
-        tag: 'Limpo',
+        t: 'Dose que aparece no rótulo',
+        d: 'Sem corante, sem excipiente à toa. A dose está aberta na embalagem. Você sabe exatamente o que está tomando — do jeito Botanika.',
+        tag: 'Transparência',
       },
     ],
   },
   prova: {
-    eyebrow: 'Quem já vive isso',
+    eyebrow: 'Quem já virou o jogo',
     items: [
-      { q: 'Voltei a dormir a noite inteira. Simples assim.', a: 'Marina R.' },
-      { q: 'As cãibras noturnas sumiram nas primeiras semanas.', a: 'Carlos T.' },
-      { q: 'Mais disposição no treino sem depender de café.', a: 'Juliana P.' },
-      { q: 'Finalmente um rótulo que eu entendo o que estou tomando.', a: 'André M.' },
+      { q: 'Parei de acordar 3h da manhã com cãibra. Já valeu só por isso.', a: 'Marina R.' },
+      { q: 'Minha cabeça finalmente desliga na hora de dormir. Durmo pesado agora.', a: 'Carlos T.' },
+      { q: 'Aquela moleza da tarde sumiu. Não vivo mais no café pra funcionar.', a: 'Juliana P.' },
+      { q: 'Tô menos no limite, mais paciente. Minha esposa notou antes de mim.', a: 'André M.' },
     ],
   },
   economia: {
-    eyebrow: 'Kit inteligente',
-    title: 'Escolha por quantos meses você quer cuidar de você.',
+    eyebrow: 'Cuidar de você',
+    title: 'Bem-estar não se resolve em uma semana. Se resolve na constância.',
     rows: [
       { label: '1 unidade', foco: '1 mês de uso', preco: 129.9, un: 129.9, best: false },
       { label: '2 unidades', foco: '2 meses de uso', preco: 259.8, un: 129.9, best: false },
@@ -102,19 +104,19 @@ export const product = {
     ],
   },
   timeline: {
-    eyebrow: 'O que esperar',
-    title: 'Consistência é o que muda o jogo.',
+    eyebrow: 'O que muda',
+    title: 'O que acontece quando o magnésio volta a sobrar.',
     disclaimer:
       'Resultados variam de pessoa para pessoa. Suplemento alimentar não substitui uma alimentação equilibrada e hábitos saudáveis.',
     steps: [
-      { t: 'Semana 1–2', d: 'Seu corpo começa a repor as reservas de magnésio.' },
-      { t: 'Semana 3–4', d: 'Muitas pessoas relatam sono e relaxamento mais consistentes.' },
-      { t: 'Mês 2+', d: 'Rotina de bem-estar sustentada, dia após dia.' },
+      { t: 'Semana 1–2', d: 'Seu corpo começa a repor o que faltava. Muitos já sentem o sono mais pesado.' },
+      { t: 'Semana 3–4', d: 'A tensão muscular dá trégua e a mente desacelera mais fácil à noite.' },
+      { t: 'Mês 2+', d: 'Energia mais estável, humor mais leve e uma rotina de bem-estar que se sustenta.' },
     ],
   },
   pricing: {
     eyebrow: 'Escolha seu plano',
-    title: 'Comece seu equilíbrio hoje.',
+    title: 'Comece a virar o jogo hoje.',
     plans: [
       { label: '1 unidade', foco: '1 mês de uso', preco: 129.9, parc: '12x R$ 10,82', link: checkout.un1, qty: 1, best: false },
       { label: '3 unidades', foco: '3 meses · mais escolhido', preco: 389.7, parc: '12x R$ 32,48', link: checkout.un3, qty: 3, best: true },
@@ -123,8 +125,8 @@ export const product = {
   },
   garantia: {
     eyebrow: 'Risco zero',
-    title: 'Garantia de 7 dias.',
-    d: 'Experimente. Se não sentir que é pra você, devolvemos seu dinheiro. Sem letra miúda.',
+    title: 'O risco é todo nosso.',
+    d: 'Experimente por 7 dias. Se você não sentir que é pra você, devolvemos cada centavo. Sem letra miúda, sem pergunta chata.',
   },
   institucional: {
     eyebrow: 'Por que confiar',
@@ -141,7 +143,7 @@ export const product = {
     ],
   },
   ctaFinal: {
-    lines: ['Seu equilíbrio', 'começa hoje.'],
-    cta: 'Quero aproveitar 8% OFF',
+    lines: ['Sua melhor noite', 'de sono começa', 'hoje.'],
+    cta: 'Quero dormir bem de novo',
   },
 }
