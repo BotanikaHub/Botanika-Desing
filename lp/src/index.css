@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --azul: #303890;
+  --azul-escuro: #20266b;
+  --azul-claro: #4a52b8;
+  --verde-lima: #d0e088;
+  --amarelo: #f8c840;
+  --preto: #181010;
+  --preto-deep: #050404;
+  --creme: #f8f0e8;
+  --creme-claro: #fcf7ee;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis controla o scroll */
+}
+
+body {
+  margin: 0;
+  background: var(--creme);
+  color: var(--preto);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.02em;
+}
+
+/* Label editorial "01 —" */
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+/* Grain overlay global */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Máscara de reveal por linha */
+.line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* Cursor magnético */
+.magnetic {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    display: none;
+  }
+}
