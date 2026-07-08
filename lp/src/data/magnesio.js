@@ -3,11 +3,12 @@
 // LINKS = placeholder até termos os variant_id reais (etapa 1 do fluxo).
 
 const DOMAIN = 'https://botanikabrasil.com.br'
-// TODO: trocar VARIANT_ID_1/2/3 pelos variant_id reais das 3 variações.
+// Mesmo variant_id, quantidade 1/2/3 (o :N é a quantidade no checkout do Shopify).
+const VARIANT = 48115368558824
 export const checkout = {
-  un1: `${DOMAIN}/cart/VARIANT_ID_1:1`,
-  un2: `${DOMAIN}/cart/VARIANT_ID_2:1`,
-  un3: `${DOMAIN}/cart/VARIANT_ID_3:1`,
+  un1: `${DOMAIN}/cart/${VARIANT}:1`,
+  un2: `${DOMAIN}/cart/${VARIANT}:2`,
+  un3: `${DOMAIN}/cart/${VARIANT}:3`,
 }
 
 export const product = {
