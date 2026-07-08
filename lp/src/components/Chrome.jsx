@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { MagneticButton } from './ui'
+import { trackAddToCart } from '../lib/tracking'
 import { product, checkout } from '../data/magnesio'
 
 // (1) Barra de urgência com contador 24h
@@ -51,6 +52,7 @@ export function Header() {
         </span>
         <MagneticButton
           href={checkout.un3}
+          onClick={() => trackAddToCart(3)}
           className="rounded-full bg-azul-escuro px-5 py-2.5 text-sm font-semibold text-creme-claro"
         >
           Comprar agora

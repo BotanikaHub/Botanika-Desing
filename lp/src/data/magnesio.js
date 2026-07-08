@@ -11,6 +11,15 @@ export const checkout = {
   un3: `${DOMAIN}/cart/${VARIANT}:3`,
 }
 
+// Metadados usados pelos pixels (Meta + GA4). value = preço base 1 un.
+export const tracking = {
+  contentId: String(VARIANT),
+  contentName: 'Tri [Mg] Complex',
+  category: 'Suplementos',
+  currency: 'BRL',
+  basePrice: 129.9,
+}
+
 export const product = {
   brand: 'Botanika',
   name: 'Tri [Mg] Complex',
@@ -85,11 +94,11 @@ export const product = {
   },
   economia: {
     eyebrow: 'Kit inteligente',
-    title: 'Quanto mais meses, mais você economiza.',
+    title: 'Escolha por quantos meses você quer cuidar de você.',
     rows: [
-      { label: '1 unidade', foco: '1 mês', preco: 129.9, un: 129.9, best: false },
-      { label: '2 unidades', foco: '2 meses', preco: 239.9, un: 119.95, best: false },
-      { label: '3 unidades', foco: '3 meses', preco: 329.9, un: 109.97, best: true },
+      { label: '1 unidade', foco: '1 mês de uso', preco: 129.9, un: 129.9, best: false },
+      { label: '2 unidades', foco: '2 meses de uso', preco: 259.8, un: 129.9, best: false },
+      { label: '3 unidades', foco: '3 meses de uso', preco: 389.7, un: 129.9, best: true },
     ],
   },
   timeline: {
@@ -107,9 +116,9 @@ export const product = {
     eyebrow: 'Escolha seu plano',
     title: 'Comece seu equilíbrio hoje.',
     plans: [
-      { label: '1 unidade', foco: '1 mês', preco: 129.9, parc: '12x R$ 12,90', link: checkout.un1, best: false },
-      { label: '3 unidades', foco: '3 meses · mais vendido', preco: 329.9, parc: '12x R$ 32,78', link: checkout.un3, best: true },
-      { label: '2 unidades', foco: '2 meses', preco: 239.9, parc: '12x R$ 23,90', link: checkout.un2, best: false },
+      { label: '1 unidade', foco: '1 mês de uso', preco: 129.9, parc: '12x R$ 10,82', link: checkout.un1, qty: 1, best: false },
+      { label: '3 unidades', foco: '3 meses · mais escolhido', preco: 389.7, parc: '12x R$ 32,48', link: checkout.un3, qty: 3, best: true },
+      { label: '2 unidades', foco: '2 meses de uso', preco: 259.8, parc: '12x R$ 21,65', link: checkout.un2, qty: 2, best: false },
     ],
   },
   garantia: {

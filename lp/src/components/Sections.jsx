@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { RevealLines, Eyebrow, MagneticButton, CountUp, Section } from './ui'
 import { fadeUp, scaleIn, stagger, viewport, EASE } from '../lib/motion'
 import Hero3D from './Hero3D'
+import { trackAddToCart } from '../lib/tracking'
 import { product } from '../data/magnesio'
 
 const BRL = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -343,6 +344,7 @@ export function Pricing() {
               <div className={`text-sm ${p.best ? 'text-preto/50' : 'text-creme-claro/50'}`}>{p.parc}</div>
               <MagneticButton
                 href={p.link}
+                onClick={() => trackAddToCart(p.qty, p.preco)}
                 className={`mt-8 w-full rounded-full px-6 py-3.5 text-sm font-semibold ${
                   p.best ? 'bg-azul-escuro text-creme-claro' : 'bg-verde-lima text-azul-escuro'
                 }`}

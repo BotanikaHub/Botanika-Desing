@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useLenis } from './lib/useLenis'
+import { trackViewContent } from './lib/tracking'
 import { UrgencyBar, Header, Footer } from './components/Chrome'
 import {
   Hero,
@@ -16,6 +18,9 @@ import {
 
 export default function App() {
   useLenis()
+  useEffect(() => {
+    trackViewContent()
+  }, [])
   return (
     <div className="relative">
       <div className="grain" />

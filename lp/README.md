@@ -37,8 +37,19 @@ npm run build    # gera dist/ (deploy em Vercel/Netlify/Cloudflare Pages)
    - Em `src/components/Sections.jsx` (Hero), passar `<Hero3D fallbackSrc="/img/hero.png" />`.
    - Sem isso, o mobile usa um mesh gradient em CSS (também no brand, funciona bem).
 
-## Tracking (próximas etapas do fluxo)
+## Tracking (instalado)
 
-- Pixel Meta (828186133708463) + evento — instalação PRÓPRIA (não passa pelo Custom Pixel do Shopify).
-- GA4 (G-2JFV5TGHCV) + Google Ads (conversão purchase).
-- Adicionar no `index.html` quando a LP for pra produção.
+Instalação PRÓPRIA na LP (não passa pelo Custom Pixel do Shopify). Base no `index.html`,
+eventos na `src/lib/tracking.js`. Guarda `window.__TRACK__` desliga tudo em localhost/preview.
+
+Hierarquia de eventos que dispara na LP (os de checkout ficam no Shopify):
+
+| Evento LP | Meta Pixel | GA4 | Quando |
+|---|---|---|---|
+| PageView | `PageView` | `page_view` | automático no load |
+| Ver produto | `ViewContent` | `view_item` | ao abrir a LP |
+| Ir pro carrinho | `AddToCart` | `add_to_cart` | clique em qualquer CTA de compra (qty 1/2/3) |
+
+- Meta Pixel: `828186133708463`
+- GA4: `G-2JFV5TGHCV` (→ Google Ads `791-605-0839` via link GA4↔Ads; conversão purchase importada do Shopify)
+- **Não** disparamos InitiateCheckout/AddPaymentInfo/Purchase aqui — acontecem no checkout do Shopify (pixel/CAPI de lá).
