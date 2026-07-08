@@ -39,7 +39,9 @@
   "canais_oficiais": {
     "suporte_humano": "https://wa.me/553172679362",
     "whatsapp_oficial": "(31) 7267-9362",
-    "site": "botanikabrasil.com.br"
+    "site": "botanikabrasil.com.br",
+    "instagram": "@botanikabrasil",
+    "endereco": "Rua Ministro Orozimbo Nonato, 215, Nova Lima, MG"
   },
 
   "catalogo": [
@@ -99,7 +101,7 @@
     },
     {
       "nome": "Sleep Inositol",
-      "apresentacao": "Po, 19 doses",
+      "apresentacao": "150g (19 doses)",
       "preco": "R$ 119,70 a vista ou 3x de R$ 39,90 sem juros no cartao",
       "composicao": "Magnesio Taurato 350mg, Glicina 1000mg, Taurina 200mg, Inositol 2g, Melatonina 0,21mg, Triptofano 100mg",
       "porcao": "Tomar 30 a 60 minutos antes de dormir",
@@ -108,7 +110,7 @@
     },
     {
       "nome": "Creatina + Magnesio Taurato",
-      "apresentacao": "Po",
+      "apresentacao": "222g (60 porcoes)",
       "preco": "R$ 128,30 a vista ou 3x de R$ 42,76 sem juros no cartao",
       "composicao": "Creatina Monohidratada 3g + Magnesio Taurato 63mg por porcao",
       "porcao": "Tomar antes ou apos o treino",
@@ -123,6 +125,7 @@
     "devolucao": "Devolucao gratis em ate 15 dias.",
     "garantia": "Garantia de satisfacao de 30 dias.",
     "pagamento": "Cartao em ate 3x sem juros, PIX e boleto.",
+    "desconto_progressivo": "5% de desconto na compra de 2 unidades e 10% na compra de 3 unidades do mesmo produto.",
     "qualidade": "Todos os produtos sao sem adicao de acucares e sem gluten (excecao: Whey Balance, que contem lactose)."
   },
 
