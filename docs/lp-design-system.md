@@ -55,7 +55,7 @@ Alcança ~75% da sensação SEM 3D. Rápido, leve, mobile-safe.
 - Cursor magnético (Framer Motion springs).
 - **Prós:** leve, LCP bom, funciona em celular fraco. **Contra:** sem profundidade 3D real.
 
-### Tier 2 — "Híbrido 3D em momentos-chave" (React Three Fiber + GSAP) ⭐ recomendado p/ hero
+### Tier 2 — "Híbrido 3D em momentos-chave" (React Three Fiber + GSAP) ⭐ TRAVADO (decisão operador 2026-07-08)
 Adiciona `@react-three/fiber` + `@react-three/drei` + GSAP ScrollTrigger só onde vale (hero, uma seção de ingrediente 3D). Resto é Tier 1.
 - Ex: frasco do produto em 3D girando com o scroll; partículas de "ativos".
 - **Prós:** o "wow" do Peach onde importa. **Contra:** peso, precisa de modelo 3D (.glb), cuidado no mobile.
@@ -188,10 +188,17 @@ nunca trata/cura/previne). Não inventar claim.
 
 ---
 
+## 7b. Especificação do Hero Tier 2 (3D híbrido)
+
+- **Desktop:** `@react-three/fiber` + `@react-three/drei` renderiza o `.glb` do produto (frasco/pote) centralizado. Rotação lenta contínua (idle) + rotação/scale controlada pelo scroll do hero (GSAP ScrollTrigger ou Framer `useScroll`). Iluminação suave (2–3 luzes), material com leve reflexo, sombra de contato. Fundo: mesh gradient orgânico creme→verde-lima OU preto-deep dramático.
+- **Mobile / sem WebGL / reduced-motion / falha de load:** fallback automático para `<img>` ou `<video loop muted playsinline>` do produto. Nunca travar o LCP esperando o 3D.
+- **Lazy:** o canvas 3D carrega com `Suspense` + `dynamic import`; poster estático aparece antes.
+- **Peso:** `.glb` < 3MB (Draco compressão). Se render/modelo não existir ainda → usar fallback vídeo/img e plugar o 3D depois sem refazer a seção.
+
 ## 8. Próximos passos
 
-1. Definir o **Tier** (1 puro / 2 híbrido 3D no hero) — decisão do operador.
-2. Se Tier 2: precisamos de **modelo 3D (.glb)** do frasco ou renders — gerar/produzir.
+1. ~~Definir Tier~~ → **Tier 2 travado.**
+2. **Modelo 3D (.glb) ou renders** do produto do frasco — produzir/gerar (pode começar com fallback vídeo/img e plugar 3D depois).
 3. Escolher o **primeiro produto** e pegar os `variant_id` (3 variações → 3 links checkout).
 4. Rodar o fluxo padrão por produto (links → LP Lovable → pixel Meta → GA4/Ads).
 
