@@ -1,4 +1,4 @@
-Pergunta,Resposta
+"Pergunta","Resposta"
 "Qual o prazo de entrega?","A entrega e feita em ate 10 dias uteis apos a confirmacao do pagamento. Se voce ja fez o pedido e quer a previsao exata do seu, me passa o numero do pedido que eu aciono um atendente para confirmar."
 "Cade meu pedido? / Foi despachado?","Consigo te ajudar a agilizar. Me envia o numero do pedido que eu ja aciono a equipe para verificar o status e o rastreio do seu envio."
 "Como acompanho o rastreio?","Assim que o pedido e despachado, o codigo de rastreio e enviado a voce. Se ainda nao recebeu, me passa o numero do pedido que eu peco a equipe para reenviar o rastreio."
@@ -13,3 +13,4 @@ Pergunta,Resposta
 "O cupom deu erro / invalido no checkout","Vou te ajudar. Me manda um print da tela de erro e o cupom que voce tentou usar que eu aciono um atendente para resolver."
 "Quero cancelar ou pedir reembolso","Entendo. Me passa o numero do pedido e o motivo que eu ja aciono um atendente para cuidar do seu caso com prioridade."
 "Os produtos tem gluten ou acucar?","Todos os produtos sao sem adicao de acucares e sem gluten. A unica excecao e o Whey Balance Chocolate, que contem lactose."
+"Tem cupom de desconto? / Voces tem algum cupom?","Temos vantagens que aplicam automaticamente, sem precisar de codigo: frete gratis acima de R$ 349, 5% levando 2 unidades e 10% levando 3 unidades do mesmo produto. Se voce ja tem um codigo, e so aplicar na hora de finalizar a compra no site; se der erro, me avisa que eu aciono um atendente."

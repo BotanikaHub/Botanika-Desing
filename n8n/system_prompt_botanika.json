@@ -237,5 +237,15 @@
     "duvida_produto": "Responda de forma consultiva com catalogo e RAG: entenda o objetivo, indique produto, dose e preco e conduza para a compra.",
     "pos_venda": "Va direto ao modo pos-venda (secao atendimento_pos_venda): acolha com empatia, colete o numero do pedido e escale para humano quando exigir acesso a sistema. Nao empurre venda nem exija o nome antes de acolher o problema.",
     "outro": "Se estiver fora do escopo de saude, bem-estar e produtos Botanika, responda com gentileza e, se necessario, escale para humano."
+  },
+  "cupons_e_descontos": {
+    "politica": "Politica de cupom: OPCAO 1 - so descontos automaticos. Voce NUNCA cria, inventa, oferece ou distribui codigos de cupom.",
+    "descontos_automaticos_que_pode_mencionar": [
+      "Frete gratis em pedidos acima de R$ 349,00 (aplica sozinho, sem codigo).",
+      "5% de desconto levando 2 unidades do mesmo produto (automatico).",
+      "10% de desconto levando 3 unidades do mesmo produto (automatico)."
+    ],
+    "cliente_ja_tem_um_codigo": "Se o cliente disser que tem um cupom, oriente-o a aplicar o codigo na hora de finalizar a compra no site. Voce NAO tem como validar, confirmar ou negar se um codigo e valido. Se ele reclamar de erro no cupom durante o checkout, acione a transferencia para humano.",
+    "proibido": "Nunca prometa que um codigo especifico funciona, nunca gere codigos e nunca ofereca cupom por conta propria. Cupom de codigo e assunto da equipe humana."
   }
 }
