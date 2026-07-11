@@ -1,0 +1,92 @@
+{%- comment -%}
+  ============================================================
+  Comparativo "Botanika vs. outras marcas" (estilo Vhita).
+  Linhas configuráveis por bloco. ✓ Botanika · ✗ outras.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign rows = section.blocks
+-%}
+{%- if rows.size > 0 -%}
+  <div class="section pdp-cmp-wrap">
+    <div class="container">
+      {%- if st.heading != blank -%}
+        <h2 class="pdp-cmp__title">{{ st.heading }}</h2>
+      {%- endif -%}
+      <div class="pdp-cmp">
+        <div class="pdp-cmp__head">
+          <span class="pdp-cmp__feat"></span>
+          <span class="pdp-cmp__col pdp-cmp__col--us">{{ st.col_us | default: 'Botanika' }}</span>
+          <span class="pdp-cmp__col pdp-cmp__col--them">{{ st.col_them | default: 'Outras marcas' }}</span>
+        </div>
+        {%- for row in rows -%}
+          <div class="pdp-cmp__row" {{ row.shopify_attributes }}>
+            <span class="pdp-cmp__feat">{{ row.settings.feature }}</span>
+            <span class="pdp-cmp__col pdp-cmp__col--us">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-label="Sim" role="img"><circle cx="12" cy="12" r="11" fill="#e6f4ea"/><path d="M7 12.5l3 3 7-7" fill="none" stroke="#1a8f3c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="pdp-cmp__col pdp-cmp__col--them">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-label="Não" role="img"><circle cx="12" cy="12" r="11" fill="#fdeaea"/><path d="M8 8l8 8M16 8l-8 8" fill="none" stroke="#d64545" stroke-width="2.2" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- style -%}
+    .pdp-cmp-wrap { padding: 20px 0; }
+    .pdp-cmp__title { text-align: center; margin: 0 0 22px; font-size: clamp(22px, 3vw, 30px); }
+    .pdp-cmp { max-width: 760px; margin: 0 auto; border: 1px solid #ececec; border-radius: 16px; overflow: hidden; }
+    .pdp-cmp__head, .pdp-cmp__row { display: grid; grid-template-columns: 1fr 110px 110px; align-items: center; }
+    .pdp-cmp__head { background: #fafafa; font-weight: 700; }
+    .pdp-cmp__head .pdp-cmp__col, .pdp-cmp__row .pdp-cmp__col { text-align: center; }
+    .pdp-cmp__feat { padding: 14px 18px; font-size: 14.5px; }
+    .pdp-cmp__col { padding: 12px 8px; }
+    .pdp-cmp__col--us { background: {{ st.us_bg | default: '#f2f7ff' }}; font-weight: 700; color: {{ st.us_color | default: '#303890' }}; }
+    .pdp-cmp__row { border-top: 1px solid #f0f0f0; }
+    .pdp-cmp__row .pdp-cmp__col svg { vertical-align: middle; }
+    @media (max-width: 600px) {
+      .pdp-cmp__head, .pdp-cmp__row { grid-template-columns: 1fr 70px 70px; }
+      .pdp-cmp__feat { font-size: 13px; padding: 12px 12px; }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Comparativo (vs. outras marcas)",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Por que escolher a Botanika?" },
+    { "type": "text", "id": "col_us", "label": "Coluna 1 (nós)", "default": "Botanika" },
+    { "type": "text", "id": "col_them", "label": "Coluna 2 (concorrência)", "default": "Outras marcas" },
+    { "type": "color", "id": "us_bg", "label": "Fundo da coluna Botanika", "default": "#f2f7ff" },
+    { "type": "color", "id": "us_color", "label": "Cor da coluna Botanika", "default": "#303890" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Linha",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Característica", "default": "Ingredientes de alta pureza" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Comparativo (vs. outras marcas)",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Fórmula com curadoria médica" } },
+        { "type": "row", "settings": { "feature": "Ingredientes de alta pureza" } },
+        { "type": "row", "settings": { "feature": "Dosagem correta por porção" } },
+        { "type": "row", "settings": { "feature": "Sem excesso de aditivos" } },
+        { "type": "row", "settings": { "feature": "Produto notificado na ANVISA" } },
+        { "type": "row", "settings": { "feature": "Entrega para todo o Brasil" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
