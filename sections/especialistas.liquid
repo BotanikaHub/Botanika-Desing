@@ -20,7 +20,7 @@
             {%- if es.photo != blank -%}
               <div class="esp__photo">{{ es.photo | image_url: width: 500 | image_tag: loading: 'lazy', alt: es.name, class: 'esp__img' }}</div>
             {%- else -%}
-              <div class="esp__photo esp__photo--ph">{{ 'image' | placeholder_svg_tag: 'esp__img' }}</div>
+              <div class="esp__photo esp__photo--ph"></div>
             {%- endif -%}
             <div class="esp__info">
               {%- if es.name != blank -%}<h3 class="esp__name">{{ es.name }}</h3>{%- endif -%}
