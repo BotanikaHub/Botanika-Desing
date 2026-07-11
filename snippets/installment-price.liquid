@@ -7,52 +7,17 @@
 {% endcomment %}
 {%- liquid
   assign installments_free = 3
-  assign size_class = scope | default: 'item'
-
-  comment
-    Dia D — desconto visual aplicado ao preço (ver "Dia D / Promoção" nas config do tema).
-  endcomment
-  assign orig_price = price
-  assign show_promo = false
-  assign promo_on = settings.promo_price_enabled
-  assign promo_pct = settings.promo_price_percent | default: 0
-  if promo_on and promo_pct > 0 and price > 0
-    assign promo_off = price | times: promo_pct | divided_by: 100
-    assign price = price | minus: promo_off
-    assign show_promo = true
-  endif
-
   assign per_free = price | divided_by: installments_free
+  assign size_class = scope | default: 'item'
 -%}
 {%- if price and price > 0 -%}
-  <div class="installment-price installment-price--{{ size_class }}{% if show_promo %} installment-price--promo{% endif %}">
-    {%- if show_promo -%}
-      <span class="installment-price__from">de <s>{{ orig_price | money }}</s></span>
-    {%- endif -%}
+  <div class="installment-price installment-price--{{ size_class }}">
     <span class="installment-price__parc primary-color">{{ installments_free }}x de {{ per_free | money }} <span class="installment-price__tag">sem juros</span></span>
-    <span class="installment-price__cash">ou {{ price | money }} à vista{% if show_promo %} <span class="installment-price__off">-{{ promo_pct }}%</span>{% endif %}</span>
+    <span class="installment-price__cash">ou {{ price | money }} à vista</span>
   </div>
 {%- endif -%}
 
 {% stylesheet %}
-  .installment-price__from {
-    font-size: 0.8em;
-    color: var(--color-text);
-    opacity: 0.6;
-    line-height: 1.1;
-  }
-  .installment-price__from s { text-decoration: line-through; }
-  .installment-price__off {
-    font-size: 0.72em;
-    font-weight: 700;
-    background: #ffe08a;
-    color: #7a4b00;
-    border-radius: 4px;
-    padding: 1px 5px;
-    margin-left: 3px;
-    vertical-align: middle;
-    white-space: nowrap;
-  }
   .installment-price {
     display: flex;
     flex-direction: column;

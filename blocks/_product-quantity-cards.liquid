@@ -1,29 +1,16 @@
 {% liquid
   assign product = closest.product
   assign current_variant = product.selected_or_first_available_variant
+  assign unit_price = current_variant.price
   assign bs = block.settings
   assign installments = bs.installments
   assign show_currency = settings.show_currency_code
-
-  comment
-    Dia D — desconto visual aplicado ao preço-base unitário (ver config do tema).
-  endcomment
-  assign promo_on = settings.promo_price_enabled
-  assign promo_pct = settings.promo_price_percent | default: 0
-  assign diad_factor = 100
-  assign unit_price = current_variant.price
-  if promo_on and promo_pct > 0
-    assign diad_factor = 100 | minus: promo_pct
-    assign unit_off = current_variant.price | times: promo_pct | divided_by: 100
-    assign unit_price = current_variant.price | minus: unit_off
-  endif
 %}
 
 <quantity-discount-cards
   class="qty-cards"
   data-unit-price="{{ unit_price }}"
   data-installments="{{ installments }}"
-  data-diad-factor="{{ diad_factor }}"
   data-money-format="{{ shop.money_format | escape }}"
   {{ block.shopify_attributes }}
 >
@@ -558,7 +545,6 @@
     connectedCallback() {
       this.cards = this.querySelectorAll('.qty-card');
       this.installments = parseInt(this.dataset.installments) || 10;
-      this.diadFactor = parseInt(this.dataset.diadFactor) || 100;
       this.moneyFormat = this.dataset.moneyFormat || '';
       this.legendValue = this.querySelector('.qty-cards__legend-value');
 
@@ -629,12 +615,7 @@
       var update = function() {
         var id = parseInt(variantInput.value);
         var variant = productData.variants.find(function(v) { return v.id === id; });
-        if (variant) {
-          var promoUnit = self.diadFactor < 100
-            ? Math.floor(variant.price * self.diadFactor / 100)
-            : variant.price;
-          self.updatePrices(promoUnit);
-        }
+        if (variant) self.updatePrices(variant.price);
       };
 
       var observer = new MutationObserver(update);

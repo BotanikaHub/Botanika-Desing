@@ -1691,30 +1691,5 @@
         "label": "t:settings_schema.terms_conditions.settings.page_terms_conditions.label"
       }
     ]
-  },
-  {
-    "name": "🔥 Dia D / Promoção",
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "Aplica um desconto visual (%) nos preços exibidos na loja: à vista, parcelado e cards de quantidade. Usar junto com o desconto automático do checkout. Para desligar após o evento, desmarque a caixa ou coloque 0%."
-      },
-      {
-        "type": "checkbox",
-        "id": "promo_price_enabled",
-        "label": "Exibir preços com desconto do Dia D",
-        "default": true
-      },
-      {
-        "type": "range",
-        "id": "promo_price_percent",
-        "min": 0,
-        "max": 50,
-        "step": 1,
-        "unit": "%",
-        "label": "% de desconto exibido nos preços",
-        "default": 8
-      }
-    ]
   }
 ]

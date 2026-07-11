@@ -20,24 +20,6 @@
     assign special_class = 'price--special'
   endif
 
-  comment
-    Dia D — desconto visual no preço simples (não parcelado). Só quando o produto
-    ainda não está em promoção própria (compare_at <= price).
-  endcomment
-  assign promo_on = theme_st.promo_price_enabled
-  assign promo_pct = theme_st.promo_price_percent | default: 0
-  assign show_price_promo = false
-  assign promo_money = money_price
-  if promo_on and promo_pct > 0 and price > 0 and compare_at_price <= price
-    assign promo_off = price | times: promo_pct | divided_by: 100
-    assign promo_amt = price | minus: promo_off
-    assign promo_money = promo_amt | money
-    if theme_st.show_currency_code
-      assign promo_money = promo_amt | money_with_currency
-    endif
-    assign show_price_promo = true
-  endif
-
   assign show_installment = false
   if scope == 'detail' or scope == 'item'
     assign show_installment = true
@@ -99,17 +81,6 @@
           {{ compare_at_price | money }}
         {%- endif -%}
       </s>
-    </div>
-  {%- elsif show_price_promo -%}
-    <div class="price-regular primary-color">
-      <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-      <span class="price price-same-style heading-style price--special">
-        {{ promo_money }}
-      </span>
-    </div>
-    <div class="price-regular">
-      <span class="visually-hidden">{{- 'products.product.price.regular_price' | t -}}</span>
-      <s class="price-item compare-price dark-grey">{{ money_price }}</s>
     </div>
   {%- else -%}
     <div class="price-regular">
