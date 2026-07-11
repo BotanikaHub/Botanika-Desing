@@ -1,0 +1,97 @@
+{%- comment -%}
+  ============================================================
+  Barra superior de confiança (marquee) — estilo AlwaysFit.
+  Mensagens rotativas de prova social/confiança no topo do site.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign items = section.blocks
+-%}
+{%- if items.size > 0 -%}
+  <div
+    class="ttb{% if st.hide_mobile %} ttb--desk-only{% endif %}"
+    style="--ttb-bg:{{ st.bg_color }};--ttb-text:{{ st.text_color }};--ttb-speed:{{ st.speed }}s;--ttb-gap:{{ st.gap }}px;"
+  >
+    <div class="ttb__viewport">
+      <div class="ttb__track">
+        {%- for pass in (1..2) -%}
+          <div class="ttb__group" {% if pass == 2 %}aria-hidden="true"{% endif %}>
+            {%- for block in items -%}
+              <span class="ttb__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}<span class="ttb__icon">{{ block.settings.icon }}</span>{%- endif -%}
+                <span class="ttb__text">{{ block.settings.text }}</span>
+              </span>
+              <span class="ttb__sep" aria-hidden="true">{{ st.separator }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- style -%}
+    .ttb {
+      background: var(--ttb-bg);
+      color: var(--ttb-text);
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .ttb__viewport { overflow: hidden; }
+    .ttb__track { display: flex; width: max-content; animation: ttb-scroll var(--ttb-speed) linear infinite; }
+    .ttb:hover .ttb__track { animation-play-state: paused; }
+    .ttb__group { display: flex; align-items: center; padding: 9px 0; }
+    .ttb__item { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; padding-inline: calc(var(--ttb-gap) / 2); }
+    .ttb__icon { font-size: 15px; line-height: 1; }
+    .ttb__sep { opacity: .55; }
+    @keyframes ttb-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 749px) {
+      .ttb { font-size: 12px; }
+      .ttb--desk-only { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ttb__track { animation: none; }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Barra de confiança (topo)",
+  "class": "section-top-trust-bar",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "range", "id": "speed", "min": 15, "max": 80, "step": 5, "unit": "s", "label": "Velocidade (quanto maior, mais lento)", "default": 40 },
+    { "type": "range", "id": "gap", "min": 20, "max": 120, "step": 5, "unit": "px", "label": "Espaço entre mensagens", "default": 60 },
+    { "type": "text", "id": "separator", "label": "Separador entre mensagens", "default": "•" },
+    { "type": "color", "id": "bg_color", "label": "Cor de fundo", "default": "#2E9E4F" },
+    { "type": "color", "id": "text_color", "label": "Cor do texto", "default": "#ffffff" },
+    { "type": "checkbox", "id": "hide_mobile", "label": "Ocultar no mobile", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Mensagem",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Ícone (emoji)", "default": "🚚" },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Entregamos para todo o Brasil" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Barra de confiança (topo)",
+      "blocks": [
+        { "type": "trust_item", "settings": { "icon": "📦", "text": "+50.000 pedidos entregues" } },
+        { "type": "trust_item", "settings": { "icon": "⭐", "text": "97% de clientes satisfeitos" } },
+        { "type": "trust_item", "settings": { "icon": "🚚", "text": "Frete grátis acima de R$349" } },
+        { "type": "trust_item", "settings": { "icon": "🔒", "text": "Compra 100% segura" } },
+        { "type": "trust_item", "settings": { "icon": "🌿", "text": "Suplementos com certificação ANVISA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

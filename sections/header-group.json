@@ -198,9 +198,65 @@
         "padding_top": 10,
         "padding_bottom": 10
       }
+    },
+    "trust_bar": {
+      "type": "top-trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "📦",
+            "text": "+50.000 pedidos entregues"
+          }
+        },
+        "t2": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "⭐",
+            "text": "97% de clientes satisfeitos"
+          }
+        },
+        "t3": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "text": "Frete grátis acima de R$349"
+          }
+        },
+        "t4": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🔒",
+            "text": "Compra 100% segura"
+          }
+        },
+        "t5": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🌿",
+            "text": "Suplementos com certificação ANVISA"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
+      "settings": {
+        "speed": 40,
+        "gap": 60,
+        "separator": "•",
+        "bg_color": "#2E9E4F",
+        "text_color": "#ffffff",
+        "hide_mobile": false
+      }
     }
   },
   "order": [
+    "trust_bar",
     "top_bar_CbXNYj",
     "header"
   ]
