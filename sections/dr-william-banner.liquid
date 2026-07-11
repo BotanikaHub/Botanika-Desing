@@ -1,0 +1,35 @@
+{%- comment -%}
+  ============================================================
+  Banner Curadoria — Dr. William Araujo (home).
+  Imagem fixa nos assets do tema (desktop + mobile), sem
+  configurações de schema para máxima compatibilidade.
+  Trocar a imagem = substituir os arquivos em assets:
+    dr-william-desktop.png / dr-william-mobile.png
+  ============================================================
+{%- endcomment -%}
+<div class="drw-banner">
+  <picture>
+    <source media="(max-width: 749px)" srcset="{{ 'dr-william-mobile.png' | asset_url }}">
+    <img
+      class="drw-banner__img"
+      src="{{ 'dr-william-desktop.png' | asset_url }}"
+      alt="Curadoria do Dr. William Araujo — Suplementação com assinatura médica"
+      loading="lazy"
+      decoding="async">
+  </picture>
+</div>
+
+{% stylesheet %}
+  .drw-banner { width: 100%; line-height: 0; }
+  .drw-banner__img { display: block; width: 100%; height: auto; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Banner Dr. William",
+  "settings": [],
+  "presets": [
+    { "name": "Banner Dr. William" }
+  ]
+}
+{% endschema %}
