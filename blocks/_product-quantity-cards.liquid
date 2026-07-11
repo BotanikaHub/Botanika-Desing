@@ -14,6 +14,13 @@
   data-money-format="{{ shop.money_format | escape }}"
   {{ block.shopify_attributes }}
 >
+  {%- if bs.sp_enabled -%}
+    <div class="qty-cards__socialproof">
+      <span class="qty-cards__stars" aria-hidden="true">★★★★★</span>
+      {%- if bs.sp_rating != blank -%}<span class="qty-cards__rating">{{ bs.sp_rating }}</span>{%- endif -%}
+      {%- if bs.sp_text != blank -%}<span class="qty-cards__sp-text">{{ bs.sp_text }}</span>{%- endif -%}
+    </div>
+  {%- endif -%}
   <fieldset class="qty-cards__fieldset">
     <legend class="qty-cards__legend">
       <span class="qty-cards__legend-label">{{ bs.legend_label }}</span>
@@ -98,6 +105,7 @@
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t1_total | money_with_currency }}{%- else -%}{{ t1_total | money }}{%- endif -%}
               </s>
+              <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t1_disc_amt | money_with_currency }}{% else %}{{ t1_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
           {%- if bs.tier1_message != blank -%}
@@ -182,6 +190,7 @@
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t2_total | money_with_currency }}{%- else -%}{{ t2_total | money }}{%- endif -%}
               </s>
+              <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t2_disc_amt | money_with_currency }}{% else %}{{ t2_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
           {%- if bs.tier2_message != blank -%}
@@ -266,6 +275,7 @@
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t3_total | money_with_currency }}{%- else -%}{{ t3_total | money }}{%- endif -%}
               </s>
+              <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t3_disc_amt | money_with_currency }}{% else %}{{ t3_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
           {%- if bs.tier3_message != blank -%}
@@ -287,6 +297,30 @@
 {% endstyle %}
 
 {% stylesheet %}
+  .qty-cards__socialproof {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: var(--color-text);
+  }
+  .qty-cards__stars {
+    color: #f5a623;
+    letter-spacing: 1px;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .qty-cards__rating { font-weight: 700; }
+  .qty-cards__sp-text { opacity: .8; }
+  .qty-card__save {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1a8f3c;
+  }
   .qty-cards__fieldset {
     border: 0;
     padding: 0;
@@ -637,10 +671,12 @@
         var installmentEl = card.querySelector('[data-installment]');
         var totalEl = card.querySelector('[data-total]');
         var compareEl = card.querySelector('[data-compare]');
+        var saveEl = card.querySelector('[data-save]');
 
         if (installmentEl) installmentEl.textContent = self.formatMoney(perInstallment);
         if (totalEl) totalEl.textContent = self.formatMoney(finalPrice);
         if (compareEl) compareEl.textContent = self.formatMoney(total);
+        if (saveEl) saveEl.textContent = 'Você ganha ' + self.formatMoney(discountAmt);
       });
     }
 
@@ -667,6 +703,28 @@
   "name": "Quantity discount cards",
   "tag": null,
   "settings": [
+    {
+      "type": "header",
+      "content": "Prova social (acima dos planos)"
+    },
+    {
+      "type": "checkbox",
+      "id": "sp_enabled",
+      "label": "Mostrar avaliação/prova social acima dos planos",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sp_rating",
+      "label": "Nota (ex: 4.9)",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "sp_text",
+      "label": "Texto de prova social",
+      "default": "+14 mil clientes recompraram"
+    },
     {
       "type": "header",
       "content": "General"
