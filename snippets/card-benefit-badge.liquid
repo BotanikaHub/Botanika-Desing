@@ -1,0 +1,62 @@
+{%- comment -%}
+  Balãozinho de BENEFÍCIO no card do produto (emoji + texto).
+  Prioridade: metafield custom.card_badge -> mapa por handle (abaixo).
+  Uso: {% render 'card-benefit-badge', card_product: card_product %}
+{%- endcomment -%}
+{%- liquid
+  assign badge = card_product.metafields.custom.card_badge
+  if badge == blank
+    case card_product.handle
+      when 'tri-mg-complex'
+        assign badge = '💤 Sono e relaxamento'
+      when 'sleep-inositol'
+        assign badge = '😴 Noites tranquilas'
+      when 'tetravit-d'
+        assign badge = '☀️ Imunidade e ossos'
+      when 'super-omega-3-coq10'
+        assign badge = '❤️ Saúde do coração'
+      when 'super-vitamina-c'
+        assign badge = '🛡️ Reforça a imunidade'
+      when 'creatina-l-carnitina'
+        assign badge = '💪 Energia e força'
+      when 'hair-botanika'
+        assign badge = '💇 Cabelo, unhas e pele'
+      when 'whey-balance-chocolate'
+        assign badge = '🥤 Proteína e colágeno'
+    endcase
+  endif
+-%}
+{%- if badge != blank -%}
+  {%- capture _cbb_i -%}{% increment card_benefit_badge_css %}{%- endcapture -%}
+  {%- if _cbb_i == '0' -%}
+    <style>
+      .card-benefit-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        max-width: calc(100% - 20px);
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: linear-gradient(100deg, #303890 0%, #1f2670 100%);
+        color: #fff;
+        font-size: 11.5px;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: 0.01em;
+        box-shadow: 0 2px 8px rgba(31, 38, 112, 0.28);
+        pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @media (max-width: 575px) {
+        .card-benefit-badge { top: 8px; left: 8px; font-size: 10.5px; padding: 4px 8px; }
+      }
+    </style>
+  {%- endif -%}
+  <span class="card-benefit-badge">{{ badge }}</span>
+{%- endif -%}

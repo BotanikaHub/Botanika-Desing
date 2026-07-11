@@ -84,6 +84,7 @@
     >
       {% comment %} Product inner media {% endcomment %}
       <div class="product-item__inner hover-effect overflow-hidden relative{% if type == 'list' or type == 'sticky' %} col-w-custom{% endif %}{% if template_layout_horizontal %} product-item__inner-horizontal{% endif %}">
+        {% render 'card-benefit-badge', card_product: card_product %}
         {% assign product_media = card_product.featured_media %}
         {% comment %} Case product has image {% endcomment %}
         {%- if product_media -%}
