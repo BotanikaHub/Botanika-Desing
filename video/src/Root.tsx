@@ -2,12 +2,32 @@ import "./index.css";
 import { Composition } from "remotion";
 import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
+import { BotanikaReel, botanikaReelSchema } from "./Botanika/BotanikaReel";
+import { BRAND, REEL } from "./Botanika/constants";
 
 // Each <Composition> is an entry in the sidebar!
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Botanika — vertical Reel/TikTok promo (9:16).
+          Render: npx remotion render BotanikaReel */}
+      <Composition
+        id="BotanikaReel"
+        component={BotanikaReel}
+        durationInFrames={REEL.durationInFrames}
+        fps={REEL.fps}
+        width={REEL.width}
+        height={REEL.height}
+        schema={botanikaReelSchema}
+        defaultProps={{
+          brandName: "Botanika",
+          tagline: "Beleza que vem da natureza",
+          url: "botanikabrasil.com.br",
+          green: BRAND.green,
+          indigo: BRAND.indigo,
+        }}
+      />
       <Composition
         // You can take the "id" to render a video:
         // npx remotion render HelloWorld
