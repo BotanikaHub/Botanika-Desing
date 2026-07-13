@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* ===== Paleta da marca Botanika (ajuste aqui para as cores oficiais) ===== */
+:root {
+  --background: #f7f8f5;
+  --surface: #ffffff;
+  --foreground: #1c2419;
+  --muted: #6b7466;
+  --border: #e3e7dd;
+
+  --brand: #2f6b3f; /* verde Botanika */
+  --brand-dark: #234f2f;
+  --brand-soft: #e7f0e8;
+  --brand-contrast: #ffffff;
+
+  --accent: #c9a24b; /* dourado suave */
+  --danger: #c0392b;
+  --success: #2e7d32;
+  --warning: #b8860b;
+
+  --radius: 14px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Componentes utilitários ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-contrast);
+}
+.btn-primary:hover {
+  background: var(--brand-dark);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.btn-outline:hover {
+  background: var(--brand-soft);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.btn-ghost:hover {
+  background: var(--brand-soft);
+}
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-danger:hover {
+  background: #fbe9e7;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+.label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--foreground);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.badge-pending {
+  background: #fff4e0;
+  color: var(--warning);
+}
+.badge-approved {
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+}
+.badge-rejected {
+  background: #fbe9e7;
+  color: var(--danger);
+}

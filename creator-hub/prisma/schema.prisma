@@ -1,0 +1,80 @@
+// Botanika Creator Hub — schema do banco de dados
+// Em produção troque provider para "postgresql" e ajuste DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum CreatorStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Um Creator é ao mesmo tempo o cadastro (application) e o afiliado aprovado.
+// O campo `status` controla em que etapa do fluxo ele está.
+model Creator {
+  id        String        @id @default(cuid())
+  status    CreatorStatus @default(PENDING)
+
+  // Dados de acesso
+  email        String  @unique
+  passwordHash String
+  name         String
+
+  // Dados do formulário de cadastro
+  phone         String?
+  instagram     String?
+  tiktok        String?
+  followers     Int?
+  niche         String?
+  city          String?
+  pitch         String? // "por que quer ser afiliado"
+
+  // Preferência de cupom pedida no cadastro
+  desiredCoupon String?
+
+  // Atribuídos na aprovação
+  couponCode     String? @unique // ex.: JOINGLE — cupom real criado na Shopify
+  commissionRate Float   @default(0.10) // 10%
+
+  // Referência ao objeto de desconto criado na Shopify (para gerenciar/excluir)
+  shopifyPriceRuleId String?
+  shopifyDiscountId  String?
+
+  rejectionReason String?
+
+  clicks Click[]
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  approvedAt DateTime?
+}
+
+// Painel administrativo (você e sua equipe)
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+// Registro de cliques nos links de afiliado (para métricas de cliques)
+model Click {
+  id        String   @id @default(cuid())
+  creator   Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId String
+  ip        String?
+  userAgent String?
+  referrer  String?
+  landing   String? // caminho de destino na loja
+  createdAt DateTime @default(now())
+
+  @@index([creatorId])
+}
