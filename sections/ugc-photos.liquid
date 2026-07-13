@@ -1,0 +1,89 @@
+{%- comment -%}
+  ============================================================
+  Galeria estilo UGC — fotos de clientes / estilo de vida.
+  Carrossel de cards (rola na horizontal no mobile, 4 por
+  linha no desktop). Cada card = 1 foto (+ nome/legenda opc).
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign items = section.blocks
+-%}
+{%- if items.size > 0 -%}
+  <div class="section ugc-wrap color-{{ st.color_scheme }} gradient">
+    <div class="container">
+      {%- if st.heading != blank -%}<h2 class="ugc__title">{{ st.heading }}</h2>{%- endif -%}
+      {%- if st.subheading != blank -%}<p class="ugc__sub">{{ st.subheading }}</p>{%- endif -%}
+      <div class="ugc__row">
+        {%- for b in items -%}
+          {%- assign bs = b.settings -%}
+          <div class="ugc__card" {{ b.shopify_attributes }}>
+            <div class="ugc__media">
+              {%- if bs.photo != blank -%}
+                {{ bs.photo | image_url: width: 800 | image_tag: loading: 'lazy', class: 'ugc__img', alt: bs.name | default: 'Botanika' }}
+              {%- else -%}
+                <div class="ugc__ph"></div>
+              {%- endif -%}
+            </div>
+            {%- if bs.name != blank or bs.caption != blank -%}
+              <div class="ugc__info">
+                {%- if bs.name != blank -%}<span class="ugc__name">{{ bs.name }}</span>{%- endif -%}
+                {%- if bs.caption != blank -%}<span class="ugc__caption">{{ bs.caption }}</span>{%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- style -%}
+    .ugc-wrap { padding: 48px 0; }
+    .ugc__title { text-align: center; margin: 0 0 8px; font-size: clamp(26px, 3.4vw, 38px); }
+    .ugc__sub { text-align: center; opacity: .8; margin: 0 auto 30px; max-width: 640px; }
+    .ugc__row { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 16px; -webkit-overflow-scrolling: touch; }
+    .ugc__row::-webkit-scrollbar { height: 6px; }
+    .ugc__row::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 999px; }
+    .ugc__card { flex: 0 0 auto; width: min(78vw, 290px); scroll-snap-align: start; }
+    .ugc__media { aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden; background: #eef0f5; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+    .ugc__img, .ugc__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ugc__ph { background: linear-gradient(135deg, #e8ebf3, #dfe3ee); }
+    .ugc__info { padding: 12px 4px 0; text-align: center; }
+    .ugc__name { display: block; font-weight: 700; font-size: 15px; }
+    .ugc__caption { display: block; font-size: 13px; opacity: .75; margin-top: 2px; }
+    @media (min-width: 1000px) {
+      .ugc__card { width: calc((100% - 3 * 18px) / 4); }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Galeria Botanika",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "default" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "A Botanika na sua rotina" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Faça da Botanika parte do seu dia a dia." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Foto",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Foto (cliente / estilo de vida)" },
+        { "type": "text", "id": "name", "label": "Nome (opcional)" },
+        { "type": "text", "id": "caption", "label": "Legenda (opcional)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Galeria Botanika",
+      "blocks": [
+        { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
