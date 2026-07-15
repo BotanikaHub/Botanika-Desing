@@ -32,6 +32,20 @@ export const product = {
     cta: 'Quero acordar descansado',
   },
   urgency: 'SÓ HOJE — 8% OFF em todo o site',
+  // Elementos de conversão (CRO) — junto ao botão de compra.
+  cro: {
+    rating: { stars: 4.9, count: 2137 }, // TODO: puxar número real do Judge.me
+    selos: ['Registro conforme ANVISA', 'Testado em laboratório', 'Compra 100% segura'],
+    garantia: 'Satisfação garantida ou seu dinheiro de volta em 7 dias',
+    escassez: 'Últimas unidades deste lote com 8% OFF',
+    estoqueBase: 37, // nº exibido no medidor de escassez (ajustável)
+    pagamento: 'Pix ou até 12x no cartão',
+    // Frete: regra simples e honesta (sem prometer valor que o checkout não dá).
+    frete: {
+      gratisAcima: 199, // R$; abaixo disso, calcula no checkout
+      prazo: '3 a 7 dias úteis',
+    },
+  },
   paraVoce: {
     eyebrow: 'Isso é pra você que...',
     items: [

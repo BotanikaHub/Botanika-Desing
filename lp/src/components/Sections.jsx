@@ -4,6 +4,7 @@ import { RevealLines, Eyebrow, MagneticButton, CountUp, Section } from './ui'
 import { fadeUp, scaleIn, stagger, viewport, EASE } from '../lib/motion'
 import Hero3D from './Hero3D'
 import { trackAddToCart } from '../lib/tracking'
+import { StarRating, TrustBadges, GuaranteeLine, ScarcityMeter, CepFrete } from './Cro'
 import { product } from '../data/magnesio'
 
 const BRL = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -318,7 +319,16 @@ export function Pricing() {
           lines={[d.title]}
           className="font-display mt-4 text-[clamp(2rem,4.5vw,3.6rem)] font-semibold"
         />
-        <div className="mt-14 grid items-center gap-6 md:grid-cols-3">
+        <div className="mt-5">
+          <StarRating dark />
+        </div>
+
+        {/* Escassez logo acima dos planos */}
+        <div className="mx-auto mt-10 max-w-md">
+          <ScarcityMeter dark />
+        </div>
+
+        <div className="mt-8 grid items-center gap-6 md:grid-cols-3">
           {d.plans.map((p, i) => (
             <motion.div
               key={i}
@@ -351,8 +361,22 @@ export function Pricing() {
               >
                 Comprar
               </MagneticButton>
+              {/* Garantia explícita junto ao botão (gatilho de confiança) */}
+              <div className="mt-4">
+                <GuaranteeLine dark={!p.best} />
+              </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Selos de confiança (Anvisa etc.) + pagamento, logo abaixo dos botões */}
+        <div className="mt-10">
+          <TrustBadges dark />
+        </div>
+
+        {/* Calculadora de frete por CEP */}
+        <div className="mx-auto mt-10 max-w-xl">
+          <CepFrete dark />
         </div>
       </div>
     </Section>
