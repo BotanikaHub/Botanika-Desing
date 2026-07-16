@@ -1,0 +1,202 @@
+{%- comment -%}
+  ============================================================
+  Calculadora de frete NATIVA (sem app externo).
+  Mostra frete + prazo por CEP usando uma tabela por regiao
+  (1o digito do CEP = macro-regiao dos Correios). O lojista
+  edita preco e prazo de cada regiao no editor.
+  Nao recarrega a pagina (botao type=button + preventDefault).
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+-%}
+{%- if bs.enable_calc -%}
+  <div class="frete-calc mb-25" data-frete-calc {{ block.shopify_attributes }}>
+    {%- if bs.title != blank -%}<div class="frete-calc__title">{{ bs.title }}</div>{%- endif -%}
+    {%- if bs.subtitle != blank -%}<div class="frete-calc__sub">{{ bs.subtitle }}</div>{%- endif -%}
+    <div class="frete-calc__row">
+      <input
+        type="text"
+        inputmode="numeric"
+        class="frete-calc__input"
+        data-frete-input
+        placeholder="{{ bs.placeholder | default: '00000-000' }}"
+        maxlength="9"
+        aria-label="CEP"
+      >
+      <button type="button" class="frete-calc__btn" data-frete-btn>{{ bs.button_text | default: 'Calcular' }}</button>
+    </div>
+    {%- if bs.cep_link != blank -%}
+      <a class="frete-calc__nocep" href="{{ bs.cep_link }}" target="_blank" rel="noopener">Não sei meu CEP</a>
+    {%- endif -%}
+    <div class="frete-calc__result" data-frete-result hidden></div>
+    {%- if bs.footnote != blank -%}<div class="frete-calc__note">{{ bs.footnote }}</div>{%- endif -%}
+
+    <script type="application/json" data-frete-rates>
+      {
+        "0": { "p": {{ bs.p0_price | json }}, "d": {{ bs.p0_days | json }}, "l": {{ bs.p0_label | json }} },
+        "1": { "p": {{ bs.p1_price | json }}, "d": {{ bs.p1_days | json }}, "l": {{ bs.p1_label | json }} },
+        "2": { "p": {{ bs.p2_price | json }}, "d": {{ bs.p2_days | json }}, "l": {{ bs.p2_label | json }} },
+        "3": { "p": {{ bs.p3_price | json }}, "d": {{ bs.p3_days | json }}, "l": {{ bs.p3_label | json }} },
+        "4": { "p": {{ bs.p4_price | json }}, "d": {{ bs.p4_days | json }}, "l": {{ bs.p4_label | json }} },
+        "5": { "p": {{ bs.p5_price | json }}, "d": {{ bs.p5_days | json }}, "l": {{ bs.p5_label | json }} },
+        "6": { "p": {{ bs.p6_price | json }}, "d": {{ bs.p6_days | json }}, "l": {{ bs.p6_label | json }} },
+        "7": { "p": {{ bs.p7_price | json }}, "d": {{ bs.p7_days | json }}, "l": {{ bs.p7_label | json }} },
+        "8": { "p": {{ bs.p8_price | json }}, "d": {{ bs.p8_days | json }}, "l": {{ bs.p8_label | json }} },
+        "9": { "p": {{ bs.p9_price | json }}, "d": {{ bs.p9_days | json }}, "l": {{ bs.p9_label | json }} }
+      }
+    </script>
+    <span data-frete-invalid hidden>{{ bs.msg_invalid | default: 'Digite um CEP válido (8 dígitos).' }}</span>
+    <span data-frete-none hidden>{{ bs.msg_none | default: 'Não encontramos frete para este CEP.' }}</span>
+  </div>
+
+  {%- style -%}
+    .frete-calc { border: 1px solid #ececec; border-radius: 14px; padding: 16px; background: #fcfcfd; max-width: 480px; }
+    .frete-calc__title { font-weight: 700; font-size: 15px; color: #1e1e1e; }
+    .frete-calc__sub { font-size: 12.5px; opacity: .7; margin-top: 2px; }
+    .frete-calc__row { display: flex; gap: 8px; margin-top: 12px; }
+    .frete-calc__input { flex: 1 1 auto; min-width: 0; height: 44px; padding: 0 14px; border: 1px solid #d9d9de; border-radius: 10px; font-size: 15px; background: #fff; }
+    .frete-calc__input:focus { outline: none; border-color: #303890; }
+    .frete-calc__btn { flex: 0 0 auto; height: 44px; padding: 0 20px; border: 0; border-radius: 10px; background: #1e1e1e; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .frete-calc__btn:disabled { opacity: .6; cursor: default; }
+    .frete-calc__nocep { display: inline-block; margin-top: 8px; font-size: 12px; color: #303890; text-decoration: underline; }
+    .frete-calc__result { margin-top: 12px; font-size: 14px; }
+    .frete-calc__result[hidden] { display: none; }
+    .frete-calc__opt { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #f0f0f0; }
+    .frete-calc__opt:first-child { border-top: 0; }
+    .frete-calc__opt-l { display: flex; flex-direction: column; }
+    .frete-calc__opt-name { font-weight: 700; color: #1e1e1e; }
+    .frete-calc__opt-days { font-size: 12.5px; opacity: .72; }
+    .frete-calc__opt-price { font-weight: 700; color: #1a8f3c; white-space: nowrap; }
+    .frete-calc__err { color: #d64545; font-size: 13px; margin-top: 10px; }
+    .frete-calc__note { font-size: 11.5px; opacity: .6; margin-top: 10px; }
+  {%- endstyle -%}
+
+  <script>
+    (function () {
+      var boxes = document.querySelectorAll('[data-frete-calc]');
+      boxes.forEach(function (box) {
+        if (box.dataset.freteReady) return;
+        box.dataset.freteReady = '1';
+        var input = box.querySelector('[data-frete-input]');
+        var btn = box.querySelector('[data-frete-btn]');
+        var out = box.querySelector('[data-frete-result]');
+        var rates = {};
+        try { rates = JSON.parse(box.querySelector('[data-frete-rates]').textContent); } catch (e) {}
+        var msgInvalid = box.querySelector('[data-frete-invalid]').textContent.trim();
+        var msgNone = box.querySelector('[data-frete-none]').textContent.trim();
+
+        function mask(v) {
+          v = v.replace(/\D/g, '').slice(0, 8);
+          if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5);
+          return v;
+        }
+        input.addEventListener('input', function () {
+          var pos = input.value;
+          input.value = mask(input.value);
+          if (out) { out.hidden = true; }
+        });
+
+        function calc() {
+          var digits = (input.value || '').replace(/\D/g, '');
+          out.hidden = false;
+          if (digits.length !== 8) {
+            out.innerHTML = '<div class="frete-calc__err">' + msgInvalid + '</div>';
+            return;
+          }
+          var r = rates[digits.charAt(0)];
+          if (!r || (!r.p && !r.d)) {
+            out.innerHTML = '<div class="frete-calc__err">' + msgNone + '</div>';
+            return;
+          }
+          var price = (r.p || '').toString().trim();
+          var days = (r.d || '').toString().trim();
+          var label = (r.l || '').toString().trim() || 'Entrega';
+          var priceHtml = price ? '<span class="frete-calc__opt-price">' + price + '</span>' : '';
+          out.innerHTML =
+            '<div class="frete-calc__opt">' +
+              '<span class="frete-calc__opt-l">' +
+                '<span class="frete-calc__opt-name">' + label + '</span>' +
+                (days ? '<span class="frete-calc__opt-days">' + days + '</span>' : '') +
+              '</span>' +
+              priceHtml +
+            '</div>';
+        }
+        btn.addEventListener('click', function (e) { e.preventDefault(); calc(); });
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); calc(); }
+        });
+      });
+    })();
+  </script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Calcular frete (nativo)",
+  "tag": null,
+  "settings": [
+    { "type": "checkbox", "id": "enable_calc", "label": "Ativar calculadora", "default": true },
+    { "type": "text", "id": "title", "label": "Título", "default": "Calcule o frete e o prazo" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Digite seu CEP para ver o valor e o prazo de entrega" },
+    { "type": "text", "id": "placeholder", "label": "Placeholder do CEP", "default": "00000-000" },
+    { "type": "text", "id": "button_text", "label": "Texto do botão", "default": "Calcular" },
+    { "type": "url", "id": "cep_link", "label": "Link \"Não sei meu CEP\" (opcional)" },
+    { "type": "textarea", "id": "footnote", "label": "Observação (rodapé)", "default": "Valores estimados. O frete final é confirmado no checkout." },
+    { "type": "text", "id": "msg_invalid", "label": "Msg CEP inválido", "default": "Digite um CEP válido (8 dígitos)." },
+    { "type": "text", "id": "msg_none", "label": "Msg sem frete", "default": "Não encontramos frete para este CEP." },
+
+    { "type": "header", "content": "Região 0 — CEP 0xxxx" },
+    { "type": "text", "id": "p0_label", "label": "Rótulo", "default": "SP – Grande São Paulo" },
+    { "type": "text", "id": "p0_price", "label": "Valor do frete", "default": "R$ 19,90" },
+    { "type": "text", "id": "p0_days", "label": "Prazo", "default": "2 a 4 dias úteis" },
+
+    { "type": "header", "content": "Região 1 — CEP 1xxxx" },
+    { "type": "text", "id": "p1_label", "label": "Rótulo", "default": "SP – Interior e Litoral" },
+    { "type": "text", "id": "p1_price", "label": "Valor do frete", "default": "R$ 22,90" },
+    { "type": "text", "id": "p1_days", "label": "Prazo", "default": "3 a 6 dias úteis" },
+
+    { "type": "header", "content": "Região 2 — CEP 2xxxx" },
+    { "type": "text", "id": "p2_label", "label": "Rótulo", "default": "RJ e ES" },
+    { "type": "text", "id": "p2_price", "label": "Valor do frete", "default": "R$ 24,90" },
+    { "type": "text", "id": "p2_days", "label": "Prazo", "default": "3 a 6 dias úteis" },
+
+    { "type": "header", "content": "Região 3 — CEP 3xxxx" },
+    { "type": "text", "id": "p3_label", "label": "Rótulo", "default": "Minas Gerais" },
+    { "type": "text", "id": "p3_price", "label": "Valor do frete", "default": "R$ 24,90" },
+    { "type": "text", "id": "p3_days", "label": "Prazo", "default": "3 a 6 dias úteis" },
+
+    { "type": "header", "content": "Região 4 — CEP 4xxxx" },
+    { "type": "text", "id": "p4_label", "label": "Rótulo", "default": "Bahia e Sergipe" },
+    { "type": "text", "id": "p4_price", "label": "Valor do frete", "default": "R$ 29,90" },
+    { "type": "text", "id": "p4_days", "label": "Prazo", "default": "5 a 9 dias úteis" },
+
+    { "type": "header", "content": "Região 5 — CEP 5xxxx" },
+    { "type": "text", "id": "p5_label", "label": "Rótulo", "default": "PE, AL, PB e RN" },
+    { "type": "text", "id": "p5_price", "label": "Valor do frete", "default": "R$ 32,90" },
+    { "type": "text", "id": "p5_days", "label": "Prazo", "default": "6 a 10 dias úteis" },
+
+    { "type": "header", "content": "Região 6 — CEP 6xxxx" },
+    { "type": "text", "id": "p6_label", "label": "Rótulo", "default": "CE, PI, MA e Região Norte" },
+    { "type": "text", "id": "p6_price", "label": "Valor do frete", "default": "R$ 39,90" },
+    { "type": "text", "id": "p6_days", "label": "Prazo", "default": "8 a 14 dias úteis" },
+
+    { "type": "header", "content": "Região 7 — CEP 7xxxx" },
+    { "type": "text", "id": "p7_label", "label": "Rótulo", "default": "DF, GO, TO, MT, MS e RO" },
+    { "type": "text", "id": "p7_price", "label": "Valor do frete", "default": "R$ 34,90" },
+    { "type": "text", "id": "p7_days", "label": "Prazo", "default": "6 a 11 dias úteis" },
+
+    { "type": "header", "content": "Região 8 — CEP 8xxxx" },
+    { "type": "text", "id": "p8_label", "label": "Rótulo", "default": "Paraná e Santa Catarina" },
+    { "type": "text", "id": "p8_price", "label": "Valor do frete", "default": "R$ 24,90" },
+    { "type": "text", "id": "p8_days", "label": "Prazo", "default": "4 a 7 dias úteis" },
+
+    { "type": "header", "content": "Região 9 — CEP 9xxxx" },
+    { "type": "text", "id": "p9_label", "label": "Rótulo", "default": "Rio Grande do Sul" },
+    { "type": "text", "id": "p9_price", "label": "Valor do frete", "default": "R$ 27,90" },
+    { "type": "text", "id": "p9_days", "label": "Prazo", "default": "5 a 8 dias úteis" }
+  ],
+  "presets": [
+    { "name": "Calcular frete (nativo)" }
+  ]
+}
+{% endschema %}
