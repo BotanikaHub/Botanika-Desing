@@ -1,0 +1,151 @@
+{%- comment -%}
+  ============================================================
+  Gatilhos de confiança (PDP) — logo abaixo do botão de compra.
+  - Selo "Produto Notificado na ANVISA"
+  - Garantia explícita (satisfação / dinheiro de volta)
+  - Linha de segurança / pagamento (opcional)
+  Cada linha pode ser ligada/desligada e editada no editor.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign show = false
+  if bs.show_anvisa or bs.show_guarantee or bs.show_secure
+    assign show = true
+  endif
+-%}
+{%- if show -%}
+  <div class="pdp-tt mb-25" {{ block.shopify_attributes }}>
+    {%- if bs.show_anvisa -%}
+      <div class="pdp-tt__row">
+        <span class="pdp-tt__ic">
+          <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="ANVISA">
+            <path d="M12 2l7 3v6c0 4.4-2.9 8.3-7 9.5C7.9 19.3 5 15.4 5 11V5l7-3z" fill="#e8f3ec" stroke="#1a8f3c" stroke-width="1.4"/>
+            <path d="M8.4 12.2l2.4 2.4 4.8-4.8" fill="none" stroke="#1a8f3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="pdp-tt__tx">
+          <strong class="pdp-tt__ttl">{{ bs.anvisa_title }}</strong>
+          {%- if bs.anvisa_sub != blank -%}<span class="pdp-tt__sub">{{ bs.anvisa_sub }}</span>{%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+    {%- if bs.show_guarantee -%}
+      <div class="pdp-tt__row">
+        <span class="pdp-tt__ic">
+          <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Garantia">
+            <path d="M12 2l7 3v6c0 4.4-2.9 8.3-7 9.5C7.9 19.3 5 15.4 5 11V5l7-3z" fill="#eef2ff" stroke="#303890" stroke-width="1.4"/>
+            <path d="M12 7.2v4.2l2.8 1.7" fill="none" stroke="#303890" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="pdp-tt__tx">
+          <strong class="pdp-tt__ttl">{{ bs.guarantee_title }}</strong>
+          {%- if bs.guarantee_sub != blank -%}<span class="pdp-tt__sub">{{ bs.guarantee_sub }}</span>{%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+    {%- if bs.show_secure -%}
+      <div class="pdp-tt__row">
+        <span class="pdp-tt__ic">
+          <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Compra segura">
+            <rect x="4" y="10" width="16" height="10" rx="2" fill="#eef2ff" stroke="#303890" stroke-width="1.4"/>
+            <path d="M8 10V8a4 4 0 0 1 8 0v2" fill="none" stroke="#303890" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="15" r="1.6" fill="#303890"/>
+          </svg>
+        </span>
+        <span class="pdp-tt__tx">
+          <strong class="pdp-tt__ttl">{{ bs.secure_title }}</strong>
+          {%- if bs.secure_sub != blank -%}<span class="pdp-tt__sub">{{ bs.secure_sub }}</span>{%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- style -%}
+    .pdp-tt { display: grid; gap: 10px; border: 1px solid #ececec; border-radius: 14px; padding: 14px 16px; background: #fcfcfd; }
+    .pdp-tt__row { display: flex; align-items: center; gap: 12px; }
+    .pdp-tt__ic { flex: 0 0 auto; display: inline-flex; }
+    .pdp-tt__tx { display: flex; flex-direction: column; line-height: 1.25; }
+    .pdp-tt__ttl { font-size: 14.5px; font-weight: 700; color: #1e1e1e; }
+    .pdp-tt__sub { font-size: 12.5px; opacity: .72; margin-top: 1px; }
+  {%- endstyle -%}
+{%- endif -%}
+{% schema %}
+{
+  "name": "Gatilhos de confiança",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Selo ANVISA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_anvisa",
+      "label": "Mostrar selo ANVISA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "anvisa_title",
+      "label": "Título",
+      "default": "Produto Notificado na ANVISA"
+    },
+    {
+      "type": "text",
+      "id": "anvisa_sub",
+      "label": "Subtítulo",
+      "default": "Fórmula segura e regularizada"
+    },
+    {
+      "type": "header",
+      "content": "Garantia"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Mostrar garantia",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_title",
+      "label": "Título",
+      "default": "Satisfação garantida"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_sub",
+      "label": "Subtítulo",
+      "default": "Seu dinheiro de volta em até 7 dias"
+    },
+    {
+      "type": "header",
+      "content": "Compra segura"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secure",
+      "label": "Mostrar compra segura",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "secure_title",
+      "label": "Título",
+      "default": "Compra 100% segura"
+    },
+    {
+      "type": "text",
+      "id": "secure_sub",
+      "label": "Subtítulo",
+      "default": "Pagamento criptografado"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gatilhos de confiança"
+    }
+  ]
+}
+{% endschema %}
