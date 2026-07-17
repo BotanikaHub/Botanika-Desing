@@ -3,6 +3,10 @@
   assign section_st = section.settings
   assign enable_skeleton_loading = section_st.enable_skeleton_loading
 %}
+{%- capture fs_norm -%}{%- render 'botanika-freeship-weekend', mode: 'normal_label' -%}{%- endcapture -%}
+{%- capture fs_lbl -%}{%- render 'botanika-freeship-weekend', mode: 'label' -%}{%- endcapture -%}
+{%- assign fs_norm = fs_norm | strip -%}
+{%- assign fs_lbl = fs_lbl | strip -%}
 {% if block_st.delivery_content != blank or block_st.return_content != blank or block_st.discount_content != blank %}
   {% liquid
     if block_st.delivery_design == 'horizontal'
@@ -43,7 +47,7 @@
           {% render 'icon_svg_list', icon: block_st.return_content_icon, custom_width: 25 %}
         {% endif %}
         <div class="rich__text-m0 {{ block_content }}">
-          {{ block_st.return_content }}
+          {{ block_st.return_content | replace: fs_norm, fs_lbl }}
         </div>
       </div>
     {% endif %}

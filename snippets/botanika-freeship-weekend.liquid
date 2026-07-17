@@ -1,0 +1,52 @@
+{%- comment -%}
+  ============================================================
+  Frete grátis promocional de fim de semana (reutilizável).
+  Sem datas fixas: ativa nos SÁBADOS e DOMINGOS enquanto o
+  interruptor "fs_weekend_on" estiver ligado (Configurações do tema).
+  Controla o texto (rótulo) e o valor mínimo da barra do carrinho.
+
+  Uso:
+    mode: 'active'        -> imprime 'yes' quando a promo está ativa
+    mode: 'num'           -> imprime o valor mínimo atual (promo ou normal)
+    mode: 'label'         -> imprime o rótulo atual (promo ou normal)
+    mode: 'normal_label'  -> imprime sempre o rótulo normal
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign mode = mode | default: 'active'
+  assign on = settings.fs_weekend_on
+  assign wd = 'now' | date: '%w'
+  assign is_weekend = false
+  if wd == '0' or wd == '6'
+    assign is_weekend = true
+  endif
+  assign active = false
+  if on and is_weekend
+    assign active = true
+  endif
+  assign normal_label = settings.fs_normal_label | default: 'R$349'
+  assign promo_label = settings.fs_promo_label | default: 'R$199,99'
+  assign normal_min = settings.free_shipping_minimum | default: 0
+  assign promo_min = settings.fs_promo_min | default: normal_min
+
+  case mode
+    when 'active'
+      if active
+        echo 'yes'
+      endif
+    when 'num'
+      if active
+        echo promo_min
+      else
+        echo normal_min
+      endif
+    when 'label'
+      if active
+        echo promo_label
+      else
+        echo normal_label
+      endif
+    when 'normal_label'
+      echo normal_label
+  endcase
+-%}

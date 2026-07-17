@@ -5,7 +5,10 @@
   assign show_currency_code = theme_st.show_currency_code
   assign action_after_add_cart = theme_st.action_after_add_cart
   assign minicart_type = theme_st.minicart_type
-  assign shipping_rate = theme_st.free_shipping_minimum | times: 1 | default: 0
+  capture fs_num
+    render 'botanika-freeship-weekend', mode: 'num'
+  endcapture
+  assign shipping_rate = fs_num | times: 1 | default: 0
   assign shipping_rate_price = shipping_rate | money
   if show_currency_code
     assign shipping_rate_price = shipping_rate | money_with_currency

@@ -4,7 +4,10 @@
   assign section_st = section.settings
   assign free_shipping = theme_st.show_on_minicart_cart_page
   assign show_currency_code = theme_st.show_currency_code
-  assign shipping_rate = theme_st.free_shipping_minimum | times: 1 | default: 0
+  capture fs_num
+    render 'botanika-freeship-weekend', mode: 'num'
+  endcapture
+  assign shipping_rate = fs_num | times: 1 | default: 0
   assign shipping_rate_price = shipping_rate | money
   assign enable_gift_wrap = theme_st.enable_gift_wrap
   assign enable_discount_code = section_st.enable_discount_code

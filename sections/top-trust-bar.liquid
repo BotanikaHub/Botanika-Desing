@@ -8,6 +8,10 @@
   assign st = section.settings
   assign items = section.blocks
 -%}
+{%- capture fs_norm -%}{%- render 'botanika-freeship-weekend', mode: 'normal_label' -%}{%- endcapture -%}
+{%- capture fs_lbl -%}{%- render 'botanika-freeship-weekend', mode: 'label' -%}{%- endcapture -%}
+{%- assign fs_norm = fs_norm | strip -%}
+{%- assign fs_lbl = fs_lbl | strip -%}
 {%- if items.size > 0 -%}
   <div
     class="ttb{% if st.hide_mobile %} ttb--desk-only{% endif %}"
@@ -20,7 +24,7 @@
             {%- for block in items -%}
               <span class="ttb__item" {{ block.shopify_attributes }}>
                 {%- if block.settings.icon != blank -%}<span class="ttb__icon">{{ block.settings.icon }}</span>{%- endif -%}
-                <span class="ttb__text">{{ block.settings.text }}</span>
+                <span class="ttb__text">{{ block.settings.text | replace: fs_norm, fs_lbl }}</span>
               </span>
               <span class="ttb__sep" aria-hidden="true">{{ st.separator }}</span>
             {%- endfor -%}

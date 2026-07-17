@@ -8,6 +8,41 @@
     "theme_support_url": "https://support.nextsky.co"
   },
   {
+    "name": "Frete grátis — promo fim de semana",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Quando ligado, nos sábados e domingos o site troca automaticamente o valor de frete grátis pelo valor promocional (barra do topo, carrinho e página de produto). Fora do fim de semana, ou com o interruptor desligado, volta ao valor normal sozinho. Lembre de ajustar também a regra de frete no Admin (Envio e entrega)."
+      },
+      {
+        "type": "checkbox",
+        "id": "fs_weekend_on",
+        "label": "Ativar frete grátis promocional de fim de semana",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "fs_normal_label",
+        "label": "Valor normal (como aparece no texto)",
+        "info": "Precisa ser idêntico ao texto usado nos avisos. Ex.: R$349",
+        "default": "R$349"
+      },
+      {
+        "type": "text",
+        "id": "fs_promo_label",
+        "label": "Valor promocional (fim de semana)",
+        "default": "R$199,99"
+      },
+      {
+        "type": "text",
+        "id": "fs_promo_min",
+        "label": "Valor mínimo promocional para a barra do carrinho",
+        "info": "Só números, use ponto para centavos. Ex.: 199.99",
+        "default": "199.99"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo_favicon.name",
     "settings": [
       {
