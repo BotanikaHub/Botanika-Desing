@@ -1,10 +1,18 @@
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({
+  className = "",
+  brandName,
+  color = "var(--brand)",
+}: {
+  className?: string;
+  brandName?: string;
+  color?: string;
+}) {
   return (
     <span className={`inline-flex items-center gap-2 font-bold ${className}`}>
       <span
         aria-hidden
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--brand-contrast)]"
-        style={{ background: "var(--brand)" }}
+        className="inline-flex h-8 w-8 items-center justify-center rounded-full text-white"
+        style={{ background: color }}
       >
         {/* folha */}
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -15,14 +23,15 @@ export function Logo({ className = "" }: { className?: string }) {
           />
           <path
             d="M11 13c2-2 5-3 5-3"
-            stroke="var(--brand)"
+            stroke={color}
             strokeWidth="1.6"
             strokeLinecap="round"
           />
         </svg>
       </span>
       <span className="text-lg tracking-tight">
-        Botanika <span className="font-medium text-[var(--muted)]">Creators</span>
+        {brandName || "Creator"}{" "}
+        <span className="font-medium text-[var(--muted)]">Hub</span>
       </span>
     </span>
   );

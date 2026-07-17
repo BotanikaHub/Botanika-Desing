@@ -1,29 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /r/CODIGO  → registra o clique e redireciona para a loja com o cupom aplicado
+// GET /r/CODIGO → registra o clique e redireciona à loja da marca com o cupom aplicado
 export async function GET(
   req: NextRequest,
   ctx: { params: Promise<{ code: string }> },
 ) {
   const { code } = await ctx.params;
-  const storeUrl =
-    process.env.NEXT_PUBLIC_STORE_URL?.replace(/\/$/, "") || "https://botanika.com.br";
 
   const creator = await prisma.creator.findUnique({
     where: { couponCode: code.toUpperCase() },
+    include: { brand: true },
   });
 
-  // Destino opcional: /r/CODE?to=/products/algum-produto
   const to = req.nextUrl.searchParams.get("to") || "";
   const safeTo = to.startsWith("/") ? to : "";
 
-  if (!creator || creator.status !== "APPROVED") {
-    // cupom inválido → manda para a loja mesmo assim
+  const storeUrl = (creator?.brand.storeUrl || "https://botanikabrasil.com.br").replace(/\/$/, "");
+
+  if (!creator || creator.status !== "APPROVED" || !creator.couponCode) {
     return NextResponse.redirect(`${storeUrl}${safeTo}`);
   }
 
-  // Registra o clique (não bloqueia o redirect se falhar)
   try {
     await prisma.click.create({
       data: {
@@ -41,8 +39,6 @@ export async function GET(
     // ignora falha de log
   }
 
-  // URL de desconto da Shopify aplica o cupom automaticamente.
-  // Formato: /discount/CODIGO?redirect=/caminho
   const redirectParam = safeTo ? `?redirect=${encodeURIComponent(safeTo)}` : "";
   return NextResponse.redirect(
     `${storeUrl}/discount/${creator.couponCode}${redirectParam}`,

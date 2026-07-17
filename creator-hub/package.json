@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "create-admin": "node scripts/create-admin.mjs",
+    "seed-brands": "node scripts/seed-brands.mjs",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"

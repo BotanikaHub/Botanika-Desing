@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
 import { suggestCoupon } from "@/lib/format";
 import { createDiscountCode, isShopifyConfigured } from "@/lib/shopify";
+import { brandConnection } from "@/lib/brand";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -12,11 +13,10 @@ async function ensureAdmin() {
   return admin;
 }
 
-// Garante um código de cupom único no banco (acrescenta sufixo se já existir)
+// Garante um código de cupom único no banco (globalmente).
 async function uniqueCouponCode(base: string): Promise<string> {
   let code = suggestCoupon(base);
   let n = 1;
-  // limite de segurança
   while (n < 100) {
     const clash = await prisma.creator.findUnique({ where: { couponCode: code } });
     if (!clash) return code;
@@ -38,7 +38,10 @@ export async function approveCreatorAction(
   const requestedCode = String(formData.get("couponCode") || "").trim();
   const ratePct = parseFloat(String(formData.get("commissionRate") || "10"));
 
-  const creator = await prisma.creator.findUnique({ where: { id } });
+  const creator = await prisma.creator.findUnique({
+    where: { id },
+    include: { brand: true },
+  });
   if (!creator) return { error: "Creator não encontrado." };
   if (creator.status === "APPROVED") return { error: "Creator já aprovado." };
 
@@ -50,12 +53,13 @@ export async function approveCreatorAction(
   let shopifyPriceRuleId: string | null = null;
   let shopifyDiscountId: string | null = null;
 
-  if (isShopifyConfigured()) {
+  const conn = brandConnection(creator.brand);
+  if (isShopifyConfigured(conn)) {
     try {
-      const created = await createDiscountCode({
+      const created = await createDiscountCode(conn, {
         code,
         percentage: rate,
-        title: `Afiliado Botanika — ${creator.name}`,
+        title: `Afiliado ${creator.brand.name} — ${creator.name}`,
       });
       shopifyPriceRuleId = created.priceRuleId;
       shopifyDiscountId = created.discountId;

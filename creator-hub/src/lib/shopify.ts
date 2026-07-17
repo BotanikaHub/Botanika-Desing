@@ -1,48 +1,47 @@
 import "server-only";
 
 /**
- * Cliente da Shopify Admin API (GraphQL).
+ * Cliente da Shopify Admin API (GraphQL), por marca.
  *
- * Usos principais:
- *  - Criar um cupom de desconto único quando um creator é aprovado
- *  - Buscar os pedidos que usaram aquele cupom (para calcular vendas/comissão)
- *
- * Configuração via .env:
- *  SHOPIFY_STORE_DOMAIN=sua-loja.myshopify.com
- *  SHOPIFY_ADMIN_TOKEN=shpat_...
- *  SHOPIFY_API_VERSION=2025-01
+ * Cada marca (Botanika, Vermfree, ...) tem sua própria loja Shopify e seu
+ * próprio token de acesso (obtido via OAuth). As funções abaixo recebem a
+ * conexão da marca como parâmetro.
  */
 
-const DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
-const TOKEN = process.env.SHOPIFY_ADMIN_TOKEN;
-const API_VERSION = process.env.SHOPIFY_API_VERSION || "2025-01";
+export type ShopifyConnection = {
+  shopDomain: string | null;
+  accessToken: string | null;
+  apiVersion?: string | null;
+};
 
-export function isShopifyConfigured(): boolean {
-  return Boolean(DOMAIN && TOKEN);
+const DEFAULT_API_VERSION = process.env.SHOPIFY_API_VERSION || "2025-01";
+
+export function isShopifyConfigured(conn: ShopifyConnection | null | undefined): boolean {
+  return Boolean(conn?.shopDomain && conn?.accessToken);
 }
 
 class ShopifyNotConfiguredError extends Error {
   constructor() {
-    super(
-      "Shopify não configurada. Defina SHOPIFY_STORE_DOMAIN e SHOPIFY_ADMIN_TOKEN no .env",
-    );
+    super("Loja Shopify desta marca ainda não conectada.");
     this.name = "ShopifyNotConfiguredError";
   }
 }
 
 async function shopifyGraphQL<T>(
+  conn: ShopifyConnection,
   query: string,
   variables?: Record<string, unknown>,
 ): Promise<T> {
-  if (!isShopifyConfigured()) throw new ShopifyNotConfiguredError();
+  if (!isShopifyConfigured(conn)) throw new ShopifyNotConfiguredError();
 
+  const apiVersion = conn.apiVersion || DEFAULT_API_VERSION;
   const res = await fetch(
-    `https://${DOMAIN}/admin/api/${API_VERSION}/graphql.json`,
+    `https://${conn.shopDomain}/admin/api/${apiVersion}/graphql.json`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Shopify-Access-Token": TOKEN as string,
+        "X-Shopify-Access-Token": conn.accessToken as string,
       },
       body: JSON.stringify({ query, variables }),
       cache: "no-store",
@@ -73,15 +72,11 @@ export type CreatedDiscount = {
   discountId: string;
 };
 
-/**
- * Cria um cupom de desconto de valor percentual, aplicável a toda a ordem,
- * usável infinitas vezes. Retorna os IDs para gerenciamento futuro.
- */
-export async function createDiscountCode(params: {
-  code: string;
-  percentage: number; // 0.10 = 10%
-  title?: string;
-}): Promise<CreatedDiscount> {
+/** Cria um cupom percentual, aplicável a toda a ordem, uso ilimitado. */
+export async function createDiscountCode(
+  conn: ShopifyConnection,
+  params: { code: string; percentage: number; title?: string },
+): Promise<CreatedDiscount> {
   const { code, percentage } = params;
   const title = params.title || `Afiliado ${code}`;
 
@@ -123,7 +118,7 @@ export async function createDiscountCode(params: {
       } | null;
       userErrors: { field: string[]; message: string }[];
     };
-  }>(mutation, variables);
+  }>(conn, mutation, variables);
 
   const result = data.discountCodeBasicCreate;
   if (result.userErrors?.length) {
@@ -145,7 +140,7 @@ export async function createDiscountCode(params: {
 
 export type OrderStats = {
   orderCount: number;
-  totalSales: number; // soma dos totais dos pedidos
+  totalSales: number;
   currency: string;
   orders: Array<{
     id: string;
@@ -157,11 +152,9 @@ export type OrderStats = {
   }>;
 };
 
-/**
- * Busca pedidos que usaram um determinado código de desconto.
- * Usa a busca por `discount_code:` da Admin API.
- */
+/** Pedidos que usaram um código de desconto. */
 export async function getOrdersByDiscountCode(
+  conn: ShopifyConnection,
   code: string,
   maxOrders = 100,
 ): Promise<OrderStats> {
@@ -193,7 +186,7 @@ export async function getOrdersByDiscountCode(
         customer: { displayName: string | null } | null;
       }>;
     };
-  }>(query, { q: `discount_code:${code}`, first: maxOrders });
+  }>(conn, query, { q: `discount_code:${code}`, first: maxOrders });
 
   const nodes = data.orders.nodes;
   let totalSales = 0;
@@ -213,10 +206,38 @@ export async function getOrdersByDiscountCode(
     };
   });
 
-  return {
-    orderCount: orders.length,
-    totalSales,
-    currency,
-    orders,
-  };
+  return { orderCount: orders.length, totalSales, currency, orders };
+}
+
+/**
+ * Troca o `code` do OAuth por um access token offline.
+ * Usado no callback de instalação da loja.
+ */
+export async function exchangeOAuthCode(params: {
+  shopDomain: string;
+  apiKey: string;
+  apiSecret: string;
+  code: string;
+}): Promise<{ accessToken: string; scope: string }> {
+  const res = await fetch(
+    `https://${params.shopDomain}/admin/oauth/access_token`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        client_id: params.apiKey,
+        client_secret: params.apiSecret,
+        code: params.code,
+      }),
+      cache: "no-store",
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`OAuth token exchange falhou (${res.status}): ${text}`);
+  }
+
+  const json = (await res.json()) as { access_token: string; scope: string };
+  return { accessToken: json.access_token, scope: json.scope };
 }

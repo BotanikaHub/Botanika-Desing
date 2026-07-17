@@ -1,67 +1,62 @@
-# Botanika Creator Hub
+# Creator Hub — Botanika & Vermfree
 
-Hub de creators/afiliados da Botanika. Creators se cadastram por um formulário,
-a equipe aprova, e cada aprovado recebe um painel com **cupom + link de afiliado**
-exclusivos, além de acompanhar vendas e comissões vindas do seu cupom (via Shopify).
+Hub de afiliados **multi-marca**. Creators (influenciadores, médicos, nutricionistas…)
+se cadastram por marca, a equipe aprova, e cada aprovado recebe um painel com
+**cupom + link de afiliado** exclusivos, acompanhando vendas e comissões da sua
+loja Shopify. Cada marca (Botanika, Vermfree, …) é totalmente isolada: própria
+loja, próprios creators, próprios cupons e painel.
 
 ## Tecnologias
 
 - **Next.js 16** (App Router, TypeScript) + **Tailwind CSS v4**
-- **Prisma** + **SQLite** (trocável por PostgreSQL em produção)
-- **Shopify Admin API** (GraphQL) para criar cupons e ler pedidos
+- **Prisma** + **PostgreSQL (Supabase)**
+- **Shopify Admin API** (GraphQL) por marca, conectada via **OAuth**
 - Autenticação por sessão (cookies assinados com JWT)
 
-## Fluxo
+## Estrutura de rotas
 
-1. **/apply** — creator se cadastra (fica com status `PENDING`).
-2. **/admin** — a equipe vê os pendentes e **aprova** (define cupom + % de comissão).
-   Ao aprovar, o cupom é criado de verdade na Shopify.
-3. **/dashboard** — o creator aprovado vê cupom, link, cliques, pedidos e comissão.
-4. **/r/CUPOM** — link de afiliado: registra o clique e leva o cliente ao checkout
-   com o cupom já aplicado (`/discount/CUPOM`).
+- `/` — escolha da marca
+- `/[marca]` — landing da marca (ex.: `/botanika`, `/vermfree`)
+- `/[marca]/apply` — cadastro de creator
+- `/[marca]/login` — login do creator
+- `/[marca]/dashboard` — painel do afiliado
+- `/admin` — painel da equipe (todas as marcas, com filtro por marca)
+- `/r/CUPOM` — link de afiliado: registra clique e leva ao checkout com o cupom
 
-## Como rodar localmente
+## Rodar localmente
 
 ```bash
 cd creator-hub
 npm install
-cp .env.example .env      # preencha os valores
-npx prisma migrate dev    # cria o banco local
-npm run create-admin "voce@botanika.com" "suasenha" "Seu Nome"
-npm run dev               # http://localhost:3000
+cp .env.example .env         # preencha DATABASE_URL/DIRECT_URL do Supabase
+npx prisma migrate deploy    # aplica as tabelas no banco
+npm run seed-brands          # cria as marcas Botanika e Vermfree
+npm run create-admin "voce@empresa.com" "suasenha" "Seu Nome"
+npm run dev                  # http://localhost:3000
 ```
 
-- Painel admin: `http://localhost:3000/admin/login`
-- Cadastro de creator: `http://localhost:3000/apply`
+## Banco de dados (Supabase)
 
-## Conectar a Shopify
+Projeto `creator-hub`. A connection string fica em **Supabase → creator-hub →
+Connect → ORMs**. Use o pooler (porta 6543) em `DATABASE_URL` e o direct (5432)
+em `DIRECT_URL`.
 
-No `.env`, preencha:
+## Conexão Shopify (por marca, via OAuth)
 
-```
-NEXT_PUBLIC_STORE_URL="https://botanika.com.br"   # domínio público da loja
-SHOPIFY_STORE_DOMAIN="sua-loja.myshopify.com"      # domínio Admin API
-SHOPIFY_ADMIN_TOKEN="shpat_..."                    # Admin API access token
-SHOPIFY_API_VERSION="2025-01"
-```
+Cada marca tem sua loja Shopify e seu app no **Dev Dashboard**. A conexão é feita
+por OAuth: configura-se `shopifyApiKey`/`shopifyApiSecret` da marca, o admin clica
+em "conectar", instala na loja e o token de acesso é salvo no banco. Scopes:
+`read_orders`, `write_discounts`, `read_discounts`.
 
-Como gerar o token: **Admin da Shopify → Configurações → Apps e canais de vendas →
-Desenvolver apps → Criar um app → Admin API**. Permissões (scopes) necessárias:
+Enquanto a marca não estiver conectada, o fluxo funciona e o painel mostra um
+aviso de que as vendas aparecem após a conexão.
 
-- `write_discounts`, `read_discounts` — criar/ler os cupons dos creators
-- `read_orders` — ler os pedidos para calcular vendas e comissões
+## Deploy
 
-Enquanto o token não estiver configurado, todo o fluxo funciona normalmente e o
-painel mostra um aviso de que as vendas aparecerão quando a loja for conectada.
-
-## Produção
-
-- Trocar `provider = "sqlite"` por `"postgresql"` no `prisma/schema.prisma` e apontar
-  `DATABASE_URL` para um Postgres (ex.: Neon, Supabase, Railway).
-- Definir um `SESSION_SECRET` aleatório e longo.
-- Recomendado hospedar na **Vercel** (deploy nativo de Next.js).
+- **Vercel** (deploy nativo de Next.js, a partir do GitHub).
+- Variáveis de ambiente: `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET`,
+  `NEXT_PUBLIC_APP_URL` (URL pública do hub), `SHOPIFY_API_VERSION`.
 
 ## Segurança
 
-- `.env` e o banco local (`prisma/*.db`) **não** são versionados.
-- Nunca comite o `SHOPIFY_ADMIN_TOKEN`.
+- `.env` **não** é versionado. Nunca comite senhas de banco ou secrets da Shopify.

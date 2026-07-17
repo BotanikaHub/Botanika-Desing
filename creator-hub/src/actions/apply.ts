@@ -7,6 +7,7 @@ import { hashPassword } from "@/lib/auth";
 import { suggestCoupon } from "@/lib/format";
 
 const schema = z.object({
+  brandSlug: z.string().min(1),
   name: z.string().min(2, "Informe seu nome completo."),
   email: z.string().email("E-mail inválido."),
   password: z.string().min(6, "A senha deve ter ao menos 6 caracteres."),
@@ -15,6 +16,7 @@ const schema = z.object({
   tiktok: z.string().optional(),
   followers: z.string().optional(),
   niche: z.string().optional(),
+  profession: z.string().optional(),
   city: z.string().optional(),
   pitch: z.string().optional(),
   desiredCoupon: z.string().optional(),
@@ -26,19 +28,24 @@ export async function applyAction(
   _prev: ApplyState,
   formData: FormData,
 ): Promise<ApplyState> {
-  const raw = Object.fromEntries(formData.entries());
-  const parsed = schema.safeParse(raw);
-
+  const parsed = schema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message || "Dados inválidos." };
   }
 
   const d = parsed.data;
+  const brand = await prisma.brand.findUnique({
+    where: { slug: d.brandSlug.toLowerCase() },
+  });
+  if (!brand) return { error: "Marca não encontrada." };
+
   const email = d.email.trim().toLowerCase();
 
-  const existing = await prisma.creator.findUnique({ where: { email } });
+  const existing = await prisma.creator.findUnique({
+    where: { brandId_email: { brandId: brand.id, email } },
+  });
   if (existing) {
-    return { error: "Já existe um cadastro com este e-mail." };
+    return { error: "Já existe um cadastro com este e-mail nesta marca." };
   }
 
   const followersNum = d.followers
@@ -51,6 +58,7 @@ export async function applyAction(
 
   await prisma.creator.create({
     data: {
+      brandId: brand.id,
       name: d.name.trim(),
       email,
       passwordHash: await hashPassword(d.password),
@@ -59,12 +67,14 @@ export async function applyAction(
       tiktok: d.tiktok?.trim() || null,
       followers: followersNum,
       niche: d.niche?.trim() || null,
+      profession: d.profession?.trim() || null,
       city: d.city?.trim() || null,
       pitch: d.pitch?.trim() || null,
       desiredCoupon: desired,
+      commissionRate: brand.defaultCommissionRate,
       status: "PENDING",
     },
   });
 
-  redirect("/apply/obrigado");
+  redirect(`/${brand.slug}/apply/obrigado`);
 }

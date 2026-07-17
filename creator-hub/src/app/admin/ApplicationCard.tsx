@@ -10,6 +10,8 @@ import { SubmitButton } from "@/components/SubmitButton";
 
 export type CreatorView = {
   id: string;
+  brandName: string;
+  brandColor: string;
   name: string;
   email: string;
   phone: string | null;
@@ -17,10 +19,11 @@ export type CreatorView = {
   tiktok: string | null;
   followers: number | null;
   niche: string | null;
+  profession: string | null;
   city: string | null;
   pitch: string | null;
   desiredCoupon: string | null;
-  createdAt: string;
+  defaultRatePct: number;
 };
 
 export function PendingCard({ creator }: { creator: CreatorView }) {
@@ -33,6 +36,12 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
     <div className="card">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
+          <span
+            className="mb-1 inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
+            style={{ background: creator.brandColor }}
+          >
+            {creator.brandName}
+          </span>
           <h3 className="text-lg font-semibold">{creator.name}</h3>
           <p className="text-sm text-[var(--muted)]">{creator.email}</p>
         </div>
@@ -40,12 +49,10 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
       </div>
 
       <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-3">
+        <Info label="Profissão" value={creator.profession} />
         <Info label="Instagram" value={creator.instagram} />
         <Info label="TikTok" value={creator.tiktok} />
-        <Info
-          label="Seguidores"
-          value={creator.followers ? creator.followers.toLocaleString("pt-BR") : null}
-        />
+        <Info label="Seguidores" value={creator.followers ? creator.followers.toLocaleString("pt-BR") : null} />
         <Info label="Nicho" value={creator.niche} />
         <Info label="Cidade" value={creator.city} />
         <Info label="Telefone" value={creator.phone} />
@@ -63,48 +70,25 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         </div>
       )}
 
-      {/* Aprovar */}
       <form action={formAction} className="mt-4 flex flex-wrap items-end gap-3 border-t pt-4">
         <input type="hidden" name="creatorId" value={creator.id} />
         <div className="w-40">
           <label className="label">Cupom</label>
-          <input
-            name="couponCode"
-            className="input"
-            defaultValue={creator.desiredCoupon || ""}
-            placeholder="EX: MARIA10"
-          />
+          <input name="couponCode" className="input" defaultValue={creator.desiredCoupon || ""} placeholder="EX: MARIA10" />
         </div>
         <div className="w-28">
           <label className="label">Comissão %</label>
-          <input
-            name="commissionRate"
-            type="number"
-            min={0}
-            max={100}
-            step={1}
-            className="input"
-            defaultValue={10}
-          />
+          <input name="commissionRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultRatePct} />
         </div>
-        <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">
-          Aprovar
-        </SubmitButton>
+        <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">Aprovar</SubmitButton>
       </form>
 
-      {/* Recusar */}
       <form action={rejectCreatorAction} className="mt-3 flex flex-wrap items-end gap-3">
         <input type="hidden" name="creatorId" value={creator.id} />
         <div className="flex-1">
-          <input
-            name="reason"
-            className="input"
-            placeholder="Motivo da recusa (opcional)"
-          />
+          <input name="reason" className="input" placeholder="Motivo da recusa (opcional)" />
         </div>
-        <button type="submit" className="btn btn-danger">
-          Recusar
-        </button>
+        <button type="submit" className="btn btn-danger">Recusar</button>
       </form>
     </div>
   );
@@ -113,9 +97,7 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
 function Info({ label, value }: { label: string; value: string | null }) {
   return (
     <div>
-      <dt className="text-xs uppercase tracking-wide text-[var(--muted)]">
-        {label}
-      </dt>
+      <dt className="text-xs uppercase tracking-wide text-[var(--muted)]">{label}</dt>
       <dd className="font-medium">{value || "—"}</dd>
     </div>
   );

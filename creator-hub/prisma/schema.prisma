@@ -1,13 +1,14 @@
-// Botanika Creator Hub — schema do banco de dados
-// Em produção troque provider para "postgresql" e ajuste DATABASE_URL.
+// Botanika Creator Hub — hub de afiliados multi-marca (Botanika, Vermfree, ...)
+// Banco: PostgreSQL (Supabase)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum CreatorStatus {
@@ -16,34 +17,75 @@ enum CreatorStatus {
   REJECTED
 }
 
-// Um Creator é ao mesmo tempo o cadastro (application) e o afiliado aprovado.
-// O campo `status` controla em que etapa do fluxo ele está.
-model Creator {
-  id        String        @id @default(cuid())
-  status    CreatorStatus @default(PENDING)
+/// Uma marca/operação (ex.: Botanika, Vermfree). Cada marca tem sua própria
+/// loja Shopify, seus creators, cupons e painel — tudo isolado por marca.
+model Brand {
+  id       String  @id @default(cuid())
+  slug     String  @unique // ex.: "botanika", "vermfree" (usado nas URLs)
+  name     String
+  tagline  String? // frase curta do programa
 
-  // Dados de acesso
-  email        String  @unique
+  // Aparência (tema do painel daquela marca)
+  primaryColor String @default("#2f6b3f")
+  logoUrl      String?
+
+  // Loja Shopify da marca
+  storeUrl   String? // domínio público, ex.: https://botanikabrasil.com.br
+  shopDomain String? // domínio .myshopify.com
+
+  // Conexão Shopify (OAuth) — preenchidos quando a loja é conectada
+  shopifyApiKey      String? // Client ID do app no Dev Dashboard
+  shopifyApiSecret   String? // Client Secret
+  shopifyAccessToken String? // token offline obtido via OAuth
+  shopifyScope       String?
+  shopifyInstalledAt DateTime?
+
+  defaultCommissionRate Float @default(0.10)
+
+  creators Creator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Administradores (equipe da empresa). Se brandId for nulo, é super admin
+/// e enxerga todas as marcas; se preenchido, fica restrito àquela marca.
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  brandId      String?
+  createdAt    DateTime @default(now())
+}
+
+/// Um creator/afiliado, sempre vinculado a uma marca.
+model Creator {
+  id      String        @id @default(cuid())
+  brand   Brand         @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brandId String
+  status  CreatorStatus @default(PENDING)
+
+  // Acesso
+  email        String
   passwordHash String
   name         String
 
-  // Dados do formulário de cadastro
+  // Dados do cadastro
   phone         String?
   instagram     String?
   tiktok        String?
   followers     Int?
   niche         String?
   city          String?
-  pitch         String? // "por que quer ser afiliado"
-
-  // Preferência de cupom pedida no cadastro
+  pitch         String?
+  profession    String? // médico, nutricionista, influenciador, etc.
   desiredCoupon String?
 
   // Atribuídos na aprovação
-  couponCode     String? @unique // ex.: JOINGLE — cupom real criado na Shopify
-  commissionRate Float   @default(0.10) // 10%
+  couponCode     String? @unique // único globalmente (link /r/CODE sem ambiguidade)
+  commissionRate Float   @default(0.10)
 
-  // Referência ao objeto de desconto criado na Shopify (para gerenciar/excluir)
   shopifyPriceRuleId String?
   shopifyDiscountId  String?
 
@@ -54,18 +96,14 @@ model Creator {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   approvedAt DateTime?
+
+  // Um e-mail é único dentro de cada marca (a mesma pessoa pode ser afiliada
+  // das duas marcas com o mesmo e-mail).
+  @@unique([brandId, email])
+  @@index([brandId, status])
 }
 
-// Painel administrativo (você e sua equipe)
-model Admin {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  createdAt    DateTime @default(now())
-}
-
-// Registro de cliques nos links de afiliado (para métricas de cliques)
+/// Clique num link de afiliado (para métrica de cliques).
 model Click {
   id        String   @id @default(cuid())
   creator   Creator  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
@@ -73,7 +111,7 @@ model Click {
   ip        String?
   userAgent String?
   referrer  String?
-  landing   String? // caminho de destino na loja
+  landing   String?
   createdAt DateTime @default(now())
 
   @@index([creatorId])
