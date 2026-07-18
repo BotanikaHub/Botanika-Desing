@@ -106,7 +106,7 @@
         "type": "text",
         "id": "camp_ribbon",
         "label": "Texto do selo no card",
-        "default": "Semana da Imunidade"
+        "default": "🔥 -8% OFF"
       },
       {
         "type": "color",
