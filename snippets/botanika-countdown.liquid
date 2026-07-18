@@ -1,0 +1,98 @@
+{%- comment -%}
+  ============================================================
+  Contador regressivo reutilizável (barra do topo + página de produto).
+  A data-limite, cores e mensagem vêm das Configurações do tema
+  (grupo "Contador de oferta"). Um lugar só alimenta os dois pontos.
+  Parâmetros:
+    variant: 'bar' (topo) | 'product' (PDP)
+    message: texto opcional (sobrepõe a mensagem global)
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign variant = variant | default: 'bar'
+  assign msg = message | default: settings.cd_message
+  assign raw = settings.cd_end | default: ''
+  assign iso = raw | strip | replace: ' ', 'T' | append: '-03:00'
+  assign target = iso | date: '%s'
+  assign bg = settings.cd_bg | default: '#111111'
+  assign fg = settings.cd_text | default: '#ffffff'
+  assign hide_done = settings.cd_hide_when_done
+-%}
+{%- if raw != blank -%}
+  <div
+    class="bcd bcd--{{ variant }}"
+    data-botanika-countdown
+    data-countdown-target="{{ target }}"
+    {% if hide_done %}data-hide-done="1"{% endif %}
+    style="--bcd-bg:{{ bg }};--bcd-fg:{{ fg }};"
+  >
+    <div class="bcd__inner">
+      {%- if msg != blank -%}<span class="bcd__msg">{{ msg }}</span>{%- endif -%}
+      <span class="bcd__clock" aria-live="off">
+        <span class="bcd__u"><b data-d>00</b><i>d</i></span>
+        <span class="bcd__u"><b data-h>00</b><i>h</i></span>
+        <span class="bcd__u"><b data-m>00</b><i>m</i></span>
+        <span class="bcd__u"><b data-s>00</b><i>s</i></span>
+      </span>
+    </div>
+  </div>
+
+  {%- style -%}
+    .bcd { width: 100%; }
+    .bcd__inner { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .bcd__clock { display: inline-flex; gap: 6px; }
+    .bcd__u { display: inline-flex; align-items: baseline; gap: 2px; }
+    .bcd__u b { font-variant-numeric: tabular-nums; }
+    .bcd__u i { font-style: normal; font-weight: 600; opacity: .8; font-size: .8em; }
+    /* Barra do topo */
+    .bcd--bar { background: var(--bcd-bg); color: var(--bcd-fg); }
+    .bcd--bar .bcd__inner { padding: 8px 14px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1; }
+    .bcd--bar .bcd__u b { font-size: 14px; }
+    /* Página de produto */
+    .bcd--product { margin: 0 0 16px; }
+    .bcd--product .bcd__inner { padding: 12px 14px; border: 1.5px solid var(--bcd-bg); border-radius: 14px; background: rgba(0,0,0,.02); }
+    .bcd--product .bcd__msg { color: var(--bcd-bg); text-transform: uppercase; letter-spacing: .03em; font-size: 12.5px; font-weight: 800; }
+    .bcd--product .bcd__clock b { background: var(--bcd-bg); color: var(--bcd-fg); padding: 5px 8px; border-radius: 8px; min-width: 30px; text-align: center; display: inline-block; font-weight: 800; }
+    .bcd--product .bcd__u i { margin-left: 2px; opacity: .7; color: #555; }
+    @media (max-width: 480px) {
+      .bcd--bar .bcd__inner { font-size: 11.5px; gap: 8px; padding: 7px 10px; }
+      .bcd--product .bcd__msg { width: 100%; text-align: center; }
+    }
+  {%- endstyle -%}
+
+  <script>
+    (function () {
+      if (window.__bcdInit) return;
+      window.__bcdInit = true;
+      function p(n){ return (n < 10 ? '0' : '') + n; }
+      function tick(){
+        var now = Date.now();
+        var nodes = document.querySelectorAll('[data-botanika-countdown]');
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
+          var t = parseInt(el.getAttribute('data-countdown-target'), 10);
+          if (!t) { continue; }
+          var diff = t * 1000 - now;
+          if (diff <= 0) {
+            if (el.getAttribute('data-hide-done')) { el.style.display = 'none'; }
+            else {
+              var z = el.querySelectorAll('[data-d],[data-h],[data-m],[data-s]');
+              for (var k = 0; k < z.length; k++) { z[k].textContent = '00'; }
+            }
+            continue;
+          }
+          var s = Math.floor(diff / 1000);
+          var d = Math.floor(s / 86400); s -= d * 86400;
+          var h = Math.floor(s / 3600); s -= h * 3600;
+          var m = Math.floor(s / 60); s -= m * 60;
+          var qd = el.querySelector('[data-d]'); if (qd) qd.textContent = p(d);
+          var qh = el.querySelector('[data-h]'); if (qh) qh.textContent = p(h);
+          var qm = el.querySelector('[data-m]'); if (qm) qm.textContent = p(m);
+          var qs = el.querySelector('[data-s]'); if (qs) qs.textContent = p(s);
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+{%- endif -%}

@@ -43,6 +43,46 @@
     ]
   },
   {
+    "name": "Contador de oferta",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Define a data-limite do contador regressivo que aparece na barra do topo e na página de produto. A hora é considerada no horário de Brasília."
+      },
+      {
+        "type": "text",
+        "id": "cd_end",
+        "label": "Data e hora do fim da oferta",
+        "info": "Formato AAAA-MM-DD HH:MM:SS (horário de Brasília). Ex.: 2026-07-19 23:59:59. Deixe em branco para esconder o contador.",
+        "default": "2026-07-19 23:59:59"
+      },
+      {
+        "type": "text",
+        "id": "cd_message",
+        "label": "Mensagem padrão",
+        "default": "A oferta termina em"
+      },
+      {
+        "type": "color",
+        "id": "cd_bg",
+        "label": "Cor de fundo / destaque",
+        "default": "#d0201a"
+      },
+      {
+        "type": "color",
+        "id": "cd_text",
+        "label": "Cor do texto do contador",
+        "default": "#ffffff"
+      },
+      {
+        "type": "checkbox",
+        "id": "cd_hide_when_done",
+        "label": "Esconder quando a oferta terminar",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo_favicon.name",
     "settings": [
       {

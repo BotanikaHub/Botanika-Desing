@@ -1,0 +1,19 @@
+{%- comment -%}
+  Barra de contador regressivo no topo do site (acima das demais barras).
+  Data-limite/cores vêm das Configurações do tema → "Contador de oferta".
+{%- endcomment -%}
+{%- if section.settings.show -%}
+  {%- render 'botanika-countdown', variant: 'bar', message: section.settings.message -%}
+{%- endif -%}
+{% schema %}
+{
+  "name": "Barra de contador",
+  "settings": [
+    { "type": "checkbox", "id": "show", "label": "Mostrar barra", "default": true },
+    { "type": "text", "id": "message", "label": "Mensagem", "default": "🔥 Oferta de fim de semana termina em" }
+  ],
+  "presets": [
+    { "name": "Barra de contador" }
+  ]
+}
+{% endschema %}

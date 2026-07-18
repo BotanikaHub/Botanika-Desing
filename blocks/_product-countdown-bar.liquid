@@ -1,0 +1,23 @@
+{%- comment -%}
+  Bloco de contador regressivo na página de produto.
+  Feito para ficar entre os planos (quantity cards) e o cupom.
+  Data-limite/cores vêm das Configurações do tema → "Contador de oferta".
+{%- endcomment -%}
+{%- if block.settings.show -%}
+  <div {{ block.shopify_attributes }}>
+    {%- render 'botanika-countdown', variant: 'product', message: block.settings.message -%}
+  </div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Contador de oferta",
+  "tag": null,
+  "settings": [
+    { "type": "checkbox", "id": "show", "label": "Mostrar contador", "default": true },
+    { "type": "text", "id": "message", "label": "Mensagem", "default": "⏳ Preço promocional termina em" }
+  ],
+  "presets": [
+    { "name": "Contador de oferta" }
+  ]
+}
+{% endschema %}
