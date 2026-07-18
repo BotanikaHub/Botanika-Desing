@@ -64,8 +64,10 @@
 %}
 {% comment %} Case card product has data, handle data {% endcomment %}
 {% if card_product and card_product != empty %}
+  {%- capture camp_flag -%}{%- render 'botanika-campaign-flag', product: card_product -%}{%- endcapture -%}
+  {%- assign camp_flag = camp_flag | strip -%}
   <div
-    class="product-item product__item-js {{ class }} style-as-{{ product_style }}"
+    class="product-item product__item-js {{ class }} style-as-{{ product_style }}{% if camp_flag == 'yes' %} is-camp{% endif %}"
     {% if type == 'sticky' %}
       data-section="{{ section_id }}"
       data-color-trigger="{{ settings.color_swatch_trigger }}"
@@ -84,6 +86,7 @@
     >
       {% comment %} Product inner media {% endcomment %}
       <div class="product-item__inner hover-effect overflow-hidden relative{% if type == 'list' or type == 'sticky' %} col-w-custom{% endif %}{% if template_layout_horizontal %} product-item__inner-horizontal{% endif %}">
+        {%- if camp_flag == 'yes' and settings.camp_ribbon != blank -%}<span class="camp-ribbon">{{ settings.camp_ribbon }}</span>{%- endif -%}
         {% render 'card-benefit-badge', card_product: card_product %}
         {% assign product_media = card_product.featured_media %}
         {% comment %} Case product has image {% endcomment %}

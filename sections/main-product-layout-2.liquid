@@ -36,10 +36,12 @@
 {%- capture style -%}
   --section-pt: {{ section_st.padding_top }}; --section-pb: {{ section_st.padding_bottom }};--speed: {{ section_st.speed }}s; --font-size: {{ section_st.font_size }};
 {%- endcapture -%}
+{%- capture pdp_camp -%}{%- render 'botanika-campaign-flag', product: product -%}{%- endcapture -%}
+{%- assign pdp_camp = pdp_camp | strip -%}
 
 <div
   id="MainProduct-{{ section.id }}"
-  class="section sec__featured-product product__item-js {% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} color-{{ color_scheme }} gradient{{ reset_spacing }}"
+  class="section sec__featured-product product__item-js{% if pdp_camp == 'yes' %} is-camp-pdp{% endif %} {% if section_st.padding_top < 30 %} pt-min{% endif %}{% if section_st.padding_bottom < 30 %} pb-min{% endif %} color-{{ color_scheme }} gradient{{ reset_spacing }}"
   data-section="{{ section.id }}"
   data-color-trigger="{{ settings.color_swatch_trigger }}"
   data-desktop-layout="{{ desktop_layout }}"

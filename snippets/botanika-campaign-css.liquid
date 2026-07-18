@@ -1,0 +1,28 @@
+{%- comment -%}
+  CSS global de destaque dos produtos da campanha (cards + PDP).
+  Renderizado uma vez no theme.liquid. Ligado/desligado e cor via
+  Configurações do tema → "Campanha — destaque de produtos".
+{%- endcomment -%}
+{%- if settings.camp_active -%}
+  <style>
+    :root { --camp: {{ settings.camp_color | default: '#323C91' }}; }
+    /* Ribbon / selo no card */
+    .camp-ribbon {
+      position: absolute; top: 10px; left: 10px; z-index: 6;
+      background: var(--camp); color: #fff; font-size: 11px; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px; letter-spacing: .02em;
+      box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none;
+    }
+    /* Card destacado */
+    .is-camp .product-item__inner { box-shadow: 0 0 0 2px var(--camp) inset; border-radius: 14px; }
+    .is-camp .product_submit_button,
+    .is-camp .product-form__submit { background: var(--camp) !important; border-color: var(--camp) !important; }
+    .is-camp .card-product-price .price,
+    .is-camp .price-regular .price { color: var(--camp) !important; }
+    /* PDP destacada */
+    .is-camp-pdp .product-form__submit,
+    .is-camp-pdp .product_submit_button { background: var(--camp) !important; border-color: var(--camp) !important; box-shadow: 0 6px 18px rgba(50,60,145,.28); }
+    .is-camp-pdp .price-regular .price,
+    .is-camp-pdp .price { color: var(--camp) !important; }
+  </style>
+{%- endif -%}

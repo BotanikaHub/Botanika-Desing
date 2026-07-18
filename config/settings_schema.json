@@ -83,6 +83,40 @@
     ]
   },
   {
+    "name": "Campanha — destaque de produtos",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Destaca os produtos da campanha (selo nos cards, borda, botão e preço na cor da campanha) na home e na página de produto."
+      },
+      {
+        "type": "checkbox",
+        "id": "camp_active",
+        "label": "Ativar destaque da campanha",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "camp_handles",
+        "label": "Produtos da campanha (handles, separados por vírgula)",
+        "info": "Handle é o final da URL do produto. Ex.: tetravit-d,super-omega-3-coq10,super-vitamina-c",
+        "default": "tetravit-d,super-omega-3-coq10,super-vitamina-c"
+      },
+      {
+        "type": "text",
+        "id": "camp_ribbon",
+        "label": "Texto do selo no card",
+        "default": "Semana da Imunidade"
+      },
+      {
+        "type": "color",
+        "id": "camp_color",
+        "label": "Cor da campanha (selo, botão, borda, preço)",
+        "default": "#323C91"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo_favicon.name",
     "settings": [
       {
