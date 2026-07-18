@@ -14,8 +14,8 @@
   assign raw = settings.cd_end | default: ''
   assign iso = raw | strip | replace: ' ', 'T' | append: '-03:00'
   assign target = iso | date: '%s'
-  assign bg = settings.cd_bg | default: '#111111'
-  assign fg = settings.cd_text | default: '#ffffff'
+  assign bg = bg | default: settings.cd_bg | default: '#111111'
+  assign fg = fg | default: settings.cd_text | default: '#ffffff'
   assign hide_done = settings.cd_hide_when_done
 -%}
 {%- if raw != blank -%}

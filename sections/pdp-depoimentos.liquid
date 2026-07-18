@@ -1,0 +1,101 @@
+{%- comment -%}
+  ============================================================
+  Depoimentos de clientes (estilo UGC) — carrossel de cards.
+  Cada card = foto/print do depoimento (+ nome e frase opcional).
+  Cards vazios só aparecem no editor (não na loja).
+  Pensado para a página de produto, acima de "Marca segura".
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign items = section.blocks
+  assign has_photo = false
+  for b in items
+    if b.settings.photo != blank
+      assign has_photo = true
+    endif
+  endfor
+-%}
+{%- if has_photo or request.design_mode -%}
+  <div class="section dep-wrap color-{{ st.color_scheme }} gradient">
+    <div class="container">
+      {%- if st.heading != blank -%}<h2 class="dep__title">{{ st.heading }}</h2>{%- endif -%}
+      {%- if st.subheading != blank -%}<p class="dep__sub">{{ st.subheading }}</p>{%- endif -%}
+      <div class="dep__row">
+        {%- for b in items -%}
+          {%- assign bs = b.settings -%}
+          {%- if bs.photo != blank or request.design_mode -%}
+            <div class="dep__card" {{ b.shopify_attributes }}>
+              <div class="dep__media">
+                {%- if bs.photo != blank -%}
+                  {{ bs.photo | image_url: width: 800 | image_tag: loading: 'lazy', class: 'dep__img', alt: bs.name | default: 'Depoimento Botanika' }}
+                {%- else -%}
+                  <div class="dep__ph"></div>
+                {%- endif -%}
+              </div>
+              {%- if st.show_stars or bs.name != blank or bs.caption != blank -%}
+                <div class="dep__info">
+                  {%- if st.show_stars -%}<span class="dep__stars">★★★★★</span>{%- endif -%}
+                  {%- if bs.caption != blank -%}<span class="dep__quote">{{ bs.caption }}</span>{%- endif -%}
+                  {%- if bs.name != blank -%}<span class="dep__name">{{ bs.name }}</span>{%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- style -%}
+    .dep-wrap { padding: 40px 0; }
+    .dep__title { text-align: center; margin: 0 0 8px; font-size: clamp(24px, 3.2vw, 34px); }
+    .dep__sub { text-align: center; opacity: .8; margin: 0 auto 26px; max-width: 640px; }
+    .dep__row { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 16px; -webkit-overflow-scrolling: touch; }
+    .dep__row::-webkit-scrollbar { height: 6px; }
+    .dep__row::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 999px; }
+    .dep__card { flex: 0 0 auto; width: min(78vw, 300px); scroll-snap-align: start; background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+    .dep__media { aspect-ratio: 4 / 5; background: #eef0f5; }
+    .dep__img, .dep__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .dep__ph { background: linear-gradient(135deg, #e8ebf3, #dfe3ee); }
+    .dep__info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .dep__stars { color: #f5a623; font-size: 14px; letter-spacing: 1px; }
+    .dep__quote { font-size: 14px; line-height: 1.4; color: #333; }
+    .dep__name { font-weight: 700; font-size: 13.5px; color: #111; }
+    @media (min-width: 1000px) {
+      .dep__card { width: calc((100% - 3 * 18px) / 4); }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Depoimentos de clientes",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de cor", "default": "default" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "O que dizem nossos clientes" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Histórias reais de quem já faz parte da Botanika." },
+    { "type": "checkbox", "id": "show_stars", "label": "Mostrar 5 estrelas nos cards", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "depoimento",
+      "name": "Depoimento",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Foto / print do depoimento" },
+        { "type": "text", "id": "name", "label": "Nome do cliente (opcional)" },
+        { "type": "textarea", "id": "caption", "label": "Frase / depoimento (opcional)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Depoimentos de clientes",
+      "blocks": [
+        { "type": "depoimento" }, { "type": "depoimento" }, { "type": "depoimento" }, { "type": "depoimento" }
+      ]
+    }
+  ]
+}
+{% endschema %}

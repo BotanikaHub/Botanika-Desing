@@ -5,7 +5,7 @@
 {%- endcomment -%}
 {%- if block.settings.show -%}
   <div {{ block.shopify_attributes }}>
-    {%- render 'botanika-countdown', variant: 'product', message: block.settings.message -%}
+    {%- render 'botanika-countdown', variant: 'product', message: block.settings.message, bg: block.settings.bg_color, fg: block.settings.text_color -%}
   </div>
 {%- endif -%}
 {% schema %}
@@ -14,7 +14,9 @@
   "tag": null,
   "settings": [
     { "type": "checkbox", "id": "show", "label": "Mostrar contador", "default": true },
-    { "type": "text", "id": "message", "label": "Mensagem", "default": "⏳ Preço promocional termina em" }
+    { "type": "text", "id": "message", "label": "Mensagem", "default": "⏳ Preço promocional termina em" },
+    { "type": "color", "id": "bg_color", "label": "Cor de destaque (fundo dos números)", "default": "#323C91" },
+    { "type": "color", "id": "text_color", "label": "Cor do número", "default": "#ffffff" }
   ],
   "presets": [
     { "name": "Contador de oferta" }
