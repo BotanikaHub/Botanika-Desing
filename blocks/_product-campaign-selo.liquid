@@ -1,0 +1,49 @@
+{%- comment -%}
+  ============================================================
+  Selo/faixa da campanha na página de produto.
+  Aparece SOMENTE nos produtos cujos handles estão na lista
+  (padrão: os 3 da Semana da Imunidade). Nos demais, não renderiza.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign product = closest.product
+  assign handles = bs.handles | downcase | replace: ' ', '' | split: ','
+  assign match = false
+  for h in handles
+    if h == product.handle
+      assign match = true
+      break
+    endif
+  endfor
+-%}
+{%- if bs.show and match -%}
+  <div class="camp-selo" style="--cs-bg:{{ bs.bg_color }};--cs-fg:{{ bs.text_color }};" {{ block.shopify_attributes }}>
+    {%- if bs.icon != blank -%}<span class="camp-selo__ic">{{ bs.icon }}</span>{%- endif -%}
+    <span class="camp-selo__tx">{{ bs.text }}</span>
+  </div>
+  {%- style -%}
+    .camp-selo {
+      display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
+      background: var(--cs-bg, #323C91); color: var(--cs-fg, #ffffff);
+      padding: 10px 16px; border-radius: 12px; font-weight: 700; line-height: 1.2;
+    }
+    .camp-selo__ic { font-size: 20px; flex: 0 0 auto; }
+    .camp-selo__tx { font-size: 14.5px; }
+  {%- endstyle -%}
+{%- endif -%}
+{% schema %}
+{
+  "name": "Selo da campanha",
+  "tag": null,
+  "settings": [
+    { "type": "checkbox", "id": "show", "label": "Mostrar selo", "default": true },
+    { "type": "text", "id": "handles", "label": "Produtos (handles, separados por vírgula)", "info": "Handle é o final da URL do produto. Ex.: tetravit-d,super-omega-3-coq10,super-vitamina-c", "default": "tetravit-d,super-omega-3-coq10,super-vitamina-c" },
+    { "type": "text", "id": "icon", "label": "Ícone (emoji)", "default": "🛡️" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Semana da Imunidade — 8% OFF neste produto" },
+    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#323C91" },
+    { "type": "color", "id": "text_color", "label": "Texto", "default": "#ffffff" }
+  ],
+  "presets": [ { "name": "Selo da campanha" } ]
+}
+{% endschema %}
