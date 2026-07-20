@@ -1,10 +1,9 @@
 export function Logo({
   className = "",
-  brandName,
   color = "var(--brand)",
 }: {
   className?: string;
-  brandName?: string;
+  brandName?: string; // aceito por compatibilidade; o nome exibido é sempre "Creator Club"
   color?: string;
 }) {
   return (
@@ -30,10 +29,8 @@ export function Logo({
         </svg>
       </span>
       <span className="text-lg tracking-tight">
-        {brandName || "Creator"}{" "}
-        <span className="font-medium text-[var(--muted)]">
-          {brandName ? "Creator Club" : "Club"}
-        </span>
+        Creator{" "}
+        <span className="font-medium text-[var(--muted)]">Club</span>
       </span>
     </span>
   );
