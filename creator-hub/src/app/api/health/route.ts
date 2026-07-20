@@ -12,3 +12,5 @@ export async function GET() {
 }
 
 // build: preset next.js
+
+// redeploy: aplica NEXT_PUBLIC_APP_URL
