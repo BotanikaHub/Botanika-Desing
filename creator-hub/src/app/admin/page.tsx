@@ -6,6 +6,7 @@ import { adminLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { PendingCard, type CreatorView } from "./ApplicationCard";
+import { BrandSettings, type BrandView } from "./BrandSettings";
 import type { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -16,13 +17,27 @@ type CreatorWithBrand = Prisma.CreatorGetPayload<{ include: { brand: true } }>;
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ brand?: string }>;
+  searchParams: Promise<{ brand?: string; connected?: string; error?: string }>;
 }) {
   const admin = await getCurrentAdmin();
   if (!admin) redirect("/admin/login");
 
   const sp = await searchParams;
   const brands = await prisma.brand.findMany({ orderBy: { name: "asc" } });
+
+  const brandViews: BrandView[] = brands
+    .filter((b) => !admin.brandId || b.id === admin.brandId)
+    .map((b) => ({
+      id: b.id,
+      name: b.name,
+      slug: b.slug,
+      color: b.primaryColor,
+      shopDomain: b.shopDomain,
+      storeUrl: b.storeUrl,
+      shopifyApiKey: b.shopifyApiKey,
+      hasSecret: Boolean(b.shopifyApiSecret),
+      connected: Boolean(b.shopifyAccessToken),
+    }));
 
   // Super admin vê todas; admin de marca fica restrito à sua.
   const selectedSlug = admin.brandId
@@ -77,6 +92,23 @@ export default async function AdminPage({
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+        {sp.connected && (
+          <div className="mb-6 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-3 text-sm text-[var(--brand-dark)]">
+            Shopify da marca <b>{sp.connected}</b> conectada com sucesso! 🎉
+          </div>
+        )}
+        {sp.error && (
+          <div className="mb-6 rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-3 text-sm text-[var(--danger)]">
+            Não foi possível conectar: {decodeURIComponent(sp.error)}
+          </div>
+        )}
+
+        {/* Conexões Shopify por marca */}
+        <section className="mb-10">
+          <h2 className="mb-4 text-xl font-bold">Marcas & Shopify</h2>
+          <BrandSettings brands={brandViews} />
+        </section>
+
         {/* Filtro por marca (apenas super admin) */}
         {!admin.brandId && brands.length > 0 && (
           <div className="mb-6 flex flex-wrap gap-2">

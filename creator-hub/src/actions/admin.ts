@@ -89,6 +89,42 @@ export async function approveCreatorAction(
   return { ok: true };
 }
 
+export type BrandConfigState = { error?: string; ok?: boolean } | null;
+
+// Salva as credenciais Shopify (Client ID/Secret + domínio) de uma marca.
+export async function saveBrandShopifyConfigAction(
+  _prev: BrandConfigState,
+  formData: FormData,
+): Promise<BrandConfigState> {
+  const admin = await ensureAdmin();
+
+  const brandId = String(formData.get("brandId") || "");
+  const shopDomain = String(formData.get("shopDomain") || "").trim().toLowerCase() || null;
+  const storeUrl = String(formData.get("storeUrl") || "").trim() || null;
+  const apiKey = String(formData.get("shopifyApiKey") || "").trim() || null;
+  const apiSecretRaw = String(formData.get("shopifyApiSecret") || "").trim();
+
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return { error: "Marca não encontrada." };
+  if (admin.brandId && admin.brandId !== brand.id) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  await prisma.brand.update({
+    where: { id: brandId },
+    data: {
+      shopDomain,
+      storeUrl,
+      shopifyApiKey: apiKey,
+      // só sobrescreve o secret se um novo valor foi enviado (mantém o atual em branco)
+      ...(apiSecretRaw ? { shopifyApiSecret: apiSecretRaw } : {}),
+    },
+  });
+
+  revalidatePath("/admin");
+  return { ok: true };
+}
+
 export async function rejectCreatorAction(formData: FormData) {
   await ensureAdmin();
   const id = String(formData.get("creatorId") || "");
