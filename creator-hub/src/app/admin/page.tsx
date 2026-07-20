@@ -9,7 +9,7 @@ import { PendingCard, type CreatorView } from "./ApplicationCard";
 import type { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Admin · Creator Hub" };
+export const metadata = { title: "Admin · Creator Club" };
 
 type CreatorWithBrand = Prisma.CreatorGetPayload<{ include: { brand: true } }>;
 
@@ -67,7 +67,7 @@ export default async function AdminPage({
       <header className="border-b bg-[var(--surface)]">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <Logo brandName="Creator" />
+            <Logo />
             <span className="badge badge-approved">Admin</span>
           </div>
           <form action={adminLogoutAction}>

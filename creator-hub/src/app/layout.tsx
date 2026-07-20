@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Botanika Creator Hub",
+  title: "Creator Club",
   description:
-    "Programa de creators e afiliados da Botanika. Divulgue, venda e ganhe comissões.",
+    "Creator Club — programa de creators e afiliados. Divulgue, venda e ganhe comissões.",
 };
 
 export default function RootLayout({

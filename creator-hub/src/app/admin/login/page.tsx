@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 import { getCurrentAdmin } from "@/lib/auth";
 import { AdminLoginForm } from "./AdminLoginForm";
 
-export const metadata = { title: "Admin · Botanika Creators" };
+export const metadata = { title: "Admin · Creator Club" };
 
 export default async function AdminLoginPage() {
   const admin = await getCurrentAdmin();

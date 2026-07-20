@@ -1,4 +1,4 @@
-# Creator Hub — Botanika & Vermfree
+# Creator Club — Botanika & Vermfree
 
 Hub de afiliados **multi-marca**. Creators (influenciadores, médicos, nutricionistas…)
 se cadastram por marca, a equipe aprova, e cada aprovado recebe um painel com

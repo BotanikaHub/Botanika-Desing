@@ -31,7 +31,9 @@ export function Logo({
       </span>
       <span className="text-lg tracking-tight">
         {brandName || "Creator"}{" "}
-        <span className="font-medium text-[var(--muted)]">Hub</span>
+        <span className="font-medium text-[var(--muted)]">
+          {brandName ? "Creator Club" : "Club"}
+        </span>
       </span>
     </span>
   );

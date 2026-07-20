@@ -10,7 +10,7 @@ export default async function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
       <div className="w-full max-w-2xl text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Hub de Creators
+          Creator Club
         </h1>
         <p className="mt-3 text-[var(--muted)]">
           Escolha o programa de afiliados que você quer acessar.
