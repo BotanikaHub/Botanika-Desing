@@ -10,3 +10,5 @@ export async function GET() {
     time: new Date().toISOString(),
   });
 }
+
+// build: preset next.js
