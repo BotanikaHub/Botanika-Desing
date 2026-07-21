@@ -27,7 +27,7 @@ export default async function BrandAdmin({
   searchParams,
 }: {
   params: Promise<{ brand: string }>;
-  searchParams: Promise<{ connected?: string; error?: string }>;
+  searchParams: Promise<{ connected?: string; error?: string; period?: string }>;
 }) {
   const admin = await getCurrentAdmin();
   if (!admin) redirect("/admin/login");
@@ -37,6 +37,19 @@ export default async function BrandAdmin({
   const brand = await getBrandBySlug(slug);
   if (!brand) notFound();
   if (admin.brandId && admin.brandId !== brand.id) redirect("/admin");
+
+  // Período do dashboard
+  const periods: { key: string; label: string; days: number | null }[] = [
+    { key: "7d", label: "7 dias", days: 7 },
+    { key: "30d", label: "30 dias", days: 30 },
+    { key: "90d", label: "90 dias", days: 90 },
+    { key: "12m", label: "12 meses", days: 365 },
+    { key: "all", label: "Tudo", days: null },
+  ];
+  const period = periods.find((p) => p.key === sp.period) ?? periods[2]; // padrão: 90 dias
+  const since = period.days
+    ? new Date(Date.now() - period.days * 86400000).toISOString().slice(0, 10)
+    : null;
 
   const [pending, approved, rejected] = await Promise.all([
     prisma.creator.findMany({
@@ -68,7 +81,7 @@ export default async function BrandAdmin({
       }
     }
     try {
-      analytics = await getBrandAnalytics(conn, creatorsByCode);
+      analytics = await getBrandAnalytics(conn, creatorsByCode, { since });
     } catch (err) {
       analyticsError = err instanceof Error ? err.message : "Erro ao analisar vendas.";
     }
@@ -143,7 +156,27 @@ export default async function BrandAdmin({
 
         {/* Dashboard */}
         <section className="mb-10">
-          <h2 className="mb-4 text-xl font-bold">Dashboard · {brand.name}</h2>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-bold">Dashboard · {brand.name}</h2>
+            {brandView.connected && (
+              <div className="flex flex-wrap gap-1.5">
+                {periods.map((p) => (
+                  <Link
+                    key={p.key}
+                    href={`/admin/${brand.slug}?period=${p.key}`}
+                    className="rounded-full border px-3 py-1 text-xs font-semibold transition"
+                    style={
+                      p.key === period.key
+                        ? { background: brand.primaryColor, color: "#fff", borderColor: brand.primaryColor }
+                        : undefined
+                    }
+                  >
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           {!brandView.connected ? (
             <div className="card text-sm text-[var(--muted)]">
               Conecte a Shopify desta marca (abaixo) para ver o dashboard de vendas.

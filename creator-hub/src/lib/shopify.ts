@@ -234,11 +234,13 @@ export type BrandAnalytics = {
 export async function getBrandAnalytics(
   conn: ShopifyConnection,
   creatorsByCode: Record<string, { name: string; rate: number }>,
-  maxOrders = 500,
+  opts: { maxOrders?: number; since?: string | null } = {},
 ): Promise<BrandAnalytics> {
+  const maxOrders = opts.maxOrders ?? 1000;
+  const q = opts.since ? `created_at:>=${opts.since}` : "";
   const query = `
-    query brandOrders($first: Int!, $after: String) {
-      orders(first: $first, after: $after, sortKey: CREATED_AT, reverse: true) {
+    query brandOrders($first: Int!, $after: String, $q: String) {
+      orders(first: $first, after: $after, query: $q, sortKey: CREATED_AT, reverse: true) {
         pageInfo { hasNextPage endCursor }
         nodes {
           discountCodes
@@ -280,7 +282,7 @@ export async function getBrandAnalytics(
         pageInfo: { hasNextPage: boolean; endCursor: string | null };
         nodes: OrderNode[];
       };
-    } = await shopifyGraphQL(conn, query, { first: 100, after });
+    } = await shopifyGraphQL(conn, query, { first: 100, after, q });
 
     for (const o of data.orders.nodes) {
       ordersScanned += 1;
