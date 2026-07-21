@@ -7,7 +7,8 @@ import { creatorLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
 import { getCreatorSales, isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
-import { formatBRL, formatDate, PERIODS, resolvePeriod } from "@/lib/format";
+import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
+import { PeriodFilter } from "@/components/PeriodFilter";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -26,13 +27,14 @@ export default async function PainelBrand({
   searchParams,
 }: {
   params: Promise<{ brand: string }>;
-  searchParams: Promise<{ period?: string }>;
+  searchParams: Promise<{ period?: string; from?: string; to?: string }>;
 }) {
   const account = await getCurrentCreatorAccount();
   if (!account) redirect("/entrar");
 
   const { brand: slug } = await params;
-  const { period, since } = resolvePeriod((await searchParams).period);
+  const sp = await searchParams;
+  const { key: periodKey, since, until } = resolvePeriod(sp.period, sp.from, sp.to);
   const membership = account.creators.find(
     (c) => c.brand.slug === slug.toLowerCase() && c.status === "APPROVED" && c.couponCode,
   );
@@ -53,7 +55,7 @@ export default async function PainelBrand({
   const connected = isShopifyConfigured(conn);
   if (connected) {
     try {
-      sales = await getCreatorSales(conn, couponCode, { since });
+      sales = await getCreatorSales(conn, couponCode, { since, until });
     } catch (err) {
       salesError = err instanceof Error ? err.message : "Erro ao consultar a loja.";
     }
@@ -82,21 +84,8 @@ export default async function PainelBrand({
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
-        <div className="mb-4 flex flex-wrap gap-1.5">
-          {PERIODS.map((p) => (
-            <Link
-              key={p.key}
-              href={`/painel/${brand.slug}?period=${p.key}`}
-              className="rounded-full border px-3 py-1 text-xs font-semibold transition"
-              style={
-                p.key === period.key
-                  ? { background: color, color: "#fff", borderColor: color }
-                  : undefined
-              }
-            >
-              {p.label}
-            </Link>
-          ))}
+        <div className="mb-4">
+          <PeriodFilter basePath={`/painel/${brand.slug}`} activeKey={periodKey} from={sp.from} to={sp.to} color={color} />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

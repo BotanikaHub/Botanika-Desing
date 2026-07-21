@@ -6,7 +6,8 @@ import { creatorLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
 import { getOrdersByDiscountCode, isShopifyConfigured } from "@/lib/shopify";
-import { formatBRL, PERIODS, resolvePeriod } from "@/lib/format";
+import { formatBRL, resolvePeriod } from "@/lib/format";
+import { PeriodFilter } from "@/components/PeriodFilter";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -24,13 +25,13 @@ function Stat({ label, value }: { label: string; value: string }) {
 export default async function PainelPage({
   searchParams,
 }: {
-  searchParams: Promise<{ period?: string }>;
+  searchParams: Promise<{ period?: string; from?: string; to?: string }>;
 }) {
   const account = await getCurrentCreatorAccount();
   if (!account) redirect("/entrar");
 
   const sp = await searchParams;
-  const { period, since } = resolvePeriod(sp.period);
+  const { key: periodKey, since, until } = resolvePeriod(sp.period, sp.from, sp.to);
 
   const active = account.creators.filter(
     (c) => c.status === "APPROVED" && c.couponCode,
@@ -44,7 +45,7 @@ export default async function PainelPage({
       let orders = 0;
       if (isShopifyConfigured(conn) && c.couponCode) {
         try {
-          const s = await getOrdersByDiscountCode(conn, c.couponCode, { since });
+          const s = await getOrdersByDiscountCode(conn, c.couponCode, { since, until });
           sales = s.totalSales;
           orders = s.orderCount;
         } catch {
@@ -94,21 +95,8 @@ export default async function PainelPage({
         </p>
 
         {/* Filtro de período */}
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {PERIODS.map((p) => (
-            <Link
-              key={p.key}
-              href={`/painel?period=${p.key}`}
-              className="rounded-full border px-3 py-1 text-xs font-semibold transition"
-              style={
-                p.key === period.key
-                  ? { background: "var(--brand)", color: "#fff", borderColor: "var(--brand)" }
-                  : undefined
-              }
-            >
-              {p.label}
-            </Link>
-          ))}
+        <div className="mt-4">
+          <PeriodFilter basePath="/painel" activeKey={periodKey} from={sp.from} to={sp.to} />
         </div>
 
         {/* Consolidado */}

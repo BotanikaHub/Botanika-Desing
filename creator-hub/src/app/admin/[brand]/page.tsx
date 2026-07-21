@@ -18,6 +18,8 @@ import {
 } from "../ApplicationCard";
 import { BrandSettings, type BrandView } from "../BrandSettings";
 import { BrandAnalyticsView } from "./Analytics";
+import { resolvePeriod } from "@/lib/format";
+import { PeriodFilter } from "@/components/PeriodFilter";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -27,7 +29,13 @@ export default async function BrandAdmin({
   searchParams,
 }: {
   params: Promise<{ brand: string }>;
-  searchParams: Promise<{ connected?: string; error?: string; period?: string }>;
+  searchParams: Promise<{
+    connected?: string;
+    error?: string;
+    period?: string;
+    from?: string;
+    to?: string;
+  }>;
 }) {
   const admin = await getCurrentAdmin();
   if (!admin) redirect("/admin/login");
@@ -39,17 +47,7 @@ export default async function BrandAdmin({
   if (admin.brandId && admin.brandId !== brand.id) redirect("/admin");
 
   // Período do dashboard
-  const periods: { key: string; label: string; days: number | null }[] = [
-    { key: "7d", label: "7 dias", days: 7 },
-    { key: "30d", label: "30 dias", days: 30 },
-    { key: "90d", label: "90 dias", days: 90 },
-    { key: "12m", label: "12 meses", days: 365 },
-    { key: "all", label: "Tudo", days: null },
-  ];
-  const period = periods.find((p) => p.key === sp.period) ?? periods[2]; // padrão: 90 dias
-  const since = period.days
-    ? new Date(Date.now() - period.days * 86400000).toISOString().slice(0, 10)
-    : null;
+  const { key: periodKey, since, until } = resolvePeriod(sp.period, sp.from, sp.to);
 
   const [pending, approved, rejected] = await Promise.all([
     prisma.creator.findMany({
@@ -81,7 +79,7 @@ export default async function BrandAdmin({
       }
     }
     try {
-      analytics = await getBrandAnalytics(conn, creatorsByCode, { since });
+      analytics = await getBrandAnalytics(conn, creatorsByCode, { since, until });
     } catch (err) {
       analyticsError = err instanceof Error ? err.message : "Erro ao analisar vendas.";
     }
@@ -167,22 +165,13 @@ export default async function BrandAdmin({
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-xl font-bold">Vendas</h2>
             {brandView.connected && (
-              <div className="flex flex-wrap gap-1.5">
-                {periods.map((p) => (
-                  <Link
-                    key={p.key}
-                    href={`/admin/${brand.slug}?period=${p.key}`}
-                    className="rounded-full border px-3 py-1 text-xs font-semibold transition"
-                    style={
-                      p.key === period.key
-                        ? { background: brand.primaryColor, color: "#fff", borderColor: brand.primaryColor }
-                        : undefined
-                    }
-                  >
-                    {p.label}
-                  </Link>
-                ))}
-              </div>
+              <PeriodFilter
+                basePath={`/admin/${brand.slug}`}
+                activeKey={periodKey}
+                from={sp.from}
+                to={sp.to}
+                color={brand.primaryColor}
+              />
             )}
           </div>
           {!brandView.connected ? (

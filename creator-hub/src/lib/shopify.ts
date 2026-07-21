@@ -156,10 +156,10 @@ export type OrderStats = {
 export async function getOrdersByDiscountCode(
   conn: ShopifyConnection,
   code: string,
-  opts: { since?: string | null; maxOrders?: number } = {},
+  opts: { since?: string | null; until?: string | null; maxOrders?: number } = {},
 ): Promise<OrderStats> {
   const maxOrders = opts.maxOrders ?? 250;
-  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "");
+  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "") + (opts.until ? ` created_at:<=${opts.until}` : "");
   // Obs: NÃO pedimos dados do cliente (customer{}), pois isso exigiria o scope
   // `read_customers` (dados protegidos, com aprovação da Shopify). Para vendas e
   // comissões não é necessário.
@@ -230,10 +230,10 @@ export type CreatorSales = {
 export async function getCreatorSales(
   conn: ShopifyConnection,
   code: string,
-  opts: { since?: string | null; maxOrders?: number } = {},
+  opts: { since?: string | null; until?: string | null; maxOrders?: number } = {},
 ): Promise<CreatorSales> {
   const maxOrders = opts.maxOrders ?? 250;
-  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "");
+  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "") + (opts.until ? ` created_at:<=${opts.until}` : "");
   const query = `
     query creatorSales($q: String!, $first: Int!) {
       orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
@@ -330,10 +330,15 @@ export type BrandAnalytics = {
 export async function getBrandAnalytics(
   conn: ShopifyConnection,
   creatorsByCode: Record<string, { name: string; rate: number }>,
-  opts: { maxOrders?: number; since?: string | null } = {},
+  opts: { maxOrders?: number; since?: string | null; until?: string | null } = {},
 ): Promise<BrandAnalytics> {
   const maxOrders = opts.maxOrders ?? 1000;
-  const q = opts.since ? `created_at:>=${opts.since}` : "";
+  const q = [
+    opts.since ? `created_at:>=${opts.since}` : "",
+    opts.until ? `created_at:<=${opts.until}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   const query = `
     query brandOrders($first: Int!, $after: String, $q: String) {
       orders(first: $first, after: $after, query: $q, sortKey: CREATED_AT, reverse: true) {
