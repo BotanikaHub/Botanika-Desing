@@ -156,8 +156,10 @@ export type OrderStats = {
 export async function getOrdersByDiscountCode(
   conn: ShopifyConnection,
   code: string,
-  maxOrders = 100,
+  opts: { since?: string | null; maxOrders?: number } = {},
 ): Promise<OrderStats> {
+  const maxOrders = opts.maxOrders ?? 250;
+  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "");
   // Obs: NÃO pedimos dados do cliente (customer{}), pois isso exigiria o scope
   // `read_customers` (dados protegidos, com aprovação da Shopify). Para vendas e
   // comissões não é necessário.
@@ -187,7 +189,7 @@ export async function getOrdersByDiscountCode(
         };
       }>;
     };
-  }>(conn, query, { q: `discount_code:${code}`, first: maxOrders });
+  }>(conn, query, { q, first: maxOrders });
 
   const nodes = data.orders.nodes;
   let totalSales = 0;
@@ -228,8 +230,10 @@ export type CreatorSales = {
 export async function getCreatorSales(
   conn: ShopifyConnection,
   code: string,
-  maxOrders = 250,
+  opts: { since?: string | null; maxOrders?: number } = {},
 ): Promise<CreatorSales> {
+  const maxOrders = opts.maxOrders ?? 250;
+  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "");
   const query = `
     query creatorSales($q: String!, $first: Int!) {
       orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
@@ -268,7 +272,7 @@ export async function getCreatorSales(
         };
       }>;
     };
-  }>(conn, query, { q: `discount_code:${code}`, first: maxOrders });
+  }>(conn, query, { q, first: maxOrders });
 
   let totalSales = 0;
   let currency = "BRL";

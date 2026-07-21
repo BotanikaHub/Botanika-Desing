@@ -1,3 +1,20 @@
+export const PERIODS = [
+  { key: "7d", label: "7 dias", days: 7 },
+  { key: "30d", label: "30 dias", days: 30 },
+  { key: "90d", label: "90 dias", days: 90 },
+  { key: "12m", label: "12 meses", days: 365 },
+  { key: "all", label: "Tudo", days: null },
+] as const;
+
+// Resolve o período do filtro (padrão: 90 dias) e a data inicial (ISO yyyy-mm-dd).
+export function resolvePeriod(key?: string) {
+  const period = PERIODS.find((p) => p.key === key) ?? PERIODS[2];
+  const since = period.days
+    ? new Date(Date.now() - period.days * 86400000).toISOString().slice(0, 10)
+    : null;
+  return { period, since };
+}
+
 export function formatBRL(value: number): string {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
