@@ -155,11 +155,13 @@ function BrandCard({ brand }: { brand: BrandView }) {
                 name="emailFrom"
                 className="input"
                 defaultValue={brand.emailFrom || ""}
-                placeholder={`${brand.name} Creator Club <creators@seudominio.com.br>`}
+                placeholder={`${brand.name} Creator Club <${brand.slug}@creatorclub.com.br>`}
               />
               <p className="mt-1 text-xs text-[var(--muted)]">
-                Domínio precisa estar verificado na Resend. Vazio = usa o remetente
-                padrão do ambiente.
+                Deixe vazio para usar o padrão automático{" "}
+                <b>{brand.slug}@creatorclub.com.br</b> (definido por{" "}
+                <code>EMAIL_BASE_DOMAIN</code>). Preencha só se quiser um remetente
+                diferente. O domínio precisa estar verificado na Resend.
               </p>
             </div>
 

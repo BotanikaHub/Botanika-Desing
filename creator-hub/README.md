@@ -56,11 +56,14 @@ aviso de que as vendas aparecem após a conexão.
 - **Vercel** (deploy nativo de Next.js, a partir do GitHub).
 - Variáveis de ambiente: `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET`,
   `NEXT_PUBLIC_APP_URL` (URL pública do hub), `SHOPIFY_API_VERSION`.
-- **E-mail (opcional)**: `RESEND_API_KEY` liga os e-mails automáticos; `EMAIL_FROM`
-  é o remetente padrão. Cada marca pode ter seu próprio remetente em
-  `Brand.emailFrom` (admin → configurações da marca) — basta um domínio verificado
-  na Resend (pode ser o domínio que a marca já tem, ex.: `botanikabrasil.com.br`).
-  Sem `RESEND_API_KEY`, o envio é um no-op silencioso e o app segue funcionando.
+- **E-mail (opcional)**: `RESEND_API_KEY` liga os e-mails automáticos.
+  Convenção de remetente: um domínio único verificado na Resend em
+  `EMAIL_BASE_DOMAIN` (ex.: `creatorclub.com.br`) — cada marca envia
+  automaticamente de `<slug>@EMAIL_BASE_DOMAIN` (ex.: `botanika@creatorclub.com.br`,
+  `vermfree@creatorclub.com.br`). Marca nova = zero config: basta criar a caixa
+  `<slug>@creatorclub.com.br`. Dá para sobrescrever caso a caso em `Brand.emailFrom`
+  (admin → configurações da marca). Sem `RESEND_API_KEY`, o envio é um no-op
+  silencioso e o app segue funcionando.
 
 ## Segurança
 

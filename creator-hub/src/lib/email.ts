@@ -35,6 +35,27 @@ function defaultFrom(): string {
 }
 
 /**
+ * Resolve o remetente de uma marca, na ordem:
+ *  1. Brand.emailFrom          → override explícito (definido no admin)
+ *  2. EMAIL_BASE_DOMAIN         → convenção automática "<slug>@dominio"
+ *     (ex.: EMAIL_BASE_DOMAIN=creatorclub.com.br → botanika@creatorclub.com.br).
+ *     Assim toda marca nova já tem e-mail sem configurar nada — basta criar a
+ *     caixa <slug>@creatorclub.com.br no provedor.
+ *  3. EMAIL_FROM                → remetente padrão do ambiente
+ *  4. fallback de teste da Resend
+ */
+export function brandEmailFrom(brand: {
+  slug: string;
+  name: string;
+  emailFrom: string | null;
+}): string {
+  if (brand.emailFrom) return brand.emailFrom;
+  const base = process.env.EMAIL_BASE_DOMAIN?.trim().replace(/^@/, "");
+  if (base) return `${brand.name} Creator Club <${brand.slug}@${base}>`;
+  return defaultFrom();
+}
+
+/**
  * Envia um e-mail. Nunca lança — retorna { ok, skipped?, error? } para que o
  * fluxo que chama (ex.: aprovação de creator) jamais quebre por causa de e-mail.
  */

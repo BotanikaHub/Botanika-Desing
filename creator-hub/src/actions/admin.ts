@@ -11,7 +11,7 @@ import {
   listDiscountCodes,
 } from "@/lib/shopify";
 import { brandConnection } from "@/lib/brand";
-import { sendEmail, creatorApprovedEmail } from "@/lib/email";
+import { sendEmail, creatorApprovedEmail, brandEmailFrom } from "@/lib/email";
 import type { Prisma } from "@prisma/client";
 
 function appUrl(): string {
@@ -148,7 +148,7 @@ export async function approveCreatorAction(
   });
   await sendEmail({
     to: creator.email,
-    from: creator.brand.emailFrom,
+    from: brandEmailFrom(creator.brand),
     subject: tmpl.subject,
     html: tmpl.html,
   });
