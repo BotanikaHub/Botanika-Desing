@@ -12,7 +12,10 @@ const SECRET = new TextEncoder().encode(
   process.env.SESSION_SECRET || "dev-insecure-secret-change-me",
 );
 
-export const SHOPIFY_SCOPES = "read_orders,write_discounts,read_discounts";
+// read_products/read_product_listings: usados no seletor de produtos/coleções
+// do editor de cupom (aplicar desconto em itens/coleções específicas).
+export const SHOPIFY_SCOPES =
+  "read_orders,write_discounts,read_discounts,read_products";
 
 export function appUrl(): string {
   return (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000").replace(/\/$/, "");

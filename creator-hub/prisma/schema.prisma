@@ -114,6 +114,10 @@ model Creator {
   // % de desconto do cupom para o cliente (espelha o valor na Shopify).
   // Nulo = desconto não gerenciado por aqui (ex.: cupom importado antigo).
   couponDiscountRate Float?
+  // Configuração completa do cupom na Shopify (tipo de valor, onde aplica,
+  // produtos/coleções, frete grátis, mínimos e limites). Espelho do que foi
+  // salvo por aqui. Nulo = ainda não configurado pelo painel.
+  couponConfig Json?
 
   // Importado da Shopify e ainda não reivindicado por uma influencer.
   // false = sem login utilizável (aguardando a influencer criar acesso).

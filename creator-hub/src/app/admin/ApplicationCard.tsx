@@ -8,6 +8,7 @@ import {
   type ApproveState,
 } from "@/actions/admin";
 import { SubmitButton } from "@/components/SubmitButton";
+import { CouponEditor } from "./CouponEditor";
 
 export type CreatorView = {
   id: string;
@@ -113,6 +114,7 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
 
 export type ApprovedView = {
   id: string;
+  brandId: string;
   brandName: string;
   brandColor: string;
   name: string;
@@ -120,6 +122,7 @@ export type ApprovedView = {
   couponCode: string | null;
   commissionRatePct: number;
   discountPct: number | null;
+  couponSummary: string | null;
   approvedAt: string | null;
   claimed: boolean;
 };
@@ -159,7 +162,11 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
             </p>
             <p className="text-xs text-[var(--muted)]">
               {creator.commissionRatePct}% comissão
-              {creator.discountPct != null && ` · ${creator.discountPct}% desconto`}
+              {creator.couponSummary
+                ? ` · ${creator.couponSummary}`
+                : creator.discountPct != null
+                  ? ` · ${creator.discountPct}% desconto`
+                  : ""}
             </p>
           </div>
           <button
@@ -207,26 +214,13 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
                   defaultValue={creator.commissionRatePct}
                 />
               </div>
-              <div className="w-32">
-                <label className="label">Desconto %</label>
-                <input
-                  name="discountRate"
-                  type="number"
-                  min={0}
-                  max={100}
-                  step={1}
-                  className="input"
-                  defaultValue={creator.discountPct ?? ""}
-                  placeholder="manter"
-                />
-              </div>
               <SubmitButton className="btn btn-primary" pendingLabel="Salvando...">
                 Salvar
               </SubmitButton>
             </div>
             <p className="mt-2 text-xs text-[var(--muted)]">
-              <b>Comissão</b> = ganho da creator (interno). <b>Desconto</b> = cupom do
-              cliente — ao salvar, é atualizado na Shopify. Em branco = mantém o atual.
+              <b>Comissão</b> = ganho da creator (interno). O valor e onde o cupom se
+              aplica ficam no editor abaixo.
             </p>
             <label className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
               <input type="checkbox" name="linkExisting" defaultChecked />
@@ -234,6 +228,12 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
               exato — o painel passa a puxar as vendas desse cupom.
             </label>
           </form>
+
+          <CouponEditor
+            creatorId={creator.id}
+            brandId={creator.brandId}
+            brandColor={creator.brandColor}
+          />
         </>
       )}
     </div>

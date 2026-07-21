@@ -201,6 +201,366 @@ export async function setDiscountPercentageByCode(
   return node.id;
 }
 
+// ───────────────────────── Configuração de cupom ─────────────────────────
+
+export type CouponConfig = {
+  kind: "amount" | "free_shipping";
+  valueType: "percentage" | "fixed"; // relevante quando kind = amount
+  value: number; // fração (0.05) p/ percentage; valor em R$ p/ fixed
+  appliesTo: "order" | "products" | "collections";
+  productIds: string[]; // GIDs (gid://shopify/Product/…)
+  collectionIds: string[]; // GIDs (gid://shopify/Collection/…)
+  minSubtotal: number | null; // R$ mínimo de compra
+  usageLimit: number | null; // limite total de usos
+  oncePerCustomer: boolean;
+};
+
+export function defaultCouponConfig(percentage: number): CouponConfig {
+  return {
+    kind: "amount",
+    valueType: "percentage",
+    value: percentage,
+    appliesTo: "order",
+    productIds: [],
+    collectionIds: [],
+    minSubtotal: null,
+    usageLimit: null,
+    oncePerCustomer: false,
+  };
+}
+
+export type PickItem = { id: string; title: string };
+
+/** Busca produtos da loja para o seletor (por título). */
+export async function searchProducts(
+  conn: ShopifyConnection,
+  term: string,
+  first = 20,
+): Promise<PickItem[]> {
+  const query = `
+    query searchProducts($q: String!, $first: Int!) {
+      products(first: $first, query: $q) {
+        nodes { id title }
+      }
+    }
+  `;
+  const q = term.trim() ? `title:*${term.trim()}*` : "";
+  const data = await shopifyGraphQL<{ products: { nodes: PickItem[] } }>(
+    conn,
+    query,
+    { q, first },
+  );
+  return data.products.nodes;
+}
+
+/** Busca coleções da loja para o seletor (por título). */
+export async function searchCollections(
+  conn: ShopifyConnection,
+  term: string,
+  first = 20,
+): Promise<PickItem[]> {
+  const query = `
+    query searchCollections($q: String!, $first: Int!) {
+      collections(first: $first, query: $q) {
+        nodes { id title }
+      }
+    }
+  `;
+  const q = term.trim() ? `title:*${term.trim()}*` : "";
+  const data = await shopifyGraphQL<{ collections: { nodes: PickItem[] } }>(
+    conn,
+    query,
+    { q, first },
+  );
+  return data.collections.nodes;
+}
+
+type FoundDiscount = {
+  id: string;
+  typename: string;
+  title: string;
+  config: CouponConfig | null;
+  productLabels: PickItem[];
+  collectionLabels: PickItem[];
+};
+
+/**
+ * Lê a configuração atual de um cupom na Shopify (pelo código), para pré-preencher
+ * o editor. Retorna null se o cupom não existir.
+ */
+export async function readDiscountConfigByCode(
+  conn: ShopifyConnection,
+  code: string,
+): Promise<FoundDiscount | null> {
+  const query = `
+    query byCode($code: String!) {
+      codeDiscountNodeByCode(code: $code) {
+        id
+        codeDiscount {
+          __typename
+          ... on DiscountCodeBasic {
+            title
+            usageLimit
+            appliesOncePerCustomer
+            customerGets {
+              value {
+                __typename
+                ... on DiscountPercentage { percentage }
+                ... on DiscountAmount { amount { amount } }
+              }
+              items {
+                __typename
+                ... on DiscountProducts { products(first: 250) { nodes { id title } } }
+                ... on DiscountCollections { collections(first: 250) { nodes { id title } } }
+              }
+            }
+            minimumRequirement {
+              __typename
+              ... on DiscountMinimumSubtotal { greaterThanOrEqualToSubtotal { amount } }
+            }
+          }
+          ... on DiscountCodeFreeShipping {
+            title
+            usageLimit
+            appliesOncePerCustomer
+            minimumRequirement {
+              __typename
+              ... on DiscountMinimumSubtotal { greaterThanOrEqualToSubtotal { amount } }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  type Value = { __typename: string; percentage?: number; amount?: { amount: string } };
+  type Items = {
+    __typename: string;
+    products?: { nodes: PickItem[] };
+    collections?: { nodes: PickItem[] };
+  };
+  type Minimum = {
+    __typename: string;
+    greaterThanOrEqualToSubtotal?: { amount: string };
+  } | null;
+
+  const data = await shopifyGraphQL<{
+    codeDiscountNodeByCode: {
+      id: string;
+      codeDiscount: {
+        __typename: string;
+        title?: string;
+        usageLimit?: number | null;
+        appliesOncePerCustomer?: boolean;
+        customerGets?: { value?: Value; items?: Items };
+        minimumRequirement?: Minimum;
+      };
+    } | null;
+  }>(conn, query, { code });
+
+  const node = data.codeDiscountNodeByCode;
+  if (!node) return null;
+  const cd = node.codeDiscount;
+
+  const minSubtotal =
+    cd.minimumRequirement?.__typename === "DiscountMinimumSubtotal"
+      ? parseFloat(cd.minimumRequirement.greaterThanOrEqualToSubtotal?.amount || "0") || null
+      : null;
+
+  if (cd.__typename === "DiscountCodeFreeShipping") {
+    return {
+      id: node.id,
+      typename: cd.__typename,
+      title: cd.title || code,
+      productLabels: [],
+      collectionLabels: [],
+      config: {
+        kind: "free_shipping",
+        valueType: "percentage",
+        value: 0,
+        appliesTo: "order",
+        productIds: [],
+        collectionIds: [],
+        minSubtotal,
+        usageLimit: cd.usageLimit ?? null,
+        oncePerCustomer: Boolean(cd.appliesOncePerCustomer),
+      },
+    };
+  }
+
+  if (cd.__typename === "DiscountCodeBasic") {
+    const value = cd.customerGets?.value;
+    const isPct = value?.__typename === "DiscountPercentage";
+    const items = cd.customerGets?.items;
+    const products = items?.products?.nodes ?? [];
+    const collections = items?.collections?.nodes ?? [];
+    const appliesTo: CouponConfig["appliesTo"] =
+      items?.__typename === "DiscountProducts"
+        ? "products"
+        : items?.__typename === "DiscountCollections"
+          ? "collections"
+          : "order";
+    return {
+      id: node.id,
+      typename: cd.__typename,
+      title: cd.title || code,
+      productLabels: products,
+      collectionLabels: collections,
+      config: {
+        kind: "amount",
+        valueType: isPct ? "percentage" : "fixed",
+        value: isPct
+          ? value?.percentage ?? 0
+          : parseFloat(value?.amount?.amount || "0") || 0,
+        appliesTo,
+        productIds: products.map((p) => p.id),
+        collectionIds: collections.map((c) => c.id),
+        minSubtotal,
+        usageLimit: cd.usageLimit ?? null,
+        oncePerCustomer: Boolean(cd.appliesOncePerCustomer),
+      },
+    };
+  }
+
+  // Tipo não editável por aqui (BxGy etc.)
+  return {
+    id: node.id,
+    typename: cd.__typename,
+    title: cd.title || code,
+    config: null,
+    productLabels: [],
+    collectionLabels: [],
+  };
+}
+
+function buildBasicInput(code: string, title: string, cfg: CouponConfig) {
+  const value =
+    cfg.valueType === "fixed"
+      ? { discountAmount: { amount: cfg.value.toFixed(2), appliesOnEachItem: false } }
+      : { percentage: cfg.value };
+
+  const items =
+    cfg.appliesTo === "products"
+      ? { products: { productsToAdd: cfg.productIds } }
+      : cfg.appliesTo === "collections"
+        ? { collections: { add: cfg.collectionIds } }
+        : { all: true };
+
+  const input: Record<string, unknown> = {
+    title,
+    code,
+    startsAt: new Date().toISOString(),
+    customerSelection: { all: true },
+    customerGets: { value, items },
+    appliesOncePerCustomer: cfg.oncePerCustomer,
+  };
+  if (cfg.minSubtotal != null && cfg.minSubtotal > 0) {
+    input.minimumRequirement = {
+      subtotal: { greaterThanOrEqualToSubtotal: cfg.minSubtotal.toFixed(2) },
+    };
+  }
+  if (cfg.usageLimit != null && cfg.usageLimit > 0) {
+    input.usageLimit = cfg.usageLimit;
+  }
+  return input;
+}
+
+function buildFreeShippingInput(code: string, title: string, cfg: CouponConfig) {
+  const input: Record<string, unknown> = {
+    title,
+    code,
+    startsAt: new Date().toISOString(),
+    customerSelection: { all: true },
+    destination: { all: true },
+    appliesOncePerCustomer: cfg.oncePerCustomer,
+  };
+  if (cfg.minSubtotal != null && cfg.minSubtotal > 0) {
+    input.minimumRequirement = {
+      subtotal: { greaterThanOrEqualToSubtotal: cfg.minSubtotal.toFixed(2) },
+    };
+  }
+  if (cfg.usageLimit != null && cfg.usageLimit > 0) {
+    input.usageLimit = cfg.usageLimit;
+  }
+  return input;
+}
+
+function checkUserErrors(errs: { message: string }[] | undefined, ctx: string) {
+  if (errs?.length) throw new Error(`${ctx}: ${errs.map((e) => e.message).join("; ")}`);
+}
+
+async function deleteDiscount(conn: ShopifyConnection, id: string) {
+  const mutation = `
+    mutation del($id: ID!) {
+      discountCodeDelete(id: $id) { deletedCodeDiscountId userErrors { message } }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeDelete: { userErrors: { message: string }[] };
+  }>(conn, mutation, { id });
+  checkUserErrors(data.discountCodeDelete.userErrors, "Erro ao remover cupom");
+}
+
+async function createBasic(conn: ShopifyConnection, code: string, title: string, cfg: CouponConfig) {
+  const mutation = `
+    mutation create($input: DiscountCodeBasicInput!) {
+      discountCodeBasicCreate(basicCodeDiscount: $input) {
+        codeDiscountNode { id }
+        userErrors { field message }
+      }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeBasicCreate: {
+      codeDiscountNode: { id: string } | null;
+      userErrors: { message: string }[];
+    };
+  }>(conn, mutation, { input: buildBasicInput(code, title, cfg) });
+  checkUserErrors(data.discountCodeBasicCreate.userErrors, "Erro ao criar cupom");
+  return data.discountCodeBasicCreate.codeDiscountNode?.id ?? "";
+}
+
+async function createFreeShipping(conn: ShopifyConnection, code: string, title: string, cfg: CouponConfig) {
+  const mutation = `
+    mutation create($input: DiscountCodeFreeShippingInput!) {
+      discountCodeFreeShippingCreate(freeShippingCodeDiscount: $input) {
+        codeDiscountNode { id }
+        userErrors { field message }
+      }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeFreeShippingCreate: {
+      codeDiscountNode: { id: string } | null;
+      userErrors: { message: string }[];
+    };
+  }>(conn, mutation, { input: buildFreeShippingInput(code, title, cfg) });
+  checkUserErrors(data.discountCodeFreeShippingCreate.userErrors, "Erro ao criar frete grátis");
+  return data.discountCodeFreeShippingCreate.codeDiscountNode?.id ?? "";
+}
+
+/**
+ * Cria ou substitui o cupom `code` na Shopify com a configuração dada.
+ *
+ * Estratégia: para garantir consistência (inclusive troca entre desconto e frete
+ * grátis, e troca de "onde aplica"), removemos o cupom atual e recriamos com a
+ * config nova. Isso zera o contador "vezes usado" no admin da Shopify, mas NÃO
+ * afeta o histórico de vendas (que é rastreado pelo código do cupom nos pedidos).
+ */
+export async function saveDiscountByCode(
+  conn: ShopifyConnection,
+  params: { code: string; title: string; config: CouponConfig },
+): Promise<string> {
+  const { code, title, config } = params;
+  const existing = await readDiscountConfigByCode(conn, code);
+  if (existing) {
+    await deleteDiscount(conn, existing.id);
+  }
+  return config.kind === "free_shipping"
+    ? createFreeShipping(conn, code, title, config)
+    : createBasic(conn, code, title, config);
+}
+
 export type OrderStats = {
   orderCount: number;
   totalSales: number;

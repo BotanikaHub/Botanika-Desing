@@ -10,6 +10,13 @@ import {
   isShopifyConfigured,
   listDiscountCodes,
   setDiscountPercentageByCode,
+  searchProducts,
+  searchCollections,
+  readDiscountConfigByCode,
+  saveDiscountByCode,
+  defaultCouponConfig,
+  type CouponConfig,
+  type PickItem,
 } from "@/lib/shopify";
 import { brandConnection } from "@/lib/brand";
 import { sendEmail, creatorApprovedEmail, brandEmailFrom } from "@/lib/email";
@@ -186,6 +193,167 @@ export async function approveCreatorAction(
   return { ok: true };
 }
 
+// ─────────────── Editor de configuração do cupom (Shopify) ───────────────
+
+async function brandConnForAdmin(brandId: string) {
+  const admin = await ensureAdmin();
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) throw new Error("Marca não encontrada.");
+  if (admin.brandId && admin.brandId !== brand.id) {
+    throw new Error("Sem permissão para esta marca.");
+  }
+  return { brand, conn: brandConnection(brand) };
+}
+
+// Busca produtos/coleções da loja para o seletor do editor.
+export async function searchShopifyItemsAction(
+  brandId: string,
+  kind: "products" | "collections",
+  term: string,
+): Promise<PickItem[]> {
+  const { conn } = await brandConnForAdmin(brandId);
+  if (!isShopifyConfigured(conn)) return [];
+  try {
+    return kind === "products"
+      ? await searchProducts(conn, term)
+      : await searchCollections(conn, term);
+  } catch {
+    return [];
+  }
+}
+
+export type CouponConfigLoad = {
+  config: CouponConfig;
+  productLabels: PickItem[];
+  collectionLabels: PickItem[];
+  shopifyOn: boolean;
+  found: boolean;
+  error?: string;
+};
+
+// Lê a configuração atual do cupom na Shopify para pré-preencher o editor.
+export async function loadCouponConfigAction(creatorId: string): Promise<CouponConfigLoad> {
+  await ensureAdmin();
+  const creator = await prisma.creator.findUnique({
+    where: { id: creatorId },
+    include: { brand: true },
+  });
+  if (!creator) throw new Error("Creator não encontrado.");
+
+  const conn = brandConnection(creator.brand);
+  const fallback = defaultCouponConfig(
+    creator.couponDiscountRate ?? creator.brand.defaultDiscountRate,
+  );
+  const shopifyOn = isShopifyConfigured(conn);
+  if (!shopifyOn || !creator.couponCode) {
+    return { config: fallback, productLabels: [], collectionLabels: [], shopifyOn, found: false };
+  }
+
+  try {
+    const found = await readDiscountConfigByCode(conn, creator.couponCode);
+    if (!found || !found.config) {
+      return { config: fallback, productLabels: [], collectionLabels: [], shopifyOn, found: false };
+    }
+    return {
+      config: found.config,
+      productLabels: found.productLabels,
+      collectionLabels: found.collectionLabels,
+      shopifyOn,
+      found: true,
+    };
+  } catch (err) {
+    return {
+      config: fallback,
+      productLabels: [],
+      collectionLabels: [],
+      shopifyOn,
+      found: false,
+      error: err instanceof Error ? err.message : "Erro ao ler o cupom na Shopify.",
+    };
+  }
+}
+
+function parseCouponConfig(raw: string): CouponConfig {
+  const o = JSON.parse(raw) as Partial<CouponConfig>;
+  const kind = o.kind === "free_shipping" ? "free_shipping" : "amount";
+  const valueType = o.valueType === "fixed" ? "fixed" : "percentage";
+  const appliesTo =
+    o.appliesTo === "products" || o.appliesTo === "collections" ? o.appliesTo : "order";
+  const num = (v: unknown) => (typeof v === "number" && isFinite(v) ? v : 0);
+  return {
+    kind,
+    valueType,
+    // percentage chega como % inteiro (5) → fração; fixed em R$.
+    value: valueType === "percentage" ? Math.max(0, Math.min(num(o.value), 100)) / 100 : Math.max(0, num(o.value)),
+    appliesTo,
+    productIds: Array.isArray(o.productIds) ? o.productIds.filter((x) => typeof x === "string") : [],
+    collectionIds: Array.isArray(o.collectionIds) ? o.collectionIds.filter((x) => typeof x === "string") : [],
+    minSubtotal: o.minSubtotal != null && num(o.minSubtotal) > 0 ? num(o.minSubtotal) : null,
+    usageLimit: o.usageLimit != null && num(o.usageLimit) > 0 ? Math.round(num(o.usageLimit)) : null,
+    oncePerCustomer: Boolean(o.oncePerCustomer),
+  };
+}
+
+// Grava a configuração completa do cupom na Shopify (cria/substitui) e espelha no banco.
+export async function saveCouponConfigAction(
+  _prev: ApproveState,
+  formData: FormData,
+): Promise<ApproveState> {
+  await ensureAdmin();
+
+  const id = String(formData.get("creatorId") || "");
+  const raw = String(formData.get("couponConfig") || "");
+  const creator = await prisma.creator.findUnique({
+    where: { id },
+    include: { brand: true },
+  });
+  if (!creator) return { error: "Creator não encontrado." };
+  if (!creator.couponCode) return { error: "Defina o código do cupom primeiro." };
+
+  const conn = brandConnection(creator.brand);
+  if (!isShopifyConfigured(conn)) {
+    return { error: "Conecte a Shopify desta marca primeiro." };
+  }
+
+  let config: CouponConfig;
+  try {
+    config = parseCouponConfig(raw);
+  } catch {
+    return { error: "Configuração inválida." };
+  }
+  if (config.appliesTo === "products" && config.productIds.length === 0) {
+    return { error: "Selecione ao menos um produto." };
+  }
+  if (config.appliesTo === "collections" && config.collectionIds.length === 0) {
+    return { error: "Selecione ao menos uma coleção." };
+  }
+
+  let discountId: string;
+  try {
+    discountId = await saveDiscountByCode(conn, {
+      code: creator.couponCode,
+      title: `Creator ${creator.brand.name} — ${creator.name}`,
+      config,
+    });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Erro ao salvar o cupom na Shopify." };
+  }
+
+  await prisma.creator.update({
+    where: { id },
+    data: {
+      couponConfig: config as unknown as Prisma.InputJsonValue,
+      // Mantém o % para exibições rápidas; nulo quando não é percentual.
+      couponDiscountRate:
+        config.kind === "amount" && config.valueType === "percentage" ? config.value : null,
+      shopifyDiscountId: discountId || creator.shopifyDiscountId,
+    },
+  });
+
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
 // Edita o cupom / comissão de um creator JÁ APROVADO (trocar código, vincular
 // um cupom existente, ou ajustar a %).
 export async function editCreatorCouponAction(
@@ -197,7 +365,6 @@ export async function editCreatorCouponAction(
   const id = String(formData.get("creatorId") || "");
   const requestedCode = String(formData.get("couponCode") || "").trim();
   const rate = parseRate(String(formData.get("commissionRate") || ""));
-  const discount = parseOptionalRate(String(formData.get("discountRate") || ""));
   const linkExisting = formData.get("linkExisting") === "on";
 
   const creator = await prisma.creator.findUnique({
@@ -206,9 +373,11 @@ export async function editCreatorCouponAction(
   });
   if (!creator) return { error: "Creator não encontrado." };
 
+  // A edição rápida cuida da comissão (interna) e de qual cupom rastrear.
+  // O valor/onde-aplica do cupom vive no editor de configuração (Shopify).
   let result: CouponResult;
   try {
-    result = await resolveCoupon(creator, { requestedCode, discount, linkExisting });
+    result = await resolveCoupon(creator, { requestedCode, discount: null, linkExisting });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Erro ao definir o cupom." };
   }
