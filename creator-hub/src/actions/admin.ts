@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
 import { suggestCoupon } from "@/lib/format";
-import { createDiscountCode, isShopifyConfigured } from "@/lib/shopify";
+import crypto from "crypto";
+import {
+  createDiscountCode,
+  isShopifyConfigured,
+  listDiscountCodes,
+} from "@/lib/shopify";
 import { brandConnection } from "@/lib/brand";
 import type { Prisma } from "@prisma/client";
 
@@ -203,6 +208,81 @@ export async function saveBrandShopifyConfigAction(
 
   revalidatePath("/admin");
   return { ok: true };
+}
+
+export type ImportState = {
+  error?: string;
+  imported?: number;
+  skipped?: number;
+} | null;
+
+// Importa todos os cupons ATIVOS da loja Shopify da marca como afiliados
+// aprovados "não reivindicados" (a influencer assume o painel depois).
+export async function importShopifyCouponsAction(
+  _prev: ImportState,
+  formData: FormData,
+): Promise<ImportState> {
+  const admin = await ensureAdmin();
+
+  const brandId = String(formData.get("brandId") || "");
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return { error: "Marca não encontrada." };
+  if (admin.brandId && admin.brandId !== brand.id) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  const conn = brandConnection(brand);
+  if (!isShopifyConfigured(conn)) {
+    return { error: "Conecte a Shopify desta marca primeiro." };
+  }
+
+  let discounts;
+  try {
+    discounts = await listDiscountCodes(conn);
+  } catch (err) {
+    return {
+      error: `Falha ao listar cupons da Shopify: ${
+        err instanceof Error ? err.message : "erro desconhecido"
+      }`,
+    };
+  }
+
+  const active = discounts.filter((d) => d.status === "ACTIVE");
+  const codes = active.map((d) => d.code.toUpperCase());
+
+  const existing = await prisma.creator.findMany({
+    where: { couponCode: { in: codes } },
+    select: { couponCode: true },
+  });
+  const existingSet = new Set(existing.map((e) => e.couponCode));
+
+  const toCreate = active
+    .filter((d) => !existingSet.has(d.code.toUpperCase()))
+    .map((d) => {
+      const code = d.code.toUpperCase();
+      return {
+        brandId: brand.id,
+        status: "APPROVED" as const,
+        source: "shopify_import",
+        claimed: false,
+        name: d.title && d.title !== d.code ? d.title : code,
+        // e-mail sintético (não utilizável) até a influencer reivindicar
+        email: `${code.toLowerCase()}@import.creatorclub`,
+        // hash não-bcrypt: login sempre falha até reivindicar e definir senha
+        passwordHash: `unclaimed:${crypto.randomBytes(16).toString("hex")}`,
+        couponCode: code,
+        desiredCoupon: code,
+        commissionRate: d.percentage ?? brand.defaultCommissionRate,
+        approvedAt: new Date(),
+      };
+    });
+
+  if (toCreate.length > 0) {
+    await prisma.creator.createMany({ data: toCreate, skipDuplicates: true });
+  }
+
+  revalidatePath("/admin");
+  return { imported: toCreate.length, skipped: active.length - toCreate.length };
 }
 
 export async function rejectCreatorAction(formData: FormData) {

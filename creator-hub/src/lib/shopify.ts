@@ -210,6 +210,86 @@ export async function getOrdersByDiscountCode(
   return { orderCount: orders.length, totalSales, currency, orders };
 }
 
+export type ShopifyDiscount = {
+  code: string;
+  title: string;
+  status: string;
+  percentage: number | null; // 0.1 = 10% (quando é desconto percentual)
+};
+
+/**
+ * Lista todos os cupons de desconto (code discounts) da loja, paginando.
+ */
+export async function listDiscountCodes(
+  conn: ShopifyConnection,
+  max = 1000,
+): Promise<ShopifyDiscount[]> {
+  const query = `
+    query allCodeDiscounts($first: Int!, $after: String) {
+      codeDiscountNodes(first: $first, after: $after) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          codeDiscount {
+            __typename
+            ... on DiscountCodeBasic {
+              title
+              status
+              codes(first: 1) { nodes { code } }
+              customerGets { value { __typename ... on DiscountPercentage { percentage } } }
+            }
+            ... on DiscountCodeBxgy { title status codes(first: 1) { nodes { code } } }
+            ... on DiscountCodeFreeShipping { title status codes(first: 1) { nodes { code } } }
+          }
+        }
+      }
+    }
+  `;
+
+  type Node = {
+    codeDiscount: {
+      __typename: string;
+      title?: string;
+      status?: string;
+      codes?: { nodes: { code: string }[] };
+      customerGets?: { value?: { __typename?: string; percentage?: number } };
+    };
+  };
+
+  const out: ShopifyDiscount[] = [];
+  let after: string | null = null;
+
+  while (out.length < max) {
+    const data: {
+      codeDiscountNodes: {
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+        nodes: Node[];
+      };
+    } = await shopifyGraphQL(conn, query, { first: 100, after });
+
+    for (const n of data.codeDiscountNodes.nodes) {
+      const cd = n.codeDiscount;
+      const code = cd.codes?.nodes?.[0]?.code;
+      if (!code) continue;
+      const pct =
+        cd.customerGets?.value?.__typename === "DiscountPercentage"
+          ? cd.customerGets.value.percentage ?? null
+          : null;
+      out.push({
+        code,
+        title: cd.title || code,
+        status: cd.status || "UNKNOWN",
+        percentage: pct,
+      });
+    }
+
+    if (!data.codeDiscountNodes.pageInfo.hasNextPage) break;
+    after = data.codeDiscountNodes.pageInfo.endCursor;
+    if (!after) break;
+  }
+
+  return out;
+}
+
 /**
  * Troca o `code` do OAuth por um access token offline.
  * Usado no callback de instalação da loja.

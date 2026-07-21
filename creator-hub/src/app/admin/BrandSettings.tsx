@@ -3,7 +3,9 @@
 import { useActionState } from "react";
 import {
   saveBrandShopifyConfigAction,
+  importShopifyCouponsAction,
   type BrandConfigState,
+  type ImportState,
 } from "@/actions/admin";
 import { SubmitButton } from "@/components/SubmitButton";
 
@@ -32,6 +34,10 @@ export function BrandSettings({ brands }: { brands: BrandView[] }) {
 function BrandCard({ brand }: { brand: BrandView }) {
   const [state, formAction] = useActionState<BrandConfigState, FormData>(
     saveBrandShopifyConfigAction,
+    null,
+  );
+  const [importState, importAction] = useActionState<ImportState, FormData>(
+    importShopifyCouponsAction,
     null,
   );
 
@@ -127,6 +133,32 @@ function BrandCard({ brand }: { brand: BrandView }) {
           )}
         </div>
       </form>
+
+      {brand.connected && (
+        <form action={importAction} className="mt-4 border-t pt-4">
+          <input type="hidden" name="brandId" value={brand.id} />
+          <div className="flex flex-wrap items-center gap-3">
+            <SubmitButton className="btn btn-outline" pendingLabel="Importando...">
+              Importar cupons da Shopify
+            </SubmitButton>
+            <span className="text-xs text-[var(--muted)]">
+              Traz todos os cupons ativos da loja como afiliados. Cada influencer
+              ativa o painel dela depois em <b>/{brand.slug}/reivindicar</b>.
+            </span>
+          </div>
+          {typeof importState?.imported === "number" && (
+            <div className="mt-3 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-2 text-sm text-[var(--brand-dark)]">
+              {importState.imported} cupom(ns) importado(s).{" "}
+              {importState.skipped ? `${importState.skipped} já existiam.` : ""}
+            </div>
+          )}
+          {importState?.error && (
+            <div className="mt-3 rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-2 text-sm text-[var(--danger)]">
+              {importState.error}
+            </div>
+          )}
+        </form>
+      )}
     </div>
   );
 }

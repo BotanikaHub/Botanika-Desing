@@ -172,6 +172,7 @@ export default async function AdminPage({
                       couponCode: c.couponCode,
                       commissionRatePct: Math.round(c.commissionRate * 100),
                       approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
+                      claimed: c.claimed,
                     } satisfies ApprovedView
                   }
                 />

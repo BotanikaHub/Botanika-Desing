@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Logo } from "@/components/Logo";
 import { getBrandBySlug } from "@/lib/brand";
-import { getCurrentCreator } from "@/lib/auth";
-import { LoginForm } from "./LoginForm";
+import { ClaimForm } from "./ClaimForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function LoginPage({
+export default async function ClaimPage({
   params,
 }: {
   params: Promise<{ brand: string }>;
@@ -15,9 +14,6 @@ export default async function LoginPage({
   const { brand: slug } = await params;
   const brand = await getBrandBySlug(slug);
   if (!brand) notFound();
-
-  const creator = await getCurrentCreator();
-  if (creator && creator.brandId === brand.id) redirect(`/${brand.slug}/dashboard`);
 
   return (
     <div
@@ -33,25 +29,20 @@ export default async function LoginPage({
       </header>
 
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
-        <h1 className="text-2xl font-bold">Acesse seu painel</h1>
+        <h1 className="text-2xl font-bold">Ative o painel do seu cupom</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Entre com o e-mail e a senha do seu cadastro na {brand.name}.
+          Já divulga a {brand.name} e tem um cupom? Informe o código, seu e-mail e
+          crie uma senha para acessar seu painel com suas vendas.
         </p>
 
         <div className="card mt-6">
-          <LoginForm brandSlug={brand.slug} />
+          <ClaimForm brandSlug={brand.slug} />
         </div>
 
         <p className="mt-6 text-center text-sm text-[var(--muted)]">
-          Ainda não é afiliado?{" "}
-          <Link href={`/${brand.slug}/apply`} className="font-semibold text-[var(--brand)]">
-            Cadastre-se
-          </Link>
-        </p>
-        <p className="mt-2 text-center text-sm text-[var(--muted)]">
-          Já tem um cupom e é a primeira vez aqui?{" "}
-          <Link href={`/${brand.slug}/reivindicar`} className="font-semibold text-[var(--brand)]">
-            Ative seu painel
+          Já ativou seu painel?{" "}
+          <Link href={`/${brand.slug}/login`} className="font-semibold text-[var(--brand)]">
+            Entrar
           </Link>
         </p>
       </main>

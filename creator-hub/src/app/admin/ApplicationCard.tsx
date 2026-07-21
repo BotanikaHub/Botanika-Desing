@@ -111,6 +111,7 @@ export type ApprovedView = {
   couponCode: string | null;
   commissionRatePct: number;
   approvedAt: string | null;
+  claimed: boolean;
 };
 
 export function ApprovedCard({ creator }: { creator: ApprovedView }) {
@@ -132,7 +133,13 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
           </span>
           <div>
             <p className="font-semibold">{creator.name}</p>
-            <p className="text-sm text-[var(--muted)]">{creator.email}</p>
+            <p className="text-sm text-[var(--muted)]">
+              {creator.claimed ? (
+                creator.email
+              ) : (
+                <span className="badge badge-pending">Aguardando ativação</span>
+              )}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-4">

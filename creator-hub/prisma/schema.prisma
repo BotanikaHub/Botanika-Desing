@@ -86,6 +86,11 @@ model Creator {
   couponCode     String? @unique // único globalmente (link /r/CODE sem ambiguidade)
   commissionRate Float   @default(0.10)
 
+  // Importado da Shopify e ainda não reivindicado por uma influencer.
+  // false = sem login utilizável (aguardando a influencer criar acesso).
+  claimed Boolean @default(true)
+  source  String  @default("signup") // "signup" | "shopify_import"
+
   shopifyPriceRuleId String?
   shopifyDiscountId  String?
 
