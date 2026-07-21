@@ -1,6 +1,6 @@
 # SUPERPROMPT — GESTOR DE TRÁFEGO PAGO (META + GOOGLE) · BOTANIKA BRASIL
 *(Handoff operacional. Cole nas Project Instructions do projeto "Tráfego — Botanika" do novo gestor.)*
-*(Última atualização: 15/07/2026)*
+*(Última atualização: 21/07/2026)*
 
 ---
 
@@ -63,25 +63,27 @@ Reporta ao fundador/operador. IDs de conta/pixel/variante/propriedade são **inf
 
 ---
 
-## ⚠️ INCIDENTE DE TRACKING EM ABERTO — `fbc` MODIFICADO (ALTA PRIORIDADE)
+## ⚠️ INCIDENTE DE TRACKING — `fbc` MODIFICADO → CAUSA-RAIZ CONFIRMADA (CAPI DUPLA)
 
-**Detectado em 12/07/2026 no Gerenciador de Eventos (API de Conversões):**
-> "O servidor está enviando um valor fbclid modificado no parâmetro `fbc` (minúsculo ou truncado)."
-- **Evento afetado:** Purchase — **14%** do total.
-- **Conjuntos afetados:** 15 · **Investimento afetado:** R$1.713.
-- **Impacto:** atribuição e otimização de Purchase degradadas; EMQ pode subir ~+0,7 com a correção. **Não é emergência — não pausar campanhas.**
+**Alerta original (12/07/2026, Gerenciador de Eventos / CAPI):** servidor enviando `fbclid` modificado (minúsculo/truncado) no `fbc`. Purchase **14%** afetado · 15 conjuntos · R$1.713.
 
-**Formato correto do `fbc`:** `fb.1.<timestamp>.<fbclid>` — o `<fbclid>` tem que ser **idêntico** ao da URL (sensível a maiúscula/minúscula, sem cortar, sem hash).
+**INVESTIGAÇÃO (21/07/2026) — causa-raiz encontrada:** a **Utmify** roda uma **segunda CAPI (S2S)** disparando pro **MESMO pixel `828186133708463`** do app oficial do Shopify. Pixel Utmify = **`Botanika Meta Pixel 2.0`** (dashboard "Principal" `6a2839a9a025e4a9b9db300e`): Purchase `paid_sales_only` + InitiateCheckout (gatilho botão "COMPRAR AGORA") + Lead. São os eventos da Utmify que carregam o `fbc` sujo (os ~14%).
 
-**Diagnóstico já feito:** tema Shopify está limpo (só GTM). O app oficial não inventa o `fbc` — ele **lê o cookie `_fbc`** e reenvia. Logo o `_fbc` já nasce poluído no navegador. **Suspeitos, em ordem:**
-1. **Utmify** (nº1 — integração estava em ajuste; rastreador de link pode minúscula/truncar params).
-2. **Redirect das LPs do Lovable** pro checkout (re-encodar/minúscular a query string).
-3. **GTM** (variável/tag lendo `fbclid` com `toLowerCase`/`substring`).
-4. **Normalização indevida** aplicando lowercase+trim+SHA-256 no `fbc` (erro clássico — `fbc`/`fbp` vão CRUS, nunca hasheados).
+**3 achados (do mais grave ao menos):**
+1. **CAPI dupla no mesmo pixel** (app Shopify + Utmify) → duplicação de Purchase / risco de dedup. Dia D 07/07: pixel logou **44 server × 30 browser** Purchase (server ~47% acima → indício de ~13–14 duplicados). Ressalva honesta: bloqueio de browser também infla o server, então ~14 é teto/indício — a **contagem exata** só na aba **Deduplicação** do Events Manager (ou desligando a Utmify e vendo o SERVER cair).
+2. **`value = commission`** na Utmify → valor da compra enviado como comissão, não faturamento real → **estraga otimização por valor e ROAS**. Provavelmente pior que o próprio `fbc`.
+3. **`fbc` modificado (14%)** = o alerta original. Contexto: **EMQ do Purchase = 9,2** (email 95% · telefone/external_id/nome/endereço ~100% · fbc 66%), então o `fbc` sujo é **quase cosmético** — o menos grave dos três.
 
-**Regra de ouro:** deixe o **Pixel do Meta** gravar o `_fbc` nativamente; **preserve o `fbclid` exato** em todas as URLs de entrada; **nunca** monte/minúscula/corte/hasheie `fbc` em nenhuma etapa.
+**🚩 Flag extra de ATRIBUIÇÃO (investigar à parte):** no Dia D o pixel atribuiu **31 vendas** ao FB, mas a Utmify só amarrou **3 pedidos** à Meta, com **39 pedidos untracked**. Buraco grande de cobertura de UTM — provável relação com o redirect das LPs Lovable mexendo na query string.
 
-**Como validar a correção:** Gerenciador de Eventos → Testar eventos → clicar com `?fbclid=MixedCASE...` → completar compra → conferir que o `fbc` do Purchase preserva a capitalização. EMQ sobe e o alerta some em alguns dias.
+**CORREÇÃO (no painel da Utmify — 1 fonte de servidor por pixel):**
+1. Utmify → **Integrações → Pixels → `Botanika Meta Pixel 2.0`**.
+2. **Desligar Purchase (e InitiateCheckout)** pro pixel `...708463` → deixa o **app oficial do Shopify** como fonte única (validado, `fbc` limpo do cookie `_fbc`, EMQ 9,2). Resolve os 3 achados de uma vez.
+3. **Não desligar** o server do app do Shopify — ele é o sinal bom.
+4. **Validar:** em dias, o alerta some e o volume **SERVER cai pra ~= BROWSER**.
+5. Se optar por **manter** a Utmify como CAPI (não recomendado): trocar `value` de commission → **valor total** e alinhar o `event_id` com o do app pra deduplicar.
+
+**Regra de ouro:** 1 fonte de servidor por pixel; `fbc`/`fbp` vão **CRUS** (nunca lowercase/hash/truncar); preservar `fbclid` **exato** em todas as URLs de entrada.
 
 ---
 
@@ -141,7 +143,7 @@ As LPs do Lovable **não passam pelo Custom Pixel do Shopify** → precisam de P
 
 ## PENDÊNCIAS (ordem de prioridade, atualizada)
 
-1. **[NOVO] Corrigir `fbc` modificado (CAPI)** — isolar origem (começar por Utmify) e corrigir. Ver seção do incidente.
+1. **[EM ANDAMENTO] CAPI dupla / `fbc` / valor-comissão** — causa-raiz **confirmada = Utmify** (2ª CAPI no mesmo pixel). Ação: desligar Purchase+IC do pixel Utmify `Botanika Meta Pixel 2.0`. Ver seção do incidente. Investigar também o buraco de atribuição (39 untracked no Dia D).
 2. **Campanha Search (Google)** — subir com **Maximizar Cliques**, roda independente de conversão validada, até acumular **~15–30 conversões/30 dias** antes de migrar pra lance por conversão. **Não migrar antes desse volume.**
 3. **Google Merchant Center** (pré-requisito de Shopping).
 4. **Enhanced Conversions / User-Provided Data** via GA4 Measurement Protocol (email/telefone **SHA-256**) — liberado (venda confirmada).
