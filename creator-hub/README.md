@@ -1,9 +1,9 @@
-# Creator Club — Botanika & Vermfree
+# Creator Club — Botanika & VermeFree
 
 Hub de afiliados **multi-marca**. Creators (influenciadores, médicos, nutricionistas…)
 se cadastram por marca, a equipe aprova, e cada aprovado recebe um painel com
 **cupom + link de afiliado** exclusivos, acompanhando vendas e comissões da sua
-loja Shopify. Cada marca (Botanika, Vermfree, …) é totalmente isolada: própria
+loja Shopify. Cada marca (Botanika, VermeFree, …) é totalmente isolada: própria
 loja, próprios creators, próprios cupons e painel.
 
 ## Tecnologias
@@ -30,7 +30,7 @@ cd creator-hub
 npm install
 cp .env.example .env         # preencha DATABASE_URL/DIRECT_URL do Supabase
 npx prisma migrate deploy    # aplica as tabelas no banco
-npm run seed-brands          # cria as marcas Botanika e Vermfree
+npm run seed-brands          # cria as marcas Botanika e VermeFree
 npm run create-admin "voce@empresa.com" "suasenha" "Seu Nome"
 npm run dev                  # http://localhost:3000
 ```

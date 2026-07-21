@@ -77,7 +77,7 @@ async function resolveCoupon(
     const created = await createDiscountCode(conn, {
       code,
       percentage: opts.rate,
-      title: `Afiliado ${creator.brand.name} — ${creator.name}`,
+      title: `Creator ${creator.brand.name} — ${creator.name}`,
     });
     return {
       code: created.code || code,

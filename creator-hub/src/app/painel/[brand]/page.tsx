@@ -114,7 +114,7 @@ export default async function PainelBrand({
             </div>
           </div>
           <div className="card">
-            <h3 className="text-sm font-semibold text-[var(--muted)]">Seu link de afiliado</h3>
+            <h3 className="text-sm font-semibold text-[var(--muted)]">Seu link exclusivo</h3>
             <p className="mt-2 break-all rounded-lg bg-[var(--brand-soft)] px-3 py-2 text-sm">{affiliateLink}</p>
             <p className="mt-1 text-sm text-[var(--muted)]">O cupom é aplicado automaticamente no checkout.</p>
             <div className="mt-4">

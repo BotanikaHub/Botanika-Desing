@@ -206,10 +206,10 @@ export default async function BrandAdmin({
         {/* Aprovados */}
         <section className="mb-10">
           <h2 className="mb-4 text-xl font-bold">
-            Afiliados <span className="text-[var(--muted)]">({approved.length})</span>
+            Creators <span className="text-[var(--muted)]">({approved.length})</span>
           </h2>
           {approved.length === 0 ? (
-            <div className="card text-sm text-[var(--muted)]">Nenhum afiliado ainda.</div>
+            <div className="card text-sm text-[var(--muted)]">Nenhum creator ainda.</div>
           ) : (
             <div className="space-y-3">
               {approved.map((c) => (

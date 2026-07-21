@@ -1,5 +1,5 @@
 // Bootstrap idempotente, roda no deploy (Vercel):
-//  - garante as marcas (Botanika, Vermfree)
+//  - garante as marcas (Botanika, VermeFree)
 //  - garante um admin a partir de ADMIN_EMAIL / ADMIN_PASSWORD (se definidos)
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -10,7 +10,7 @@ const brands = [
   {
     slug: "botanika",
     name: "Botanika",
-    tagline: "Divulgue a Botanika e ganhe comissão em cada venda",
+    tagline: "Você já recomenda o que ama. Com a Botanika, agora você ganha por isso.",
     primaryColor: "#2f6b3f",
     storeUrl: "https://botanikabrasil.com.br",
     shopDomain: "botanika-brasil.myshopify.com",
@@ -18,8 +18,8 @@ const brands = [
   },
   {
     slug: "vermfree",
-    name: "Vermfree",
-    tagline: "Divulgue a Vermfree e ganhe comissão em cada venda",
+    name: "VermeFree",
+    tagline: "Você já recomenda o que ama. Com a VermeFree, agora você ganha por isso.",
     primaryColor: "#1f6f8b",
     storeUrl: null,
     shopDomain: null,
@@ -30,13 +30,12 @@ const brands = [
 for (const b of brands) {
   await prisma.brand.upsert({
     where: { slug: b.slug },
+    // No update NÃO tocamos em shopDomain/storeUrl/credenciais Shopify —
+    // esses são definidos/conectados pelo admin e auto-detectados no OAuth.
     update: {
       name: b.name,
       tagline: b.tagline,
       primaryColor: b.primaryColor,
-      storeUrl: b.storeUrl ?? undefined,
-      shopDomain: b.shopDomain ?? undefined,
-      defaultCommissionRate: b.defaultCommissionRate,
     },
     create: b,
   });

@@ -3,7 +3,7 @@ import "server-only";
 /**
  * Cliente da Shopify Admin API (GraphQL), por marca.
  *
- * Cada marca (Botanika, Vermfree, ...) tem sua própria loja Shopify e seu
+ * Cada marca (Botanika, VermeFree, ...) tem sua própria loja Shopify e seu
  * próprio token de acesso (obtido via OAuth). As funções abaixo recebem a
  * conexão da marca como parâmetro.
  */
@@ -78,7 +78,7 @@ export async function createDiscountCode(
   params: { code: string; percentage: number; title?: string },
 ): Promise<CreatedDiscount> {
   const { code, percentage } = params;
-  const title = params.title || `Afiliado ${code}`;
+  const title = params.title || `Creator ${code}`;
 
   const mutation = `
     mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {

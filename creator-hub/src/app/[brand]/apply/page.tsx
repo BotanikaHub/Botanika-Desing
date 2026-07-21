@@ -26,18 +26,19 @@ export default async function ApplyPage({
             <Logo brandName={brand.name} color={brand.primaryColor} />
           </Link>
           <Link href={"/entrar"} className="btn btn-ghost">
-            Já sou afiliado
+            Já sou do clube
           </Link>
         </div>
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-10">
         <h1 className="text-3xl font-bold tracking-tight">
-          Seja um creator {brand.name}
+          Entre pro clube de creators da {brand.name}
         </h1>
         <p className="mt-2 text-[var(--muted)]">
-          Preencha seus dados abaixo. Depois da aprovação você recebe seu painel
-          com cupom e link exclusivos.
+          Conte um pouco sobre você e sua audiência. Assim que aprovado, você
+          recebe cupom e link exclusivos e um painel só seu pra acompanhar cada
+          venda em tempo real.
         </p>
 
         <div className="card mt-8">

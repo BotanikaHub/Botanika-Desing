@@ -34,11 +34,11 @@ export default async function ObrigadoPage({
         >
           ✓
         </span>
-        <h1 className="text-3xl font-bold">Cadastro enviado!</h1>
+        <h1 className="text-3xl font-bold">Recebemos seu cadastro!</h1>
         <p className="mt-3 text-[var(--muted)]">
-          Recebemos seus dados. Nossa equipe vai analisar e, assim que você for
-          aprovado, poderá acessar seu painel de afiliado com cupom e link
-          exclusivos.
+          Já está com a gente. Nossa equipe vai dar uma olhada e, assim que você
+          for aprovado, seu painel abre com cupom e link exclusivos pra você
+          começar a recomendar e acompanhar cada venda em tempo real.
         </p>
         <div className="mt-8 flex gap-3">
           <Link href={"/entrar"} className="btn btn-primary">

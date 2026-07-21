@@ -8,7 +8,7 @@ const brands = [
   {
     slug: "botanika",
     name: "Botanika",
-    tagline: "Divulgue a Botanika e ganhe comissão em cada venda",
+    tagline: "Você já recomenda o que ama. Com a Botanika, agora você ganha por isso.",
     primaryColor: "#2f6b3f",
     storeUrl: "https://botanikabrasil.com.br",
     shopDomain: "botanika-brasil.myshopify.com",
@@ -16,8 +16,8 @@ const brands = [
   },
   {
     slug: "vermfree",
-    name: "Vermfree",
-    tagline: "Divulgue a Vermfree e ganhe comissão em cada venda",
+    name: "VermeFree",
+    tagline: "Você já recomenda o que ama. Com a VermeFree, agora você ganha por isso.",
     primaryColor: "#1f6f8b",
     storeUrl: null,
     shopDomain: null,
@@ -26,15 +26,14 @@ const brands = [
 ];
 
 for (const b of brands) {
+  // Não tocamos em shopDomain/storeUrl no update — conexão Shopify é
+  // definida/auto-detectada pelo admin e não deve ser sobrescrita aqui.
   const brand = await prisma.brand.upsert({
     where: { slug: b.slug },
     update: {
       name: b.name,
       tagline: b.tagline,
       primaryColor: b.primaryColor,
-      storeUrl: b.storeUrl,
-      shopDomain: b.shopDomain,
-      defaultCommissionRate: b.defaultCommissionRate,
     },
     create: b,
   });

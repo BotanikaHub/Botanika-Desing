@@ -1,4 +1,4 @@
-// Botanika Creator Hub — hub de afiliados multi-marca (Botanika, Vermfree, ...)
+// Botanika Creator Hub — hub de afiliados multi-marca (Botanika, VermeFree, ...)
 // Banco: PostgreSQL (Supabase)
 
 generator client {
@@ -17,7 +17,7 @@ enum CreatorStatus {
   REJECTED
 }
 
-/// Uma marca/operação (ex.: Botanika, Vermfree). Cada marca tem sua própria
+/// Uma marca/operação (ex.: Botanika, VermeFree). Cada marca tem sua própria
 /// loja Shopify, seus creators, cupons e painel — tudo isolado por marca.
 model Brand {
   id       String  @id @default(cuid())

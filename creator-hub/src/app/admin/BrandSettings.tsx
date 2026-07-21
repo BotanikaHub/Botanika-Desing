@@ -172,8 +172,8 @@ function BrandCard({ brand }: { brand: BrandView }) {
                   Importar cupons da Shopify
                 </SubmitButton>
                 <span className="text-xs text-[var(--muted)]">
-                  Traz todos os cupons ativos da loja como afiliados. Cada influencer
-                  ativa o painel dela depois em <b>/{brand.slug}/reivindicar</b>.
+                  Traz todos os cupons ativos da loja como creators. Cada creator
+                  ativa o painel dele depois em <b>/{brand.slug}/reivindicar</b>.
                 </span>
               </div>
               {typeof importState?.imported === "number" && (

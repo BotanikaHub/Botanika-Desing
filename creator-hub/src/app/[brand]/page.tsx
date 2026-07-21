@@ -25,7 +25,7 @@ export default async function BrandLanding({
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
           <Logo brandName={brand.name} color={color} />
           <Link href={"/entrar"} className="btn btn-ghost">
-            Já sou afiliado
+            Já sou do clube
           </Link>
         </div>
       </header>
@@ -33,49 +33,53 @@ export default async function BrandLanding({
       <main className="flex-1">
         <section className="mx-auto max-w-5xl px-5 py-16 text-center">
           <span className="badge badge-approved mb-5">
-            Programa de Creators {brand.name}
+            Creator Club · {brand.name}
           </span>
           <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-            {brand.tagline || `Divulgue a ${brand.name} e ganhe comissão em cada venda`}
+            {brand.tagline ||
+              `Você já recomenda o que ama. Com a ${brand.name}, agora você ganha por isso.`}
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-[var(--muted)]">
-            Cadastre-se como creator, receba seu cupom e link exclusivos e
-            acompanhe suas vendas e comissões num painel só seu.
+            Faça parte do time de creators da {brand.name}: cupom exclusivo,
+            ganhos 100% transparentes e um painel só seu pra acompanhar cada
+            venda em tempo real. Sem burocracia, sem planilha, sem achismo.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href={`/${brand.slug}/apply`}
               className="btn btn-primary px-8 py-3.5 text-base"
             >
-              Quero ser afiliado
+              Quero fazer parte
             </Link>
             <Link
               href={"/entrar"}
               className="btn btn-outline px-8 py-3.5 text-base"
             >
-              Acessar meu painel
+              Entrar no meu painel
             </Link>
           </div>
         </section>
 
         <section className="mx-auto max-w-5xl px-5 pb-20">
-          <h2 className="mb-8 text-center text-2xl font-bold">Como funciona</h2>
+          <h2 className="mb-8 text-center text-2xl font-bold">
+            Simples assim, do seu jeito
+          </h2>
           <div className="grid gap-5 sm:grid-cols-3">
             {[
               {
                 n: "1",
-                t: "Cadastre-se",
-                d: "Preencha o formulário com seus dados e redes sociais. É rápido.",
+                t: "Entre pro clube",
+                d: "Conte um pouco sobre você e sua audiência. Leva 1 minuto — e é de graça.",
               },
               {
                 n: "2",
-                t: "Seja aprovado",
-                d: "Nossa equipe analisa e libera seu acesso com cupom e link exclusivos.",
+                t: "Ganhe seu cupom",
+                d: `Aprovado, você recebe um cupom e link exclusivos da ${brand.name} pra chamar de seus.`,
               },
               {
                 n: "3",
-                t: "Divulgue e ganhe",
-                d: "Compartilhe seu cupom/link. A cada venda, acompanhe a comissão no painel.",
+                t: "Recomende e ganhe",
+                d: "Compartilhe com quem confia em você e veja seus ganhos crescerem em tempo real.",
               },
             ].map((s) => (
               <div key={s.n} className="card">
@@ -94,7 +98,7 @@ export default async function BrandLanding({
       </main>
 
       <footer className="border-t bg-[var(--surface)] py-6 text-center text-sm text-[var(--muted)]">
-        © 2026 {brand.name} · Programa de Creators
+        © 2026 {brand.name} · Creator Club
       </footer>
     </div>
   );
