@@ -128,7 +128,7 @@ export async function approveCreatorAction(
     },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: true };
 }
 
@@ -170,7 +170,7 @@ export async function editCreatorCouponAction(
     },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: true };
 }
 
@@ -206,7 +206,7 @@ export async function saveBrandShopifyConfigAction(
     },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: true };
 }
 
@@ -281,7 +281,7 @@ export async function importShopifyCouponsAction(
     await prisma.creator.createMany({ data: toCreate, skipDuplicates: true });
   }
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { imported: toCreate.length, skipped: active.length - toCreate.length };
 }
 
@@ -295,5 +295,5 @@ export async function rejectCreatorAction(formData: FormData) {
     data: { status: "REJECTED", rejectionReason: reason },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }

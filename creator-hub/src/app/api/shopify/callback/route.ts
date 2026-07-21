@@ -8,11 +8,13 @@ export async function GET(req: NextRequest) {
   const params = Object.fromEntries(req.nextUrl.searchParams.entries());
   const { code, shop, state } = params;
 
-  const back = (q: string) => NextResponse.redirect(`${appUrl()}/admin?${q}`);
+  const st = state ? await verifyState(state) : null;
+  const back = (q: string) =>
+    NextResponse.redirect(
+      st?.slug ? `${appUrl()}/admin/${st.slug}?${q}` : `${appUrl()}/admin?${q}`,
+    );
 
   if (!code || !shop || !state) return back("error=callback-invalido");
-
-  const st = await verifyState(state);
   if (!st) return back("error=state-invalido");
 
   const brand = await prisma.brand.findUnique({ where: { slug: st.slug } });
@@ -53,5 +55,5 @@ export async function GET(req: NextRequest) {
     return back(`error=${encodeURIComponent("token: " + msg)}`);
   }
 
-  return back(`connected=${brand.slug}`);
+  return back("connected=1");
 }

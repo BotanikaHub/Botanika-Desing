@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   }
   if (!brand.shopDomain || !brand.shopifyApiKey) {
     return NextResponse.redirect(
-      `${appUrl()}/admin?error=configure-shopify-primeiro&brand=${brand.slug}`,
+      `${appUrl()}/admin/${brand.slug}?error=configure-shopify-primeiro`,
     );
   }
 

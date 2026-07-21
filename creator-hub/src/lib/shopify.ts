@@ -210,6 +210,127 @@ export async function getOrdersByDiscountCode(
   return { orderCount: orders.length, totalSales, currency, orders };
 }
 
+export type BrandAnalytics = {
+  ordersScanned: number;
+  trackedOrders: number;
+  trackedSales: number;
+  topInfluencers: Array<{
+    code: string;
+    name: string;
+    orders: number;
+    sales: number;
+    commission: number;
+  }>;
+  topProducts: Array<{ title: string; quantity: number; revenue: number }>;
+};
+
+/**
+ * Analisa os pedidos da loja e agrega:
+ *  - vendas por cupom (→ ranking de influencers)
+ *  - produtos mais vendidos nos pedidos que usaram um cupom de influencer
+ *
+ * creatorsByCode: mapa CODIGO(maiúsculo) → { name, rate } dos afiliados da marca.
+ */
+export async function getBrandAnalytics(
+  conn: ShopifyConnection,
+  creatorsByCode: Record<string, { name: string; rate: number }>,
+  maxOrders = 500,
+): Promise<BrandAnalytics> {
+  const query = `
+    query brandOrders($first: Int!, $after: String) {
+      orders(first: $first, after: $after, sortKey: CREATED_AT, reverse: true) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          discountCodes
+          currentTotalPriceSet { shopMoney { amount } }
+          lineItems(first: 50) {
+            nodes {
+              title
+              quantity
+              discountedTotalSet { shopMoney { amount } }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  type OrderNode = {
+    discountCodes: string[];
+    currentTotalPriceSet: { shopMoney: { amount: string } };
+    lineItems: {
+      nodes: Array<{
+        title: string;
+        quantity: number;
+        discountedTotalSet: { shopMoney: { amount: string } } | null;
+      }>;
+    };
+  };
+
+  const salesByCode = new Map<string, { orders: number; sales: number }>();
+  const products = new Map<string, { quantity: number; revenue: number }>();
+  let ordersScanned = 0;
+  let trackedOrders = 0;
+  let trackedSales = 0;
+  let after: string | null = null;
+
+  while (ordersScanned < maxOrders) {
+    const data: {
+      orders: {
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+        nodes: OrderNode[];
+      };
+    } = await shopifyGraphQL(conn, query, { first: 100, after });
+
+    for (const o of data.orders.nodes) {
+      ordersScanned += 1;
+      const codes = (o.discountCodes || []).map((c) => c.toUpperCase());
+      const tracked = codes.filter((c) => creatorsByCode[c]);
+      if (tracked.length === 0) continue;
+
+      const primary = tracked[0];
+      const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
+      trackedOrders += 1;
+      trackedSales += total;
+
+      const s = salesByCode.get(primary) || { orders: 0, sales: 0 };
+      s.orders += 1;
+      s.sales += total;
+      salesByCode.set(primary, s);
+
+      for (const li of o.lineItems.nodes) {
+        const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
+        const p = products.get(li.title) || { quantity: 0, revenue: 0 };
+        p.quantity += li.quantity;
+        p.revenue += rev;
+        products.set(li.title, p);
+      }
+    }
+
+    if (!data.orders.pageInfo.hasNextPage) break;
+    after = data.orders.pageInfo.endCursor;
+    if (!after) break;
+  }
+
+  const topInfluencers = [...salesByCode.entries()]
+    .map(([code, v]) => ({
+      code,
+      name: creatorsByCode[code]?.name || code,
+      orders: v.orders,
+      sales: v.sales,
+      commission: v.sales * (creatorsByCode[code]?.rate ?? 0),
+    }))
+    .sort((a, b) => b.sales - a.sales)
+    .slice(0, 10);
+
+  const topProducts = [...products.entries()]
+    .map(([title, v]) => ({ title, quantity: v.quantity, revenue: v.revenue }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 10);
+
+  return { ordersScanned, trackedOrders, trackedSales, topInfluencers, topProducts };
+}
+
 export type ShopifyDiscount = {
   code: string;
   title: string;
