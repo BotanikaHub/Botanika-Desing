@@ -11,7 +11,12 @@ import {
   listDiscountCodes,
 } from "@/lib/shopify";
 import { brandConnection } from "@/lib/brand";
+import { sendEmail, creatorApprovedEmail } from "@/lib/email";
 import type { Prisma } from "@prisma/client";
+
+function appUrl(): string {
+  return (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+}
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -131,6 +136,23 @@ export async function approveCreatorAction(
     },
   });
 
+  // E-mail de boas-vindas (não bloqueia a aprovação; no-op se e-mail não
+  // configurado ou se for um creator importado sem e-mail real).
+  const tmpl = creatorApprovedEmail({
+    brandName: creator.brand.name,
+    brandColor: creator.brand.primaryColor,
+    creatorName: creator.name,
+    couponCode: result.code,
+    ratePct: Math.round(rate * 100),
+    loginUrl: `${appUrl()}/entrar`,
+  });
+  await sendEmail({
+    to: creator.email,
+    from: creator.brand.emailFrom,
+    subject: tmpl.subject,
+    html: tmpl.html,
+  });
+
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
@@ -191,6 +213,7 @@ export async function saveBrandShopifyConfigAction(
   const storeUrl = String(formData.get("storeUrl") || "").trim() || null;
   const apiKey = String(formData.get("shopifyApiKey") || "").trim() || null;
   const apiSecretRaw = String(formData.get("shopifyApiSecret") || "").trim();
+  const emailFrom = String(formData.get("emailFrom") || "").trim() || null;
 
   const brand = await prisma.brand.findUnique({ where: { id: brandId } });
   if (!brand) return { error: "Marca não encontrada." };
@@ -204,6 +227,7 @@ export async function saveBrandShopifyConfigAction(
       shopDomain,
       storeUrl,
       shopifyApiKey: apiKey,
+      emailFrom,
       // só sobrescreve o secret se um novo valor foi enviado (mantém o atual em branco)
       ...(apiSecretRaw ? { shopifyApiSecret: apiSecretRaw } : {}),
     },

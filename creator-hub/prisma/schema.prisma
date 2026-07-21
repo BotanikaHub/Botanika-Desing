@@ -29,6 +29,11 @@ model Brand {
   primaryColor String @default("#2f6b3f")
   logoUrl      String?
 
+  // Remetente dos e-mails automáticos desta marca (isolado por empresa).
+  // Ex.: "Botanika Creator Club <creators@botanikabrasil.com.br>".
+  // Se nulo, cai no fallback EMAIL_FROM do ambiente.
+  emailFrom String?
+
   // Loja Shopify da marca
   storeUrl   String? // domínio público, ex.: https://botanikabrasil.com.br
   shopDomain String? // domínio .myshopify.com

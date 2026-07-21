@@ -19,6 +19,7 @@ export type BrandView = {
   shopifyApiKey: string | null;
   hasSecret: boolean;
   connected: boolean;
+  emailFrom: string | null;
 };
 
 export function BrandSettings({ brands }: { brands: BrandView[] }) {
@@ -146,6 +147,20 @@ function BrandCard({ brand }: { brand: BrandView }) {
                   placeholder={brand.hasSecret ? "•••••••• (mantém o atual)" : "shpss_..."}
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="label">Remetente dos e-mails (opcional)</label>
+              <input
+                name="emailFrom"
+                className="input"
+                defaultValue={brand.emailFrom || ""}
+                placeholder={`${brand.name} Creator Club <creators@seudominio.com.br>`}
+              />
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Domínio precisa estar verificado na Resend. Vazio = usa o remetente
+                padrão do ambiente.
+              </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">

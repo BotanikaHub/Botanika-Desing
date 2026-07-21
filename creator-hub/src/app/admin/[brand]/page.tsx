@@ -95,6 +95,7 @@ export default async function BrandAdmin({
     shopifyApiKey: brand.shopifyApiKey,
     hasSecret: Boolean(brand.shopifyApiSecret),
     connected: Boolean(brand.shopifyAccessToken),
+    emailFrom: brand.emailFrom,
   };
 
   const toPending = (c: (typeof pending)[number]): CreatorView => ({
