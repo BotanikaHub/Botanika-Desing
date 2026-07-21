@@ -154,10 +154,18 @@ export default async function BrandAdmin({
           </div>
         )}
 
-        {/* Dashboard */}
+        {/* Título da área */}
+        <h1 className="mb-6 text-2xl font-bold">Dashboard · {brand.name}</h1>
+
+        {/* Conexão Shopify + import (compacta, no topo) */}
+        <section className="mb-10">
+          <BrandSettings brands={[brandView]} />
+        </section>
+
+        {/* Vendas */}
         <section className="mb-10">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xl font-bold">Dashboard · {brand.name}</h2>
+            <h2 className="text-xl font-bold">Vendas</h2>
             {brandView.connected && (
               <div className="flex flex-wrap gap-1.5">
                 {periods.map((p) => (
@@ -179,21 +187,15 @@ export default async function BrandAdmin({
           </div>
           {!brandView.connected ? (
             <div className="card text-sm text-[var(--muted)]">
-              Conecte a Shopify desta marca (abaixo) para ver o dashboard de vendas.
+              Conecte a Shopify desta marca (acima) para ver as vendas.
             </div>
           ) : analyticsError ? (
             <div className="card border-[var(--danger)] bg-[#fdecea] text-sm text-[var(--danger)]">
-              Não foi possível carregar o dashboard: {analyticsError}
+              Não foi possível carregar as vendas: {analyticsError}
             </div>
           ) : analytics ? (
             <BrandAnalyticsView data={analytics} color={brand.primaryColor} />
           ) : null}
-        </section>
-
-        {/* Conexão Shopify + import */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-xl font-bold">Conexão Shopify</h2>
-          <BrandSettings brands={[brandView]} />
         </section>
 
         {/* Pendentes */}
