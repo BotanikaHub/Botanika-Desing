@@ -20,12 +20,13 @@ export async function GET(req: NextRequest) {
     return back("error=marca-sem-config");
   }
 
-  // Confere se a loja que voltou é a esperada para a marca
-  if (brand.shopDomain && brand.shopDomain.toLowerCase() !== shop.toLowerCase()) {
-    return back("error=loja-diferente");
+  // A loja precisa ser um domínio .myshopify.com válido
+  if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(shop)) {
+    return back("error=loja-invalida");
   }
 
-  // Valida HMAC com o Client Secret da marca
+  // Autenticidade garantida pelo HMAC (assinado com o Client Secret da marca)
+  // + pelo state assinado. Aceitamos a loja que a Shopify confirmou e salvamos.
   if (!verifyHmac(params, brand.shopifyApiSecret)) {
     return back("error=hmac-invalido");
   }
