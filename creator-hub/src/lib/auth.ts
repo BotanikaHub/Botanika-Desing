@@ -58,9 +58,9 @@ async function setSession(cookieName: string, payload: SessionPayload) {
   });
 }
 
-// ---------- Creator ----------
-export async function loginCreator(creatorId: string) {
-  await setSession(CREATOR_COOKIE, { sub: creatorId, role: "creator" });
+// ---------- Creator (conta unificada) ----------
+export async function loginCreatorAccount(accountId: string) {
+  await setSession(CREATOR_COOKIE, { sub: accountId, role: "creator" });
 }
 
 export async function logoutCreator() {
@@ -68,10 +68,15 @@ export async function logoutCreator() {
   store.delete(CREATOR_COOKIE);
 }
 
-export async function getCurrentCreator() {
+export async function getCurrentCreatorAccount() {
   const session = await readSession(CREATOR_COOKIE);
   if (!session || session.role !== "creator") return null;
-  return prisma.creator.findUnique({ where: { id: session.sub } });
+  return prisma.creatorAccount.findUnique({
+    where: { id: session.sub },
+    include: {
+      creators: { include: { brand: true } },
+    },
+  });
 }
 
 // ---------- Admin ----------

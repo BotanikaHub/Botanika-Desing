@@ -25,7 +25,7 @@ export default async function ApplyPage({
           <Link href={`/${brand.slug}`}>
             <Logo brandName={brand.name} color={brand.primaryColor} />
           </Link>
-          <Link href={`/${brand.slug}/login`} className="btn btn-ghost">
+          <Link href={"/entrar"} className="btn btn-ghost">
             Já sou afiliado
           </Link>
         </div>

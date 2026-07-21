@@ -24,7 +24,7 @@ export default async function BrandLanding({
       <header className="border-b bg-[var(--surface)]">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
           <Logo brandName={brand.name} color={color} />
-          <Link href={`/${brand.slug}/login`} className="btn btn-ghost">
+          <Link href={"/entrar"} className="btn btn-ghost">
             Já sou afiliado
           </Link>
         </div>
@@ -50,7 +50,7 @@ export default async function BrandLanding({
               Quero ser afiliado
             </Link>
             <Link
-              href={`/${brand.slug}/login`}
+              href={"/entrar"}
               className="btn btn-outline px-8 py-3.5 text-base"
             >
               Acessar meu painel

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/lib/auth";
+import { hashPassword, verifyPassword } from "@/lib/auth";
 import { suggestCoupon } from "@/lib/format";
 
 const schema = z.object({
@@ -56,12 +56,31 @@ export async function applyAction(
     ? suggestCoupon(d.desiredCoupon)
     : suggestCoupon(d.instagram || d.name);
 
+  // Conta unificada: reusa a existente (mesma senha) ou cria.
+  let account = await prisma.creatorAccount.findUnique({ where: { email } });
+  if (account) {
+    if (!(await verifyPassword(d.password, account.passwordHash))) {
+      return {
+        error: "Este e-mail já tem uma conta. Use a mesma senha da sua conta.",
+      };
+    }
+  } else {
+    account = await prisma.creatorAccount.create({
+      data: {
+        email,
+        passwordHash: await hashPassword(d.password),
+        name: d.name.trim(),
+      },
+    });
+  }
+
   await prisma.creator.create({
     data: {
       brandId: brand.id,
+      accountId: account.id,
       name: d.name.trim(),
       email,
-      passwordHash: await hashPassword(d.password),
+      passwordHash: account.passwordHash,
       phone: d.phone?.trim() || null,
       instagram: d.instagram?.trim() || null,
       tiktok: d.tiktok?.trim() || null,

@@ -41,7 +41,7 @@ export default async function ClaimPage({
 
         <p className="mt-6 text-center text-sm text-[var(--muted)]">
           Já ativou seu painel?{" "}
-          <Link href={`/${brand.slug}/login`} className="font-semibold text-[var(--brand)]">
+          <Link href={"/entrar"} className="font-semibold text-[var(--brand)]">
             Entrar
           </Link>
         </p>

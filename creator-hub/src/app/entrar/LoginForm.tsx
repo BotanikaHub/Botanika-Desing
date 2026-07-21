@@ -1,18 +1,17 @@
 "use client";
 
 import { useActionState } from "react";
-import { creatorLoginAction, type LoginState } from "@/actions/auth";
+import { creatorAccountLoginAction, type LoginState } from "@/actions/auth";
 import { SubmitButton } from "@/components/SubmitButton";
 
-export function LoginForm({ brandSlug }: { brandSlug: string }) {
+export function LoginForm() {
   const [state, formAction] = useActionState<LoginState, FormData>(
-    creatorLoginAction,
+    creatorAccountLoginAction,
     null,
   );
 
   return (
     <form action={formAction} className="space-y-4">
-      <input type="hidden" name="brandSlug" value={brandSlug} />
       {state?.error && (
         <div className="rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-3 text-sm text-[var(--danger)]">
           {state.error}

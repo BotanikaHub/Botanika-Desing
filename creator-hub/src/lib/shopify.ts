@@ -210,6 +210,98 @@ export async function getOrdersByDiscountCode(
   return { orderCount: orders.length, totalSales, currency, orders };
 }
 
+export type CreatorSales = {
+  orderCount: number;
+  totalSales: number;
+  currency: string;
+  topProducts: Array<{ title: string; quantity: number; revenue: number }>;
+  orders: Array<{
+    id: string;
+    name: string;
+    createdAt: string;
+    total: number;
+    financialStatus: string | null;
+  }>;
+};
+
+/** Vendas + produtos mais vendidos de UM cupom (uma influencer). */
+export async function getCreatorSales(
+  conn: ShopifyConnection,
+  code: string,
+  maxOrders = 250,
+): Promise<CreatorSales> {
+  const query = `
+    query creatorSales($q: String!, $first: Int!) {
+      orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
+        nodes {
+          id
+          name
+          createdAt
+          displayFinancialStatus
+          currentTotalPriceSet { shopMoney { amount currencyCode } }
+          lineItems(first: 50) {
+            nodes {
+              title
+              quantity
+              discountedTotalSet { shopMoney { amount } }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyGraphQL<{
+    orders: {
+      nodes: Array<{
+        id: string;
+        name: string;
+        createdAt: string;
+        displayFinancialStatus: string | null;
+        currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
+        lineItems: {
+          nodes: Array<{
+            title: string;
+            quantity: number;
+            discountedTotalSet: { shopMoney: { amount: string } } | null;
+          }>;
+        };
+      }>;
+    };
+  }>(conn, query, { q: `discount_code:${code}`, first: maxOrders });
+
+  let totalSales = 0;
+  let currency = "BRL";
+  const products = new Map<string, { quantity: number; revenue: number }>();
+
+  const orders = data.orders.nodes.map((o) => {
+    const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
+    totalSales += total;
+    currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
+    for (const li of o.lineItems.nodes) {
+      const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
+      const p = products.get(li.title) || { quantity: 0, revenue: 0 };
+      p.quantity += li.quantity;
+      p.revenue += rev;
+      products.set(li.title, p);
+    }
+    return {
+      id: o.id,
+      name: o.name,
+      createdAt: o.createdAt,
+      total,
+      financialStatus: o.displayFinancialStatus,
+    };
+  });
+
+  const topProducts = [...products.entries()]
+    .map(([title, v]) => ({ title, quantity: v.quantity, revenue: v.revenue }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 8);
+
+  return { orderCount: orders.length, totalSales, currency, topProducts, orders };
+}
+
 export type BrandAnalytics = {
   ordersScanned: number;
   trackedOrders: number;

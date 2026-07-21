@@ -59,12 +59,28 @@ model Admin {
   createdAt    DateTime @default(now())
 }
 
-/// Um creator/afiliado, sempre vinculado a uma marca.
+/// Conta única da influencer (login unificado). Agrupa as participações dela
+/// em cada marca (um Creator por marca). Assim ela entra num app só e vê os
+/// dados separados por empresa + um consolidado.
+model CreatorAccount {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  creators     Creator[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+/// Um creator/afiliado, sempre vinculado a uma marca (e a uma conta unificada).
 model Creator {
   id      String        @id @default(cuid())
   brand   Brand         @relation(fields: [brandId], references: [id], onDelete: Cascade)
   brandId String
   status  CreatorStatus @default(PENDING)
+
+  account   CreatorAccount? @relation(fields: [accountId], references: [id])
+  accountId String?
 
   // Acesso
   email        String
@@ -108,6 +124,7 @@ model Creator {
   @@unique([brandId, email])
   @@unique([brandId, couponCode])
   @@index([brandId, status])
+  @@index([accountId])
 }
 
 /// Clique num link de afiliado (para métrica de cliques).

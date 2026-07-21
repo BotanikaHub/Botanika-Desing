@@ -41,7 +41,7 @@ export default async function ObrigadoPage({
           exclusivos.
         </p>
         <div className="mt-8 flex gap-3">
-          <Link href={`/${brand.slug}/login`} className="btn btn-primary">
+          <Link href={"/entrar"} className="btn btn-primary">
             Acessar meu painel
           </Link>
           <Link href={`/${brand.slug}`} className="btn btn-ghost">
