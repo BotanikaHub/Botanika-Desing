@@ -80,8 +80,10 @@ export async function claimCreatorAction(
   if (!brand) return { error: "Marca não encontrada." };
 
   const code = parsed.data.couponCode.trim().toUpperCase();
-  const creator = await prisma.creator.findUnique({ where: { couponCode: code } });
-  if (!creator || creator.brandId !== brand.id) {
+  const creator = await prisma.creator.findUnique({
+    where: { brandId_couponCode: { brandId: brand.id, couponCode: code } },
+  });
+  if (!creator) {
     return { error: "Cupom não encontrado nesta marca. Confira o código." };
   }
   if (creator.claimed) {

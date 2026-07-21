@@ -19,12 +19,14 @@ async function ensureAdmin() {
   return admin;
 }
 
-// Garante um código de cupom único no banco (globalmente).
-async function uniqueCouponCode(base: string): Promise<string> {
+// Garante um código de cupom único DENTRO DA MARCA.
+async function uniqueCouponCode(base: string, brandId: string): Promise<string> {
   let code = suggestCoupon(base);
   let n = 1;
   while (n < 100) {
-    const clash = await prisma.creator.findUnique({ where: { couponCode: code } });
+    const clash = await prisma.creator.findFirst({
+      where: { brandId, couponCode: code },
+    });
     if (!clash) return code;
     n += 1;
     code = `${suggestCoupon(base)}${n}`;
@@ -56,11 +58,11 @@ async function resolveCoupon(
   if (opts.linkExisting) {
     const exact = opts.requestedCode.trim().toUpperCase();
     if (!exact) throw new Error("Informe o código do cupom já existente.");
-    const clash = await prisma.creator.findUnique({
-      where: { couponCode: exact },
+    const clash = await prisma.creator.findFirst({
+      where: { brandId: creator.brandId, couponCode: exact },
     });
     if (clash && clash.id !== creator.id) {
-      throw new Error("Esse cupom já está vinculado a outro creator.");
+      throw new Error("Esse cupom já está vinculado a outro creator desta marca.");
     }
     // Cupom já existe na Shopify — não temos os IDs dele, e não precisamos.
     return { code: exact, shopifyPriceRuleId: null, shopifyDiscountId: null };
@@ -68,6 +70,7 @@ async function resolveCoupon(
 
   const code = await uniqueCouponCode(
     opts.requestedCode || creator.desiredCoupon || creator.instagram || creator.name,
+    creator.brandId,
   );
   const conn = brandConnection(creator.brand);
   if (isShopifyConfigured(conn)) {
@@ -251,7 +254,7 @@ export async function importShopifyCouponsAction(
   const codes = active.map((d) => d.code.toUpperCase());
 
   const existing = await prisma.creator.findMany({
-    where: { couponCode: { in: codes } },
+    where: { brandId: brand.id, couponCode: { in: codes } },
     select: { couponCode: true },
   });
   const existingSet = new Set(existing.map((e) => e.couponCode));

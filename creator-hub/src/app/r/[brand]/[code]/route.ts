@@ -1,24 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /r/CODIGO → registra o clique e redireciona à loja da marca com o cupom aplicado
+// GET /r/MARCA/CUPOM → registra o clique e leva à loja da marca com o cupom
 export async function GET(
   req: NextRequest,
-  ctx: { params: Promise<{ code: string }> },
+  ctx: { params: Promise<{ brand: string; code: string }> },
 ) {
-  const { code } = await ctx.params;
+  const { brand: slug, code } = await ctx.params;
 
-  // Rota legada (sem marca): resolve o primeiro creator com esse cupom.
-  // Novos links usam /r/[marca]/[cupom] para isolar por marca.
-  const creator = await prisma.creator.findFirst({
-    where: { couponCode: code.toUpperCase(), status: "APPROVED" },
-    include: { brand: true },
+  const brand = await prisma.brand.findUnique({
+    where: { slug: slug.toLowerCase() },
   });
 
+  const storeUrl = (brand?.storeUrl || "https://botanikabrasil.com.br").replace(/\/$/, "");
   const to = req.nextUrl.searchParams.get("to") || "";
   const safeTo = to.startsWith("/") ? to : "";
 
-  const storeUrl = (creator?.brand.storeUrl || "https://botanikabrasil.com.br").replace(/\/$/, "");
+  if (!brand) return NextResponse.redirect(`${storeUrl}${safeTo}`);
+
+  const creator = await prisma.creator.findUnique({
+    where: {
+      brandId_couponCode: { brandId: brand.id, couponCode: code.toUpperCase() },
+    },
+  });
 
   if (!creator || creator.status !== "APPROVED" || !creator.couponCode) {
     return NextResponse.redirect(`${storeUrl}${safeTo}`);

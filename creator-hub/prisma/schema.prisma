@@ -82,8 +82,9 @@ model Creator {
   profession    String? // médico, nutricionista, influenciador, etc.
   desiredCoupon String?
 
-  // Atribuídos na aprovação
-  couponCode     String? @unique // único globalmente (link /r/CODE sem ambiguidade)
+  // Atribuídos na aprovação. Único POR MARCA (a mesma influencer pode ter o
+  // mesmo cupom em marcas diferentes, cada um na sua loja).
+  couponCode     String?
   commissionRate Float   @default(0.10)
 
   // Importado da Shopify e ainda não reivindicado por uma influencer.
@@ -105,6 +106,7 @@ model Creator {
   // Um e-mail é único dentro de cada marca (a mesma pessoa pode ser afiliada
   // das duas marcas com o mesmo e-mail).
   @@unique([brandId, email])
+  @@unique([brandId, couponCode])
   @@index([brandId, status])
 }
 

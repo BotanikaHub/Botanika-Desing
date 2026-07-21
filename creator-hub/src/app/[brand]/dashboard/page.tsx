@@ -84,6 +84,7 @@ export default async function DashboardPage({
 
         {creator.status === "APPROVED" && creator.couponCode && (
           <ApprovedDashboard
+            brandSlug={brand.slug}
             couponCode={creator.couponCode}
             commissionRate={creator.commissionRate}
             clicks={clicks}
@@ -96,18 +97,20 @@ export default async function DashboardPage({
 }
 
 async function ApprovedDashboard({
+  brandSlug,
   couponCode,
   commissionRate,
   clicks,
   conn,
 }: {
+  brandSlug: string;
   couponCode: string;
   commissionRate: number;
   clicks: number;
   conn: ReturnType<typeof brandConnection>;
 }) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
-  const affiliateLink = `${appUrl}/r/${couponCode}`;
+  const affiliateLink = `${appUrl}/r/${brandSlug}/${couponCode}`;
 
   let stats: OrderStats | null = null;
   let shopifyError: string | null = null;
