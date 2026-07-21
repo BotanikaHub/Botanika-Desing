@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import {
   approveCreatorAction,
+  editCreatorCouponAction,
   rejectCreatorAction,
   type ApproveState,
 } from "@/actions/admin";
@@ -70,17 +71,24 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         </div>
       )}
 
-      <form action={formAction} className="mt-4 flex flex-wrap items-end gap-3 border-t pt-4">
+      <form action={formAction} className="mt-4 border-t pt-4">
         <input type="hidden" name="creatorId" value={creator.id} />
-        <div className="w-40">
-          <label className="label">Cupom</label>
-          <input name="couponCode" className="input" defaultValue={creator.desiredCoupon || ""} placeholder="EX: MARIA10" />
+        <div className="flex flex-wrap items-end gap-3">
+          <div className="w-40">
+            <label className="label">Cupom</label>
+            <input name="couponCode" className="input" defaultValue={creator.desiredCoupon || ""} placeholder="EX: MARIA10" />
+          </div>
+          <div className="w-28">
+            <label className="label">Comissão %</label>
+            <input name="commissionRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultRatePct} />
+          </div>
+          <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">Aprovar</SubmitButton>
         </div>
-        <div className="w-28">
-          <label className="label">Comissão %</label>
-          <input name="commissionRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultRatePct} />
-        </div>
-        <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">Aprovar</SubmitButton>
+        <label className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
+          <input type="checkbox" name="linkExisting" />
+          Cupom já existe na Shopify — só <b>vincular</b> (não criar). Use o código
+          exato do cupom atual da influenciadora.
+        </label>
       </form>
 
       <form action={rejectCreatorAction} className="mt-3 flex flex-wrap items-end gap-3">
@@ -90,6 +98,109 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         </div>
         <button type="submit" className="btn btn-danger">Recusar</button>
       </form>
+    </div>
+  );
+}
+
+export type ApprovedView = {
+  id: string;
+  brandName: string;
+  brandColor: string;
+  name: string;
+  email: string;
+  couponCode: string | null;
+  commissionRatePct: number;
+  approvedAt: string | null;
+};
+
+export function ApprovedCard({ creator }: { creator: ApprovedView }) {
+  const [open, setOpen] = useState(false);
+  const [state, formAction] = useActionState<ApproveState, FormData>(
+    editCreatorCouponAction,
+    null,
+  );
+
+  return (
+    <div className="card">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span
+            className="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ background: creator.brandColor }}
+          >
+            {creator.brandName.charAt(0)}
+          </span>
+          <div>
+            <p className="font-semibold">{creator.name}</p>
+            <p className="text-sm text-[var(--muted)]">{creator.email}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <p className="font-mono font-bold text-[var(--brand)]">
+              {creator.couponCode}
+            </p>
+            <p className="text-xs text-[var(--muted)]">
+              {creator.commissionRatePct}% de comissão
+            </p>
+          </div>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? "Fechar" : "Editar cupom"}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <>
+          {state?.ok && (
+            <div className="mt-3 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-2 text-sm text-[var(--brand-dark)]">
+              Cupom atualizado.
+            </div>
+          )}
+          {state?.error && (
+            <div className="mt-3 rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-2 text-sm text-[var(--danger)]">
+              {state.error}
+            </div>
+          )}
+          <form action={formAction} className="mt-4 border-t pt-4">
+            <input type="hidden" name="creatorId" value={creator.id} />
+            <div className="flex flex-wrap items-end gap-3">
+              <div className="w-44">
+                <label className="label">Cupom</label>
+                <input
+                  name="couponCode"
+                  className="input"
+                  defaultValue={creator.couponCode || ""}
+                />
+              </div>
+              <div className="w-28">
+                <label className="label">Comissão %</label>
+                <input
+                  name="commissionRate"
+                  type="number"
+                  min={0}
+                  max={100}
+                  step={1}
+                  className="input"
+                  defaultValue={creator.commissionRatePct}
+                />
+              </div>
+              <SubmitButton className="btn btn-primary" pendingLabel="Salvando...">
+                Salvar
+              </SubmitButton>
+            </div>
+            <label className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
+              <input type="checkbox" name="linkExisting" defaultChecked />
+              Vincular cupom já existente na Shopify (não criar). Use o código
+              exato — o painel passa a puxar as vendas desse cupom.
+            </label>
+          </form>
+        </>
+      )}
     </div>
   );
 }

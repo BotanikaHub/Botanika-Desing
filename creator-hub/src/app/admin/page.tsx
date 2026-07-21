@@ -5,7 +5,12 @@ import { getCurrentAdmin } from "@/lib/auth";
 import { adminLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
-import { PendingCard, type CreatorView } from "./ApplicationCard";
+import {
+  PendingCard,
+  ApprovedCard,
+  type CreatorView,
+  type ApprovedView,
+} from "./ApplicationCard";
 import { BrandSettings, type BrandView } from "./BrandSettings";
 import type { Prisma } from "@prisma/client";
 
@@ -153,35 +158,24 @@ export default async function AdminPage({
           {approved.length === 0 ? (
             <div className="card text-sm text-[var(--muted)]">Nenhum afiliado aprovado ainda.</div>
           ) : (
-            <div className="card overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b text-[var(--muted)]">
-                    <th className="py-2 pr-4 font-medium">Marca</th>
-                    <th className="py-2 pr-4 font-medium">Nome</th>
-                    <th className="py-2 pr-4 font-medium">Cupom</th>
-                    <th className="py-2 pr-4 font-medium">Comissão</th>
-                    <th className="py-2 pr-4 font-medium">Contato</th>
-                    <th className="py-2 font-medium">Aprovado em</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {approved.map((c) => (
-                    <tr key={c.id} className="border-b last:border-0">
-                      <td className="py-2 pr-4">
-                        <span className="rounded-full px-2 py-0.5 text-xs font-bold text-white" style={{ background: c.brand.primaryColor }}>
-                          {c.brand.name}
-                        </span>
-                      </td>
-                      <td className="py-2 pr-4 font-medium">{c.name}</td>
-                      <td className="py-2 pr-4"><span className="font-mono font-semibold text-[var(--brand)]">{c.couponCode}</span></td>
-                      <td className="py-2 pr-4">{Math.round(c.commissionRate * 100)}%</td>
-                      <td className="py-2 pr-4">{c.email}</td>
-                      <td className="py-2">{c.approvedAt ? formatDate(c.approvedAt) : "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="space-y-3">
+              {approved.map((c) => (
+                <ApprovedCard
+                  key={c.id}
+                  creator={
+                    {
+                      id: c.id,
+                      brandName: c.brand.name,
+                      brandColor: c.brand.primaryColor,
+                      name: c.name,
+                      email: c.email,
+                      couponCode: c.couponCode,
+                      commissionRatePct: Math.round(c.commissionRate * 100),
+                      approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
+                    } satisfies ApprovedView
+                  }
+                />
+              ))}
             </div>
           )}
         </section>
