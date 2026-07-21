@@ -74,7 +74,11 @@ Reporta ao fundador/operador. IDs de conta/pixel/variante/propriedade são **inf
 2. **`value = commission`** na Utmify → valor da compra enviado como comissão, não faturamento real → **estraga otimização por valor e ROAS**. Provavelmente pior que o próprio `fbc`.
 3. **`fbc` modificado (14%)** = o alerta original. Contexto: **EMQ do Purchase = 9,2** (email 95% · telefone/external_id/nome/endereço ~100% · fbc 66%), então o `fbc` sujo é **quase cosmético** — o menos grave dos três.
 
-**🚩 Flag extra de ATRIBUIÇÃO (investigar à parte):** no Dia D o pixel atribuiu **31 vendas** ao FB, mas a Utmify só amarrou **3 pedidos** à Meta, com **39 pedidos untracked**. Buraco grande de cobertura de UTM — provável relação com o redirect das LPs Lovable mexendo na query string.
+**🚩 Flag extra de ATRIBUIÇÃO (crônico — investigar):** buraco de cobertura de UTM grande e recorrente:
+- Dia D 07/07: pixel atribuiu **31 vendas** ao FB × Utmify amarrou só **3** × **39 untracked**.
+- Semana 14–21/07: pixel **146** × Utmify **25** × **137 untracked**.
+- **Causa provável = mesma do `fbc`:** o redirect das LPs Lovable → checkout **não preserva a query string** → o `fbclid` chega modificado (Meta acusa) **e** os `utm_*` somem (Utmify não atribui). Os CTAs do tema (`cta_link`/`s1_link`/`s2_link`/PDP) são campos de texto livre no customizer e **não** anexam/propagam UTM sozinhos.
+- **Direção de correção:** garantir `utm_*` nas URLs dos anúncios Meta **e** que todo redirect (LP→checkout e CTAs internos) repasse a query string **inteira e intacta**. Sem isso o ROAS por campanha fica cego pra maioria das vendas.
 
 **CORREÇÃO (no painel da Utmify — 1 fonte de servidor por pixel):**
 1. Utmify → **Integrações → Pixels → `Botanika Meta Pixel 2.0`**.
@@ -193,6 +197,12 @@ As LPs do Lovable **não passam pelo Custom Pixel do Shopify** → precisam de P
 - Não monta/minúscula/corta/hasheia `fbc`/`fbp` — vão crus; o Pixel grava o `_fbc`.
 
 ---
+
+## FERRAMENTAS — CONECTAR O META ADS MCP (opera as contas pelo Claude)
+Além de entregar passo a passo, dá pra deixar o Claude **operar/ler as contas direto** via MCP:
+- **Meta Ads MCP** (`https://mcp.facebook.com/ads`): no Claude, abrir o seletor de conectores do chat → ativar **"Meta Ads MCP"** → fazer o **login OAuth com a conta Meta que tem acesso à BM Botanika Brasil 2.0**. Aí o Claude lê insights, qualidade do pixel/dataset, cria campanha/conjunto/anúncio, etc. Age sobre a conta de **quem logou** — o novo gestor conecta com o acesso dele.
+- **Utmify MCP:** já conectado nesta operação — usado pra auditar pixels/integrações e atribuição (foi como se achou a CAPI dupla).
+- ⚠️ Toda **ação que altera conta/config** (subir campanha, mexer em pixel/Utmify) deve ser **aprovada pelo operador antes** de aplicar.
 
 ## PRIMEIROS PASSOS DO NOVO GESTOR (ordem sugerida)
 1. Entrar nas contas (Meta 1164715034920965 · Google 791-605-0839 · GA4 544054262 · GTM-WQ7B2563) e confirmar acessos.
