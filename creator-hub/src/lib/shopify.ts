@@ -158,6 +158,9 @@ export async function getOrdersByDiscountCode(
   code: string,
   maxOrders = 100,
 ): Promise<OrderStats> {
+  // Obs: NÃO pedimos dados do cliente (customer{}), pois isso exigiria o scope
+  // `read_customers` (dados protegidos, com aprovação da Shopify). Para vendas e
+  // comissões não é necessário.
   const query = `
     query ordersByDiscount($q: String!, $first: Int!) {
       orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
@@ -167,7 +170,6 @@ export async function getOrdersByDiscountCode(
           createdAt
           displayFinancialStatus
           currentTotalPriceSet { shopMoney { amount currencyCode } }
-          customer { displayName }
         }
       }
     }
@@ -183,7 +185,6 @@ export async function getOrdersByDiscountCode(
         currentTotalPriceSet: {
           shopMoney: { amount: string; currencyCode: string };
         };
-        customer: { displayName: string | null } | null;
       }>;
     };
   }>(conn, query, { q: `discount_code:${code}`, first: maxOrders });
@@ -201,7 +202,7 @@ export async function getOrdersByDiscountCode(
       name: o.name,
       createdAt: o.createdAt,
       total,
-      customer: o.customer?.displayName || null,
+      customer: null,
       financialStatus: o.displayFinancialStatus,
     };
   });

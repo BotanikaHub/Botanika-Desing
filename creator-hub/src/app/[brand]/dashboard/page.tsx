@@ -181,7 +181,6 @@ async function ApprovedDashboard({
                 <tr className="border-b text-[var(--muted)]">
                   <th className="py-2 pr-4 font-medium">Pedido</th>
                   <th className="py-2 pr-4 font-medium">Data</th>
-                  <th className="py-2 pr-4 font-medium">Cliente</th>
                   <th className="py-2 pr-4 font-medium">Status</th>
                   <th className="py-2 pr-4 font-medium">Valor</th>
                   <th className="py-2 font-medium">Sua comissão</th>
@@ -192,7 +191,6 @@ async function ApprovedDashboard({
                   <tr key={o.id} className="border-b last:border-0">
                     <td className="py-2 pr-4 font-medium">{o.name}</td>
                     <td className="py-2 pr-4">{formatDate(o.createdAt)}</td>
-                    <td className="py-2 pr-4">{o.customer || "—"}</td>
                     <td className="py-2 pr-4">{o.financialStatus || "—"}</td>
                     <td className="py-2 pr-4">{formatBRL(o.total)}</td>
                     <td className="py-2 font-semibold text-[var(--brand)]">
