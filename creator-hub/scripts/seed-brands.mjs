@@ -12,7 +12,8 @@ const brands = [
     primaryColor: "#2f6b3f",
     storeUrl: "https://botanikabrasil.com.br",
     shopDomain: "botanika-brasil.myshopify.com",
-    defaultCommissionRate: 0.1,
+    defaultCommissionRate: 0.15,
+    defaultDiscountRate: 0.05,
   },
   {
     slug: "vermfree",
@@ -21,7 +22,8 @@ const brands = [
     primaryColor: "#1f6f8b",
     storeUrl: null,
     shopDomain: null,
-    defaultCommissionRate: 0.1,
+    defaultCommissionRate: 0.15,
+    defaultDiscountRate: 0.05,
   },
 ];
 

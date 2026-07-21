@@ -45,7 +45,10 @@ model Brand {
   shopifyScope       String?
   shopifyInstalledAt DateTime?
 
-  defaultCommissionRate Float @default(0.10)
+  // Comissão da creator (o que ela ganha — interno, nunca vai pra Shopify).
+  defaultCommissionRate Float @default(0.15)
+  // Desconto do cupom (o que o cliente ganha — aplicado na Shopify).
+  defaultDiscountRate   Float @default(0.05)
 
   creators Creator[]
 
@@ -106,7 +109,11 @@ model Creator {
   // Atribuídos na aprovação. Único POR MARCA (a mesma influencer pode ter o
   // mesmo cupom em marcas diferentes, cada um na sua loja).
   couponCode     String?
-  commissionRate Float   @default(0.10)
+  // % que a creator ganha por venda (interno). Padrão 15%.
+  commissionRate Float   @default(0.15)
+  // % de desconto do cupom para o cliente (espelha o valor na Shopify).
+  // Nulo = desconto não gerenciado por aqui (ex.: cupom importado antigo).
+  couponDiscountRate Float?
 
   // Importado da Shopify e ainda não reivindicado por uma influencer.
   // false = sem login utilizável (aguardando a influencer criar acesso).

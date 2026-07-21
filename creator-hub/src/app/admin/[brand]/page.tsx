@@ -114,6 +114,7 @@ export default async function BrandAdmin({
     pitch: c.pitch,
     desiredCoupon: c.desiredCoupon,
     defaultRatePct: Math.round(brand.defaultCommissionRate * 100),
+    defaultDiscountPct: Math.round(brand.defaultDiscountRate * 100),
   });
 
   return (
@@ -225,6 +226,10 @@ export default async function BrandAdmin({
                       email: c.email,
                       couponCode: c.couponCode,
                       commissionRatePct: Math.round(c.commissionRate * 100),
+                      discountPct:
+                        c.couponDiscountRate != null
+                          ? Math.round(c.couponDiscountRate * 100)
+                          : null,
                       approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
                       claimed: c.claimed,
                     } satisfies ApprovedView

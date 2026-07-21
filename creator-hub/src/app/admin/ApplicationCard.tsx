@@ -25,6 +25,7 @@ export type CreatorView = {
   pitch: string | null;
   desiredCoupon: string | null;
   defaultRatePct: number;
+  defaultDiscountPct: number;
 };
 
 export function PendingCard({ creator }: { creator: CreatorView }) {
@@ -76,18 +77,26 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-40">
             <label className="label">Cupom</label>
-            <input name="couponCode" className="input" defaultValue={creator.desiredCoupon || ""} placeholder="EX: MARIA10" />
+            <input name="couponCode" className="input" defaultValue={creator.desiredCoupon || ""} placeholder="EX: MARIA" />
           </div>
           <div className="w-28">
             <label className="label">Comissão %</label>
             <input name="commissionRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultRatePct} />
           </div>
+          <div className="w-28">
+            <label className="label">Desconto %</label>
+            <input name="discountRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultDiscountPct} />
+          </div>
           <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">Aprovar</SubmitButton>
         </div>
+        <p className="mt-2 text-xs text-[var(--muted)]">
+          <b>Comissão</b> = o que a creator ganha (interno). <b>Desconto</b> = o que o
+          cliente ganha no cupom (vai pra Shopify).
+        </p>
         <label className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
           <input type="checkbox" name="linkExisting" />
           Cupom já existe na Shopify — só <b>vincular</b> (não criar). Use o código
-          exato do cupom atual da influenciadora.
+          exato do cupom atual da creator.
         </label>
       </form>
 
@@ -110,6 +119,7 @@ export type ApprovedView = {
   email: string;
   couponCode: string | null;
   commissionRatePct: number;
+  discountPct: number | null;
   approvedAt: string | null;
   claimed: boolean;
 };
@@ -148,7 +158,8 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
               {creator.couponCode}
             </p>
             <p className="text-xs text-[var(--muted)]">
-              {creator.commissionRatePct}% de comissão
+              {creator.commissionRatePct}% comissão
+              {creator.discountPct != null && ` · ${creator.discountPct}% desconto`}
             </p>
           </div>
           <button
@@ -196,10 +207,27 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
                   defaultValue={creator.commissionRatePct}
                 />
               </div>
+              <div className="w-32">
+                <label className="label">Desconto %</label>
+                <input
+                  name="discountRate"
+                  type="number"
+                  min={0}
+                  max={100}
+                  step={1}
+                  className="input"
+                  defaultValue={creator.discountPct ?? ""}
+                  placeholder="manter"
+                />
+              </div>
               <SubmitButton className="btn btn-primary" pendingLabel="Salvando...">
                 Salvar
               </SubmitButton>
             </div>
+            <p className="mt-2 text-xs text-[var(--muted)]">
+              <b>Comissão</b> = ganho da creator (interno). <b>Desconto</b> = cupom do
+              cliente — ao salvar, é atualizado na Shopify. Em branco = mantém o atual.
+            </p>
             <label className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)]">
               <input type="checkbox" name="linkExisting" defaultChecked />
               Vincular cupom já existente na Shopify (não criar). Use o código

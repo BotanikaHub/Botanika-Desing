@@ -138,6 +138,69 @@ export async function createDiscountCode(
   };
 }
 
+/**
+ * Atualiza o percentual de desconto de um cupom já existente na loja,
+ * localizando-o pelo código. Funciona para cupons criados pelo app e para
+ * cupons importados/vinculados. `percentage` é fração (0.05 = 5%).
+ */
+export async function setDiscountPercentageByCode(
+  conn: ShopifyConnection,
+  code: string,
+  percentage: number,
+): Promise<string> {
+  const findQuery = `
+    query byCode($code: String!) {
+      codeDiscountNodeByCode(code: $code) {
+        id
+        codeDiscount { __typename }
+      }
+    }
+  `;
+  const found = await shopifyGraphQL<{
+    codeDiscountNodeByCode: {
+      id: string;
+      codeDiscount: { __typename: string };
+    } | null;
+  }>(conn, findQuery, { code });
+
+  const node = found.codeDiscountNodeByCode;
+  if (!node) {
+    throw new Error(`Cupom "${code}" não encontrado na Shopify desta marca.`);
+  }
+  if (node.codeDiscount.__typename !== "DiscountCodeBasic") {
+    throw new Error(
+      `O cupom "${code}" não é um desconto percentual editável por aqui.`,
+    );
+  }
+
+  const mutation = `
+    mutation updateDiscount($id: ID!, $input: DiscountCodeBasicInput!) {
+      discountCodeBasicUpdate(id: $id, basicCodeDiscount: $input) {
+        codeDiscountNode { id }
+        userErrors { field message }
+      }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeBasicUpdate: {
+      codeDiscountNode: { id: string } | null;
+      userErrors: { field: string[]; message: string }[];
+    };
+  }>(conn, mutation, {
+    id: node.id,
+    input: { customerGets: { value: { percentage } } },
+  });
+
+  const result = data.discountCodeBasicUpdate;
+  if (result.userErrors?.length) {
+    throw new Error(
+      result.userErrors.map((e) => e.message).join("; ") ||
+        "Erro ao atualizar o desconto na Shopify",
+    );
+  }
+  return node.id;
+}
+
 export type OrderStats = {
   orderCount: number;
   totalSales: number;

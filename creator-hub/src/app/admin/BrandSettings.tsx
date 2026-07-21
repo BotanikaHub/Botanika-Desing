@@ -196,7 +196,10 @@ function BrandCard({ brand }: { brand: BrandView }) {
               {typeof importState?.imported === "number" && (
                 <div className="mt-3 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-2 text-sm text-[var(--brand-dark)]">
                   {importState.imported} cupom(ns) importado(s).{" "}
-                  {importState.skipped ? `${importState.skipped} já existiam.` : ""}
+                  {importState.skipped ? `${importState.skipped} já existiam. ` : ""}
+                  {importState.updated
+                    ? `${importState.updated} tiveram o desconto atualizado.`
+                    : ""}
                 </div>
               )}
               {importState?.error && (

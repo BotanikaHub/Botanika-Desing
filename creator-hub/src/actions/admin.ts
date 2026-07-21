@@ -9,6 +9,7 @@ import {
   createDiscountCode,
   isShopifyConfigured,
   listDiscountCodes,
+  setDiscountPercentageByCode,
 } from "@/lib/shopify";
 import { brandConnection } from "@/lib/brand";
 import { sendEmail, creatorApprovedEmail, brandEmailFrom } from "@/lib/email";
@@ -45,21 +46,28 @@ type CreatorWithBrand = Prisma.CreatorGetPayload<{ include: { brand: true } }>;
 
 type CouponResult = {
   code: string;
+  // Desconto do cupom efetivamente aplicado (fração) ou null quando não mexemos.
+  discountRate: number | null;
   shopifyPriceRuleId: string | null;
   shopifyDiscountId: string | null;
 };
 
 /**
- * Resolve o cupom de um creator:
- *  - linkExisting = true  → apenas VINCULA um cupom que já existe na Shopify
- *    (não cria nada; o painel puxa as vendas por esse código). Usa o código
- *    exatamente como digitado.
- *  - linkExisting = false → CRIA um cupom novo na Shopify (código único).
+ * Resolve o cupom de um creator. `discount` é o % de DESCONTO do cliente
+ * (fração) — separado da comissão. Se null, o desconto na Shopify não é tocado.
+ *
+ *  - linkExisting = true  → apenas VINCULA um cupom que já existe na Shopify.
+ *    Se `discount` foi informado, atualiza o desconto desse cupom na loja.
+ *  - linkExisting = false → CRIA um cupom novo na Shopify com o desconto dado
+ *    (ou o padrão da marca).
  */
 async function resolveCoupon(
   creator: CreatorWithBrand,
-  opts: { requestedCode: string; rate: number; linkExisting: boolean },
+  opts: { requestedCode: string; discount: number | null; linkExisting: boolean },
 ): Promise<CouponResult> {
+  const conn = brandConnection(creator.brand);
+  const shopifyOn = isShopifyConfigured(conn);
+
   if (opts.linkExisting) {
     const exact = opts.requestedCode.trim().toUpperCase();
     if (!exact) throw new Error("Informe o código do cupom já existente.");
@@ -69,33 +77,52 @@ async function resolveCoupon(
     if (clash && clash.id !== creator.id) {
       throw new Error("Esse cupom já está vinculado a outro creator desta marca.");
     }
-    // Cupom já existe na Shopify — não temos os IDs dele, e não precisamos.
-    return { code: exact, shopifyPriceRuleId: null, shopifyDiscountId: null };
+    // Se o admin definiu um desconto, espelha na Shopify (cupom criado ou importado).
+    if (opts.discount != null && shopifyOn) {
+      await setDiscountPercentageByCode(conn, exact, opts.discount);
+    }
+    return {
+      code: exact,
+      discountRate: opts.discount,
+      shopifyPriceRuleId: creator.shopifyPriceRuleId,
+      shopifyDiscountId: creator.shopifyDiscountId,
+    };
   }
 
   const code = await uniqueCouponCode(
     opts.requestedCode || creator.desiredCoupon || creator.instagram || creator.name,
     creator.brandId,
   );
-  const conn = brandConnection(creator.brand);
-  if (isShopifyConfigured(conn)) {
+  const discount = opts.discount ?? creator.brand.defaultDiscountRate;
+  if (shopifyOn) {
     const created = await createDiscountCode(conn, {
       code,
-      percentage: opts.rate,
+      percentage: discount,
       title: `Creator ${creator.brand.name} — ${creator.name}`,
     });
     return {
       code: created.code || code,
+      discountRate: discount,
       shopifyPriceRuleId: created.priceRuleId,
       shopifyDiscountId: created.discountId,
     };
   }
-  return { code, shopifyPriceRuleId: null, shopifyDiscountId: null };
+  return { code, discountRate: discount, shopifyPriceRuleId: null, shopifyDiscountId: null };
 }
 
+// Comissão: sempre tem um valor (padrão 15% se em branco).
 function parseRate(raw: string): number {
-  const pct = parseFloat(raw || "10");
-  return isNaN(pct) ? 0.1 : Math.max(0, Math.min(pct, 100)) / 100;
+  const pct = parseFloat(raw || "15");
+  return isNaN(pct) ? 0.15 : Math.max(0, Math.min(pct, 100)) / 100;
+}
+
+// Desconto do cupom: opcional. Em branco = não mexer (retorna null).
+function parseOptionalRate(raw: string): number | null {
+  const t = (raw || "").trim();
+  if (t === "") return null;
+  const pct = parseFloat(t);
+  if (isNaN(pct)) return null;
+  return Math.max(0, Math.min(pct, 100)) / 100;
 }
 
 export async function approveCreatorAction(
@@ -106,7 +133,8 @@ export async function approveCreatorAction(
 
   const id = String(formData.get("creatorId") || "");
   const requestedCode = String(formData.get("couponCode") || "").trim();
-  const rate = parseRate(String(formData.get("commissionRate") || "10"));
+  const rate = parseRate(String(formData.get("commissionRate") || ""));
+  const discount = parseOptionalRate(String(formData.get("discountRate") || ""));
   const linkExisting = formData.get("linkExisting") === "on";
 
   const creator = await prisma.creator.findUnique({
@@ -118,7 +146,7 @@ export async function approveCreatorAction(
 
   let result: CouponResult;
   try {
-    result = await resolveCoupon(creator, { requestedCode, rate, linkExisting });
+    result = await resolveCoupon(creator, { requestedCode, discount, linkExisting });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Erro ao definir o cupom." };
   }
@@ -129,6 +157,7 @@ export async function approveCreatorAction(
       status: "APPROVED",
       couponCode: result.code,
       commissionRate: rate,
+      ...(result.discountRate != null ? { couponDiscountRate: result.discountRate } : {}),
       shopifyPriceRuleId: result.shopifyPriceRuleId,
       shopifyDiscountId: result.shopifyDiscountId,
       approvedAt: new Date(),
@@ -167,7 +196,8 @@ export async function editCreatorCouponAction(
 
   const id = String(formData.get("creatorId") || "");
   const requestedCode = String(formData.get("couponCode") || "").trim();
-  const rate = parseRate(String(formData.get("commissionRate") || "10"));
+  const rate = parseRate(String(formData.get("commissionRate") || ""));
+  const discount = parseOptionalRate(String(formData.get("discountRate") || ""));
   const linkExisting = formData.get("linkExisting") === "on";
 
   const creator = await prisma.creator.findUnique({
@@ -178,7 +208,7 @@ export async function editCreatorCouponAction(
 
   let result: CouponResult;
   try {
-    result = await resolveCoupon(creator, { requestedCode, rate, linkExisting });
+    result = await resolveCoupon(creator, { requestedCode, discount, linkExisting });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Erro ao definir o cupom." };
   }
@@ -189,6 +219,8 @@ export async function editCreatorCouponAction(
       status: "APPROVED",
       couponCode: result.code,
       commissionRate: rate,
+      // Só mexe no desconto salvo quando o admin informou um valor.
+      ...(result.discountRate != null ? { couponDiscountRate: result.discountRate } : {}),
       shopifyPriceRuleId: result.shopifyPriceRuleId,
       shopifyDiscountId: result.shopifyDiscountId,
       approvedAt: creator.approvedAt || new Date(),
@@ -241,6 +273,7 @@ export type ImportState = {
   error?: string;
   imported?: number;
   skipped?: number;
+  updated?: number;
 } | null;
 
 // Importa todos os cupons ATIVOS da loja Shopify da marca como afiliados
@@ -279,9 +312,24 @@ export async function importShopifyCouponsAction(
 
   const existing = await prisma.creator.findMany({
     where: { brandId: brand.id, couponCode: { in: codes } },
-    select: { couponCode: true },
+    select: { id: true, couponCode: true, couponDiscountRate: true },
   });
   const existingSet = new Set(existing.map((e) => e.couponCode));
+
+  // Backfill: cupons já importados/vinculados que ainda não têm o desconto
+  // registrado recebem o valor real vindo da Shopify (sem alterar a loja).
+  const pctByCode = new Map(active.map((d) => [d.code.toUpperCase(), d.percentage]));
+  let backfilled = 0;
+  for (const e of existing) {
+    if (e.couponDiscountRate != null || !e.couponCode) continue;
+    const pct = pctByCode.get(e.couponCode);
+    if (pct == null) continue;
+    await prisma.creator.update({
+      where: { id: e.id },
+      data: { couponDiscountRate: pct },
+    });
+    backfilled += 1;
+  }
 
   const toCreate = active
     .filter((d) => !existingSet.has(d.code.toUpperCase()))
@@ -299,7 +347,9 @@ export async function importShopifyCouponsAction(
         passwordHash: `unclaimed:${crypto.randomBytes(16).toString("hex")}`,
         couponCode: code,
         desiredCoupon: code,
-        commissionRate: d.percentage ?? brand.defaultCommissionRate,
+        // Comissão padrão da marca (interna); o % do cupom vem da Shopify.
+        commissionRate: brand.defaultCommissionRate,
+        couponDiscountRate: d.percentage ?? null,
         approvedAt: new Date(),
       };
     });
@@ -309,7 +359,11 @@ export async function importShopifyCouponsAction(
   }
 
   revalidatePath("/admin", "layout");
-  return { imported: toCreate.length, skipped: active.length - toCreate.length };
+  return {
+    imported: toCreate.length,
+    skipped: active.length - toCreate.length,
+    updated: backfilled,
+  };
 }
 
 export async function rejectCreatorAction(formData: FormData) {

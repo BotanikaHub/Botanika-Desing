@@ -44,6 +44,7 @@ export default async function PainelBrand({
   const color = brand.primaryColor;
   const couponCode = membership.couponCode as string;
   const rate = membership.commissionRate;
+  const discountRate = membership.couponDiscountRate ?? brand.defaultDiscountRate;
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
   const affiliateLink = `${appUrl}/r/${brand.slug}/${couponCode}`;
@@ -107,7 +108,7 @@ export default async function PainelBrand({
             <h3 className="text-sm font-semibold text-[var(--muted)]">Seu cupom de desconto</h3>
             <p className="mt-2 text-2xl font-bold tracking-widest text-[var(--brand)]">{couponCode}</p>
             <p className="mt-1 text-sm text-[var(--muted)]">
-              {Math.round(rate * 100)}% de desconto para o cliente.
+              {Math.round(discountRate * 100)}% de desconto para o cliente.
             </p>
             <div className="mt-4">
               <CopyButton value={couponCode} label="Copiar cupom" />
