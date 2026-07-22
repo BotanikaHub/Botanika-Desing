@@ -106,3 +106,16 @@ Do período, os que converteram:
 
 Todos criados em PAUSED. Pixel 828186133708463 · evento Purchase · exclusão Compradores 30D (120249973431820563).
 **PENDENTE:** aprovar → ativar as 2 novas + pausar clutter (fazer junto, pra não zerar a entrega).
+
+---
+
+## 🟢 ATIVADO EM 21/07/2026 — reorganização no ar
+**ATIVAS (novas):**
+- `PROSPECTING | VENDAS | CBO` (120250691170990563) — R$300/dia — 2 conjuntos, 6 anúncios campeões
+- `RETARGETING | VENDAS | CBO` (120250691171270563) — R$130/dia — 3 anúncios. RMKT reforçado com: Checkout Initiate 30D, Add Payment 30D, Site 180D, Viu Produto 180D, Carrinho 180D e **Eng IG 180D (~25–29k)** = pool agora utilizável.
+- `REC | AUDIENCIA | JUL26` (120249808797950563) — topo, ajustada pra R$70/dia (reativada após budget forçar pause).
+
+**PAUSADAS (clutter substituído):** TRIMAGNESIO 2.0 (120249906280480563), HAIR 2.0 (120249906233040563), TETRAVITD 2.0 (120249906297370563), RETARGETING JUL 09/08 (120250204745640563). Demais VND/Lead/Dia D já estavam pausadas.
+
+**Total ativo:** 3 campanhas (Prospecting · Retargeting · Topo).
+**Regras:** não mexer 4–7 dias · escalar só quem provar ROAS (+20% a cada 3–4 dias) · corrigir atribuição (UTM/LP) em paralelo.
