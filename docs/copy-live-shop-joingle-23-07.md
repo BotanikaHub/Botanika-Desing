@@ -31,7 +31,7 @@ Equipe Botanika · botanika.com.br
 Amanhã, *23/07, às 17h*, a Botanika entra ao vivo no Instagram (com uma convidada especial) abrindo as fórmulas da Botanika — forma, dose, o que faz o ativo funcionar de verdade.
 Se você quer parar de comprar suplemento no escuro, essa conversa é pra você. Guarda o horário: *17h, @botanikabrasil* 💙
 
-## API (WhatsApp) · `{{1}}` = primeiro nome *(header: imagem da live/Joingle)*
+## API (WhatsApp) · `{{1}}` = primeiro nome *(header: imagem da live)*
 {{1}}, amanhã tem live! 🌿 Você já virou o frasco do seu suplemento pra ler o que tem dentro? Amanhã, *23/07 às 17h*, a Botanika entra ao vivo no Instagram (com uma convidada especial) abrindo as fórmulas da Botanika — forma química, dose real, o que muda de verdade. Ativa o lembrete e vem com a gente.
 `[Botão: Ativar lembrete]`
 
