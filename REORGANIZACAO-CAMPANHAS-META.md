@@ -135,3 +135,12 @@ Todos criados em PAUSED. Pixel 828186133708463 · evento Purchase · exclusão C
 **Nota operacional (bug conhecido do MCP):** `ads_update_entity` dispara `status_forced_to_paused: true` — toda edição (budget da REC, url_tags dos ads) força o objeto pra PAUSED. Foi necessário **reativar** com `ads_activate_entity` após cada edição. Os 9 ads foram reativados → ACTIVE.
 
 **Falta só a Frente 2** (passthrough da query string na LP Lovable — dev) pra a atribuição fechar de ponta a ponta.
+
+---
+
+## ➕ CONJUNTO DE ENGAJAMENTO ADICIONADO (21/07/2026)
+- **RETARGETING** (120250691171270563) → novo conjunto **`RMKT | ENG BOTANIKA (TODOS) 180D`** (`120250698027770563`)
+  - Público: **ENG 180D | IG BOTANIKA** (`120249805134400563`, ~25–29k = "todos", janela máx. da conta) · exclui Compradores 30D
+  - Ads campeões: HAIR_V03, ad_vnd_01, TETRAVITD_V02 · **ATIVO**
+- Obs.: o conjunto combinado `RMKT | QUENTE 30-180D` também contém ENG 180D → leve sobreposição dentro do RETARGETING (posso remover do combinado pra deixar limpo).
+- **Pendente decisão do operador:** adicionar ENG também na PROSPECTING e/ou na REC (alcance)? Nota: não recomendado (ver chat).
