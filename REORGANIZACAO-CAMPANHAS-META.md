@@ -119,3 +119,19 @@ Todos criados em PAUSED. Pixel 828186133708463 · evento Purchase · exclusão C
 
 **Total ativo:** 3 campanhas (Prospecting · Retargeting · Topo).
 **Regras:** não mexer 4–7 dias · escalar só quem provar ROAS (+20% a cada 3–4 dias) · corrigir atribuição (UTM/LP) em paralelo.
+
+---
+
+## ✅ VALIDADO + UTM APLICADA VIA MCP (21/07/2026)
+**Validação ao vivo (ads_get_ad_entities):**
+- PROSPECTING (120250691170990563) → **ACTIVE**, R$300/dia
+- RETARGETING (120250691171270563) → **ACTIVE**, R$130/dia
+- REC AUDIENCIA (120249808797950563) → **ACTIVE**, R$70/dia
+- Clutter (TRIMAGNESIO/HAIR/TETRAVITD 2.0, RETARGETING JUL 09/08, VND/Lead/DiaD) → **PAUSED** ✔
+
+**UTM (Frente 1) aplicada nos 9 anúncios** via `url_tags`:
+`utm_source=facebook&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{adset.name}}&utm_id={{campaign.id}}`
+
+**Nota operacional (bug conhecido do MCP):** `ads_update_entity` dispara `status_forced_to_paused: true` — toda edição (budget da REC, url_tags dos ads) força o objeto pra PAUSED. Foi necessário **reativar** com `ads_activate_entity` após cada edição. Os 9 ads foram reativados → ACTIVE.
+
+**Falta só a Frente 2** (passthrough da query string na LP Lovable — dev) pra a atribuição fechar de ponta a ponta.
