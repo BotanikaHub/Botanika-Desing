@@ -93,3 +93,16 @@ Do período, os que converteram:
 4. **Ativar as 3** e **não mexer por 4–7 dias**.
 5. Corrigir a atribuição (UTM + passthrough nas LPs) em paralelo — senão o ROAS continua cego (580 untracked no período).
 6. Reavaliar em 7 dias: escalar quem provar ROAS (máx +20% a cada 3–4 dias).
+
+---
+
+## ✅ EXECUTADO EM 21/07/2026 (via API, tudo PAUSADO)
+**PROSPECTING | VENDAS | CBO** — `120250691170990563` · R$300/dia
+- Conj. `PROSP | ADV+ BROAD` — `120250691177980563` → ads: HAIR_V03, ad_vnd_01, TETRAVITD_V02
+- Conj. `PROSP | LAL PURCHASE+105K` — `120250691179430563` → ads: HAIR_V03, ad_vnd_01, TRIMAGNESIO_V01
+
+**RETARGETING | VENDAS | CBO** — `120250691171270563` · R$130/dia
+- Conj. `RMKT | QUENTE 30-180D` — `120250691180530563` → ads: tri_01_rmk, ad_vnd_04, ad_vnd_02
+
+Todos criados em PAUSED. Pixel 828186133708463 · evento Purchase · exclusão Compradores 30D (120249973431820563).
+**PENDENTE:** aprovar → ativar as 2 novas + pausar clutter (fazer junto, pra não zerar a entrega).
