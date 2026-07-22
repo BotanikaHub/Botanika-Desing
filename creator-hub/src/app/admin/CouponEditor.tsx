@@ -277,9 +277,10 @@ export function CouponEditor({
                   Salvar configuração
                 </SubmitButton>
                 <p className="mt-2 text-xs text-[var(--muted)]">
-                  Ao salvar, o cupom é recriado na Shopify com estas regras. O
-                  histórico de vendas (por código) é preservado; o contador de “usos”
-                  no admin da Shopify reinicia.
+                  Ao salvar, as regras são aplicadas na Shopify. O cupom é atualizado
+                  no lugar (mantendo o contador de “usos”); ele só é recriado ao
+                  trocar entre desconto e frete grátis, ou ao remover um mínimo que
+                  existia. O histórico de vendas (por código) é sempre preservado.
                 </p>
               </form>
             </>

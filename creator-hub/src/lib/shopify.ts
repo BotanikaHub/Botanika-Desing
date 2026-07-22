@@ -433,11 +433,14 @@ export async function readDiscountConfigByCode(
   };
 }
 
+function basicValue(cfg: CouponConfig) {
+  return cfg.valueType === "fixed"
+    ? { discountAmount: { amount: cfg.value.toFixed(2), appliesOnEachItem: false } }
+    : { percentage: cfg.value };
+}
+
 function buildBasicInput(code: string, title: string, cfg: CouponConfig) {
-  const value =
-    cfg.valueType === "fixed"
-      ? { discountAmount: { amount: cfg.value.toFixed(2), appliesOnEachItem: false } }
-      : { percentage: cfg.value };
+  const value = basicValue(cfg);
 
   const items =
     cfg.appliesTo === "products"
@@ -539,13 +542,109 @@ async function createFreeShipping(conn: ShopifyConnection, code: string, title: 
   return data.discountCodeFreeShippingCreate.codeDiscountNode?.id ?? "";
 }
 
+// Monta o bloco `items` de um UPDATE, usando add/remove a partir do estado atual
+// (para preservar o cupom em vez de recriar).
+function buildItemsUpdate(next: CouponConfig, current: CouponConfig) {
+  if (next.appliesTo === "order") return { all: true };
+
+  if (next.appliesTo === "products") {
+    const cur = current.appliesTo === "products" ? current.productIds : [];
+    const items: Record<string, unknown> = {
+      products: {
+        productsToAdd: next.productIds.filter((id) => !cur.includes(id)),
+        productsToRemove: cur.filter((id) => !next.productIds.includes(id)),
+      },
+    };
+    if (current.appliesTo === "collections" && current.collectionIds.length) {
+      items.collections = { remove: current.collectionIds };
+    }
+    return items;
+  }
+
+  // collections
+  const cur = current.appliesTo === "collections" ? current.collectionIds : [];
+  const items: Record<string, unknown> = {
+    collections: {
+      add: next.collectionIds.filter((id) => !cur.includes(id)),
+      remove: cur.filter((id) => !next.collectionIds.includes(id)),
+    },
+  };
+  if (current.appliesTo === "products" && current.productIds.length) {
+    items.products = { productsToRemove: current.productIds };
+  }
+  return items;
+}
+
+async function updateBasic(
+  conn: ShopifyConnection,
+  id: string,
+  next: CouponConfig,
+  current: CouponConfig,
+) {
+  const input: Record<string, unknown> = {
+    customerGets: { value: basicValue(next), items: buildItemsUpdate(next, current) },
+    appliesOncePerCustomer: next.oncePerCustomer,
+    usageLimit: next.usageLimit != null && next.usageLimit > 0 ? next.usageLimit : null,
+  };
+  if (next.minSubtotal != null && next.minSubtotal > 0) {
+    input.minimumRequirement = {
+      subtotal: { greaterThanOrEqualToSubtotal: next.minSubtotal.toFixed(2) },
+    };
+  }
+  const mutation = `
+    mutation update($id: ID!, $input: DiscountCodeBasicInput!) {
+      discountCodeBasicUpdate(id: $id, basicCodeDiscount: $input) {
+        codeDiscountNode { id }
+        userErrors { field message }
+      }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeBasicUpdate: {
+      codeDiscountNode: { id: string } | null;
+      userErrors: { message: string }[];
+    };
+  }>(conn, mutation, { id, input });
+  checkUserErrors(data.discountCodeBasicUpdate.userErrors, "Erro ao atualizar cupom");
+  return data.discountCodeBasicUpdate.codeDiscountNode?.id ?? id;
+}
+
+async function updateFreeShipping(conn: ShopifyConnection, id: string, next: CouponConfig) {
+  const input: Record<string, unknown> = {
+    appliesOncePerCustomer: next.oncePerCustomer,
+    usageLimit: next.usageLimit != null && next.usageLimit > 0 ? next.usageLimit : null,
+  };
+  if (next.minSubtotal != null && next.minSubtotal > 0) {
+    input.minimumRequirement = {
+      subtotal: { greaterThanOrEqualToSubtotal: next.minSubtotal.toFixed(2) },
+    };
+  }
+  const mutation = `
+    mutation update($id: ID!, $input: DiscountCodeFreeShippingInput!) {
+      discountCodeFreeShippingUpdate(id: $id, freeShippingCodeDiscount: $input) {
+        codeDiscountNode { id }
+        userErrors { field message }
+      }
+    }
+  `;
+  const data = await shopifyGraphQL<{
+    discountCodeFreeShippingUpdate: {
+      codeDiscountNode: { id: string } | null;
+      userErrors: { message: string }[];
+    };
+  }>(conn, mutation, { id, input });
+  checkUserErrors(data.discountCodeFreeShippingUpdate.userErrors, "Erro ao atualizar frete grátis");
+  return data.discountCodeFreeShippingUpdate.codeDiscountNode?.id ?? id;
+}
+
 /**
- * Cria ou substitui o cupom `code` na Shopify com a configuração dada.
+ * Cria ou aplica a configuração do cupom `code` na Shopify.
  *
- * Estratégia: para garantir consistência (inclusive troca entre desconto e frete
- * grátis, e troca de "onde aplica"), removemos o cupom atual e recriamos com a
- * config nova. Isso zera o contador "vezes usado" no admin da Shopify, mas NÃO
- * afeta o histórico de vendas (que é rastreado pelo código do cupom nos pedidos).
+ * Preserva o cupom (e o contador "vezes usado") sempre que possível: quando o
+ * cupom já existe e continua do mesmo tipo, faz UPDATE no lugar. Só recria
+ * (deletar + criar) quando é inevitável — ao trocar entre desconto e frete
+ * grátis, ou ao remover por completo um mínimo que já existia. Recriar não
+ * afeta o histórico de vendas (rastreado pelo código nos pedidos).
  */
 export async function saveDiscountByCode(
   conn: ShopifyConnection,
@@ -553,12 +652,40 @@ export async function saveDiscountByCode(
 ): Promise<string> {
   const { code, title, config } = params;
   const existing = await readDiscountConfigByCode(conn, code);
-  if (existing) {
-    await deleteDiscount(conn, existing.id);
+
+  const desiredType =
+    config.kind === "free_shipping" ? "DiscountCodeFreeShipping" : "DiscountCodeBasic";
+
+  const createFresh = () =>
+    config.kind === "free_shipping"
+      ? createFreeShipping(conn, code, title, config)
+      : createBasic(conn, code, title, config);
+
+  // Não existe, ou tipo/estrutura não editável → cria do zero.
+  if (!existing || !existing.config) {
+    if (existing) await deleteDiscount(conn, existing.id);
+    return createFresh();
   }
+
+  // Troca de tipo (desconto ↔ frete grátis) → precisa recriar.
+  if (existing.typename !== desiredType) {
+    await deleteDiscount(conn, existing.id);
+    return createFresh();
+  }
+
+  // Remover totalmente um mínimo que existia não é confiável via update → recria.
+  const removingMinimum =
+    existing.config.minSubtotal != null &&
+    (config.minSubtotal == null || config.minSubtotal <= 0);
+  if (removingMinimum) {
+    await deleteDiscount(conn, existing.id);
+    return createFresh();
+  }
+
+  // Mesmo tipo → atualiza no lugar (preserva o contador de usos).
   return config.kind === "free_shipping"
-    ? createFreeShipping(conn, code, title, config)
-    : createBasic(conn, code, title, config);
+    ? updateFreeShipping(conn, existing.id, config)
+    : updateBasic(conn, existing.id, config, existing.config);
 }
 
 export type OrderStats = {
