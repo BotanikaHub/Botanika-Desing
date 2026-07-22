@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import {
   saveBrandShopifyConfigAction,
+  reconnectShopifyAction,
   importShopifyCouponsAction,
   type BrandConfigState,
   type ImportState,
@@ -170,9 +171,14 @@ function BrandCard({ brand }: { brand: BrandView }) {
                 Salvar credenciais
               </SubmitButton>
               {canConnect ? (
-                <a href={`/api/shopify/install?brand=${brand.slug}`} className="btn btn-primary">
-                  {brand.connected ? "Reconectar Shopify" : "Conectar Shopify"}
-                </a>
+                // Salva as credenciais (inclui secret recém-colado) e já vai pro OAuth.
+                <button
+                  type="submit"
+                  formAction={reconnectShopifyAction}
+                  className="btn btn-primary"
+                >
+                  {brand.connected ? "Salvar e reconectar Shopify" : "Salvar e conectar Shopify"}
+                </button>
               ) : (
                 <span className="text-xs text-[var(--muted)]">
                   Preencha domínio + Client ID + Secret e salve para liberar a conexão.

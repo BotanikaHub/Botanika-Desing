@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
 import { suggestCoupon } from "@/lib/format";
@@ -436,6 +437,39 @@ export async function saveBrandShopifyConfigAction(
 
   revalidatePath("/admin", "layout");
   return { ok: true };
+}
+
+// Salva as credenciais (inclui o secret recém-colado) E vai para o OAuth na
+// sequência — assim é impossível reconectar com um secret desatualizado.
+export async function reconnectShopifyAction(formData: FormData) {
+  const admin = await ensureAdmin();
+
+  const brandId = String(formData.get("brandId") || "");
+  const shopDomain = String(formData.get("shopDomain") || "").trim().toLowerCase() || null;
+  const storeUrl = String(formData.get("storeUrl") || "").trim() || null;
+  const apiKey = String(formData.get("shopifyApiKey") || "").trim() || null;
+  const apiSecretRaw = String(formData.get("shopifyApiSecret") || "").trim();
+  const emailFrom = String(formData.get("emailFrom") || "").trim() || null;
+
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) throw new Error("Marca não encontrada.");
+  if (admin.brandId && admin.brandId !== brand.id) {
+    throw new Error("Sem permissão para esta marca.");
+  }
+
+  await prisma.brand.update({
+    where: { id: brandId },
+    data: {
+      shopDomain,
+      storeUrl,
+      shopifyApiKey: apiKey,
+      emailFrom,
+      ...(apiSecretRaw ? { shopifyApiSecret: apiSecretRaw } : {}),
+    },
+  });
+
+  // Vai para o fluxo OAuth já com as credenciais salvas.
+  redirect(`/api/shopify/install?brand=${brand.slug}`);
 }
 
 export type ImportState = {
