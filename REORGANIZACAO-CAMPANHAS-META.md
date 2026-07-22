@@ -51,7 +51,7 @@ Do período, os que converteram:
 - **Excluir:** COMPRADORES 30D
 - Expansão Advantage+ pode ficar ligada (é LAL, frio)
 
-**Anúncios (nos 2 conjuntos):** HAIR_V03, ad_vnd_02, TRIMAGNESIO_V02, TETRAVITD_V02 (usar publicação existente). Identidade: página + IG da Botanika.
+**Anúncios (nos 2 conjuntos):** HAIR_V03, ad_vnd_02, TRIMAGNESIO_V02, TETRAVITD_V02 (usar publicação existente). **Identidade: Página Facebook "Botanika Brasil" = `1231632870022568`** + IG Botanika.
 
 ---
 
