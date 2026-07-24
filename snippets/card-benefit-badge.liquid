@@ -5,7 +5,11 @@
 {%- endcomment -%}
 {%- liquid
   assign badge = card_product.metafields.custom.card_badge
-  if badge == blank
+  assign badge_red = false
+  if badge == blank and card_product.handle contains 'kit'
+    assign badge = '10% OFF'
+    assign badge_red = true
+  elsif badge == blank
     case card_product.handle
       when 'tri-mg-complex'
         assign badge = '💤 Sono e relaxamento'
@@ -53,10 +57,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      .card-benefit-badge--red {
+        background: linear-gradient(100deg, #e0201a 0%, #b3140f 100%);
+        box-shadow: 0 2px 8px rgba(200, 20, 15, 0.32);
+      }
       @media (max-width: 575px) {
         .card-benefit-badge { top: 8px; left: 8px; font-size: 10.5px; padding: 4px 8px; }
       }
     </style>
   {%- endif -%}
-  <span class="card-benefit-badge">{{ badge }}</span>
+  <span class="card-benefit-badge{% if badge_red %} card-benefit-badge--red{% endif %}">{{ badge }}</span>
 {%- endif -%}
