@@ -25,6 +25,10 @@
         assign badge = '🥤 Proteína e colágeno'
     endcase
   endif
+  assign on_sale = false
+  if card_product.compare_at_price > card_product.price and card_product.available
+    assign on_sale = true
+  endif
 -%}
 {%- if badge != blank -%}
   {%- capture _cbb_i -%}{% increment card_benefit_badge_css %}{%- endcapture -%}
@@ -53,10 +57,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      /* Quando há selo de desconto no mesmo canto, desce o balão para não sobrepor */
+      .card-benefit-badge.cbb--sale { top: 46px; }
       @media (max-width: 575px) {
         .card-benefit-badge { top: 8px; left: 8px; font-size: 10.5px; padding: 4px 8px; }
+        .card-benefit-badge.cbb--sale { top: 42px; }
       }
     </style>
   {%- endif -%}
-  <span class="card-benefit-badge">{{ badge }}</span>
+  <span class="card-benefit-badge{% if on_sale %} cbb--sale{% endif %}">{{ badge }}</span>
 {%- endif -%}
