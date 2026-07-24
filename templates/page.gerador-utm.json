@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "utm_generator": {
+      "type": "utm-link-generator",
+      "settings": {
+        "heading": "Gerador de Links UTM",
+        "subheading": "Monte links com UTM prontos para copiar antes de cada disparo (e-mail, WhatsApp ou API).",
+        "preset_sources": "email, whatsapp, api, instagram, facebook, sms, push",
+        "preset_mediums": "crm, social, cpc, referral, organic, affiliate, disparo",
+        "accent_color": "#1f6b3b",
+        "max_width": 760,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": ["utm_generator"]
+}

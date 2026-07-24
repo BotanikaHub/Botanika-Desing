@@ -1,0 +1,515 @@
+{%- comment -%}
+  ------------------------------------------------------------
+  Gerador Automático de Links UTM
+  ------------------------------------------------------------
+  Ferramenta standalone para montar links com parâmetros UTM
+  antes de cada disparo (e-mail / WhatsApp / API).
+
+  - Não depende de nenhum dado da loja nem de integrações.
+  - Todo o CSS e JS estão embutidos aqui para funcionar isolado.
+  - O histórico é salvo no navegador (localStorage) da própria Sarah.
+
+  PENDÊNCIA: a convenção de nomenclatura das UTMs ainda não foi
+  definida com Sarah/Gabriel. Enquanto isso, os campos são
+  normalizados automaticamente (minúsculas, sem acento, espaços
+  viram "_") para manter consistência entre disparos. Os presets
+  abaixo são sugestões e podem ser ajustados no editor de tema.
+  ------------------------------------------------------------
+{%- endcomment -%}
+
+{%- liquid
+  assign st = section.settings
+  assign uid = section.id | replace: '-', '' | slice: 0, 10
+-%}
+
+<div class="utm-gen" id="utm-gen-{{ uid }}" data-utm-gen>
+  <div class="utm-gen__inner">
+    {%- unless st.heading == blank -%}
+      <h2 class="utm-gen__title">{{ st.heading }}</h2>
+    {%- endunless -%}
+    {%- unless st.subheading == blank -%}
+      <p class="utm-gen__subtitle">{{ st.subheading }}</p>
+    {%- endunless -%}
+
+    <form class="utm-gen__form" data-utm-form novalidate>
+      <div class="utm-gen__field utm-gen__field--full">
+        <label for="utm-base-{{ uid }}">URL base <span class="utm-gen__req">*</span></label>
+        <input
+          type="url"
+          id="utm-base-{{ uid }}"
+          name="base_url"
+          data-utm="base_url"
+          placeholder="https://{{ shop.domain | default: 'sualoja.com.br' }}/products/exemplo"
+          autocomplete="off"
+          required
+        >
+        <small class="utm-gen__error" data-utm-error="base_url" hidden>Informe uma URL válida (comece com http:// ou https://).</small>
+      </div>
+
+      <div class="utm-gen__row">
+        <div class="utm-gen__field">
+          <label for="utm-source-{{ uid }}">Source <span class="utm-gen__req">*</span></label>
+          <input
+            id="utm-source-{{ uid }}"
+            name="utm_source"
+            data-utm="utm_source"
+            list="utm-source-list-{{ uid }}"
+            placeholder="email"
+            autocomplete="off"
+            required
+          >
+          <datalist id="utm-source-list-{{ uid }}">
+            {%- assign sources = st.preset_sources | split: ',' -%}
+            {%- for s in sources -%}
+              <option value="{{ s | strip }}"></option>
+            {%- endfor -%}
+          </datalist>
+          <small class="utm-gen__hint">De onde vem o tráfego (ex.: email, whatsapp, api)</small>
+        </div>
+
+        <div class="utm-gen__field">
+          <label for="utm-medium-{{ uid }}">Medium <span class="utm-gen__req">*</span></label>
+          <input
+            id="utm-medium-{{ uid }}"
+            name="utm_medium"
+            data-utm="utm_medium"
+            list="utm-medium-list-{{ uid }}"
+            placeholder="crm"
+            autocomplete="off"
+            required
+          >
+          <datalist id="utm-medium-list-{{ uid }}">
+            {%- assign mediums = st.preset_mediums | split: ',' -%}
+            {%- for m in mediums -%}
+              <option value="{{ m | strip }}"></option>
+            {%- endfor -%}
+          </datalist>
+          <small class="utm-gen__hint">Tipo de canal (ex.: crm, social, cpc)</small>
+        </div>
+      </div>
+
+      <div class="utm-gen__field utm-gen__field--full">
+        <label for="utm-campaign-{{ uid }}">Campaign <span class="utm-gen__req">*</span></label>
+        <input
+          id="utm-campaign-{{ uid }}"
+          name="utm_campaign"
+          data-utm="utm_campaign"
+          placeholder="black_friday_2026"
+          autocomplete="off"
+          required
+        >
+        <small class="utm-gen__hint">Nome da campanha/disparo</small>
+      </div>
+
+      <div class="utm-gen__row">
+        <div class="utm-gen__field">
+          <label for="utm-content-{{ uid }}">Content <span class="utm-gen__opt">(opcional)</span></label>
+          <input
+            id="utm-content-{{ uid }}"
+            name="utm_content"
+            data-utm="utm_content"
+            placeholder="botao_principal"
+            autocomplete="off"
+          >
+          <small class="utm-gen__hint">Diferencia variações (A/B, botão x link)</small>
+        </div>
+
+        <div class="utm-gen__field">
+          <label for="utm-term-{{ uid }}">Term <span class="utm-gen__opt">(opcional)</span></label>
+          <input
+            id="utm-term-{{ uid }}"
+            name="utm_term"
+            data-utm="utm_term"
+            placeholder="palavra_chave"
+            autocomplete="off"
+          >
+          <small class="utm-gen__hint">Palavra-chave (mais usado em mídia paga)</small>
+        </div>
+      </div>
+
+      <label class="utm-gen__checkbox">
+        <input type="checkbox" data-utm-normalize checked>
+        Normalizar automaticamente (minúsculas, sem acentos, espaços viram "_")
+      </label>
+    </form>
+
+    <div class="utm-gen__output">
+      <label for="utm-result-{{ uid }}">Link gerado</label>
+      <div class="utm-gen__result-wrap">
+        <textarea id="utm-result-{{ uid }}" data-utm-result rows="2" readonly placeholder="Preencha os campos acima para gerar o link…"></textarea>
+        <div class="utm-gen__actions">
+          <button type="button" class="utm-gen__btn utm-gen__btn--primary" data-utm-copy disabled>Copiar link</button>
+          <button type="button" class="utm-gen__btn" data-utm-save disabled>Salvar no histórico</button>
+          <button type="button" class="utm-gen__btn utm-gen__btn--ghost" data-utm-clear>Limpar</button>
+        </div>
+      </div>
+      <p class="utm-gen__feedback" data-utm-feedback role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="utm-gen__history">
+      <div class="utm-gen__history-head">
+        <h3 class="utm-gen__history-title">Histórico de links</h3>
+        <button type="button" class="utm-gen__btn utm-gen__btn--ghost utm-gen__btn--sm" data-utm-clear-history hidden>Apagar tudo</button>
+      </div>
+      <ul class="utm-gen__history-list" data-utm-history-list></ul>
+      <p class="utm-gen__history-empty" data-utm-history-empty>Nenhum link salvo ainda.</p>
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+  #utm-gen-{{ uid }} {
+    --utm-accent: {{ st.accent_color | default: '#1f6b3b' }};
+    --utm-accent-ink: #ffffff;
+    --utm-border: #d9ddd6;
+    --utm-bg: #ffffff;
+    --utm-bg-soft: #f6f7f4;
+    --utm-ink: #1c2620;
+    --utm-muted: #6b7269;
+    --utm-danger: #b3261e;
+    --utm-radius: 10px;
+    max-width: {{ st.max_width | default: 760 }}px;
+    margin: 0 auto;
+    padding: {{ st.padding_top | default: 40 }}px 20px {{ st.padding_bottom | default: 40 }}px;
+    box-sizing: border-box;
+    color: var(--utm-ink);
+    font-family: inherit;
+  }
+  #utm-gen-{{ uid }} *, #utm-gen-{{ uid }} *::before, #utm-gen-{{ uid }} *::after { box-sizing: border-box; }
+  #utm-gen-{{ uid }} .utm-gen__title { font-size: 1.7rem; margin: 0 0 6px; line-height: 1.2; }
+  #utm-gen-{{ uid }} .utm-gen__subtitle { color: var(--utm-muted); margin: 0 0 24px; font-size: .95rem; }
+  #utm-gen-{{ uid }} .utm-gen__form { display: flex; flex-direction: column; gap: 16px; }
+  #utm-gen-{{ uid }} .utm-gen__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { #utm-gen-{{ uid }} .utm-gen__row { grid-template-columns: 1fr; } }
+  #utm-gen-{{ uid }} .utm-gen__field { display: flex; flex-direction: column; gap: 5px; }
+  #utm-gen-{{ uid }} .utm-gen__field label { font-weight: 600; font-size: .85rem; }
+  #utm-gen-{{ uid }} .utm-gen__req { color: var(--utm-danger); }
+  #utm-gen-{{ uid }} .utm-gen__opt { color: var(--utm-muted); font-weight: 400; }
+  #utm-gen-{{ uid }} input,
+  #utm-gen-{{ uid }} textarea {
+    width: 100%; padding: 11px 12px; border: 1px solid var(--utm-border);
+    border-radius: var(--utm-radius); font-size: .95rem; font-family: inherit;
+    background: var(--utm-bg); color: var(--utm-ink); transition: border-color .15s, box-shadow .15s;
+  }
+  #utm-gen-{{ uid }} input:focus,
+  #utm-gen-{{ uid }} textarea:focus {
+    outline: none; border-color: var(--utm-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--utm-accent) 18%, transparent);
+  }
+  #utm-gen-{{ uid }} input[aria-invalid="true"] { border-color: var(--utm-danger); }
+  #utm-gen-{{ uid }} .utm-gen__hint { color: var(--utm-muted); font-size: .78rem; }
+  #utm-gen-{{ uid }} .utm-gen__error { color: var(--utm-danger); font-size: .78rem; }
+  #utm-gen-{{ uid }} .utm-gen__checkbox {
+    display: flex; align-items: center; gap: 8px; font-size: .83rem; color: var(--utm-muted); cursor: pointer;
+  }
+  #utm-gen-{{ uid }} .utm-gen__checkbox input { width: auto; }
+  #utm-gen-{{ uid }} .utm-gen__output { margin-top: 24px; }
+  #utm-gen-{{ uid }} .utm-gen__output > label { font-weight: 600; font-size: .85rem; display: block; margin-bottom: 5px; }
+  #utm-gen-{{ uid }} .utm-gen__result-wrap { background: var(--utm-bg-soft); border: 1px solid var(--utm-border); border-radius: var(--utm-radius); padding: 12px; }
+  #utm-gen-{{ uid }} .utm-gen__result-wrap textarea { background: var(--utm-bg); word-break: break-all; resize: vertical; }
+  #utm-gen-{{ uid }} .utm-gen__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  #utm-gen-{{ uid }} .utm-gen__btn {
+    appearance: none; border: 1px solid var(--utm-border); background: var(--utm-bg); color: var(--utm-ink);
+    padding: 9px 16px; border-radius: var(--utm-radius); font-size: .85rem; font-weight: 600; cursor: pointer;
+    transition: background .15s, border-color .15s, opacity .15s; font-family: inherit;
+  }
+  #utm-gen-{{ uid }} .utm-gen__btn:hover:not(:disabled) { border-color: var(--utm-accent); }
+  #utm-gen-{{ uid }} .utm-gen__btn:disabled { opacity: .45; cursor: not-allowed; }
+  #utm-gen-{{ uid }} .utm-gen__btn--primary { background: var(--utm-accent); color: var(--utm-accent-ink); border-color: var(--utm-accent); }
+  #utm-gen-{{ uid }} .utm-gen__btn--primary:hover:not(:disabled) { filter: brightness(1.06); }
+  #utm-gen-{{ uid }} .utm-gen__btn--ghost { background: transparent; }
+  #utm-gen-{{ uid }} .utm-gen__btn--sm { padding: 6px 12px; font-size: .78rem; }
+  #utm-gen-{{ uid }} .utm-gen__feedback { min-height: 1.2em; margin: 8px 0 0; font-size: .82rem; color: var(--utm-accent); font-weight: 600; }
+  #utm-gen-{{ uid }} .utm-gen__history { margin-top: 32px; }
+  #utm-gen-{{ uid }} .utm-gen__history-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  #utm-gen-{{ uid }} .utm-gen__history-title { font-size: 1.05rem; margin: 0; }
+  #utm-gen-{{ uid }} .utm-gen__history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  #utm-gen-{{ uid }} .utm-gen__history-item {
+    border: 1px solid var(--utm-border); border-radius: var(--utm-radius); padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 6px; background: var(--utm-bg);
+  }
+  #utm-gen-{{ uid }} .utm-gen__history-meta { font-size: .74rem; color: var(--utm-muted); display: flex; flex-wrap: wrap; gap: 6px 12px; }
+  #utm-gen-{{ uid }} .utm-gen__history-url { font-size: .82rem; word-break: break-all; color: var(--utm-ink); }
+  #utm-gen-{{ uid }} .utm-gen__history-actions { display: flex; gap: 8px; }
+  #utm-gen-{{ uid }} .utm-gen__history-empty { color: var(--utm-muted); font-size: .85rem; }
+{%- endstyle -%}
+
+<script>
+  (function () {
+    var root = document.getElementById('utm-gen-{{ uid }}');
+    if (!root || root.dataset.utmInit) return;
+    root.dataset.utmInit = '1';
+
+    var STORAGE_KEY = 'botanika_utm_history_v1';
+    var MAX_HISTORY = 50;
+    var FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+    var $ = function (sel) { return root.querySelector(sel); };
+    var inputs = {};
+    root.querySelectorAll('[data-utm]').forEach(function (el) { inputs[el.dataset.utm] = el; });
+    var normalizeToggle = $('[data-utm-normalize]');
+    var resultEl = $('[data-utm-result]');
+    var copyBtn = $('[data-utm-copy]');
+    var saveBtn = $('[data-utm-save]');
+    var clearBtn = $('[data-utm-clear]');
+    var feedbackEl = $('[data-utm-feedback]');
+    var baseError = root.querySelector('[data-utm-error="base_url"]');
+    var historyList = $('[data-utm-history-list]');
+    var historyEmpty = $('[data-utm-history-empty]');
+    var clearHistoryBtn = $('[data-utm-clear-history]');
+
+    function normalizeValue(value) {
+      if (!normalizeToggle.checked) return value.trim();
+      return value
+        .trim()
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+        .replace(/\s+/g, '_')
+        .replace(/[^a-z0-9._\-]/g, ''); // mantém apenas caracteres seguros para UTM
+    }
+
+    function isValidUrl(value) {
+      try {
+        var u = new URL(value);
+        return u.protocol === 'http:' || u.protocol === 'https:';
+      } catch (e) { return false; }
+    }
+
+    function buildLink() {
+      var base = inputs.base_url.value.trim();
+      var validBase = isValidUrl(base);
+      inputs.base_url.setAttribute('aria-invalid', base && !validBase ? 'true' : 'false');
+      if (baseError) baseError.hidden = !(base && !validBase);
+
+      var source = normalizeValue(inputs.utm_source.value);
+      var medium = normalizeValue(inputs.utm_medium.value);
+      var campaign = normalizeValue(inputs.utm_campaign.value);
+      var hasRequired = validBase && source && medium && campaign;
+
+      if (!hasRequired) {
+        resultEl.value = '';
+        copyBtn.disabled = true;
+        saveBtn.disabled = true;
+        return null;
+      }
+
+      var url = new URL(base);
+      // Remove UTMs antigas para não duplicar
+      FIELDS.forEach(function (f) { url.searchParams.delete(f); });
+
+      var data = {
+        utm_source: source,
+        utm_medium: medium,
+        utm_campaign: campaign,
+        utm_content: normalizeValue(inputs.utm_content.value),
+        utm_term: normalizeValue(inputs.utm_term.value)
+      };
+      FIELDS.forEach(function (f) { if (data[f]) url.searchParams.set(f, data[f]); });
+
+      var finalUrl = url.toString();
+      resultEl.value = finalUrl;
+      copyBtn.disabled = false;
+      saveBtn.disabled = false;
+      return { url: finalUrl, data: data, base: base };
+    }
+
+    function flash(msg) {
+      feedbackEl.textContent = msg;
+      clearTimeout(flash._t);
+      flash._t = setTimeout(function () { feedbackEl.textContent = ''; }, 2500);
+    }
+
+    // ---- Histórico (localStorage) ----
+    function loadHistory() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch (e) { return []; }
+    }
+    function saveHistory(list) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, MAX_HISTORY))); }
+      catch (e) { /* localStorage indisponível */ }
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function formatDate(ts) {
+      try { return new Date(ts).toLocaleString('pt-BR'); } catch (e) { return ''; }
+    }
+    function renderHistory() {
+      var list = loadHistory();
+      historyList.innerHTML = '';
+      historyEmpty.hidden = list.length > 0;
+      clearHistoryBtn.hidden = list.length === 0;
+      list.forEach(function (item, index) {
+        var li = document.createElement('li');
+        li.className = 'utm-gen__history-item';
+        var tags = [item.data.utm_source, item.data.utm_medium, item.data.utm_campaign].filter(Boolean).join(' · ');
+        li.innerHTML =
+          '<div class="utm-gen__history-meta"><span>' + escapeHtml(formatDate(item.ts)) + '</span><span>' + escapeHtml(tags) + '</span></div>' +
+          '<div class="utm-gen__history-url">' + escapeHtml(item.url) + '</div>' +
+          '<div class="utm-gen__history-actions">' +
+            '<button type="button" class="utm-gen__btn utm-gen__btn--sm" data-copy="' + index + '">Copiar</button>' +
+            '<button type="button" class="utm-gen__btn utm-gen__btn--ghost utm-gen__btn--sm" data-del="' + index + '">Remover</button>' +
+          '</div>';
+        historyList.appendChild(li);
+      });
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      return new Promise(function (resolve, reject) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); document.body.removeChild(ta);
+          resolve();
+        } catch (e) { reject(e); }
+      });
+    }
+
+    // ---- Eventos ----
+    Object.keys(inputs).forEach(function (key) {
+      inputs[key].addEventListener('input', buildLink);
+    });
+    normalizeToggle.addEventListener('change', buildLink);
+
+    copyBtn.addEventListener('click', function () {
+      if (!resultEl.value) return;
+      copyText(resultEl.value).then(function () { flash('Link copiado!'); })
+        .catch(function () { flash('Não foi possível copiar automaticamente.'); });
+    });
+
+    saveBtn.addEventListener('click', function () {
+      var built = buildLink();
+      if (!built) return;
+      var list = loadHistory();
+      // Evita duplicar o mesmo link no topo
+      list = list.filter(function (i) { return i.url !== built.url; });
+      list.unshift({ url: built.url, data: built.data, base: built.base, ts: Date.now() });
+      saveHistory(list);
+      renderHistory();
+      flash('Salvo no histórico.');
+    });
+
+    clearBtn.addEventListener('click', function () {
+      root.querySelector('[data-utm-form]').reset();
+      Object.keys(inputs).forEach(function (k) { inputs[k].removeAttribute('aria-invalid'); });
+      if (baseError) baseError.hidden = true;
+      buildLink();
+      feedbackEl.textContent = '';
+    });
+
+    historyList.addEventListener('click', function (e) {
+      var copyIdx = e.target.getAttribute('data-copy');
+      var delIdx = e.target.getAttribute('data-del');
+      if (copyIdx !== null) {
+        var list = loadHistory();
+        if (list[copyIdx]) copyText(list[copyIdx].url).then(function () { flash('Link copiado!'); });
+      } else if (delIdx !== null) {
+        var l = loadHistory();
+        l.splice(delIdx, 1);
+        saveHistory(l);
+        renderHistory();
+      }
+    });
+
+    clearHistoryBtn.addEventListener('click', function () {
+      if (window.confirm('Apagar todo o histórico de links salvos?')) {
+        saveHistory([]);
+        renderHistory();
+      }
+    });
+
+    renderHistory();
+    buildLink();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Gerador de Links UTM",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Gerador de Links UTM"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Monte links com UTM prontos para copiar antes de cada disparo (e-mail, WhatsApp ou API)."
+    },
+    {
+      "type": "header",
+      "content": "Presets (sugestões nos campos)"
+    },
+    {
+      "type": "text",
+      "id": "preset_sources",
+      "label": "Sugestões de Source",
+      "info": "Separadas por vírgula.",
+      "default": "email, whatsapp, api, instagram, facebook, sms, push"
+    },
+    {
+      "type": "text",
+      "id": "preset_mediums",
+      "label": "Sugestões de Medium",
+      "info": "Separadas por vírgula.",
+      "default": "crm, social, cpc, referral, organic, affiliate, disparo"
+    },
+    {
+      "type": "header",
+      "content": "Aparência"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Cor de destaque",
+      "default": "#1f6b3b"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 480,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Largura máxima",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaçamento superior",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaçamento inferior",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gerador de Links UTM"
+    }
+  ]
+}
+{% endschema %}
