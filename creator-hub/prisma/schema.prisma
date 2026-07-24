@@ -50,6 +50,17 @@ model Brand {
   // Desconto do cupom (o que o cliente ganha — aplicado na Shopify).
   defaultDiscountRate   Float @default(0.05)
 
+  // Termo de aceite (aceite eletrônico no app). Editável pelo admin.
+  termTitle   String?
+  termBody    String? // texto do termo (aceito com 1 clique + registro)
+  termVersion Int     @default(1) // sobe quando o texto muda
+
+  // Gamificação (meta + bônus) — configurável, sem hardcode.
+  goalPeriod        String @default("monthly") // "monthly" | "all"
+  goalDefaultAmount Float  @default(3000) // meta padrão da marca (R$)
+  bonusStepAmount   Float  @default(1000) // a cada X além da meta = 1 bônus
+  bonusLabel        String @default("bônus") // o que a creator ganha (ex.: "suplemento extra")
+
   creators Creator[]
 
   createdAt DateTime @default(now())
@@ -126,6 +137,29 @@ model Creator {
 
   shopifyPriceRuleId String?
   shopifyDiscountId  String?
+
+  // Meta de vendas individual (override). Nulo = usa o padrão da marca.
+  goalAmount Float?
+
+  // Termo de aceite (aceite eletrônico) + dados para contrato/envio.
+  termsAcceptedAt DateTime?
+  termsVersion    Int?
+  termsName       String? // nome como confirmado no aceite
+  termsCpf        String?
+  termsIp         String?
+
+  // Endereço de envio (preenchido no aceite; usado na lista de envio).
+  shipCep        String?
+  shipStreet     String?
+  shipNumber     String?
+  shipComplement String?
+  shipDistrict   String?
+  shipCity       String?
+  shipState      String?
+
+  // Entrou na lista de envio ativa (aprovado + termo assinado). Admin pode
+  // alternar manualmente se precisar tirar/colocar alguém.
+  shippingActive Boolean @default(false)
 
   rejectionReason String?
 

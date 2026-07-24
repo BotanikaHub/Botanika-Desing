@@ -9,6 +9,11 @@ import { brandConnection } from "@/lib/brand";
 import { getCreatorSales, isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
 import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
+import { TermGate } from "./TermGate";
+
+const DEFAULT_TERM_TITLE = "Termo de aceite do Creator Club";
+const DEFAULT_TERM_BODY =
+  "Ao aceitar, você se torna creator parceiro(a) da marca, com direito ao seu cupom e link exclusivos e à sua comissão sobre as vendas geradas. Você concorda em divulgar de forma honesta, sem promessas enganosas. A parceria pode ser encerrada por qualquer uma das partes a qualquer momento. Seus dados são usados apenas para a operação do programa e envios.";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -45,6 +50,39 @@ export default async function PainelBrand({
   const couponCode = membership.couponCode as string;
   const rate = membership.commissionRate;
   const discountRate = membership.couponDiscountRate ?? brand.defaultDiscountRate;
+
+  // Gate do termo: enquanto não aceito, mostra o aceite eletrônico + endereço.
+  if (!membership.termsAcceptedAt) {
+    return (
+      <div className="flex min-h-screen flex-col" style={{ ["--brand" as string]: color }}>
+        <header className="border-b bg-[var(--surface)]">
+          <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+            <div className="flex items-center gap-3">
+              <Link href="/painel" className="text-sm text-[var(--muted)] hover:underline">
+                ← Meu painel
+              </Link>
+              <span className="rounded-full px-3 py-1 text-sm font-bold text-white" style={{ background: color }}>
+                {brand.name}
+              </span>
+            </div>
+            <form action={creatorLogoutAction}>
+              <button type="submit" className="btn btn-ghost">Sair</button>
+            </form>
+          </div>
+        </header>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-10">
+          <TermGate
+            brandSlug={brand.slug}
+            brandName={brand.name}
+            brandColor={color}
+            termTitle={brand.termTitle || DEFAULT_TERM_TITLE}
+            termBody={brand.termBody || DEFAULT_TERM_BODY}
+            defaultName={membership.name || account.name}
+          />
+        </main>
+      </div>
+    );
+  }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
   const affiliateLink = `${appUrl}/r/${brand.slug}/${couponCode}`;

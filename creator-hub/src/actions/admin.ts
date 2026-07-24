@@ -472,6 +472,54 @@ export async function reconnectShopifyAction(formData: FormData) {
   redirect(`/api/shopify/install?brand=${brand.slug}`);
 }
 
+export type ProgramState = { error?: string; ok?: boolean } | null;
+
+function parseAmount(raw: string, fallback: number): number {
+  const n = parseFloat(String(raw || "").replace(",", "."));
+  return isNaN(n) || n < 0 ? fallback : n;
+}
+
+// Salva o "programa" da marca: termo de aceite + metas/bônus da gamificação.
+export async function saveBrandProgramAction(
+  _prev: ProgramState,
+  formData: FormData,
+): Promise<ProgramState> {
+  const admin = await ensureAdmin();
+
+  const brandId = String(formData.get("brandId") || "");
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return { error: "Marca não encontrada." };
+  if (admin.brandId && admin.brandId !== brand.id) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  const termTitle = String(formData.get("termTitle") || "").trim() || null;
+  const termBody = String(formData.get("termBody") || "").trim() || null;
+  const goalPeriod = formData.get("goalPeriod") === "all" ? "all" : "monthly";
+  const goalDefaultAmount = parseAmount(String(formData.get("goalDefaultAmount") || ""), brand.goalDefaultAmount);
+  const bonusStepAmount = parseAmount(String(formData.get("bonusStepAmount") || ""), brand.bonusStepAmount);
+  const bonusLabel = String(formData.get("bonusLabel") || "").trim() || brand.bonusLabel;
+
+  // Sobe a versão do termo quando o texto muda (mantém rastro do que foi aceito).
+  const termChanged = (termBody || "") !== (brand.termBody || "");
+
+  await prisma.brand.update({
+    where: { id: brandId },
+    data: {
+      termTitle,
+      termBody,
+      ...(termChanged ? { termVersion: brand.termVersion + 1 } : {}),
+      goalPeriod,
+      goalDefaultAmount,
+      bonusStepAmount,
+      bonusLabel,
+    },
+  });
+
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
 export type ImportState = {
   error?: string;
   imported?: number;

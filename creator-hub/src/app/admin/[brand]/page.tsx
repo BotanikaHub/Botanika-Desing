@@ -17,6 +17,7 @@ import {
   type ApprovedView,
 } from "../ApplicationCard";
 import { BrandSettings, type BrandView } from "../BrandSettings";
+import { ProgramSettings, type ProgramView } from "../ProgramSettings";
 import { BrandAnalyticsView } from "./Analytics";
 import { resolvePeriod, formatBRL } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
@@ -115,6 +116,19 @@ export default async function BrandAdmin({
     emailFrom: brand.emailFrom,
   };
 
+  const programView: ProgramView = {
+    id: brand.id,
+    color: brand.primaryColor,
+    termTitle: brand.termTitle,
+    termBody: brand.termBody,
+    goalPeriod: brand.goalPeriod,
+    goalDefaultAmount: brand.goalDefaultAmount,
+    bonusStepAmount: brand.bonusStepAmount,
+    bonusLabel: brand.bonusLabel,
+  };
+
+  const shipping = approved.filter((c) => c.shippingActive);
+
   const toPending = (c: (typeof pending)[number]): CreatorView => ({
     id: c.id,
     brandName: brand.name,
@@ -177,6 +191,67 @@ export default async function BrandAdmin({
         {/* Conexão Shopify + import (compacta, no topo) */}
         <section className="mb-10">
           <BrandSettings brands={[brandView]} />
+        </section>
+
+        {/* Programa: termo + metas/bônus */}
+        <section className="mb-10">
+          <ProgramSettings brand={programView} />
+        </section>
+
+        {/* Lista de envio ativa */}
+        <section className="mb-10">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-bold">
+              Lista de envio{" "}
+              <span className="text-[var(--muted)]">({shipping.length})</span>
+            </h2>
+            {shipping.length > 0 && (
+              <a
+                href={`/admin/${brand.slug}/lista-envio`}
+                className="btn btn-outline"
+                download
+              >
+                Exportar CSV
+              </a>
+            )}
+          </div>
+          {shipping.length === 0 ? (
+            <div className="card text-sm text-[var(--muted)]">
+              Ninguém ativo ainda. Creators entram aqui ao aceitar o termo e
+              confirmar o endereço no painel.
+            </div>
+          ) : (
+            <div className="card overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b text-[var(--muted)]">
+                    <th className="py-2 pr-4 font-medium">Nome</th>
+                    <th className="py-2 pr-4 font-medium">Cupom</th>
+                    <th className="py-2 pr-4 font-medium">Cidade/UF</th>
+                    <th className="py-2 pr-4 font-medium">CEP</th>
+                    <th className="py-2 font-medium">Aceite</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shipping.map((c) => (
+                    <tr key={c.id} className="border-b last:border-0">
+                      <td className="py-2 pr-4 font-medium">{c.termsName || c.name}</td>
+                      <td className="py-2 pr-4 font-mono">{c.couponCode}</td>
+                      <td className="py-2 pr-4">
+                        {c.shipCity ? `${c.shipCity}/${c.shipState ?? ""}` : "—"}
+                      </td>
+                      <td className="py-2 pr-4">{c.shipCep || "—"}</td>
+                      <td className="py-2 text-[var(--muted)]">
+                        {c.termsAcceptedAt
+                          ? c.termsAcceptedAt.toISOString().slice(0, 10)
+                          : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
 
         {/* Vendas */}
@@ -251,6 +326,7 @@ export default async function BrandAdmin({
                       couponSummary: summarizeCoupon(c.couponConfig),
                       approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
                       claimed: c.claimed,
+                      termsSigned: Boolean(c.termsAcceptedAt),
                     } satisfies ApprovedView
                   }
                 />
