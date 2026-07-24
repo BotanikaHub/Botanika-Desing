@@ -8,6 +8,26 @@
     "theme_support_url": "https://support.nextsky.co"
   },
   {
+    "name": "Melhorias Botanika",
+    "settings": [
+      { "type": "header", "content": "Movimento / animações" },
+      { "type": "checkbox", "id": "motion_enabled", "label": "Ativar animações (scroll-reveal + micro-interações)", "default": true },
+      { "type": "header", "content": "Popup de cupom (novo visitante)" },
+      { "type": "checkbox", "id": "popup_enabled", "label": "Ativar popup", "default": true },
+      { "type": "text", "id": "popup_title", "label": "Título", "default": "Ganhe um cupom 🎁" },
+      { "type": "text", "id": "popup_text", "label": "Texto", "default": "Cadastre seu e-mail e receba um cupom de desconto na primeira compra." },
+      { "type": "text", "id": "popup_placeholder", "label": "Placeholder do e-mail", "default": "Seu melhor e-mail" },
+      { "type": "text", "id": "popup_button", "label": "Texto do botão", "default": "Quero meu cupom" },
+      { "type": "text", "id": "popup_coupon", "label": "Código do cupom", "info": "Crie esse código em Descontos (Shopify) para ele funcionar.", "default": "BEMVINDO10" },
+      { "type": "text", "id": "popup_success", "label": "Mensagem de sucesso", "default": "Pronto! Use seu cupom no checkout:" },
+      { "type": "range", "id": "popup_delay", "label": "Aparecer após (segundos)", "min": 3, "max": 30, "step": 1, "unit": "s", "default": 8 },
+      { "type": "header", "content": "Carrinho gamificado (frete + brinde)" },
+      { "type": "checkbox", "id": "cart_gift_enabled", "label": "Ativar barra frete + brinde", "default": true },
+      { "type": "text", "id": "cart_ship_goal", "label": "Valor para frete grátis (R$)", "info": "Só números. Ex.: 349", "default": "349" },
+      { "type": "text", "id": "cart_gift_goal", "label": "Valor para ganhar brinde (R$)", "info": "Só números. Precisa de um desconto 'Compre X ganhe Y' no Admin. Ex.: 450", "default": "450" }
+    ]
+  },
+  {
     "name": "Frete grátis — promo fim de semana",
     "settings": [
       {

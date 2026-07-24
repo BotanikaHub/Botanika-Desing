@@ -1,0 +1,117 @@
+{%- comment -%}
+  ============================================================
+  Popup de captura (novo visitante): troca e-mail por cupom.
+  - Dispara por tempo OU exit-intent, o que vier primeiro
+  - 1x por visitante (localStorage)
+  - E-mail vai para os clientes da Shopify (tag newsletter/popup)
+  - Ao enviar, revela o cupom + botão copiar
+  Config. do tema → "Melhorias Botanika".
+  ============================================================
+{%- endcomment -%}
+{%- if settings.popup_enabled -%}
+  <div id="bpop" class="bpop" hidden aria-hidden="true">
+    <div class="bpop__overlay" data-bpop-close></div>
+    <div class="bpop__box" role="dialog" aria-modal="true" aria-label="{{ settings.popup_title | escape }}">
+      <button class="bpop__x" type="button" data-bpop-close aria-label="Fechar">&times;</button>
+      <div class="bpop__body">
+        {%- if settings.popup_title != blank -%}<h3 class="bpop__title">{{ settings.popup_title }}</h3>{%- endif -%}
+        {%- if settings.popup_text != blank -%}<p class="bpop__text">{{ settings.popup_text }}</p>{%- endif -%}
+
+        <div data-bpop-form>
+          {%- form 'customer', id: 'bpop-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter,popup">
+            <div class="bpop__row">
+              <input class="bpop__input" type="email" name="contact[email]" placeholder="{{ settings.popup_placeholder | default: 'Seu melhor e-mail' }}" required>
+              <button class="bpop__btn" type="submit">{{ settings.popup_button | default: 'Quero meu cupom' }}</button>
+            </div>
+            <span class="bpop__fine">Sem spam. É só pra te enviar o cupom e novidades.</span>
+          {%- endform -%}
+        </div>
+
+        <div class="bpop__done" data-bpop-done hidden>
+          <p class="bpop__doneMsg">{{ settings.popup_success | default: 'Pronto! Use seu cupom:' }}</p>
+          <div class="bpop__coupon">
+            <span data-bpop-code>{{ settings.popup_coupon | default: 'BEMVINDO' }}</span>
+            <button type="button" class="bpop__copy" data-bpop-copy>Copiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- style -%}
+    .bpop { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+    .bpop[hidden] { display: none; }
+    .bpop__overlay { position: absolute; inset: 0; background: rgba(17,20,45,.55); backdrop-filter: blur(2px); animation: bpopFade .3s ease; }
+    .bpop__box { position: relative; width: min(92vw, 430px); background: #fff; border-radius: 18px; padding: 30px 26px; box-shadow: 0 30px 70px rgba(0,0,0,.28); animation: bpopIn .4s cubic-bezier(.2,.8,.2,1); }
+    .bpop__x { position: absolute; top: 10px; right: 14px; border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; color: #999; }
+    .bpop__title { margin: 0 0 8px; font-size: 23px; font-weight: 800; color: #1a1e3a; }
+    .bpop__text { margin: 0 0 16px; font-size: 14.5px; color: #555; }
+    .bpop__row { display: flex; gap: 8px; }
+    .bpop__input { flex: 1 1 auto; min-width: 0; height: 46px; padding: 0 14px; border: 1.5px solid #d9d9de; border-radius: 10px; font-size: 15px; }
+    .bpop__input:focus { outline: none; border-color: #323C91; }
+    .bpop__btn { flex: 0 0 auto; height: 46px; padding: 0 18px; border: 0; border-radius: 10px; background: #323C91; color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; }
+    .bpop__fine { display: block; margin-top: 10px; font-size: 11.5px; color: #999; }
+    .bpop__done[hidden] { display: none; }
+    .bpop__doneMsg { margin: 0 0 10px; font-weight: 700; color: #1a8f3c; }
+    .bpop__coupon { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 2px dashed #323C91; border-radius: 12px; padding: 12px 16px; }
+    .bpop__coupon span { font-size: 20px; font-weight: 800; letter-spacing: 1px; color: #323C91; }
+    .bpop__copy { border: 0; background: #323C91; color: #fff; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+    @keyframes bpopFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes bpopIn { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: none; } }
+    @media (max-width: 480px) { .bpop__row { flex-direction: column; } .bpop__btn { height: 46px; } }
+  {%- endstyle -%}
+
+  <script>
+    (function () {
+      var KEY = 'botanika_popup_v1';
+      var el = document.getElementById('bpop');
+      if (!el) return;
+      var delay = {{ settings.popup_delay | default: 8 }} * 1000;
+      var opened = false, done = false;
+
+      try { if (localStorage.getItem(KEY)) return; } catch (e) {}
+
+      function open() {
+        if (opened || done) return;
+        opened = true;
+        el.hidden = false; el.setAttribute('aria-hidden', 'false');
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      }
+      function close() { el.hidden = true; el.setAttribute('aria-hidden', 'true'); }
+
+      // gatilho por tempo
+      var t = setTimeout(open, delay);
+      // gatilho exit-intent (desktop)
+      document.addEventListener('mouseout', function (e) {
+        if (!e.relatedTarget && e.clientY <= 0) open();
+      });
+      // fechar
+      el.querySelectorAll('[data-bpop-close]').forEach(function (b) { b.addEventListener('click', close); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !el.hidden) close(); });
+
+      // envio do e-mail (fetch, sem recarregar) -> revela cupom
+      var form = el.querySelector('#bpop-form');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var data = new FormData(form);
+          fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+            .catch(function () {})
+            .finally(function () {
+              done = true;
+              var f = el.querySelector('[data-bpop-form]'); if (f) f.hidden = true;
+              var d = el.querySelector('[data-bpop-done]'); if (d) d.hidden = false;
+            });
+        });
+      }
+      // copiar cupom
+      var copy = el.querySelector('[data-bpop-copy]');
+      if (copy) copy.addEventListener('click', function () {
+        var code = (el.querySelector('[data-bpop-code]') || {}).textContent || '';
+        try { navigator.clipboard.writeText(code.trim()); } catch (e) {}
+        copy.textContent = 'Copiado!';
+      });
+    })();
+  </script>
+{%- endif -%}

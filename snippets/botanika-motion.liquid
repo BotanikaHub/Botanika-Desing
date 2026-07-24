@@ -1,0 +1,52 @@
+{%- comment -%}
+  ============================================================
+  Movimento & vida na página (UX):
+  - scroll-reveal: seções aparecem suavemente ao rolar
+  - micro-interações: elevação em cards, "press" em botões
+  Respeita prefers-reduced-motion. Liga/desliga em Config. do tema.
+  ============================================================
+{%- endcomment -%}
+{%- if settings.motion_enabled -%}
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .bmo-reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+      .bmo-reveal.bmo-in { opacity: 1; transform: none; }
+      /* micro-interações */
+      .product-item__inner { transition: transform .28s ease, box-shadow .28s ease; }
+      .product-item:hover .product-item__inner { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(0,0,0,.10); }
+      .btn, .button, button[type="submit"] { transition: transform .12s ease; }
+      .btn:active, .button:active, button[type="submit"]:active { transform: scale(.975); }
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      } catch (e) {}
+      function init() {
+        var main = document.querySelector('main') || document.body;
+        var secs = main.querySelectorAll('.shopify-section');
+        if (!secs.length) return;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var toObserve = [];
+        for (var i = 0; i < secs.length; i++) {
+          var r = secs[i].getBoundingClientRect();
+          // seções já visíveis no carregamento: não animar (evita flash no topo)
+          if (r.top >= vh * 0.85) { secs[i].classList.add('bmo-reveal'); toObserve.push(secs[i]); }
+        }
+        if (!('IntersectionObserver' in window)) {
+          for (var j = 0; j < toObserve.length; j++) toObserve[j].classList.add('bmo-in');
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('bmo-in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        for (var k = 0; k < toObserve.length; k++) io.observe(toObserve[k]);
+      }
+      if (document.readyState !== 'loading') init();
+      else document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+{%- endif -%}

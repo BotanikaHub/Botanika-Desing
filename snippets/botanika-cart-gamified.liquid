@@ -1,0 +1,56 @@
+{%- comment -%}
+  ============================================================
+  Barra de carrinho gamificada: frete grátis + brinde.
+  Renderiza no carrinho (server-side, re-renderiza ao mudar qtd).
+  Metas e textos em Config. do tema → "Melhorias Botanika".
+  ⚠️ O brinde em si precisa de um desconto "Compre X ganhe Y"
+     (nativo) OU app — a barra é o incentivo visual.
+  ============================================================
+{%- endcomment -%}
+{%- if settings.cart_gift_enabled -%}
+  {%- liquid
+    assign total = cart.total_price | divided_by: 100.00
+    assign ship = settings.cart_ship_goal | default: 0 | times: 1.0
+    assign gift = settings.cart_gift_goal | default: 0 | times: 1.0
+    assign maxgoal = ship
+    if gift > maxgoal
+      assign maxgoal = gift
+    endif
+    assign pct = 0
+    if maxgoal > 0
+      assign pct = total | divided_by: maxgoal | times: 100 | round
+      if pct > 100
+        assign pct = 100
+      endif
+    endif
+    assign ship_left = ship | minus: total
+    assign gift_left = gift | minus: total
+  -%}
+  <div class="bgc">
+    <div class="bgc__msg">
+      {%- if total >= maxgoal and maxgoal > 0 -%}
+        🎉 <strong>Você ganhou frete grátis e brinde!</strong>
+      {%- elsif total >= ship and ship > 0 -%}
+        ✅ Frete grátis garantido! Faltam <strong>{{ gift_left | times: 100 | money }}</strong> para ganhar um <strong>brinde 🎁</strong>
+      {%- else -%}
+        Faltam <strong>{{ ship_left | times: 100 | money }}</strong> para <strong>frete grátis 🚚</strong> — e <strong>{{ gift_left | times: 100 | money }}</strong> para um <strong>brinde 🎁</strong>
+      {%- endif -%}
+    </div>
+    <div class="bgc__track">
+      <div class="bgc__fill" style="width: {{ pct }}%;"></div>
+      {%- if maxgoal > 0 -%}
+        {%- assign ship_pos = ship | divided_by: maxgoal | times: 100 | round -%}
+        <span class="bgc__pin {% if total >= ship %}bgc__pin--on{% endif %}" style="left: {{ ship_pos }}%;" title="Frete grátis">🚚</span>
+        <span class="bgc__pin {% if total >= gift %}bgc__pin--on{% endif %}" style="left: 100%;" title="Brinde">🎁</span>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- style -%}
+    .bgc { margin: 0 0 18px; padding: 14px 16px; border: 1px solid #ececec; border-radius: 14px; background: #fafbff; }
+    .bgc__msg { font-size: 13.5px; color: #333; margin-bottom: 10px; text-align: center; }
+    .bgc__track { position: relative; height: 10px; background: #e7e9f2; border-radius: 999px; }
+    .bgc__fill { height: 100%; background: linear-gradient(90deg, #323C91, #5b6bd6); border-radius: 999px; width: 0; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+    .bgc__pin { position: absolute; top: 50%; transform: translate(-50%,-50%); font-size: 15px; filter: grayscale(1); opacity: .55; transition: .3s; }
+    .bgc__pin--on { filter: none; opacity: 1; transform: translate(-50%,-50%) scale(1.15); }
+  {%- endstyle -%}
+{%- endif -%}
