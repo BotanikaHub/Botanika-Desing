@@ -6,10 +6,16 @@ import { getCurrentCreatorAccount } from "@/lib/auth";
 import { creatorLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
-import { getCreatorSales, isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
+import {
+  getCreatorSales,
+  getOrdersByDiscountCode,
+  isShopifyConfigured,
+  type CreatorSales,
+} from "@/lib/shopify";
 import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
 import { TermGate } from "./TermGate";
+import { GoalCard } from "./GoalCard";
 
 const DEFAULT_TERM_TITLE = "Termo de aceite do Creator Club";
 const DEFAULT_TERM_BODY =
@@ -104,6 +110,22 @@ export default async function PainelBrand({
   const commission = totalSales * rate;
   const maxProductRevenue = Math.max(1, ...(sales?.topProducts.map((p) => p.revenue) ?? [0]));
 
+  // Gamificação: vendas do período da META (independente do filtro da tela).
+  const goalPeriod = brand.goalPeriod === "all" ? "all" : "monthly";
+  const goal = membership.goalAmount ?? brand.goalDefaultAmount;
+  let goalSales = 0;
+  if (connected) {
+    const now = new Date();
+    const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+    const goalSince = goalPeriod === "monthly" ? monthStart : null;
+    try {
+      const g = await getOrdersByDiscountCode(conn, couponCode, { since: goalSince });
+      goalSales = g.totalSales;
+    } catch {
+      goalSales = 0;
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col" style={{ ["--brand" as string]: color }}>
       <header className="border-b bg-[var(--surface)]">
@@ -123,6 +145,20 @@ export default async function PainelBrand({
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+        {/* Jornada / meta (usa o período da meta, não o filtro da tela) */}
+        {connected && (
+          <div className="mb-6">
+            <GoalCard
+              sales={goalSales}
+              goal={goal}
+              bonusStep={brand.bonusStepAmount}
+              bonusLabel={brand.bonusLabel}
+              period={goalPeriod}
+              color={color}
+            />
+          </div>
+        )}
+
         <div className="mb-4">
           <PeriodFilter basePath={`/painel/${brand.slug}`} activeKey={periodKey} from={sp.from} to={sp.to} color={color} />
         </div>

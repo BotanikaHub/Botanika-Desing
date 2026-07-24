@@ -126,6 +126,8 @@ export type ApprovedView = {
   approvedAt: string | null;
   claimed: boolean;
   termsSigned: boolean;
+  goalAmount: number | null;
+  goalPlaceholder: number;
 };
 
 export function ApprovedCard({ creator }: { creator: ApprovedView }) {
@@ -218,6 +220,18 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
                   step={1}
                   className="input"
                   defaultValue={creator.commissionRatePct}
+                />
+              </div>
+              <div className="w-32">
+                <label className="label">Meta (R$)</label>
+                <input
+                  name="goalAmount"
+                  type="number"
+                  min={0}
+                  step={100}
+                  className="input"
+                  defaultValue={creator.goalAmount ?? ""}
+                  placeholder={`padrão ${creator.goalPlaceholder}`}
                 />
               </div>
               <SubmitButton className="btn btn-primary" pendingLabel="Salvando...">

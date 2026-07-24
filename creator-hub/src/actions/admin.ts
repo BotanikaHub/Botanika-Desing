@@ -367,6 +367,8 @@ export async function editCreatorCouponAction(
   const requestedCode = String(formData.get("couponCode") || "").trim();
   const rate = parseRate(String(formData.get("commissionRate") || ""));
   const linkExisting = formData.get("linkExisting") === "on";
+  const goalRaw = String(formData.get("goalAmount") || "").trim();
+  const goalAmount = goalRaw === "" ? null : parseAmount(goalRaw, 0);
 
   const creator = await prisma.creator.findUnique({
     where: { id },
@@ -391,6 +393,7 @@ export async function editCreatorCouponAction(
       commissionRate: rate,
       // Só mexe no desconto salvo quando o admin informou um valor.
       ...(result.discountRate != null ? { couponDiscountRate: result.discountRate } : {}),
+      goalAmount,
       shopifyPriceRuleId: result.shopifyPriceRuleId,
       shopifyDiscountId: result.shopifyDiscountId,
       approvedAt: creator.approvedAt || new Date(),

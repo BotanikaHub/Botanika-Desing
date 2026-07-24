@@ -327,6 +327,8 @@ export default async function BrandAdmin({
                       approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
                       claimed: c.claimed,
                       termsSigned: Boolean(c.termsAcceptedAt),
+                      goalAmount: c.goalAmount,
+                      goalPlaceholder: brand.goalDefaultAmount,
                     } satisfies ApprovedView
                   }
                 />
