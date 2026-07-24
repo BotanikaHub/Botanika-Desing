@@ -16,21 +16,21 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
   comment
-    Botanika: só o Kit Imunidade mantém preço riscado (compare-at) e selo 10% OFF.
-    Os demais produtos exibem o preço normal, sem risco, mesmo que ainda tenham
-    compare-at herdado de campanhas anteriores.
+    Botanika: o selo "10% OFF" ao lado do preço aparece apenas no Kit Imunidade.
+    O preço riscado (compare-at) volta ao comportamento original do tema — quem
+    tiver preço de comparação exibe o risco; o ajuste dos preços é feito no admin.
   endcomment
   assign is_kit = false
   if product.handle contains 'kit'
     assign is_kit = true
   endif
-  assign show_compare = false
-  if compare_at_price > price and is_kit
-    assign show_compare = true
+  assign show_off_tag = false
+  if is_kit and compare_at_price > price
+    assign show_off_tag = true
   endif
 
   assign special_class = ''
-  if show_compare
+  if compare_at_price > price
     assign special_class = 'price--special'
   endif
 
@@ -42,8 +42,8 @@
 
 {%- if show_installment -%}
   <div class="card-product-price card-product-price--installment {{ class }} flex flex-column gap-5 relative">
-    {%- if show_compare -%}
-      <span class="botanika-off-tag">10% OFF</span>
+    {%- if show_off_tag -%}<span class="botanika-off-tag">10% OFF</span>{%- endif -%}
+    {%- if compare_at_price > price -%}
       <s class="price-item compare-price dark-grey">
         {%- if theme_st.show_currency_code -%}
           {{ compare_at_price | money_with_currency }}
@@ -78,8 +78,8 @@
   </div>
 {%- else -%}
 <div class="card-product-price {{ class }} flex align-center flex-wrap gap-5 relative">
-  {%- if show_compare -%}
-    <span class="botanika-off-tag">10% OFF</span>
+  {%- if show_off_tag -%}<span class="botanika-off-tag">10% OFF</span>{%- endif -%}
+  {%- if compare_at_price > price -%}
     <div class="price-regular primary-color">
       <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
       <span class="price heading_weight primary-color price-same-style {{ special_class }}">
