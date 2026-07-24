@@ -7,7 +7,7 @@
   assign badge = card_product.metafields.custom.card_badge
   assign badge_red = false
   if badge == blank and card_product.handle contains 'kit'
-    assign badge = '10% OFF'
+    assign badge = '🔥 Kit Imunidade · 10% OFF'
     assign badge_red = true
   elsif badge == blank
     case card_product.handle
@@ -60,6 +60,9 @@
       .card-benefit-badge--red {
         background: linear-gradient(100deg, #e0201a 0%, #b3140f 100%);
         box-shadow: 0 2px 8px rgba(200, 20, 15, 0.32);
+        white-space: normal;
+        line-height: 1.2;
+        max-width: 62%;
       }
       @media (max-width: 575px) {
         .card-benefit-badge { top: 8px; left: 8px; font-size: 10.5px; padding: 4px 8px; }
