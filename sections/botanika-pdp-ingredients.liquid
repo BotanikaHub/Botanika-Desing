@@ -47,6 +47,50 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+    {%- liquid
+      assign has_meta = false
+      for i in (1..3)
+        assign tk = 'ingredient_' | append: i | append: '_title'
+        if product.metafields.custom[tk].value != blank
+          assign has_meta = true
+        endif
+      endfor
+      assign composition = ''
+      case product.handle
+        when 'tri-mg-complex'
+          assign composition = 'Bisglicinato de Magnésio|;Citrato de Magnésio|;Malato de Magnésio|;Magnésio (por porção)|232 mg'
+        when 'sleep-inositol'
+          assign composition = 'Inositol|2 g;Glicina|1000 mg;Magnésio|350 mg;Taurina|200 mg;Triptofano|100 mg;Melatonina|0,21 mg'
+        when 'creatina-l-carnitina'
+          assign composition = 'Creatina Monohidratada|3 g;Magnésio Taurato|63 mg'
+        when 'hair-botanika'
+          assign composition = 'Biotina|;Zinco|;Ferro|;Iodo|;Cisteína|;Metionina|;Silício Orgânico|;Vitaminas A, E, B1, B2 e B5|'
+        when 'whey-balance-chocolate'
+          assign composition = 'Whey Protein Concentrado|;Colágeno C Pure|;Proteína (por porção)|23 g'
+        when 'super-omega-3-coq10'
+          assign composition = 'EPA (Ômega 3)|990 mg;DHA (Ômega 3)|660 mg;Coenzima Q10|100 mg'
+        when 'super-vitamina-c'
+          assign composition = 'Vitamina C|600 mg;Quercetina|250 mg;Própolis|200 mg'
+        when 'tetravit-d'
+          assign composition = 'Vitamina D3|1000 UI;Vitamina K2-MK7|12 mcg;Vitamina A|430 UI;Vitamina E|0,75 UI'
+      endcase
+    -%}
+    {%- if has_meta == false and composition != blank -%}
+      <div class="botanika-ingredients__composition">
+        <h3 class="botanika-comp__title">Composição</h3>
+        <div class="botanika-comp__grid">
+          {%- assign rows = composition | split: ';' -%}
+          {%- for row in rows -%}
+            {%- assign parts = row | split: '|' -%}
+            <div class="botanika-comp__item{% if parts[1] == blank %} botanika-comp__item--full{% endif %}">
+              <span class="botanika-comp__name">{{ parts[0] }}</span>
+              {%- if parts[1] != blank -%}<span class="botanika-comp__amt">{{ parts[1] }}</span>{%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        <p class="botanika-comp__note">Composição conforme rótulo do produto.</p>
+      </div>
+    {%- endif -%}
     {%- if section_st.why_combo_title != blank or why_body != blank -%}
       <div class="botanika-ingredients__why-combo">
         {%- if section_st.why_combo_title != blank -%}
@@ -151,6 +195,15 @@
   margin: 0;
   letter-spacing: -0.31px;
 }
+.botanika-ingredients__composition { margin-top: 8px; }
+.botanika-comp__title { color: #c4d78a; font-size: 24px; font-weight: 500; text-align: center; margin: 0 0 24px; }
+.botanika-comp__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.botanika-comp__item { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 18px 22px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.botanika-comp__item--full { justify-content: center; text-align: center; }
+.botanika-comp__name { color: #fff; font-weight: 600; font-size: 16px; }
+.botanika-comp__amt { color: #c4d78a; font-weight: 700; font-size: 15px; white-space: nowrap; }
+.botanika-comp__note { color: rgba(255,255,255,.5); font-size: 12.5px; text-align: center; margin: 18px 0 0; }
+@media (max-width: 899px) { .botanika-comp__grid { grid-template-columns: 1fr; } }
 .botanika-ingredients__why-combo {
   margin-top: 34px;
   background: linear-gradient(120deg, rgba(143, 188, 63, 0.12), rgba(74, 74, 166, 0.12));
