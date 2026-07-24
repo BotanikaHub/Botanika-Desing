@@ -56,7 +56,7 @@ export async function GET(
       c.shipDistrict || "",
       c.shipCity || "",
       c.shipState || "",
-      c.email.endsWith("@import.creatorclub") ? "" : c.email,
+      c.email.endsWith(".creatorclub") ? "" : c.email,
       c.phone || "",
       c.termsAcceptedAt ? c.termsAcceptedAt.toISOString().slice(0, 10) : "",
     ]

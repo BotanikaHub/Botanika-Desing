@@ -5,6 +5,7 @@ import {
   approveCreatorAction,
   editCreatorCouponAction,
   rejectCreatorAction,
+  removeCreatorAction,
   type ApproveState,
 } from "@/actions/admin";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -254,6 +255,24 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
             brandId={creator.brandId}
             brandColor={creator.brandColor}
           />
+
+          <form
+            action={removeCreatorAction}
+            className="mt-4 border-t pt-4"
+            onSubmit={(e) => {
+              if (
+                !confirm(
+                  `Remover ${creator.name} (${creator.couponCode}) do app? O cupom NÃO é apagado na Shopify.`,
+                )
+              )
+                e.preventDefault();
+            }}
+          >
+            <input type="hidden" name="creatorId" value={creator.id} />
+            <button type="submit" className="text-sm font-semibold text-[var(--danger)]">
+              Remover cupom
+            </button>
+          </form>
         </>
       )}
     </div>

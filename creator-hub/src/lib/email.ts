@@ -65,7 +65,7 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
 
   const to = input.to.trim();
   // Não tenta enviar para e-mails sintéticos de import (não reivindicados).
-  if (!to || to.endsWith("@import.creatorclub")) {
+  if (!to || to.endsWith(".creatorclub")) {
     return { ok: false, skipped: true };
   }
 

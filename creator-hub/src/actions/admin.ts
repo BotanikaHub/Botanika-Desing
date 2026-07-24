@@ -194,6 +194,91 @@ export async function approveCreatorAction(
   return { ok: true };
 }
 
+// Adiciona um cupom manualmente pela aba Cupons (creator "não reivindicado",
+// igual aos importados — a influencer pode ativar o painel depois). Cria o
+// cupom na Shopify, ou vincula um já existente.
+export async function addCouponAction(
+  _prev: ApproveState,
+  formData: FormData,
+): Promise<ApproveState> {
+  const admin = await ensureAdmin();
+
+  const brandId = String(formData.get("brandId") || "");
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return { error: "Marca não encontrada." };
+  if (admin.brandId && admin.brandId !== brand.id) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  const code = String(formData.get("couponCode") || "").trim().toUpperCase();
+  if (!code) return { error: "Informe o código do cupom." };
+  const name = String(formData.get("name") || "").trim() || code;
+  const rate = parseRate(String(formData.get("commissionRate") || ""));
+  const discount =
+    parseOptionalRate(String(formData.get("discountRate") || "")) ?? brand.defaultDiscountRate;
+  const linkExisting = formData.get("linkExisting") === "on";
+
+  const clash = await prisma.creator.findFirst({
+    where: { brandId: brand.id, couponCode: code },
+  });
+  if (clash) return { error: "Já existe um creator com esse cupom nesta marca." };
+
+  const conn = brandConnection(brand);
+  let shopifyDiscountId: string | null = null;
+  if (isShopifyConfigured(conn)) {
+    try {
+      if (linkExisting) {
+        await setDiscountPercentageByCode(conn, code, discount);
+      } else {
+        const created = await createDiscountCode(conn, {
+          code,
+          percentage: discount,
+          title: `Creator ${brand.name} — ${name}`,
+        });
+        shopifyDiscountId = created.discountId;
+      }
+    } catch (err) {
+      return { error: err instanceof Error ? err.message : "Erro ao salvar o cupom na Shopify." };
+    }
+  }
+
+  await prisma.creator.create({
+    data: {
+      brandId: brand.id,
+      status: "APPROVED",
+      source: "manual",
+      claimed: false,
+      name,
+      email: `${code.toLowerCase()}@manual.creatorclub`,
+      passwordHash: `unclaimed:${crypto.randomBytes(16).toString("hex")}`,
+      couponCode: code,
+      desiredCoupon: code,
+      commissionRate: rate,
+      couponDiscountRate: discount,
+      shopifyDiscountId,
+      approvedAt: new Date(),
+    },
+  });
+
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
+// Remove um creator/cupom do app (não apaga o cupom na Shopify).
+export async function removeCreatorAction(formData: FormData) {
+  const admin = await ensureAdmin();
+  const id = String(formData.get("creatorId") || "");
+  const creator = await prisma.creator.findUnique({
+    where: { id },
+    include: { brand: true },
+  });
+  if (!creator) return;
+  if (admin.brandId && admin.brandId !== creator.brandId) return;
+
+  await prisma.creator.delete({ where: { id } });
+  revalidatePath("/admin", "layout");
+}
+
 // ─────────────── Editor de configuração do cupom (Shopify) ───────────────
 
 async function brandConnForAdmin(brandId: string) {

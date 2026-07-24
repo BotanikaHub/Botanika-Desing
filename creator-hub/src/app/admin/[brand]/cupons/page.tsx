@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireBrandAdmin } from "@/lib/admin-brand";
 import { ApprovedCard, type ApprovedView } from "../../ApplicationCard";
+import { AddCouponForm } from "../AddCouponForm";
 import { summarizeCoupon } from "@/lib/coupon-summary";
 
 export const dynamic = "force-dynamic";
@@ -27,6 +28,15 @@ export default async function CuponsTab({
         Comissão, código e configuração do cupom na Shopify (valor, onde aplica,
         frete, mínimos e limites) e a meta individual de cada creator.
       </p>
+
+      <div className="mb-8">
+        <AddCouponForm
+          brandId={brand.id}
+          brandColor={brand.primaryColor}
+          defaultRatePct={Math.round(brand.defaultCommissionRate * 100)}
+          defaultDiscountPct={Math.round(brand.defaultDiscountRate * 100)}
+        />
+      </div>
       {approved.length === 0 ? (
         <div className="card text-sm text-[var(--muted)]">Nenhum creator ainda.</div>
       ) : (
