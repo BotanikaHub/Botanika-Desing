@@ -25,7 +25,7 @@ export function BrandAnalyticsView({
         <Stat label="Pedidos analisados" value={String(data.ordersScanned)} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-6">
         {/* Top influencers */}
         <div className="card">
           <h3 className="mb-4 text-lg font-semibold">
