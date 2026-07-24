@@ -7,7 +7,7 @@
   assign badge = card_product.metafields.custom.card_badge
   assign badge_red = false
   if badge == blank and card_product.handle contains 'kit'
-    assign badge = '🔥 Kit Imunidade · 10% OFF'
+    assign badge = '🔥 Kit Imunidade'
     assign badge_red = true
   elsif badge == blank
     case card_product.handle
