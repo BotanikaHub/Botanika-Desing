@@ -206,6 +206,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <style>
     html { scroll-behavior: smooth; }
     [id^="shopify-section-"] { scroll-margin-top: 110px; }
+    /* Remove o selo de desconto vermelho dos cards (mantém só o balão azul de categoria) */
+    .product-item .product__badges-sale { display: none !important; }
   </style>
   {% render 'botanika-campaign-css' %}
 </head>
