@@ -208,11 +208,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     [id^="shopify-section-"] { scroll-margin-top: 110px; }
     /* Remove o selo de desconto vermelho dos cards (mantém só o balão azul de categoria) */
     .product-item .product__badges-sale { display: none !important; }
-    /* Selo "10% OFF" ao lado do preço (aparece só no Kit Imunidade) — texto simples */
+    /* Selo "10% OFF" centralizado acima do preço (aparece só no Kit Imunidade) — texto simples */
     .botanika-off-tag {
-      display: inline-flex;
+      display: flex;
+      justify-content: center;
       align-items: center;
       gap: 3px;
+      width: 100%;
       background: none;
       color: #1a1e3a;
       font-size: 12px;
@@ -220,6 +222,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       line-height: 1;
       padding: 0;
       letter-spacing: 0.01em;
+      text-align: center;
     }
   </style>
   {% render 'botanika-campaign-css' %}
