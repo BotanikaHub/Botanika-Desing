@@ -42,7 +42,7 @@
 
 {%- if show_installment -%}
   <div class="card-product-price card-product-price--installment {{ class }} flex flex-column gap-5 relative">
-    {%- if show_off_tag -%}<span class="botanika-off-tag">10% OFF</span>{%- endif -%}
+    {%- if show_off_tag -%}<span class="botanika-off-tag">🏷️ 10% OFF</span>{%- endif -%}
     {%- if compare_at_price > price -%}
       <s class="price-item compare-price dark-grey">
         {%- if theme_st.show_currency_code -%}
@@ -78,7 +78,7 @@
   </div>
 {%- else -%}
 <div class="card-product-price {{ class }} flex align-center flex-wrap gap-5 relative">
-  {%- if show_off_tag -%}<span class="botanika-off-tag">10% OFF</span>{%- endif -%}
+  {%- if show_off_tag -%}<span class="botanika-off-tag">🏷️ 10% OFF</span>{%- endif -%}
   {%- if compare_at_price > price -%}
     <div class="price-regular primary-color">
       <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
