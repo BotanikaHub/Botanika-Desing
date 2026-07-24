@@ -868,6 +868,8 @@ export type BrandAnalytics = {
     commission: number;
   }>;
   topProducts: Array<{ title: string; quantity: number; revenue: number }>;
+  // Vendas de TODOS os cupons rastreados (código → totais), para o ranking de metas.
+  salesByCode: Record<string, { orders: number; sales: number }>;
 };
 
 /**
@@ -981,7 +983,17 @@ export async function getBrandAnalytics(
     .sort((a, b) => b.revenue - a.revenue)
     .slice(0, 10);
 
-  return { ordersScanned, trackedOrders, trackedSales, topInfluencers, topProducts };
+  const salesByCodeObj: Record<string, { orders: number; sales: number }> = {};
+  for (const [code, v] of salesByCode.entries()) salesByCodeObj[code] = v;
+
+  return {
+    ordersScanned,
+    trackedOrders,
+    trackedSales,
+    topInfluencers,
+    topProducts,
+    salesByCode: salesByCodeObj,
+  };
 }
 
 export type ShopifyDiscount = {

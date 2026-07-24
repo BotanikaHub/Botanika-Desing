@@ -1,48 +1,20 @@
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { Logo } from "@/components/Logo";
-import { getCurrentAdmin } from "@/lib/auth";
-import { adminLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
-import { getBrandBySlug, brandConnection } from "@/lib/brand";
+import { brandConnection } from "@/lib/brand";
+import { requireBrandAdmin } from "@/lib/admin-brand";
 import {
   getBrandAnalytics,
   isShopifyConfigured,
   type BrandAnalytics,
 } from "@/lib/shopify";
-import {
-  PendingCard,
-  ApprovedCard,
-  type CreatorView,
-  type ApprovedView,
-} from "../ApplicationCard";
 import { BrandSettings, type BrandView } from "../BrandSettings";
-import { ProgramSettings, type ProgramView } from "../ProgramSettings";
 import { BrandAnalyticsView } from "./Analytics";
-import { resolvePeriod, formatBRL } from "@/lib/format";
+import { resolvePeriod } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
-
-// Resumo curto da config do cupom para exibir no card.
-function summarizeCoupon(cfg: unknown): string | null {
-  if (!cfg || typeof cfg !== "object") return null;
-  const c = cfg as Record<string, unknown>;
-  if (c.kind === "free_shipping") return "Frete grátis";
-  const vt = c.valueType === "fixed" ? "fixed" : "percentage";
-  const value = typeof c.value === "number" ? c.value : 0;
-  const val = vt === "percentage" ? `${Math.round(value * 100)}%` : formatBRL(value);
-  const where =
-    c.appliesTo === "products"
-      ? `em ${(c.productIds as unknown[])?.length || 0} produto(s)`
-      : c.appliesTo === "collections"
-        ? `em ${(c.collectionIds as unknown[])?.length || 0} coleção(ões)`
-        : "no pedido";
-  return `${val} ${where}`;
-}
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-export default async function BrandAdmin({
+export default async function VendasTab({
   params,
   searchParams,
 }: {
@@ -55,45 +27,26 @@ export default async function BrandAdmin({
     to?: string;
   }>;
 }) {
-  const admin = await getCurrentAdmin();
-  if (!admin) redirect("/admin/login");
-
   const { brand: slug } = await params;
+  const { brand } = await requireBrandAdmin(slug);
   const sp = await searchParams;
-  const brand = await getBrandBySlug(slug);
-  if (!brand) notFound();
-  if (admin.brandId && admin.brandId !== brand.id) redirect("/admin");
 
-  // Período do dashboard
   const { key: periodKey, since, until } = resolvePeriod(sp.period, sp.from, sp.to);
 
-  const [pending, approved, rejected] = await Promise.all([
-    prisma.creator.findMany({
-      where: { brandId: brand.id, status: "PENDING" },
-      orderBy: { createdAt: "asc" },
-    }),
-    prisma.creator.findMany({
-      where: { brandId: brand.id, status: "APPROVED" },
-      orderBy: [{ claimed: "asc" }, { approvedAt: "desc" }],
-    }),
-    prisma.creator.findMany({
-      where: { brandId: brand.id, status: "REJECTED" },
-      orderBy: { updatedAt: "desc" },
-    }),
-  ]);
+  const approved = await prisma.creator.findMany({
+    where: { brandId: brand.id, status: "APPROVED" },
+    select: { name: true, couponCode: true, commissionRate: true },
+  });
 
-  // Analytics (top influencers + top produtos) — a partir dos cupons dos aprovados
   const conn = brandConnection(brand);
   let analytics: BrandAnalytics | null = null;
   let analyticsError: string | null = null;
-  if (isShopifyConfigured(conn)) {
+  const connected = isShopifyConfigured(conn);
+  if (connected) {
     const creatorsByCode: Record<string, { name: string; rate: number }> = {};
     for (const c of approved) {
       if (c.couponCode) {
-        creatorsByCode[c.couponCode.toUpperCase()] = {
-          name: c.name,
-          rate: c.commissionRate,
-        };
+        creatorsByCode[c.couponCode.toUpperCase()] = { name: c.name, rate: c.commissionRate };
       }
     }
     try {
@@ -116,245 +69,51 @@ export default async function BrandAdmin({
     emailFrom: brand.emailFrom,
   };
 
-  const programView: ProgramView = {
-    id: brand.id,
-    color: brand.primaryColor,
-    termTitle: brand.termTitle,
-    termBody: brand.termBody,
-    goalPeriod: brand.goalPeriod,
-    goalDefaultAmount: brand.goalDefaultAmount,
-    bonusStepAmount: brand.bonusStepAmount,
-    bonusLabel: brand.bonusLabel,
-  };
-
-  const shipping = approved.filter((c) => c.shippingActive);
-
-  const toPending = (c: (typeof pending)[number]): CreatorView => ({
-    id: c.id,
-    brandName: brand.name,
-    brandColor: brand.primaryColor,
-    name: c.name,
-    email: c.email,
-    phone: c.phone,
-    instagram: c.instagram,
-    tiktok: c.tiktok,
-    followers: c.followers,
-    niche: c.niche,
-    profession: c.profession,
-    city: c.city,
-    pitch: c.pitch,
-    desiredCoupon: c.desiredCoupon,
-    defaultRatePct: Math.round(brand.defaultCommissionRate * 100),
-    defaultDiscountPct: Math.round(brand.defaultDiscountRate * 100),
-  });
-
   return (
-    <div
-      className="flex min-h-screen flex-col"
-      style={{ ["--brand" as string]: brand.primaryColor }}
-    >
-      <header className="border-b bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <Link href="/admin" className="text-sm text-[var(--muted)] hover:underline">
-              ← Marcas
-            </Link>
-            <span
-              className="rounded-full px-3 py-1 text-sm font-bold text-white"
-              style={{ background: brand.primaryColor }}
-            >
-              {brand.name}
-            </span>
-            <span className="badge badge-approved">Admin</span>
-          </div>
-          <form action={adminLogoutAction}>
-            <button type="submit" className="btn btn-ghost">Sair</button>
-          </form>
+    <>
+      {sp.connected && (
+        <div className="mb-6 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-3 text-sm text-[var(--brand-dark)]">
+          Shopify conectada com sucesso! 🎉
         </div>
-      </header>
+      )}
+      {sp.error && (
+        <div className="mb-6 rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-3 text-sm text-[var(--danger)]">
+          Não foi possível conectar: {decodeURIComponent(sp.error)}
+        </div>
+      )}
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
-        {sp.connected && (
-          <div className="mb-6 rounded-lg border border-[var(--success)] bg-[var(--brand-soft)] px-4 py-3 text-sm text-[var(--brand-dark)]">
-            Shopify conectada com sucesso! 🎉
-          </div>
-        )}
-        {sp.error && (
-          <div className="mb-6 rounded-lg border border-[var(--danger)] bg-[#fbe9e7] px-4 py-3 text-sm text-[var(--danger)]">
-            Não foi possível conectar: {decodeURIComponent(sp.error)}
-          </div>
-        )}
+      {/* Conexão Shopify */}
+      <section className="mb-10">
+        <h1 className="mb-4 text-2xl font-bold">Conexão &amp; vendas</h1>
+        <BrandSettings brands={[brandView]} />
+      </section>
 
-        {/* Título da área */}
-        <h1 className="mb-6 text-2xl font-bold">Dashboard · {brand.name}</h1>
-
-        {/* Conexão Shopify + import (compacta, no topo) */}
-        <section className="mb-10">
-          <BrandSettings brands={[brandView]} />
-        </section>
-
-        {/* Programa: termo + metas/bônus */}
-        <section className="mb-10">
-          <ProgramSettings brand={programView} />
-        </section>
-
-        {/* Lista de envio ativa */}
-        <section className="mb-10">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xl font-bold">
-              Lista de envio{" "}
-              <span className="text-[var(--muted)]">({shipping.length})</span>
-            </h2>
-            {shipping.length > 0 && (
-              <a
-                href={`/admin/${brand.slug}/lista-envio`}
-                className="btn btn-outline"
-                download
-              >
-                Exportar CSV
-              </a>
-            )}
-          </div>
-          {shipping.length === 0 ? (
-            <div className="card text-sm text-[var(--muted)]">
-              Ninguém ativo ainda. Creators entram aqui ao aceitar o termo e
-              confirmar o endereço no painel.
-            </div>
-          ) : (
-            <div className="card overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b text-[var(--muted)]">
-                    <th className="py-2 pr-4 font-medium">Nome</th>
-                    <th className="py-2 pr-4 font-medium">Cupom</th>
-                    <th className="py-2 pr-4 font-medium">Cidade/UF</th>
-                    <th className="py-2 pr-4 font-medium">CEP</th>
-                    <th className="py-2 font-medium">Aceite</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {shipping.map((c) => (
-                    <tr key={c.id} className="border-b last:border-0">
-                      <td className="py-2 pr-4 font-medium">{c.termsName || c.name}</td>
-                      <td className="py-2 pr-4 font-mono">{c.couponCode}</td>
-                      <td className="py-2 pr-4">
-                        {c.shipCity ? `${c.shipCity}/${c.shipState ?? ""}` : "—"}
-                      </td>
-                      <td className="py-2 pr-4">{c.shipCep || "—"}</td>
-                      <td className="py-2 text-[var(--muted)]">
-                        {c.termsAcceptedAt
-                          ? c.termsAcceptedAt.toISOString().slice(0, 10)
-                          : "—"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      {/* Vendas */}
+      <section>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xl font-bold">Vendas</h2>
+          {brandView.connected && (
+            <PeriodFilter
+              basePath={`/admin/${brand.slug}`}
+              activeKey={periodKey}
+              from={sp.from}
+              to={sp.to}
+              color={brand.primaryColor}
+            />
           )}
-        </section>
-
-        {/* Vendas */}
-        <section className="mb-10">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xl font-bold">Vendas</h2>
-            {brandView.connected && (
-              <PeriodFilter
-                basePath={`/admin/${brand.slug}`}
-                activeKey={periodKey}
-                from={sp.from}
-                to={sp.to}
-                color={brand.primaryColor}
-              />
-            )}
+        </div>
+        {!brandView.connected ? (
+          <div className="card text-sm text-[var(--muted)]">
+            Conecte a Shopify desta marca (acima) para ver as vendas.
           </div>
-          {!brandView.connected ? (
-            <div className="card text-sm text-[var(--muted)]">
-              Conecte a Shopify desta marca (acima) para ver as vendas.
-            </div>
-          ) : analyticsError ? (
-            <div className="card border-[var(--danger)] bg-[#fdecea] text-sm text-[var(--danger)]">
-              Não foi possível carregar as vendas: {analyticsError}
-            </div>
-          ) : analytics ? (
-            <BrandAnalyticsView data={analytics} color={brand.primaryColor} />
-          ) : null}
-        </section>
-
-        {/* Pendentes */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-xl font-bold">
-            Cadastros pendentes <span className="text-[var(--muted)]">({pending.length})</span>
-          </h2>
-          {pending.length === 0 ? (
-            <div className="card text-sm text-[var(--muted)]">Nenhum cadastro pendente.</div>
-          ) : (
-            <div className="space-y-4">
-              {pending.map((c) => (
-                <PendingCard key={c.id} creator={toPending(c)} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Aprovados */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-xl font-bold">
-            Creators <span className="text-[var(--muted)]">({approved.length})</span>
-          </h2>
-          {approved.length === 0 ? (
-            <div className="card text-sm text-[var(--muted)]">Nenhum creator ainda.</div>
-          ) : (
-            <div className="space-y-3">
-              {approved.map((c) => (
-                <ApprovedCard
-                  key={c.id}
-                  creator={
-                    {
-                      id: c.id,
-                      brandId: brand.id,
-                      brandName: brand.name,
-                      brandColor: brand.primaryColor,
-                      name: c.name,
-                      email: c.email,
-                      couponCode: c.couponCode,
-                      commissionRatePct: Math.round(c.commissionRate * 100),
-                      discountPct:
-                        c.couponDiscountRate != null
-                          ? Math.round(c.couponDiscountRate * 100)
-                          : null,
-                      couponSummary: summarizeCoupon(c.couponConfig),
-                      approvedAt: c.approvedAt ? c.approvedAt.toISOString() : null,
-                      claimed: c.claimed,
-                      termsSigned: Boolean(c.termsAcceptedAt),
-                      goalAmount: c.goalAmount,
-                      goalPlaceholder: brand.goalDefaultAmount,
-                    } satisfies ApprovedView
-                  }
-                />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {rejected.length > 0 && (
-          <section>
-            <h2 className="mb-4 text-xl font-bold">
-              Recusados <span className="text-[var(--muted)]">({rejected.length})</span>
-            </h2>
-            <div className="card space-y-2 text-sm">
-              {rejected.map((c) => (
-                <div key={c.id} className="flex justify-between border-b pb-2 last:border-0 last:pb-0">
-                  <span className="font-medium">{c.name}</span>
-                  <span className="text-[var(--muted)]">
-                    {c.rejectionReason || "Sem motivo informado"}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
+        ) : analyticsError ? (
+          <div className="card border-[var(--danger)] bg-[#fdecea] text-sm text-[var(--danger)]">
+            Não foi possível carregar as vendas: {analyticsError}
+          </div>
+        ) : analytics ? (
+          <BrandAnalyticsView data={analytics} color={brand.primaryColor} />
+        ) : null}
+      </section>
+    </>
   );
 }
