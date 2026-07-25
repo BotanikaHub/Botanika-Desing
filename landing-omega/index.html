@@ -239,6 +239,7 @@
         .titleshadow { text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
         /* ===================== MOBILE OPTIMIZATION ===================== */
         @media (max-width: 760px) {
+            .reveal { opacity: 1 !important; transform: none !important; }
             .header { padding: 1.1rem 5%; }
             .btn-buy { padding: 0.72rem 1.3rem; font-size: 0.82rem; }
             .hero { padding: 5.4rem 6% 2.4rem; }
@@ -950,6 +951,16 @@
         }
         addEventListener('resize', resize);
         resize(); onScroll(); loop();
+    </script>
+    <script>
+        (function () {
+            function showAll() { document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); }); }
+            // On phones (or if anything blocks the main script) force content visible
+            if (innerWidth < 760) {
+                if (document.readyState !== 'loading') showAll(); else document.addEventListener('DOMContentLoaded', showAll);
+                setTimeout(showAll, 500);
+            }
+        })();
     </script>
 </body>
 </html>
