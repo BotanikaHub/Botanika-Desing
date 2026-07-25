@@ -483,7 +483,7 @@
         for (let i = 0; i < 6; i++) spawnCapsule(true);
 
         // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
-        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
+        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_221648_d8ab7cd2-eb80-4082-b4a6-578d3634effa.mp4';
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 3 : 7;
@@ -585,11 +585,7 @@
                     else if (!near && !f.video.paused) f.video.pause();
                 }
 
-                // hide the video loop seam with a quick dim at the boundary
-                let op = f.op;
-                const vd = f.video;
-                if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= clampv(Math.min(ph, 1 - ph) / 0.05, 0, 1); }
-                f.el.style.opacity = op;
+                f.el.style.opacity = f.op;   // seamless loop video: constant opacity
 
                 f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.face})`;
             }
