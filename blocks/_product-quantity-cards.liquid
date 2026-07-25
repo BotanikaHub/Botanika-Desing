@@ -108,6 +108,9 @@
               <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t1_disc_amt | money_with_currency }}{% else %}{{ t1_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
+          {%- if bs.tier1_bonus != blank -%}
+            <div class="qty-card__bonus"><span class="qty-card__bonus-ic">📘</span><span class="qty-card__bonus-tx">{{ bs.tier1_bonus }}</span></div>
+          {%- endif -%}
           {%- if bs.tier1_message != blank -%}
             <div class="qty-card__message">{{ bs.tier1_message }}</div>
           {%- endif -%}
@@ -193,6 +196,9 @@
               <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t2_disc_amt | money_with_currency }}{% else %}{{ t2_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
+          {%- if bs.tier2_bonus != blank -%}
+            <div class="qty-card__bonus"><span class="qty-card__bonus-ic">📘</span><span class="qty-card__bonus-tx">{{ bs.tier2_bonus }}</span></div>
+          {%- endif -%}
           {%- if bs.tier2_message != blank -%}
             <div class="qty-card__message">{{ bs.tier2_message }}</div>
           {%- endif -%}
@@ -278,6 +284,9 @@
               <span class="qty-card__save" data-save>Você ganha {% if show_currency %}{{ t3_disc_amt | money_with_currency }}{% else %}{{ t3_disc_amt | money }}{% endif %}</span>
             {%- endif -%}
           </div>
+          {%- if bs.tier3_bonus != blank -%}
+            <div class="qty-card__bonus"><span class="qty-card__bonus-ic">📘</span><span class="qty-card__bonus-tx">{{ bs.tier3_bonus }}</span></div>
+          {%- endif -%}
           {%- if bs.tier3_message != blank -%}
             <div class="qty-card__message">{{ bs.tier3_message }}</div>
           {%- endif -%}
@@ -556,8 +565,32 @@
     line-height: 1.1;
   }
 
-  .qty-card__message {
+  /* Destaque de brinde (ex.: Manual da Suplementação) */
+  .qty-card__bonus {
     order: 3;
+    flex: 0 0 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    background: linear-gradient(100deg, #fff4d6 0%, #ffe6a3 100%);
+    border: 1px solid #e6c368;
+    color: #7a5a12;
+    font-weight: 800;
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    line-height: 1.25;
+  }
+
+  .qty-card__bonus-ic {
+    font-size: 17px;
+    flex: 0 0 auto;
+    line-height: 1;
+  }
+
+  .qty-card__message {
+    order: 4;
     flex: 0 0 100%;
     margin-top: 4px;
     background: var(--qty-active-color, #54b101);
@@ -842,6 +875,12 @@
       "label": "Extra message"
     },
     {
+      "type": "text",
+      "id": "tier1_bonus",
+      "label": "Selo de brinde (destaque dourado)",
+      "info": "Ex.: + Manual da Suplementação. Deixe em branco para não exibir."
+    },
+    {
       "type": "header",
       "content": "Tier 2"
     },
@@ -902,6 +941,12 @@
       "type": "text",
       "id": "tier2_message",
       "label": "Extra message"
+    },
+    {
+      "type": "text",
+      "id": "tier2_bonus",
+      "label": "Selo de brinde (destaque dourado)",
+      "info": "Ex.: + Manual da Suplementação. Deixe em branco para não exibir."
     },
     {
       "type": "header",
@@ -965,6 +1010,13 @@
       "id": "tier3_message",
       "label": "Extra message",
       "default": "Frete Grátis + Brinde"
+    },
+    {
+      "type": "text",
+      "id": "tier3_bonus",
+      "label": "Selo de brinde (destaque dourado)",
+      "info": "Ex.: + Manual da Suplementação. Deixe em branco para não exibir.",
+      "default": "+ Manual da Suplementação"
     }
   ],
   "presets": [
