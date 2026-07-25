@@ -340,20 +340,23 @@
 
   .qty-cards__grid {
     display: flex;
+    flex-direction: column;
     gap: 12px;
   }
 
   .qty-card {
-    flex: 1;
+    width: 100%;
     border: 2px solid #e5e5e5;
     border-radius: 12px;
-    padding: 12px 10px;
+    padding: 14px 16px;
     cursor: pointer;
-    text-align: center;
+    text-align: left;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
     position: relative;
     background: #fff;
   }
@@ -368,21 +371,21 @@
   }
 
   .qty-card__badges {
+    position: absolute;
+    top: -10px;
+    right: 14px;
     display: flex;
     gap: 6px;
-    justify-content: center;
-    min-height: 52px;
-    margin-top: -20px;
-    margin-bottom: 8px;
+    justify-content: flex-end;
     flex-wrap: wrap;
-    align-items: flex-end;
-    position: relative;
+    align-items: center;
+    margin: 0;
+    min-height: 0;
     z-index: 1;
   }
 
   .qty-card__badges--empty {
-    min-height: 52px;
-    margin-top: -20px;
+    display: none;
   }
 
   .qty-card__badge {
@@ -404,13 +407,16 @@
   }
 
   .qty-card__image {
-    width: 100%;
-    max-width: 160px;
+    order: 1;
+    width: 72px;
+    height: 72px;
+    max-width: 72px;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin: 0;
+    flex: 0 0 auto;
   }
 
   .qty-card__img {
@@ -424,7 +430,9 @@
   }
 
   .qty-card__radio-wrap {
-    margin-bottom: 8px;
+    order: 0;
+    margin: 0;
+    flex: 0 0 auto;
   }
 
   .qty-card__radio {
@@ -456,7 +464,10 @@
   }
 
   .qty-card__info {
-    width: 100%;
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: left;
   }
 
   .qty-card__title {
@@ -491,32 +502,31 @@
   }
 
   .qty-card__pricing {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
     margin-bottom: 2px;
     line-height: 1.1;
   }
 
   .qty-card__installments-label {
-    font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
+    font-size: calc(var(--body-font-size, 1.4rem) * 0.9);
     color: #666;
     line-height: 1;
-    margin-bottom: 0;
   }
 
   .qty-card__installment-value {
-    display: block;
-    font-size: calc(var(--body-font-size, 1.4rem) * 1.6);
+    font-size: calc(var(--body-font-size, 1.4rem) * 1.4);
     font-weight: 700;
     color: var(--qty-active-color, #54b101);
     line-height: 1.1;
-    margin: 0;
   }
 
   .qty-card__no-interest {
-    display: block;
     font-size: calc(var(--body-font-size, 1.4rem) * 0.8);
     color: #888;
     line-height: 1;
-    margin-bottom: 4px;
   }
 
   .qty-card__cash {
@@ -547,7 +557,9 @@
   }
 
   .qty-card__message {
-    margin-top: 10px;
+    order: 3;
+    flex: 0 0 100%;
+    margin-top: 4px;
     background: var(--qty-active-color, #54b101);
     color: #fff;
     font-size: calc(var(--body-font-size, 1.4rem) * 0.85);
@@ -561,15 +573,22 @@
 
   @media (max-width: 749px) {
     .qty-cards__grid {
-      gap: 8px;
+      gap: 10px;
     }
 
     .qty-card {
-      padding: 10px 6px;
+      padding: 12px 12px;
+      gap: 10px;
     }
 
     .qty-card__image {
-      max-width: 100px;
+      width: 58px;
+      height: 58px;
+      max-width: 58px;
+    }
+
+    .qty-card__installment-value {
+      font-size: calc(var(--body-font-size, 1.4rem) * 1.3);
     }
   }
 {% endstylesheet %}
