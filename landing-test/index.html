@@ -67,9 +67,19 @@
             z-index: -2;
             pointer-events: none;
             background: radial-gradient(circle at 50% 32%, var(--bg-inner) 0%, var(--bg-mid) 46%, transparent 82%);
-            opacity: 0.32;
+            opacity: 0.28;
             mix-blend-mode: screen;
             transition: opacity 1.2s ease;
+        }
+
+        /* Darkening veil that pushes the wave field into the background
+           and keeps content readable — lighter in the centre, darker at the edges. */
+        .wave-veil {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(ellipse 120% 90% at 50% 42%, transparent 0%, rgba(2, 14, 9, 0.38) 55%, rgba(2, 12, 8, 0.78) 100%);
         }
 
         body.blue-theme {
@@ -92,7 +102,11 @@
 
         .bubble-img {
             position: absolute;
+            left: 0;
+            top: 0;
             pointer-events: none;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 0 7px rgba(190, 255, 220, 0.35));
         }
 
         @keyframes floatUpImg {
@@ -793,6 +807,7 @@
 <body>
     <canvas id="flow-scene"></canvas>
     <div class="bg-tint"></div>
+    <div class="wave-veil"></div>
     <div id="bubbles-container"></div>
 
     <header class="header">
@@ -1294,7 +1309,7 @@
                 leaf.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${floatAngle}deg)`;
             });
 
-            // Update decorative section cherries with float + light cursor parallax - ALWAYS
+            // Update decorative section cherries: float + parallax + cursor repulsion - ALWAYS
             document.querySelectorAll('.deco-berry').forEach((b, i) => {
                 const dur = 8 + i * 1.5;
                 const phase = (time + i * 1.3) * (Math.PI * 2 / dur);
@@ -1302,7 +1317,28 @@
                 const floatX = Math.cos(phase * 0.6) * 12;
                 const rot = Math.sin(phase * 0.4) * 12;
                 const parallax = currentMouse.x * (i % 2 ? 28 : -28);
-                b.style.transform = `translate(${floatX + parallax}px, ${floatY}px) rotate(${rot}deg)`;
+
+                // Push the fruit away from the pointer (works as you scroll through the sections).
+                const rect = b.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = cx - mouse.px, dy = cy - mouse.py;
+                const dist = Math.hypot(dx, dy);
+                let trx = 0, trY = 0;
+                const R = 280;
+                if (dist < R && dist > 0.001) {
+                    const f = (R - dist) / R;
+                    trx = (dx / dist) * f * 70;
+                    trY = (dy / dist) * f * 70;
+                }
+                let rx = parseFloat(b.dataset.rx) || 0;
+                let ry = parseFloat(b.dataset.ry) || 0;
+                rx += (trx - rx) * 0.12;
+                ry += (trY - ry) * 0.12;
+                b.dataset.rx = rx;
+                b.dataset.ry = ry;
+
+                b.style.transform = `translate(${floatX + parallax + rx}px, ${floatY + ry}px) rotate(${rot}deg)`;
             });
 
             requestAnimationFrame(animate);
@@ -1310,27 +1346,79 @@
 
         animate();
 
-        // Bubbles Generator using bubble.png
+        // ===================== INTERACTIVE SODA BUBBLES =====================
+        // JS-driven so they rise, drift AND flee from the cursor.
         const bubblesContainer = document.getElementById('bubbles-container');
-        function createBubble() {
-            if (!bubblesContainer) return;
-            const bubble = document.createElement('img');
-            bubble.src = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/bubble.png';
-            bubble.className = 'bubble-img';
-            const size = Math.random() * 20 + 10 + 'px';
-            bubble.style.width = size;
-            bubble.style.height = 'auto';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.bottom = '-50px';
-            bubble.style.opacity = Math.random() * 0.4 + 0.2;
+        const BUBBLE_SRC = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/bubble.png';
+        const bubbles = [];
+        const BUBBLE_MAX = 48;
 
-            const duration = Math.random() * 6 + 4;
-            bubble.style.animation = `floatUpImg ${duration}s linear forwards`;
-
-            bubblesContainer.appendChild(bubble);
-            setTimeout(() => bubble.remove(), duration * 1000);
+        function spawnBubble(seed) {
+            if (!bubblesContainer || bubbles.length >= BUBBLE_MAX) return;
+            const el = document.createElement('img');
+            el.src = BUBBLE_SRC;
+            el.className = 'bubble-img';
+            const size = Math.random() * 28 + 16;          // 16–44px (bigger, more present)
+            el.style.width = size + 'px';
+            el.style.height = 'auto';
+            const b = {
+                el, size,
+                x: Math.random() * window.innerWidth,       // px across the viewport
+                y: seed ? Math.random() * window.innerHeight : window.innerHeight + 40, // seeded ones spread across the screen
+                vy: Math.random() * 45 + 45,                // px/s rising speed
+                drift: Math.random() * Math.PI * 2,
+                driftAmp: Math.random() * 42 + 16,
+                rot: Math.random() * 360,
+                vr: (Math.random() - 0.5) * 40,
+                ox: 0, oy: 0,                                // smoothed cursor-repulsion offset
+                opacity: Math.random() * 0.4 + 0.35         // 0.35–0.75 (brighter)
+            };
+            el.style.opacity = b.opacity;
+            bubblesContainer.appendChild(el);
+            bubbles.push(b);
         }
-        setInterval(createBubble, 400);
+
+        let bubblePrev = performance.now();
+        function bubbleLoop(now) {
+            requestAnimationFrame(bubbleLoop);
+            const dt = Math.min(0.05, (now - bubblePrev) / 1000);
+            bubblePrev = now;
+            const t = now * 0.001;
+            const fadeTop = window.innerHeight * 0.14;
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                const b = bubbles[i];
+                b.y -= b.vy * dt;
+                b.rot += b.vr * dt;
+                const driftX = Math.sin(t * 0.6 + b.drift) * b.driftAmp;
+
+                // Cursor repulsion — bubbles are pushed away from the pointer.
+                const bx = b.x + driftX + b.ox;
+                const by = b.y + b.oy;
+                const dx = bx - mouse.px;
+                const dy = by - mouse.py;
+                const dist = Math.hypot(dx, dy);
+                let tox = 0, toy = 0;
+                const R = 140;
+                if (dist < R && dist > 0.001) {
+                    const f = (R - dist) / R;
+                    tox = (dx / dist) * f * 80;
+                    toy = (dy / dist) * f * 80;
+                }
+                b.ox += (tox - b.ox) * 0.12;
+                b.oy += (toy - b.oy) * 0.12;
+
+                const px = b.x + driftX + b.ox;
+                const py = b.y + b.oy;
+                b.el.style.transform = `translate(${px}px, ${py}px) rotate(${b.rot}deg)`;
+
+                // Fade out as they reach the top, then recycle.
+                if (b.y < fadeTop) b.el.style.opacity = Math.max(0, b.opacity * (b.y / fadeTop));
+                if (b.y < -60) { b.el.remove(); bubbles.splice(i, 1); }
+            }
+        }
+        requestAnimationFrame(bubbleLoop);
+        setInterval(spawnBubble, 240);
+        for (let i = 0; i < 14; i++) spawnBubble(true); // seed a few spread across the screen on load
 
         // Scroll reveal for the extended sections
         const revealEls = document.querySelectorAll('.reveal');
@@ -1430,8 +1518,8 @@
 
         // ---- Fixed parameters ----
         const bgColor = '#02160c', flameColor = '#0aff7f', flameColor2 = '#aef0c0', flameAmt = 0.2;
-        const atmoColor = '#7affbf', atmoCount = 300, atmoSize = 24, atmoSpeed = 1.0;
-        const colorLow = '#02160c', colorHigh = '#34e89a', opacity = 0.26, pointSize = 5.5, brightness = 0.45;
+        const atmoColor = '#7affbf', atmoCount = 150, atmoSize = 24, atmoSpeed = 1.0;
+        const colorLow = '#02160c', colorHigh = '#34e89a', opacity = 0.12, pointSize = 4.5, brightness = 0.30;
         const waveHeight = 3, flow = 1, tilt = 0, scale = 0.275, scrollRise = 1.0;
         const camStartY = 7, camStartZ = 16, camEndY = 0.8, camEndZ = -2;
         const lookStartZ = 2, lookEndZ = -16, parallax = 1.2, pointerRadius = 7.0, pointerStrength = 0.9;
