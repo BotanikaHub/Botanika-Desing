@@ -563,11 +563,10 @@
             padding: 2.5rem 2rem;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s ease, background 0.4s ease;
+            transition: border-color 0.4s ease, background 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
             border-color: rgba(251, 207, 232, 0.5);
             background: rgba(255, 255, 255, 0.09);
         }
@@ -709,6 +708,52 @@
             .stats-strip { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
             .section { padding: 5rem 6%; }
         }
+
+        /* ===================== MOTION UPGRADE ===================== */
+        .feature-grid, .review-grid { perspective: 1200px; }
+
+        .feature-card, .review-card {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Cursor-following pink glow inside each card */
+        .feature-card::before, .review-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(251, 207, 232, 0.20), transparent 62%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .feature-card:hover::before, .review-card:hover::before { opacity: 1; }
+        .feature-card > *, .review-card > * { position: relative; z-index: 1; }
+
+        /* Floating 3D cherries that carry the hero's motion into the sections */
+        .deco-berry {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            pointer-events: none;
+            outline: none;
+            --progress-bar-color: transparent;
+            --poster-color: transparent;
+            z-index: 0;
+            opacity: 0.85;
+            filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.35));
+        }
+        .stats-strip, .cta-band { position: relative; }
+
+        .stat-num { display: inline-block; will-change: contents; }
+
+        @media (max-width: 900px) {
+            .deco-berry { display: none; } /* keep mobile light */
+        }
     </style>
 </head>
 <body>
@@ -827,6 +872,8 @@
 
     <!-- ===================== INGREDIENTS / FEATURES ===================== -->
     <section class="section" id="ingredients">
+        <model-viewer class="deco-berry" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="30deg 80deg 105%" style="top: 4%; right: 6%; width: 130px; height: 130px;"></model-viewer>
+        <model-viewer class="deco-berry" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-60deg 60deg 105%" style="bottom: 8%; left: 2%; width: 80px; height: 80px; opacity: 0.6;"></model-viewer>
         <div class="reveal">
             <p class="section-eyebrow">What's inside</p>
             <h2 class="section-heading">Zero sugar,<br>zero compromise.</h2>
@@ -858,15 +905,17 @@
         </div>
 
         <div class="stats-strip reveal">
-            <div class="stat"><div class="stat-num">0g</div><div class="stat-label">Sugar</div></div>
-            <div class="stat"><div class="stat-num">5</div><div class="stat-label">Calories</div></div>
-            <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Recyclable</div></div>
-            <div class="stat"><div class="stat-num">2M+</div><div class="stat-label">Cans loved</div></div>
+            <div class="stat"><div class="stat-num" data-target="0" data-suffix="g">0g</div><div class="stat-label">Sugar</div></div>
+            <div class="stat"><div class="stat-num" data-target="5" data-suffix="">0</div><div class="stat-label">Calories</div></div>
+            <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">0%</div><div class="stat-label">Recyclable</div></div>
+            <div class="stat"><div class="stat-num" data-target="2" data-suffix="M+">0M+</div><div class="stat-label">Cans loved</div></div>
         </div>
     </section>
 
     <!-- ===================== REVIEWS ===================== -->
     <section class="section" id="reviews">
+        <model-viewer class="deco-berry" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="120deg 70deg 105%" style="top: 2%; left: 4%; width: 110px; height: 110px;"></model-viewer>
+        <model-viewer class="deco-berry" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="200deg 90deg 105%" style="bottom: 12%; right: 3%; width: 95px; height: 95px; opacity: 0.7;"></model-viewer>
         <div class="reveal">
             <p class="section-eyebrow">Reviews</p>
             <h2 class="section-heading">Refreshingly loved.</h2>
@@ -1209,6 +1258,17 @@
                 leaf.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${floatAngle}deg)`;
             });
 
+            // Update decorative section cherries with float + light cursor parallax - ALWAYS
+            document.querySelectorAll('.deco-berry').forEach((b, i) => {
+                const dur = 8 + i * 1.5;
+                const phase = (time + i * 1.3) * (Math.PI * 2 / dur);
+                const floatY = Math.sin(phase) * 18;
+                const floatX = Math.cos(phase * 0.6) * 12;
+                const rot = Math.sin(phase * 0.4) * 12;
+                const parallax = currentMouse.x * (i % 2 ? 28 : -28);
+                b.style.transform = `translate(${floatX + parallax}px, ${floatY}px) rotate(${rot}deg)`;
+            });
+
             requestAnimationFrame(animate);
         }
 
@@ -1264,6 +1324,62 @@
                 }
             });
         });
+
+        // ===================== MOTION UPGRADE =====================
+        const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        // 1. 3D tilt + cursor glow on cards (desktop pointers only)
+        if (fine) {
+            document.querySelectorAll('.feature-card, .review-card').forEach(card => {
+                const rX = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3' });
+                const rY = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3' });
+                const tY = gsap.quickTo(card, 'y', { duration: 0.6, ease: 'power3' });
+                const sC = gsap.quickTo(card, 'scale', { duration: 0.6, ease: 'power3' });
+                card.addEventListener('mousemove', (e) => {
+                    const r = card.getBoundingClientRect();
+                    const px = (e.clientX - r.left) / r.width;
+                    const py = (e.clientY - r.top) / r.height;
+                    rY((px - 0.5) * 16);
+                    rX((0.5 - py) * 16);
+                    tY(-10);
+                    sC(1.03);
+                    card.style.setProperty('--mx', (px * 100) + '%');
+                    card.style.setProperty('--my', (py * 100) + '%');
+                });
+                card.addEventListener('mouseleave', () => { rX(0); rY(0); tY(0); sC(1); });
+            });
+
+            // 2. Magnetic buttons
+            document.querySelectorAll('.primary-btn, .contact-btn').forEach(btn => {
+                const mX = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3' });
+                const mY = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3' });
+                btn.addEventListener('mousemove', (e) => {
+                    const r = btn.getBoundingClientRect();
+                    mX((e.clientX - (r.left + r.width / 2)) * 0.4);
+                    mY((e.clientY - (r.top + r.height / 2)) * 0.6);
+                });
+                btn.addEventListener('mouseleave', () => { mX(0); mY(0); });
+            });
+        }
+
+        // 3. Count-up stats when they scroll into view
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const target = parseFloat(el.dataset.target);
+                const suffix = el.dataset.suffix || '';
+                const obj = { v: 0 };
+                gsap.to(obj, {
+                    v: target,
+                    duration: 1.6,
+                    ease: 'power2.out',
+                    onUpdate: () => { el.textContent = Math.round(obj.v) + suffix; }
+                });
+                statObserver.unobserve(el);
+            });
+        }, { threshold: 0.6 });
+        document.querySelectorAll('.stat-num[data-target]').forEach(el => statObserver.observe(el));
     </script>
 </body>
 </html>
