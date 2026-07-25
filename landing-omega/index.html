@@ -489,23 +489,16 @@
         for (let i = 0; i < 6; i++) spawnCapsule(true);
 
         // ===== Golden koi swimming across the page =====
-        function makeKoi(id) {
-            return `<svg viewBox="0 0 120 60" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs><linearGradient id="koi${id}" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#ffe7a6"/><stop offset="0.5" stop-color="#eaa63f"/><stop offset="1" stop-color="#c67d22"/>
-                </linearGradient></defs>
-                <path d="M22 30 C 8 15 3 26 13 30 C 3 34 8 45 22 30 Z" fill="url(#koi${id})" opacity="0.9"/>
-                <path d="M108 30 C 88 12 42 14 22 30 C 42 46 88 48 108 30 Z" fill="url(#koi${id})"/>
-                <path d="M58 18 C 64 6 75 8 70 19 Z" fill="url(#koi${id})" opacity="0.85"/>
-                <path d="M62 40 C 68 52 80 50 74 39 Z" fill="url(#koi${id})" opacity="0.8"/>
-                <ellipse cx="52" cy="27" rx="10" ry="6" fill="#ff6a2e" opacity="0.5"/>
-                <ellipse cx="80" cy="31" rx="6" ry="4" fill="#ff8a3e" opacity="0.45"/>
-                <circle cx="99" cy="28" r="2.4" fill="#160d02"/>
-            </svg>`;
+        const KOI_URLS = [
+            'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_191041_14f8e42d-8cca-4847-9818-80485a2b99d2.png',
+            'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_191042_17f94fa7-ed02-4436-ba70-7701a59c2713.png'
+        ];
+        function makeKoi(i) {
+            return `<img src="${KOI_URLS[i % KOI_URLS.length]}" alt="koi dourado" style="width:100%;height:auto;display:block;pointer-events:none;">`;
         }
         const heroVisual = document.querySelector('.hero-visual');
-        const heroKoi = [...document.querySelectorAll('.hero-koi')].map((el, i) => { el.innerHTML = makeKoi('h' + i); return { el, phase: i * Math.PI, rx: 168, ry: 128, ox: 0, oy: 0 }; });
-        const pageKoi = [...document.querySelectorAll('.page-koi')].map((el, i) => { el.innerHTML = makeKoi('p' + i); return { el, phase: Math.random() * 6.28, spd: 0.10 + Math.random() * 0.06, ampX: 40 + Math.random() * 30, ampY: 16 + Math.random() * 14, ox: 0, oy: 0 }; });
+        const heroKoi = [...document.querySelectorAll('.hero-koi')].map((el, i) => { el.innerHTML = makeKoi(i); return { el, phase: i * Math.PI, rx: 215, ry: 175, ox: 0, oy: 0 }; });
+        const pageKoi = [...document.querySelectorAll('.page-koi')].map((el, i) => { el.innerHTML = makeKoi(i); return { el, phase: Math.random() * 6.28, spd: 0.10 + Math.random() * 0.06, ampX: 40 + Math.random() * 30, ampY: 16 + Math.random() * 14, ox: 0, oy: 0 }; });
 
         function koiLoop(now) {
             requestAnimationFrame(koiLoop);
@@ -521,11 +514,10 @@
                     const dx = kx - mouse.px, dy = ky - mouse.py, d = Math.hypot(dx, dy);
                     let tox = 0, toy = 0; if (d < 150 && d > 0.001) { const f = (150 - d) / 150; tox = (dx / d) * f * 45; toy = (dy / d) * f * 45; }
                     k.ox += (tox - k.ox) * 0.1; k.oy += (toy - k.oy) * 0.1;
-                    const heading = ang + Math.PI / 2;
-                    const deg = heading * 180 / Math.PI;
-                    const flip = Math.cos(heading) < 0 ? -1 : 1;
-                    const w = k.el.offsetWidth / 2, h = k.el.offsetHeight / 2;
-                    k.el.style.transform = `translate(${x - w + k.ox}px, ${y - h + k.oy}px) rotate(${deg}deg) scaleY(${flip})`;
+                    const dir = Math.sin(ang) > 0 ? -1 : 1;
+                    const tiltDeg = Math.cos(ang) * 12;
+                    const w = k.el.offsetWidth / 2, hh = k.el.offsetHeight / 2;
+                    k.el.style.transform = `translate(${x - w + k.ox}px, ${y - hh + k.oy}px) rotate(${tiltDeg}deg) scaleX(${dir})`;
                 });
             }
             pageKoi.forEach((k, i) => {
