@@ -71,12 +71,10 @@
         /* Koi tank: fish swim freely across the whole page */
         #koi-tank { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
         .koi { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
-        .koi-body {
-            width: 100%; height: auto; display: block; transform-origin: 82% 50%;
-            filter: url(#swimWarp) drop-shadow(0 12px 20px rgba(0,0,0,0.45));
-            animation-name: koiSwim; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-duration: 1.3s;
+        .koi-vid {
+            width: 100%; height: auto; display: block;
+            mix-blend-mode: screen;   /* the video's black background disappears over the dark page */
         }
-        @keyframes koiSwim { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
 
         /* Shared type */
         .gold { color: var(--gold); }
@@ -244,14 +242,6 @@
     <div class="ocean-veil"></div>
     <div id="bubbles-container"></div>
     <div id="koi-tank"></div>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-        <filter id="swimWarp" x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.014" numOctaves="2" seed="5" result="n">
-                <animate attributeName="baseFrequency" dur="3.4s" values="0.006 0.014;0.010 0.024;0.006 0.014" repeatCount="indefinite"/>
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
-        </filter>
-    </defs></svg>
 
     <header class="header" id="header">
         <div class="logo">
@@ -491,30 +481,28 @@
         for (let i = 0; i < 6; i++) spawnCapsule(true);
 
         // ===== Koi swimming freely across the whole page =====
-        const KOI_URLS = [
-            'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_192541_806d7e92-8855-45fd-82ae-24f1b16021c1.png',
-            'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_192542_c410be9a-feab-4b22-9e03-240380e7cba2.png'
-        ];
+        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_200745_cebe1550-edfb-4d7f-9a6b-4019d9f402f1.mp4';
         const koiTank = document.getElementById('koi-tank');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 1 : 2;
         function makeFish(i) {
             const el = document.createElement('div');
             el.className = 'koi';
-            const w = 165 + Math.random() * 85;                  // 165-250px (prominent)
+            const w = 300 + Math.random() * 110;                 // video box width
             el.style.width = w + 'px';
-            const dur = (0.85 + Math.random() * 0.55).toFixed(2); // tail-beat speed
-            el.innerHTML = `<img class="koi-body" src="${KOI_URLS[i % KOI_URLS.length]}" alt="koi" style="animation-duration:${dur}s; animation-delay:${(-Math.random() * 2).toFixed(2)}s">`;
+            el.innerHTML = `<video class="koi-vid" autoplay muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
+            const v = el.querySelector('video');
+            if (v && v.play) v.play().catch(() => {});
             const dir = Math.random() < 0.5 ? 1 : -1;
             const f = {
                 el, w, dir,
                 x: dir > 0 ? -w - Math.random() * innerWidth : innerWidth + Math.random() * innerWidth,
-                yBase: 40 + Math.random() * (innerHeight - 180),
-                yAmp: 30 + Math.random() * 48,
+                yBase: 40 + Math.random() * Math.max(120, innerHeight - 300),
+                yAmp: 18 + Math.random() * 30,
                 yPhase: Math.random() * 6.28,
-                ySpeed: 0.22 + Math.random() * 0.3,
-                speed: 36 + Math.random() * 30,                  // px/s
-                opacity: 0.72 + Math.random() * 0.24
+                ySpeed: 0.16 + Math.random() * 0.2,
+                speed: 20 + Math.random() * 18,                  // gentle cross-page locomotion
+                opacity: 0.92
             };
             el.style.opacity = f.opacity;
             koiTank.appendChild(el); fishes.push(f);
@@ -528,11 +516,10 @@
             const t = now * 0.001;
             for (const f of fishes) {
                 f.x += f.dir * f.speed * dt;
-                // wrap to the other side once fully off-screen, at a new height
-                if (f.dir > 0 && f.x > innerWidth + f.w + 20) { f.x = -f.w - 20; f.yBase = 40 + Math.random() * (innerHeight - 180); }
-                if (f.dir < 0 && f.x < -f.w - 20) { f.x = innerWidth + f.w + 20; f.yBase = 40 + Math.random() * (innerHeight - 180); }
+                if (f.dir > 0 && f.x > innerWidth + f.w + 20) { f.x = -f.w - 20; f.yBase = 40 + Math.random() * Math.max(120, innerHeight - 300); }
+                if (f.dir < 0 && f.x < -f.w - 20) { f.x = innerWidth + f.w + 20; f.yBase = 40 + Math.random() * Math.max(120, innerHeight - 300); }
                 const y = f.yBase + Math.sin(t * f.ySpeed + f.yPhase) * f.yAmp;
-                const face = f.dir > 0 ? 1 : -1;   // images face right by default; flip when swimming left
+                const face = f.dir > 0 ? 1 : -1;
                 f.el.style.transform = `translate(${f.x}px, ${y}px) scaleX(${face})`;
             }
         }
