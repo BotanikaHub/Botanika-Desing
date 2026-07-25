@@ -131,7 +131,7 @@
             color: var(--gold-soft); border: 1px solid rgba(232,182,76,0.4); border-radius: 100px; padding: 0.5rem 1.1rem;
             background: rgba(232,182,76,0.08); margin-bottom: 1.6rem;
         }
-        .hero h1 { font-size: clamp(3.2rem, 8vw, 6rem); letter-spacing: -0.01em; }
+        .hero h1 { font-size: clamp(2.6rem, 5.6vw, 4.4rem); letter-spacing: -0.01em; line-height: 1.04; text-wrap: balance; }
         .hero h1 .plus { font-style: italic; font-weight: 600; }
         .hero-sub { color: var(--muted); font-size: 1.1rem; line-height: 1.65; max-width: 520px; margin: 1.5rem 0 1.2rem; }
         .hero-sub b { color: var(--text); font-weight: 600; }
@@ -484,7 +484,7 @@
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_200745_cebe1550-edfb-4d7f-9a6b-4019d9f402f1.mp4';
         const koiTank = document.getElementById('koi-tank');
         const fishes = [];
-        const FISH_N = innerWidth < 760 ? 1 : 2;
+        const FISH_N = 0; // desativado ate termos um video de peixe com fundo TRANSPARENTE (alpha)
         function makeFish(i) {
             const el = document.createElement('div');
             el.className = 'koi';
