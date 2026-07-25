@@ -482,85 +482,91 @@
         setInterval(spawnCapsule, 820);
         for (let i = 0; i < 6; i++) spawnCapsule(true);
 
-        // ===== Koi swimming naturally across the page (steering, no teleport, no collisions) =====
+        // ===== Koi swimming through the whole page, anchored to the document, with depth =====
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
-        const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
-        const FISH_N = innerWidth < 760 ? 1 : 2;
+        const FISH_N = innerWidth < 760 ? 3 : 7;
+        let docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
+        addEventListener('resize', () => { docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight); }, { passive: true });
+
         function makeFish(i) {
             const el = document.createElement('div');
             el.className = 'koi';
-            const w = 260 + i * 40 + Math.random() * 40;
+            const depth = Math.random();                       // 0 = far, 1 = near
+            const w = 150 + depth * 150;                        // 150..300px (no exaggeration)
             el.style.width = w + 'px';
-            el.innerHTML = `<video class="koi-vid" autoplay muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
+            el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;   // far = softly out of focus
+            el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
             const v = el.querySelector('video');
-            if (v && v.play) v.play().catch(() => {});
             const f = {
-                el, video: v, w, h: w * 0.5625,
-                x: (0.25 + 0.5 * Math.random()) * innerWidth,
-                y: (0.25 + 0.5 * Math.random()) * innerHeight,
-                vx: (Math.random() < 0.5 ? 1 : -1) * (30 + Math.random() * 20),
-                vy: (Math.random() - 0.5) * 24,
-                wa: Math.random() * 6.28,        // wander heading
-                sep: 240
+                el, video: v, depth, w, h: w * 0.5625,
+                homeFrac: (0.06 + 0.88 * ((i + Math.random()) / FISH_N)), // spread down the page
+                x: Math.random() * innerWidth,
+                y: 0,
+                bandH: innerHeight * (0.35 + Math.random() * 0.3),
+                vx: (Math.random() < 0.5 ? 1 : -1) * (24 + depth * 26),
+                vy: (Math.random() - 0.5) * 20,
+                wa: Math.random() * 6.28,
+                op: 0.5 + depth * 0.5,
+                sep: 150 + depth * 120
             };
+            f.y = f.homeFrac * docH;                            // document-space vertical home
             document.body.appendChild(el); fishes.push(f);
         }
         for (let i = 0; i < FISH_N; i++) makeFish(i);
-
-        // scroll factor: 0 at top (fish drawn toward the bottle) -> 1 lower down (free)
-        let scrollT = 0;
-        addEventListener('scroll', () => { scrollT = Math.min(1, scrollY / (innerHeight * 0.8)); }, { passive: true });
 
         const clampv = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
         let fp = performance.now();
         function fishLoop(now) {
             requestAnimationFrame(fishLoop);
             const dt = Math.min(0.05, (now - fp) / 1000); fp = now;
-            const W = innerWidth, H = innerHeight, m = 140;
-
-            let bcx = W * 0.72, bcy = H * 0.5;
-            if (bottleWrapEl) { const r = bottleWrapEl.getBoundingClientRect(); bcx = r.left + r.width / 2; bcy = r.top + r.height / 2; }
+            const W = innerWidth, H = innerHeight, m = 130;
+            const sY = scrollY;
 
             for (const f of fishes) {
+                const homeY = f.homeFrac * docH;
                 let ax = 0, ay = 0;
-                // gentle wander (smooth random heading -> curved, natural path)
+                // smooth wander -> natural curved path
                 f.wa += (Math.random() - 0.5) * 0.5;
-                ax += Math.cos(f.wa) * 16; ay += Math.sin(f.wa) * 16;
-                // steer away from edges (turn back in, no teleport)
+                ax += Math.cos(f.wa) * 15; ay += Math.sin(f.wa) * 15;
+                // horizontal edge steering (turn back in, no teleport)
                 if (f.x < m) ax += (m - f.x) * 0.5;
                 if (f.x > W - m) ax -= (f.x - (W - m)) * 0.5;
-                if (f.y < m) ay += (m - f.y) * 0.5;
-                if (f.y > H - m) ay -= (f.y - (H - m)) * 0.5;
-                // separation (don't bump into each other)
+                // stay within its vertical band of the page (soft spring)
+                ay += (homeY - f.y) * 0.9;
+                // separation (no bumping)
                 for (const g of fishes) {
                     if (g === f) continue;
                     const dx = f.x - g.x, dy = f.y - g.y, d = Math.hypot(dx, dy);
-                    if (d > 0 && d < f.sep) { const s = (f.sep - d) / f.sep * 90; ax += dx / d * s; ay += dy / d * s; }
+                    if (d > 0 && d < f.sep) { const s = (f.sep - d) / f.sep * 70; ax += dx / d * s; ay += dy / d * s; }
                 }
-                // loose attraction to the bottle while near the top
-                if (scrollT < 0.6) { const wgt = (0.6 - scrollT) / 0.6; ax += (bcx - f.x) * 0.0016 * wgt; ay += (bcy - f.y) * 0.0016 * wgt; }
-
-                // integrate + damping
+                // integrate + damping, depth scales the pace (near = livelier)
                 f.vx = (f.vx + ax * dt) * 0.985;
                 f.vy = (f.vy + ay * dt) * 0.985;
-                // keep a lively-but-calm speed
                 let sp = Math.hypot(f.vx, f.vy) || 0.001;
-                const mx = 74, mn = 30;
+                const mx = 40 + f.depth * 55, mn = 18 + f.depth * 18;
                 if (sp > mx) { f.vx *= mx / sp; f.vy *= mx / sp; }
                 else if (sp < mn) { f.vx *= mn / sp; f.vy *= mn / sp; }
                 f.x += f.vx * dt; f.y += f.vy * dt;
 
-                const face = f.vx >= 0 ? 1 : -1;             // face travel direction
-                const tilt = clampv(f.vy * 0.06, -7, 7);      // gentle bank toward vertical motion
+                // only decode/play videos near the viewport (perf)
+                const screenY = f.y - sY;
+                const near = screenY > -H * 0.7 && screenY < H * 1.7;
+                if (f.video) {
+                    if (near && f.video.paused) f.video.play().catch(() => {});
+                    else if (!near && !f.video.paused) f.video.pause();
+                }
 
-                // hide the video's loop seam: quickly dim right at the loop boundary
-                let op = 0.95;
+                const face = f.vx >= 0 ? 1 : -1;
+                const tilt = clampv(f.vy * 0.05, -6, 6);
+
+                // hide the video's loop seam with a quick dim at the boundary
+                let op = f.op;
                 const vd = f.video;
                 if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= clampv(Math.min(ph, 1 - ph) / 0.05, 0, 1); }
                 f.el.style.opacity = op;
 
-                f.el.style.transform = `translate(${f.x - f.w / 2}px, ${f.y - f.h / 2}px) rotate(${tilt}deg) scaleX(${face})`;
+                f.el.style.transform = `translate(${f.x - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${face})`;
             }
         }
         requestAnimationFrame(fishLoop);
