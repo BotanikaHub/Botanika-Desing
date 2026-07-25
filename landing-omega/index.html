@@ -70,11 +70,12 @@
 
         /* Koi tank: fish swim freely across the whole page */
         #koi-tank { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
-        .koi { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
-        .koi-vid {
-            width: 100%; height: auto; display: block;
-            mix-blend-mode: screen;   /* the video's black background disappears over the dark page */
+        .koi {
+            position: fixed; left: 0; top: 0; pointer-events: none; will-change: transform;
+            z-index: 6;                 /* swims in front of content, below the nav */
+            mix-blend-mode: screen;     /* black video background blends away over the dark page */
         }
+        .koi-vid { width: 100%; height: auto; display: block; }
 
         /* Shared type */
         .gold { color: var(--gold); }
@@ -147,7 +148,8 @@
         .ph { color: var(--gold-soft); border-bottom: 1px dashed rgba(242,207,122,0.6); }
 
         /* floating bottle */
-        .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 60vh; }
+        .hero-copy { position: relative; z-index: 10; }
+        .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 60vh; z-index: 0; }
         .bottle-wrap { position: relative; width: min(88%, 460px); will-change: transform; }
         .bottle-img {
             width: 100%; display: block;
@@ -480,78 +482,85 @@
         setInterval(spawnCapsule, 820);
         for (let i = 0; i < 6; i++) spawnCapsule(true);
 
-        // ===== Koi swimming: orbit the bottle at top, roam on scroll =====
+        // ===== Koi swimming naturally across the page (steering, no teleport, no collisions) =====
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
-        const koiTank = document.getElementById('koi-tank');
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 1 : 2;
         function makeFish(i) {
             const el = document.createElement('div');
             el.className = 'koi';
-            const w = 300 + i * 30 + Math.random() * 40;
+            const w = 260 + i * 40 + Math.random() * 40;
             el.style.width = w + 'px';
             el.innerHTML = `<video class="koi-vid" autoplay muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
             const v = el.querySelector('video');
             if (v && v.play) v.play().catch(() => {});
             const f = {
-                el, w,
-                orbAngle: (i / Math.max(1, FISH_N)) * Math.PI * 2 + Math.random() * 0.5,
-                orbSpeed: 0.42 + Math.random() * 0.12,
-                orbRx: 210 + i * 34,
-                orbRy: 150 + i * 22,
-                dir: (i % 2) ? 1 : -1,
-                fx: Math.random() * innerWidth,
-                fyBase: 0.18 * innerHeight + Math.random() * 0.55 * innerHeight,
-                fyAmp: 36 + Math.random() * 48,
-                fyPhase: Math.random() * 6.28,
-                fySpeed: 0.16 + Math.random() * 0.2,
-                speed: 28 + Math.random() * 22
+                el, video: v, w, h: w * 0.5625,
+                x: (0.25 + 0.5 * Math.random()) * innerWidth,
+                y: (0.25 + 0.5 * Math.random()) * innerHeight,
+                vx: (Math.random() < 0.5 ? 1 : -1) * (30 + Math.random() * 20),
+                vy: (Math.random() - 0.5) * 24,
+                wa: Math.random() * 6.28,        // wander heading
+                sep: 240
             };
-            el.style.opacity = 0.95;
-            koiTank.appendChild(el); fishes.push(f);
+            document.body.appendChild(el); fishes.push(f);
         }
         for (let i = 0; i < FISH_N; i++) makeFish(i);
 
-        // scroll factor: 0 at top (fish orbit the bottle) -> 1 after ~70vh (free roaming)
+        // scroll factor: 0 at top (fish drawn toward the bottle) -> 1 lower down (free)
         let scrollT = 0;
-        addEventListener('scroll', () => { scrollT = Math.min(1, scrollY / (innerHeight * 0.7)); }, { passive: true });
+        addEventListener('scroll', () => { scrollT = Math.min(1, scrollY / (innerHeight * 0.8)); }, { passive: true });
 
+        const clampv = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
         let fp = performance.now();
         function fishLoop(now) {
             requestAnimationFrame(fishLoop);
             const dt = Math.min(0.05, (now - fp) / 1000); fp = now;
-            const t = now * 0.001;
-            const ease = scrollT * scrollT * (3 - 2 * scrollT); // smoothstep
+            const W = innerWidth, H = innerHeight, m = 140;
 
-            // current bottle centre on screen
-            let bcx = innerWidth * 0.72, bcy = innerHeight * 0.52;
+            let bcx = W * 0.72, bcy = H * 0.5;
             if (bottleWrapEl) { const r = bottleWrapEl.getBoundingClientRect(); bcx = r.left + r.width / 2; bcy = r.top + r.height / 2; }
 
             for (const f of fishes) {
-                const hh = f.w * 0.281; // half of 16:9 video height
+                let ax = 0, ay = 0;
+                // gentle wander (smooth random heading -> curved, natural path)
+                f.wa += (Math.random() - 0.5) * 0.5;
+                ax += Math.cos(f.wa) * 16; ay += Math.sin(f.wa) * 16;
+                // steer away from edges (turn back in, no teleport)
+                if (f.x < m) ax += (m - f.x) * 0.5;
+                if (f.x > W - m) ax -= (f.x - (W - m)) * 0.5;
+                if (f.y < m) ay += (m - f.y) * 0.5;
+                if (f.y > H - m) ay -= (f.y - (H - m)) * 0.5;
+                // separation (don't bump into each other)
+                for (const g of fishes) {
+                    if (g === f) continue;
+                    const dx = f.x - g.x, dy = f.y - g.y, d = Math.hypot(dx, dy);
+                    if (d > 0 && d < f.sep) { const s = (f.sep - d) / f.sep * 90; ax += dx / d * s; ay += dy / d * s; }
+                }
+                // loose attraction to the bottle while near the top
+                if (scrollT < 0.6) { const wgt = (0.6 - scrollT) / 0.6; ax += (bcx - f.x) * 0.0016 * wgt; ay += (bcy - f.y) * 0.0016 * wgt; }
 
-                // orbit target (around the bottle)
-                f.orbAngle += f.orbSpeed * dt;
-                const ox = bcx + Math.cos(f.orbAngle) * f.orbRx - f.w / 2;
-                const oy = bcy + Math.sin(f.orbAngle) * f.orbRy - hh;
+                // integrate + damping
+                f.vx = (f.vx + ax * dt) * 0.985;
+                f.vy = (f.vy + ay * dt) * 0.985;
+                // keep a lively-but-calm speed
+                let sp = Math.hypot(f.vx, f.vy) || 0.001;
+                const mx = 74, mn = 30;
+                if (sp > mx) { f.vx *= mx / sp; f.vy *= mx / sp; }
+                else if (sp < mn) { f.vx *= mn / sp; f.vy *= mn / sp; }
+                f.x += f.vx * dt; f.y += f.vy * dt;
 
-                // free-roam target (crosses the viewport, bobs up/down)
-                f.fx += f.dir * f.speed * dt;
-                if (f.dir > 0 && f.fx > innerWidth + f.w + 20) { f.fx = -f.w - 20; f.fyBase = 0.14 * innerHeight + Math.random() * 0.6 * innerHeight; }
-                if (f.dir < 0 && f.fx < -f.w - 20) { f.fx = innerWidth + f.w + 20; f.fyBase = 0.14 * innerHeight + Math.random() * 0.6 * innerHeight; }
-                const fy = f.fyBase + Math.sin(t * f.fySpeed + f.fyPhase) * f.fyAmp;
+                const face = f.vx >= 0 ? 1 : -1;             // face travel direction
+                const tilt = clampv(f.vy * 0.06, -7, 7);      // gentle bank toward vertical motion
 
-                // blend orbit -> free by scroll
-                const x = ox + (f.fx - ox) * ease;
-                const y = oy + (fy - oy) * ease;
+                // hide the video's loop seam: quickly dim right at the loop boundary
+                let op = 0.95;
+                const vd = f.video;
+                if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= clampv(Math.min(ph, 1 - ph) / 0.05, 0, 1); }
+                f.el.style.opacity = op;
 
-                // facing: orbit tangent when near top, travel dir when roaming
-                const orbitFace = Math.sin(f.orbAngle) > 0 ? -1 : 1;
-                const roamFace = f.dir > 0 ? 1 : -1;
-                const face = ease < 0.5 ? orbitFace : roamFace;
-
-                f.el.style.transform = `translate(${x}px, ${y}px) scaleX(${face})`;
+                f.el.style.transform = `translate(${f.x - f.w / 2}px, ${f.y - f.h / 2}px) rotate(${tilt}deg) scaleX(${face})`;
             }
         }
         requestAnimationFrame(fishLoop);
