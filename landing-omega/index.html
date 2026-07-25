@@ -237,6 +237,32 @@
         .footer-note { width: 100%; color: rgba(226,236,255,0.4); font-size: 0.76rem; line-height: 1.6; text-align: center; margin-top: 0.5rem; }
 
         .titleshadow { text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
+        /* ===================== MOBILE OPTIMIZATION ===================== */
+        @media (max-width: 760px) {
+            .header { padding: 1.1rem 5%; }
+            .btn-buy { padding: 0.72rem 1.3rem; font-size: 0.82rem; }
+            .hero { padding: 5.4rem 6% 2.4rem; }
+            .hero-grid { gap: 1.2rem; }
+            .hero-badge { font-size: 0.62rem; padding: 0.45rem 0.9rem; margin-bottom: 1.1rem; }
+            .hero h1 { font-size: clamp(2.2rem, 12vw, 3.1rem); }
+            .hero-sub { font-size: 1rem; margin: 1.1rem 0 0.9rem; }
+            .hero-kicker { font-size: 1.05rem; margin-bottom: 1.4rem; }
+            .hero-stats { gap: 0.9rem 1.4rem; margin-bottom: 1.6rem; }
+            .hero-stat .n { font-size: 1.35rem; }
+            .hero-visual { min-height: 40vh; }
+            .bottle-wrap { width: min(72%, 320px); }
+            .hero-cta { gap: 0.7rem; }
+            .section { padding: 4rem 6%; }
+            .eyebrow { font-size: 0.66rem; letter-spacing: 0.2em; }
+            .section h2 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+            .section .lead { font-size: 1rem; }
+            .stat-strip { padding: 1.5rem 0.8rem; gap: 0.8rem; }
+            .ing-card { padding: 1.6rem 1.2rem; }
+            .offer { padding: 4.4rem 6% 3rem; }
+            .offer h2 { font-size: clamp(2rem, 10vw, 3rem); }
+            .offer .btn-buy { font-size: 0.95rem; padding: 1rem 1.8rem; }
+            .site-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -441,7 +467,7 @@
         // ===== Omega-3 softgel capsules (fewer, gentle) =====
         const capsuleContainer = document.getElementById('bubbles-container');
         const capsules = [];
-        const CAP_MAX = 12;
+        const CAP_MAX = innerWidth < 760 ? 6 : 12;
         function spawnCapsule(seed) {
             if (!capsuleContainer || capsules.length >= CAP_MAX) return;
             const el = document.createElement('div');
@@ -486,16 +512,16 @@
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
-        const FISH_N = innerWidth < 760 ? 3 : 7;
+        const FISH_N = innerWidth < 760 ? 2 : 7;
         let docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
         addEventListener('resize', () => { docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight); }, { passive: true });
 
         function makeFish(i) {
-            const orbiter = i < 1;                              // one fish hovers between the headline and the bottle
+            const orbiter = (i < 1) && innerWidth >= 760;       // one fish hovers between headline and bottle (desktop)
             const el = document.createElement('div');
             el.className = 'koi';
             const depth = orbiter ? (0.66 + Math.random() * 0.12) : Math.random();
-            const w = 150 + depth * 150;                        // 150..300px
+            const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
             el.style.width = w + 'px';
             el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;
             el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
@@ -664,7 +690,7 @@
 
         // Ocean palette
         const bgColor = '#030a1a', flameColor = '#e8b64c', flameColor2 = '#3aa0ff', flameAmt = 0.22;
-        const atmoColor = '#8fd0ff', atmoCount = 150, atmoSize = 22, atmoSpeed = 1.0;
+        const atmoColor = '#8fd0ff', atmoCount = innerWidth < 760 ? 80 : 150, atmoSize = 22, atmoSpeed = 1.0;
         const colorLow = '#04122e', colorHigh = '#3aa0ff', opacity = 0.13, pointSize = 4.6, brightness = 0.34;
         const waveHeight = 3, flow = 1, tilt = 0, scale = 0.275, scrollRise = 1.0;
         const camStartY = 7, camStartZ = 16, camEndY = 0.8, camEndZ = -2;
@@ -676,7 +702,7 @@
 
         const canvas = document.getElementById('ocean-scene');
         const renderer = new THREE.WebGL1Renderer({ canvas, antialias: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, innerWidth < 760 ? 1.5 : 2));
         renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
 
         const scene = new THREE.Scene();
@@ -715,7 +741,7 @@
               return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
             }`;
 
-        const geo = new THREE.SphereGeometry(4.2, 200, 600);
+        const geo = new THREE.SphereGeometry(4.2, innerWidth < 760 ? 120 : 200, innerWidth < 760 ? 320 : 600);
         const uniforms = {
             uTime: { value: 0 }, uStream: { value: 0 }, uAppear: { value: 0 },
             uColLow: { value: hexToVec3(colorLow) }, uColHigh: { value: hexToVec3(colorHigh) },
@@ -908,7 +934,7 @@
             camera.layers.set(LAYERS.ENTIRE_SCENE); finalComposer.render();
         }
         function resize() {
-            const w = innerWidth, h = innerHeight, dpr = devicePixelRatio;
+            const w = innerWidth, h = innerHeight, dpr = Math.min(devicePixelRatio, innerWidth < 760 ? 1.5 : 2);
             renderer.setPixelRatio(dpr); renderer.setSize(w, h, false);
             camera.aspect = w / h; camera.updateProjectionMatrix();
             for (const c of [torusComposer, bloomComposer, finalComposer]) { c.setPixelRatio(dpr); c.setSize(w, h); }
