@@ -654,7 +654,7 @@
                 op: 0.5 + depth * 0.5,
                 sep: 150 + depth * 120,
                 orbAngle: i * Math.PI + Math.random() * 0.3,
-                orbSpeed: 0.5 + Math.random() * 0.12,
+                orbSpeed: 0.13 + Math.random() * 0.05,
                 orbRx: 195 + i * 26,
                 orbRy: 235 + i * 22,
                 face: 1, px: 0
@@ -708,8 +708,8 @@
                     f.orbAngle += f.orbSpeed * dt;
                     const anchorX = bLeft - 40;                 // hover in the gap, just left of the jar
                     const anchorY = bTop + bH * 0.42;
-                    const ox = anchorX + Math.cos(f.orbAngle) * 70;
-                    const oyS = anchorY + Math.sin(f.orbAngle) * 120;
+                    const ox = anchorX + Math.cos(f.orbAngle) * 32;
+                    const oyS = anchorY + Math.sin(f.orbAngle) * 54;
                     drawX = ox + (f.x - ox) * ease;
                     screenY = oyS + (screenY - oyS) * ease;
                     f.x = drawX; f.y = screenY + sY;            // keep coords in sync for a seamless release
@@ -731,7 +731,7 @@
                 // hide the video loop seam with a quick dim at the boundary
                 let op = f.op;
                 const vd = f.video;
-                if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= clampv(Math.min(ph, 1 - ph) / 0.022, 0, 1); }
+                if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= (0.6 + 0.4 * clampv(Math.min(ph, 1 - ph) / 0.03, 0, 1)); }
                 f.el.style.opacity = op;
 
                 f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.face})`;
