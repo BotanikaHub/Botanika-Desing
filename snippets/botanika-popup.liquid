@@ -100,11 +100,14 @@
           'or=4dd10b18-ee4b-453b-9e91-3baa3212a826',
           'email=' + encodeURIComponent(email)
         ].join('&');
-        var s = document.createElement('script');
-        s.src = 'https://botanika1.activehosted.com/proc.php?' + params + '&jsonp=true';
-        s.charset = 'utf-8';
-        s.onload = s.onerror = function () { if (s.parentNode) s.parentNode.removeChild(s); };
-        document.body.appendChild(s);
+        // Envio "fire and forget": registra o contato no AC sem executar a resposta
+        // do proc.php (evita que qualquer JS de retorno do AC recarregue/redirecione
+        // a pagina e feche a tela do cupom). keepalive garante o envio mesmo se a aba mudar.
+        try {
+          fetch('https://botanika1.activehosted.com/proc.php?' + params + '&jsonp=true', {
+            method: 'GET', mode: 'no-cors', credentials: 'omit', keepalive: true
+          }).catch(function () {});
+        } catch (e) {}
       }
 
       // envio do e-mail (fetch, sem recarregar) -> revela cupom
