@@ -53,7 +53,7 @@
             background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 0%, rgba(3, 10, 26, 0.45) 55%, rgba(2, 6, 18, 0.85) 100%);
         }
         #bubbles-container {
-            position: fixed; inset: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 20; overflow: hidden;
         }
         /* Omega-3 softgel capsules (replace the soda bubbles) */
@@ -137,7 +137,7 @@
             .hero-copy .hero-sub { margin-left: 0; margin-right: 0; }
             .hero-copy .hero-stats { justify-content: flex-start; }
             .hero-copy .hero-cta { justify-content: flex-start; }
-            .bottle-wrap { width: min(94%, 500px); }
+            .bottle-wrap { width: min(104%, 640px); }
         }
 
         .hero-badge {
@@ -163,17 +163,17 @@
 
         /* floating bottle */
         .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; margin: 0.2rem auto 1.4rem; z-index: 0; }
-        .bottle-wrap { position: relative; width: min(66%, 300px); will-change: transform; }
+        .bottle-wrap { position: relative; width: min(84%, 440px); will-change: transform; }
         .bottle-img {
             width: 100%; display: block;
             animation: bottleFloat 7s ease-in-out infinite;
-            filter: drop-shadow(0 30px 55px rgba(0,0,0,0.55));
+            filter: drop-shadow(0 38px 70px rgba(0,0,0,0.6));
         }
-        @keyframes bottleFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-22px); } }
+        @keyframes bottleFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-26px); } }
         .bottle-glow {
-            position: absolute; inset: -10% -8%; z-index: -1; border-radius: 50%;
-            background: radial-gradient(circle, rgba(58,160,255,0.4) 0%, rgba(232,182,76,0.22) 42%, transparent 72%);
-            filter: blur(30px);
+            position: absolute; inset: -14% -12%; z-index: -1; border-radius: 50%;
+            background: radial-gradient(circle, rgba(58,160,255,0.46) 0%, rgba(232,182,76,0.26) 42%, transparent 72%);
+            filter: blur(38px);
         }
         .scroll-hint { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); font-family: 'Manrope', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); animation: hintBob 2s ease-in-out infinite; }
         @keyframes hintBob { 0%,100% { transform: translate(-50%,0); opacity:0.6; } 50% { transform: translate(-50%,6px); opacity:1; } }
@@ -263,7 +263,7 @@
             .hero-stats { gap: 0.9rem 1.4rem; margin-bottom: 1.6rem; }
             .hero-stat .n { font-size: 1.35rem; }
             .hero-visual { margin: 0.2rem auto 1rem; }
-            .bottle-wrap { width: min(60%, 272px); }
+            .bottle-wrap { width: min(80%, 360px); }
             .hero-cta { gap: 0.7rem; }
             .section { padding: 4rem 6%; }
             .eyebrow { font-size: 0.66rem; letter-spacing: 0.2em; }
@@ -504,19 +504,29 @@
         }
         bottleLoop();
 
-        // ===== Omega-3 softgel capsules (fewer, gentle) =====
+        // ===== Omega-3 softgel capsules (document-anchored so scrolling never freezes them) =====
         const capsuleContainer = document.getElementById('bubbles-container');
         const capsules = [];
         const CAP_MAX = innerWidth < 760 ? 6 : 12;
+        // The layer is position:absolute over the whole document; the browser scrolls it
+        // with the page, so momentum-scroll can't leave the capsules stuck mid-air.
+        function sizeCapsuleLayer() {
+            const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
+            if (capsuleContainer) capsuleContainer.style.height = h + 'px';
+        }
+        sizeCapsuleLayer();
+        addEventListener('resize', sizeCapsuleLayer, { passive: true });
         function spawnCapsule(seed) {
             if (!capsuleContainer || capsules.length >= CAP_MAX) return;
             const el = document.createElement('div');
             el.className = 'capsule';
             const w = Math.random() * 20 + 26;            // 26-46px (destaque)
             el.style.width = w + 'px'; el.style.height = (w * 0.42) + 'px';
+            const viewTop = scrollY;
             const c = {
                 el, x: Math.random() * innerWidth,
-                y: seed ? Math.random() * innerHeight : innerHeight + 40,
+                // y is in document space; seed inside the current viewport, else just below it
+                y: seed ? viewTop + Math.random() * innerHeight : viewTop + innerHeight + 40,
                 vy: Math.random() * 20 + 16,              // slow, gentle rise
                 drift: Math.random() * Math.PI * 2, driftAmp: Math.random() * 24 + 10,
                 tilt: Math.random() * 60 - 30, rot: 0, vr: (Math.random() - 0.5) * 14,
@@ -529,19 +539,23 @@
         function capsuleLoop(now) {
             requestAnimationFrame(capsuleLoop);
             const dt = Math.min(0.05, (now - cp) / 1000); cp = now;
-            const t = now * 0.001; const fadeTop = innerHeight * 0.14;
+            const t = now * 0.001;
+            const viewTop = scrollY;
+            const fadeSpan = innerHeight * 0.14;
             for (let i = capsules.length - 1; i >= 0; i--) {
                 const c = capsules[i];
                 c.y -= c.vy * dt; c.rot += c.vr * dt;
                 const dxr = Math.sin(t * 0.5 + c.drift) * c.driftAmp;
-                const bx = c.x + dxr + c.ox, by = c.y + c.oy;
-                const dx = bx - mouse.px, dy = by - mouse.py, dist = Math.hypot(dx, dy);
+                const bx = c.x + dxr + c.ox;
+                const screenY = (c.y + c.oy) - viewTop;   // viewport-space Y for cursor repel
+                const dx = bx - mouse.px, dy = screenY - mouse.py, dist = Math.hypot(dx, dy);
                 let tox = 0, toy = 0; const R = 120;
                 if (dist < R && dist > 0.001) { const f = (R - dist) / R; tox = (dx / dist) * f * 55; toy = (dy / dist) * f * 55; }
                 c.ox += (tox - c.ox) * 0.1; c.oy += (toy - c.oy) * 0.1;
                 c.el.style.transform = `translate(${c.x + dxr + c.ox}px, ${c.y + c.oy}px) rotate(${c.tilt + c.rot}deg)`;
-                if (c.y < fadeTop) c.el.style.opacity = Math.max(0, c.opacity * (c.y / fadeTop));
-                if (c.y < -60) { c.el.remove(); capsules.splice(i, 1); }
+                const distFromTop = c.y - viewTop;         // how far below the viewport top (px)
+                if (distFromTop < fadeSpan) c.el.style.opacity = Math.max(0, c.opacity * (distFromTop / fadeSpan));
+                if (distFromTop < -60) { c.el.remove(); capsules.splice(i, 1); }
             }
         }
         requestAnimationFrame(capsuleLoop);
