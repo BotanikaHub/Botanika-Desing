@@ -728,6 +728,9 @@
                 const ddx = drawX - f.px;
                 if (Math.abs(ddx) > 0.4) f.face = ddx > 0 ? 1 : -1;
                 f.px = drawX;
+                // smoothly turn toward the facing target instead of snapping (a gentle mirror turn)
+                if (f.faceAnim === undefined) f.faceAnim = f.face;
+                f.faceAnim += (f.face - f.faceAnim) * Math.min(1, dt * 5);
                 const tilt = clampv(f.vy * 0.05, -6, 6);
 
                 // decode only near the viewport
@@ -751,7 +754,7 @@
                 }
                 f.el.style.opacity = f.op * clampv(vis, 0, 1);
 
-                f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.face})`;
+                f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.faceAnim})`;
             }
         }
         requestAnimationFrame(fishLoop);
