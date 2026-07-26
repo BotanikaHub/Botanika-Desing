@@ -237,6 +237,21 @@
         .hex:hover .hex-ic { transform: translateY(-6px) scale(1.05); }
         .hex-lab { font-family:'Manrope',sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); max-width: 130px; line-height: 1.4; }
 
+        /* ===== Social proof: scroll-driven scattered gallery (cards scale in/out) ===== */
+        .proof { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; padding: 5rem 5% 4rem; }
+        .proof-head { text-align: center; max-width: 720px; margin: 0 auto 2.6rem; }
+        .proof-head h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); margin-bottom: 0.9rem; }
+        .proof-head .lead { color: var(--muted); font-size: 1.08rem; line-height: 1.7; margin: 0 auto; }
+        .proof-grid { display: grid; grid-template-columns: repeat(var(--pcols, 4), 1fr); gap: 1rem; }
+        .proof-cell { aspect-ratio: 2 / 3; }
+        .proof-card {
+            width: 100%; height: 100%; border-radius: 18px; overflow: hidden;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55); transform: scale(0); will-change: transform;
+        }
+        .proof-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 760px) { .proof { padding: 3rem 6% 2rem; } .proof-grid { gap: 0.7rem; } }
+
         /* Offer */
         .offer { position: relative; z-index: 5; max-width: 900px; margin: 0 auto; text-align: center; padding: 6rem 5% 4rem; }
         .offer h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); margin-bottom: 1rem; }
@@ -394,6 +409,16 @@
         </div>
         <div class="scroll-hint">role ↓</div>
     </main>
+
+    <!-- ===== SOCIAL PROOF (scroll-driven gallery) ===== -->
+    <section class="proof" id="provas">
+        <div class="proof-head reveal">
+            <p class="eyebrow">Provas reais</p>
+            <h2 class="titleshadow">Quem já cuida da saúde <span class="gold">com a Botanika</span>.</h2>
+            <p class="lead">Milhares de pessoas já sentiram a diferença no dia a dia.</p>
+        </div>
+        <div class="proof-grid" id="proofGrid"></div>
+    </section>
 
     <!-- ===== PROBLEM ===== -->
     <section class="section">
@@ -619,6 +644,84 @@
                 }
             }
             requestAnimationFrame(capOrbit);
+        })();
+
+        // ===== Social-proof gallery: scattered cards scale in/out as you scroll through =====
+        (function () {
+            const grid = document.getElementById('proofGrid');
+            if (!grid) return;
+            const IMAGES = [
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_104530_521b2f85-c0f3-4d0e-9704-b578315b4cb9.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103711_76ccdb8b-5043-4f47-9c54-4379713393ea.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103728_394f6a1b-85e2-4386-a4f6-408472a0a5b7.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103739_86743e0e-16a7-4bee-bf38-dd67985344dc.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103748_b2215dc8-a3a7-470d-b19a-5b87fa7d0c37.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103758_e919ce72-5c9d-4b87-9be6-d7647b34825c.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103808_013583d0-3386-4547-9832-37c7d8edb3ac.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103937_a0c49d0a-33eb-4ead-aea6-c1baf241acbc.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_103956_d18ed8fd-7b6f-4b86-91f9-20010fe38670.png&w=1920&q=85',
+                'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260629_104034_ba5a9963-87ff-4008-a545-6bd686c088b5.png&w=1920&q=85'
+            ];
+            let cards = [];
+            const colsFor = (w) => w < 640 ? 2 : (w < 1024 ? 3 : 4);
+            // scattered layout: place images in a shifting pattern, leave the rest empty
+            function buildLayout(count, cols) {
+                const cells = []; let placed = 0, r = 0;
+                while (placed < count) {
+                    const base = r * cols;
+                    for (let c = 0; c < cols; c++) cells[base + c] = -1;
+                    const a = (r * 2 + (r % 2)) % cols;
+                    cells[base + a] = placed++;
+                    if (r % 3 === 0 && placed < count) {
+                        let b = (a + 2) % cols; if (b === a) b = (a + 1) % cols;
+                        cells[base + b] = placed++;
+                    }
+                    r++;
+                }
+                const total = Math.ceil(cells.length / cols) * cols;
+                for (let i = cells.length; i < total; i++) cells[i] = -1;
+                return cells;
+            }
+            function render() {
+                const cols = colsFor(innerWidth);
+                grid.style.setProperty('--pcols', cols);
+                const cells = buildLayout(IMAGES.length, cols);
+                grid.innerHTML = ''; cards = [];
+                cells.forEach((idx, i) => {
+                    const cell = document.createElement('div');
+                    cell.className = 'proof-cell';
+                    if (idx >= 0) {
+                        const card = document.createElement('div');
+                        card.className = 'proof-card';
+                        const col = i % cols;
+                        card.style.transformOrigin = (col < cols / 2) ? 'right bottom' : 'left bottom';
+                        const img = document.createElement('img');
+                        img.loading = 'lazy'; img.decoding = 'async';
+                        img.src = IMAGES[idx]; img.alt = 'Prova social';
+                        card.appendChild(img); cell.appendChild(card);
+                        cards.push({ cell, card });
+                    }
+                    grid.appendChild(cell);
+                });
+            }
+            render();
+            let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 200); }, { passive: true });
+            function proofLoop() {
+                requestAnimationFrame(proofLoop);
+                const vh = innerHeight;
+                for (const c of cards) {
+                    const r = c.cell.getBoundingClientRect();
+                    let s;
+                    if (r.bottom <= 0 || r.top >= vh) s = 0;
+                    else {
+                        const enter = Math.min(1, (vh - r.top) / (vh * 0.6));   // scale up as it rises in
+                        const exit = Math.min(1, r.bottom / (vh * 0.4));         // scale down as it leaves the top
+                        s = Math.max(0, Math.min(enter, exit));
+                    }
+                    c.card.style.transform = 'scale(' + s.toFixed(3) + ')';
+                }
+            }
+            requestAnimationFrame(proofLoop);
         })();
 
         // ===== Scroll reveal + count-up (robust; runs even if later blocks fail) =====
