@@ -384,11 +384,23 @@
         @media (max-width: 760px) { .countdown { gap: 0.5rem; } .cd-box { min-width: 66px; padding: 0.8rem 0.4rem; } .scarcity { padding: 3.4rem 6%; } }
 
         /* Footer */
-        .site-footer { position: relative; z-index: 5; border-top: 1px solid var(--glass-border); padding: 3rem 5%; max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.4rem; }
-        .footer-links { display: flex; flex-wrap: wrap; gap: 1.6rem; }
-        .footer-links a { color: var(--muted); text-decoration: none; font-family:'Manrope',sans-serif; font-size: 0.88rem; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--gold); }
-        .footer-note { width: 100%; color: rgba(226,236,255,0.4); font-size: 0.76rem; line-height: 1.6; text-align: center; margin-top: 0.5rem; }
+        .site-footer { position: relative; z-index: 5; border-top: 1px solid var(--glass-border); padding: 3.4rem 6% 2.4rem; max-width: 1160px; margin: 0 auto; }
+        .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2.4rem; }
+        .footer-brand .logo { margin-bottom: 1rem; }
+        .footer-tag { color: var(--muted); font-size: 0.9rem; line-height: 1.6; max-width: 300px; margin-bottom: 1.3rem; }
+        .footer-social { display: flex; gap: 0.7rem; }
+        .footer-social a { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--glass-border); color: var(--muted); transition: color .3s, border-color .3s, transform .2s; }
+        .footer-social a:hover { color: var(--gold); border-color: rgba(232,182,76,0.6); transform: translateY(-2px); }
+        .footer-social svg { width: 18px; height: 18px; }
+        .footer-col h4 { font-family:'Manrope',sans-serif; text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--gold); margin-bottom: 1rem; }
+        .footer-col a, .footer-col span { display: block; color: var(--muted); text-decoration: none; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--text); }
+        .pay-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .pay-badges span { font-family:'Manrope',sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.4rem 0.7rem; margin: 0; }
+        .footer-bottom { border-top: 1px solid var(--glass-border); margin-top: 2.6rem; padding-top: 1.8rem; }
+        .footer-legal { color: rgba(226,236,255,0.42); font-size: 0.76rem; line-height: 1.65; margin-bottom: 0.9rem; }
+        .footer-legal b { color: rgba(226,236,255,0.62); }
+        .footer-copy { color: rgba(226,236,255,0.35); font-size: 0.76rem; }
 
         .titleshadow { text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
         /* ===================== MOBILE OPTIMIZATION ===================== */
@@ -415,7 +427,8 @@
             .offer { padding: 4.4rem 6% 3rem; }
             .offer h2 { font-size: clamp(2rem, 10vw, 3rem); }
             .offer .btn-buy { font-size: 0.95rem; padding: 1rem 1.8rem; }
-            .site-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .site-footer { padding: 2.6rem 6% 2rem; }
+            .footer-top { grid-template-columns: 1fr; gap: 1.9rem; }
         }
     </style>
 </head>
@@ -578,7 +591,7 @@
         <p class="lead">Sem brinde, sem pegadinha — só o <b>desconto real por quantidade</b>. Escolha seu kit e garanta o preço de hoje.</p>
         <button type="button" class="coupon" id="coupon" data-code="BOTANIKA" aria-label="Copiar cupom BOTANIKA de 5% de desconto">
             <svg class="coupon-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4Z"/><path d="M10 6v12" stroke-dasharray="2 2.4"/></svg>
-            <span class="coupon-txt">Use o cupom <span class="coupon-code">BOTANIKA</span> e ganhe <b>5% OFF</b> em qualquer produto.</span>
+            <span class="coupon-txt">Use o cupom <span class="coupon-code">BOTANIKA</span> e ganhe <b>5% OFF</b> em qualquer kit de Ômega 3.</span>
             <span class="coupon-cta" id="couponCta">Toque para copiar</span>
         </button>
         <div class="plans" id="plans">
@@ -655,18 +668,39 @@
 
     <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
-        <div class="logo">
-            <span class="logo-mark" aria-hidden="true"></span>
-            <span><b>botanika</b></span>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-mark" aria-hidden="true"></span>
+                    <span><b>botanika</b></span>
+                </div>
+                <p class="footer-tag">Suplementos alimentares desenvolvidos para o cuidado real e contínuo com a sua saúde.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/botanikabrasil/" target="_blank" rel="noopener" aria-label="Instagram da Botanika">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="https://wa.me/5531972679362" target="_blank" rel="noopener" aria-label="WhatsApp da Botanika">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.94-.26-.1-.45-.15-.65.15-.19.28-.74.94-.9 1.13-.17.19-.33.21-.62.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.73-1.63-2.02-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.5.07-.77.36-.26.29-1 .98-1 2.4 0 1.41 1.03 2.78 1.17 2.97.14.19 2.02 3.08 4.9 4.32.68.29 1.22.47 1.63.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.05-1.32A10 10 0 1 0 12 2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a>
+                <a href="tel:+5531972679362">+55 (31) 97267-9362</a>
+                <span>Seg a sex · 9h às 18h</span>
+            </div>
+            <div class="footer-col">
+                <h4>Pagamento seguro</h4>
+                <div class="pay-badges">
+                    <span>PIX</span><span>VISA</span><span>MASTER</span><span>ELO</span><span>AMEX</span><span>BOLETO</span>
+                </div>
+            </div>
         </div>
-        <nav class="footer-links">
-            <a href="#inicio">Início</a>
-            <a href="#formula">Fórmula</a>
-            <a href="#beneficios">Benefícios</a>
-            <a href="#garantia">Garantia</a>
-            <a href="https://botanikabrasil.com.br/products/super-omega-3-coq10" target="_blank" rel="noopener">Comprar</a>
-        </nav>
-        <p class="footer-note">© 2025 Botanika. Super Ômega 3 + CoQ10 · 90 cápsulas · 144 g. Suplemento alimentar. Este produto não deve ser consumido por gestantes, lactantes e crianças sem orientação de nutricionista ou médico. Não substitui uma alimentação equilibrada.</p>
+        <div class="footer-bottom">
+            <p class="footer-legal"><b>Aviso legal:</b> este produto é um suplemento alimentar e não substitui uma alimentação equilibrada. Auxilia na manutenção de níveis saudáveis de lipídios no sangue quando associado a hábitos saudáveis. Não trata, previne ou cura doenças. Não deve ser consumido por gestantes, lactantes e crianças. Contém derivados de peixe. Em caso de dúvida, consulte um profissional de saúde.</p>
+            <p class="footer-copy">© 2026 Botanika Brasil. Super Ômega 3 + CoQ10 · 90 cápsulas · 144 g. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
     <!-- ===== App JS: header, bubbles, motion, count-up ===== -->
