@@ -52,6 +52,17 @@
             position: fixed; inset: 0; z-index: -1; pointer-events: none;
             background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 0%, rgba(3, 10, 26, 0.45) 55%, rgba(2, 6, 18, 0.85) 100%);
         }
+        /* Progressive calm: waves stay lively in the hero, then dissolve softly toward the bottom */
+        .wave-fade {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; pointer-events: none;
+            background: linear-gradient(to bottom,
+                rgba(3, 10, 26, 0) 0%,
+                rgba(3, 10, 26, 0) 32%,
+                rgba(3, 9, 22, 0.42) 56%,
+                rgba(2, 7, 18, 0.76) 78%,
+                rgba(2, 5, 14, 0.95) 100%);
+        }
         #bubbles-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 20; overflow: hidden;
@@ -281,6 +292,7 @@
 <body>
     <canvas id="ocean-scene"></canvas>
     <div class="ocean-veil"></div>
+    <div class="wave-fade"></div>
     <div id="bubbles-container"></div>
     <div id="koi-tank"></div>
 
@@ -500,7 +512,7 @@
             requestAnimationFrame(bottleLoop);
             cmouse.x += (mouse.x - cmouse.x) * 0.06;
             cmouse.y += (mouse.y - cmouse.y) * 0.06;
-            if (bottleWrap) bottleWrap.style.transform = `translate(${cmouse.x * 36}px, ${cmouse.y * 26}px) rotate(${cmouse.x * 5}deg)`;
+            if (bottleWrap) bottleWrap.style.transform = `translate(${cmouse.x * 30}px, ${cmouse.y * 22}px) rotate(${-14 + cmouse.x * 5}deg)`;
         }
         bottleLoop();
 
@@ -510,9 +522,11 @@
         const CAP_MAX = innerWidth < 760 ? 6 : 12;
         // The layer is position:absolute over the whole document; the browser scrolls it
         // with the page, so momentum-scroll can't leave the capsules stuck mid-air.
+        const waveFadeEl = document.querySelector('.wave-fade');
         function sizeCapsuleLayer() {
             const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
             if (capsuleContainer) capsuleContainer.style.height = h + 'px';
+            if (waveFadeEl) waveFadeEl.style.height = h + 'px';
         }
         sizeCapsuleLayer();
         addEventListener('resize', sizeCapsuleLayer, { passive: true });
@@ -561,6 +575,55 @@
         requestAnimationFrame(capsuleLoop);
         setInterval(spawnCapsule, 820);
         for (let i = 0; i < 6; i++) spawnCapsule(true);
+
+        // ===== Capsules swarming around the diagonal bottle (like the soda-can reference) =====
+        const bottleForCaps = document.getElementById('bottleWrap');
+        const orbitCaps = [];
+        const ORBIT_N = innerWidth < 760 ? 8 : 15;
+        function makeOrbitCap(i) {
+            if (!capsuleContainer) return;
+            const el = document.createElement('div');
+            el.className = 'capsule';
+            const w = Math.random() * 16 + 20;            // 20-36px
+            el.style.width = w + 'px'; el.style.height = (w * 0.42) + 'px';
+            const o = {
+                el, w, h: w * 0.42,
+                ang: (i / ORBIT_N) * Math.PI * 2 + Math.random() * 0.4,
+                spd: (0.22 + Math.random() * 0.3) * (Math.random() < 0.5 ? 1 : -1),
+                rx: 0.55 + Math.random() * 0.55,          // spread around the jar
+                ry: 0.55 + Math.random() * 0.6,
+                bob: Math.random() * Math.PI * 2, bobAmp: 5 + Math.random() * 7,
+                tilt: Math.random() * 360, vr: (Math.random() - 0.5) * 22,
+                rot: 0, ox: 0, oy: 0, op: Math.random() * 0.22 + 0.68
+            };
+            el.style.opacity = o.op;
+            capsuleContainer.appendChild(el); orbitCaps.push(o);
+        }
+        for (let i = 0; i < ORBIT_N; i++) makeOrbitCap(i);
+
+        let ocp = performance.now();
+        function orbitCapLoop(now) {
+            requestAnimationFrame(orbitCapLoop);
+            const dt = Math.min(0.05, (now - ocp) / 1000); ocp = now;
+            if (!bottleForCaps) return;
+            const r = bottleForCaps.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const cyDoc = r.top + r.height / 2 + scrollY;    // document-space centre of the jar
+            const radx = r.width * 0.6, rady = r.height * 0.5;
+            const t = now * 0.001;
+            for (const o of orbitCaps) {
+                o.ang += o.spd * dt; o.rot += o.vr * dt;
+                const bx = cx + Math.cos(o.ang) * radx * o.rx;
+                const byDoc = cyDoc + Math.sin(o.ang) * rady * o.ry + Math.sin(t + o.bob) * o.bobAmp;
+                const screenY = byDoc - scrollY;                 // viewport-space for cursor repel
+                const dx = bx - mouse.px, dy = screenY - mouse.py, dist = Math.hypot(dx, dy);
+                let tox = 0, toy = 0; const R = 110;
+                if (dist < R && dist > 0.001) { const f = (R - dist) / R; tox = (dx / dist) * f * 48; toy = (dy / dist) * f * 48; }
+                o.ox += (tox - o.ox) * 0.1; o.oy += (toy - o.oy) * 0.1;
+                o.el.style.transform = `translate(${bx + o.ox - o.w / 2}px, ${byDoc + o.oy - o.h / 2}px) rotate(${o.tilt + o.rot}deg)`;
+            }
+        }
+        requestAnimationFrame(orbitCapLoop);
 
         // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
