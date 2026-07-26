@@ -401,12 +401,11 @@
         .footer-legal { color: rgba(226,236,255,0.42); font-size: 0.76rem; line-height: 1.65; margin-bottom: 0.9rem; }
         .footer-legal b { color: rgba(226,236,255,0.62); }
         .footer-copy { color: rgba(226,236,255,0.35); font-size: 0.76rem; }
-        .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: rgba(10,18,38,0.72); backdrop-filter: blur(6px); border: 1px solid rgba(232,182,76,0.6); display: grid; place-items: center; transition: transform .2s, border-color .3s, background .3s; }
-        .wa-float:hover { transform: scale(1.08); border-color: var(--gold); background: rgba(232,182,76,0.12); }
-        .wa-float svg { width: 30px; height: 30px; color: var(--gold-soft); position: relative; z-index: 1; }
-        .wa-float::after { content:''; position:absolute; inset:0; border-radius:50%; box-shadow: 0 0 0 0 rgba(232,182,76,0.5); animation: waPulse 2.4s infinite; }
-        @keyframes waPulse { 0% { box-shadow: 0 0 0 0 rgba(232,182,76,0.5); } 70% { box-shadow: 0 0 0 16px rgba(232,182,76,0); } 100% { box-shadow: 0 0 0 0 rgba(232,182,76,0); } }
-        @media (max-width: 760px) { .wa-float { width: 52px; height: 52px; right: 16px; bottom: 16px; } .wa-float svg { width: 27px; height: 27px; } }
+        .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: rgba(10,18,38,0.72); backdrop-filter: blur(6px); border: none; display: grid; place-items: center; transition: transform .2s, background .3s; animation: waGlow 2.4s ease-in-out infinite; }
+        .wa-float:hover { transform: scale(1.08); background: rgba(232,182,76,0.12); }
+        .wa-float svg { width: 32px; height: 32px; color: var(--gold-soft); }
+        @keyframes waGlow { 0%, 100% { box-shadow: 0 0 12px 2px rgba(232,182,76,0.3); } 50% { box-shadow: 0 0 24px 7px rgba(232,182,76,0.6); } }
+        @media (max-width: 760px) { .wa-float { width: 52px; height: 52px; right: 16px; bottom: 16px; } .wa-float svg { width: 29px; height: 29px; } }
 
         .titleshadow { text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
         /* ===================== MOBILE OPTIMIZATION ===================== */
