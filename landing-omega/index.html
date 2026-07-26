@@ -286,6 +286,14 @@
         .plan-jars .jar + .jar { margin-left: -44px; }
         .plan-jars .jar:nth-child(2) { top: 6px; z-index: 2; animation-delay: -1.6s; }
         .plan-jars .jar:nth-child(3) { top: 12px; z-index: 1; animation-delay: -3.2s; }
+        /* omega capsules orbiting the bottles inside each plan (hero-style) */
+        .plan-cap {
+            position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; border-radius: 50%;
+            background: linear-gradient(120deg, #ffe6a6 0%, #f2b544 46%, #c67d22 100%);
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.6), inset -2px -1px 5px rgba(120,70,10,0.5), 0 0 8px rgba(255,190,90,0.3);
+            will-change: transform;
+        }
+        .plan-cap::after { content:''; position:absolute; left:16%; top:20%; width:34%; height:34%; background: radial-gradient(circle, rgba(255,255,255,0.85), transparent 70%); border-radius:50%; }
         .plan-name { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; color: #fff; letter-spacing: 0.01em; }
         .plan-sub { margin: 0.4rem 0 0.7rem; min-height: 1.5rem; }
         .plan-tag { font-size: 0.82rem; color: var(--muted); }
@@ -568,6 +576,59 @@
                     p.classList.add('selected'); p.setAttribute('aria-pressed', 'true');
                 });
             });
+
+            // capsules gently orbiting the bottles inside each plan (more per kit)
+            const CAP_COUNT = { '1': 4, '2': 6, '3': 8 };
+            const groups = [];
+            plans.forEach(plan => {
+                const jars = plan.querySelector('.plan-jars');
+                if (!jars) return;
+                const n = CAP_COUNT[plan.dataset.plan] || 4;
+                const caps = [];
+                for (let i = 0; i < n; i++) {
+                    const el = document.createElement('span');
+                    el.className = 'plan-cap';
+                    const w = 12 + Math.random() * 8;   // 12-20px
+                    el.style.width = w + 'px'; el.style.height = (w * 0.42) + 'px';
+                    plan.appendChild(el);
+                    caps.push({
+                        el, op: 0.5 + Math.random() * 0.35,
+                        ang: (i / n) * Math.PI * 2 + Math.random() * 0.5,
+                        spd: (0.16 + Math.random() * 0.2) * (Math.random() < 0.5 ? 1 : -1),
+                        rf: 0.82 + Math.random() * 0.5,          // radius factor
+                        rot: Math.random() * 360, vr: (Math.random() - 0.5) * 36,
+                        bob: Math.random() * 6.28, bobAmp: 2 + Math.random() * 4
+                    });
+                }
+                groups.push({ jars, caps, cx: 0, cy: 0, rx: 0, ry: 0 });
+            });
+            function measureCaps() {
+                for (const g of groups) {
+                    g.cx = g.jars.offsetLeft + g.jars.offsetWidth / 2;
+                    g.cy = g.jars.offsetTop + g.jars.offsetHeight / 2;
+                    g.rx = g.jars.offsetWidth * 0.52;
+                    g.ry = g.jars.offsetHeight * 0.44;
+                }
+            }
+            measureCaps();
+            addEventListener('resize', measureCaps, { passive: true });
+            setTimeout(measureCaps, 500); setTimeout(measureCaps, 1400);
+            let pcp = performance.now();
+            function capOrbit(now) {
+                requestAnimationFrame(capOrbit);
+                const dt = Math.min(0.05, (now - pcp) / 1000); pcp = now;
+                const time = now * 0.001;
+                for (const g of groups) {
+                    for (const c of g.caps) {
+                        c.ang += c.spd * dt; c.rot += c.vr * dt;
+                        const x = g.cx + Math.cos(c.ang) * g.rx * c.rf;
+                        const y = g.cy + Math.sin(c.ang) * g.ry * c.rf + Math.sin(time + c.bob) * c.bobAmp;
+                        c.el.style.transform = `translate(${x}px, ${y}px) rotate(${c.rot}deg)`;
+                        c.el.style.opacity = c.op * (0.6 + 0.4 * (Math.sin(c.ang) * 0.5 + 0.5)); // dimmer behind, brighter in front
+                    }
+                }
+            }
+            requestAnimationFrame(capOrbit);
         })();
 
         // ===== Scroll reveal + count-up (robust; runs even if later blocks fail) =====
