@@ -627,6 +627,7 @@
 
         // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260726_152046_4b5b79c9-6468-405c-bb17-052bc53c8092.mp4';
+        const KOI_LOOP_START = 4.0;   // the clip settles into a clean straight swim at ~4s; loop only [4s .. end]
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 2 : 7;
@@ -641,10 +642,16 @@
             const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
             el.style.width = w + 'px';
             el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;
-            el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
+            el.innerHTML = `<video class="koi-vid" muted playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
             const v = el.querySelector('video');
-            // start each fish at a different point in the clip so they are not all in lockstep
-            if (v) v.addEventListener('loadedmetadata', () => { try { v.currentTime = Math.random() * (v.duration || 15); } catch (e) {} }, { once: true });
+            if (v) {
+                // only the clean straight-swim tail of the clip loops: start somewhere in [4s..end], desynced
+                v.addEventListener('loadedmetadata', () => {
+                    try { const d = v.duration || 15; v.currentTime = KOI_LOOP_START + Math.random() * Math.max(0.1, d - KOI_LOOP_START); } catch (e) {}
+                }, { once: true });
+                // when it reaches the end, jump back to 4s (not 0) for a seamless straight-swim loop
+                v.addEventListener('ended', () => { try { v.currentTime = KOI_LOOP_START; v.play(); } catch (e) {} });
+            }
             const f = {
                 el, video: v, depth, w, h: w * 0.5625, orbiter,
                 homeFrac: orbiter ? (0.05 + i * 0.02) : (0.12 + 0.82 * ((i + Math.random()) / FISH_N)),
@@ -728,6 +735,8 @@
                 // decode only near the viewport
                 const near = screenY > -H * 0.7 && screenY < H * 1.7;
                 if (f.video) {
+                    // loop just the straight-swim segment: wrap back to 4s a hair before the end
+                    if (f.video.duration && f.video.currentTime >= f.video.duration - 0.08) f.video.currentTime = KOI_LOOP_START;
                     if (near && f.video.paused) f.video.play().catch(() => {});
                     else if (!near && !f.video.paused) f.video.pause();
                 }
