@@ -269,11 +269,23 @@
         .plan.selected .plan-radio { border-color: var(--gold); }
         .plan.selected .plan-radio::after { content:''; position:absolute; inset:3px; border-radius:50%; background: var(--gold); }
         /* bottles built from the same jar image (reused via a CSS var, no base64 duplication) */
-        .plan-jars { display: flex; justify-content: center; align-items: flex-end; height: 104px; margin: 0.3rem 0 0.9rem; }
-        .jar { width: 78px; height: 100px; background: var(--bottle, none) center/contain no-repeat; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.5)); }
-        .plan-jars .jar + .jar { margin-left: -26px; }
-        .plan-jars .jar:nth-child(2) { transform: translateY(4px) scale(0.94); }
-        .plan-jars .jar:nth-child(3) { transform: translateY(8px) scale(0.88); }
+        .plan-jars { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 168px; margin: 0.4rem 0 1.1rem; }
+        .plan-jars::before {
+            content: ''; position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+            width: 82%; height: 50px; border-radius: 50%; z-index: 0;
+            background: radial-gradient(ellipse, rgba(58,160,255,0.42) 0%, rgba(232,182,76,0.22) 40%, transparent 72%);
+            filter: blur(16px);
+        }
+        .jar {
+            position: relative; z-index: 1; width: 108px; height: 138px;
+            background: var(--bottle, none) center/contain no-repeat;
+            filter: drop-shadow(0 18px 26px rgba(0,0,0,0.55));
+            animation: jarFloat 6.5s ease-in-out infinite;
+        }
+        @keyframes jarFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        .plan-jars .jar + .jar { margin-left: -44px; }
+        .plan-jars .jar:nth-child(2) { top: 6px; z-index: 2; animation-delay: -1.6s; }
+        .plan-jars .jar:nth-child(3) { top: 12px; z-index: 1; animation-delay: -3.2s; }
         .plan-name { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; color: #fff; letter-spacing: 0.01em; }
         .plan-sub { margin: 0.4rem 0 0.7rem; min-height: 1.5rem; }
         .plan-tag { font-size: 0.82rem; color: var(--muted); }
@@ -288,10 +300,11 @@
         .plan-badge { position: absolute; top: 0; right: 0; z-index: 2; font-family:'Manrope',sans-serif; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--navy-deep); background: linear-gradient(135deg, var(--gold), var(--gold-soft)); padding: 0.32rem 0.7rem; border-radius: 0 18px 0 12px; }
         .plan-badge.alt { background: linear-gradient(135deg, #5fc47e, #94dca7); }
         @media (max-width: 720px) {
-            .plans { grid-template-columns: 1fr; max-width: 440px; gap: 0.9rem; }
-            .plan { padding: 1.4rem 1.2rem; }
-            .plan-jars { height: 92px; }
-            .jar { width: 70px; height: 90px; }
+            .plans { grid-template-columns: 1fr; max-width: 460px; gap: 0.9rem; }
+            .plan { padding: 1.7rem 1.2rem; }
+            .plan-jars { height: 188px; }
+            .jar { width: 132px; height: 168px; }
+            .plan-jars .jar + .jar { margin-left: -46px; }
         }
         .guarantee { margin-top: 1.6rem; font-size: 0.85rem; color: var(--muted); }
 
