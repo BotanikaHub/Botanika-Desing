@@ -627,6 +627,11 @@
 
         // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
         const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260726_152046_4b5b79c9-6468-405c-bb17-052bc53c8092.mp4';
+        // The clip has a rough intro/cut in the first ~4.3s and a loop seam at the very end.
+        // Native loop keeps playback smooth (no seek); we just hide the fish during those moments,
+        // synced to the video's own time, so only the clean straight-swim segment is ever visible.
+        const KOI_SHOW_FROM = 4.3;   // fade the fish in only after the intro/cut
+        const KOI_FADE = 0.6;        // fade length (s) at each edge of the visible window
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 2 : 7;
@@ -732,8 +737,19 @@
                     else if (!near && !f.video.paused) f.video.pause();
                 }
 
-                // constant brightness — no boundary dimming, so the fish never appears to pause
-                f.el.style.opacity = f.op;
+                // visibility synced to the video's time: show only the clean segment [4.3s .. end],
+                // hidden across the intro and the loop seam so the fish never shows a hard cut
+                let vis = 1;
+                const vd = f.video;
+                if (vd && vd.duration) {
+                    const t = vd.currentTime, dur = vd.duration;
+                    const inA = KOI_SHOW_FROM, inB = KOI_SHOW_FROM + KOI_FADE;
+                    const outB = dur - 0.12, outA = outB - KOI_FADE;
+                    if (t < inA || t >= outB) vis = 0;
+                    else if (t < inB) vis = (t - inA) / KOI_FADE;
+                    else if (t > outA) vis = (outB - t) / KOI_FADE;
+                }
+                f.el.style.opacity = f.op * clampv(vis, 0, 1);
 
                 f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.face})`;
             }
