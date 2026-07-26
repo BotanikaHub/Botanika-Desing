@@ -86,8 +86,7 @@
             z-index: 6;                 /* swims in front of content, below the nav */
             mix-blend-mode: screen;     /* black video background blends away over the dark page */
         }
-        /* two stacked copies of the clip, cross-faded out of phase to hide the loop seam */
-        .koi-vid { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; display: block; will-change: opacity; }
+        .koi-vid { width: 100%; height: auto; display: block; }
 
         /* Shared type */
         .gold { color: var(--gold); }
@@ -641,16 +640,11 @@
             const depth = orbiter ? (0.66 + Math.random() * 0.12) : Math.random();
             const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
             el.style.width = w + 'px';
-            el.style.height = (w * 0.5625) + 'px';
             el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;
-            el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`
-                + `<video class="koi-vid koi-vid-b" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
-            const vv = el.querySelectorAll('video');
-            const v = vv[0], vB = vv[1];
-            // stagger the second copy by half its length so the two seams never coincide
-            if (vB) vB.addEventListener('loadedmetadata', () => { try { vB.currentTime = (vB.duration || 10) / 2; } catch (e) {} }, { once: true });
+            el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
+            const v = el.querySelector('video');
             const f = {
-                el, video: v, videoB: vB, depth, w, h: w * 0.5625, orbiter,
+                el, video: v, depth, w, h: w * 0.5625, orbiter,
                 homeFrac: orbiter ? (0.05 + i * 0.02) : (0.12 + 0.82 * ((i + Math.random()) / FISH_N)),
                 x: Math.random() * innerWidth,
                 y: 0,
@@ -733,22 +727,12 @@
                     if (near && f.video.paused) f.video.play().catch(() => {});
                     else if (!near && !f.video.paused) f.video.pause();
                 }
-                if (f.videoB) {
-                    if (near && f.videoB.paused) f.videoB.play().catch(() => {});
-                    else if (!near && !f.videoB.paused) f.videoB.pause();
-                }
 
-                // cross-fade the two out-of-phase copies: always favour whichever is farther from its loop seam
-                f.el.style.opacity = f.op;
-                const vd = f.video, vdB = f.videoB;
-                if (vd && vd.duration) {
-                    const pa = vd.currentTime / vd.duration; const sa = Math.min(pa, 1 - pa);
-                    let sb = 0.5;
-                    if (vdB && vdB.duration) { const pb = vdB.currentTime / vdB.duration; sb = Math.min(pb, 1 - pb); }
-                    const sum = (sa + sb) || 1;
-                    vd.style.opacity = sa / sum;
-                    if (vdB) vdB.style.opacity = sb / sum;
-                }
+                // hide the video loop seam with a quick dim at the boundary
+                let op = f.op;
+                const vd = f.video;
+                if (vd && vd.duration) { const ph = vd.currentTime / vd.duration; op *= (0.6 + 0.4 * clampv(Math.min(ph, 1 - ph) / 0.03, 0, 1)); }
+                f.el.style.opacity = op;
 
                 f.el.style.transform = `translate(${drawX - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.face})`;
             }
