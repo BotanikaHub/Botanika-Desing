@@ -90,11 +90,33 @@
       el.querySelectorAll('[data-bpop-close]').forEach(function (b) { b.addEventListener('click', close); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !el.hidden) close(); });
 
+      // Envia o e-mail tambem para o ActiveCampaign (lista "Site - Cupom Boas-vindas (Popup)").
+      // Usa o endpoint publico do formulario hospedado (proc.php) via JSONP, sem CORS e sem expor chave.
+      // Para trocar de lista/formulario, basta atualizar u / f / or com os valores do embed do AC.
+      function bpopSendToAC(email) {
+        if (!email) { return; }
+        var params = [
+          'u=1', 'f=1', 's=', 'c=0', 'm=0', 'act=sub', 'v=2',
+          'or=4dd10b18-ee4b-453b-9e91-3baa3212a826',
+          'email=' + encodeURIComponent(email)
+        ].join('&');
+        var s = document.createElement('script');
+        s.src = 'https://botanika1.activehosted.com/proc.php?' + params + '&jsonp=true';
+        s.charset = 'utf-8';
+        s.onload = s.onerror = function () { if (s.parentNode) s.parentNode.removeChild(s); };
+        document.body.appendChild(s);
+      }
+
       // envio do e-mail (fetch, sem recarregar) -> revela cupom
       var form = el.querySelector('#bpop-form');
       if (form) {
         form.addEventListener('submit', function (e) {
           e.preventDefault();
+          var emailField = form.querySelector('input[type="email"]');
+          var email = emailField ? emailField.value.trim() : '';
+          // 1) ActiveCampaign (lista dedicada do popup)
+          bpopSendToAC(email);
+          // 2) Shopify (cliente/assinante) + revela o cupom
           var data = new FormData(form);
           fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
             .catch(function () {})
