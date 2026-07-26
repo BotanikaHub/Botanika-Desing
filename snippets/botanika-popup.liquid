@@ -68,7 +68,7 @@
       var el = document.getElementById('bpop');
       if (!el) return;
       var delay = {{ settings.popup_delay | default: 8 }} * 1000;
-      var opened = false, done = false;
+      var opened = false, done = false, revealed = false;
 
       try { if (localStorage.getItem(KEY)) return; } catch (e) {}
 
@@ -86,9 +86,10 @@
       document.addEventListener('mouseout', function (e) {
         if (!e.relatedTarget && e.clientY <= 0) open();
       });
-      // fechar
-      el.querySelectorAll('[data-bpop-close]').forEach(function (b) { b.addEventListener('click', close); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !el.hidden) close(); });
+      // fechar (desativado depois que o cupom aparece: so fecha ao clicar em "Copiar")
+      function closeIfAllowed() { if (revealed) return; close(); }
+      el.querySelectorAll('[data-bpop-close]').forEach(function (b) { b.addEventListener('click', closeIfAllowed); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !el.hidden && !revealed) close(); });
 
       // Envia o e-mail tambem para o ActiveCampaign (lista "Site - Cupom Boas-vindas (Popup)").
       // Usa o endpoint publico do formulario hospedado (proc.php) via JSONP, sem CORS e sem expor chave.
@@ -125,8 +126,11 @@
             .catch(function () {})
             .finally(function () {
               done = true;
+              revealed = true;
               var f = el.querySelector('[data-bpop-form]'); if (f) f.hidden = true;
               var d = el.querySelector('[data-bpop-done]'); if (d) d.hidden = false;
+              // Esconde o X: nesta tela o popup so fecha ao clicar em "Copiar".
+              var x = el.querySelector('.bpop__x'); if (x) x.style.display = 'none';
             });
         });
       }
@@ -136,6 +140,9 @@
         var code = (el.querySelector('[data-bpop-code]') || {}).textContent || '';
         try { navigator.clipboard.writeText(code.trim()); } catch (e) {}
         copy.textContent = 'Copiado!';
+        // Fecha o popup logo apos copiar (mostra "Copiado!" por um instante).
+        revealed = false;
+        setTimeout(close, 1200);
       });
     })();
   </script>
