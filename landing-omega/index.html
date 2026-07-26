@@ -251,6 +251,43 @@
         .offer-card .big { font-family: var(--font-head); font-weight: 800; font-size: 2.2rem; color: var(--gold-soft); }
         .offer-card .cap { font-family:'Manrope',sans-serif; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-top: 0.3rem; }
         .offer .btn-buy { font-size: 1.05rem; padding: 1.15rem 2.6rem; }
+
+        /* ===== Plan cards (offer) ===== */
+        .plans { display: flex; flex-direction: column; gap: 1rem; max-width: 620px; margin: 0 auto 2.4rem; text-align: left; }
+        .plan {
+            position: relative; display: flex; align-items: center; gap: 1.1rem; width: 100%;
+            background: var(--glass-bg); border: 1.5px solid var(--glass-border); border-radius: 18px;
+            padding: 1.3rem 1.5rem; cursor: pointer; overflow: hidden; font-family: inherit; color: var(--text);
+            transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease, background .3s ease;
+        }
+        .plan::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(232,182,76,0.16), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .plan:hover::before { opacity:1; }
+        .plan:hover { transform: translateY(-2px); border-color: rgba(232,182,76,0.42); }
+        .plan.selected { border-color: var(--gold); background: rgba(232,182,76,0.06); box-shadow: 0 0 0 1px var(--gold), 0 14px 36px rgba(232,182,76,0.14); }
+        .plan > * { position: relative; z-index: 1; }
+        .plan-radio { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--glass-border); position: relative; transition: border-color .3s ease; }
+        .plan.selected .plan-radio { border-color: var(--gold); }
+        .plan.selected .plan-radio::after { content:''; position:absolute; inset:4px; border-radius:50%; background: var(--gold); }
+        .plan-main { flex: 1; min-width: 0; }
+        .plan-top { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+        .plan-name { font-family: var(--font-head); font-weight: 800; font-size: 1.3rem; color: #fff; letter-spacing: 0.01em; }
+        .plan-tag { font-size: 0.82rem; color: var(--muted); }
+        .plan-off { font-family:'Manrope',sans-serif; font-weight: 700; font-size: 0.76rem; color: var(--gold); background: rgba(232,182,76,0.12); border: 1px solid rgba(232,182,76,0.32); padding: 0.16rem 0.62rem; border-radius: 100px; }
+        .plan-price { font-size: 1rem; color: var(--muted); line-height: 1.45; }
+        .plan-inst, .plan-cash { display: block; }
+        .plan-price b { color: var(--text); font-weight: 700; }
+        .plan-inst b { color: var(--gold-soft); font-size: 1.06em; }
+        .plan-price i { font-style: normal; font-size: 0.8rem; opacity: 0.7; }
+        .plan-save { margin-top: 0.45rem; font-size: 0.82rem; color: var(--muted); }
+        .plan-save s { opacity: 0.55; }
+        .plan-save .win { color: #74d68b; font-weight: 600; }
+        .plan-badge { position: absolute; top: 0; right: 0; z-index: 2; font-family:'Manrope',sans-serif; font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--navy-deep); background: linear-gradient(135deg, var(--gold), var(--gold-soft)); padding: 0.32rem 0.75rem; border-radius: 0 16px 0 12px; }
+        .plan-badge.alt { background: linear-gradient(135deg, #5fc47e, #94dca7); }
+        @media (max-width: 720px) {
+            .plan { padding: 1.1rem 1.15rem; gap: 0.8rem; border-radius: 16px; }
+            .plan-name { font-size: 1.15rem; }
+            .plan-price { font-size: 0.94rem; }
+        }
         .guarantee { margin-top: 1.6rem; font-size: 0.85rem; color: var(--muted); }
 
         /* Footer */
@@ -436,11 +473,33 @@
     <section class="offer reveal" id="comprar">
         <p class="eyebrow" style="text-align:center">Comece hoje</p>
         <h2 class="titleshadow">A oportunidade perfeita para <span class="gold">começar hoje</span>.</h2>
-        <p class="lead">Oferta especial por tempo limitado.</p>
-        <div class="offer-cards">
-            <div class="offer-card"><div class="big"><span class="ph">R$ —</span></div><div class="cap">Preço promocional</div></div>
-            <div class="offer-card"><div class="big">3x</div><div class="cap">Sem juros</div></div>
-            <div class="offer-card"><div class="big">10%</div><div class="cap">De economia</div></div>
+        <p class="lead">Escolha sua opção e comece hoje.</p>
+        <div class="plans" id="plans">
+            <button type="button" class="plan selected" data-plan="1" aria-pressed="true">
+                <span class="plan-radio"></span>
+                <div class="plan-main">
+                    <div class="plan-top"><span class="plan-name">1 KIT</span><span class="plan-tag">Preço regular</span></div>
+                    <div class="plan-price"><span class="plan-inst">3x de <b>R$ 54,37</b> <i>s/ juros</i></span><span class="plan-cash">ou <b>R$ 163,12</b> à vista</span></div>
+                </div>
+            </button>
+            <button type="button" class="plan" data-plan="2" aria-pressed="false">
+                <span class="plan-badge">Mais vendido</span>
+                <span class="plan-radio"></span>
+                <div class="plan-main">
+                    <div class="plan-top"><span class="plan-name">2 KITS</span><span class="plan-off">5% OFF</span></div>
+                    <div class="plan-price"><span class="plan-inst">3x de <b>R$ 103,31</b> <i>s/ juros</i></span><span class="plan-cash">ou <b>R$ 309,93</b> à vista</span></div>
+                    <div class="plan-save"><s>R$ 326,24</s> · <span class="win">Você ganha R$ 16,31</span></div>
+                </div>
+            </button>
+            <button type="button" class="plan" data-plan="3" aria-pressed="false">
+                <span class="plan-badge alt">Menor preço</span>
+                <span class="plan-radio"></span>
+                <div class="plan-main">
+                    <div class="plan-top"><span class="plan-name">3 KITS</span><span class="plan-off">10% OFF</span></div>
+                    <div class="plan-price"><span class="plan-inst">3x de <b>R$ 146,81</b> <i>s/ juros</i></span><span class="plan-cash">ou <b>R$ 440,43</b> à vista</span></div>
+                    <div class="plan-save"><s>R$ 489,36</s> · <span class="win">Você ganha R$ 48,93</span></div>
+                </div>
+            </button>
         </div>
         <a href="https://botanikabrasil.com.br/products/super-omega-3-coq10" target="_blank" rel="noopener" class="btn-buy">Quero o meu Super Ômega 3
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -469,6 +528,22 @@
         // Header background on scroll
         const header = document.getElementById('header');
         addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 40), { passive: true });
+
+        // ===== Offer plan selection + cursor glow =====
+        (function () {
+            const plans = document.querySelectorAll('#plans .plan');
+            plans.forEach(p => {
+                p.addEventListener('mousemove', (e) => {
+                    const r = p.getBoundingClientRect();
+                    p.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+                    p.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+                });
+                p.addEventListener('click', () => {
+                    plans.forEach(x => { x.classList.remove('selected'); x.setAttribute('aria-pressed', 'false'); });
+                    p.classList.add('selected'); p.setAttribute('aria-pressed', 'true');
+                });
+            });
+        })();
 
         // ===== Scroll reveal + count-up (robust; runs even if later blocks fail) =====
         function animateCount(el) {
