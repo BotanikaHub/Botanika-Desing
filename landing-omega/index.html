@@ -83,7 +83,7 @@
         #koi-tank { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
         .koi {
             position: fixed; left: 0; top: 0; pointer-events: none; will-change: transform;
-            z-index: 2;                 /* ambient background layer: swims behind the content */
+            z-index: 6;                 /* swims in front of content, below the nav */
             mix-blend-mode: screen;     /* black video background blends away over the dark page */
         }
         .koi-vid { width: 100%; height: auto; display: block; }
@@ -638,9 +638,9 @@
             const el = document.createElement('div');
             el.className = 'koi';
             const depth = Math.random();
-            const w = (innerWidth < 760 ? 66 : 88) + depth * (innerWidth < 760 ? 46 : 92);   // smaller, more ambient
+            const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
             el.style.width = w + 'px';
-            el.style.filter = `blur(${(1.4 + (1 - depth) * 2.6).toFixed(2)}px)`;               // softly out of focus (background)
+            el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;
             el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
             const v = el.querySelector('video');
             // start each fish at a different point in the clip so they are not all in lockstep
@@ -653,7 +653,7 @@
                 vx: (Math.random() < 0.5 ? 1 : -1) * (24 + depth * 26),
                 vy: (Math.random() - 0.5) * 20,
                 wa: Math.random() * 6.28,
-                op: 0.28 + depth * 0.27,        // more translucent -> ambient, hides the loop seam
+                op: 0.5 + depth * 0.5,
                 sep: 150 + depth * 120,
                 orbAngle: i * Math.PI + Math.random() * 0.3,
                 orbSpeed: 0.13 + Math.random() * 0.05,
