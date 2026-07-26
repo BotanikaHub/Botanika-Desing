@@ -20,9 +20,6 @@
     <style>
         :root {
             --navy-deep: #030a1a;
-            --navy: #071a3a;
-            --blue: #0e3a7a;
-            --blue-bright: #3aa0ff;
             --gold: #e8b64c;
             --gold-soft: #f2cf7a;
             --text: #eaf2ff;
@@ -79,8 +76,7 @@
             background: radial-gradient(circle, rgba(255,255,255,0.9), transparent 70%); border-radius: 50%;
         }
 
-        /* Koi tank: fish swim freely across the whole page */
-        #koi-tank { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
+        /* Koi: fish swim freely across the whole page (appended to body) */
         .koi {
             position: fixed; left: 0; top: 0; pointer-events: none; will-change: transform;
             z-index: 6;                 /* swims in front of content, below the nav */
@@ -245,11 +241,6 @@
         .offer { position: relative; z-index: 5; max-width: 900px; margin: 0 auto; text-align: center; padding: 6rem 5% 4rem; }
         .offer h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); margin-bottom: 1rem; }
         .offer .lead { margin: 0 auto 2.6rem; }
-        .offer-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2.8rem; }
-        @media (max-width: 720px) { .offer-cards { grid-template-columns: 1fr; } }
-        .offer-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.8rem 1.2rem; }
-        .offer-card .big { font-family: var(--font-head); font-weight: 800; font-size: 2.2rem; color: var(--gold-soft); }
-        .offer-card .cap { font-family:'Manrope',sans-serif; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-top: 0.3rem; }
         .offer .btn-buy { font-size: 1.05rem; padding: 1.15rem 2.6rem; }
 
         /* ===== Plan cards (offer) — three side by side ===== */
@@ -357,7 +348,6 @@
     <div class="ocean-veil"></div>
     <div class="wave-fade"></div>
     <div id="bubbles-container"></div>
-    <div id="koi-tank"></div>
 
     <header class="header" id="header">
         <div class="logo">
@@ -793,7 +783,6 @@
         // synced to the video's own time, so only the clean straight-swim segment is ever visible.
         const KOI_SHOW_FROM = 4.3;   // fade the fish in only after the intro/cut
         const KOI_FADE = 0.6;        // fade length (s) at each edge of the visible window
-        const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 2 : 7;
         let docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
@@ -1175,16 +1164,6 @@
         }
         addEventListener('resize', resize);
         resize(); onScroll(); loop();
-    </script>
-    <script>
-        (function () {
-            function showAll() { document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); }); }
-            // On phones (or if anything blocks the main script) force content visible
-            if (innerWidth < 760) {
-                if (document.readyState !== 'loading') showAll(); else document.addEventListener('DOMContentLoaded', showAll);
-                setTimeout(showAll, 500);
-            }
-        })();
     </script>
 </body>
 </html>
