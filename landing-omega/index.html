@@ -626,7 +626,7 @@
         requestAnimationFrame(orbitCapLoop);
 
         // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
-        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260726_013809_760a6933-0cdd-41ff-a5a2-b4c4bbfa520b.mp4';
+        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260725_212051_a019f301-35c8-4f05-b65b-0705830c6774.mp4';
         const bottleWrapEl = document.getElementById('bottleWrap');
         const fishes = [];
         const FISH_N = innerWidth < 760 ? 2 : 7;
@@ -634,15 +634,17 @@
         addEventListener('resize', () => { docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight); }, { passive: true });
 
         function makeFish(i) {
-            const orbiter = (i < 1) && innerWidth >= 760;       // one fish hovers between headline and bottle (desktop)
+            const orbiter = false;                              // every koi now roams the whole page freely
             const el = document.createElement('div');
             el.className = 'koi';
-            const depth = orbiter ? (0.66 + Math.random() * 0.12) : Math.random();
+            const depth = Math.random();
             const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
             el.style.width = w + 'px';
             el.style.filter = `blur(${((1 - depth) * 2.4).toFixed(2)}px)`;
             el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
             const v = el.querySelector('video');
+            // start each fish at a different point in the clip so they are not all in lockstep
+            if (v) v.addEventListener('loadedmetadata', () => { try { v.currentTime = Math.random() * (v.duration || 15); } catch (e) {} }, { once: true });
             const f = {
                 el, video: v, depth, w, h: w * 0.5625, orbiter,
                 homeFrac: orbiter ? (0.05 + i * 0.02) : (0.12 + 0.82 * ((i + Math.random()) / FISH_N)),
