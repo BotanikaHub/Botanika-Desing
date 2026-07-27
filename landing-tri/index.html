@@ -77,6 +77,21 @@
     .molecule .lbl{font-family:var(--body);font-weight:700;font-size:9px;fill:var(--muted);letter-spacing:.05em;opacity:0;transition:opacity .5s ease .7s}
     .molecule.in .lbl{opacity:1}
     .molecule .core{font-family:var(--head);font-weight:700;fill:#0a0913}
+    /* benefits grouped by theme */
+    .themes{display:grid;grid-template-columns:1fr;gap:1.2rem;margin-top:3rem}
+    @media(min-width:820px){.themes{grid-template-columns:repeat(3,1fr)}}
+    .theme-card{position:relative;overflow:hidden;padding:1.9rem 1.6rem;border-radius:22px;background:var(--glass);border:1px solid var(--line);transform-style:preserve-3d;will-change:transform}
+    .theme-card::after{content:'';position:absolute;left:0;top:0;height:100%;width:3px;background:var(--tc);transform:scaleY(0);transform-origin:top;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+    .theme-card.in::after{transform:scaleY(1)}
+    .theme-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.3rem;position:relative;z-index:1}
+    .theme-head .tic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:#0a0913;background:var(--tc);flex:none}
+    .theme-head h3{font-family:var(--head);font-size:1.5rem}
+    .theme-list{list-style:none;display:grid;gap:1rem;position:relative;z-index:1}
+    .theme-list li{display:flex;gap:.7rem;align-items:flex-start}
+    .theme-list .d{flex:none;width:22px;height:22px;border-radius:50%;margin-top:1px;display:grid;place-items:center;color:var(--tc);border:1px solid var(--tc)}
+    .theme-list b{display:block;font-family:var(--body);font-weight:700;font-size:.98rem;color:var(--text);margin-bottom:.1rem}
+    .theme-list span{font-size:.85rem;color:var(--muted);line-height:1.45}
+    .themes .rv:nth-child(2){transition-delay:.1s}.themes .rv:nth-child(3){transition-delay:.2s}
     /* social proof marquee */
     .stars{color:var(--champ);letter-spacing:2px}
     .marquee{margin-top:2.8rem;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
@@ -87,6 +102,21 @@
     .track figure:hover img{transform:scale(1.05)}
     @keyframes scrollx{to{transform:translateX(-50%)}}
     @media(max-width:600px){.track img{width:150px;height:216px}}
+    /* night ritual */
+    .ritual{display:grid;grid-template-columns:1fr;gap:1.6rem;align-items:stretch;margin-top:2.8rem}
+    @media(min-width:820px){.ritual{grid-template-columns:.82fr 1.18fr;gap:2rem}}
+    .night{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--line);min-height:300px;display:grid;place-items:center;background:radial-gradient(120% 90% at 32% 16%,#2a2350,#0b091a 72%)}
+    .night .moon{position:absolute;top:26px;right:32px;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 33%,#f6eed2,#d8c8a0);box-shadow:0 0 42px rgba(232,201,160,.4)}
+    .night .st{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;animation:twinkle 3.5s ease-in-out infinite}
+    .night img{position:relative;z-index:1;width:46%;max-width:150px;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
+    @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+    .timeline{position:relative;display:grid;gap:1.6rem;align-content:center}
+    .timeline::before{content:'';position:absolute;left:16px;top:22px;bottom:52px;width:2px;background:linear-gradient(var(--violet),var(--mint));z-index:0}
+    .tl{position:relative;z-index:1;display:flex;gap:1rem;align-items:flex-start}
+    .tl .dot{flex:none;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#0a0913;font-family:var(--head);font-weight:700;font-size:1.05rem;display:grid;place-items:center}
+    .tl .h{font-family:var(--body);font-weight:700;font-size:1.06rem;margin-bottom:.12rem}
+    .tl p{color:var(--muted);font-size:.92rem}
+    .timeline .rv:nth-child(3){transition-delay:.1s}.timeline .rv:nth-child(4){transition-delay:.2s}
 
     /* ---- reveal ---- */
     .rv{opacity:0;transform:translateY(36px) scale(.986);filter:blur(5px);transition:opacity .95s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1),filter .95s ease}
@@ -324,7 +354,7 @@
 </header>
 
 <!-- HERO -->
-<section class="hero container" id="inicio">
+<section class="hero container" id="inicio" data-tint="111,224,192">
     <div class="hero-grid">
         <span class="hero-badge">Tri[Mg] Complex · Magnésio 3 em 1</span>
         <div class="hero-copy">
@@ -356,7 +386,7 @@
 </section>
 
 <!-- PROBLEM (full-bleed statement) -->
-<section class="statement">
+<section class="statement" data-tint="155,140,240">
     <div class="inner rv">
         <span class="eyebrow center" style="justify-content:center">O problema</span>
         <span class="big-num grad-text">+300</span>
@@ -366,7 +396,7 @@
 </section>
 
 <!-- FORMULA (triad) -->
-<section class="container band" id="formula">
+<section class="container band" id="formula" data-tint="111,224,192">
     <div class="rv">
         <p class="eyebrow">A fórmula</p>
         <h2 class="title">Três formas de magnésio.<br><span class="grad-text">Uma cápsula.</span></h2>
@@ -409,7 +439,7 @@
 </section>
 
 <!-- DOSE / VD ring -->
-<section class="container" id="dose">
+<section class="container" id="dose" data-tint="111,224,192">
     <div class="dose">
         <div class="ring-box rv">
             <svg class="ring" viewBox="0 0 200 200">
@@ -433,21 +463,36 @@
 </section>
 
 <!-- BENEFITS -->
-<section class="container" id="beneficios">
+<section class="container" id="beneficios" data-tint="120,205,205">
     <div class="rv">
         <p class="eyebrow">O que muda na rotina</p>
-        <h2 class="title">Oito frentes de cuidado <span class="grad-text">numa cápsula só.</span></h2>
-        <p class="lead">Não é só "tomar magnésio". É o que as três formas fazem pelo seu corpo — do músculo ao sistema nervoso, todos os dias.</p>
+        <h2 class="title">Um mineral, <span class="grad-text">o corpo inteiro sente.</span></h2>
+        <p class="lead">O magnésio age em três frentes ao mesmo tempo — corpo, mente e energia. É por isso que a falta dele mexe com tanta coisa.</p>
     </div>
-    <div class="bgrid">
-        <div class="card ben rv"><span class="no">01</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2.5-6 3.5 12 2.5-6H22"/></svg></div><h3>Relaxamento muscular</h3><p>Participa da contração e do relaxamento muscular, auxiliando na sensação de conforto físico.</p></div>
-        <div class="card ben rv"><span class="no">02</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.8L19 9l-5.1 1.2L12 15l-1.9-4.8L5 9l5.1-1.2Z"/></svg></div><h3>Bem-estar e equilíbrio</h3><p>Níveis adequados de magnésio se associam a uma sensação geral de equilíbrio e disposição.</p></div>
-        <div class="card ben rv"><span class="no">03</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-2 8 9-12h-7l2-8Z"/></svg></div><h3>Metabolismo energético</h3><p>Cofator em centenas de reações ligadas à produção de energia celular.</p></div>
-        <div class="card ben rv"><span class="no">04</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M3.5 9v5M17.5 6.5v11M20.5 9v5M6.5 12h11"/></svg></div><h3>Função muscular normal</h3><p>Fundamental para quem pratica exercícios ou tem rotina que exige do corpo.</p></div>
-        <div class="card ben rv"><span class="no">05</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m9 15 6-6"/><path d="M8.5 6.5a2.2 2.2 0 1 0-2 2 2.2 2.2 0 1 0 2-2Z"/><path d="M17.5 15.5a2.2 2.2 0 1 0-2 2 2.2 2.2 0 1 0 2-2Z"/></svg></div><h3>Manutenção dos ossos</h3><p>Contribui para a manutenção de ossos normais, junto a outros nutrientes.</p></div>
-        <div class="card ben rv"><span class="no">06</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg></div><h3>Equilíbrio eletrolítico</h3><p>Participa do balanço de eletrólitos, essencial para hidratação e função celular.</p></div>
-        <div class="card ben rv"><span class="no">07</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5a2.5 2.5 0 0 0-4.6-1.3A2.5 2.5 0 0 0 4.5 8a2.5 2.5 0 0 0-1 4.6A2.5 2.5 0 0 0 6 17a2.5 2.5 0 0 0 4 .8M12 5.5a2.5 2.5 0 0 1 4.6-1.3A2.5 2.5 0 0 1 19.5 8a2.5 2.5 0 0 1 1 4.6A2.5 2.5 0 0 1 18 17a2.5 2.5 0 0 1-4 .8M12 5.5v13"/></svg></div><h3>Apoia o sistema nervoso</h3><p>Contribui para o funcionamento normal do sistema nervoso e a sensação de calma.</p></div>
-        <div class="card ben rv"><span class="no">08</span><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 14.8 14.8 4.9a4.1 4.1 0 0 1 5.8 5.8l-9.9 9.9a4.1 4.1 0 0 1-5.8-5.8Z"/><path d="m9.5 9.5 5 5"/></svg></div><h3>Rotina simples</h3><p>2 cápsulas por dia. Sem sabor, sem preparo, sem complicação.</p></div>
+    <div class="themes">
+        <div class="theme-card card rv" style="--tc:var(--mint)">
+            <div class="theme-head"><span class="tic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M3.5 9v5M17.5 6.5v11M20.5 9v5M6.5 12h11"/></svg></span><h3>Corpo</h3></div>
+            <ul class="theme-list">
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Relaxamento muscular</b><span>Participa da contração e do relaxamento, aliviando a tensão física.</span></div></li>
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Função muscular normal</b><span>Apoio para quem treina ou exige do corpo no dia a dia.</span></div></li>
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Manutenção dos ossos</b><span>Contribui para ossos normais, junto a outros nutrientes.</span></div></li>
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Equilíbrio eletrolítico</b><span>Essencial para hidratação e funcionamento celular.</span></div></li>
+            </ul>
+        </div>
+        <div class="theme-card card rv" style="--tc:var(--violet)">
+            <div class="theme-head"><span class="tic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5a2.5 2.5 0 0 0-4.6-1.3A2.5 2.5 0 0 0 4.5 8a2.5 2.5 0 0 0-1 4.6A2.5 2.5 0 0 0 6 17a2.5 2.5 0 0 0 4 .8M12 5.5a2.5 2.5 0 0 1 4.6-1.3A2.5 2.5 0 0 1 19.5 8a2.5 2.5 0 0 1 1 4.6A2.5 2.5 0 0 1 18 17a2.5 2.5 0 0 1-4 .8M12 5.5v13"/></svg></span><h3>Mente</h3></div>
+            <ul class="theme-list">
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Apoia o sistema nervoso</b><span>Contribui para o funcionamento normal e a sensação de calma.</span></div></li>
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Bem-estar e equilíbrio</b><span>Níveis adequados se associam a uma sensação geral de equilíbrio.</span></div></li>
+            </ul>
+        </div>
+        <div class="theme-card card rv" style="--tc:var(--champ)">
+            <div class="theme-head"><span class="tic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-2 8 9-12h-7l2-8Z"/></svg></span><h3>Energia</h3></div>
+            <ul class="theme-list">
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Metabolismo energético</b><span>Cofator em centenas de reações de produção de energia celular.</span></div></li>
+                <li><span class="d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Mais disposição no dia</b><span>Apoia a vitalidade de quem tem rotina intensa.</span></div></li>
+            </ul>
+        </div>
     </div>
 </section>
 
@@ -468,25 +513,34 @@
 </section>
 
 <!-- HOW TO -->
-<section class="container band" id="tomar">
+<section class="container band" id="tomar" data-tint="155,140,240">
     <div class="rv">
-        <p class="eyebrow">Como tomar</p>
-        <h2 class="title">Simples, flexível, <span class="grad-text">feito pra rotina real.</span></h2>
-        <p class="lead">Sem sabor, sem preparo, sem ritual. Encaixa no seu dia — e é a constância que traz o resultado.</p>
+        <p class="eyebrow">O ritual</p>
+        <h2 class="title">Seu momento de <span class="grad-text">desacelerar</span>.</h2>
+        <p class="lead">Duas cápsulas no fim do dia — sem sabor, sem preparo. Um gesto simples que vira parte da sua rotina de descanso.</p>
     </div>
-    <div class="steps">
-        <div class="card step rv"><span class="wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 14.8 14.8 4.9a4.1 4.1 0 0 1 5.8 5.8l-9.9 9.9a4.1 4.1 0 0 1-5.8-5.8Z"/><path d="m9.5 9.5 5 5"/></svg></span><div class="n">1</div><h3>Separe 2 cápsulas</h3><p>A dose diária completa de magnésio 3 em 1. Simples assim.</p></div>
-        <div class="card step rv"><span class="wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l-1 6a5 5 0 0 1-10 0L6 3Z"/><path d="M9 21h6M12 14v7"/></svg></span><div class="n">2</div><h3>Ingira com água</h3><p>Sem sabor e sem preparo. Só água e pronto.</p></div>
-        <div class="card step rv"><span class="wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><div class="n">3</div><h3>Melhor à noite</h3><p>Muitos preferem à noite, pelo efeito relaxante do bisglicinato. Ajuste ao que funcionar pra você.</p></div>
-    </div>
-    <div class="tip rv">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg>
-        <p><b>Dica Botanika:</b> a dose é <b>2 cápsulas por dia</b> — o pote de 60 cápsulas rende <b>30 dias</b>. O magnésio apoia o corpo gradualmente: mantenha o uso diário e a consistência faz a diferença.</p>
+    <div class="ritual">
+        <div class="night rv">
+            <span class="moon"></span>
+            <span class="st" style="top:22%;left:24%"></span><span class="st" style="top:40%;left:60%;animation-delay:.8s"></span>
+            <span class="st" style="top:64%;left:30%;animation-delay:1.6s"></span><span class="st" style="top:30%;left:78%;animation-delay:1.1s"></span>
+            <span class="st" style="top:72%;left:70%;animation-delay:.4s"></span>
+            <img src="bottle-tri.png" alt="Tri[Mg] Complex à noite">
+        </div>
+        <div class="timeline">
+            <div class="tl rv"><span class="dot">1</span><div><div class="h">Separe 2 cápsulas</div><p>A dose diária completa de magnésio 3 em 1.</p></div></div>
+            <div class="tl rv"><span class="dot">2</span><div><div class="h">Tome com água</div><p>Sem sabor e sem preparo — só água e pronto.</p></div></div>
+            <div class="tl rv"><span class="dot">3</span><div><div class="h">De preferência à noite</div><p>O bisglicinato é associado ao relaxamento. Ajuste ao horário que funcionar pra você.</p></div></div>
+            <div class="tip rv" style="margin-top:.4rem">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg>
+                <p><b>Dica Botanika:</b> o pote de <b>60 cápsulas rende 30 dias</b>. O magnésio age gradualmente — a consistência é o que faz a diferença.</p>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- TRUST -->
-<section class="container center" id="garantia">
+<section class="container center" id="garantia" data-tint="232,201,160">
     <div class="rv">
         <p class="eyebrow">Segurança</p>
         <h2 class="title">Sua compra <span class="grad-text">protegida</span> do início ao fim.</h2>
@@ -501,7 +555,7 @@
 </section>
 
 <!-- SOCIAL PROOF -->
-<section class="container center" id="provas">
+<section class="container center" id="provas" data-tint="232,201,160">
     <div class="rv">
         <p class="eyebrow center" style="justify-content:center">Prova real</p>
         <h2 class="title"><span class="grad-text">+2 mil clientes</span> já fazem parte da Botanika.</h2>
@@ -534,7 +588,7 @@
 </section>
 
 <!-- OFFER -->
-<section class="container band" id="comprar">
+<section class="container band" id="comprar" data-tint="232,201,160">
     <div class="offer">
         <div class="rv">
             <p class="eyebrow center" style="justify-content:center">Comece hoje</p>
@@ -575,7 +629,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="container" id="faq">
+<section class="container" id="faq" data-tint="155,140,240">
     <div class="rv center">
         <p class="eyebrow" style="justify-content:center">Perguntas frequentes</p>
         <h2 class="title">Ainda com <span class="grad-text">dúvida?</span> A gente responde.</h2>
@@ -591,7 +645,7 @@
 </section>
 
 <!-- SCARCITY -->
-<section class="scar" id="oferta-final">
+<section class="scar" id="oferta-final" data-tint="232,201,160">
     <div class="rv">
         <p class="eyebrow center" style="justify-content:center">Oferta por tempo limitado</p>
         <h2 class="title">O preço de hoje <span class="grad-text">não vai durar.</span></h2>
@@ -652,6 +706,12 @@
     const blobs=[{c:'111,224,192',sx:.00006,sy:.00004,ph:0,r:.5},{c:'155,140,240',sx:.00008,sy:.00005,ph:2,r:.55},{c:'232,201,160',sx:.00005,sy:.00007,ph:4,r:.38}];
     let w,h,dpr,pts=[],D,DM,running=!reduce;
     const mouse={x:-9999,y:-9999};
+    let TINT=[111,224,192],cur=[111,224,192];
+    (function(){
+        const secs=[...document.querySelectorAll('[data-tint]')];if(!secs.length)return;
+        const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>.34){const t=e.target.dataset.tint.split(',').map(Number);if(t.length===3)TINT=t}})},{threshold:[.34,.6],rootMargin:'-18% 0px -30% 0px'});
+        secs.forEach(s=>io.observe(s));
+    })();
     function size(){
         dpr=Math.min(devicePixelRatio||1,2);w=c.width=innerWidth*dpr;h=c.height=innerHeight*dpr;
         D=Math.min(150,innerWidth*.14)*dpr; DM=190*dpr;
@@ -665,6 +725,8 @@
     }
     function frame(t){
         x.clearRect(0,0,w,h);
+        for(let k=0;k<3;k++)cur[k]+=(TINT[k]-cur[k])*.03;
+        const C=(cur[0]|0)+','+(cur[1]|0)+','+(cur[2]|0);
         x.globalCompositeOperation='lighter';
         // soft aurora depth
         blobs.forEach(b=>{const cx=(.5+Math.sin(t*b.sx+b.ph)*.4)*w,cy=(.5+Math.cos(t*b.sy+b.ph)*.4)*h,rad=b.r*Math.min(w,h);
@@ -683,13 +745,13 @@
             const a=pts[i];
             for(let j=i+1;j<pts.length;j++){
                 const b2=pts[j],dx=a.x-b2.x,dy=a.y-b2.y,d2=dx*dx+dy*dy;
-                if(d2<D*D){const al=(1-Math.sqrt(d2)/D)*.28;x.strokeStyle='rgba('+a.c+','+al+')';x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b2.x,b2.y);x.stroke()}
+                if(d2<D*D){const al=(1-Math.sqrt(d2)/D)*.28;x.strokeStyle='rgba('+C+','+al+')';x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b2.x,b2.y);x.stroke()}
             }
             const mdx=mouse.x-a.x,mdy=mouse.y-a.y,md2=mdx*mdx+mdy*mdy;
-            if(md2<DM*DM){const al=(1-Math.sqrt(md2)/DM)*.55;x.strokeStyle='rgba('+a.c+','+al+')';x.lineWidth=dpr*.8;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mouse.x,mouse.y);x.stroke();x.lineWidth=dpr*.6}
+            if(md2<DM*DM){const al=(1-Math.sqrt(md2)/DM)*.55;x.strokeStyle='rgba('+C+','+al+')';x.lineWidth=dpr*.8;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mouse.x,mouse.y);x.stroke();x.lineWidth=dpr*.6}
         }
         // glowing nodes (subtle twinkle)
-        for(const p of pts){const tw=.55+Math.sin(t*.002+p.tw)*.25;x.fillStyle='rgba('+p.c+','+tw+')';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}
+        for(const p of pts){const tw=.55+Math.sin(t*.002+p.tw)*.25;x.fillStyle='rgba('+C+','+tw+')';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}
         x.globalCompositeOperation='source-over';
         if(running)requestAnimationFrame(frame);
     }
