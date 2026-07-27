@@ -66,6 +66,27 @@
     .st-title{font-size:clamp(1.5rem,4vw,2.5rem);margin:.3rem 0 1.2rem;line-height:1.1}
     /* alternating band for rhythm */
     .band{background:linear-gradient(180deg,transparent,rgba(255,255,255,.022) 12%,rgba(255,255,255,.022) 88%,transparent)}
+    /* molecule (3-in-1) */
+    .molecule{max-width:460px;margin:2.4rem auto -0.6rem;position:relative}
+    .molecule svg{width:100%;height:auto;overflow:visible}
+    .molecule .bond{stroke:rgba(255,255,255,.25);stroke-width:1.5;stroke-dasharray:180;stroke-dashoffset:180;transition:stroke-dashoffset 1.1s cubic-bezier(.16,1,.3,1) .15s}
+    .molecule.in .bond{stroke-dashoffset:0}
+    .molecule .atom{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:opacity .5s ease,transform .6s cubic-bezier(.34,1.56,.64,1)}
+    .molecule.in .atom{opacity:1;transform:scale(1)}
+    .molecule .a2{transition-delay:.35s}.molecule .a3{transition-delay:.5s}.molecule .a4{transition-delay:.65s}
+    .molecule .lbl{font-family:var(--body);font-weight:700;font-size:9px;fill:var(--muted);letter-spacing:.05em;opacity:0;transition:opacity .5s ease .7s}
+    .molecule.in .lbl{opacity:1}
+    .molecule .core{font-family:var(--head);font-weight:700;fill:#0a0913}
+    /* social proof marquee */
+    .stars{color:var(--champ);letter-spacing:2px}
+    .marquee{margin-top:2.8rem;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+    .track{display:flex;gap:1rem;width:max-content;animation:scrollx 48s linear infinite}
+    .marquee:hover .track{animation-play-state:paused}
+    .track figure{flex:none;margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+    .track img{display:block;width:184px;height:266px;object-fit:cover;transition:transform .5s}
+    .track figure:hover img{transform:scale(1.05)}
+    @keyframes scrollx{to{transform:translateX(-50%)}}
+    @media(max-width:600px){.track img{width:150px;height:216px}}
 
     /* ---- reveal ---- */
     .rv{opacity:0;transform:translateY(36px) scale(.986);filter:blur(5px);transition:opacity .95s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1),filter .95s ease}
@@ -162,8 +183,13 @@
     /* ---- for who ---- */
     .who{display:grid;grid-template-columns:1fr;gap:.8rem;margin-top:2.6rem}
     @media(min-width:720px){.who{grid-template-columns:1fr 1fr;gap:.8rem 1.4rem}}
-    .who-item{display:flex;gap:.9rem;align-items:center;padding:1rem 1.2rem;background:var(--glass);border:1px solid var(--line);border-radius:14px;font-size:.98rem;transition:transform .35s,border-color .35s}
+    .who-item{position:relative;z-index:0;display:flex;gap:.9rem;align-items:center;padding:1rem 1.2rem;background:var(--glass);border:1px solid var(--line);border-radius:14px;font-size:.98rem;transition:transform .35s,border-color .35s;overflow:hidden}
+    .who-item::before{content:'';position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .4s;background:radial-gradient(circle at 50% 50%,rgba(111,224,192,.14),transparent 68%)}
     .who-item:hover{transform:translateX(6px);border-color:rgba(111,224,192,.5)}
+    .who-item:hover::before{opacity:1}
+    .who .rv:nth-child(2){transition-delay:.06s}.who .rv:nth-child(3){transition-delay:.12s}.who .rv:nth-child(4){transition-delay:.18s}.who .rv:nth-child(5){transition-delay:.24s}.who .rv:nth-child(6){transition-delay:.3s}
+    .trust .rv:nth-child(2){transition-delay:.08s}.trust .rv:nth-child(3){transition-delay:.16s}.trust .rv:nth-child(4){transition-delay:.24s}
+    .triad .rv:nth-child(1){transition-delay:0s}
     .who-item .chk{flex:none;width:26px;height:26px;border-radius:50%;background:var(--grad);color:#0a0913;display:grid;place-items:center}
 
     /* ---- how to ---- */
@@ -199,26 +225,36 @@
     .coupon .cta{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--champ)}
     .coupon.ok .cta{color:var(--mint)}
     /* quantity toggle */
-    .qty{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:.35rem;gap:.2rem;margin:1.6rem auto 2.2rem;position:relative}
-    .qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--body);font-weight:700;font-size:.92rem;padding:.7rem 1.5rem;border-radius:100px;cursor:pointer;transition:color .3s}
+    .qty{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:.35rem;gap:.15rem;margin:1.6rem auto 1.8rem;position:relative}
+    .qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--body);font-weight:700;font-size:.92rem;padding:.7rem 1.6rem;border-radius:100px;cursor:pointer;transition:color .35s}
     .qty button.on{color:#0a0913}
-    .qty .pill{position:absolute;top:.35rem;bottom:.35rem;border-radius:100px;background:var(--grad);transition:left .45s cubic-bezier(.5,.05,.2,1),width .45s cubic-bezier(.5,.05,.2,1);z-index:0}
-    /* dynamic offer panel */
-    .buy-panel{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr;gap:1.6rem;align-items:center;max-width:720px;margin:0 auto;padding:2.4rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:26px;text-align:left}
-    @media(min-width:640px){.buy-panel{grid-template-columns:.85fr 1.15fr;gap:2rem}}
-    .buy-panel::after{content:'';position:absolute;top:-40%;right:-20%;width:70%;height:180%;background:radial-gradient(circle,rgba(111,224,192,.14),transparent 60%);pointer-events:none}
-    .buy-vis{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-end;min-height:170px}
-    .buy-vis img{width:96px;filter:drop-shadow(0 22px 26px rgba(0,0,0,.5));transition:transform .5s cubic-bezier(.34,1.56,.64,1);margin-left:-38px}
-    .buy-vis img:first-child{margin-left:0}
+    .qty .pill{position:absolute;top:.35rem;bottom:.35rem;left:.35rem;width:60px;border-radius:100px;background:var(--grad);transition:left .5s cubic-bezier(.5,.05,.2,1),width .5s cubic-bezier(.5,.05,.2,1);z-index:0}
+    /* premium offer card */
+    .buy-card{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr;gap:1rem;align-items:center;max-width:740px;margin:0 auto;padding:2.2rem;border-radius:28px;
+        background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line)}
+    @media(min-width:640px){.buy-card{grid-template-columns:1fr 1.15fr;gap:1rem;text-align:left}}
+    .buy-card::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:.9;
+        background:linear-gradient(140deg,rgba(111,224,192,.55),transparent 38%,transparent 62%,rgba(155,140,240,.5));
+        -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+    .buy-stage{position:relative;display:grid;place-items:center;min-height:196px}
+    .shelf{position:absolute;bottom:30px;width:74%;height:24px;border-radius:50%;background:radial-gradient(ellipse,rgba(111,224,192,.25),transparent 70%);filter:blur(4px)}
+    .buy-vis{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-end;gap:8px;min-height:158px}
+    .buy-vis img{width:72px;filter:drop-shadow(0 16px 20px rgba(0,0,0,.55));animation:bob 6s ease-in-out infinite}
+    .buy-vis img:nth-child(2){animation-delay:.5s}.buy-vis img:nth-child(3){animation-delay:1s}
+    .save-badge{position:absolute;top:2px;right:2px;z-index:2;font-family:var(--head);font-weight:700;font-size:1.05rem;color:#0a0913;background:var(--grad);border-radius:50%;width:60px;height:60px;display:grid;place-items:center;box-shadow:0 10px 24px rgba(111,224,192,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+    .save-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
     .buy-info{position:relative;z-index:1}
     .buy-tag{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--mint);border:1px solid rgba(111,224,192,.4);border-radius:100px;padding:.3rem .8rem;margin-bottom:.9rem}
-    .buy-price{font-family:var(--head);font-size:clamp(1.7rem,4.5vw,2.3rem);font-weight:700;line-height:1.1}
-    .buy-price b{color:var(--champ)}
-    .buy-cash{color:var(--muted);font-size:.95rem;margin-top:.15rem}
-    .buy-save{font-size:.85rem;color:var(--muted);margin-top:.7rem;min-height:1.2em}.buy-save s{opacity:.5}.buy-save b{color:var(--mint)}
+    .buy-price{font-family:var(--head);font-size:clamp(1.8rem,5vw,2.5rem);font-weight:700;line-height:1.05}
+    .buy-price b{color:var(--champ)} .buy-price .pm{font-family:var(--body);font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.02em}
+    .buy-cash{color:var(--muted);font-size:.95rem;margin-top:.2rem}
+    .buy-save{font-size:.86rem;color:var(--muted);margin-top:.7rem;min-height:1.2em}.buy-save s{opacity:.5}.buy-save b{color:var(--mint)}
     .buy-bonus{margin-top:.9rem;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--champ);background:rgba(232,201,160,.1);border:1px dashed rgba(232,201,160,.4);border-radius:100px;padding:.4rem .8rem;display:none}
     .buy-bonus.show{display:inline-block}
-    .buy-panel .btn{margin-top:1.3rem;width:100%;justify-content:center}
+    .buy-card .btn{margin-top:1.2rem;width:100%;justify-content:center}
+    .buy-perks{margin-top:.9rem;font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.3rem 1rem;justify-content:center}
+    @media(min-width:640px){.buy-perks{justify-content:flex-start}}
+    .buy-perks span{white-space:nowrap} .buy-perks b{color:var(--mint)}
     .guar{margin-top:1.5rem;font-size:.85rem;color:var(--muted)}
     .freeship{display:inline-flex;align-items:center;gap:.55rem;margin-top:1rem;padding:.65rem 1.3rem;font-size:.88rem;
         background:linear-gradient(120deg,rgba(111,224,192,.14),rgba(155,140,240,.06));border:1px dashed rgba(111,224,192,.5);border-radius:100px}
@@ -336,6 +372,23 @@
         <h2 class="title">Três formas de magnésio.<br><span class="grad-text">Uma cápsula.</span></h2>
         <p class="lead">Cada forma tem absorção, velocidade e tolerância diferentes. Reunir as três dá ao corpo múltiplas vias de aproveitamento — sem depender de uma só.</p>
     </div>
+    <div class="molecule rv">
+        <svg viewBox="0 0 420 150" role="img" aria-label="Três formas de magnésio ligadas a 232 mg">
+            <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fe0c0"/><stop offset="1" stop-color="#9b8cf0"/></linearGradient></defs>
+            <line class="bond" x1="210" y1="80" x2="60" y2="110"/>
+            <line class="bond" x1="210" y1="80" x2="210" y2="24"/>
+            <line class="bond" x1="210" y1="80" x2="360" y2="110"/>
+            <circle class="atom a2" cx="60" cy="110" r="13" fill="#e8c9a0"/>
+            <circle class="atom a3" cx="210" cy="24" r="13" fill="#6fe0c0"/>
+            <circle class="atom a4" cx="360" cy="110" r="13" fill="#9b8cf0"/>
+            <circle class="atom" cx="210" cy="80" r="36" fill="url(#mg)"/>
+            <text class="core" x="210" y="77" text-anchor="middle" font-size="22">Mg</text>
+            <text class="core" x="210" y="93" text-anchor="middle" font-size="9" opacity=".8">232mg</text>
+            <text class="lbl" x="60" y="137" text-anchor="middle">Malato</text>
+            <text class="lbl" x="210" y="14" text-anchor="middle">Bisglicinato</text>
+            <text class="lbl" x="360" y="137" text-anchor="middle">Citrato</text>
+        </svg>
+    </div>
     <div class="triad">
         <div class="card form-card rv">
             <div class="cap" style="background:linear-gradient(135deg,var(--champ),#f0dcc0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-2 8 9-12h-7l2-8Z"/></svg></div>
@@ -447,6 +500,39 @@
     </div>
 </section>
 
+<!-- SOCIAL PROOF -->
+<section class="container center" id="provas">
+    <div class="rv">
+        <p class="eyebrow center" style="justify-content:center">Prova real</p>
+        <h2 class="title"><span class="grad-text">+2 mil clientes</span> já fazem parte da Botanika.</h2>
+        <p class="lead center"><span class="stars">★★★★★</span> &nbsp;4.9/5 — histórias reais de quem incluiu o cuidado na rotina.</p>
+    </div>
+    <div class="marquee rv">
+        <div class="track">
+            <figure><img src="../landing-omega/proof/p05-rebeca.jpg" loading="lazy" alt="Cliente Botanika com o produto"></figure>
+            <figure><img src="../landing-omega/proof/p06-hotel.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p03-omega-aurea.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p01-omega-leticia.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p02-omega-flatlay.jpg" loading="lazy" alt="Produtos Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p04-depoimento-dm.jpg" loading="lazy" alt="Depoimento de cliente"></figure>
+            <figure><img src="../landing-omega/proof/p07-orquideas.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p08-victoria-box.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p09-dr-postreino.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure><img src="../landing-omega/proof/p10-betynha.jpg" loading="lazy" alt="Cliente Botanika"></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p05-rebeca.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p06-hotel.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p03-omega-aurea.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p01-omega-leticia.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p02-omega-flatlay.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p04-depoimento-dm.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p07-orquideas.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p08-victoria-box.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p09-dr-postreino.jpg" loading="lazy" alt=""></figure>
+            <figure aria-hidden="true"><img src="../landing-omega/proof/p10-betynha.jpg" loading="lazy" alt=""></figure>
+        </div>
+    </div>
+</section>
+
 <!-- OFFER -->
 <section class="container band" id="comprar">
     <div class="offer">
@@ -466,16 +552,21 @@
             <button data-plan="2" role="tab" aria-selected="false">2 kits</button>
             <button data-plan="3" role="tab" aria-selected="false">3 kits</button>
         </div>
-        <div class="buy-panel rv">
-            <div class="buy-vis" id="buyVis"><img src="bottle-tri.png" alt="Tri[Mg] Complex"></div>
+        <div class="buy-card rv">
+            <div class="buy-stage">
+                <div class="shelf"></div>
+                <div class="save-badge" id="saveBadge">-5%</div>
+                <div class="buy-vis" id="buyVis"><img src="bottle-tri.png" alt="Tri[Mg] Complex"></div>
+            </div>
             <div class="buy-info">
                 <span class="buy-tag" id="buyTag">Preço regular · 30 dias</span>
-                <div class="buy-price">3x de <b id="buyInst">R$ 29,17</b></div>
+                <div class="buy-price">3x de <b id="buyInst">R$ 29,17</b> <span class="pm">sem juros</span></div>
                 <div class="buy-cash">ou <span id="buyCash">R$ 87,50</span> à vista</div>
                 <div class="buy-save" id="buySave"></div>
                 <span class="buy-bonus" id="buyBonus">🎁 + Manual da Suplementação</span>
                 <a class="btn" id="mainBuy" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener">Quero o meu Tri[Mg] Complex
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <div class="buy-perks"><span><b>✓</b> Frete grátis +R$349</span><span><b>✓</b> 7 dias de garantia</span><span><b>✓</b> Compra segura</span></div>
             </div>
         </div>
         <p class="guar">🔒 Compra segura · Satisfação garantida · Entrega para todo o Brasil</p>
@@ -655,11 +746,12 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
     const qty=document.getElementById('qty');if(!qty)return;
     const btns=[...qty.querySelectorAll('button')],pill=document.getElementById('qpill'),
         vis=document.getElementById('buyVis'),tag=document.getElementById('buyTag'),inst=document.getElementById('buyInst'),
-        cash=document.getElementById('buyCash'),save=document.getElementById('buySave'),bonus=document.getElementById('buyBonus'),buy=document.getElementById('mainBuy');
+        cash=document.getElementById('buyCash'),save=document.getElementById('buySave'),bonus=document.getElementById('buyBonus'),
+        buy=document.getElementById('mainBuy'),badge=document.getElementById('saveBadge');
     const DATA={
-        '1':{n:1,tag:'Preço regular · 30 dias',inst:'R$ 29,17',cash:'R$ 87,50',save:'',bonus:false},
-        '2':{n:2,tag:'Mais vendido · 5% OFF',inst:'R$ 55,42',cash:'R$ 166,25',save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',bonus:false},
-        '3':{n:3,tag:'Menor preço · 10% OFF',inst:'R$ 78,75',cash:'R$ 236,25',save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>',bonus:true}
+        '1':{n:1,tag:'Preço regular · 30 dias',inst:'R$ 29,17',cash:'R$ 87,50',save:'',bonus:false,badge:''},
+        '2':{n:2,tag:'Mais vendido · 5% OFF',inst:'R$ 55,42',cash:'R$ 166,25',save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',bonus:false,badge:'-5%'},
+        '3':{n:3,tag:'Menor preço · 10% OFF',inst:'R$ 78,75',cash:'R$ 236,25',save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>',bonus:true,badge:'-10%'}
     };
     function movePill(b){if(b){pill.style.left=b.offsetLeft+'px';pill.style.width=b.offsetWidth+'px'}}
     function render(p){
@@ -667,6 +759,7 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
         vis.innerHTML=Array.from({length:d.n},()=>'<img src="bottle-tri.png" alt="Tri[Mg] Complex">').join('');
         tag.textContent=d.tag;inst.textContent=d.inst;cash.textContent=d.cash;save.innerHTML=d.save;
         bonus.classList.toggle('show',d.bonus);
+        if(badge){badge.textContent=d.badge;badge.classList.toggle('show',!!d.badge)}
         if(buy)buy.href='https://botanikabrasil.com.br/cart/48115368558824:'+p;
     }
     btns.forEach(b=>b.addEventListener('click',()=>{
