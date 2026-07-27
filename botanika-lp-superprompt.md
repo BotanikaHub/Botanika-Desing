@@ -30,14 +30,23 @@ Se faltar qualquer um desses, não está no padrão.
 
 ---
 
-## 2) REFERÊNCIA CANÔNICA (leia primeiro!)
+## 2) FONTES DE CONTEXTO (use TODAS as que estiverem conectadas)
 
-Existe uma LP de referência que **é a régua e a biblioteca de componentes**. Antes de escrever qualquer linha, **leia o código-fonte dela inteiro** e reutilize o design system, o motor de interações e os padrões de seção:
+No começo, **verifique quais conectores/MCP você tem** (GitHub, Shopify, Lovable) e puxe contexto de todos antes de construir. São três fontes complementares:
 
-- **URL ao vivo:** `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-omega/index.html`
-- **Repo:** `botanikahub/botanika-desing` · **arquivo:** `landing-omega/index.html`
+**A) LP de referência canônica (GitHub) — a régua técnica e visual.**
+Antes de escrever qualquer linha, **leia o código-fonte dela inteiro** e reutilize o design system, o motor de interações e os padrões de seção:
+- URL ao vivo: `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-omega/index.html`
+- Repo: `botanikahub/botanika-desing` · arquivo: `landing-omega/index.html` · guia: `botanika-lp-superprompt.md`
+Copie de lá, verbatim, o `:root` (tokens), as classes de componente (`.section`, `.eyebrow`, `.ing-card`, `.benefit-card`, `.howto-step`, `.nutri-*`, `.plan`, `.coupon`, `.freeship`, `.faq-item`, `.scarcity`, `.wa-float`, `.site-footer`) e os blocos de JS (reveal + count-up, tilt 3D + botões magnéticos). Não reinvente — **evolua**.
 
-Copie de lá, verbatim, o `:root` (tokens de cor/fonte), as classes de componente (`.section`, `.eyebrow`, `.ing-card`, `.benefit-card`, `.howto-step`, `.nutri-*`, `.plan`, `.coupon`, `.freeship`, `.faq-item`, `.scarcity`, `.wa-float`, `.site-footer`, etc.) e os blocos de JS (reveal + count-up, tilt 3D + botões magnéticos, gsap). Não reinvente o que já está resolvido — **evolua** a partir dele.
+**B) Shopify (MCP) — dados reais do produto (fonte primária).**
+Se o Shopify estiver conectado, puxe os dados direto (título, descrição, variantes, preços, imagens) com `search_products` / `get-product` / `graphql_query`, em vez de depender de scraping. Confirme os **VARIANT_IDs** e preços por aqui. Só use o comando de console (§8) como fallback quando não houver MCP.
+
+**C) Lovable (MCP) — as LPs que o usuário já fez (referência de estilo, copy e estrutura).**
+Se o Lovable estiver conectado, **liste os projetos do usuário** (`list_projects`) e, nas LPs relevantes, **leia os arquivos/conteúdo** (`get_project`, `list_files`, `read_file`, `list_messages`) para entender o gosto do usuário: tom de copy, estrutura de seções, ofertas, ângulos que ele já validou. Traga o que for bom desses projetos para a nova LP — mantendo SEMPRE o nível técnico/visual da referência canônica (A). A referência A manda no "como fica"; o Lovable informa o "o que dizer/estruturar".
+
+> Regra: A = qualidade/execução (inegociável). B = verdade do produto. C = intenção/estilo do usuário. Cruze as três.
 
 ---
 
@@ -121,7 +130,8 @@ Ordem que converte (remova/reordene conforme o produto, mantendo o nível):
 
 - **Link de checkout (cart permalink):** `https://{loja}/cart/{VARIANT_ID}:{QTD}`. Ex.: kit 1 = `:1`, kit 2 = `:2`, kit 3 = `:3`.
 - Botões soltos da página → kit 1. Botão da seção de oferta → **muda dinamicamente** conforme o plano selecionado (JS troca o `href`).
-- **Descubra o VARIANT_ID correto** rodando este comando no Console do Chrome, já na página oficial do produto (F12 → Console → se pedir, digite `allow pasting`):
+- **VARIANT_ID (forma preferida):** puxe via **Shopify MCP** (`search_products`/`get-product`/`graphql_query`) — mais confiável.
+- **Fallback (sem MCP):** rode este comando no Console do Chrome, já na página oficial do produto (F12 → Console → se pedir, digite `allow pasting`):
 
 ```js
 (async () => {
@@ -166,11 +176,13 @@ Ordem que converte (remova/reordene conforme o produto, mantendo o nível):
 
 ## 11) PRIMEIROS PASSOS DO CHAT NOVO
 
-1. Confirme comigo (usuário) **qual produto** e peça: **URL oficial do produto**, **imagens do produto** (pote/caixa em PNG de preferência), **prints de depoimento** (com autorização de uso), e qualquer **referência de LP** que eu curtir.
-2. **Leia a LP de referência** (§2) para carregar o design system e o motor de interações.
-3. Se eu não colar os dados, me dê o **comando de console** (§8) e me peça o relatório da página oficial (título, promessa, preços/variantes, descrição, benefícios, ingredientes/%VD, como tomar, selos, garantia, FAQ, gatilhos).
-4. Proponha a **estrutura** da LP daquele produto (adaptando o blueprint) e só então construa.
-5. Construa **seção por seção no padrão premium** (§1 e §4-5), valide (§10), publique e me mande o link fresco.
+1. **Cheque seus conectores** (GitHub, Shopify, Lovable) e diga ao usuário o que você consegue puxar sozinho.
+2. Confirme **qual produto** e peça o que faltar: **imagens do produto** (pote/caixa em PNG), **prints de depoimento** (autorizados) e referências extras.
+3. **Leia a LP de referência** (§2A) para carregar o design system e o motor de interações.
+4. **Puxe os dados do produto** pelo **Shopify MCP** (§2B); sem MCP, use o comando de console (§8). Confirme preços e VARIANT_IDs.
+5. **Olhe as LPs do usuário no Lovable** (§2C) para captar tom de copy, estrutura e ofertas que ele já validou.
+6. Proponha a **estrutura** da LP daquele produto (cruzando A+B+C) e só então construa.
+7. Construa **seção por seção no padrão premium** (§1 e §4-5), valide (§10), publique e mande o link fresco.
 
 ---
 
