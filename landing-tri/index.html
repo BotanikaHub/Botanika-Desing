@@ -188,22 +188,27 @@
     .code{font-weight:800;letter-spacing:.06em;color:#0a0913;background:var(--champ);border-radius:6px;padding:.1rem .5rem}
     .coupon .cta{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--champ)}
     .coupon.ok .cta{color:var(--mint)}
-    .plans{display:grid;grid-template-columns:1fr;gap:1rem;max-width:760px;margin:0 auto 2rem}
-    @media(min-width:720px){.plans{grid-template-columns:repeat(3,1fr)}}
-    .plan{position:relative;text-align:center;background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:1.8rem 1.2rem 1.5rem;cursor:pointer;transition:border-color .35s,transform .35s,box-shadow .35s}
-    .plan:hover{transform:translateY(-4px)}
-    .plan.on{border-color:transparent;box-shadow:0 0 0 2px var(--mint),0 20px 44px rgba(111,224,192,.16);background:rgba(111,224,192,.05)}
-    .plan .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0a0913;background:var(--grad);padding:.3rem .8rem;border-radius:100px;white-space:nowrap}
-    .plan .pjars{height:56px;display:flex;justify-content:center;align-items:flex-end;gap:4px;margin-bottom:.8rem}
-    .plan .pjars i{width:20px;border-radius:3px 3px 2px 2px;background:linear-gradient(180deg,#3a4bb0,#1e2668);display:block;box-shadow:0 4px 10px rgba(0,0,0,.4)}
-    .plan .pjars i:nth-child(1){height:44px}.plan .pjars i:nth-child(2){height:52px}.plan .pjars i:nth-child(3){height:38px}
-    .plan .pname{font-family:var(--head);font-weight:700;font-size:1.35rem}
-    .plan .off{display:inline-block;font-size:.72rem;font-weight:800;color:var(--mint);border:1px solid rgba(111,224,192,.4);border-radius:100px;padding:.2rem .7rem;margin:.35rem 0}
-    .plan .reg{font-size:.72rem;color:var(--muted);margin:.35rem 0 .55rem}
-    .plan .inst{display:block;font-size:1rem} .plan .inst b{color:var(--champ);font-size:1.12em}
-    .plan .cash{display:block;font-size:.86rem;color:var(--muted)}
-    .plan .save{margin-top:.5rem;font-size:.78rem;color:var(--muted)} .plan .save s{opacity:.5} .plan .save b{color:var(--mint)}
-    .plan .bonus{margin-top:.7rem;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--champ);background:rgba(232,201,160,.1);border:1px dashed rgba(232,201,160,.4);border-radius:100px;padding:.35rem .7rem;display:inline-block}
+    /* quantity toggle */
+    .qty{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:.35rem;gap:.2rem;margin:1.6rem auto 2.2rem;position:relative}
+    .qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--body);font-weight:700;font-size:.92rem;padding:.7rem 1.5rem;border-radius:100px;cursor:pointer;transition:color .3s}
+    .qty button.on{color:#0a0913}
+    .qty .pill{position:absolute;top:.35rem;bottom:.35rem;border-radius:100px;background:var(--grad);transition:left .45s cubic-bezier(.5,.05,.2,1),width .45s cubic-bezier(.5,.05,.2,1);z-index:0}
+    /* dynamic offer panel */
+    .buy-panel{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr;gap:1.6rem;align-items:center;max-width:720px;margin:0 auto;padding:2.4rem;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:26px;text-align:left}
+    @media(min-width:640px){.buy-panel{grid-template-columns:.85fr 1.15fr;gap:2rem}}
+    .buy-panel::after{content:'';position:absolute;top:-40%;right:-20%;width:70%;height:180%;background:radial-gradient(circle,rgba(111,224,192,.14),transparent 60%);pointer-events:none}
+    .buy-vis{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-end;min-height:170px}
+    .buy-vis img{width:96px;filter:drop-shadow(0 22px 26px rgba(0,0,0,.5));transition:transform .5s cubic-bezier(.34,1.56,.64,1);margin-left:-38px}
+    .buy-vis img:first-child{margin-left:0}
+    .buy-info{position:relative;z-index:1}
+    .buy-tag{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--mint);border:1px solid rgba(111,224,192,.4);border-radius:100px;padding:.3rem .8rem;margin-bottom:.9rem}
+    .buy-price{font-family:var(--head);font-size:clamp(1.7rem,4.5vw,2.3rem);font-weight:700;line-height:1.1}
+    .buy-price b{color:var(--champ)}
+    .buy-cash{color:var(--muted);font-size:.95rem;margin-top:.15rem}
+    .buy-save{font-size:.85rem;color:var(--muted);margin-top:.7rem;min-height:1.2em}.buy-save s{opacity:.5}.buy-save b{color:var(--mint)}
+    .buy-bonus{margin-top:.9rem;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--champ);background:rgba(232,201,160,.1);border:1px dashed rgba(232,201,160,.4);border-radius:100px;padding:.4rem .8rem;display:none}
+    .buy-bonus.show{display:inline-block}
+    .buy-panel .btn{margin-top:1.3rem;width:100%;justify-content:center}
     .guar{margin-top:1.5rem;font-size:.85rem;color:var(--muted)}
     .freeship{display:inline-flex;align-items:center;gap:.55rem;margin-top:1rem;padding:.65rem 1.3rem;font-size:.88rem;
         background:linear-gradient(120deg,rgba(111,224,192,.14),rgba(155,140,240,.06));border:1px dashed rgba(111,224,192,.5);border-radius:100px}
@@ -444,33 +449,24 @@
             <span>Use o cupom <span class="code">BOTANIKA</span> e ganhe <b>5% OFF</b></span>
             <span class="cta" id="couponCta">Toque para copiar</span>
         </button>
-        <div class="plans" id="plans">
-            <button class="plan on" data-plan="1" aria-pressed="true">
-                <div class="pjars"><i></i></div>
-                <div class="pname">1 KIT</div>
-                <div class="reg">Preço regular</div>
-                <span class="inst">3x de <b>R$ 29,17</b></span><span class="cash">ou R$ 87,50 à vista</span>
-            </button>
-            <button class="plan" data-plan="2" aria-pressed="false">
-                <span class="badge">Mais vendido</span>
-                <div class="pjars"><i></i><i></i></div>
-                <div class="pname">2 KITS</div>
-                <span class="off">5% OFF</span>
-                <span class="inst">3x de <b>R$ 55,42</b></span><span class="cash">ou R$ 166,25 à vista</span>
-                <div class="save"><s>R$ 175,00</s> · <b>economize R$ 8,75</b></div>
-            </button>
-            <button class="plan" data-plan="3" aria-pressed="false">
-                <span class="badge">Menor preço</span>
-                <div class="pjars"><i></i><i></i><i></i></div>
-                <div class="pname">3 KITS</div>
-                <span class="off">10% OFF</span>
-                <span class="inst">3x de <b>R$ 78,75</b></span><span class="cash">ou R$ 236,25 à vista</span>
-                <div class="save"><s>R$ 262,50</s> · <b>economize R$ 26,25</b></div>
-                <div class="bonus">🎁 + Manual da Suplementação</div>
-            </button>
+        <div class="qty rv" id="qty" role="tablist">
+            <span class="pill" id="qpill"></span>
+            <button data-plan="1" class="on" role="tab" aria-selected="true">1 kit</button>
+            <button data-plan="2" role="tab" aria-selected="false">2 kits</button>
+            <button data-plan="3" role="tab" aria-selected="false">3 kits</button>
         </div>
-        <a class="btn" id="mainBuy" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener" style="font-size:1.05rem;padding:1.15rem 2.6rem">Quero o meu Tri[Mg] Complex
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="buy-panel rv">
+            <div class="buy-vis" id="buyVis"><img src="bottle-tri.png" alt="Tri[Mg] Complex"></div>
+            <div class="buy-info">
+                <span class="buy-tag" id="buyTag">Preço regular · 30 dias</span>
+                <div class="buy-price">3x de <b id="buyInst">R$ 29,17</b></div>
+                <div class="buy-cash">ou <span id="buyCash">R$ 87,50</span> à vista</div>
+                <div class="buy-save" id="buySave"></div>
+                <span class="buy-bonus" id="buyBonus">🎁 + Manual da Suplementação</span>
+                <a class="btn" id="mainBuy" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener">Quero o meu Tri[Mg] Complex
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+        </div>
         <p class="guar">🔒 Compra segura · Satisfação garantida · Entrega para todo o Brasil</p>
         <div><span class="freeship"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/></svg><span><b>Frete grátis</b> nas compras acima de R$ 349</span></span></div>
     </div>
@@ -643,13 +639,34 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
     });
 }
 
-// ---- plan select + dynamic checkout ----
-const plans=document.querySelectorAll('#plans .plan'),mainBuy=document.getElementById('mainBuy');
-plans.forEach(p=>p.addEventListener('click',()=>{
-    plans.forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed','false')});
-    p.classList.add('on');p.setAttribute('aria-pressed','true');
-    if(mainBuy)mainBuy.href='https://botanikabrasil.com.br/cart/48115368558824:'+(p.dataset.plan||'1');
-}));
+// ---- quantity toggle + dynamic offer panel ----
+(function(){
+    const qty=document.getElementById('qty');if(!qty)return;
+    const btns=[...qty.querySelectorAll('button')],pill=document.getElementById('qpill'),
+        vis=document.getElementById('buyVis'),tag=document.getElementById('buyTag'),inst=document.getElementById('buyInst'),
+        cash=document.getElementById('buyCash'),save=document.getElementById('buySave'),bonus=document.getElementById('buyBonus'),buy=document.getElementById('mainBuy');
+    const DATA={
+        '1':{n:1,tag:'Preço regular · 30 dias',inst:'R$ 29,17',cash:'R$ 87,50',save:'',bonus:false},
+        '2':{n:2,tag:'Mais vendido · 5% OFF',inst:'R$ 55,42',cash:'R$ 166,25',save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',bonus:false},
+        '3':{n:3,tag:'Menor preço · 10% OFF',inst:'R$ 78,75',cash:'R$ 236,25',save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>',bonus:true}
+    };
+    function movePill(b){if(b){pill.style.left=b.offsetLeft+'px';pill.style.width=b.offsetWidth+'px'}}
+    function render(p){
+        const d=DATA[p];if(!d)return;
+        vis.innerHTML=Array.from({length:d.n},()=>'<img src="bottle-tri.png" alt="Tri[Mg] Complex">').join('');
+        tag.textContent=d.tag;inst.textContent=d.inst;cash.textContent=d.cash;save.innerHTML=d.save;
+        bonus.classList.toggle('show',d.bonus);
+        if(buy)buy.href='https://botanikabrasil.com.br/cart/48115368558824:'+p;
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>{
+        btns.forEach(x=>{x.classList.remove('on');x.setAttribute('aria-selected','false')});
+        b.classList.add('on');b.setAttribute('aria-selected','true');movePill(b);render(b.dataset.plan);
+    }));
+    const init=qty.querySelector('.on')||btns[0];
+    render(init.dataset.plan);
+    requestAnimationFrame(()=>movePill(init));
+    addEventListener('resize',()=>movePill(qty.querySelector('.on')||btns[0]),{passive:true});
+})();
 
 // ---- coupon copy ----
 (function(){const b=document.getElementById('coupon'),cta=document.getElementById('couponCta');if(!b)return;let t;
