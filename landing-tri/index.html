@@ -61,8 +61,8 @@
     .center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}.center .eyebrow::before{display:none}
 
     /* ---- reveal ---- */
-    .rv{opacity:0;transform:translateY(34px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
-    .rv.in{opacity:1;transform:none}
+    .rv{opacity:0;transform:translateY(36px) scale(.986);filter:blur(5px);transition:opacity .95s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1),filter .95s ease}
+    .rv.in{opacity:1;transform:none;filter:none}
 
     /* ---- hero ---- */
     .hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
@@ -85,8 +85,15 @@
     .stage{position:relative;display:grid;place-items:center;min-height:440px}
     .halo{position:absolute;width:min(78%,420px);aspect-ratio:1;border-radius:50%;
         background:radial-gradient(circle,rgba(155,140,240,.35),rgba(111,224,192,.12) 45%,transparent 70%);
-        filter:blur(10px);animation:breathe 7s ease-in-out infinite}
+        filter:blur(10px);animation:breathe 7s ease-in-out infinite;will-change:transform}
     @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+    .shimmer{position:absolute;width:min(86%,460px);aspect-ratio:1;border-radius:50%;z-index:1;pointer-events:none;
+        background:conic-gradient(from 0deg,transparent,rgba(111,224,192,.28),transparent 38%,rgba(155,140,240,.26),transparent 72%,rgba(232,201,160,.22),transparent);
+        filter:blur(16px);animation:spin 20s linear infinite;opacity:.75}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ripple{position:absolute;z-index:1;width:60%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(111,224,192,.18);pointer-events:none;animation:ripple 5s ease-out infinite}
+    .ripple.r2{animation-delay:1.6s}.ripple.r3{animation-delay:3.2s}
+    @keyframes ripple{0%{transform:scale(.5);opacity:.6}100%{transform:scale(1.5);opacity:0}}
     .bottle{position:relative;z-index:2;width:min(64%,300px);filter:drop-shadow(0 40px 60px rgba(0,0,0,.55));animation:bob 6s ease-in-out infinite}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
     .node{position:absolute;z-index:3;display:flex;align-items:center;gap:.5rem;font-size:.76rem;font-weight:700;
@@ -284,9 +291,11 @@
             </div>
             <p class="hero-price">A partir de <b>3x de R$ 29,17</b> sem juros · ou <b>R$ 87,50</b> à vista</p>
         </div>
-        <div class="stage">
-            <div class="halo"></div>
-            <img class="bottle" src="bottle-tri.png" alt="Frasco Tri[Mg] Complex — Magnésio 3 em 1 da Botanika">
+        <div class="stage" id="stage">
+            <div class="shimmer"></div>
+            <div class="ripple"></div><div class="ripple r2"></div><div class="ripple r3"></div>
+            <div class="halo" id="halo"></div>
+            <img class="bottle" id="bottle" src="bottle-tri.png" alt="Frasco Tri[Mg] Complex — Magnésio 3 em 1 da Botanika">
             <span class="node n1"><i style="background:var(--champ)"></i>Malato · energia</span>
             <span class="node n2"><i style="background:var(--mint)"></i>Bisglicinato · relax</span>
             <span class="node n3"><i style="background:var(--violet)"></i>Citrato · absorção</span>
@@ -537,37 +546,64 @@
 </a>
 
 <script>
-// ---- aurora background ----
+// ---- living mineral constellation (interactive) ----
 (function(){
-    const c=document.getElementById('aurora'),x=c.getContext('2d');let w,h,dpr;
-    const blobs=[
-        {c:'111,224,192',r:.5,a:0,sx:.00007,sy:.00005,ph:0},
-        {c:'155,140,240',r:.55,a:1.6,sx:.00009,sy:.00006,ph:2},
-        {c:'232,201,160',r:.4,a:3.1,sx:.00006,sy:.00008,ph:4},
-        {c:'111,224,192',r:.45,a:4.5,sx:.00008,sy:.00007,ph:1}
-    ];
-    const dust=[];for(let i=0;i<46;i++)dust.push({x:Math.random(),y:Math.random(),z:.3+Math.random()*.7,s:.02+Math.random()*.05});
-    function size(){dpr=Math.min(devicePixelRatio||1,2);w=c.width=innerWidth*dpr;h=c.height=innerHeight*dpr}
+    const c=document.getElementById('aurora'),x=c.getContext('2d');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const COLORS=['111,224,192','155,140,240','232,201,160'];  // mint / violet / champagne
+    const blobs=[{c:'111,224,192',sx:.00006,sy:.00004,ph:0,r:.5},{c:'155,140,240',sx:.00008,sy:.00005,ph:2,r:.55},{c:'232,201,160',sx:.00005,sy:.00007,ph:4,r:.38}];
+    let w,h,dpr,pts=[],D,DM,running=!reduce;
+    const mouse={x:-9999,y:-9999};
+    function size(){
+        dpr=Math.min(devicePixelRatio||1,2);w=c.width=innerWidth*dpr;h=c.height=innerHeight*dpr;
+        D=Math.min(150,innerWidth*.14)*dpr; DM=190*dpr;
+        const n=innerWidth<720?44:Math.min(104,Math.round(innerWidth*innerHeight/15000));
+        pts=[];for(let i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.12*dpr,vy:(Math.random()-.5)*.12*dpr,c:COLORS[i%3],r:(Math.random()*1.5+.7)*dpr,tw:Math.random()*6});
+    }
     size();addEventListener('resize',size,{passive:true});
-    function draw(t){
+    if(matchMedia('(hover:hover)').matches){
+        addEventListener('mousemove',e=>{mouse.x=e.clientX*dpr;mouse.y=e.clientY*dpr},{passive:true});
+        addEventListener('mouseout',()=>{mouse.x=mouse.y=-9999});
+    }
+    function frame(t){
         x.clearRect(0,0,w,h);
         x.globalCompositeOperation='lighter';
-        blobs.forEach(b=>{
-            const cx=(.5+Math.sin(t*b.sx+b.ph)*.42)*w, cy=(.5+Math.cos(t*b.sy+b.ph)*.42)*h, rad=b.r*Math.min(w,h);
-            const g=x.createRadialGradient(cx,cy,0,cx,cy,rad);
-            g.addColorStop(0,'rgba('+b.c+',.30)');g.addColorStop(1,'rgba('+b.c+',0)');
-            x.fillStyle=g;x.beginPath();x.arc(cx,cy,rad,0,7);x.fill();
-        });
+        // soft aurora depth
+        blobs.forEach(b=>{const cx=(.5+Math.sin(t*b.sx+b.ph)*.4)*w,cy=(.5+Math.cos(t*b.sy+b.ph)*.4)*h,rad=b.r*Math.min(w,h);
+            const g=x.createRadialGradient(cx,cy,0,cx,cy,rad);g.addColorStop(0,'rgba('+b.c+',.14)');g.addColorStop(1,'rgba('+b.c+',0)');
+            x.fillStyle=g;x.beginPath();x.arc(cx,cy,rad,0,7);x.fill()});
+        // move + gentle mouse attraction
+        for(const p of pts){
+            p.x+=p.vx;p.y+=p.vy;
+            if(p.x<0)p.x+=w;else if(p.x>w)p.x-=w; if(p.y<0)p.y+=h;else if(p.y>h)p.y-=h;
+            const dx=mouse.x-p.x,dy=mouse.y-p.y,d2=dx*dx+dy*dy,R=200*dpr;
+            if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=dx/d*f;p.y+=dy/d*f}
+        }
+        // connective lattice
+        x.lineWidth=dpr*.6;
+        for(let i=0;i<pts.length;i++){
+            const a=pts[i];
+            for(let j=i+1;j<pts.length;j++){
+                const b2=pts[j],dx=a.x-b2.x,dy=a.y-b2.y,d2=dx*dx+dy*dy;
+                if(d2<D*D){const al=(1-Math.sqrt(d2)/D)*.28;x.strokeStyle='rgba('+a.c+','+al+')';x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b2.x,b2.y);x.stroke()}
+            }
+            const mdx=mouse.x-a.x,mdy=mouse.y-a.y,md2=mdx*mdx+mdy*mdy;
+            if(md2<DM*DM){const al=(1-Math.sqrt(md2)/DM)*.55;x.strokeStyle='rgba('+a.c+','+al+')';x.lineWidth=dpr*.8;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mouse.x,mouse.y);x.stroke();x.lineWidth=dpr*.6}
+        }
+        // glowing nodes (subtle twinkle)
+        for(const p of pts){const tw=.55+Math.sin(t*.002+p.tw)*.25;x.fillStyle='rgba('+p.c+','+tw+')';x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}
         x.globalCompositeOperation='source-over';
-        dust.forEach(d=>{
-            d.y-=d.s*.0006; if(d.y<-.02){d.y=1.02;d.x=Math.random()}
-            const px=d.x*w, py=d.y*h;
-            x.fillStyle='rgba(236,234,252,'+(d.z*.4)+')';
-            x.beginPath();x.arc(px,py,d.z*1.6*dpr,0,7);x.fill();
-        });
-        requestAnimationFrame(draw);
+        if(running)requestAnimationFrame(frame);
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(frame);
+
+    // layered parallax of the hero bottle cluster (no CSS-animation conflict: moves the whole stage)
+    const stage=document.getElementById('stage');
+    if(stage&&matchMedia('(hover:hover)').matches){
+        let tx=0,ty=0,cx=0,cy=0;
+        addEventListener('mousemove',e=>{tx=(e.clientX/innerWidth-.5)*16;ty=(e.clientY/innerHeight-.5)*12},{passive:true});
+        (function follow(){cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;stage.style.transform='translate('+cx.toFixed(2)+'px,'+cy.toFixed(2)+'px)';requestAnimationFrame(follow)})();
+    }
 })();
 
 // ---- header scrolled ----
