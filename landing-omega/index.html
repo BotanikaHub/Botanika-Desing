@@ -243,24 +243,27 @@
         /* ===== Benefits grid (8 frentes) ===== */
         .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; perspective: 1200px; }
         @media (max-width: 900px) { .benefit-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .benefit-grid { grid-template-columns: 1fr; } }
-        .benefit-card { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
-        .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(232,182,76,0.16), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        @media (max-width: 520px) { .benefit-grid { grid-template-columns: 1fr; } }
+        .benefit-card { position: relative; overflow: hidden; background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem 1.6rem; min-height: 210px; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
+        .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(232,182,76,0.18), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .benefit-card::after { content:''; position:absolute; left:0; top:0; height:100%; width:3px; background: linear-gradient(var(--gold), var(--gold-soft)); transform: scaleY(0); transform-origin: top; transition: transform .45s cubic-bezier(.16,1,.3,1); }
         .benefit-card:hover { border-color: rgba(232,182,76,0.5); }
         .benefit-card:hover::before { opacity: 1; }
+        .benefit-card:hover::after { transform: scaleY(1); }
         .benefit-card > * { position: relative; z-index: 1; }
-        .benefit-num { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; color: var(--gold); display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
-        .benefit-num::after { content:''; height:1px; flex:1; background: linear-gradient(90deg, rgba(232,182,76,0.5), transparent); transition: background 0.4s ease; }
-        .benefit-card:hover .benefit-num::after { background: linear-gradient(90deg, var(--gold), transparent); }
-        .benefit-card h3 { font-family: var(--font-head); font-size: 1.22rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
-        .benefit-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.55; }
+        .benefit-ic { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); display: grid; place-items: center; margin-bottom: 1.15rem; box-shadow: 0 8px 22px rgba(232,182,76,0.24); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+        .benefit-card:hover .benefit-ic { transform: translateY(-3px) rotate(-4deg) scale(1.07); }
+        .benefit-wm { position: absolute; z-index: 0; top: 0.5rem; right: 1.05rem; font-family: var(--font-head); font-weight: 800; font-size: 3.5rem; line-height: 1; color: rgba(232,182,76,0.12); pointer-events: none; transition: color .4s ease, transform .5s ease; }
+        .benefit-card:hover .benefit-wm { color: rgba(232,182,76,0.22); transform: scale(1.08); }
+        .benefit-card h3 { font-family: var(--font-head); font-size: 1.24rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.45rem; }
+        .benefit-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
         .benefit-grid .reveal:nth-child(2){transition-delay:.05s} .benefit-grid .reveal:nth-child(3){transition-delay:.1s} .benefit-grid .reveal:nth-child(4){transition-delay:.15s} .benefit-grid .reveal:nth-child(5){transition-delay:.2s} .benefit-grid .reveal:nth-child(6){transition-delay:.25s} .benefit-grid .reveal:nth-child(7){transition-delay:.3s} .benefit-grid .reveal:nth-child(8){transition-delay:.35s}
 
         /* ===== Nutrition table ===== */
         .nutri-wrap { margin-top: 3rem; max-width: 720px; }
         .nutri-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px; overflow: hidden; backdrop-filter: blur(12px); }
         .nutri-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem 1rem; flex-wrap: wrap; padding: 1.3rem 1.6rem; border-bottom: 1px solid var(--glass-border); background: rgba(232,182,76,0.05); }
-        .nutri-head .t { font-family:'Manrope',sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); }
+        .nutri-head .t { display: inline-flex; align-items: center; gap: 0.5rem; font-family:'Manrope',sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); }
         .nutri-head .s { font-family:'Manrope',sans-serif; font-size: 0.82rem; color: var(--muted); }
         .nutri-colhead { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; padding: 0.7rem 1.6rem; border-bottom: 1px solid var(--glass-border); font-family:'Manrope',sans-serif; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
         .nutri-colhead span:not(:first-child), .nutri-row .v, .nutri-row .vd { text-align: right; }
@@ -282,7 +285,10 @@
         .howto-step:hover { border-color: rgba(232,182,76,0.5); }
         .howto-step:hover::before { opacity: 1; }
         .howto-step > * { position: relative; z-index: 1; }
-        .howto-n { width: 46px; height: 46px; border-radius: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; display: grid; place-items: center; margin-bottom: 1.2rem; box-shadow: 0 8px 22px rgba(232,182,76,0.25); transition: transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+        .howto-wm { position: absolute; z-index: 0; right: -0.6rem; bottom: -0.8rem; color: rgba(232,182,76,0.08); pointer-events: none; transition: color .45s ease, transform .55s cubic-bezier(.34,1.56,.64,1); }
+        .howto-wm svg { width: 104px; height: 104px; display: block; }
+        .howto-step:hover .howto-wm { color: rgba(232,182,76,0.16); transform: rotate(-6deg) scale(1.06); }
+        .howto-n { position: relative; width: 48px; height: 48px; border-radius: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); font-family: var(--font-head); font-weight: 800; font-size: 1.3rem; display: grid; place-items: center; margin-bottom: 1.2rem; box-shadow: 0 8px 22px rgba(232,182,76,0.25); transition: transform 0.45s cubic-bezier(.34,1.56,.64,1); }
         .howto-step:hover .howto-n { transform: translateY(-4px) rotate(-5deg) scale(1.06); }
         .howto-step h3 { font-family: var(--font-head); font-size: 1.28rem; margin-bottom: 0.5rem; }
         .howto-step p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
@@ -619,14 +625,14 @@
             <p class="lead">Não é só "tomar ômega". É o que a alta concentração de EPA, DHA, CoQ10 e Vitamina E faz pelo seu corpo — todos os dias.</p>
         </div>
         <div class="benefit-grid">
-            <div class="benefit-card reveal"><div class="benefit-num">01</div><h3>Saúde cardiovascular</h3><p>EPA e DHA apoiam a função cardíaca e a manutenção de níveis normais de triglicerídeos.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">02</div><h3>Função cerebral</h3><p>O DHA é componente estrutural do cérebro e apoia a manutenção da função cognitiva.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">03</div><h3>Saúde da visão</h3><p>O DHA contribui para a manutenção da visão em condições normais.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">04</div><h3>Mais disposição</h3><p>A CoQ10 participa da produção de energia celular, apoiando a vitalidade no dia a dia.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">05</div><h3>Proteção antioxidante</h3><p>Vitamina E e CoQ10 auxiliam na proteção das células contra o estresse oxidativo.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">06</div><h3>Equilíbrio lipídico</h3><p>O EPA auxilia na manutenção de níveis saudáveis de lipídios, aliado a hábitos saudáveis.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">07</div><h3>Completa a alimentação</h3><p>Supre a lacuna de ômega 3 de quem não consome peixe com frequência.</p></div>
-            <div class="benefit-card reveal"><div class="benefit-num">08</div><h3>Dose prática</h3><p>De 1 a 3 cápsulas por dia, antes das refeições. Flexível pra sua rotina.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-8.5C1 9 3 5.5 6.5 5.5c2 0 3.5 1.5 5.5 3 2-1.5 3.5-3 5.5-3C21 5.5 23 9 21.5 12.5 19 16.5 12 21 12 21Z"/></svg></span><span class="benefit-wm">01</span><h3>Saúde cardiovascular</h3><p>EPA e DHA apoiam a função cardíaca e a manutenção de níveis normais de triglicerídeos.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5a2.5 2.5 0 0 0-4.6-1.3A2.5 2.5 0 0 0 4.5 8a2.5 2.5 0 0 0-1 4.6A2.5 2.5 0 0 0 6 17a2.5 2.5 0 0 0 4 .8M12 5.5a2.5 2.5 0 0 1 4.6-1.3A2.5 2.5 0 0 1 19.5 8a2.5 2.5 0 0 1 1 4.6A2.5 2.5 0 0 1 18 17a2.5 2.5 0 0 1-4 .8M12 5.5v13"/></svg></span><span class="benefit-wm">02</span><h3>Função cerebral</h3><p>O DHA é componente estrutural do cérebro e apoia a manutenção da função cognitiva.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="benefit-wm">03</span><h3>Saúde da visão</h3><p>O DHA contribui para a manutenção da visão em condições normais.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-2 8 9-12h-7l2-8Z"/></svg></span><span class="benefit-wm">04</span><h3>Mais disposição</h3><p>A CoQ10 participa da produção de energia celular, apoiando a vitalidade no dia a dia.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="benefit-wm">05</span><h3>Proteção antioxidante</h3><p>Vitamina E e CoQ10 auxiliam na proteção das células contra o estresse oxidativo.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg></span><span class="benefit-wm">06</span><h3>Equilíbrio lipídico</h3><p>O EPA auxilia na manutenção de níveis saudáveis de lipídios, aliado a hábitos saudáveis.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c3.5-4.5 8-6 12-6 0 0-2 2.5-2 6s2 6 2 6c-4 0-8.5-1.5-12-6Z"/><path d="M18 8.6c2 .5 3.4 2 4 3.4-.6 1.5-2 3-4 3.5"/></svg></span><span class="benefit-wm">07</span><h3>Completa a alimentação</h3><p>Supre a lacuna de ômega 3 de quem não consome peixe com frequência.</p></div>
+            <div class="benefit-card reveal"><span class="benefit-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 14.8 14.8 4.9a4.1 4.1 0 0 1 5.8 5.8l-9.9 9.9a4.1 4.1 0 0 1-5.8-5.8Z"/><path d="m9.5 9.5 5 5"/></svg></span><span class="benefit-wm">08</span><h3>Dose prática</h3><p>De 1 a 3 cápsulas por dia, antes das refeições. Flexível pra sua rotina.</p></div>
         </div>
     </section>
 
@@ -640,7 +646,7 @@
         <div class="nutri-wrap reveal">
             <div class="nutri-card">
                 <div class="nutri-head">
-                    <span class="t">Informação nutricional</span>
+                    <span class="t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Informação nutricional</span>
                     <span class="s">Porção: 4,8 g (3 cápsulas) · 30 porções por embalagem</span>
                 </div>
                 <div class="nutri-colhead"><span>Nutriente</span><span>Por porção</span><span>%VD*</span></div>
@@ -654,7 +660,7 @@
                 <div class="nutri-row hi"><span class="k">DHA</span><span class="v"><span class="num" data-target="660" data-suffix=" mg">660 mg</span></span><span class="vd">**</span></div>
                 <div class="nutri-row hi"><span class="k">Coenzima Q10</span><span class="v"><span class="num" data-target="100" data-suffix=" mg">100 mg</span></span><span class="vd">**</span></div>
                 <div class="nutri-row"><span class="k">Colesterol</span><span class="v">15 mg</span><span class="vd">5%</span></div>
-                <p class="nutri-foot">* Percentual de valores diários com base em uma dieta de 2.000 kcal. Seus valores podem ser maiores ou menores conforme suas necessidades. ** Valor diário não estabelecido.</p>
+                <p class="nutri-foot"><b style="color:var(--gold-soft)">Por cápsula:</b> ~708 mg de ômega 3 · ~330 mg de EPA · ~220 mg de DHA · ~33 mg de CoQ10.<br>* Percentual de valores diários com base em uma dieta de 2.000 kcal. Seus valores podem ser maiores ou menores conforme suas necessidades. ** Valor diário não estabelecido.</p>
             </div>
         </div>
     </section>
@@ -683,9 +689,9 @@
             <p class="lead">Sem ritual complicado. Encaixa no seu dia — e é a constância que traz o resultado.</p>
         </div>
         <div class="howto-grid">
-            <div class="howto-step reveal"><div class="howto-n">01</div><h3>Dose completa</h3><p>3 cápsulas por dia para a concentração recomendada de ômega 3.</p></div>
-            <div class="howto-step reveal"><div class="howto-n">02</div><h3>Com a refeição</h3><p>Antes das principais refeições, com um copo de água.</p></div>
-            <div class="howto-step reveal"><div class="howto-n">03</div><h3>Melhor horário</h3><p>Almoço ou jantar: a gordura da refeição melhora a absorção dos ativos.</p></div>
+            <div class="howto-step reveal"><span class="howto-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 14.8 14.8 4.9a4.1 4.1 0 0 1 5.8 5.8l-9.9 9.9a4.1 4.1 0 0 1-5.8-5.8Z"/><path d="m9.5 9.5 5 5"/></svg></span><div class="howto-n">01</div><h3>Dose completa</h3><p>3 cápsulas por dia para a concentração recomendada de ômega 3.</p></div>
+            <div class="howto-step reveal"><span class="howto-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2V3M8 12v9M17 3c-1.7 0-3 2-3 5s1.3 4 3 4v9"/></svg></span><div class="howto-n">02</div><h3>Com a refeição</h3><p>Antes das principais refeições, com um copo de água.</p></div>
+            <div class="howto-step reveal"><span class="howto-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><div class="howto-n">03</div><h3>Melhor horário</h3><p>Almoço ou jantar: a gordura da refeição melhora a absorção dos ativos.</p></div>
         </div>
         <div class="howto-tip reveal">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg>
