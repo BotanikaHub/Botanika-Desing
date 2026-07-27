@@ -241,18 +241,20 @@
         .hex-lab { font-family:'Manrope',sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); max-width: 130px; line-height: 1.4; }
 
         /* ===== Benefits grid (8 frentes) ===== */
-        .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; }
+        .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; perspective: 1200px; }
         @media (max-width: 900px) { .benefit-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 480px) { .benefit-grid { grid-template-columns: 1fr; } }
-        .benefit-card { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem; transition: border-color .4s ease, transform .4s ease; }
-        .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at 50% 0%, rgba(232,182,76,0.14), transparent 62%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
-        .benefit-card:hover { border-color: rgba(232,182,76,0.45); transform: translateY(-5px); }
+        .benefit-card { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
+        .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(232,182,76,0.16), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .benefit-card:hover { border-color: rgba(232,182,76,0.5); }
         .benefit-card:hover::before { opacity: 1; }
         .benefit-card > * { position: relative; z-index: 1; }
         .benefit-num { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; color: var(--gold); display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
-        .benefit-num::after { content:''; height:1px; flex:1; background: linear-gradient(90deg, rgba(232,182,76,0.55), transparent); }
+        .benefit-num::after { content:''; height:1px; flex:1; background: linear-gradient(90deg, rgba(232,182,76,0.5), transparent); transition: background 0.4s ease; }
+        .benefit-card:hover .benefit-num::after { background: linear-gradient(90deg, var(--gold), transparent); }
         .benefit-card h3 { font-family: var(--font-head); font-size: 1.22rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
         .benefit-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.55; }
+        .benefit-grid .reveal:nth-child(2){transition-delay:.05s} .benefit-grid .reveal:nth-child(3){transition-delay:.1s} .benefit-grid .reveal:nth-child(4){transition-delay:.15s} .benefit-grid .reveal:nth-child(5){transition-delay:.2s} .benefit-grid .reveal:nth-child(6){transition-delay:.25s} .benefit-grid .reveal:nth-child(7){transition-delay:.3s} .benefit-grid .reveal:nth-child(8){transition-delay:.35s}
 
         /* ===== Nutrition table ===== */
         .nutri-wrap { margin-top: 3rem; max-width: 720px; }
@@ -262,7 +264,8 @@
         .nutri-head .s { font-family:'Manrope',sans-serif; font-size: 0.82rem; color: var(--muted); }
         .nutri-colhead { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; padding: 0.7rem 1.6rem; border-bottom: 1px solid var(--glass-border); font-family:'Manrope',sans-serif; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
         .nutri-colhead span:not(:first-child), .nutri-row .v, .nutri-row .vd { text-align: right; }
-        .nutri-row { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; align-items: center; padding: 0.78rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.06); font-family:'Manrope',sans-serif; font-size: 0.9rem; }
+        .nutri-row { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; align-items: center; padding: 0.78rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.06); font-family:'Manrope',sans-serif; font-size: 0.9rem; transition: background 0.3s ease; }
+        .nutri-row:not(.hi):hover { background: rgba(255,255,255,0.04); }
         .nutri-row .k { color: var(--text); }
         .nutri-row .v, .nutri-row .vd { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
         .nutri-row.hi { background: rgba(232,182,76,0.07); }
@@ -272,13 +275,18 @@
         @media (max-width: 480px) { .nutri-colhead, .nutri-row { grid-template-columns: 1fr 74px 44px; gap: 0.5rem; padding-left: 1.1rem; padding-right: 1.1rem; } }
 
         /* ===== How to take ===== */
-        .howto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin-top: 3rem; }
+        .howto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin-top: 3rem; perspective: 1200px; }
         @media (max-width: 760px) { .howto-grid { grid-template-columns: 1fr; } }
-        .howto-step { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.9rem 1.6rem; transition: border-color .4s ease, transform .4s ease; }
-        .howto-step:hover { border-color: rgba(232,182,76,0.45); transform: translateY(-5px); }
-        .howto-n { width: 46px; height: 46px; border-radius: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; display: grid; place-items: center; margin-bottom: 1.2rem; }
+        .howto-step { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.9rem 1.6rem; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
+        .howto-step::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(232,182,76,0.15), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .howto-step:hover { border-color: rgba(232,182,76,0.5); }
+        .howto-step:hover::before { opacity: 1; }
+        .howto-step > * { position: relative; z-index: 1; }
+        .howto-n { width: 46px; height: 46px; border-radius: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; display: grid; place-items: center; margin-bottom: 1.2rem; box-shadow: 0 8px 22px rgba(232,182,76,0.25); transition: transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+        .howto-step:hover .howto-n { transform: translateY(-4px) rotate(-5deg) scale(1.06); }
         .howto-step h3 { font-family: var(--font-head); font-size: 1.28rem; margin-bottom: 0.5rem; }
         .howto-step p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
+        .howto-grid .reveal:nth-child(2){transition-delay:.08s} .howto-grid .reveal:nth-child(3){transition-delay:.16s}
         .howto-tip { display: flex; align-items: flex-start; gap: 0.9rem; margin-top: 1.4rem; padding: 1.25rem 1.5rem; background: rgba(232,182,76,0.08); border: 1px dashed rgba(232,182,76,0.42); border-radius: 16px; max-width: 820px; }
         .howto-tip svg { flex: none; color: var(--gold-soft); margin-top: 2px; }
         .howto-tip p { font-size: 0.92rem; line-height: 1.6; color: var(--text); }
@@ -641,10 +649,10 @@
                 <div class="nutri-row"><span class="k">Proteínas</span><span class="v">0,7 g</span><span class="vd">1%</span></div>
                 <div class="nutri-row"><span class="k">Gorduras totais</span><span class="v">3,3 g</span><span class="vd">5%</span></div>
                 <div class="nutri-row"><span class="k">Gorduras saturadas</span><span class="v">0,4 g</span><span class="vd">2%</span></div>
-                <div class="nutri-row hi"><span class="k">Ômega 3</span><span class="v">2.124 mg</span><span class="vd">**</span></div>
-                <div class="nutri-row hi"><span class="k">EPA</span><span class="v">990 mg</span><span class="vd">**</span></div>
-                <div class="nutri-row hi"><span class="k">DHA</span><span class="v">660 mg</span><span class="vd">**</span></div>
-                <div class="nutri-row hi"><span class="k">Coenzima Q10</span><span class="v">100 mg</span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">Ômega 3</span><span class="v"><span class="num" data-target="2124" data-suffix=" mg">2.124 mg</span></span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">EPA</span><span class="v"><span class="num" data-target="990" data-suffix=" mg">990 mg</span></span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">DHA</span><span class="v"><span class="num" data-target="660" data-suffix=" mg">660 mg</span></span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">Coenzima Q10</span><span class="v"><span class="num" data-target="100" data-suffix=" mg">100 mg</span></span><span class="vd">**</span></div>
                 <div class="nutri-row"><span class="k">Colesterol</span><span class="v">15 mg</span><span class="vd">5%</span></div>
                 <p class="nutri-foot">* Percentual de valores diários com base em uma dieta de 2.000 kcal. Seus valores podem ser maiores ou menores conforme suas necessidades. ** Valor diário não estabelecido.</p>
             </div>
@@ -1240,7 +1248,8 @@
         // ===== Card tilt + magnetic buttons (fine pointers only) =====
         const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
         if (fine) {
-            document.querySelectorAll('.ing-card').forEach(card => {
+            document.querySelectorAll('.ing-card, .benefit-card, .howto-step').forEach(card => {
+                const soft = card.classList.contains('ing-card') ? 1 : 0.7;
                 const rX = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3' });
                 const rY = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3' });
                 const tY = gsap.quickTo(card, 'y', { duration: 0.6, ease: 'power3' });
@@ -1248,7 +1257,7 @@
                 card.addEventListener('mousemove', (e) => {
                     const r = card.getBoundingClientRect();
                     const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-                    rY((px - 0.5) * 14); rX((0.5 - py) * 14); tY(-8); sC(1.03);
+                    rY((px - 0.5) * 14 * soft); rX((0.5 - py) * 14 * soft); tY(-8 * soft); sC(1 + 0.03 * soft);
                     card.style.setProperty('--mx', px * 100 + '%'); card.style.setProperty('--my', py * 100 + '%');
                 });
                 card.addEventListener('mouseleave', () => { rX(0); rY(0); tY(0); sC(1); });
