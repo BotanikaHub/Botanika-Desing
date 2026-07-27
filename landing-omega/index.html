@@ -240,6 +240,50 @@
         .hex:hover .hex-ic { transform: translateY(-6px) scale(1.05); }
         .hex-lab { font-family:'Manrope',sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); max-width: 130px; line-height: 1.4; }
 
+        /* ===== Benefits grid (8 frentes) ===== */
+        .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; }
+        @media (max-width: 900px) { .benefit-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .benefit-grid { grid-template-columns: 1fr; } }
+        .benefit-card { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem; transition: border-color .4s ease, transform .4s ease; }
+        .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at 50% 0%, rgba(232,182,76,0.14), transparent 62%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .benefit-card:hover { border-color: rgba(232,182,76,0.45); transform: translateY(-5px); }
+        .benefit-card:hover::before { opacity: 1; }
+        .benefit-card > * { position: relative; z-index: 1; }
+        .benefit-num { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; color: var(--gold); display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
+        .benefit-num::after { content:''; height:1px; flex:1; background: linear-gradient(90deg, rgba(232,182,76,0.55), transparent); }
+        .benefit-card h3 { font-family: var(--font-head); font-size: 1.22rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; }
+        .benefit-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.55; }
+
+        /* ===== Nutrition table ===== */
+        .nutri-wrap { margin-top: 3rem; max-width: 720px; }
+        .nutri-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px; overflow: hidden; backdrop-filter: blur(12px); }
+        .nutri-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem 1rem; flex-wrap: wrap; padding: 1.3rem 1.6rem; border-bottom: 1px solid var(--glass-border); background: rgba(232,182,76,0.05); }
+        .nutri-head .t { font-family:'Manrope',sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); }
+        .nutri-head .s { font-family:'Manrope',sans-serif; font-size: 0.82rem; color: var(--muted); }
+        .nutri-colhead { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; padding: 0.7rem 1.6rem; border-bottom: 1px solid var(--glass-border); font-family:'Manrope',sans-serif; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+        .nutri-colhead span:not(:first-child), .nutri-row .v, .nutri-row .vd { text-align: right; }
+        .nutri-row { display: grid; grid-template-columns: 1fr 92px 56px; gap: 0.8rem; align-items: center; padding: 0.78rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.06); font-family:'Manrope',sans-serif; font-size: 0.9rem; }
+        .nutri-row .k { color: var(--text); }
+        .nutri-row .v, .nutri-row .vd { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .nutri-row.hi { background: rgba(232,182,76,0.07); }
+        .nutri-row.hi .k { color: var(--gold-soft); font-weight: 600; }
+        .nutri-row.hi .v { color: var(--gold-soft); font-weight: 700; }
+        .nutri-foot { padding: 1rem 1.6rem; font-size: 0.72rem; color: rgba(226,236,255,0.45); line-height: 1.55; }
+        @media (max-width: 480px) { .nutri-colhead, .nutri-row { grid-template-columns: 1fr 74px 44px; gap: 0.5rem; padding-left: 1.1rem; padding-right: 1.1rem; } }
+
+        /* ===== How to take ===== */
+        .howto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin-top: 3rem; }
+        @media (max-width: 760px) { .howto-grid { grid-template-columns: 1fr; } }
+        .howto-step { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.9rem 1.6rem; transition: border-color .4s ease, transform .4s ease; }
+        .howto-step:hover { border-color: rgba(232,182,76,0.45); transform: translateY(-5px); }
+        .howto-n { width: 46px; height: 46px; border-radius: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-soft)); color: var(--navy-deep); font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; display: grid; place-items: center; margin-bottom: 1.2rem; }
+        .howto-step h3 { font-family: var(--font-head); font-size: 1.28rem; margin-bottom: 0.5rem; }
+        .howto-step p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
+        .howto-tip { display: flex; align-items: flex-start; gap: 0.9rem; margin-top: 1.4rem; padding: 1.25rem 1.5rem; background: rgba(232,182,76,0.08); border: 1px dashed rgba(232,182,76,0.42); border-radius: 16px; max-width: 820px; }
+        .howto-tip svg { flex: none; color: var(--gold-soft); margin-top: 2px; }
+        .howto-tip p { font-size: 0.92rem; line-height: 1.6; color: var(--text); }
+        .howto-tip b { color: var(--gold-soft); }
+
         /* ===== Social proof: scroll-driven scattered gallery (cards scale in/out) ===== */
         .proof { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; padding: 5rem 5% 4rem; }
         .proof-head { text-align: center; max-width: 720px; margin: 0 auto 2.6rem; }
@@ -556,8 +600,56 @@
         </div>
     </section>
 
-    <!-- ===== FOR WHO ===== -->
+    <!-- ===== BENEFITS (8 frentes) ===== -->
     <section class="section" id="beneficios">
+        <div class="reveal">
+            <p class="eyebrow">O que muda na rotina</p>
+            <h2 class="titleshadow">Oito frentes de cuidado <span class="gold">numa cápsula só</span>.</h2>
+            <p class="lead">Não é só "tomar ômega". É o que a alta concentração de EPA, DHA, CoQ10 e Vitamina E faz pelo seu corpo — todos os dias.</p>
+        </div>
+        <div class="benefit-grid">
+            <div class="benefit-card reveal"><div class="benefit-num">01</div><h3>Saúde cardiovascular</h3><p>EPA e DHA apoiam a função cardíaca e a manutenção de níveis normais de triglicerídeos.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">02</div><h3>Função cerebral</h3><p>O DHA é componente estrutural do cérebro e apoia a manutenção da função cognitiva.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">03</div><h3>Saúde da visão</h3><p>O DHA contribui para a manutenção da visão em condições normais.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">04</div><h3>Mais disposição</h3><p>A CoQ10 participa da produção de energia celular, apoiando a vitalidade no dia a dia.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">05</div><h3>Proteção antioxidante</h3><p>Vitamina E e CoQ10 auxiliam na proteção das células contra o estresse oxidativo.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">06</div><h3>Equilíbrio lipídico</h3><p>O EPA auxilia na manutenção de níveis saudáveis de lipídios, aliado a hábitos saudáveis.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">07</div><h3>Completa a alimentação</h3><p>Supre a lacuna de ômega 3 de quem não consome peixe com frequência.</p></div>
+            <div class="benefit-card reveal"><div class="benefit-num">08</div><h3>Dose prática</h3><p>De 1 a 3 cápsulas por dia, antes das refeições. Flexível pra sua rotina.</p></div>
+        </div>
+    </section>
+
+    <!-- ===== NUTRITION TABLE ===== -->
+    <section class="section" id="tabela">
+        <div class="reveal">
+            <p class="eyebrow">Transparência</p>
+            <h2 class="titleshadow">Números na mesa. <span class="gold">Sem letra miúda</span>.</h2>
+            <p class="lead">Cada porção entregando exatamente o que promete — sem enrolação e sem dose escondida.</p>
+        </div>
+        <div class="nutri-wrap reveal">
+            <div class="nutri-card">
+                <div class="nutri-head">
+                    <span class="t">Informação nutricional</span>
+                    <span class="s">Porção: 4,8 g (3 cápsulas) · 30 porções por embalagem</span>
+                </div>
+                <div class="nutri-colhead"><span>Nutriente</span><span>Por porção</span><span>%VD*</span></div>
+                <div class="nutri-row"><span class="k">Valor energético</span><span class="v">32 kcal</span><span class="vd">2%</span></div>
+                <div class="nutri-row"><span class="k">Carboidratos</span><span class="v">0 g</span><span class="vd">0%</span></div>
+                <div class="nutri-row"><span class="k">Proteínas</span><span class="v">0,7 g</span><span class="vd">1%</span></div>
+                <div class="nutri-row"><span class="k">Gorduras totais</span><span class="v">3,3 g</span><span class="vd">5%</span></div>
+                <div class="nutri-row"><span class="k">Gorduras saturadas</span><span class="v">0,4 g</span><span class="vd">2%</span></div>
+                <div class="nutri-row hi"><span class="k">Ômega 3</span><span class="v">2.124 mg</span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">EPA</span><span class="v">990 mg</span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">DHA</span><span class="v">660 mg</span><span class="vd">**</span></div>
+                <div class="nutri-row hi"><span class="k">Coenzima Q10</span><span class="v">100 mg</span><span class="vd">**</span></div>
+                <div class="nutri-row"><span class="k">Colesterol</span><span class="v">15 mg</span><span class="vd">5%</span></div>
+                <p class="nutri-foot">* Percentual de valores diários com base em uma dieta de 2.000 kcal. Seus valores podem ser maiores ou menores conforme suas necessidades. ** Valor diário não estabelecido.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOR WHO ===== -->
+    <section class="section" id="para-quem">
         <div class="reveal">
             <p class="eyebrow">Para quem é</p>
             <h2 class="titleshadow">Feito para quem cansou de <span class="gold">tomar ômega e não sentir nada</span>.</h2>
@@ -569,6 +661,24 @@
             <div class="check-item reveal"><span class="check-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Não come peixe com frequência</div>
             <div class="check-item reveal"><span class="check-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Treina e busca recuperação e mais energia</div>
             <div class="check-item reveal"><span class="check-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Cansou de ômega fraco e de engolir punhado de cápsula</div>
+        </div>
+    </section>
+
+    <!-- ===== HOW TO TAKE ===== -->
+    <section class="section" id="como-tomar">
+        <div class="reveal">
+            <p class="eyebrow">Como tomar</p>
+            <h2 class="titleshadow">Simples, flexível, <span class="gold">feito pra rotina real</span>.</h2>
+            <p class="lead">Sem ritual complicado. Encaixa no seu dia — e é a constância que traz o resultado.</p>
+        </div>
+        <div class="howto-grid">
+            <div class="howto-step reveal"><div class="howto-n">01</div><h3>Dose completa</h3><p>3 cápsulas por dia para a concentração recomendada de ômega 3.</p></div>
+            <div class="howto-step reveal"><div class="howto-n">02</div><h3>Com a refeição</h3><p>Antes das principais refeições, com um copo de água.</p></div>
+            <div class="howto-step reveal"><div class="howto-n">03</div><h3>Melhor horário</h3><p>Almoço ou jantar: a gordura da refeição melhora a absorção dos ativos.</p></div>
+        </div>
+        <div class="howto-tip reveal">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg>
+            <p><b>Dica Botanika:</b> a dose é flexível, de 1 a 3 cápsulas por dia. Na dose completa, o pote de 90 cápsulas rende <b>30 dias</b>. Tomando 1 cápsula por dia, rende até <b>90 dias</b>.</p>
         </div>
     </section>
 
