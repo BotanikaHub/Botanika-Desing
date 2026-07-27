@@ -145,6 +145,15 @@
     /* hero visual: bottle + calm floating form nodes */
     .stage{position:relative;display:grid;place-items:center;min-height:440px}
     @media(max-width:919px){.stage{min-height:320px}.hero{min-height:auto;padding-top:6rem;padding-bottom:2rem}.hero h1{font-size:clamp(1.9rem,7vw,2.6rem)}}
+    @media(min-width:920px){
+        .hero h1{font-size:clamp(2rem,3vw,2.7rem);margin-bottom:1rem;line-height:1.1}
+        .hero-sub{font-size:1.02rem;line-height:1.6;margin-bottom:1.1rem;max-width:480px}
+        .forms-row{margin-bottom:1.2rem}
+        .hero-cta{margin-bottom:1rem}
+        .hero{padding-top:3.5rem}
+        .stage{min-height:520px}
+        .bottle{width:min(72%,340px)}
+    }
     .halo{position:absolute;width:min(78%,420px);aspect-ratio:1;border-radius:50%;
         background:radial-gradient(circle,rgba(155,140,240,.35),rgba(111,224,192,.12) 45%,transparent 70%);
         filter:blur(10px);animation:breathe 7s ease-in-out infinite;will-change:transform}
@@ -274,9 +283,10 @@
     .buy-stage{position:relative;display:grid;place-items:center;min-height:230px}
     .shelf{position:absolute;bottom:34px;width:78%;height:26px;border-radius:50%;background:radial-gradient(ellipse,rgba(111,224,192,.28),transparent 70%);filter:blur(4px);z-index:0}
     .orbits{position:absolute;inset:0;z-index:1;pointer-events:none}
-    .buy-vis{position:relative;z-index:2;display:flex;justify-content:center;align-items:flex-end;gap:6px;min-height:190px}
-    .buy-vis img{width:96px;filter:drop-shadow(0 18px 22px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
-    .buy-vis img:nth-child(2){animation-delay:.5s}.buy-vis img:nth-child(3){animation-delay:1s}
+    .buy-vis{position:relative;z-index:2;display:flex;justify-content:center;align-items:flex-end;min-height:210px}
+    .buy-vis img{width:130px;filter:drop-shadow(0 18px 22px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
+    .buy-vis img:not(:first-child){margin-left:-30px}
+    .buy-vis img:nth-child(2){animation-delay:.5s;z-index:1}.buy-vis img:nth-child(3){animation-delay:1s}
     .save-badge{position:absolute;top:2px;right:2px;z-index:5;font-family:var(--head);font-weight:700;font-size:1.05rem;color:#0a0913;background:var(--grad);border-radius:50%;width:60px;height:60px;display:grid;place-items:center;box-shadow:0 10px 24px rgba(111,224,192,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
     .save-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
     .buy-info{position:relative;z-index:1}
@@ -409,12 +419,12 @@
         <p class="lead">Cada forma tem absorção, velocidade e tolerância diferentes. Reunir as três dá ao corpo múltiplas vias de aproveitamento — sem depender de uma só.</p>
     </div>
     <div class="molecule rv" id="molecule">
-        <svg id="molSvg" viewBox="0 0 460 300" role="img" aria-label="Três formas de magnésio orbitando 232 mg">
+        <svg id="molSvg" viewBox="0 0 520 360" role="img" aria-label="Três formas de magnésio orbitando 232 mg">
             <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fe0c0"/><stop offset="1" stop-color="#9b8cf0"/></linearGradient></defs>
             <line class="bond" id="mb0"/><line class="bond" id="mb1"/><line class="bond" id="mb2"/>
-            <circle class="mgcore" cx="230" cy="150" r="52" fill="url(#mg)"/>
-            <text class="mcore" x="230" y="146" font-size="30">Mg</text>
-            <text class="mcore" x="230" y="170" font-size="13" opacity=".85">232mg</text>
+            <circle class="mgcore" cx="260" cy="175" r="56" fill="url(#mg)"/>
+            <text class="mcore" x="260" y="170" font-size="32">Mg</text>
+            <text class="mcore" x="260" y="196" font-size="13" opacity=".85">232mg</text>
             <g class="matom"><circle id="mc0" r="22" fill="#e8c9a0"/><text class="mlbl" id="ml0">Malato</text></g>
             <g class="matom"><circle id="mc1" r="22" fill="#6fe0c0"/><text class="mlbl" id="ml1">Bisglicinato</text></g>
             <g class="matom"><circle id="mc2" r="22" fill="#9b8cf0"/><text class="mlbl" id="ml2">Citrato</text></g>
@@ -825,7 +835,8 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
     function movePill(b){if(b){pill.style.left=b.offsetLeft+'px';pill.style.width=b.offsetWidth+'px'}}
     function render(p){
         const d=DATA[p];if(!d)return;
-        vis.innerHTML=Array.from({length:d.n},()=>'<img src="bottle-tri.png" alt="Tri[Mg] Complex">').join('');
+        const bw={1:158,2:132,3:116}[d.n]||128;
+        vis.innerHTML=Array.from({length:d.n},()=>'<img src="bottle-tri.png" alt="Tri[Mg] Complex" style="width:'+bw+'px">').join('');
         tag.textContent=d.tag;inst.textContent=d.inst;cash.textContent=d.cash;save.innerHTML=d.save;
         bonus.classList.toggle('show',d.bonus);
         if(badge){badge.textContent=d.badge;badge.classList.toggle('show',!!d.badge)}
@@ -863,7 +874,7 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
 (function(){
     const svg=document.getElementById('molSvg');if(!svg)return;
     const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const CX=230,CY=150,R=104;
+    const CX=260,CY=175,R=150;
     const A=[0,1,2].map(i=>({c:document.getElementById('mc'+i),l:document.getElementById('ml'+i),b:document.getElementById('mb'+i)}));
     let a0=-Math.PI/2;
     function place(){
@@ -890,7 +901,7 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
             const el=document.createElement('i'),col=COL[i%3],sz=6+Math.random()*7;
             el.style.cssText='position:absolute;top:50%;left:50%;border-radius:50%;width:'+sz.toFixed(1)+'px;height:'+sz.toFixed(1)+'px;background:'+col+';box-shadow:0 0 10px '+col+';will-change:transform';
             layer.appendChild(el);
-            dots.push({el,r:60+Math.random()*54,sp:(.18+Math.random()*.5)*(Math.random()<.5?1:-1),ph:Math.random()*6.28,yr:.42+Math.random()*.32});
+            dots.push({el,r:88+Math.random()*78,sp:(.16+Math.random()*.4)*(Math.random()<.5?1:-1),ph:(i/n)*Math.PI*2+Math.random()*.5,yr:.5+Math.random()*.28});
         }
     };
     function loop(t){
