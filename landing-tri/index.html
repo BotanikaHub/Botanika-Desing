@@ -17,8 +17,9 @@
         --head:'Fraunces',serif; --body:'Manrope',sans-serif;
     }
     *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased}
+    .wrap,section,.container,.statement{max-width:100%}
     a{color:inherit;text-decoration:none}
     h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.05;letter-spacing:-.01em}
     .mint{color:var(--mint)} .violet{color:var(--violet)} .champ{color:var(--champ)}
