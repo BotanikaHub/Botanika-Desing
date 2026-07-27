@@ -73,7 +73,7 @@
     .molecule.in .bond{opacity:1}
     .molecule .matom{opacity:0;transition:opacity .7s ease}
     .molecule.in .matom{opacity:1}
-    .molecule .matom circle{filter:drop-shadow(0 4px 14px rgba(0,0,0,.45))}
+    .molecule .matom circle{filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));transition:r .25s ease;cursor:pointer}
     .molecule .mlbl{font-family:var(--body);font-weight:700;font-size:12px;fill:var(--muted);text-anchor:middle}
     .molecule .mcore{font-family:var(--head);font-weight:700;fill:#0a0913;text-anchor:middle}
     .molecule .mgcore{filter:drop-shadow(0 0 22px rgba(155,140,240,.55))}
@@ -105,10 +105,11 @@
     /* night ritual */
     .ritual{display:grid;grid-template-columns:1fr;gap:1.6rem;align-items:stretch;margin-top:2.8rem}
     @media(min-width:820px){.ritual{grid-template-columns:.82fr 1.18fr;gap:2rem}}
-    .night{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--line);min-height:300px;display:grid;place-items:center;background:radial-gradient(120% 90% at 32% 16%,#2a2350,#0b091a 72%)}
-    .night .moon{position:absolute;top:26px;right:32px;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 33%,#f6eed2,#d8c8a0);box-shadow:0 0 42px rgba(232,201,160,.4)}
+    .night{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--line);min-height:360px;display:grid;place-items:center;background:radial-gradient(120% 90% at 32% 16%,#2a2350,#0b091a 72%)}
+    @media(min-width:820px){.night{min-height:420px}}
+    .night .moon{position:absolute;top:26px;right:32px;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 33%,#f6eed2,#d8c8a0);box-shadow:0 0 42px rgba(232,201,160,.4)}
     .night .st{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;animation:twinkle 3.5s ease-in-out infinite}
-    .night img{position:relative;z-index:1;width:46%;max-width:150px;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
+    .night img{position:relative;z-index:1;width:66%;max-width:240px;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
     @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
     .ritual-right{display:grid;gap:1.6rem;align-content:center}
     .timeline{position:relative;display:grid;gap:1.6rem}
@@ -151,8 +152,8 @@
         .forms-row{margin-bottom:1.2rem}
         .hero-cta{margin-bottom:1rem}
         .hero{padding-top:3.5rem}
-        .stage{min-height:520px}
-        .bottle{width:min(72%,340px)}
+        .stage{min-height:560px}
+        .bottle{width:min(84%,410px)}
     }
     .halo{position:absolute;width:min(78%,420px);aspect-ratio:1;border-radius:50%;
         background:radial-gradient(circle,rgba(155,140,240,.35),rgba(111,224,192,.12) 45%,transparent 70%);
@@ -186,7 +187,10 @@
     .triad{display:grid;grid-template-columns:1fr;gap:1.2rem;margin-top:3rem}
     @media(min-width:760px){.triad{grid-template-columns:repeat(3,1fr)}}
     .form-card{padding:2rem 1.6rem;transform-style:preserve-3d;will-change:transform}
-    .form-card .cap{position:relative;z-index:1;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:1.3rem;color:#0a0913}
+    .form-card .cap{position:relative;z-index:1;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:1.3rem;color:#0a0913;box-shadow:0 8px 22px rgba(0,0,0,.3);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+    .form-card:hover .cap{transform:translateY(-5px) rotate(-8deg) scale(1.12)}
+    .form-card:hover h3{color:#fff}
+    .form-card h3{transition:color .3s}
     .form-card h3{position:relative;z-index:1;font-size:1.55rem;margin-bottom:.15rem}
     .form-card .tag{position:relative;z-index:1;font-family:var(--body);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.7rem}
     .form-card p{position:relative;z-index:1;color:var(--muted);font-size:.92rem}
@@ -870,24 +874,40 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
     tick();
 })();
 
-// ---- molecule orbit (3 forms circling Mg) ----
+// ---- molecule orbit (slow, organic, pauses on hover) ----
 (function(){
     const svg=document.getElementById('molSvg');if(!svg)return;
     const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const CX=260,CY=175,R=150;
-    const A=[0,1,2].map(i=>({c:document.getElementById('mc'+i),l:document.getElementById('ml'+i),b:document.getElementById('mb'+i)}));
-    let a0=-Math.PI/2;
-    function place(){
-        a0+=0.0045;
-        A.forEach((e,i)=>{
-            const ang=a0+i*2*Math.PI/3,x=CX+R*Math.cos(ang),y=CY+R*Math.sin(ang);
-            e.c.setAttribute('cx',x);e.c.setAttribute('cy',y);
-            e.b.setAttribute('x1',CX);e.b.setAttribute('y1',CY);e.b.setAttribute('x2',x);e.b.setAttribute('y2',y);
-            e.l.setAttribute('x',x);e.l.setAttribute('y',y+(y>CY?40:-30));
-        });
-        if(!reduce)requestAnimationFrame(place);
+    const CX=260,CY=175,R=150,BR=22;
+    const seed=[{spd:0.15,wa:0.26,ww:0.7,wp:0.5,ra:16,rw:0.5,rp:1.2},
+                {spd:-0.11,wa:0.34,ww:0.5,wp:2.1,ra:24,rw:0.42,rp:3.0},
+                {spd:0.19,wa:0.20,ww:0.9,wp:4.0,ra:12,rw:0.63,rp:5.1}];
+    const A=[0,1,2].map(i=>Object.assign({c:document.getElementById('mc'+i),l:document.getElementById('ml'+i),b:document.getElementById('mb'+i),
+        base:i*2*Math.PI/3-Math.PI/2,lt:i*3.3},seed[i]));
+    ['#e8c9a0','#6fe0c0','#9b8cf0'].forEach((col,i)=>A[i].c.style.color=col);
+    let mx=-1e5,my=-1e5;
+    function toSvg(ev){const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const m=svg.getScreenCTM();return m?p.matrixTransform(m.inverse()):null}
+    if(matchMedia('(hover:hover)').matches){
+        svg.addEventListener('mousemove',ev=>{const p=toSvg(ev);if(p){mx=p.x;my=p.y}});
+        svg.addEventListener('mouseleave',()=>{mx=my=-1e5});
     }
-    place();
+    let last=0;
+    function frame(t){
+        const dt=last?Math.min((t-last)/1000,0.05):0;last=t;
+        A.forEach(e=>{
+            const ang=e.base+e.spd*e.lt+e.wa*Math.sin(e.ww*e.lt+e.wp);
+            const rr=R+e.ra*Math.sin(e.rw*e.lt+e.rp);
+            const x=CX+rr*Math.cos(ang),y=CY+rr*Math.sin(ang);
+            const hov=(mx-x)*(mx-x)+(my-y)*(my-y)<(BR+18)*(BR+18);
+            e.c.setAttribute('cx',x);e.c.setAttribute('cy',y);e.c.setAttribute('r',hov?BR*1.28:BR);
+            e.c.style.filter=hov?'drop-shadow(0 0 16px currentColor) brightness(1.15)':'';
+            e.b.setAttribute('x1',CX);e.b.setAttribute('y1',CY);e.b.setAttribute('x2',x);e.b.setAttribute('y2',y);
+            e.l.setAttribute('x',x);e.l.setAttribute('y',y+(y>CY?42:-30));
+            if(!hov)e.lt+=dt;
+        });
+        if(!reduce)requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
 })();
 
 // ---- kit molecules orbiting the bottle (count scales with kit) ----
