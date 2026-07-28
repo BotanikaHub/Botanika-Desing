@@ -35,9 +35,10 @@ Se faltar qualquer um desses, não está no padrão.
 No começo, **verifique quais conectores/MCP você tem** (GitHub, Shopify, Lovable) e puxe contexto de todos antes de construir. São três fontes complementares:
 
 **A) LP de referência canônica (GitHub) — a régua técnica e visual.**
-Antes de escrever qualquer linha, **leia o código-fonte dela inteiro** e reutilize o design system, o motor de interações e os padrões de seção:
-- URL ao vivo: `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-omega/index.html`
-- Repo: `botanikahub/botanika-desing` · arquivo: `landing-omega/index.html` · guia: `botanika-lp-superprompt.md`
+Antes de escrever qualquer linha, **leia primeiro o `PAGINAS.md`** (mapa de todas as LPs: pasta, link fixo, VARIANT_ID e status de cada produto) e confirme com o usuário qual pasta vai editar. Depois **leia o código-fonte da LP de referência inteiro** e reutilize o design system, o motor de interações e os padrões de seção:
+- Repo: `botanikahub/botanika-desing` · **mapa:** `PAGINAS.md` · guia: `botanika-lp-superprompt.md`
+- Uma pasta por produto: `landing-<slug>/index.html`. Branch de publicação: `lp`. Link: `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-<slug>/index.html`
+- Referências de execução: `landing-omega/index.html` (oceano+dourado) e `landing-tri/index.html` (constelação mineral) — cada produto DEVE ter identidade própria, nunca clonar.
 Copie de lá, verbatim, o `:root` (tokens), as classes de componente (`.section`, `.eyebrow`, `.ing-card`, `.benefit-card`, `.howto-step`, `.nutri-*`, `.plan`, `.coupon`, `.freeship`, `.faq-item`, `.scarcity`, `.wa-float`, `.site-footer`) e os blocos de JS (reveal + count-up, tilt 3D + botões magnéticos). Não reinvente — **evolua**.
 
 **B) Shopify (MCP) — dados reais do produto (fonte primária).**
