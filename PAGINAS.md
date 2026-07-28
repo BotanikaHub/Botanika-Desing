@@ -53,4 +53,4 @@
 -->
 
 ## Como editar uma página específica (comando pra colar num chat novo)
-> "Leia o `PAGINAS.md` e o `botanika-lp-superprompt.md` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
+> "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
