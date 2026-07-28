@@ -32,6 +32,16 @@
 - **Imagem do pote:** `landing-tri/bottle-tri.png` (transparente)
 - **Status:** ✅ pronta
 
+### 3. Hair Botanika — Cabelos, Unhas e Pele
+- **Pasta:** `landing-hair/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-hair/index.html
+- **Shopify:** produto `hair-botanika` (confirmar handle) · **VARIANT_ID `HAIR_VARIANT_ID` (⚠️ placeholder — trocar pelo real)**
+- **Preço:** *placeholder* 3x de R$ 32,33 · ou R$ 97,00 · kits 2 (5% OFF) e 3 (10% OFF + frete grátis) — *confirmar preços/variant na loja*
+- **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten
+- **Identidade:** "Seiva & Raiz" — verde-botânico profundo + rosé-champagne + dourado · fundo canvas "cascata de fios luminosos" (reage ao mouse) · Italiana + Outfit
+- **Pote:** render SVG estilizado (trocar por PNG transparente quando disponível)
+- **Status:** ✅ pronta (pendente: VARIANT_ID + preços reais da loja)
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
