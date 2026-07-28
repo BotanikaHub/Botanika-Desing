@@ -18,14 +18,14 @@
         {%- if settings.popup_text != blank -%}<p class="bpop__text">{{ settings.popup_text }}</p>{%- endif -%}
 
         <div data-bpop-form>
-          {%- form 'customer', id: 'bpop-form' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter,popup">
+          {%- comment -%} Formulario proprio (sem {% form %}) para o tema nao interceptar o envio. {%- endcomment -%}
+          <form id="bpop-form">
             <div class="bpop__row">
               <input class="bpop__input" type="email" name="contact[email]" placeholder="{{ settings.popup_placeholder | default: 'Seu melhor e-mail' }}" required>
               <button class="bpop__btn" type="submit">{{ settings.popup_button | default: 'Quero meu cupom' }}</button>
             </div>
             <span class="bpop__fine">Sem spam. É só pra te enviar o cupom e novidades.</span>
-          {%- endform -%}
+          </form>
         </div>
 
         <div class="bpop__done" data-bpop-done hidden>
@@ -111,27 +111,40 @@
         } catch (e) {}
       }
 
-      // envio do e-mail (fetch, sem recarregar) -> revela cupom
+      // Revela a tela do cupom (imediato, nao depende de rede).
+      function revealCoupon() {
+        done = true;
+        revealed = true;
+        var f = el.querySelector('[data-bpop-form]'); if (f) f.hidden = true;
+        var d = el.querySelector('[data-bpop-done]'); if (d) d.hidden = false;
+        // Esconde o X: nesta tela o popup so fecha ao clicar em "Copiar".
+        var x = el.querySelector('.bpop__x'); if (x) x.style.display = 'none';
+      }
+
+      // Envio do e-mail: revela o cupom NA HORA e manda os dados em segundo plano.
       var form = el.querySelector('#bpop-form');
       if (form) {
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var emailField = form.querySelector('input[type="email"]');
           var email = emailField ? emailField.value.trim() : '';
-          // 1) ActiveCampaign (lista dedicada do popup)
+          if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            if (emailField) { emailField.focus(); }
+            return;
+          }
+          // 1) Revela o cupom imediatamente
+          revealCoupon();
+          // 2) ActiveCampaign (lista dedicada do popup)
           bpopSendToAC(email);
-          // 2) Shopify (cliente/assinante) + revela o cupom
-          var data = new FormData(form);
-          fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
-            .catch(function () {})
-            .finally(function () {
-              done = true;
-              revealed = true;
-              var f = el.querySelector('[data-bpop-form]'); if (f) f.hidden = true;
-              var d = el.querySelector('[data-bpop-done]'); if (d) d.hidden = false;
-              // Esconde o X: nesta tela o popup so fecha ao clicar em "Copiar".
-              var x = el.querySelector('.bpop__x'); if (x) x.style.display = 'none';
-            });
+          // 3) Shopify (newsletter/cliente) em segundo plano, sem recarregar
+          try {
+            var fd = new FormData();
+            fd.append('form_type', 'customer');
+            fd.append('utf8', '✓');
+            fd.append('contact[email]', email);
+            fd.append('contact[tags]', 'newsletter,popup');
+            fetch('/contact', { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }, keepalive: true }).catch(function () {});
+          } catch (e2) {}
         });
       }
       // copiar cupom
