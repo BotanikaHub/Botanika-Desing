@@ -144,3 +144,20 @@ Todos criados em PAUSED. Pixel 828186133708463 · evento Purchase · exclusão C
   - Ads campeões: HAIR_V03, ad_vnd_01, TETRAVITD_V02 · **ATIVO**
 - Obs.: o conjunto combinado `RMKT | QUENTE 30-180D` também contém ENG 180D → leve sobreposição dentro do RETARGETING (posso remover do combinado pra deixar limpo).
 - **Pendente decisão do operador:** adicionar ENG também na PROSPECTING e/ou na REC (alcance)? Nota: não recomendado (ver chat).
+
+---
+
+## 📈 ATUALIZAÇÃO — ESCALA DOS CAMPEÕES (27/07/2026)
+6 dias pós-reorg. Com a CAPI dupla desligada, o ROAS do pixel voltou a ser confiável e os produtos "2.0" apareceram com ROAS 13–25. Escalei **+20%** só os de folga de frequência (3,5–4,0):
+| Campanha | ID | De | Para | ROAS | Freq |
+|---|---|---|---|---|---|
+| TRIMAGNESIO 2.0 | 120249906280480563 | R$100 | **R$120** | 24,6 | 4,0 |
+| HAIR 2.0 | 120249906233040563 | R$150 | **R$180** | 13,3 | 3,5 |
+| TETRAVITD 2.0 | 120249906297370563 | R$100 | **R$120** | 13,6 | 3,9 |
+
+**Seguradas (não escalei):**
+- RETARGETING JUL 09/08 (120250204745640563) — R$150 mantido: ROAS 13,6 ótimo, mas **freq 4,9** (público quente finito → +verba só subiria frequência).
+- PROSPECTING CBO (120250691170990563) — mantida: ROAS 8,4 ok, mas **freq 5,2** (fadiga → precisa criativo novo, não +verba).
+
+Bug do MCP de novo: os 3 updates de budget forçaram `status_forced_to_paused:true` → **reativei os 3** (ads_activate_entity) → ACTIVE confirmado.
+**Regra:** reavaliar em 3–4 dias; se o ROAS segurar, +20% de novo.
