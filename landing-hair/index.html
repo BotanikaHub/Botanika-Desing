@@ -3,232 +3,172 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0d130f" />
-<title>Hair Botanika — Cabelos, Unhas e Pele que crescem da raiz</title>
+<meta name="theme-color" content="#0c1410" />
+<title>Hair Botanika — Cabelos, Unhas e Pele que nascem da raiz</title>
 <meta name="description" content="Hair Botanika: 12 ativos para cabelos, unhas e pele — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas. Força que nasce da raiz." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 /* ============================================================
    HAIR BOTANIKA — identidade "Seiva & Raiz"
-   verde-botânico profundo + rosé-champagne + dourado suave
-   fonte display: Italiana · corpo: Outfit
+   verde-botânico profundo + dourado champagne + rosé
+   produto real: pote navy (harmonizado com glow champagne)
+   fonte display: Fraunces · corpo: Manrope
    assinatura: cascata de fios luminosos (canvas próprio)
    ============================================================ */
 :root{
-  --bg:#0d130f;          /* verde quase-preto */
-  --bg2:#111a13;
-  --panel:#16211a;
-  --leaf:#3f8a5c;        /* verde folha */
-  --leaf-deep:#245038;
-  --sage:#9fd0ae;        /* verde claro */
-  --rose:#e7b3a1;        /* rosé-champagne */
-  --gold:#d9b26a;        /* dourado suave */
-  --gold-2:#f0d59a;
-  --champ:#f2e2c9;       /* creme champagne */
-  --ink:#f4efe6;
-  --muted:rgba(244,239,230,.62);
-  --faint:rgba(244,239,230,.30);
-  --line:rgba(159,208,174,.16);
-  --radius:26px;
-  --radius-sm:16px;
-  --shell:1180px;
+  --bg:#0c1410; --bg2:#101a14; --panel:#15211b;
+  --leaf:#3f8a5c; --leaf-deep:#1f4a34; --sage:#a6d6b6;
+  --rose:#e9b7a4; --gold:#d9b26a; --gold-2:#f2d79c; --champ:#f5e7cb;
+  --navy:#20386b; --navy-glow:#3a5aa8;
+  --ink:#f5f0e6; --muted:rgba(245,240,230,.64); --faint:rgba(245,240,230,.34);
+  --line:rgba(166,214,182,.16);
+  --radius:26px; --radius-sm:16px; --shell:1180px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:'Outfit',system-ui,sans-serif;
-  line-height:1.55;
-  overflow-x:hidden;
-  max-width:100%;
-  -webkit-font-smoothing:antialiased;
-}
+body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 img{display:block;max-width:100%}
 ul{list-style:none}
-::selection{background:var(--gold);color:#20140a}
+::selection{background:var(--gold);color:#241605}
 
-/* ---------- canvas de fundo (assinatura: fios) ---------- */
-#strands{
-  position:fixed;inset:0;width:100vw;height:100vh;
-  z-index:0;pointer-events:none;display:block;
-}
-.veil{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
+/* canvas de fundo (assinatura: fios) */
+#strands{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:block}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
   background:
-    radial-gradient(120% 80% at 50% -10%, rgba(217,178,106,.10), transparent 55%),
-    radial-gradient(120% 90% at 50% 110%, rgba(13,19,15,.85), rgba(13,19,15,.2) 60%),
-    linear-gradient(180deg, rgba(13,19,15,.35), rgba(13,19,15,.0) 20%, rgba(13,19,15,.0) 80%, rgba(13,19,15,.55));
-}
+    radial-gradient(120% 75% at 50% -8%, rgba(217,178,106,.12), transparent 55%),
+    radial-gradient(120% 90% at 50% 112%, rgba(12,20,16,.9), rgba(12,20,16,.15) 60%),
+    linear-gradient(180deg, rgba(12,20,16,.4), transparent 18%, transparent 82%, rgba(12,20,16,.6))}
 .wrap{position:relative;z-index:2}
 .shell{max-width:var(--shell);margin-inline:auto;padding-inline:22px}
 
-/* ---------- tipografia ---------- */
-.display{font-family:'Italiana',serif;font-weight:400;letter-spacing:.01em;line-height:1.02}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:.55rem;
-  font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.22em;
-  color:var(--sage);
-}
+/* tipografia */
+.display{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.01em;line-height:1.02}
+.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.22em;color:var(--sage)}
 .eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.grad{background:linear-gradient(120deg,var(--gold-2),var(--rose) 60%,var(--sage));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad{background:linear-gradient(115deg,var(--gold-2),var(--rose) 55%,var(--sage));-webkit-background-clip:text;background-clip:text;color:transparent}
 
-/* ---------- header ---------- */
+/* header */
 header{position:absolute;inset-inline:0;top:0;z-index:40}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:22px 0}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:'Italiana',serif;font-size:1.35rem;letter-spacing:.04em}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:'Fraunces',serif;font-size:1.35rem;letter-spacing:.01em}
 .brand .mk{width:30px;height:30px;flex:0 0 auto}
-.nav-cta{
-  display:inline-flex;align-items:center;gap:.5rem;
-  border:1px solid var(--line);border-radius:100px;
-  padding:.55rem 1.05rem;font-size:.82rem;font-weight:500;
-  color:var(--ink);background:rgba(159,208,174,.06);backdrop-filter:blur(6px);
-  transition:border-color .3s,background .3s;
-}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:100px;padding:.55rem 1.05rem;font-size:.82rem;font-weight:600;background:rgba(166,214,182,.06);backdrop-filter:blur(6px);transition:border-color .3s,background .3s}
 .nav-cta:hover{border-color:var(--gold);background:rgba(217,178,106,.12)}
 @media(max-width:640px){.nav-cta .lbl{display:none}}
 
-/* ---------- botões ---------- */
-.btn{
-  display:inline-flex;align-items:center;gap:.7rem;
-  border-radius:100px;font-weight:600;font-size:.95rem;
-  padding:.95rem 1.6rem;position:relative;overflow:hidden;
-  transition:transform .2s;will-change:transform;
-}
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:.7rem;border-radius:100px;font-weight:600;font-size:.95rem;padding:.95rem 1.6rem;position:relative;transition:transform .2s;will-change:transform}
 .btn .ic{display:grid;place-items:center;width:34px;height:34px;border-radius:100px;font-size:1rem}
-.btn-primary{background:linear-gradient(120deg,var(--gold),var(--rose));color:#241407;box-shadow:0 14px 40px -14px rgba(217,178,106,.6)}
-.btn-primary .ic{background:#241407;color:var(--gold-2)}
+.btn-primary{background:linear-gradient(115deg,var(--gold),var(--rose));color:#241605;box-shadow:0 14px 40px -14px rgba(217,178,106,.6)}
+.btn-primary .ic{background:#241605;color:var(--gold-2)}
+.btn-primary:hover{filter:brightness(1.04)}
 .btn-ghost{border:1px solid var(--line);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--sage)}
-.btn-primary:hover{filter:brightness(1.04)}
 
-/* ---------- HERO ---------- */
-.hero{position:relative;padding:118px 0 60px}
+/* HERO */
+.hero{position:relative;padding:120px 0 60px}
 .hero-grid{display:grid;gap:34px;grid-template-columns:1fr;align-items:center}
-@media(min-width:940px){
-  .hero{padding:150px 0 90px}
-  .hero-grid{grid-template-columns:1.05fr .95fr;gap:40px}
-}
-.hero h1{font-size:clamp(2.9rem,8vw,5.4rem);margin:.5rem 0 .1rem}
-.hero h1 .sub{display:block;font-size:.34em;letter-spacing:.34em;text-transform:uppercase;color:var(--sage);font-family:'Outfit',sans-serif;font-weight:600;margin-top:1rem}
+@media(min-width:940px){.hero{padding:150px 0 90px}.hero-grid{grid-template-columns:1.02fr .98fr;gap:40px}}
+.hero h1{font-size:clamp(2.9rem,8vw,5.2rem);margin:.7rem 0 .1rem}
+.hero h1 .sub{display:block;font-family:'Manrope';font-size:.28em;letter-spacing:.34em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-top:1rem}
 .hero .lead{color:var(--muted);font-size:1.06rem;max-width:34ch;margin:1.3rem 0 1.8rem}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
 .trust{display:flex;align-items:center;gap:.7rem;margin-top:1.6rem;color:var(--muted);font-size:.86rem}
 .stars{color:var(--gold);letter-spacing:2px}
 
-/* pote SVG */
-.bottle-stage{position:relative;display:grid;place-items:center;min-height:380px}
-.bottle-stage .halo{position:absolute;width:74%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,rgba(217,178,106,.28),rgba(231,179,161,.10) 45%,transparent 70%);filter:blur(6px)}
-.pote{width:min(78%,340px);filter:drop-shadow(0 40px 60px rgba(0,0,0,.5));animation:float 7s ease-in-out infinite}
+.bottle-stage{position:relative;display:grid;place-items:center;min-height:400px}
+.bottle-stage .halo{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,231,203,.35),rgba(217,178,106,.14) 42%,transparent 70%);filter:blur(4px)}
+.pote{width:min(76%,330px);filter:drop-shadow(0 44px 60px rgba(0,0,0,.55));animation:float 7s ease-in-out infinite;position:relative;z-index:2}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-.chip{
-  position:absolute;display:flex;align-items:center;gap:.5rem;
-  background:rgba(22,33,26,.82);border:1px solid var(--line);backdrop-filter:blur(10px);
-  border-radius:100px;padding:.5rem .85rem;font-size:.78rem;font-weight:500;color:var(--champ);
-  box-shadow:0 12px 30px -12px rgba(0,0,0,.6);
-}
+.chip{position:absolute;display:flex;align-items:center;gap:.5rem;background:rgba(21,33,27,.85);border:1px solid var(--line);backdrop-filter:blur(10px);border-radius:100px;padding:.5rem .85rem;font-size:.78rem;font-weight:500;color:var(--champ);box-shadow:0 12px 30px -12px rgba(0,0,0,.6);z-index:3}
 .chip b{color:var(--gold-2);font-weight:700}
-.chip.c1{top:12%;left:-2%}
-.chip.c2{bottom:16%;right:-4%}
-.chip.c3{top:52%;right:-6%}
+.chip.c1{top:10%;left:-2%}.chip.c2{bottom:14%;right:-4%}.chip.c3{top:50%;right:-6%}
 @media(max-width:940px){.chip.c1{left:2%}.chip.c2{right:2%}.chip.c3{display:none}}
 
-/* ---------- faixa de ativos correndo ---------- */
-.marquee{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;margin-top:20px;background:rgba(18,26,20,.4)}
-.marquee-track{display:flex;gap:2.6rem;white-space:nowrap;width:max-content;animation:scroll 34s linear infinite}
+/* marquee */
+.marquee{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;margin-top:22px;background:rgba(16,26,20,.4)}
+.marquee-track{display:flex;gap:2.6rem;white-space:nowrap;width:max-content;animation:scroll 36s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
-.marquee span{font-family:'Italiana',serif;font-size:1.15rem;color:var(--faint);display:inline-flex;align-items:center;gap:2.6rem}
+.marquee span{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--faint);display:inline-flex;align-items:center;gap:2.6rem}
 .marquee span::after{content:"✦";color:var(--gold);font-size:.7rem}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
-/* ---------- seções ---------- */
+/* seções */
 section{position:relative;padding:78px 0}
 .sec-head{max-width:640px;margin-bottom:44px}
-.sec-head h2{font-size:clamp(2rem,5vw,3.2rem);margin:.7rem 0 .8rem}
+.sec-head h2{font-size:clamp(2rem,5vw,3.1rem);margin:.7rem 0 .8rem}
 .sec-head p{color:var(--muted);font-size:1.02rem}
 
 /* três alvos */
 .targets{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:760px){.targets{grid-template-columns:repeat(3,1fr)}}
-.tcard{
-  position:relative;border:1px solid var(--line);border-radius:var(--radius);
-  padding:30px 26px;background:linear-gradient(180deg,rgba(22,33,26,.7),rgba(17,26,19,.4));
-  overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s;
-  transform-style:preserve-3d;
-}
+.tcard{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;background:linear-gradient(180deg,rgba(21,33,27,.72),rgba(16,26,20,.42));overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s;transform-style:preserve-3d}
 .tcard:hover{border-color:var(--gold)}
-.tcard .glow{position:absolute;width:220px;height:220px;border-radius:50%;
-  background:radial-gradient(circle,rgba(217,178,106,.22),transparent 70%);
-  pointer-events:none;opacity:0;transition:opacity .4s;transform:translate(-50%,-50%)}
+.tcard .glow{position:absolute;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(217,178,106,.22),transparent 70%);pointer-events:none;opacity:0;transition:opacity .4s;transform:translate(-50%,-50%)}
 .tcard:hover .glow{opacity:1}
-.tcard .tnum{font-family:'Italiana',serif;font-size:2.4rem;color:var(--gold);line-height:1}
-.tcard h3{font-family:'Italiana',serif;font-size:1.5rem;margin:.6rem 0 .5rem}
+.tcard .ico{font-size:1.7rem;margin-bottom:.5rem}
+.tcard .tnum{font-family:'Fraunces',serif;font-size:2.3rem;color:var(--gold);line-height:1}
+.tcard h3{font-family:'Fraunces',serif;font-size:1.5rem;margin:.5rem 0 .5rem}
 .tcard p{color:var(--muted);font-size:.94rem}
-.tcard .ico{font-size:1.6rem;margin-bottom:.4rem}
 
-/* ativos — colunas cabelo/unhas/pele */
+/* ativos */
 .actives{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:820px){.actives{grid-template-columns:repeat(3,1fr)}}
-.acol{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(18,26,20,.45)}
-.acol h4{display:flex;align-items:center;gap:.55rem;font-size:1.05rem;font-weight:600;margin-bottom:14px;color:var(--champ)}
+.acol{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(16,26,20,.46)}
+.acol h4{display:flex;align-items:center;gap:.55rem;font-size:1.05rem;font-weight:700;margin-bottom:14px;color:var(--champ)}
 .acol h4 .dot{width:9px;height:9px;border-radius:50%}
-.acol li{display:flex;align-items:flex-start;gap:.6rem;padding:.42rem 0;border-top:1px solid rgba(159,208,174,.08);font-size:.92rem;color:var(--muted)}
+.acol li{display:flex;align-items:flex-start;gap:.6rem;padding:.42rem 0;border-top:1px solid rgba(166,214,182,.08);font-size:.92rem;color:var(--muted)}
 .acol li:first-of-type{border-top:none}
 .acol li b{color:var(--ink);font-weight:600}
 .acol li .tick{color:var(--gold);flex:0 0 auto;margin-top:.15rem}
 
 /* stats */
-.stats{display:grid;gap:20px;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);border-radius:var(--radius);padding:34px 26px;background:linear-gradient(120deg,rgba(36,80,56,.35),rgba(17,26,19,.4))}
+.stats{display:grid;gap:20px;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);border-radius:var(--radius);padding:34px 26px;background:linear-gradient(115deg,rgba(31,74,52,.4),rgba(16,26,20,.42));margin-top:26px}
 @media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat .n{font-family:'Italiana',serif;font-size:clamp(2.2rem,6vw,3.2rem);color:var(--gold-2);line-height:1}
+.stat .n{font-family:'Fraunces',serif;font-size:clamp(2.2rem,6vw,3.1rem);color:var(--gold-2);line-height:1}
 .stat .l{color:var(--muted);font-size:.86rem;margin-top:.4rem}
 
-/* rotina */
+/* ritual */
 .ritual{display:grid;gap:26px;grid-template-columns:1fr;align-items:center}
 @media(min-width:900px){.ritual{grid-template-columns:1fr 1fr;gap:44px}}
 .steps li{position:relative;padding:20px 0 20px 56px;border-top:1px solid var(--line)}
 .steps li:first-child{border-top:none}
-.steps .sn{position:absolute;left:0;top:20px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
-  border:1px solid var(--gold);color:var(--gold);font-family:'Italiana',serif;font-size:1.05rem}
+.steps .sn{position:absolute;left:0;top:20px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:'Fraunces',serif;font-size:1.05rem}
 .steps h4{font-size:1.12rem;margin-bottom:.2rem}
 .steps p{color:var(--muted);font-size:.92rem}
-.leaf-art{border:1px solid var(--line);border-radius:var(--radius);min-height:320px;position:relative;overflow:hidden;
-  background:radial-gradient(120% 120% at 30% 20%,rgba(63,138,92,.35),transparent 55%),rgba(17,26,19,.5);display:grid;place-items:center}
-.leaf-art .big{font-family:'Italiana',serif;font-size:clamp(3rem,10vw,6rem);color:rgba(217,178,106,.16);text-align:center;line-height:.95}
+.leaf-art{border:1px solid var(--line);border-radius:var(--radius);min-height:320px;position:relative;overflow:hidden;background:radial-gradient(120% 120% at 30% 20%,rgba(63,138,92,.35),transparent 55%),rgba(16,26,20,.5);display:grid;place-items:center}
+.leaf-art .big{font-family:'Fraunces',serif;font-size:clamp(3rem,10vw,5.6rem);color:rgba(217,178,106,.18);text-align:center;line-height:.95}
 
 /* prova social */
 .proof{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:820px){.proof{grid-template-columns:repeat(3,1fr)}}
-.qcard{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(18,26,20,.5);
-  display:flex;flex-direction:column;gap:14px;transition:transform .4s,border-color .4s}
+.qcard{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(16,26,20,.5);display:flex;flex-direction:column;gap:14px;transition:transform .4s,border-color .4s}
 .qcard:hover{transform:translateY(-6px);border-color:var(--rose)}
-.qcard .qm{font-family:'Italiana',serif;font-size:2.4rem;color:var(--rose);line-height:.4}
+.qcard .qm{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--rose);line-height:.3;height:.6em}
 .qcard p{color:var(--ink);font-size:.98rem}
 .qcard .who{margin-top:auto;color:var(--muted);font-size:.84rem;border-top:1px solid var(--line);padding-top:12px}
 .qcard .who b{color:var(--champ)}
+.qcard .st{color:var(--gold);letter-spacing:2px;font-size:.9rem}
 
-/* oferta / kits */
-.offer{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,rgba(22,33,26,.8),rgba(13,19,15,.7))}
+/* oferta */
+.offer{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,rgba(21,33,27,.82),rgba(12,20,16,.72))}
 .offer-in{display:grid;gap:0;grid-template-columns:1fr}
 @media(min-width:860px){.offer-in{grid-template-columns:1fr 1.05fr}}
-.offer-vis{position:relative;min-height:320px;display:grid;place-items:center;padding:30px;
-  background:radial-gradient(100% 100% at 50% 0%,rgba(63,138,92,.3),transparent 60%)}
-.offer-vis .shelf{display:flex;gap:14px;align-items:flex-end}
+.offer-vis{position:relative;min-height:340px;display:grid;place-items:center;padding:30px;background:radial-gradient(90% 90% at 50% 40%,rgba(245,231,203,.16),transparent 62%)}
+.offer-vis .shelf{display:flex;gap:16px;align-items:flex-end;position:relative;z-index:2}
 .offer-body{padding:34px 30px}
-.toggle{display:flex;gap:6px;background:rgba(13,19,15,.6);border:1px solid var(--line);border-radius:100px;padding:6px;margin:18px 0 22px}
-.toggle button{flex:1;border-radius:100px;padding:.7rem .4rem;font-weight:600;font-size:.9rem;color:var(--muted);position:relative;transition:color .3s}
-.toggle button.on{color:#241407}
-.toggle .pill{position:absolute;inset:6px auto 6px 6px;width:calc((100% - 12px)/3);border-radius:100px;
-  background:linear-gradient(120deg,var(--gold),var(--rose));transition:transform .38s cubic-bezier(.2,.8,.2,1);z-index:0}
-.toggle button{position:relative;z-index:1}
+.toggle{display:flex;gap:6px;background:rgba(12,20,16,.6);border:1px solid var(--line);border-radius:100px;padding:6px;margin:18px 0 22px;position:relative}
+.toggle button{flex:1;border-radius:100px;padding:.7rem .4rem;font-weight:600;font-size:.9rem;color:var(--muted);position:relative;z-index:1;transition:color .3s}
+.toggle button.on{color:#241605}
+.toggle .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/3);border-radius:100px;background:linear-gradient(115deg,var(--gold),var(--rose));transition:transform .38s cubic-bezier(.2,.8,.2,1);z-index:0}
 .price-row{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
-.price-row .now{font-family:'Italiana',serif;font-size:2.6rem;color:var(--gold-2)}
+.price-row .now{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--gold-2)}
 .price-row .old{color:var(--faint);text-decoration:line-through;font-size:1rem}
 .price-row .save{background:rgba(63,138,92,.22);color:var(--sage);border:1px solid var(--line);border-radius:100px;padding:.2rem .7rem;font-size:.78rem;font-weight:600}
 .installments{color:var(--muted);font-size:.92rem;margin:.3rem 0 1.2rem}
@@ -236,23 +176,21 @@ section{position:relative;padding:78px 0}
 .perks li{display:flex;gap:.6rem;align-items:center;color:var(--muted);font-size:.9rem;padding:.32rem 0}
 .perks .tick{color:var(--gold)}
 .badge-float{display:inline-flex;align-items:center;gap:.4rem;color:var(--sage);font-size:.82rem;margin-top:.6rem}
-
-/* pote miniatura (shelf) */
-.mini{width:74px;filter:drop-shadow(0 16px 24px rgba(0,0,0,.5))}
-.mini.dim{opacity:.5;width:60px}
+.mini{width:78px;filter:drop-shadow(0 16px 22px rgba(0,0,0,.5))}
+.mini.dim{opacity:.42;width:62px}
 
 /* faq */
 .faq{max-width:760px}
 .q{border-top:1px solid var(--line)}
 .q:last-child{border-bottom:1px solid var(--line)}
-.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:20px 0;text-align:left;font-size:1.05rem;font-weight:500}
+.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:20px 0;text-align:left;font-size:1.05rem;font-weight:600}
 .q .plus{color:var(--gold);font-size:1.3rem;transition:transform .3s;flex:0 0 auto}
 .q.open .plus{transform:rotate(45deg)}
 .q .a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--muted);font-size:.95rem}
 .q .a p{padding-bottom:20px}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;background:rgba(13,19,15,.7)}
+footer{border-top:1px solid var(--line);padding:56px 0 100px;margin-top:40px;background:rgba(12,20,16,.72)}
 .foot-grid{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:flex-start}
 .foot-brand{max-width:320px}
 .foot-brand p{color:var(--muted);font-size:.9rem;margin-top:.8rem}
@@ -265,12 +203,10 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.pote{animation:none}}
 
 /* barra fixa mobile */
-.buybar{position:fixed;inset-inline:0;bottom:0;z-index:50;display:none;
-  background:rgba(13,19,15,.92);border-top:1px solid var(--line);backdrop-filter:blur(12px);
-  padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
-.buybar .p{font-family:'Italiana',serif;color:var(--gold-2);font-size:1.15rem}
-.buybar .p small{display:block;color:var(--muted);font-size:.68rem;font-family:'Outfit';letter-spacing:.04em}
-@media(max-width:760px){.buybar{display:flex}body{padding-bottom:78px}}
+.buybar{position:fixed;inset-inline:0;bottom:0;z-index:50;display:none;background:rgba(12,20,16,.94);border-top:1px solid var(--line);backdrop-filter:blur(12px);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
+.buybar .p{font-family:'Fraunces',serif;color:var(--gold-2);font-size:1.15rem}
+.buybar .p small{display:block;color:var(--muted);font-size:.68rem;font-family:'Manrope';letter-spacing:.03em}
+@media(max-width:760px){.buybar{display:flex}footer{padding-bottom:120px}}
 </style>
 </head>
 <body>
@@ -280,14 +216,13 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
 
 <div class="wrap">
 
-<!-- HEADER -->
 <header>
   <div class="shell nav">
     <a class="brand" href="#top" aria-label="Hair Botanika">
       <svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#g1)"/>
-        <defs><linearGradient id="g1" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#f0d59a"/><stop offset=".55" stop-color="#e7b3a1"/><stop offset="1" stop-color="#9fd0ae"/>
+        <path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/>
+        <defs><linearGradient id="gg" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#f2d79c"/><stop offset=".55" stop-color="#e9b7a4"/><stop offset="1" stop-color="#a6d6b6"/>
         </linearGradient></defs>
       </svg>
       <span>Hair Botanika</span>
@@ -296,7 +231,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
   </div>
 </header>
 
-<!-- HERO -->
 <a id="top"></a>
 <section class="hero">
   <div class="shell hero-grid">
@@ -310,52 +244,19 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
         <button class="btn btn-primary js-buy" data-kit="1"><span>Começar agora</span><span class="ic">→</span></button>
         <a class="btn btn-ghost" href="#ativos"><span>Ver a fórmula</span></a>
       </div>
-      <div class="trust reveal"><span class="stars">★★★★★</span> <span>Rotina de quem cuida de dentro pra fora</span></div>
+      <div class="trust reveal"><span class="stars">★★★★★</span> <span>Cuidado de dentro pra fora, na rotina</span></div>
     </div>
 
     <div class="bottle-stage reveal">
       <div class="halo"></div>
-      <!-- POTE SVG (render estilizado — trocar por PNG transparente quando houver) -->
-      <svg class="pote" viewBox="0 0 260 400" role="img" aria-label="Pote Hair Botanika">
-        <defs>
-          <linearGradient id="jar" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#1c2a20"/><stop offset=".5" stop-color="#0f1712"/><stop offset="1" stop-color="#050807"/>
-          </linearGradient>
-          <linearGradient id="lid" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#f0d59a"/><stop offset="1" stop-color="#c79a54"/>
-          </linearGradient>
-          <linearGradient id="lbl" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#182219"/><stop offset="1" stop-color="#0e1510"/>
-          </linearGradient>
-          <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#ffffff" stop-opacity=".18"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <!-- corpo -->
-        <rect x="34" y="78" width="192" height="298" rx="30" fill="url(#jar)" stroke="rgba(159,208,174,.18)"/>
-        <!-- tampa -->
-        <rect x="60" y="34" width="140" height="52" rx="14" fill="url(#lid)"/>
-        <rect x="60" y="34" width="140" height="52" rx="14" fill="url(#shine)"/>
-        <!-- brilho corpo -->
-        <rect x="46" y="92" width="34" height="270" rx="18" fill="url(#shine)"/>
-        <!-- rótulo -->
-        <rect x="52" y="150" width="156" height="176" rx="16" fill="url(#lbl)" stroke="rgba(217,178,106,.35)"/>
-        <text x="130" y="184" text-anchor="middle" fill="#f0d59a" font-family="Italiana,serif" font-size="15" letter-spacing="2">HAIR</text>
-        <text x="130" y="206" text-anchor="middle" fill="#f2e2c9" font-family="Italiana,serif" font-size="21" letter-spacing="1">BOTANIKA</text>
-        <line x1="78" y1="222" x2="182" y2="222" stroke="rgba(217,178,106,.4)"/>
-        <text x="130" y="244" text-anchor="middle" fill="#9fd0ae" font-family="Outfit,sans-serif" font-size="8.5" letter-spacing="3">CABELOS · UNHAS · PELE</text>
-        <text x="130" y="286" text-anchor="middle" fill="rgba(244,239,230,.55)" font-family="Outfit,sans-serif" font-size="7.5" letter-spacing="1">BIOTINA · SILÍCIO · ZINCO</text>
-        <text x="130" y="300" text-anchor="middle" fill="rgba(244,239,230,.55)" font-family="Outfit,sans-serif" font-size="7.5" letter-spacing="1">FERRO · CISTEÍNA · VITAMINAS</text>
-        <text x="130" y="352" text-anchor="middle" fill="#d9b26a" font-family="Outfit,sans-serif" font-size="9" letter-spacing="2" font-weight="600">60 CÁPSULAS</text>
-      </svg>
+      <img class="pote" src="hair-rotulo.png" alt="Pote Hair Botanika — 60 cápsulas" width="330" height="440" fetchpriority="high" />
       <div class="chip c1">✦ <b>12 ativos</b> em 1 cápsula</div>
       <div class="chip c2"><b>Silício orgânico</b> · colágeno</div>
-      <div class="chip c3"><b>Biotina</b> · queda</div>
+      <div class="chip c3"><b>Biotina</b> · menos queda</div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
     <span>Biotina</span><span>Silício Orgânico</span><span>Zinco</span><span>Ferro</span><span>Cisteína</span><span>Metionina</span><span>Iodo</span><span>Vitamina A</span><span>Vitamina E</span><span>Complexo B</span>
@@ -363,7 +264,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
   </div>
 </div>
 
-<!-- TRÊS ALVOS -->
 <section id="tres">
   <div class="shell">
     <div class="sec-head reveal">
@@ -391,13 +291,12 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
   </div>
 </section>
 
-<!-- ATIVOS -->
 <section id="ativos">
   <div class="shell">
     <div class="sec-head reveal">
       <span class="eyebrow">A fórmula, sem enrolação</span>
       <h2 class="display">12 ativos escolhidos<br>com critério.</h2>
-      <p>Cada ingrediente tem função. Nada de dose figurativa — é o time completo que cuida de cabelo, unha e pele em conjunto.</p>
+      <p>Cada ingrediente tem função. O time completo cuida de cabelo, unha e pele em conjunto — dose funcional, fórmula limpa.</p>
     </div>
     <div class="actives">
       <div class="acol reveal">
@@ -410,7 +309,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
         </ul>
       </div>
       <div class="acol reveal">
-        <h4><span class="dot" style="background:var(--gold)"></span>Firmeza & colágeno</h4>
+        <h4><span class="dot" style="background:var(--gold)"></span>Firmeza &amp; colágeno</h4>
         <ul>
           <li><span class="tick">✓</span><span><b>Silício Orgânico</b> — apoio ao colágeno</span></li>
           <li><span class="tick">✓</span><span><b>Ferro</b> — transporte de oxigênio</span></li>
@@ -419,27 +318,25 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
         </ul>
       </div>
       <div class="acol reveal">
-        <h4><span class="dot" style="background:var(--rose)"></span>Viço & energia celular</h4>
+        <h4><span class="dot" style="background:var(--rose)"></span>Viço &amp; energia celular</h4>
         <ul>
           <li><span class="tick">✓</span><span><b>Vitamina A</b> — pele e mucosas</span></li>
           <li><span class="tick">✓</span><span><b>Vitamina B1</b> — metabolismo energético</span></li>
           <li><span class="tick">✓</span><span><b>Vitamina B2</b> — pele saudável</span></li>
-          <li><span class="tick">✓</span><span><b>Vitamina B5</b> — pantotênico</span></li>
+          <li><span class="tick">✓</span><span><b>Vitamina B5</b> — ácido pantotênico</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- STATS -->
-    <div class="stats reveal" style="margin-top:26px">
-      <div class="stat"><div class="n num" data-target="12" data-suffix="">0</div><div class="l">ativos na fórmula</div></div>
-      <div class="stat"><div class="n num" data-target="60" data-suffix="">0</div><div class="l">cápsulas · 38g</div></div>
+    <div class="stats reveal">
+      <div class="stat"><div class="n num" data-target="12">0</div><div class="l">ativos na fórmula</div></div>
+      <div class="stat"><div class="n num" data-target="60">0</div><div class="l">cápsulas · 38g</div></div>
       <div class="stat"><div class="n num" data-target="3" data-suffix=" em 1">0</div><div class="l">cabelo · unha · pele</div></div>
-      <div class="stat"><div class="n">0<span style="font-family:Italiana">%</span></div><div class="l">açúcar e glúten</div></div>
+      <div class="stat"><div class="n">0<span style="font-family:Fraunces">%</span></div><div class="l">açúcar e glúten</div></div>
     </div>
   </div>
 </section>
 
-<!-- RITUAL -->
 <section id="ritual">
   <div class="shell ritual">
     <div class="reveal">
@@ -447,17 +344,14 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
       <h2 class="display" style="font-size:clamp(1.9rem,5vw,2.8rem);margin:.6rem 0 1rem">Constância &gt; milagre.</h2>
       <ul class="steps">
         <li><span class="sn">1</span><h4>Todo dia, no mesmo horário</h4><p>Cápsulas junto de uma refeição. Simples de encaixar — de manhã ou à noite, o que ficar natural pra você.</p></li>
-        <li><span class="sn">2</span><h4>As primeiras semanas</h4><p>O corpo começa a repor o que faltava. Unhas costumam ser as primeiras a responder à firmeza.</p></li>
-        <li><span class="sn">3</span><h4>Ciclo do fio</h4><p>Cabelo tem tempo próprio. É na constância de semanas que a diferença na queda e na densidade aparece.</p></li>
+        <li><span class="sn">2</span><h4>As primeiras semanas</h4><p>O corpo repõe o que faltava. As unhas costumam ser as primeiras a responder à firmeza.</p></li>
+        <li><span class="sn">3</span><h4>O ciclo do fio</h4><p>Cabelo tem tempo próprio. É na constância de semanas que a diferença na queda e na densidade aparece.</p></li>
       </ul>
     </div>
-    <div class="leaf-art reveal">
-      <div class="big display">da raiz<br>ao fio</div>
-    </div>
+    <div class="leaf-art reveal"><div class="big display">da raiz<br>ao fio</div></div>
   </div>
 </section>
 
-<!-- PROVA SOCIAL -->
 <section id="prova">
   <div class="shell">
     <div class="sec-head reveal">
@@ -466,25 +360,24 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
     </div>
     <div class="proof">
       <article class="qcard reveal">
-        <div class="qm">“</div>
+        <div class="qm">“</div><div class="st">★★★★★</div>
         <p>Em uma semana de Hair Botanika eu já vi uma enorme diferença na queda. Não sai mais chumaço de cabelo no banho.</p>
         <div class="who"><b>Cliente Botanika</b> · relato no direct</div>
       </article>
       <article class="qcard reveal">
-        <div class="qm">“</div>
+        <div class="qm">“</div><div class="st">★★★★★</div>
         <p>Comprei o Tri, o Hair e a Vitamina C. Com uma semana de uso já me sinto uma pessoa completamente diferente — minha saúde está em outro nível.</p>
         <div class="who"><b>Cliente Botanika</b> · relato no direct</div>
       </article>
       <article class="qcard reveal">
-        <div class="qm">“</div>
-        <p>Suplementos honestos: dose funcional e fórmula limpa. Cuidar de cabelo, unha e pele virou parte da minha rotina, sem hype.</p>
+        <div class="qm">“</div><div class="st">★★★★★</div>
+        <p>Suplemento honesto: dose funcional e fórmula limpa. Cuidar de cabelo, unha e pele virou parte da minha rotina, sem hype.</p>
         <div class="who"><b>Rotina Botanika</b> · comunidade</div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- OFERTA -->
 <section id="oferta">
   <div class="shell">
     <div class="sec-head reveal">
@@ -492,12 +385,9 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
       <h2 class="display">Comece pela raiz.</h2>
       <p>Quanto maior o ciclo, melhor o resultado — e melhor o preço por pote. Frete grátis acima de R$349 · cupom <b style="color:var(--gold-2)">BOTANIKA</b> 5% OFF.</p>
     </div>
-
     <div class="offer reveal">
       <div class="offer-in">
-        <div class="offer-vis">
-          <div class="shelf" id="shelf"></div>
-        </div>
+        <div class="offer-vis"><div class="shelf" id="shelf"></div></div>
         <div class="offer-body">
           <div class="eyebrow">Kit Hair Botanika</div>
           <div class="toggle" id="toggle">
@@ -506,20 +396,17 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
             <button data-kit="2">2 potes</button>
             <button data-kit="3">3 potes</button>
           </div>
-
           <div class="price-row">
             <span class="now" id="now">R$ —</span>
             <span class="old" id="old"></span>
             <span class="save" id="save"></span>
           </div>
           <div class="installments" id="installments">até 3x sem juros</div>
-
           <ul class="perks">
             <li><span class="tick">✓</span> 12 ativos · 60 cápsulas por pote</li>
             <li><span class="tick">✓</span> Sem açúcar, sem glúten · Quality Premium</li>
             <li><span class="tick">✓</span> <span id="perk-kit">1 mês de rotina</span></li>
           </ul>
-
           <button class="btn btn-primary js-buy" data-kit="1" style="width:100%;justify-content:center"><span id="cta-label">Quero 1 pote</span><span class="ic">→</span></button>
           <div class="badge-float">🔒 Compra segura na loja oficial Botanika</div>
         </div>
@@ -528,7 +415,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq">
   <div class="shell">
     <div class="sec-head reveal">
@@ -539,17 +425,16 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
       <div class="q reveal"><button>Em quanto tempo vejo resultado? <span class="plus">+</span></button><div class="a"><p>Unhas e pele costumam responder primeiro, nas primeiras semanas. O cabelo segue o próprio ciclo de crescimento — a diferença na queda e na densidade aparece com a constância de semanas. Não é milagre, é rotina.</p></div></div>
       <div class="q reveal"><button>Como tomar? <span class="plus">+</span></button><div class="a"><p>Siga a indicação do rótulo, junto de uma refeição, no mesmo horário todo dia. A regularidade é o que faz a fórmula trabalhar.</p></div></div>
       <div class="q reveal"><button>Serve para cabelo, unha e pele ao mesmo tempo? <span class="plus">+</span></button><div class="a"><p>Sim. Os 12 ativos — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B — atuam nas três frentes em conjunto.</p></div></div>
-      <div class="q reveal"><button>Tem açúcar ou glúten? <span class="plus">+</span></button><div class="a"><p>Não. Hair Botanika é sem adição de açúcares e não contém glúten. São 60 cápsulas, peso líquido 38g.</p></div></div>
+      <div class="q reveal"><button>Tem açúcar ou glúten? <span class="plus">+</span></button><div class="a"><p>Não. Hair Botanika é sem adição de açúcares e não contém glúten. São 60 cápsulas, peso líquido 38g, Quality Premium.</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="shell">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#top"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#g1)"/></svg><span>Hair Botanika</span></a>
+        <a class="brand" href="#top"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/></svg><span>Hair Botanika</span></a>
         <p>Suplemento alimentar em cápsulas para cabelos, unhas e pele. Ingredientes ativos, dose funcional, fórmula limpa. Cuidado que nasce da raiz.</p>
       </div>
       <div class="foot-cta">
@@ -559,270 +444,152 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px;back
     </div>
     <div class="legal">
       <span>© 2026 Botanika. Todos os direitos reservados.</span>
-      <span>Este produto não substitui uma alimentação equilibrada. Suplemento alimentar.</span>
+      <span>Suplemento alimentar. Não substitui uma alimentação equilibrada.</span>
     </div>
   </div>
 </footer>
 
 </div><!-- /wrap -->
 
-<!-- BARRA FIXA MOBILE -->
 <div class="buybar">
   <div class="p" id="bar-price">R$ —<small>Hair Botanika</small></div>
   <button class="btn btn-primary js-buy" data-kit="1" style="padding:.7rem 1.2rem"><span>Comprar</span><span class="ic">→</span></button>
 </div>
 
 <script>
-/* =========================================================
-   HAIR BOTANIKA — interações
-   ========================================================= */
-
-/* ---------- CONFIG COMERCIAL (ajustar na loja) ---------- */
-// TODO: substituir pelo VARIANT_ID real do Hair Botanika (Shopify).
+/* ===================== CONFIG COMERCIAL ===================== */
+// TODO: trocar pelo VARIANT_ID real do Hair Botanika (Shopify).
 var HAIR_VARIANT = "HAIR_VARIANT_ID";
 var STORE = "https://botanikabrasil.com.br";
-// preços placeholder — confirmar na loja (mesma lógica do Ômega/Tri)
 var KITS = {
-  1: { qtd:1, now:"R$ 97,00",  old:"",           save:"",          inst:"ou 3x de R$ 32,33", perk:"1 mês de rotina" },
-  2: { qtd:2, now:"R$ 184,30", old:"R$ 194,00",  save:"5% OFF",     inst:"ou 3x de R$ 61,43", perk:"2 meses · resultado consistente" },
-  3: { qtd:3, now:"R$ 261,90", old:"R$ 291,00",  save:"10% OFF · frete grátis", inst:"ou 3x de R$ 87,30", perk:"3 meses · ciclo completo do fio" }
+  1:{qtd:1, now:"R$ 97,00",  old:"",          save:"",                       inst:"ou 3x de R$ 32,33", perk:"1 mês de rotina"},
+  2:{qtd:2, now:"R$ 184,30", old:"R$ 194,00", save:"5% OFF",                 inst:"ou 3x de R$ 61,43", perk:"2 meses · resultado consistente"},
+  3:{qtd:3, now:"R$ 261,90", old:"R$ 291,00", save:"10% OFF · frete grátis", inst:"ou 3x de R$ 87,30", perk:"3 meses · ciclo completo do fio"}
 };
 var currentKit = 1;
-
-function cartUrl(kit){
-  var k = KITS[kit];
-  return STORE + "/cart/" + HAIR_VARIANT + ":" + k.qtd;
-}
 function goBuy(kit){
-  if(HAIR_VARIANT === "HAIR_VARIANT_ID"){
-    // placeholder: sem variant real ainda — leva pra loja
-    window.open(STORE, "_blank");
-    return;
-  }
-  window.open(cartUrl(kit), "_blank");
+  if(HAIR_VARIANT === "HAIR_VARIANT_ID"){ window.open(STORE, "_blank"); return; }
+  window.open(STORE + "/cart/" + HAIR_VARIANT + ":" + KITS[kit].qtd, "_blank");
 }
 
-/* ---------- OFERTA / toggle de kit ---------- */
-var pill = document.getElementById("pill");
-var toggle = document.getElementById("toggle");
-var elNow = document.getElementById("now");
-var elOld = document.getElementById("old");
-var elSave = document.getElementById("save");
-var elInst = document.getElementById("installments");
-var elPerk = document.getElementById("perk-kit");
-var ctaLabel = document.getElementById("cta-label");
-var barPrice = document.getElementById("bar-price");
-var shelf = document.getElementById("shelf");
+/* ===================== OFERTA / kits ===================== */
+var pill=document.getElementById("pill"),toggle=document.getElementById("toggle");
+var elNow=document.getElementById("now"),elOld=document.getElementById("old"),elSave=document.getElementById("save");
+var elInst=document.getElementById("installments"),elPerk=document.getElementById("perk-kit");
+var ctaLabel=document.getElementById("cta-label"),barPrice=document.getElementById("bar-price"),shelf=document.getElementById("shelf");
 
-function miniBottle(dim){
-  return '<svg class="mini '+(dim?'dim':'')+'" viewBox="0 0 90 150" aria-hidden="true">'
-    +'<rect x="10" y="30" width="70" height="112" rx="14" fill="#12190f" stroke="rgba(159,208,174,.2)"/>'
-    +'<rect x="22" y="12" width="46" height="22" rx="6" fill="#d9b26a"/>'
-    +'<rect x="20" y="60" width="50" height="60" rx="8" fill="#0e1510" stroke="rgba(217,178,106,.35)"/>'
-    +'<text x="45" y="86" text-anchor="middle" fill="#f0d59a" font-family="Italiana,serif" font-size="8">HAIR</text>'
-    +'<text x="45" y="100" text-anchor="middle" fill="#9fd0ae" font-family="Outfit" font-size="4.4" letter-spacing="1">BOTANIKA</text>'
-    +'</svg>';
-}
-function renderShelf(kit){
-  var html = "";
-  for(var i=0;i<3;i++){ html += miniBottle(i >= kit); }
-  shelf.innerHTML = html;
-}
+function miniPote(dim){ return '<img class="mini'+(dim?' dim':'')+'" src="hair-rotulo.png" alt="" aria-hidden="true">'; }
+function renderShelf(kit){ var h=""; for(var i=0;i<3;i++){ h+=miniPote(i>=kit); } shelf.innerHTML=h; }
 function setKit(kit){
-  currentKit = kit;
-  var k = KITS[kit];
-  pill.style.transform = "translateX(" + ((kit-1)*100) + "%)";
-  var btns = toggle.querySelectorAll("button");
-  for(var i=0;i<btns.length;i++){ btns[i].classList.toggle("on", (i+1)===kit); }
-  elNow.textContent = k.now;
-  elOld.textContent = k.old;
-  elSave.textContent = k.save;
-  elSave.style.display = k.save ? "" : "none";
-  elInst.textContent = k.inst;
-  elPerk.textContent = k.perk;
-  ctaLabel.textContent = "Quero " + (kit===1 ? "1 pote" : kit + " potes");
-  barPrice.innerHTML = k.now + "<small>Kit " + kit + " · Hair Botanika</small>";
+  currentKit=kit; var k=KITS[kit];
+  pill.style.transform="translateX("+((kit-1)*100)+"%)";
+  var b=toggle.querySelectorAll("button"); for(var i=0;i<b.length;i++){ b[i].classList.toggle("on",(i+1)===kit); }
+  elNow.textContent=k.now; elOld.textContent=k.old;
+  elSave.textContent=k.save; elSave.style.display=k.save?"":"none";
+  elInst.textContent=k.inst; elPerk.textContent=k.perk;
+  ctaLabel.textContent="Quero "+(kit===1?"1 pote":kit+" potes");
+  barPrice.innerHTML=k.now+"<small>Kit "+kit+" · Hair Botanika</small>";
   renderShelf(kit);
 }
-toggle.addEventListener("click", function(e){
-  var b = e.target.closest("button[data-kit]");
-  if(!b) return;
-  setKit(parseInt(b.getAttribute("data-kit"),10));
-});
+toggle.addEventListener("click",function(e){ var b=e.target.closest("button[data-kit]"); if(b) setKit(parseInt(b.getAttribute("data-kit"),10)); });
 setKit(1);
 
-/* botões comprar */
-document.addEventListener("click", function(e){
-  var b = e.target.closest(".js-buy");
-  if(!b) return;
-  var kit = b.getAttribute("data-kit");
-  goBuy(kit ? parseInt(kit,10) : currentKit);
-});
+document.addEventListener("click",function(e){ var b=e.target.closest(".js-buy"); if(!b) return;
+  var k=b.getAttribute("data-kit"); goBuy(k?parseInt(k,10):currentKit); });
 
-/* ---------- FAQ ---------- */
+/* ===================== FAQ ===================== */
 document.querySelectorAll(".q").forEach(function(q){
-  q.querySelector("button").addEventListener("click", function(){
-    var open = q.classList.contains("open");
-    document.querySelectorAll(".q").forEach(function(o){ o.classList.remove("open"); o.querySelector(".a").style.maxHeight = null; });
-    if(!open){ q.classList.add("open"); var a=q.querySelector(".a"); a.style.maxHeight = a.scrollHeight + "px"; }
+  q.querySelector("button").addEventListener("click",function(){
+    var open=q.classList.contains("open");
+    document.querySelectorAll(".q").forEach(function(o){ o.classList.remove("open"); o.querySelector(".a").style.maxHeight=null; });
+    if(!open){ q.classList.add("open"); var a=q.querySelector(".a"); a.style.maxHeight=a.scrollHeight+"px"; }
   });
 });
 
-/* ---------- reveal ---------- */
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
-},{threshold:.14});
+/* ===================== reveal ===================== */
+var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); },{threshold:.14});
 document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
 
-/* ---------- count-up ---------- */
+/* ===================== count-up ===================== */
 function countUp(el){
-  var target = parseFloat(el.getAttribute("data-target"));
-  var suffix = el.getAttribute("data-suffix") || "";
-  var t0=null, dur=1400;
-  function step(ts){
-    if(!t0) t0=ts;
-    var p = Math.min((ts-t0)/dur,1);
-    var e = 1-Math.pow(1-p,3);
-    el.textContent = Math.round(target*e) + suffix;
-    if(p<1) requestAnimationFrame(step);
-  }
+  var target=parseFloat(el.getAttribute("data-target"))||0, suffix=el.getAttribute("data-suffix")||"", t0=null, dur=1400;
+  function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e)+suffix; if(p<1) requestAnimationFrame(step); }
   requestAnimationFrame(step);
 }
-var io2 = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if(en.isIntersecting){ countUp(en.target); io2.unobserve(en.target); } });
-},{threshold:.5});
+var io2=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ countUp(x.target); io2.unobserve(x.target); } }); },{threshold:.5});
 document.querySelectorAll(".num").forEach(function(el){ io2.observe(el); });
 
-/* ---------- tilt + glow nas tcards ---------- */
-var canHover = window.matchMedia("(hover:hover)").matches;
+/* ===================== tilt + glow ===================== */
+var canHover=window.matchMedia("(hover:hover)").matches;
 if(canHover){
   document.querySelectorAll(".tcard").forEach(function(card){
-    var glow = card.querySelector(".glow");
-    card.addEventListener("mousemove", function(e){
-      var r = card.getBoundingClientRect();
-      var x = e.clientX - r.left, y = e.clientY - r.top;
-      var rx = ((y/r.height)-.5)*-6, ry = ((x/r.width)-.5)*6;
-      card.style.transform = "perspective(700px) rotateX("+rx+"deg) rotateY("+ry+"deg) translateY(-4px)";
-      if(glow){ glow.style.left = x+"px"; glow.style.top = y+"px"; }
+    var glow=card.querySelector(".glow");
+    card.addEventListener("mousemove",function(e){
+      var r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+      card.style.transform="perspective(700px) rotateX("+(((y/r.height)-.5)*-6)+"deg) rotateY("+(((x/r.width)-.5)*6)+"deg) translateY(-4px)";
+      if(glow){ glow.style.left=x+"px"; glow.style.top=y+"px"; }
     });
-    card.addEventListener("mouseleave", function(){ card.style.transform=""; });
+    card.addEventListener("mouseleave",function(){ card.style.transform=""; });
   });
 }
 
-/* ---------- botões magnéticos (gsap) ---------- */
+/* ===================== botões magnéticos ===================== */
 if(window.gsap && canHover){
   document.querySelectorAll(".btn-primary").forEach(function(btn){
-    var xTo = gsap.quickTo(btn,"x",{duration:.5,ease:"power3"});
-    var yTo = gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
-    btn.addEventListener("mousemove", function(e){
-      var r = btn.getBoundingClientRect();
-      xTo((e.clientX - r.left - r.width/2)*.3);
-      yTo((e.clientY - r.top - r.height/2)*.4);
-    });
-    btn.addEventListener("mouseleave", function(){ xTo(0); yTo(0); });
+    var xTo=gsap.quickTo(btn,"x",{duration:.5,ease:"power3"}), yTo=gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
+    btn.addEventListener("mousemove",function(e){ var r=btn.getBoundingClientRect();
+      xTo((e.clientX-r.left-r.width/2)*.3); yTo((e.clientY-r.top-r.height/2)*.4); });
+    btn.addEventListener("mouseleave",function(){ xTo(0); yTo(0); });
   });
 }
 
-/* =========================================================
-   ASSINATURA: cascata de fios luminosos (canvas)
-   — inspirado em campo de partículas, implementação própria
-   ========================================================= */
+/* ===================== ASSINATURA: cascata de fios (canvas) ===================== */
 (function(){
-  var cv = document.getElementById("strands");
-  var ctx = cv.getContext("2d");
-  var W,H,DPR;
-  var strands = [];
-  var mouse = {x:-9999,y:-9999,active:false};
-  var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-
+  var cv=document.getElementById("strands"), ctx=cv.getContext("2d");
+  var W,H,DPR,strands=[], mouse={x:-9999,y:-9999,active:false};
+  var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var COL=[[63,138,92],[217,178,106],[233,183,164]]; // verde -> dourado -> rosé
+  function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
+  function colorAt(t){ return t<0.5?mix(COL[0],COL[1],t*2):mix(COL[1],COL[2],(t-0.5)*2); }
   function resize(){
-    DPR = Math.min(window.devicePixelRatio||1, 2);
-    W = window.innerWidth; H = window.innerHeight;
-    cv.width = W*DPR; cv.height = H*DPR;
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-    build();
+    DPR=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
+    cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); build();
   }
   function build(){
-    strands = [];
-    var count = W < 640 ? 26 : (W < 1100 ? 40 : 56);
+    strands=[]; var count=W<640?24:(W<1100?38:54);
     for(var i=0;i<count;i++){
-      var x = (i/(count-1))*W;
-      strands.push({
-        x: x,
-        baseX: x,
-        seg: 16,
-        len: H*0.9 + Math.random()*H*0.35,
-        amp: 22 + Math.random()*46,
-        speed: 0.15 + Math.random()*0.35,
-        phase: Math.random()*Math.PI*2,
-        drift: (Math.random()-0.5)*0.4,
-        width: 0.6 + Math.random()*1.4,
-        hue: Math.random()   // 0..1 posiciona a cor no gradiente verde→dourado→rosé
-      });
+      var x=(i/(count-1))*W;
+      strands.push({baseX:x,seg:16,len:H*0.92+Math.random()*H*0.3,amp:20+Math.random()*46,
+        speed:0.14+Math.random()*0.34,phase:Math.random()*Math.PI*2,drift:(Math.random()-0.5)*0.4,
+        width:0.6+Math.random()*1.4,hue:Math.random()});
     }
   }
-
-  var COL = [
-    [63,138,92],   // verde folha (raiz)
-    [217,178,106], // dourado (meio)
-    [231,179,161]  // rosé (ponta)
-  ];
-  function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]; }
-  function colorAt(t){ // t 0..1 ao longo do fio
-    var c = t < 0.5 ? mix(COL[0],COL[1],t*2) : mix(COL[1],COL[2],(t-0.5)*2);
-    return c;
-  }
-
-  var t0 = 0;
   function frame(ts){
-    var time = ts*0.001;
-    ctx.clearRect(0,0,W,H);
-    ctx.globalCompositeOperation = "lighter";
-    for(var s=0; s<strands.length; s++){
-      var st = strands[s];
-      ctx.beginPath();
-      var prevX=null, prevY=null;
+    var time=ts*0.001; ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation="lighter";
+    for(var s=0;s<strands.length;s++){
+      var st=strands[s]; ctx.beginPath(); var px=null,py=null;
       for(var i=0;i<=st.seg;i++){
-        var p = i/st.seg;                 // 0 topo(raiz) -> 1 ponta
-        var y = p*st.len - H*0.05;
-        // sway senoidal + leve deriva
-        var sway = Math.sin(time*st.speed + st.phase + p*3.4)*st.amp*(0.35+p);
-        var x = st.baseX + sway + Math.sin(time*0.12 + st.phase)*st.drift*40;
-        // repulsão do mouse (afasta na horizontal)
+        var p=i/st.seg, y=p*st.len-H*0.05;
+        var x=st.baseX+Math.sin(time*st.speed+st.phase+p*3.4)*st.amp*(0.35+p)+Math.sin(time*0.12+st.phase)*st.drift*40;
         if(mouse.active){
-          var dx = x - mouse.x, dy = y - mouse.y;
-          var d2 = dx*dx + dy*dy;
-          var R = 150;
-          if(d2 < R*R){
-            var d = Math.sqrt(d2)||1;
-            var f = (1 - d/R);
-            x += (dx/d)*f*f*70;
-          }
+          var dx=x-mouse.x, dy=y-mouse.y, d2=dx*dx+dy*dy, R=150;
+          if(d2<R*R){ var d=Math.sqrt(d2)||1, f=1-d/R; x+=(dx/d)*f*f*70; }
         }
-        if(prevX===null){ ctx.moveTo(x,y); }
-        else {
-          var mx=(prevX+x)/2, my=(prevY+y)/2;
-          ctx.quadraticCurveTo(prevX,prevY,mx,my);
-        }
-        prevX=x; prevY=y;
+        if(px===null){ ctx.moveTo(x,y); } else { ctx.quadraticCurveTo(px,py,(px+x)/2,(py+y)/2); }
+        px=x; py=y;
       }
-      var c = colorAt(st.hue*0.6 + 0.2);
-      var alpha = 0.16 + st.hue*0.10;
-      ctx.strokeStyle = "rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+alpha+")";
-      ctx.lineWidth = st.width;
-      ctx.lineCap = "round";
-      ctx.stroke();
+      var c=colorAt(st.hue*0.6+0.2), a=0.15+st.hue*0.10;
+      ctx.strokeStyle="rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+a+")";
+      ctx.lineWidth=st.width; ctx.lineCap="round"; ctx.stroke();
     }
-    ctx.globalCompositeOperation = "source-over";
+    ctx.globalCompositeOperation="source-over";
     if(!reduce) requestAnimationFrame(frame);
   }
-
-  window.addEventListener("resize", resize, {passive:true});
-  window.addEventListener("pointermove", function(e){ mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; }, {passive:true});
-  window.addEventListener("pointerleave", function(){ mouse.active=false; mouse.x=mouse.y=-9999; });
-  resize();
-  if(reduce){ requestAnimationFrame(frame); } // 1 frame estático
-  else requestAnimationFrame(frame);
+  window.addEventListener("resize",resize,{passive:true});
+  window.addEventListener("pointermove",function(e){ mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; },{passive:true});
+  window.addEventListener("pointerleave",function(){ mouse.active=false; mouse.x=mouse.y=-9999; });
+  resize(); requestAnimationFrame(frame);
 })();
 </script>
 </body>
