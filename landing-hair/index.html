@@ -3,285 +3,382 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#10203f" />
+<meta name="theme-color" content="#0a1730" />
 <title>Hair Botanika — Cabelos mais fortes, unhas firmes e pele com viço</title>
 <meta name="description" content="Hair Botanika: 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas) que nutrem a raiz de dentro pra fora. Menos queda, mais força, mais brilho." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 /* ============================================================
-   HAIR BOTANIKA — LP de conversão "Confiança que se vê"
-   Cores Botanika: navy + dourado/champagne + creme · detalhe rosé
-   Hero escuro cinematográfico (vídeo) + corpo claro editorial
-   Bodoni Moda (display) + Manrope (corpo)
+   HAIR BOTANIKA — "Seiva & Raiz"
+   LP de conversão · identidade própria (não clona omega/tri)
+   Sistema: grid-rem adaptativo (escala fluida) + canvas de fios
+   luminosos (assinatura) + reveals em máscara/stagger.
+   Paleta Botanika: navy profundo + dourado champagne + creme,
+   rosé só como brilho/detalhe. Fraunces (display) + Manrope (corpo).
    ============================================================ */
+
+/* ---- GRID REM ADAPTATIVO (o segredo da responsividade) ----
+   Tudo é medido em rem. A raiz escala com a viewport, então a
+   página inteira mantém a mesma proporção em qualquer largura,
+   e nos breakpoints o layout se reorganiza. */
+html{font-size:16px}
+@media (max-width:1920px){html{font-size:.8333vw}}   /* ref 1920 */
+@media (max-width:1440px){html{font-size:1.1111vw}}  /* ref 1440 */
+@media (max-width:1024px){html{font-size:1.5625vw}}  /* ref 1024 */
+@media (max-width:640px){html{font-size:4.2666vw}}   /* ref ~375 mobile */
+
 :root{
-  --navy:#0f1e3c; --navy-2:#16294e; --navy-3:#25406e; --navy-ink:#13223f;
-  --gold:#c79a4e; --gold-2:#e7c887; --champ:#f3e6c9;
-  --cream:#f7efe3; --cream-2:#efe3d0; --white:#ffffff;
-  --rose:#e0a2ab; --rose-soft:#f0cdd0;
-  --ink:#17233c; --muted:#5c6580;
-  --line:rgba(23,35,60,.12); --line-d:rgba(255,255,255,.16);
-  --radius:24px; --radius-sm:14px; --shell:1140px;
+  --navy:#0a1730; --navy-2:#0d1d3b; --navy-3:#122a52; --navy-4:#0b1a37;
+  --gold:#d6ab63; --gold-2:#f2d79f; --gold-deep:#b8863b;
+  --cream:#f6efe2; --ink:#eaf0fb; --muted:#98a6c6; --muted-2:#7d8bab;
+  --rose:#e6a9b3; --rose-soft:#f0cdd2;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.06);
+  --glass:rgba(255,255,255,.035);
+  --shell:76rem; --radius:1.5rem; --radius-sm:1rem;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
-body{background:var(--cream);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--navy);color:var(--ink);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  line-height:1.6;overflow-x:hidden;max-width:100%;
+  -webkit-font-smoothing:antialiased;font-size:1rem;
+  position:relative;
+}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 img,video{display:block;max-width:100%}
 ul{list-style:none}
-::selection{background:var(--gold);color:#20140a}
-.shell{max-width:var(--shell);margin-inline:auto;padding-inline:22px}
-.display{font-family:'Bodoni Moda',serif;font-weight:500;line-height:1.04;letter-spacing:-.01em}
-.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.24em}
-.eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.6}
-.gold{color:var(--gold)} .roseink{color:var(--rose)}
+::selection{background:var(--gold);color:#1a1206}
 
-/* botões */
-.btn{display:inline-flex;align-items:center;gap:.7rem;border-radius:100px;font-weight:600;font-size:1rem;padding:1rem 1.7rem;position:relative;transition:transform .2s,filter .2s;will-change:transform;text-align:center}
-.btn .ic{display:grid;place-items:center;width:34px;height:34px;border-radius:100px;font-size:1rem}
-.btn-primary{background:linear-gradient(115deg,var(--gold),var(--gold-2));color:#20140a;box-shadow:0 16px 40px -14px rgba(199,154,78,.6)}
+/* fundo global sutil (radiais quentes por trás do canvas) */
+.bgwash{position:fixed;inset:0;z-index:-2;pointer-events:none;background:
+  radial-gradient(60rem 40rem at 78% -8%, rgba(214,171,99,.16), transparent 60%),
+  radial-gradient(50rem 40rem at 8% 12%, rgba(230,169,179,.10), transparent 55%),
+  radial-gradient(70rem 60rem at 50% 120%, rgba(18,42,82,.55), transparent 60%),
+  linear-gradient(180deg,#0a1730,#0a1830 40%,#091529)}
+#strands{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.9}
+
+.shell{max-width:var(--shell);margin-inline:auto;padding-inline:1.6rem;width:100%}
+.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.02;letter-spacing:-.015em;font-optical-sizing:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.28em;color:var(--gold-2)}
+.eyebrow::before{content:"";width:1.6rem;height:1px;background:currentColor;opacity:.7}
+.eyebrow.c{justify-content:center}
+.gold{color:var(--gold-2)} .rose{color:var(--rose)}
+
+/* ---- botões ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border-radius:100px;
+  font-weight:600;font-size:1rem;padding:1rem 1.6rem;position:relative;
+  transition:transform .35s var(--ease),filter .3s,box-shadow .3s;will-change:transform}
+.btn .ic{display:grid;place-items:center;width:2rem;height:2rem;border-radius:100px;font-size:.95rem;transition:transform .35s var(--ease)}
+.btn:hover .ic{transform:translateX(.2rem)}
+.btn-primary{background:linear-gradient(115deg,var(--gold-deep),var(--gold) 45%,var(--gold-2));
+  color:#20140a;box-shadow:0 1.2rem 2.6rem -1rem rgba(214,171,99,.55),inset 0 1px 0 rgba(255,255,255,.35)}
 .btn-primary .ic{background:#20140a;color:var(--gold-2)}
-.btn-primary:hover{filter:brightness(1.05)}
-.btn-light{background:var(--white);color:var(--navy);border:1px solid var(--line)}
-.btn-ghost-d{border:1px solid var(--line-d);color:#fff}
-.btn-ghost-d:hover{border-color:var(--gold-2)}
+.btn-primary:hover{filter:brightness(1.05);box-shadow:0 1.6rem 3rem -.9rem rgba(214,171,99,.7),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.03);backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
 
-/* ===== HERO (escuro, vídeo) ===== */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;color:#fff;overflow:hidden;background:var(--navy)}
-.hero video,.hero .heroimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.hero .scrim{position:absolute;inset:0;z-index:1;background:
-  radial-gradient(90% 70% at 30% 30%, rgba(15,30,60,.35), transparent 60%),
-  linear-gradient(180deg, rgba(10,20,42,.72), rgba(10,20,42,.55) 40%, rgba(10,20,42,.86))}
-.hero .wrap{position:relative;z-index:2;display:flex;flex-direction:column;flex:1}
-.navbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:22px 0}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:'Bodoni Moda',serif;font-size:1.4rem;font-weight:600;letter-spacing:.01em;color:#fff}
-.brand .mk{width:30px;height:30px}
-.nav-cta{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line-d);border-radius:100px;padding:.55rem 1.05rem;font-size:.82rem;font-weight:600;color:#fff;background:rgba(255,255,255,.06);backdrop-filter:blur(6px)}
-.nav-cta:hover{border-color:var(--gold-2)}
-.hero-body{flex:1;display:grid;grid-template-columns:1fr;align-items:center;gap:30px;padding:40px 0 70px}
-@media(min-width:940px){.hero-body{grid-template-columns:1.1fr .9fr;gap:40px;padding:20px 0 80px}}
-.hero h1{font-size:clamp(2.6rem,6.4vw,4.9rem);margin:.6rem 0 .2rem;max-width:16ch}
+/* ---- navbar ---- */
+.nav{position:fixed;top:0;inset-inline:0;z-index:70;transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(9,20,42,.72);backdrop-filter:blur(14px);border-color:var(--line-2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 0}
+.brand{display:flex;align-items:center;gap:.55rem;font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;letter-spacing:.01em;color:var(--cream)}
+.brand .mk{width:1.9rem;height:1.9rem}
+.nav-cta{display:inline-flex;align-items:center;gap:.45rem;border:1px solid var(--line);border-radius:100px;
+  padding:.55rem 1.05rem;font-size:.85rem;font-weight:600;color:var(--ink);background:rgba(255,255,255,.04);transition:border-color .3s,color .3s}
+.nav-cta:hover{border-color:var(--gold-2);color:var(--gold-2)}
+
+/* ---- HERO ---- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:8rem 0 4rem;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;width:100%}
+@media(min-width:1024px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:2rem}}
+.hero-copy{max-width:34rem}
+.hero h1{font-size:clamp(3rem,5.2vw,5.6rem);margin:1.1rem 0 0;color:var(--cream)}
 .hero h1 em{font-style:italic;color:var(--gold-2)}
-.hero .sub{color:rgba(255,255,255,.82);font-size:1.1rem;max-width:46ch;margin:1.2rem 0 1.8rem}
-.hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
-.hero .trust{display:flex;align-items:center;gap:.6rem;margin-top:1.5rem;color:rgba(255,255,255,.8);font-size:.88rem}
-.stars{color:var(--gold-2);letter-spacing:2px}
-.hero-media{position:relative;display:grid;place-items:center}
-.hero-media .frame{width:min(72%,300px);aspect-ratio:9/16;border-radius:26px;overflow:hidden;border:1px solid var(--line-d);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);background:var(--navy-2)}
-.hero-media .frame video,.hero-media .frame img{width:100%;height:100%;object-fit:cover}
-.hero-media .tag{position:absolute;bottom:8%;left:-4%;background:rgba(15,30,60,.8);border:1px solid var(--line-d);backdrop-filter:blur(8px);border-radius:100px;padding:.5rem .9rem;font-size:.78rem;font-weight:600;color:var(--champ)}
-.hero-media .tag b{color:var(--gold-2)}
-@media(max-width:939px){.hero-media .tag{left:2%}}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease)}
+.hero.on h1 .ln>span{transform:none}
+.hero h1 .ln:nth-child(2)>span{transition-delay:.09s}
+.hero h1 .ln:nth-child(3)>span{transition-delay:.18s}
+.hero .sub{color:var(--muted);font-size:1.12rem;max-width:40rem;margin:1.6rem 0 2rem}
+.hero .sub b{color:var(--ink);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
+.hero .trust{display:flex;align-items:center;gap:.7rem;margin-top:1.8rem;color:var(--muted);font-size:.9rem}
+.stars{color:var(--gold-2);letter-spacing:.12em}
 
-/* ===== seções claras ===== */
-section{position:relative;padding:76px 0}
-.sec-head{max-width:680px;margin:0 auto 44px;text-align:center}
+/* pote + mídia do hero */
+.hero-stage{position:relative;display:grid;place-items:center;min-height:26rem}
+.halo{position:absolute;width:34rem;height:34rem;border-radius:50%;
+  background:radial-gradient(circle,rgba(214,171,99,.34),rgba(230,169,179,.14) 40%,transparent 66%);
+  filter:blur(.4rem);z-index:0;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.06);opacity:1}}
+.pote{position:relative;z-index:2;width:min(78%,24rem);filter:drop-shadow(0 2.5rem 3.5rem rgba(0,0,0,.6));
+  animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.1rem)}}
+.chip{position:absolute;z-index:3;border-radius:1.1rem;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 1.8rem 3rem -1rem rgba(0,0,0,.6);background:var(--navy-2);backdrop-filter:blur(6px)}
+.chip.vid{width:9.5rem;aspect-ratio:9/16;right:1%;bottom:6%}
+.chip.vid video{width:100%;height:100%;object-fit:cover}
+.pill{position:absolute;z-index:4;display:flex;align-items:center;gap:.6rem;
+  background:rgba(10,23,48,.72);border:1px solid var(--line);backdrop-filter:blur(10px);
+  border-radius:100px;padding:.6rem 1rem;font-size:.82rem;font-weight:600;color:var(--cream)}
+.pill b{color:var(--gold-2)}
+.pill.a{top:8%;left:0}
+.pill.b{bottom:2%;left:6%}
+@media(max-width:1023px){.hero-stage{min-height:22rem;margin-top:1rem}.chip.vid{width:8rem}.halo{width:24rem;height:24rem}}
+
+/* ---- seções ---- */
+section{position:relative;padding:6.5rem 0}
+.sec-head{max-width:44rem;margin:0 auto 3.4rem;text-align:center}
 .sec-head.left{margin-inline:0;text-align:left}
-.sec-head .eyebrow{color:var(--gold);justify-content:center}
-.sec-head.left .eyebrow{justify-content:flex-start}
-.sec-head h2{font-size:clamp(1.9rem,4.6vw,3.1rem);margin:.7rem 0 .7rem;color:var(--navy)}
-.sec-head p{color:var(--muted);font-size:1.05rem}
-.band-navy{background:var(--navy);color:#fff}
-.band-navy h2{color:#fff}.band-navy .sec-head p{color:rgba(255,255,255,.7)}
-.band-navy .eyebrow{color:var(--gold-2)}
+.sec-head h2{font-size:clamp(2rem,3.6vw,3.4rem);margin:.9rem 0 .8rem;color:var(--cream)}
+.sec-head p{color:var(--muted);font-size:1.08rem}
+.tint{background:
+  radial-gradient(50rem 30rem at 50% -10%, rgba(214,171,99,.06), transparent 60%),
+  rgba(255,255,255,.015)}
+
+/* card base (glass) */
+.card{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);
+  backdrop-filter:blur(6px);transition:transform .5s var(--ease),border-color .4s,background .4s,box-shadow .5s}
 
 /* dor */
-.pains{display:grid;gap:16px;grid-template-columns:1fr;max-width:820px;margin-inline:auto}
+.pains{display:grid;gap:1.1rem;grid-template-columns:1fr;max-width:52rem;margin-inline:auto}
 @media(min-width:720px){.pains{grid-template-columns:1fr 1fr}}
-.pain{display:flex;gap:.9rem;align-items:flex-start;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-sm);padding:20px 22px}
-.pain .x{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(224,162,171,.18);color:#c0566a;font-weight:700}
-.pain p{font-size:.98rem;color:var(--ink)}
+.pain{display:flex;gap:.9rem;align-items:flex-start;padding:1.35rem 1.5rem}
+.pain:hover{border-color:rgba(230,169,179,.4);transform:translateY(-.25rem)}
+.pain .x{flex:0 0 auto;width:1.9rem;height:1.9rem;border-radius:50%;display:grid;place-items:center;
+  background:rgba(230,169,179,.14);color:var(--rose);font-weight:700;font-size:.9rem}
+.pain p{font-size:.98rem;color:var(--ink)}.pain b{color:var(--cream)}
 
-/* solução */
-.sol{display:grid;gap:34px;grid-template-columns:1fr;align-items:center}
-@media(min-width:940px){.sol{grid-template-columns:1fr 1fr;gap:48px}}
-.sol .frame{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(15,30,60,.4);aspect-ratio:4/5;background:var(--navy-2)}
-.sol .frame video,.sol .frame img{width:100%;height:100%;object-fit:cover}
-.sol h2{font-size:clamp(1.9rem,4.4vw,2.9rem);color:var(--navy);margin-bottom:1rem}
-.sol p{color:var(--muted);font-size:1.05rem;margin-bottom:1rem}
-.sol .facts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
-.sol .facts span{border:1px solid var(--line);border-radius:100px;padding:.4rem .9rem;font-size:.82rem;font-weight:600;color:var(--navy)}
+/* solução (split) */
+.split{display:grid;gap:2.6rem;grid-template-columns:1fr;align-items:center}
+@media(min-width:1024px){.split{grid-template-columns:.9fr 1.1fr;gap:3.4rem}}
+.split.rev{direction:rtl}.split.rev>*{direction:ltr}
+.media-frame{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 2.4rem 4rem -2rem rgba(0,0,0,.7);aspect-ratio:4/5;background:var(--navy-2)}
+.media-frame video,.media-frame img{width:100%;height:100%;object-fit:cover}
+.media-frame .edge{position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 6rem rgba(10,23,48,.5);border-radius:var(--radius)}
+.split h2{font-size:clamp(1.9rem,3.4vw,3rem);color:var(--cream);margin-bottom:1rem}
+.split p{color:var(--muted);font-size:1.06rem;margin-bottom:1rem}.split p b{color:var(--ink)}
+.facts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
+.facts span{border:1px solid var(--line);border-radius:100px;padding:.45rem 1rem;font-size:.82rem;font-weight:600;color:var(--gold-2);background:rgba(214,171,99,.06)}
 
 /* benefícios */
-.bens{display:grid;gap:18px;grid-template-columns:1fr}
+.bens{display:grid;gap:1.2rem;grid-template-columns:1fr}
 @media(min-width:680px){.bens{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.bens{grid-template-columns:repeat(3,1fr)}}
-.ben{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .4s,box-shadow .4s,border-color .4s}
-.ben:hover{transform:translateY(-6px);box-shadow:0 24px 50px -30px rgba(15,30,60,.4);border-color:var(--gold)}
-.ben .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(199,154,78,.18),rgba(224,162,171,.18));color:var(--gold);margin-bottom:14px}
-.ben h3{font-family:'Bodoni Moda',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.4rem}
-.ben p{color:var(--muted);font-size:.94rem}
+.ben{padding:1.9rem 1.7rem}
+.ben:hover{transform:translateY(-.5rem);border-color:var(--gold);box-shadow:0 1.8rem 3.4rem -2rem rgba(214,171,99,.4)}
+.ben .ico{width:3.1rem;height:3.1rem;border-radius:.9rem;display:grid;place-items:center;font-size:1.4rem;
+  background:linear-gradient(135deg,rgba(214,171,99,.2),rgba(230,169,179,.16));margin-bottom:1rem}
+.ben h3{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--cream);margin-bottom:.45rem;font-weight:500}
+.ben p{color:var(--muted);font-size:.95rem}.ben b{color:var(--gold-2);font-weight:600}
 
 /* para quem */
-.forwho{max-width:760px;margin-inline:auto;display:grid;gap:14px}
-.forwho li{display:flex;gap:.9rem;align-items:flex-start;background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px 20px}
-.forwho .ck{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--gold-2);font-weight:700;font-size:.85rem}
-.forwho p{font-size:1rem}
+.forwho{max-width:50rem;margin-inline:auto;display:grid;gap:.9rem}
+@media(min-width:720px){.forwho{grid-template-columns:1fr 1fr}}
+.forwho li{display:flex;gap:.9rem;align-items:flex-start;padding:1.1rem 1.35rem;
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--radius-sm);transition:border-color .3s,transform .4s}
+.forwho li:hover{border-color:var(--gold);transform:translateY(-.2rem)}
+.forwho .ck{flex:0 0 auto;width:1.7rem;height:1.7rem;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold-deep),var(--gold-2));color:#20140a;font-weight:800;font-size:.85rem}
+.forwho p{font-size:1rem;color:var(--ink)}.forwho b{color:var(--cream)}
 
 /* depoimentos */
-.proof{display:grid;gap:18px;grid-template-columns:1fr}
+.proof{display:grid;gap:1.2rem;grid-template-columns:1fr}
 @media(min-width:820px){.proof{grid-template-columns:repeat(3,1fr)}}
-.qcard{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;display:flex;flex-direction:column;gap:12px;transition:transform .4s}
-.qcard:hover{transform:translateY(-6px)}
-.qcard .st{color:var(--gold);letter-spacing:2px}
-.qcard p{color:var(--ink);font-size:1rem}
-.qcard .who{margin-top:auto;color:var(--muted);font-size:.84rem;border-top:1px solid var(--line);padding-top:12px}
-.qcard .who b{color:var(--navy)}
+.qcard{padding:1.9rem 1.7rem;display:flex;flex-direction:column;gap:.9rem}
+.qcard:hover{transform:translateY(-.5rem);border-color:var(--gold)}
+.qcard .st{color:var(--gold-2);letter-spacing:.15em}
+.qcard p{color:var(--ink);font-size:1.02rem;font-family:'Fraunces',serif;font-style:italic;line-height:1.45}
+.qcard b{color:var(--cream);font-style:normal}
+.qcard .who{margin-top:auto;color:var(--muted-2);font-size:.84rem;border-top:1px solid var(--line);padding-top:.9rem;font-family:'Manrope'}
+.qcard .who b{color:var(--gold-2)}
 
 /* garantia */
-.guarantee{max-width:900px;margin-inline:auto;display:grid;gap:24px;grid-template-columns:1fr;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px}
-@media(min-width:760px){.guarantee{grid-template-columns:auto 1fr;gap:34px}}
-.seal{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;text-align:center;margin-inline:auto;
-  background:radial-gradient(circle,rgba(199,154,78,.2),transparent 70%);border:2px solid var(--gold);color:var(--gold);font-family:'Bodoni Moda',serif}
-.seal b{font-size:1.7rem;line-height:1}.seal span{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase}
-.guarantee h3{font-family:'Bodoni Moda',serif;font-size:1.5rem;color:var(--navy);margin-bottom:.6rem}
-.guarantee li{display:flex;gap:.6rem;align-items:flex-start;color:var(--muted);padding:.28rem 0}
-.guarantee .tick{color:var(--gold)}
+.guarantee{max-width:58rem;margin-inline:auto;display:grid;gap:1.6rem;grid-template-columns:1fr;align-items:center;
+  padding:2.6rem 2.2rem;background:linear-gradient(135deg,rgba(214,171,99,.08),rgba(255,255,255,.02));
+  border:1px solid var(--gold);border-radius:var(--radius)}
+@media(min-width:760px){.guarantee{grid-template-columns:auto 1fr;gap:2.4rem}}
+.seal{width:8rem;height:8rem;border-radius:50%;display:grid;place-items:center;text-align:center;margin-inline:auto;
+  background:radial-gradient(circle,rgba(214,171,99,.28),transparent 68%);border:2px solid var(--gold);color:var(--gold-2);font-family:'Fraunces',serif}
+.seal b{font-size:2rem;line-height:1}.seal span{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase}
+.guarantee h3{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--cream);margin-bottom:.7rem;font-weight:500}
+.guarantee li{display:flex;gap:.6rem;align-items:flex-start;color:var(--muted);padding:.3rem 0}
+.guarantee b{color:var(--ink)}.guarantee .tick{color:var(--gold-2)}
 
 /* bônus */
-.bonus{display:grid;gap:16px;grid-template-columns:1fr}
+.bonus{display:grid;gap:1.2rem;grid-template-columns:1fr}
 @media(min-width:760px){.bonus{grid-template-columns:repeat(3,1fr)}}
-.bcard{border:1px dashed var(--gold);border-radius:var(--radius);padding:26px 22px;background:rgba(199,154,78,.06);text-align:center}
-.bcard .g{font-size:1.8rem;margin-bottom:.4rem}
-.bcard h3{font-family:'Bodoni Moda',serif;font-size:1.2rem;color:var(--navy);margin-bottom:.3rem}
-.bcard p{color:var(--muted);font-size:.9rem}
+.bcard{border:1px dashed var(--gold);border-radius:var(--radius);padding:1.9rem 1.6rem;background:rgba(214,171,99,.05);text-align:center;transition:transform .4s var(--ease),background .3s}
+.bcard:hover{transform:translateY(-.4rem);background:rgba(214,171,99,.09)}
+.bcard .g{font-size:2rem;margin-bottom:.5rem}
+.bcard h3{font-family:'Fraunces',serif;font-size:1.25rem;color:var(--cream);margin-bottom:.35rem;font-weight:500}
+.bcard p{color:var(--muted);font-size:.92rem}
 
 /* oferta */
-.offer{max-width:920px;margin-inline:auto;background:var(--navy);color:#fff;border-radius:var(--radius);overflow:hidden}
-.offer-in{padding:34px 30px}
-.kits{display:grid;gap:14px;grid-template-columns:1fr;margin:22px 0}
+.offer{max-width:56rem;margin-inline:auto;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--gold);background:linear-gradient(180deg,rgba(18,42,82,.6),rgba(10,23,48,.85));
+  box-shadow:0 2.6rem 5rem -2rem rgba(214,171,99,.35)}
+.offer-in{padding:2.4rem 2.2rem}
+.kits{display:grid;gap:.9rem;grid-template-columns:1fr;margin:0 0 1.6rem}
 @media(min-width:640px){.kits{grid-template-columns:repeat(3,1fr)}}
-.kit{position:relative;border:1px solid var(--line-d);border-radius:var(--radius-sm);padding:20px 18px;cursor:pointer;transition:border-color .3s,background .3s;background:rgba(255,255,255,.03)}
-.kit:hover{border-color:var(--gold-2)}
-.kit.on{border-color:var(--gold-2);background:rgba(199,154,78,.12)}
-.kit .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(115deg,var(--gold),var(--gold-2));color:#20140a;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .7rem;border-radius:100px;white-space:nowrap}
-.kit .qt{font-family:'Bodoni Moda',serif;font-size:1.3rem}
-.kit .pp{color:var(--gold-2);font-weight:700;font-size:1.15rem;margin-top:.2rem}
-.kit .un{color:rgba(255,255,255,.6);font-size:.78rem}
-.offer .now{font-family:'Bodoni Moda',serif;font-size:2.6rem;color:var(--gold-2)}
-.offer .old{color:rgba(255,255,255,.45);text-decoration:line-through;margin-left:.5rem;font-size:1rem}
-.offer .inst{color:rgba(255,255,255,.75);margin:.2rem 0 1.2rem}
-.offer .perks{margin:1rem 0 1.4rem}
-.offer .perks li{display:flex;gap:.6rem;color:rgba(255,255,255,.82);padding:.28rem 0;font-size:.92rem}
-.offer .perks .tick{color:var(--gold-2)}
-.offer .safe{display:inline-flex;gap:.4rem;color:rgba(255,255,255,.6);font-size:.82rem;margin-top:.7rem}
+.kit{position:relative;border:1px solid var(--line);border-radius:var(--radius-sm);padding:1.4rem 1.1rem;cursor:pointer;
+  transition:border-color .3s,background .3s,transform .3s;background:rgba(255,255,255,.03);text-align:center}
+.kit:hover{border-color:var(--gold-2);transform:translateY(-.2rem)}
+.kit.on{border-color:var(--gold-2);background:rgba(214,171,99,.14);box-shadow:0 0 0 1px var(--gold-2) inset}
+.kit .tag{position:absolute;top:-.7rem;left:50%;transform:translateX(-50%);background:linear-gradient(115deg,var(--gold-deep),var(--gold-2));
+  color:#20140a;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:.22rem .7rem;border-radius:100px;white-space:nowrap}
+.kit .qt{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--cream)}
+.kit .pp{color:var(--gold-2);font-weight:700;font-size:1.15rem;margin-top:.25rem}
+.kit .un{color:var(--muted-2);font-size:.76rem;margin-top:.15rem}
+.offer .price-row{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.offer .now{font-family:'Fraunces',serif;font-size:2.8rem;color:var(--gold-2);line-height:1}
+.offer .old{color:var(--muted-2);text-decoration:line-through;font-size:1rem}
+.offer .inst{color:var(--muted);margin:.4rem 0 1.3rem;font-size:.95rem}
+.offer .perks{margin:0 0 1.6rem}
+.offer .perks li{display:flex;gap:.6rem;color:var(--ink);padding:.32rem 0;font-size:.95rem}
+.offer .perks .tick{color:var(--gold-2);flex:0 0 auto}
+.offer .safe{display:inline-flex;gap:.4rem;color:var(--muted-2);font-size:.82rem;margin-top:.9rem}
 
 /* faq */
-.faq{max-width:760px;margin-inline:auto}
+.faq{max-width:50rem;margin-inline:auto}
 .q{border-top:1px solid var(--line)}
 .q:last-child{border-bottom:1px solid var(--line)}
-.q button{width:100%;display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:20px 0;text-align:left;font-size:1.05rem;font-weight:600;color:var(--navy)}
-.q .plus{color:var(--gold);font-size:1.3rem;transition:transform .3s;flex:0 0 auto}
+.q>button{width:100%;display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:1.35rem 0;text-align:left;font-size:1.08rem;font-weight:600;color:var(--cream)}
+.q .plus{color:var(--gold-2);font-size:1.4rem;transition:transform .35s var(--ease);flex:0 0 auto}
 .q.open .plus{transform:rotate(45deg)}
-.q .a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--muted)}
-.q .a p{padding-bottom:20px}
+.q .a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
+.q .a p{padding-bottom:1.35rem;color:var(--muted);font-size:.98rem}
 
 /* escassez */
-.scarcity{background:var(--navy);color:#fff;text-align:center}
-.scarcity h2{font-family:'Bodoni Moda',serif;font-size:clamp(2rem,5vw,3.2rem);max-width:18ch;margin:0 auto 1rem}
-.scarcity p{color:rgba(255,255,255,.8);max-width:52ch;margin:0 auto 1.5rem}
-.urgency{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--gold);color:var(--gold-2);border-radius:100px;padding:.6rem 1.2rem;font-size:.86rem;font-weight:600;margin-bottom:1.6rem}
-.dotpulse{width:9px;height:9px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(224,162,171,.6);animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,162,171,.6)}70%{box-shadow:0 0 0 12px rgba(224,162,171,0)}100%{box-shadow:0 0 0 0 rgba(224,162,171,0)}}
+.scarcity{text-align:center}
+.scarcity h2{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4.4vw,3.6rem);max-width:20rem;margin:0 auto 1rem;color:var(--cream);line-height:1.05;font-weight:500}
+.scarcity p{color:var(--muted);max-width:36rem;margin:0 auto 1.8rem;font-size:1.06rem}
+.urgency{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--gold);color:var(--gold-2);border-radius:100px;padding:.6rem 1.2rem;font-size:.86rem;font-weight:600;margin-bottom:1.8rem;background:rgba(214,171,99,.06)}
+.dotpulse{width:.55rem;height:.55rem;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(230,169,179,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(230,169,179,.6)}70%{box-shadow:0 0 0 .8rem rgba(230,169,179,0)}100%{box-shadow:0 0 0 0 rgba(230,169,179,0)}}
 
 /* footer */
-footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;font-size:.88rem}
-.foot-top{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line-d);padding-bottom:24px;margin-bottom:20px}
-.legal{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:rgba(255,255,255,.45);font-size:.78rem}
+footer{background:var(--navy-4);border-top:1px solid var(--line-2);color:var(--muted);padding:3.4rem 0 7rem;font-size:.88rem}
+.foot-top{display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line-2);padding-bottom:1.6rem;margin-bottom:1.4rem}
+.legal{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between;color:var(--muted-2);font-size:.78rem}
 
 /* barra fixa mobile */
-.buybar{position:fixed;inset-inline:0;bottom:0;z-index:60;display:none;background:rgba(15,30,60,.96);border-top:1px solid var(--line-d);backdrop-filter:blur(12px);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px;color:#fff}
-.buybar .p{font-family:'Bodoni Moda',serif;color:var(--gold-2);font-size:1.15rem}
-.buybar .p small{display:block;color:rgba(255,255,255,.6);font-size:.66rem;font-family:'Manrope'}
-@media(max-width:760px){.buybar{display:flex}footer{padding-bottom:120px}}
+.buybar{position:fixed;inset-inline:0;bottom:0;z-index:80;display:none;background:rgba(9,20,42,.96);
+  border-top:1px solid var(--line);backdrop-filter:blur(14px);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+  align-items:center;justify-content:space-between;gap:.9rem}
+.buybar .p{font-family:'Fraunces',serif;color:var(--gold-2);font-size:1.2rem}
+.buybar .p small{display:block;color:var(--muted);font-size:.66rem;font-family:'Manrope'}
+@media(max-width:760px){.buybar{display:flex}footer{padding-bottom:7.5rem}}
 
 /* reveal */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal{opacity:0;transform:translateY(1.6rem);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+.rv-clip{clip-path:inset(0 0 100% 0);transition:clip-path 1.1s var(--ease)}
+.rv-clip.in{clip-path:inset(0 0 0 0)}
+@media(prefers-reduced-motion:reduce){
+  .reveal,.rv-clip{opacity:1;transform:none;clip-path:none;transition:none}
+  .hero h1 .ln>span{transform:none}
+  .pote,.halo{animation:none}
+}
 </style>
 </head>
 <body>
+<div class="bgwash"></div>
+<canvas id="strands"></canvas>
+
+<!-- ===== NAV ===== -->
+<div class="nav" id="nav"><div class="shell nav-in">
+  <span class="brand"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/><defs><linearGradient id="gg" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse"><stop stop-color="#f2d79f"/><stop offset=".6" stop-color="#d6ab63"/><stop offset="1" stop-color="#e6a9b3"/></linearGradient></defs></svg>Hair Botanika</span>
+  <a class="nav-cta" href="#oferta">Quero começar →</a>
+</div></div>
 
 <!-- ============================================================
      SEÇÃO 1 — HERO
-     Objetivo: fisgar em 3s com a promessa (transformação), dar
-     credibilidade e levar ao CTA. Copy: benefício-desejo + prova.
+     Objetivo: fisgar em 3s com a promessa de transformação + prova,
+     e levar ao CTA. Copy (copywriter): desejo-benefício ancorado na
+     causa real (falta por dentro), tom de confiança, sem promessa mágica.
      ============================================================ -->
 <header class="hero" id="topo">
-  <video autoplay muted loop playsinline poster="hair-rotulo.png" class="herovid"
-    src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_024855_9740f948-c1a7-4fda-9ec2-80bcef0a4eb6.mp4"></video>
-  <div class="scrim"></div>
-  <div class="wrap shell">
-    <nav class="navbar">
-      <span class="brand"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/><defs><linearGradient id="gg" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse"><stop stop-color="#e7c887"/><stop offset=".6" stop-color="#c79a4e"/><stop offset="1" stop-color="#e0a2ab"/></linearGradient></defs></svg>Hair Botanika</span>
-      <a class="nav-cta" href="#oferta">Quero começar →</a>
-    </nav>
-    <div class="hero-body">
-      <div>
-        <span class="eyebrow" style="color:var(--gold-2)">Cabelos · Unhas · Pele</span>
-        <h1 class="display reveal">Cabelos mais fortes.<br>Unhas firmes.<br><em>Você, mais confiante.</em></h1>
-        <p class="sub reveal">O cabelo caindo no ralo, a unha que lasca, a pele sem viço — quase sempre são sinais do que falta <b>por dentro</b>. O Hair Botanika reúne <b>12 ativos</b> (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas) que nutrem a raiz de dentro pra fora. Não é milagre: é constância.</p>
-        <div class="hero-cta reveal">
-          <button class="btn btn-primary js-buy" data-kit="1"><span>Quero começar minha rotina</span><span class="ic">→</span></button>
-          <a class="btn btn-ghost-d" href="#solucao">Como funciona</a>
-        </div>
-        <div class="trust reveal"><span class="stars">★★★★★</span> <span>de quem cuida de dentro pra fora</span></div>
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow reveal">Cabelos · Unhas · Pele</span>
+      <h1 class="display">
+        <span class="ln"><span>Cabelos fortes.</span></span>
+        <span class="ln"><span>Unhas firmes.</span></span>
+        <span class="ln"><span><em>Você mais confiante.</em></span></span>
+      </h1>
+      <p class="sub reveal">O fio no ralo, a unha que lasca, a pele sem viço — quase sempre são sinais do que falta <b>por dentro</b>. O Hair Botanika reúne <b>12 ativos</b> — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas — que nutrem a raiz de dentro pra fora. Não é milagre: é constância que aparece no espelho.</p>
+      <div class="hero-cta reveal">
+        <button class="btn btn-primary js-buy" data-kit="1"><span>Quero começar minha rotina</span><span class="ic">→</span></button>
+        <a class="btn btn-ghost" href="#solucao">Como funciona</a>
       </div>
-      <div class="hero-media reveal">
-        <div class="frame">
-          <video autoplay muted loop playsinline poster="hair-rotulo.png"
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_030050_9c0d045e-b71e-4c0a-854e-22a96c84a66f.mp4"></video>
-        </div>
-        <div class="tag"><b>12 ativos</b> · 60 cápsulas</div>
+      <div class="trust reveal"><span class="stars">★★★★★</span> <span>de quem cuida de dentro pra fora</span></div>
+    </div>
+    <div class="hero-stage reveal">
+      <div class="halo"></div>
+      <img class="pote" src="hair-rotulo.png" alt="Pote do Hair Botanika" width="600" height="800" />
+      <div class="chip vid">
+        <video autoplay muted loop playsinline preload="metadata" poster="hair-rotulo.png"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_030050_9c0d045e-b71e-4c0a-854e-22a96c84a66f.mp4"></video>
       </div>
+      <span class="pill a"><b>12 ativos</b> · 1 cápsula/dia</span>
+      <span class="pill b"><b>60</b> cápsulas · sem açúcar</span>
     </div>
   </div>
 </header>
 
 <!-- ============================================================
      SEÇÃO 2 — DOR
-     Objetivo: espelhar a dor real pra criar identificação ("é comigo").
-     Copy: frases na pele da cliente, sem julgamento.
+     Objetivo: espelhar a dor real pra gerar identificação ("é comigo").
+     Copy: frases na pele da cliente, sem julgamento, para ela sentir
+     que a página entende exatamente o que ela vive.
      ============================================================ -->
 <section id="dor">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">A real verdade</span>
+      <span class="eyebrow c">A real verdade</span>
       <h2 class="display">Cansada de ver o cabelo<br>ficar no ralo do banho?</h2>
       <p>Se você se reconhece aqui, o problema quase nunca está só no shampoo.</p>
     </div>
-    <div class="pains">
-      <div class="pain reveal"><span class="x">✕</span><p><b>Queda que assusta</b> — fios na escova, no travesseiro e no ralo todo santo dia.</p></div>
-      <div class="pain reveal"><span class="x">✕</span><p><b>Cabelo fino, sem volume e sem brilho</b> — parece que não cresce nunca.</p></div>
-      <div class="pain reveal"><span class="x">✕</span><p><b>Unhas que descamam e lascam</b> — quebram antes de crescer.</p></div>
-      <div class="pain reveal"><span class="x">✕</span><p><b>Pele opaca, sem viço</b> — perdeu a firmeza e a luz de antes.</p></div>
-      <div class="pain reveal"><span class="x">✕</span><p><b>Você já tentou de tudo "por fora"</b> — cremes, ampolas, cronograma… e nada muda de verdade.</p></div>
-      <div class="pain reveal"><span class="x">✕</span><p><b>A confiança foi junto</b> — bate aquele desânimo toda vez que se olha no espelho.</p></div>
+    <div class="pains" data-stagger>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>Queda que assusta</b> — fios na escova, no travesseiro e no ralo todo santo dia.</p></div>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>Cabelo fino, sem volume e sem brilho</b> — parece que não cresce nunca.</p></div>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>Unhas que descamam e lascam</b> — quebram antes mesmo de crescer.</p></div>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>Pele opaca, sem viço</b> — perdeu a firmeza e a luz de antes.</p></div>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>Já tentou de tudo "por fora"</b> — cremes, ampolas, cronograma… e nada muda de verdade.</p></div>
+      <div class="pain card reveal"><span class="x">✕</span><p><b>A confiança foi junto</b> — bate o desânimo toda vez que você se olha no espelho.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
      SEÇÃO 3 — SOLUÇÃO
-     Objetivo: reenquadrar o problema (é de dentro) e apresentar o
-     produto como a virada. Copy: mecanismo simples + revelação do produto.
+     Objetivo: reenquadrar a dor (o problema é de dentro) e apresentar
+     o produto como a virada. Copy: mecanismo simples e crível +
+     revelação do produto e dos ativos.
      ============================================================ -->
-<section id="solucao" class="band-navy">
-  <div class="shell sol">
-    <div class="frame reveal">
-      <video autoplay muted loop playsinline poster="hair-rotulo.png"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_030050_9c0d045e-b71e-4c0a-854e-22a96c84a66f.mp4"></video>
+<section id="solucao" class="tint">
+  <div class="shell split">
+    <div class="media-frame reveal">
+      <video autoplay muted loop playsinline preload="metadata" poster="hair-rotulo.png"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_024855_9740f948-c1a7-4fda-9ec2-80bcef0a4eb6.mp4"></video>
+      <div class="edge"></div>
     </div>
     <div class="reveal">
-      <span class="eyebrow" style="color:var(--gold-2)">A virada</span>
+      <span class="eyebrow">A virada</span>
       <h2 class="display">A força do cabelo começa na raiz — e a raiz se nutre por dentro.</h2>
-      <p>Cabelo, unha e pele são o <b>retrato</b> do que falta no seu corpo. Nenhum creme resolve um déficit de nutrientes de fora pra dentro.</p>
-      <p>O <b>Hair Botanika</b> entrega, em uma cápsula por dia, os <b>12 ativos</b> que a sua raiz precisa pra voltar a produzir <b>fio forte, unha firme e pele com viço</b> — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B.</p>
+      <p>Cabelo, unha e pele são o <b>retrato</b> do que falta no seu corpo. Nenhum creme resolve, de fora pra dentro, um déficit de nutrientes.</p>
+      <p>O <b>Hair Botanika</b> entrega, em <b>uma cápsula por dia</b>, os 12 ativos que a sua raiz precisa pra voltar a produzir fio forte, unha firme e pele com viço — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B.</p>
       <div class="facts">
         <span>12 ativos</span><span>60 cápsulas</span><span>Sem açúcar</span><span>Sem glúten</span><span>Quality Premium</span>
       </div>
@@ -292,36 +389,38 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 <!-- ============================================================
      SEÇÃO 4 — BENEFÍCIOS
      Objetivo: traduzir ativos em resultados desejados (o que ela ganha).
-     Copy: benefício em negrito + o ativo que entrega (compliance: "auxilia/apoia").
+     Copy: benefício em destaque + o ativo que o sustenta, sempre em
+     linguagem de apoio (compliance ANVISA: auxilia/apoia/contribui).
      ============================================================ -->
 <section id="beneficios">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">O que muda</span>
+      <span class="eyebrow c">O que muda</span>
       <h2 class="display">O que acontece quando você<br>cuida da raiz todo dia</h2>
     </div>
-    <div class="bens">
-      <div class="ben reveal"><div class="ico">🌿</div><h3>Menos queda, mais força</h3><p>Biotina, Cisteína e Zinco apoiam a estrutura do fio — menos quebra, fio mais resistente.</p></div>
-      <div class="ben reveal"><div class="ico">📈</div><h3>Crescimento e densidade</h3><p>Nutrientes que apoiam o couro cabeludo, contribuindo para fios mais cheios ao longo da rotina.</p></div>
-      <div class="ben reveal"><div class="ico">💅</div><h3>Unhas que param de quebrar</h3><p>Silício Orgânico e Metionina contribuem para unhas firmes e resistentes.</p></div>
-      <div class="ben reveal"><div class="ico">✨</div><h3>Pele com viço e firmeza</h3><p>Vitaminas A e E com Silício apoiam o colágeno e a luz natural da pele.</p></div>
-      <div class="ben reveal"><div class="ico">⚡</div><h3>Mais energia e vitalidade</h3><p>Ferro e complexo B participam do metabolismo energético do dia a dia.</p></div>
-      <div class="ben reveal"><div class="ico">🍃</div><h3>Fórmula limpa</h3><p>Sem adição de açúcares, sem glúten. Quality Premium Ingredients — 1 cápsula, 12 ativos.</p></div>
+    <div class="bens" data-stagger>
+      <div class="ben card reveal"><div class="ico">🌿</div><h3>Menos queda, mais força</h3><p><b>Biotina, Cisteína e Zinco</b> apoiam a estrutura do fio — menos quebra, fio mais resistente.</p></div>
+      <div class="ben card reveal"><div class="ico">📈</div><h3>Crescimento e densidade</h3><p>Nutrientes que apoiam o couro cabeludo, contribuindo para fios <b>mais cheios</b> ao longo da rotina.</p></div>
+      <div class="ben card reveal"><div class="ico">💅</div><h3>Unhas que param de quebrar</h3><p><b>Silício Orgânico e Metionina</b> contribuem para unhas firmes e resistentes.</p></div>
+      <div class="ben card reveal"><div class="ico">✨</div><h3>Pele com viço e firmeza</h3><p><b>Vitaminas A e E</b> com Silício apoiam o colágeno e a luz natural da pele.</p></div>
+      <div class="ben card reveal"><div class="ico">⚡</div><h3>Mais energia e vitalidade</h3><p><b>Ferro e complexo B</b> participam do metabolismo energético do dia a dia.</p></div>
+      <div class="ben card reveal"><div class="ico">🍃</div><h3>Fórmula limpa</h3><p>Sem adição de açúcares, sem glúten. <b>Quality Premium</b> — 1 cápsula, 12 ativos.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
      SEÇÃO 5 — PARA QUEM É INDICADO
-     Objetivo: auto-seleção ("isso é pra mim"). Copy: checklist de perfis.
+     Objetivo: auto-seleção ("isso é pra mim"). Copy: checklist de
+     perfis reais em que a cliente se enquadra e diz "sim, sou eu".
      ============================================================ -->
-<section id="paraquem">
+<section id="paraquem" class="tint">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">Feito pra você</span>
+      <span class="eyebrow c">Feito pra você</span>
       <h2 class="display">O Hair Botanika é pra você que…</h2>
     </div>
-    <ul class="forwho">
+    <ul class="forwho" data-stagger>
       <li class="reveal"><span class="ck">✓</span><p>Percebe <b>queda além do normal</b> e quer estancar antes de piorar.</p></li>
       <li class="reveal"><span class="ck">✓</span><p>Quer cabelo <b>mais cheio, forte e com brilho</b> — e que finalmente cresça.</p></li>
       <li class="reveal"><span class="ck">✓</span><p>Sofre com <b>unhas fracas</b> que descamam e nunca ficam bonitas.</p></li>
@@ -334,37 +433,39 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 
 <!-- ============================================================
      SEÇÃO 6 — DEPOIMENTOS
-     Objetivo: prova social real (quebra de ceticismo). Copy: relatos reais.
+     Objetivo: prova social (quebra de ceticismo). Copy: relatos reais
+     em primeira pessoa, com o resultado concreto em destaque.
      ============================================================ -->
-<section id="depoimentos" style="background:var(--cream-2)">
+<section id="depoimentos">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">Quem já cuida</span>
+      <span class="eyebrow c">Quem já cuida</span>
       <h2 class="display">A diferença aparece na escova</h2>
     </div>
-    <div class="proof">
-      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Em uma semana de Hair Botanika eu já vi uma enorme diferença na queda. <b>Não sai mais chumaço de cabelo no banho.</b>"</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
-      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Comprei o Tri, o Hair e a Vitamina C. Com uma semana de uso já me sinto uma pessoa <b>completamente diferente</b> — minha saúde está em outro nível."</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
-      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Suplemento honesto: dose funcional e fórmula limpa. Cuidar de <b>cabelo, unha e pele</b> virou parte da minha rotina, sem hype."</p><div class="who"><b>Rotina Botanika</b> · comunidade</div></div>
+    <div class="proof" data-stagger>
+      <div class="qcard card reveal"><div class="st">★★★★★</div><p>"Em uma semana de Hair Botanika eu já vi uma enorme diferença na queda. <b>Não sai mais chumaço de cabelo no banho.</b>"</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
+      <div class="qcard card reveal"><div class="st">★★★★★</div><p>"Comprei o Tri, o Hair e a Vitamina C. Com uma semana de uso já me sinto uma pessoa <b>completamente diferente</b> — minha saúde está em outro nível."</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
+      <div class="qcard card reveal"><div class="st">★★★★★</div><p>"Suplemento honesto: dose funcional e fórmula limpa. Cuidar de <b>cabelo, unha e pele</b> virou parte da minha rotina, sem hype."</p><div class="who"><b>Rotina Botanika</b> · comunidade</div></div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
      SEÇÃO 7 — GARANTIA
-     Objetivo: remover o risco da decisão. Copy: segurança + direito legal (honesto).
+     Objetivo: remover o risco da decisão. Copy: segurança da compra +
+     direito legal, com honestidade (sem promessa de resultado).
      ============================================================ -->
-<section id="garantia">
+<section id="garantia" class="tint">
   <div class="shell">
     <div class="guarantee reveal">
       <div class="seal"><div><b>7</b><span>dias</span></div></div>
       <div>
-        <span class="eyebrow gold">Risco zero</span>
+        <span class="eyebrow">Risco zero</span>
         <h3>Sua compra é segura — e sua decisão, tranquila</h3>
         <ul>
-          <li><span class="tick">✓</span> Compra na <b>loja oficial Botanika</b>, com pagamento 100% seguro.</li>
-          <li><span class="tick">✓</span> <b>7 dias de garantia legal</b> (direito de arrependimento, conforme o Código de Defesa do Consumidor).</li>
-          <li><span class="tick">✓</span> <b>Quality Premium Ingredients</b> — sem adição de açúcares, sem glúten.</li>
+          <li><span class="tick">✓</span> <span>Compra na <b>loja oficial Botanika</b>, com pagamento 100% seguro.</span></li>
+          <li><span class="tick">✓</span> <span><b>7 dias de garantia legal</b> (direito de arrependimento, conforme o Código de Defesa do Consumidor).</span></li>
+          <li><span class="tick">✓</span> <span><b>Quality Premium Ingredients</b> — sem adição de açúcares, sem glúten.</span></li>
         </ul>
       </div>
     </div>
@@ -373,30 +474,32 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 
 <!-- ============================================================
      SEÇÃO 8 — BÔNUS
-     Objetivo: aumentar valor percebido da oferta. Copy: perks reais como bônus.
+     Objetivo: aumentar o valor percebido da oferta. Copy: vantagens
+     reais posicionadas como bônus de quem decide hoje.
      ============================================================ -->
-<section id="bonus" style="background:var(--cream-2)">
+<section id="bonus">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow gold">Comprando hoje, você ainda leva</span>
+      <span class="eyebrow c">Comprando hoje, você ainda leva</span>
       <h2 class="display">Bônus da sua rotina</h2>
     </div>
-    <div class="bonus">
+    <div class="bonus" data-stagger>
       <div class="bcard reveal"><div class="g">🏷️</div><h3>Cupom BOTANIKA</h3><p>5% OFF aplicado direto no checkout da loja oficial.</p></div>
       <div class="bcard reveal"><div class="g">🚚</div><h3>Frete grátis</h3><p>Em pedidos acima de R$349 — ideal pra quem fecha o ciclo completo.</p></div>
-      <div class="bcard reveal"><div class="g">💛</div><h3>Ciclo completo</h3><p>No kit 3 meses você acompanha o ciclo do fio com a maior economia por pote.</p></div>
+      <div class="bcard reveal"><div class="g">💛</div><h3>Ciclo completo</h3><p>No kit de 3 meses você acompanha o ciclo do fio com a maior economia por pote.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
      SEÇÃO 9 — OFERTA (preço)
-     Objetivo: apresentar preço com ancoragem por kit + CTA principal.
+     Objetivo: apresentar o preço com ancoragem por kit e CTA principal.
+     Copy: conduzir para o kit de melhor valor (constância = resultado).
      ============================================================ -->
 <section id="oferta">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow gold">Sua transformação começa aqui</span>
+      <span class="eyebrow c">Sua transformação começa aqui</span>
       <h2 class="display">Escolha o seu ciclo</h2>
       <p>Quanto maior o ciclo, melhor o resultado — e menor o preço por pote.</p>
     </div>
@@ -407,14 +510,14 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
           <div class="kit on" data-kit="2"><span class="tag">Mais escolhido</span><div class="qt">2 potes</div><div class="pp" data-pp>R$ 184,30</div><div class="un">5% OFF · 2 meses</div></div>
           <div class="kit" data-kit="3"><span class="tag">Melhor custo</span><div class="qt">3 potes</div><div class="pp" data-pp>R$ 261,90</div><div class="un">10% OFF · frete grátis</div></div>
         </div>
-        <div><span class="now" id="now">R$ 184,30</span><span class="old" id="old">R$ 194,00</span></div>
+        <div class="price-row"><span class="now" id="now">R$ 184,30</span><span class="old" id="old">R$ 194,00</span></div>
         <div class="inst" id="inst">ou 3x de R$ 61,43 sem juros · cupom BOTANIKA 5% OFF</div>
         <ul class="perks">
-          <li><span class="tick">✓</span> 12 ativos · 60 cápsulas por pote · sem açúcar e sem glúten</li>
-          <li><span class="tick">✓</span> 7 dias de garantia legal · loja oficial Botanika</li>
+          <li><span class="tick">✓</span> <span>12 ativos · 60 cápsulas por pote · sem açúcar e sem glúten</span></li>
+          <li><span class="tick">✓</span> <span>7 dias de garantia legal · loja oficial Botanika</span></li>
           <li><span class="tick">✓</span> <span id="perk">2 meses de rotina — resultado consistente</span></li>
         </ul>
-        <button class="btn btn-primary js-buy" data-kit="2" style="width:100%;justify-content:center"><span id="cta">Quero o kit 2 potes</span><span class="ic">→</span></button>
+        <button class="btn btn-primary js-buy" data-kit="2" style="width:100%"><span id="cta">Quero o kit 2 potes</span><span class="ic">→</span></button>
         <div class="safe">🔒 Pagamento seguro · você é redirecionada para a loja oficial</div>
       </div>
     </div>
@@ -423,17 +526,18 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 
 <!-- ============================================================
      SEÇÃO 10 — FAQ
-     Objetivo: derrubar objeções finais (tempo, uso, segurança).
+     Objetivo: derrubar as objeções finais (tempo, uso, segurança).
+     Copy: respostas honestas que reforçam constância e confiança.
      ============================================================ -->
-<section id="faq" style="background:var(--cream-2)">
+<section id="faq" class="tint">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow gold">Perguntas frequentes</span>
+      <span class="eyebrow c">Perguntas frequentes</span>
       <h2 class="display">Ainda com dúvida?</h2>
     </div>
     <div class="faq">
       <div class="q reveal"><button>Em quanto tempo eu vejo resultado? <span class="plus">+</span></button><div class="a"><p>Unhas e pele costumam responder primeiro, nas primeiras semanas. O cabelo segue o próprio ciclo de crescimento — a diferença na queda e na densidade aparece com a constância de semanas. Não é milagre, é rotina: por isso os kits de 2 e 3 meses fazem tanta diferença.</p></div></div>
-      <div class="q reveal"><button>Como devo tomar? <span class="plus">+</span></button><div class="a"><p>Siga a indicação do rótulo, junto de uma refeição, no mesmo horário todo dia. A regularidade é o que faz a fórmula trabalhar.</p></div></div>
+      <div class="q reveal"><button>Como devo tomar? <span class="plus">+</span></button><div class="a"><p>Siga a indicação do rótulo, junto de uma refeição, no mesmo horário todo dia. A regularidade é o que faz a fórmula trabalhar por você.</p></div></div>
       <div class="q reveal"><button>Serve para cabelo, unha e pele ao mesmo tempo? <span class="plus">+</span></button><div class="a"><p>Sim. Os 12 ativos — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B — atuam nas três frentes em conjunto.</p></div></div>
       <div class="q reveal"><button>Tem açúcar, glúten ou contraindicação? <span class="plus">+</span></button><div class="a"><p>Não contém adição de açúcares nem glúten. É um suplemento alimentar; gestantes, lactantes ou pessoas em tratamento devem consultar um profissional de saúde antes de usar.</p></div></div>
       <div class="q reveal"><button>É seguro comprar? <span class="plus">+</span></button><div class="a"><p>Sim — a compra é feita na loja oficial Botanika, com pagamento seguro e 7 dias de garantia legal (direito de arrependimento).</p></div></div>
@@ -443,7 +547,8 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 
 <!-- ============================================================
      SEÇÃO 11 — ESCASSEZ / CTA FINAL
-     Objetivo: urgência honesta (cupom/oferta ativa) + fechamento.
+     Objetivo: urgência honesta (oferta/cupom ativos) + fechamento
+     emocional. Copy: o custo de adiar (mais um ciclo do fio perdido).
      ============================================================ -->
 <section class="scarcity" id="fechar">
   <div class="shell">
@@ -473,7 +578,7 @@ footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;
 </div>
 
 <script>
-/* ===== comercial (placeholder até VARIANT real) ===== */
+/* ===== comercial (placeholder até VARIANT real da loja) ===== */
 var HAIR_VARIANT="HAIR_VARIANT_ID", STORE="https://botanikabrasil.com.br";
 var KITS={
   1:{qtd:1,now:"R$ 97,00",old:"",inst:"ou 3x de R$ 32,33 sem juros · cupom BOTANIKA 5% OFF",perk:"1 mês de rotina"},
@@ -481,8 +586,12 @@ var KITS={
   3:{qtd:3,now:"R$ 261,90",old:"R$ 291,00",inst:"ou 3x de R$ 87,30 sem juros · frete grátis + 10% OFF",perk:"3 meses — ciclo completo do fio, melhor custo"}
 };
 var cur=2;
-function goBuy(k){ if(HAIR_VARIANT==="HAIR_VARIANT_ID"){window.open(STORE,"_blank");return;} window.open(STORE+"/cart/"+HAIR_VARIANT+":"+KITS[k].qtd,"_blank"); }
-var elNow=document.getElementById("now"),elOld=document.getElementById("old"),elInst=document.getElementById("inst"),elPerk=document.getElementById("perk"),elCta=document.getElementById("cta"),elBar=document.getElementById("bar");
+function goBuy(k){
+  if(HAIR_VARIANT==="HAIR_VARIANT_ID"){window.open(STORE,"_blank");return;}
+  window.open(STORE+"/cart/"+HAIR_VARIANT+":"+KITS[k].qtd,"_blank");
+}
+var elNow=document.getElementById("now"),elOld=document.getElementById("old"),elInst=document.getElementById("inst"),
+    elPerk=document.getElementById("perk"),elCta=document.getElementById("cta"),elBar=document.getElementById("bar");
 function setKit(k){
   cur=k; var d=KITS[k];
   document.querySelectorAll("#kits .kit").forEach(function(el){ el.classList.toggle("on", parseInt(el.getAttribute("data-kit"),10)===k); });
@@ -495,18 +604,31 @@ document.getElementById("kits").addEventListener("click",function(e){ var el=e.t
 document.addEventListener("click",function(e){ var b=e.target.closest(".js-buy"); if(b) goBuy(parseInt(b.getAttribute("data-kit"),10)||cur); });
 setKit(2);
 
-/* FAQ */
+/* ===== nav scrolled ===== */
+var nav=document.getElementById("nav");
+function onScroll(){ nav.classList.toggle("scrolled", window.scrollY>30); }
+onScroll(); window.addEventListener("scroll",onScroll,{passive:true});
+
+/* ===== FAQ ===== */
 document.querySelectorAll(".q").forEach(function(q){ q.querySelector("button").addEventListener("click",function(){
   var open=q.classList.contains("open");
   document.querySelectorAll(".q").forEach(function(o){o.classList.remove("open");o.querySelector(".a").style.maxHeight=null;});
   if(!open){ q.classList.add("open"); var a=q.querySelector(".a"); a.style.maxHeight=a.scrollHeight+"px"; }
 }); });
 
-/* reveal */
-var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.12});
-document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+/* ===== reveals (stagger por container) ===== */
+document.querySelectorAll("[data-stagger]").forEach(function(box){
+  var items=box.querySelectorAll(".reveal"), i=0;
+  items.forEach(function(el){ el.style.transitionDelay=(Math.min(i,8)*0.08)+"s"; i++; });
+});
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+document.querySelectorAll(".reveal, .rv-clip").forEach(function(el){io.observe(el);});
 
-/* botões magnéticos */
+/* ===== hero entrada ===== */
+var hero=document.getElementById("topo");
+requestAnimationFrame(function(){ setTimeout(function(){ hero.classList.add("on"); },120); });
+
+/* ===== botões magnéticos ===== */
 if(window.gsap && window.matchMedia("(hover:hover)").matches){
   document.querySelectorAll(".btn-primary").forEach(function(btn){
     var xTo=gsap.quickTo(btn,"x",{duration:.5,ease:"power3"}),yTo=gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
@@ -514,6 +636,82 @@ if(window.gsap && window.matchMedia("(hover:hover)").matches){
     btn.addEventListener("mouseleave",function(){xTo(0);yTo(0);});
   });
 }
+
+/* ============================================================
+   ASSINATURA — canvas "Seiva & Raiz": fios luminosos que fluem
+   e reagem sutilmente ao ponteiro. Leve, DPR-aware, pausa em
+   aba oculta, respeita prefers-reduced-motion.
+   ============================================================ */
+(function(){
+  var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var cv=document.getElementById("strands"), ctx=cv.getContext("2d");
+  var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2), t=0, raf=null;
+  var mx=0.5,my=0.4, tmx=0.5,tmy=0.4;
+  var COLORS=[[242,215,159],[214,171,99],[230,169,179]];
+  var strands=[];
+  function isMobile(){return window.innerWidth<=640;}
+  function build(){
+    var n=isMobile()?7:13; strands=[];
+    for(var i=0;i<n;i++){
+      strands.push({
+        x:(i+0.5)/n + (i%2?0.02:-0.02),
+        amp:0.05+Math.abs(Math.sin(i*1.7))*0.11,
+        freq:1.1+ (i%4)*0.5,
+        phase:i*0.9,
+        speed:0.10+(i%3)*0.045,
+        col:COLORS[i%COLORS.length],
+        w:(i%3===0?1.5:0.9)
+      });
+    }
+  }
+  function resize(){
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=W*dpr; cv.height=H*dpr; cv.style.width=W+"px"; cv.style.height=H+"px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    build();
+    if(reduce){ draw(); }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.globalCompositeOperation="lighter";
+    mx+=(tmx-mx)*0.05; my+=(tmy-my)*0.05;
+    var seg=26;
+    for(var s=0;s<strands.length;s++){
+      var st=strands[s];
+      var baseX=st.x*W;
+      var pull=(mx-st.x)*W*0.10;
+      // duas passadas: larga e fraca (glow) + fina e forte (núcleo)
+      for(var pass=0;pass<2;pass++){
+        ctx.beginPath();
+        for(var k=0;k<=seg;k++){
+          var p=k/seg, y=p*H;
+          var wave=Math.sin(p*st.freq*Math.PI*2 + t*st.speed + st.phase)*st.amp*W;
+          var wave2=Math.sin(p*st.freq*1.7*Math.PI + t*st.speed*0.6 + st.phase*1.3)*st.amp*W*0.35;
+          var x=baseX+wave+wave2+pull*(0.4+p*0.9)+(my-0.4)*40*Math.sin(p*Math.PI);
+          if(k===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        var g=ctx.createLinearGradient(0,0,0,H);
+        var c="rgba("+st.col[0]+","+st.col[1]+","+st.col[2];
+        g.addColorStop(0,c+",0)");
+        g.addColorStop(0.35,c+","+(pass?0.42:0.14)+")");
+        g.addColorStop(0.6,c+","+(pass?0.55:0.18)+")");
+        g.addColorStop(1,c+",0)");
+        ctx.strokeStyle=g;
+        ctx.lineWidth=pass? st.w : st.w*5;
+        ctx.lineCap="round";
+        ctx.stroke();
+      }
+    }
+    ctx.globalCompositeOperation="source-over";
+  }
+  function loop(){ t+=0.016; draw(); raf=requestAnimationFrame(loop); }
+  function start(){ if(reduce||raf)return; loop(); }
+  function stop(){ if(raf){cancelAnimationFrame(raf);raf=null;} }
+  window.addEventListener("resize",resize);
+  window.addEventListener("pointermove",function(e){ tmx=e.clientX/window.innerWidth; tmy=e.clientY/window.innerHeight; },{passive:true});
+  document.addEventListener("visibilitychange",function(){ document.hidden?stop():start(); });
+  resize(); start();
+})();
 </script>
 </body>
 </html>
