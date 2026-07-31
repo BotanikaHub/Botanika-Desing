@@ -17,11 +17,12 @@ Pasta-mãe **`Botanika/LP-KIT/`** — https://drive.google.com/drive/folders/1uI
 | Pasta | Para quê | ID / link |
 |-------|----------|-----------|
 | `01_getlayers-zips/` | zips brutos do getlayers (LPs sem prompt) | `1iB0B2p8E2nDD60E5A83bo66ZUy9TPXbq` · [abrir](https://drive.google.com/drive/folders/1iB0B2p8E2nDD60E5A83bo66ZUy9TPXbq) |
-| `02_referencias/` | PDFs, prints, inspirações soltas | `1X-L-nLsqZ4_3YZTiQVMcIQ1UH7lSUs_d` · [abrir](https://drive.google.com/drive/folders/1X-L-nLsqZ4_3YZTiQVMcIQ1UH7lSUs_d) |
+| `02_referencias/` | PDFs, prints, inspirações soltas | `1U8irwOlzwpCvRCSPv6pyH7PaZrdo5f4R` · [abrir](https://drive.google.com/drive/folders/1U8irwOlzwpCvRCSPv6pyH7PaZrdo5f4R) |
 | `03_assets-produtos/` | assets da Botanika por produto | `1x6QCPwF5xwl0AH2jJ76lLM1upkzWNkN-` · [abrir](https://drive.google.com/drive/folders/1x6QCPwF5xwl0AH2jJ76lLM1upkzWNkN-) |
-| `03_assets-produtos/hair/` | pote transparente, rótulo, depoimentos do Hair | `1ltTfVb90c0W_dFB8i7_qDeTxkHUqGJCi` |
-| `03_assets-produtos/omega/` | assets do Ômega | `1xdmJlWRE1x7oUwgW07wprbOii76LZ06n` |
-| `03_assets-produtos/tri/` | assets do Tri | `1GC9WMa6xqvNqoR3TXknoIJXwZmwMeFe3` |
+| `03_assets-produtos/hair/` | pote transparente, rótulo, depoimentos do Hair | `1yCL7rfqmQ5B9MtzwvAwXkOEdTWSAZk_w` · [abrir](https://drive.google.com/drive/folders/1yCL7rfqmQ5B9MtzwvAwXkOEdTWSAZk_w) |
+| `03_assets-produtos/omega/` | assets do Ômega | `1Rtuh1mIDPkmgHXS8zC-rPPcsDGeymmBt` · [abrir](https://drive.google.com/drive/folders/1Rtuh1mIDPkmgHXS8zC-rPPcsDGeymmBt) |
+| `03_assets-produtos/tri/` | assets do Tri | `1GC9WMa6xqvNqoR3TXknoIJXwZmwMeFe3` · [abrir](https://drive.google.com/drive/folders/1GC9WMa6xqvNqoR3TXknoIJXwZmwMeFe3) |
+| `04_prompts/` | prompts novos que você colar (staging → eu destilo pro kit) | `1NS-9FAEcGVB_yHvV8mGDb88ebG1iWDAl` · [abrir](https://drive.google.com/drive/folders/1NS-9FAEcGVB_yHvV8mGDb88ebG1iWDAl) |
 
 > Assets de produto (ex.: **PNG transparente do pote**) ficam em `03_assets-produtos/<produto>/` como
 > staging. Na hora de construir a LP, a sessão move a imagem para `landing-<slug>/` no GitHub (a LP é
