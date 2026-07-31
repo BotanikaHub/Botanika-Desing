@@ -12,13 +12,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 /* ============================================================
-   HAIR BOTANIKA — hero "produto na paisagem" (ref. Aurélia/Nutriva)
-   nas cores Botanika: céu claro + campo dourado + nuvens · tipografia
-   gigante ATRÁS do pote navy real · cápsulas e cards de vidro flutuando.
-   Sistema getlayers: grid-rem adaptativo · loader 000→100 · reveals
-   em máscara · glass em foil dourado. Instrument Serif + Onest.
+   HAIR BOTANIKA — claro "produto na paisagem"
+   fotos oficiais (pote + caixa) · sem vídeo · parallax no scroll do
+   hero · fundo animado (aura) contínuo até o rodapé.
+   Sistema getlayers: grid-rem adaptativo · loader · reveals em máscara
+   · glass em foil dourado. Instrument Serif + Onest.
    ============================================================ */
-html{font-size:16px}
+html{font-size:16px;background:#FBF8F1}
 @media (max-width:1920px){html{font-size:.833333vw}}
 @media (max-width:1440px){html{font-size:1.111111vw}}
 @media (max-width:1024px){html{font-size:1.5625vw}}
@@ -27,9 +27,8 @@ html{font-size:16px}
 :root{
   --navy:#0E2038; --navy-2:#16304f; --navy-3:#0b1a30;
   --paper:#FBF8F1; --cream:#F2EBDC; --cream-2:#EDE4D1;
-  --sky-1:#e9eef0; --sky-2:#eef0e9; --field:#e7dcbf;
   --gold:#C9A25A; --gold-hi:#E4C079; --gold-lo:#9c7a3c;
-  --rose:#E7B6A8;
+  --rose:#E7B6A8; --sage:#c4d0c2;
   --ink:#12233c; --slate:#4a5a70; --muted:#77859a;
   --line:rgba(14,32,56,.10); --line-gold:rgba(201,162,90,.4);
   --ease:cubic-bezier(.16,1,.3,1);
@@ -37,13 +36,16 @@ html{font-size:16px}
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{overflow-x:hidden;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'Onest',system-ui,sans-serif;
+body{background:transparent;color:var(--ink);font-family:'Onest',system-ui,sans-serif;
   line-height:1.6;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased;font-size:1rem}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 img,video{display:block;max-width:100%}
 ul{list-style:none}
 ::selection{background:var(--gold);color:#1a1206}
+
+/* fundo animado (aura) — contínuo atrás de tudo */
+#aura{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 .shell{max-width:var(--shell);margin-inline:auto;padding-inline:1.6rem;width:100%}
 .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400;line-height:1.02;letter-spacing:.005em}
@@ -53,8 +55,8 @@ ul{list-style:none}
 .g{color:var(--gold-lo)}
 
 /* glass claro */
-.glass{position:relative;background:rgba(255,255,255,.62);backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1);
-  border:1px solid rgba(255,255,255,.7);border-radius:var(--radius);box-shadow:0 1.6rem 3rem -1.6rem rgba(14,32,56,.28)}
+.glass{position:relative;background:rgba(255,255,255,.66);backdrop-filter:blur(12px) saturate(1.1);-webkit-backdrop-filter:blur(12px) saturate(1.1);
+  border:1px solid rgba(255,255,255,.75);border-radius:var(--radius);box-shadow:0 1.6rem 3rem -1.6rem rgba(14,32,56,.3)}
 
 /* botões */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border-radius:100px;font-weight:600;font-size:1rem;
@@ -67,10 +69,8 @@ ul{list-style:none}
 .btn-primary:hover{filter:brightness(1.04)}
 .btn-ghost{border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.5)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold-lo)}
-.btn-navy{background:var(--navy);color:var(--paper)}
-.btn-navy:hover{background:var(--navy-2)}
 
-/* loader (mantido — você curtiu) */
+/* loader */
 #loader{position:fixed;inset:0;z-index:300;background:var(--navy-3);display:grid;place-items:center;transition:transform 1s cubic-bezier(.76,0,.24,1)}
 #loader.done{transform:translateY(-101%)}
 .load-in{display:flex;flex-direction:column;align-items:center;gap:1.4rem;width:min(72vw,22rem)}
@@ -102,38 +102,37 @@ ul{list-style:none}
 body.ready .wr>span{transform:none}
 
 /* ============================================================
-   HERO — produto na paisagem
+   HERO
    ============================================================ */
 .hero{position:relative;min-height:100svh;overflow:hidden;background:
-  linear-gradient(180deg,var(--sky-1) 0%,#eef1ea 40%,var(--paper) 100%)}
+  linear-gradient(180deg,#e9eef0 0%,#eef1ea 40%,var(--paper) 100%)}
 .hero .field{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:0}
 .hero .clouds span{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);filter:blur(.3rem);z-index:1;opacity:.9}
 .cl1{width:26rem;height:11rem;top:16%;left:-6rem;animation:drift 34s linear infinite}
-.cl2{width:18rem;height:8rem;top:26%;right:-4rem;animation:drift 46s linear infinite reverse}
-.cl3{width:14rem;height:7rem;top:54%;left:6%;animation:drift 40s linear infinite}
+.cl2{width:18rem;height:8rem;top:24%;right:-4rem;animation:drift 46s linear infinite reverse}
+.cl3{width:14rem;height:7rem;top:56%;left:4%;animation:drift 40s linear infinite}
 @keyframes drift{0%{transform:translateX(0)}50%{transform:translateX(4rem)}100%{transform:translateX(0)}}
 
 .hero-inner{position:relative;z-index:5;min-height:100svh;padding:6.5rem 0 3rem;display:flex;flex-direction:column;justify-content:center;gap:1.6rem}
 
-/* tipografia gigante ATRÁS do pote */
-.giant{position:relative;z-index:2;text-align:center;pointer-events:none}
+.giant{position:relative;z-index:2;text-align:center;pointer-events:none;will-change:transform,opacity}
 .giant .g1{display:block;font-weight:800;font-size:clamp(3rem,13vw,10.5rem);line-height:.9;letter-spacing:-.03em;color:var(--navy)}
 .giant .g2{display:block;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(2.6rem,11vw,9rem);line-height:.95;color:var(--gold-lo);margin-top:-.1em}
 
-/* palco do pote */
-.stage{position:relative;z-index:3;display:grid;place-items:center;margin:-1rem auto 0}
+.stage{position:relative;z-index:3;display:grid;place-items:center;margin:-1rem auto 0;will-change:transform}
 .halo{position:absolute;width:34rem;height:34rem;border-radius:50%;z-index:0;filter:blur(.6rem);
   background:radial-gradient(circle,rgba(231,182,168,.35),rgba(201,162,90,.16) 44%,transparent 68%);animation:breathe 6.5s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.07);opacity:1}}
-.pote{position:relative;z-index:2;width:min(70vw,22rem);filter:drop-shadow(0 2.6rem 3rem rgba(14,32,56,.35));animation:float 6s ease-in-out infinite;will-change:transform}
+.pote{position:relative;z-index:2;width:min(66vw,20rem);filter:drop-shadow(0 2.6rem 3rem rgba(14,32,56,.35));animation:float 6s ease-in-out infinite;will-change:transform}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-.9rem)}}
-.cap{position:absolute;z-index:3;border-radius:100px;background:linear-gradient(135deg,#1a3251,#0c1b30);
-  box-shadow:0 1rem 2rem rgba(14,32,56,.3),inset 0 .1rem .2rem rgba(255,255,255,.2);will-change:transform}
-.cap::before{content:"";position:absolute;inset:42% 10% auto 10%;height:.16rem;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold-hi));opacity:.9}
-.cap.a{width:5rem;height:2.1rem;top:8%;right:20%;transform:rotate(28deg);animation:float 5s ease-in-out infinite}
-.cap.b{width:4rem;height:1.7rem;bottom:20%;left:16%;transform:rotate(-18deg);animation:float 6.5s ease-in-out .4s infinite}
-.cap.c{width:3.3rem;height:1.4rem;top:40%;right:8%;transform:rotate(44deg);animation:float 5.6s ease-in-out .8s infinite;opacity:.9}
-.cap.d{width:2.8rem;height:1.2rem;bottom:34%;right:26%;transform:rotate(-32deg);animation:float 7s ease-in-out .2s infinite;opacity:.85}
+/* cápsulas duas-cores */
+.cap{position:absolute;z-index:1;border-radius:100px;overflow:hidden;
+  background:linear-gradient(90deg,#16304f 0 50%,#2a4a72 50% 100%);
+  box-shadow:0 1rem 2rem rgba(14,32,56,.3),inset 0 .12rem .2rem rgba(255,255,255,.22);will-change:transform}
+.cap::after{content:"";position:absolute;left:50%;top:12%;bottom:12%;width:1px;background:rgba(0,0,0,.22)}
+.cap.a{width:5rem;height:2rem;top:6%;right:24%;transform:rotate(24deg);animation:float 5s ease-in-out infinite}
+.cap.b{width:4rem;height:1.6rem;bottom:16%;left:20%;transform:rotate(-18deg);animation:float 6.5s ease-in-out .4s infinite}
+.cap.c{width:3.2rem;height:1.3rem;top:44%;right:14%;transform:rotate(40deg);animation:float 5.6s ease-in-out .8s infinite;opacity:.92}
 
 /* cartões flutuantes */
 .fcard{z-index:4;padding:.95rem 1.15rem;display:flex;gap:.7rem;align-items:center;font-size:.82rem}
@@ -149,30 +148,28 @@ body.ready .wr>span{transform:none}
 .trust{display:flex;align-items:center;gap:.6rem;margin-top:.9rem;color:var(--muted);font-size:.86rem}
 .stars{color:var(--gold);letter-spacing:.12em}
 
-/* cartões flutuantes só no desktop; no mobile viram linha */
 .floats{display:none}
 @media(min-width:1024px){
   .hero-inner{display:block;padding:0}
-  .giant{position:absolute;top:15%;left:0;right:0}
+  .giant{position:absolute;top:14%;left:0;right:0}
   .stage{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%);margin:0}
   .hero-foot{position:absolute;left:0;right:0;bottom:5%;padding-inline:1.6rem;max-width:var(--shell);margin-inline:auto}
   .floats{display:block}
-  .floats .fcard{position:absolute}
-  .fc1{top:38%;left:50%;transform:translateX(-13rem)}
-  .fc2{bottom:16%;left:8%;width:16rem}
-  .fc3{bottom:9%;left:50%;transform:translateX(-8rem)}
-  .fc4{top:34%;right:7%;width:13rem}
+  .floats .fcard{position:absolute;width:14rem}
+  .fc1{top:30%;left:3%}
+  .fc2{bottom:20%;left:5%}
+  .fc3{bottom:15%;right:5%}
+  .fc4{top:30%;right:3%}
 }
-.halo{--h:0}
 @media(max-width:1023px){.halo{width:24rem;height:24rem}.mob-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.6rem}}
 .mob-cards{display:none}
 
 /* ============================================================
-   SEÇÕES
+   SEÇÕES — claras translúcidas (revelam a aura) + faixas navy sólidas
    ============================================================ */
 .sec{position:relative;padding:5.5rem 0}
-.sec.paper{background:var(--paper)}
-.sec.cream{background:var(--cream)}
+.sec.paper{background:rgba(251,248,241,.62);backdrop-filter:blur(2px)}
+.sec.cream{background:rgba(242,235,220,.5);backdrop-filter:blur(2px)}
 .sec.navy{background:var(--navy);color:var(--cream)}
 .sec.navy .eyebrow{color:var(--gold-hi)}.sec.navy h2{color:#fff}.sec.navy .sec-head p{color:rgba(242,235,220,.7)}
 .sec-head{max-width:44rem;margin:0 auto 3rem;text-align:center;position:relative}
@@ -183,16 +180,21 @@ body.ready .wr>span{transform:none}
 /* dor */
 .pains{display:grid;gap:1rem;grid-template-columns:1fr;max-width:52rem;margin-inline:auto}
 @media(min-width:720px){.pains{grid-template-columns:1fr 1fr}}
-.pain{display:flex;gap:.9rem;align-items:flex-start;padding:1.3rem 1.5rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);transition:transform .4s var(--ease),box-shadow .4s}
+.pain{display:flex;gap:.9rem;align-items:flex-start;padding:1.3rem 1.5rem;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:var(--radius-sm);transition:transform .4s var(--ease),box-shadow .4s}
 .pain:hover{transform:translateY(-.25rem);box-shadow:0 1.4rem 2.6rem -1.6rem rgba(14,32,56,.3)}
 .pain .x{flex:0 0 auto;width:1.8rem;height:1.8rem;border-radius:50%;display:grid;place-items:center;background:rgba(231,182,168,.22);color:#c07a6a;font-weight:700;font-size:.85rem}
 .pain p{font-size:.97rem;color:var(--slate)}.pain b{color:var(--ink)}
 
-/* solução (split, navy) */
+/* solução (split, navy) — caixa real flutuando */
 .split{display:grid;gap:2.6rem;grid-template-columns:1fr;align-items:center}
-@media(min-width:1024px){.split{grid-template-columns:.9fr 1.1fr;gap:3.4rem}}
-.media-frame{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 2.4rem 4rem -2rem rgba(0,0,0,.5);aspect-ratio:4/5;background:var(--navy-2)}
-.media-frame video,.media-frame img{width:100%;height:100%;object-fit:cover}
+@media(min-width:1024px){.split{grid-template-columns:1fr 1.05fr;gap:3.4rem}}
+.prod-panel{position:relative;border-radius:var(--radius);aspect-ratio:4/4.4;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle at 50% 40%,rgba(201,162,90,.16),transparent 60%),linear-gradient(160deg,#16304f,#0b1a30);border:1px solid rgba(201,162,90,.3)}
+.prod-panel .pglow{position:absolute;width:70%;height:70%;border-radius:50%;background:radial-gradient(circle,rgba(231,182,168,.3),transparent 65%);filter:blur(.6rem);animation:breathe 7s ease-in-out infinite}
+.prod-panel img{position:relative;width:66%;filter:drop-shadow(0 2rem 3rem rgba(0,0,0,.45));animation:float 6.5s ease-in-out infinite}
+.prod-panel .cap{position:absolute}
+.prod-panel .pa{width:4rem;height:1.6rem;top:14%;right:16%;transform:rotate(22deg)}
+.prod-panel .pb{width:3.2rem;height:1.3rem;bottom:16%;left:14%;transform:rotate(-20deg)}
 .split h2{font-size:clamp(1.9rem,3.4vw,2.9rem);color:#fff;margin-bottom:1rem}
 .split p{color:rgba(242,235,220,.72);font-size:1.05rem;margin-bottom:1rem}.split p b{color:#fff}
 .facts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
@@ -202,7 +204,7 @@ body.ready .wr>span{transform:none}
 .bens{display:grid;gap:1.1rem;grid-template-columns:1fr}
 @media(min-width:680px){.bens{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.bens{grid-template-columns:repeat(3,1fr)}}
-.ben{padding:1.9rem 1.7rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);transition:transform .5s var(--ease),box-shadow .5s,border-color .4s}
+.ben{padding:1.9rem 1.7rem;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:var(--radius);transition:transform .5s var(--ease),box-shadow .5s,border-color .4s}
 .ben:hover{transform:translateY(-.5rem);box-shadow:0 1.8rem 3.4rem -2rem rgba(14,32,56,.3);border-color:var(--line-gold)}
 .ben .ico{width:3rem;height:3rem;border-radius:.9rem;display:grid;place-items:center;font-size:1.35rem;background:linear-gradient(135deg,rgba(201,162,90,.18),rgba(231,182,168,.18));margin-bottom:1rem}
 .ben h3{font-family:'Instrument Serif',serif;font-size:1.5rem;color:var(--navy);margin-bottom:.4rem}
@@ -223,7 +225,7 @@ body.ready .wr>span{transform:none}
 .stat .l{color:var(--muted);font-size:.84rem;margin-top:.3rem}
 .proof{display:grid;gap:1.1rem;grid-template-columns:1fr}
 @media(min-width:820px){.proof{grid-template-columns:repeat(3,1fr)}}
-.qcard{padding:1.9rem 1.7rem;display:flex;flex-direction:column;gap:.9rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);transition:transform .5s var(--ease)}
+.qcard{padding:1.9rem 1.7rem;display:flex;flex-direction:column;gap:.9rem;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:var(--radius);transition:transform .5s var(--ease)}
 .qcard:hover{transform:translateY(-.5rem)}
 .qcard .st{color:var(--gold);letter-spacing:.14em}
 .qcard p{color:var(--ink);font-size:1.02rem;font-family:'Instrument Serif',serif;font-style:italic;line-height:1.4}
@@ -232,7 +234,7 @@ body.ready .wr>span{transform:none}
 .qcard .who b{color:var(--gold-lo)}
 
 /* garantia */
-.guarantee{max-width:58rem;margin-inline:auto;display:grid;gap:1.6rem;grid-template-columns:1fr;align-items:center;padding:2.6rem 2.2rem;background:#fff;border:1px solid var(--line-gold);border-radius:var(--radius);box-shadow:0 2rem 4rem -2.4rem rgba(14,32,56,.3)}
+.guarantee{max-width:58rem;margin-inline:auto;display:grid;gap:1.6rem;grid-template-columns:1fr;align-items:center;padding:2.6rem 2.2rem;background:rgba(255,255,255,.8);border:1px solid var(--line-gold);border-radius:var(--radius);box-shadow:0 2rem 4rem -2.4rem rgba(14,32,56,.3)}
 @media(min-width:760px){.guarantee{grid-template-columns:auto 1fr;gap:2.4rem}}
 .seal{width:8rem;height:8rem;border-radius:50%;display:grid;place-items:center;text-align:center;margin-inline:auto;background:radial-gradient(circle,rgba(201,162,90,.2),transparent 68%);border:2px solid var(--gold);color:var(--gold-lo);font-family:'Instrument Serif',serif}
 .seal b{font-size:2rem;line-height:1}.seal span{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase}
@@ -243,7 +245,7 @@ body.ready .wr>span{transform:none}
 /* bônus */
 .bonus{display:grid;gap:1.1rem;grid-template-columns:1fr}
 @media(min-width:760px){.bonus{grid-template-columns:repeat(3,1fr)}}
-.bcard{border:1px dashed var(--gold);border-radius:var(--radius);padding:1.9rem 1.6rem;background:rgba(201,162,90,.06);text-align:center;transition:transform .4s var(--ease)}
+.bcard{border:1px dashed var(--gold);border-radius:var(--radius);padding:1.9rem 1.6rem;background:rgba(201,162,90,.08);text-align:center;transition:transform .4s var(--ease)}
 .bcard:hover{transform:translateY(-.4rem)}
 .bcard .gg{font-size:2rem;margin-bottom:.5rem}
 .bcard h3{font-family:'Instrument Serif',serif;font-size:1.35rem;color:var(--navy);margin-bottom:.35rem}
@@ -300,12 +302,13 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 @media(prefers-reduced-motion:reduce){
   .reveal,.wr>span{opacity:1!important;transform:none!important;transition:none!important}
-  .pote,.halo,.cap,.clouds span{animation:none}
+  .pote,.halo,.cap,.clouds span,.prod-panel img,.prod-panel .pglow{animation:none}
   #loader{display:none}
 }
 </style>
 </head>
 <body>
+<canvas id="aura"></canvas>
 
 <!-- LOADER -->
 <div id="loader">
@@ -328,14 +331,11 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 </div></div>
 
 <!-- ============================================================
-     SEÇÃO 1 — HERO (produto na paisagem)
-     Objetivo: fisgar em 3s com a promessa de transformação + prova,
-     e levar ao CTA. Copy (copywriter): desejo-benefício aspiracional
-     ancorado na causa real (nutrição por dentro).
+     SEÇÃO 1 — HERO (produto na paisagem, com parallax no scroll)
+     Objetivo: fisgar em 3s com a promessa aspiracional + prova.
      ============================================================ -->
 <header class="hero" id="topo">
-  <!-- campo dourado + nuvens -->
-  <svg class="field" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <svg class="field" id="field" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <defs>
       <linearGradient id="f1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe7cf"/><stop offset="1" stop-color="#e4d7b3"/></linearGradient>
       <linearGradient id="f2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7dcbb"/><stop offset="1" stop-color="#d8c79b"/></linearGradient>
@@ -346,23 +346,22 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
   <div class="clouds" aria-hidden="true"><span class="cl1"></span><span class="cl2"></span><span class="cl3"></span></div>
 
   <div class="shell hero-inner">
-    <h1 class="giant">
+    <h1 class="giant" id="giant">
       <span class="g1 wr" style="transition-delay:.1s"><span>BELEZA QUE</span></span>
       <span class="g2 wr" style="transition-delay:.24s"><span>vem de dentro</span></span>
     </h1>
 
-    <div class="stage">
+    <div class="stage" id="stage">
       <div class="halo"></div>
       <img class="pote" src="hair-rotulo.png" alt="Pote do Hair Botanika" width="600" height="800" />
-      <span class="cap a"></span><span class="cap b"></span><span class="cap c"></span><span class="cap d"></span>
+      <span class="cap a"></span><span class="cap b"></span><span class="cap c"></span>
     </div>
 
-    <!-- cartões flutuantes (desktop) -->
-    <div class="floats" aria-hidden="true">
+    <div class="floats" id="floats" aria-hidden="true">
       <div class="fcard glass fc1"><span class="ico">🌿</span><div><b>Suporte diário</b><span>Cabelo · Unha · Pele</span></div></div>
-      <div class="fcard glass fc2"><span class="ico">💊</span><div><b>60 cápsulas · 12 ativos</b><span>Uma dose por dia, todo dia</span></div><span class="arw">↗</span></div>
+      <div class="fcard glass fc2"><span class="ico">💊</span><div><b>60 cápsulas · 12 ativos</b><span>Uma dose por dia</span></div><span class="arw">↗</span></div>
       <div class="fcard glass fc3"><span class="ico">✓</span><div><b>Fórmula limpa</b><span>Sem açúcar e sem glúten</span></div><span class="arw">↗</span></div>
-      <div class="fcard glass fc4"><span class="ico">✨</span><div><b>Quality Premium</b><span>Nutrição de dentro pra fora</span></div></div>
+      <div class="fcard glass fc4"><span class="ico">✨</span><div><b>Quality Premium</b><span>De dentro pra fora</span></div></div>
     </div>
 
     <div class="hero-foot">
@@ -377,7 +376,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
       </div>
     </div>
 
-    <!-- cartões no mobile (linha) -->
     <div class="mob-cards">
       <div class="fcard glass"><span class="ico">💊</span><div><b>60 cápsulas</b><span>12 ativos</span></div></div>
       <div class="fcard glass"><span class="ico">✓</span><div><b>Fórmula limpa</b><span>Sem açúcar/glúten</span></div></div>
@@ -389,7 +387,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 <!-- ============================================================
      SEÇÃO 2 — DOR
      Objetivo: espelhar a dor real pra gerar identificação ("é comigo").
-     Copy: frases na pele da cliente, sem julgamento.
      ============================================================ -->
 <section class="sec paper" id="dor">
   <div class="shell">
@@ -412,14 +409,14 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 3 — SOLUÇÃO
-     Objetivo: reenquadrar a dor (o problema é de dentro) e apresentar
-     o produto como a virada. Copy: mecanismo simples + revelação do produto.
+     Objetivo: reenquadrar a dor (é de dentro) e revelar o produto real.
      ============================================================ -->
 <section class="sec navy" id="solucao">
   <div class="shell split">
-    <div class="media-frame reveal">
-      <video autoplay muted loop playsinline preload="metadata" poster="hair-rotulo.png"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_024855_9740f948-c1a7-4fda-9ec2-80bcef0a4eb6.mp4"></video>
+    <div class="prod-panel reveal">
+      <div class="pglow"></div>
+      <img src="hair-caixa.png" alt="Caixa do Hair Botanika" />
+      <span class="cap pa"></span><span class="cap pb"></span>
     </div>
     <div class="reveal">
       <span class="eyebrow">A virada</span>
@@ -435,8 +432,7 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 4 — BENEFÍCIOS
-     Objetivo: traduzir ativos em resultados desejados. Copy: benefício +
-     ativo que o sustenta (ANVISA: apoia/contribui/participa).
+     Objetivo: traduzir ativos em resultados (ANVISA: apoia/contribui).
      ============================================================ -->
 <section class="sec paper" id="beneficios">
   <div class="shell">
@@ -458,7 +454,7 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 5 — PARA QUEM É INDICADO
-     Objetivo: auto-seleção ("isso é pra mim"). Copy: checklist de perfis.
+     Objetivo: auto-seleção ("isso é pra mim").
      ============================================================ -->
 <section class="sec cream" id="paraquem">
   <div class="shell">
@@ -479,8 +475,7 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 </section>
 
 <!-- ============================================================
-     SEÇÃO 6 — DEPOIMENTOS
-     Objetivo: prova social + números de confiança que sobem na tela.
+     SEÇÃO 6 — DEPOIMENTOS + números que sobem.
      ============================================================ -->
 <section class="sec paper" id="depoimentos">
   <div class="shell">
@@ -504,7 +499,7 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 7 — GARANTIA
-     Objetivo: remover o risco da decisão. Copy: segurança + direito legal.
+     Objetivo: remover o risco da decisão.
      ============================================================ -->
 <section class="sec cream" id="garantia">
   <div class="shell">
@@ -526,7 +521,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 8 — BÔNUS
-     Objetivo: aumentar o valor percebido da oferta.
      ============================================================ -->
 <section class="sec paper" id="bonus">
   <div class="shell">
@@ -545,7 +539,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 9 — OFERTA (preço)
-     Objetivo: preço com ancoragem por kit + CTA principal.
      ============================================================ -->
 <section class="sec cream" id="oferta">
   <div class="shell">
@@ -578,7 +571,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 10 — FAQ
-     Objetivo: derrubar objeções finais (tempo, uso, segurança).
      ============================================================ -->
 <section class="sec paper" id="faq">
   <div class="shell">
@@ -599,7 +591,6 @@ footer{background:var(--navy-3);border-top:1px solid rgba(255,255,255,.08);color
 
 <!-- ============================================================
      SEÇÃO 11 — ESCASSEZ / CTA FINAL
-     Objetivo: urgência honesta + fechamento emocional.
      ============================================================ -->
 <section class="sec navy scarcity" id="fechar">
   <div class="shell">
@@ -682,7 +673,7 @@ function countUp(el){
 var ioc=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){countUp(x.target);ioc.unobserve(x.target);}});},{threshold:.5});
 document.querySelectorAll("[data-count]").forEach(function(el){ioc.observe(el);});
 
-/* loader 000→100 → libera hero */
+/* loader */
 (function(){
   var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
   var loader=document.getElementById("loader"),num=document.getElementById("loadNum"),fill=document.getElementById("loadFill");
@@ -697,9 +688,7 @@ document.querySelectorAll("[data-count]").forEach(function(el){ioc.observe(el);}
   setTimeout(function(){ if(!document.body.classList.contains("ready")) finish(); },3500);
 })();
 
-/* botões magnéticos + parallax suave do pote/cápsulas */
-var tmx=0.5,tmy=0.5,mx=0.5,my=0.5;
-addEventListener("pointermove",function(e){ tmx=e.clientX/innerWidth; tmy=e.clientY/innerHeight; },{passive:true});
+/* botões magnéticos */
 if(window.gsap && matchMedia("(hover:hover)").matches){
   document.querySelectorAll(".btn-primary").forEach(function(btn){
     var xTo=gsap.quickTo(btn,"x",{duration:.5,ease:"power3"}),yTo=gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
@@ -707,17 +696,70 @@ if(window.gsap && matchMedia("(hover:hover)").matches){
     btn.addEventListener("mouseleave",function(){xTo(0);yTo(0);});
   });
 }
+
+/* ===== HERO: parallax de ponteiro + parallax no SCROLL ===== */
 (function(){
-  if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-  var pote=document.querySelector(".pote"),caps=document.querySelectorAll(".cap");
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var giant=document.getElementById("giant"),stage=document.getElementById("stage"),
+      floats=document.getElementById("floats"),field=document.getElementById("field"),
+      pote=document.querySelector(".pote"),caps=document.querySelectorAll(".stage .cap");
+  var tmx=.5,tmy=.5,mx=.5,my=.5,desk=matchMedia("(min-width:1024px)").matches;
+  addEventListener("pointermove",function(e){ tmx=e.clientX/innerWidth; tmy=e.clientY/innerHeight; },{passive:true});
+  addEventListener("resize",function(){ desk=matchMedia("(min-width:1024px)").matches; });
   function loop(){
-    mx+=(tmx-mx)*.05; my+=(tmy-my)*.05;
-    var dx=(mx-.5), dy=(my-.5);
-    if(pote) pote.style.transform="translate("+(dx*14)+"px,"+(dy*14)+"px)";
-    caps.forEach(function(c,i){ var f=(i+1)*6; c.style.transform=c.style.transform.replace(/translate\([^)]*\)/,''); c.style.marginLeft=(dx*f)+"px"; c.style.marginTop=(dy*f)+"px"; });
+    if(!reduce){
+      mx+=(tmx-mx)*.05; my+=(tmy-my)*.05;
+      var dx=(mx-.5),dy=(my-.5);
+      if(pote) pote.style.transform="translate("+(dx*14)+"px,"+(dy*14)+"px)";
+      caps.forEach(function(c,i){ var f=(i+1)*6; c.style.marginLeft=(dx*f)+"px"; c.style.marginTop=(dy*f)+"px"; });
+    }
+    // scroll parallax do hero
+    var vh=innerHeight, p=Math.max(0,Math.min(1,scrollY/vh));
+    if(giant) giant.style.transform=(desk?"":"")+"translateY("+(-p*vh*0.16)+"px)";
+    if(giant) giant.style.opacity=String(1-p*0.7);
+    if(stage) stage.style.transform=(desk?"translate(-50%,-48%) ":"")+"translateY("+(p*vh*0.10)+"px) scale("+(1-p*0.05)+")";
+    if(floats) floats.style.opacity=String(Math.max(0,1-p*1.6));
+    if(field) field.style.transform="translateY("+(p*vh*0.05)+"px)";
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
+})();
+
+/* ============================================================
+   AURA — fundo animado contínuo (pós-hero até o rodapé):
+   blobs suaves dourado/creme/sage/rosé derivando devagar.
+   Leve, DPR-capado, pausa em aba oculta, respeita reduced-motion.
+   ============================================================ */
+(function(){
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var cv=document.getElementById("aura"),ctx=cv.getContext("2d");
+  var W=0,H=0,dpr=Math.min(devicePixelRatio||1,2),raf=null;
+  var BLOBS=[
+    {c:[201,162,90],a:.16,r:.5,x:.2,y:.3,sx:.00006,sy:.00009,px:0,py:1.7},
+    {c:[231,182,168],a:.14,r:.42,x:.8,y:.25,sx:.00008,sy:.00006,px:2.1,py:.6},
+    {c:[196,208,194],a:.12,r:.55,x:.65,y:.75,sx:.00005,sy:.00008,px:4.0,py:3.1},
+    {c:[228,192,121],a:.12,r:.4,x:.3,y:.8,sx:.00009,sy:.00005,px:1.2,py:5.0},
+    {c:[201,162,90],a:.10,r:.48,x:.5,y:.55,sx:.00007,sy:.00007,px:3.3,py:2.2}
+  ];
+  function resize(){ W=innerWidth;H=innerHeight; cv.width=W*dpr;cv.height=H*dpr; cv.style.width=W+"px";cv.style.height=H+"px"; ctx.setTransform(dpr,0,0,dpr,0,0); if(reduce)draw(0); }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<BLOBS.length;i++){ var b=BLOBS[i];
+      var cx=(b.x+Math.sin(t*b.sx+b.px)*0.12)*W;
+      var cy=(b.y+Math.cos(t*b.sy+b.py)*0.12)*H;
+      var rad=b.r*Math.max(W,H);
+      var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+      var c="rgba("+b.c[0]+","+b.c[1]+","+b.c[2];
+      g.addColorStop(0,c+","+b.a+")"); g.addColorStop(1,c+",0)");
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rad,0,6.2832); ctx.fill();
+    }
+  }
+  function loop(t){ draw(t); raf=requestAnimationFrame(loop); }
+  function start(){ if(reduce||raf)return; raf=requestAnimationFrame(loop); }
+  function stop(){ if(raf){cancelAnimationFrame(raf);raf=null;} }
+  addEventListener("resize",resize);
+  document.addEventListener("visibilitychange",function(){ document.hidden?stop():start(); });
+  resize(); start();
 })();
 </script>
 </body>
