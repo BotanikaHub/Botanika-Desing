@@ -3,594 +3,517 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0c1410" />
-<title>Hair Botanika — Cabelos, Unhas e Pele que nascem da raiz</title>
-<meta name="description" content="Hair Botanika: 12 ativos para cabelos, unhas e pele — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas. Força que nasce da raiz." />
+<meta name="theme-color" content="#10203f" />
+<title>Hair Botanika — Cabelos mais fortes, unhas firmes e pele com viço</title>
+<meta name="description" content="Hair Botanika: 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas) que nutrem a raiz de dentro pra fora. Menos queda, mais força, mais brilho." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 /* ============================================================
-   HAIR BOTANIKA — identidade "Seiva & Raiz"
-   verde-botânico profundo + dourado champagne + rosé
-   produto real: pote navy (harmonizado com glow champagne)
-   fonte display: Fraunces · corpo: Manrope
-   assinatura: cascata de fios luminosos (canvas próprio)
+   HAIR BOTANIKA — LP de conversão "Confiança que se vê"
+   Cores Botanika: navy + dourado/champagne + creme · detalhe rosé
+   Hero escuro cinematográfico (vídeo) + corpo claro editorial
+   Bodoni Moda (display) + Manrope (corpo)
    ============================================================ */
 :root{
-  --bg:#0c1410; --bg2:#101a14; --panel:#15211b;
-  --leaf:#3f8a5c; --leaf-deep:#1f4a34; --sage:#a6d6b6;
-  --rose:#e9b7a4; --gold:#d9b26a; --gold-2:#f2d79c; --champ:#f5e7cb;
-  --navy:#20386b; --navy-glow:#3a5aa8;
-  --ink:#f5f0e6; --muted:rgba(245,240,230,.64); --faint:rgba(245,240,230,.34);
-  --line:rgba(166,214,182,.16);
-  --radius:26px; --radius-sm:16px; --shell:1180px;
+  --navy:#0f1e3c; --navy-2:#16294e; --navy-3:#25406e; --navy-ink:#13223f;
+  --gold:#c79a4e; --gold-2:#e7c887; --champ:#f3e6c9;
+  --cream:#f7efe3; --cream-2:#efe3d0; --white:#ffffff;
+  --rose:#e0a2ab; --rose-soft:#f0cdd0;
+  --ink:#17233c; --muted:#5c6580;
+  --line:rgba(23,35,60,.12); --line-d:rgba(255,255,255,.16);
+  --radius:24px; --radius-sm:14px; --shell:1140px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased}
+body{background:var(--cream);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;max-width:100%;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
-img{display:block;max-width:100%}
+img,video{display:block;max-width:100%}
 ul{list-style:none}
-::selection{background:var(--gold);color:#241605}
-
-/* canvas de fundo (assinatura: fios) */
-#strands{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:block}
-.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:
-    radial-gradient(120% 75% at 50% -8%, rgba(217,178,106,.12), transparent 55%),
-    radial-gradient(120% 90% at 50% 112%, rgba(12,20,16,.9), rgba(12,20,16,.15) 60%),
-    linear-gradient(180deg, rgba(12,20,16,.4), transparent 18%, transparent 82%, rgba(12,20,16,.6))}
-.wrap{position:relative;z-index:2}
+::selection{background:var(--gold);color:#20140a}
 .shell{max-width:var(--shell);margin-inline:auto;padding-inline:22px}
-
-/* tipografia */
-.display{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.01em;line-height:1.02}
-.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.22em;color:var(--sage)}
-.eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.grad{background:linear-gradient(115deg,var(--gold-2),var(--rose) 55%,var(--sage));-webkit-background-clip:text;background-clip:text;color:transparent}
-
-/* header */
-header{position:absolute;inset-inline:0;top:0;z-index:40}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:22px 0}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:'Fraunces',serif;font-size:1.35rem;letter-spacing:.01em}
-.brand .mk{width:30px;height:30px;flex:0 0 auto}
-.nav-cta{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:100px;padding:.55rem 1.05rem;font-size:.82rem;font-weight:600;background:rgba(166,214,182,.06);backdrop-filter:blur(6px);transition:border-color .3s,background .3s}
-.nav-cta:hover{border-color:var(--gold);background:rgba(217,178,106,.12)}
-@media(max-width:640px){.nav-cta .lbl{display:none}}
+.display{font-family:'Bodoni Moda',serif;font-weight:500;line-height:1.04;letter-spacing:-.01em}
+.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.24em}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.6}
+.gold{color:var(--gold)} .roseink{color:var(--rose)}
 
 /* botões */
-.btn{display:inline-flex;align-items:center;gap:.7rem;border-radius:100px;font-weight:600;font-size:.95rem;padding:.95rem 1.6rem;position:relative;transition:transform .2s;will-change:transform}
+.btn{display:inline-flex;align-items:center;gap:.7rem;border-radius:100px;font-weight:600;font-size:1rem;padding:1rem 1.7rem;position:relative;transition:transform .2s,filter .2s;will-change:transform;text-align:center}
 .btn .ic{display:grid;place-items:center;width:34px;height:34px;border-radius:100px;font-size:1rem}
-.btn-primary{background:linear-gradient(115deg,var(--gold),var(--rose));color:#241605;box-shadow:0 14px 40px -14px rgba(217,178,106,.6)}
-.btn-primary .ic{background:#241605;color:var(--gold-2)}
-.btn-primary:hover{filter:brightness(1.04)}
-.btn-ghost{border:1px solid var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--sage)}
+.btn-primary{background:linear-gradient(115deg,var(--gold),var(--gold-2));color:#20140a;box-shadow:0 16px 40px -14px rgba(199,154,78,.6)}
+.btn-primary .ic{background:#20140a;color:var(--gold-2)}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-light{background:var(--white);color:var(--navy);border:1px solid var(--line)}
+.btn-ghost-d{border:1px solid var(--line-d);color:#fff}
+.btn-ghost-d:hover{border-color:var(--gold-2)}
 
-/* HERO */
-.hero{position:relative;padding:120px 0 60px}
-.hero-grid{display:grid;gap:34px;grid-template-columns:1fr;align-items:center}
-@media(min-width:940px){.hero{padding:150px 0 90px}.hero-grid{grid-template-columns:1.02fr .98fr;gap:40px}}
-.hero h1{font-size:clamp(2.9rem,8vw,5.2rem);margin:.7rem 0 .1rem}
-.hero h1 .sub{display:block;font-family:'Manrope';font-size:.28em;letter-spacing:.34em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-top:1rem}
-.hero .lead{color:var(--muted);font-size:1.06rem;max-width:34ch;margin:1.3rem 0 1.8rem}
+/* ===== HERO (escuro, vídeo) ===== */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;color:#fff;overflow:hidden;background:var(--navy)}
+.hero video,.hero .heroimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero .scrim{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(90% 70% at 30% 30%, rgba(15,30,60,.35), transparent 60%),
+  linear-gradient(180deg, rgba(10,20,42,.72), rgba(10,20,42,.55) 40%, rgba(10,20,42,.86))}
+.hero .wrap{position:relative;z-index:2;display:flex;flex-direction:column;flex:1}
+.navbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:22px 0}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:'Bodoni Moda',serif;font-size:1.4rem;font-weight:600;letter-spacing:.01em;color:#fff}
+.brand .mk{width:30px;height:30px}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line-d);border-radius:100px;padding:.55rem 1.05rem;font-size:.82rem;font-weight:600;color:#fff;background:rgba(255,255,255,.06);backdrop-filter:blur(6px)}
+.nav-cta:hover{border-color:var(--gold-2)}
+.hero-body{flex:1;display:grid;grid-template-columns:1fr;align-items:center;gap:30px;padding:40px 0 70px}
+@media(min-width:940px){.hero-body{grid-template-columns:1.1fr .9fr;gap:40px;padding:20px 0 80px}}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.9rem);margin:.6rem 0 .2rem;max-width:16ch}
+.hero h1 em{font-style:italic;color:var(--gold-2)}
+.hero .sub{color:rgba(255,255,255,.82);font-size:1.1rem;max-width:46ch;margin:1.2rem 0 1.8rem}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
-.trust{display:flex;align-items:center;gap:.7rem;margin-top:1.6rem;color:var(--muted);font-size:.86rem}
-.stars{color:var(--gold);letter-spacing:2px}
+.hero .trust{display:flex;align-items:center;gap:.6rem;margin-top:1.5rem;color:rgba(255,255,255,.8);font-size:.88rem}
+.stars{color:var(--gold-2);letter-spacing:2px}
+.hero-media{position:relative;display:grid;place-items:center}
+.hero-media .frame{width:min(72%,300px);aspect-ratio:9/16;border-radius:26px;overflow:hidden;border:1px solid var(--line-d);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);background:var(--navy-2)}
+.hero-media .frame video,.hero-media .frame img{width:100%;height:100%;object-fit:cover}
+.hero-media .tag{position:absolute;bottom:8%;left:-4%;background:rgba(15,30,60,.8);border:1px solid var(--line-d);backdrop-filter:blur(8px);border-radius:100px;padding:.5rem .9rem;font-size:.78rem;font-weight:600;color:var(--champ)}
+.hero-media .tag b{color:var(--gold-2)}
+@media(max-width:939px){.hero-media .tag{left:2%}}
 
-.bottle-stage{position:relative;display:grid;place-items:center;min-height:400px}
-.bottle-stage .halo{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,rgba(245,231,203,.35),rgba(217,178,106,.14) 42%,transparent 70%);filter:blur(4px)}
-.pote{width:min(76%,330px);filter:drop-shadow(0 44px 60px rgba(0,0,0,.55));animation:float 7s ease-in-out infinite;position:relative;z-index:2}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-.chip{position:absolute;display:flex;align-items:center;gap:.5rem;background:rgba(21,33,27,.85);border:1px solid var(--line);backdrop-filter:blur(10px);border-radius:100px;padding:.5rem .85rem;font-size:.78rem;font-weight:500;color:var(--champ);box-shadow:0 12px 30px -12px rgba(0,0,0,.6);z-index:3}
-.chip b{color:var(--gold-2);font-weight:700}
-.chip.c1{top:10%;left:-2%}.chip.c2{bottom:14%;right:-4%}.chip.c3{top:50%;right:-6%}
-@media(max-width:940px){.chip.c1{left:2%}.chip.c2{right:2%}.chip.c3{display:none}}
+/* ===== seções claras ===== */
+section{position:relative;padding:76px 0}
+.sec-head{max-width:680px;margin:0 auto 44px;text-align:center}
+.sec-head.left{margin-inline:0;text-align:left}
+.sec-head .eyebrow{color:var(--gold);justify-content:center}
+.sec-head.left .eyebrow{justify-content:flex-start}
+.sec-head h2{font-size:clamp(1.9rem,4.6vw,3.1rem);margin:.7rem 0 .7rem;color:var(--navy)}
+.sec-head p{color:var(--muted);font-size:1.05rem}
+.band-navy{background:var(--navy);color:#fff}
+.band-navy h2{color:#fff}.band-navy .sec-head p{color:rgba(255,255,255,.7)}
+.band-navy .eyebrow{color:var(--gold-2)}
 
-/* marquee */
-.marquee{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;margin-top:22px;background:rgba(16,26,20,.4)}
-.marquee-track{display:flex;gap:2.6rem;white-space:nowrap;width:max-content;animation:scroll 36s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee span{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--faint);display:inline-flex;align-items:center;gap:2.6rem}
-.marquee span::after{content:"✦";color:var(--gold);font-size:.7rem}
-@keyframes scroll{to{transform:translateX(-50%)}}
+/* dor */
+.pains{display:grid;gap:16px;grid-template-columns:1fr;max-width:820px;margin-inline:auto}
+@media(min-width:720px){.pains{grid-template-columns:1fr 1fr}}
+.pain{display:flex;gap:.9rem;align-items:flex-start;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-sm);padding:20px 22px}
+.pain .x{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(224,162,171,.18);color:#c0566a;font-weight:700}
+.pain p{font-size:.98rem;color:var(--ink)}
 
-/* seções */
-section{position:relative;padding:78px 0}
-.sec-head{max-width:640px;margin-bottom:44px}
-.sec-head h2{font-size:clamp(2rem,5vw,3.1rem);margin:.7rem 0 .8rem}
-.sec-head p{color:var(--muted);font-size:1.02rem}
+/* solução */
+.sol{display:grid;gap:34px;grid-template-columns:1fr;align-items:center}
+@media(min-width:940px){.sol{grid-template-columns:1fr 1fr;gap:48px}}
+.sol .frame{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(15,30,60,.4);aspect-ratio:4/5;background:var(--navy-2)}
+.sol .frame video,.sol .frame img{width:100%;height:100%;object-fit:cover}
+.sol h2{font-size:clamp(1.9rem,4.4vw,2.9rem);color:var(--navy);margin-bottom:1rem}
+.sol p{color:var(--muted);font-size:1.05rem;margin-bottom:1rem}
+.sol .facts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.sol .facts span{border:1px solid var(--line);border-radius:100px;padding:.4rem .9rem;font-size:.82rem;font-weight:600;color:var(--navy)}
 
-/* três alvos */
-.targets{display:grid;gap:18px;grid-template-columns:1fr}
-@media(min-width:760px){.targets{grid-template-columns:repeat(3,1fr)}}
-.tcard{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;background:linear-gradient(180deg,rgba(21,33,27,.72),rgba(16,26,20,.42));overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s;transform-style:preserve-3d}
-.tcard:hover{border-color:var(--gold)}
-.tcard .glow{position:absolute;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(217,178,106,.22),transparent 70%);pointer-events:none;opacity:0;transition:opacity .4s;transform:translate(-50%,-50%)}
-.tcard:hover .glow{opacity:1}
-.tcard .ico{font-size:1.7rem;margin-bottom:.5rem}
-.tcard .tnum{font-family:'Fraunces',serif;font-size:2.3rem;color:var(--gold);line-height:1}
-.tcard h3{font-family:'Fraunces',serif;font-size:1.5rem;margin:.5rem 0 .5rem}
-.tcard p{color:var(--muted);font-size:.94rem}
+/* benefícios */
+.bens{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:680px){.bens{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.bens{grid-template-columns:repeat(3,1fr)}}
+.ben{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .4s,box-shadow .4s,border-color .4s}
+.ben:hover{transform:translateY(-6px);box-shadow:0 24px 50px -30px rgba(15,30,60,.4);border-color:var(--gold)}
+.ben .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(199,154,78,.18),rgba(224,162,171,.18));color:var(--gold);margin-bottom:14px}
+.ben h3{font-family:'Bodoni Moda',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.4rem}
+.ben p{color:var(--muted);font-size:.94rem}
 
-/* ativos */
-.actives{display:grid;gap:18px;grid-template-columns:1fr}
-@media(min-width:820px){.actives{grid-template-columns:repeat(3,1fr)}}
-.acol{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(16,26,20,.46)}
-.acol h4{display:flex;align-items:center;gap:.55rem;font-size:1.05rem;font-weight:700;margin-bottom:14px;color:var(--champ)}
-.acol h4 .dot{width:9px;height:9px;border-radius:50%}
-.acol li{display:flex;align-items:flex-start;gap:.6rem;padding:.42rem 0;border-top:1px solid rgba(166,214,182,.08);font-size:.92rem;color:var(--muted)}
-.acol li:first-of-type{border-top:none}
-.acol li b{color:var(--ink);font-weight:600}
-.acol li .tick{color:var(--gold);flex:0 0 auto;margin-top:.15rem}
+/* para quem */
+.forwho{max-width:760px;margin-inline:auto;display:grid;gap:14px}
+.forwho li{display:flex;gap:.9rem;align-items:flex-start;background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px 20px}
+.forwho .ck{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--gold-2);font-weight:700;font-size:.85rem}
+.forwho p{font-size:1rem}
 
-/* stats */
-.stats{display:grid;gap:20px;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);border-radius:var(--radius);padding:34px 26px;background:linear-gradient(115deg,rgba(31,74,52,.4),rgba(16,26,20,.42));margin-top:26px}
-@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat .n{font-family:'Fraunces',serif;font-size:clamp(2.2rem,6vw,3.1rem);color:var(--gold-2);line-height:1}
-.stat .l{color:var(--muted);font-size:.86rem;margin-top:.4rem}
-
-/* ritual */
-.ritual{display:grid;gap:26px;grid-template-columns:1fr;align-items:center}
-@media(min-width:900px){.ritual{grid-template-columns:1fr 1fr;gap:44px}}
-.steps li{position:relative;padding:20px 0 20px 56px;border-top:1px solid var(--line)}
-.steps li:first-child{border-top:none}
-.steps .sn{position:absolute;left:0;top:20px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font-family:'Fraunces',serif;font-size:1.05rem}
-.steps h4{font-size:1.12rem;margin-bottom:.2rem}
-.steps p{color:var(--muted);font-size:.92rem}
-.leaf-art{border:1px solid var(--line);border-radius:var(--radius);min-height:320px;position:relative;overflow:hidden;background:radial-gradient(120% 120% at 30% 20%,rgba(63,138,92,.35),transparent 55%),rgba(16,26,20,.5);display:grid;place-items:center}
-.leaf-art .big{font-family:'Fraunces',serif;font-size:clamp(3rem,10vw,5.6rem);color:rgba(217,178,106,.18);text-align:center;line-height:.95}
-
-/* prova social */
+/* depoimentos */
 .proof{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:820px){.proof{grid-template-columns:repeat(3,1fr)}}
-.qcard{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;background:rgba(16,26,20,.5);display:flex;flex-direction:column;gap:14px;transition:transform .4s,border-color .4s}
-.qcard:hover{transform:translateY(-6px);border-color:var(--rose)}
-.qcard .qm{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--rose);line-height:.3;height:.6em}
-.qcard p{color:var(--ink);font-size:.98rem}
+.qcard{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;display:flex;flex-direction:column;gap:12px;transition:transform .4s}
+.qcard:hover{transform:translateY(-6px)}
+.qcard .st{color:var(--gold);letter-spacing:2px}
+.qcard p{color:var(--ink);font-size:1rem}
 .qcard .who{margin-top:auto;color:var(--muted);font-size:.84rem;border-top:1px solid var(--line);padding-top:12px}
-.qcard .who b{color:var(--champ)}
-.qcard .st{color:var(--gold);letter-spacing:2px;font-size:.9rem}
+.qcard .who b{color:var(--navy)}
+
+/* garantia */
+.guarantee{max-width:900px;margin-inline:auto;display:grid;gap:24px;grid-template-columns:1fr;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px}
+@media(min-width:760px){.guarantee{grid-template-columns:auto 1fr;gap:34px}}
+.seal{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;text-align:center;margin-inline:auto;
+  background:radial-gradient(circle,rgba(199,154,78,.2),transparent 70%);border:2px solid var(--gold);color:var(--gold);font-family:'Bodoni Moda',serif}
+.seal b{font-size:1.7rem;line-height:1}.seal span{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase}
+.guarantee h3{font-family:'Bodoni Moda',serif;font-size:1.5rem;color:var(--navy);margin-bottom:.6rem}
+.guarantee li{display:flex;gap:.6rem;align-items:flex-start;color:var(--muted);padding:.28rem 0}
+.guarantee .tick{color:var(--gold)}
+
+/* bônus */
+.bonus{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){.bonus{grid-template-columns:repeat(3,1fr)}}
+.bcard{border:1px dashed var(--gold);border-radius:var(--radius);padding:26px 22px;background:rgba(199,154,78,.06);text-align:center}
+.bcard .g{font-size:1.8rem;margin-bottom:.4rem}
+.bcard h3{font-family:'Bodoni Moda',serif;font-size:1.2rem;color:var(--navy);margin-bottom:.3rem}
+.bcard p{color:var(--muted);font-size:.9rem}
 
 /* oferta */
-.offer{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,rgba(21,33,27,.82),rgba(12,20,16,.72))}
-.offer-in{display:grid;gap:0;grid-template-columns:1fr}
-@media(min-width:860px){.offer-in{grid-template-columns:1fr 1.05fr}}
-.offer-vis{position:relative;min-height:340px;display:grid;place-items:center;padding:30px;background:radial-gradient(90% 90% at 50% 40%,rgba(245,231,203,.16),transparent 62%)}
-.offer-vis .shelf{display:flex;gap:16px;align-items:flex-end;position:relative;z-index:2}
-.offer-body{padding:34px 30px}
-.toggle{display:flex;gap:6px;background:rgba(12,20,16,.6);border:1px solid var(--line);border-radius:100px;padding:6px;margin:18px 0 22px;position:relative}
-.toggle button{flex:1;border-radius:100px;padding:.7rem .4rem;font-weight:600;font-size:.9rem;color:var(--muted);position:relative;z-index:1;transition:color .3s}
-.toggle button.on{color:#241605}
-.toggle .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/3);border-radius:100px;background:linear-gradient(115deg,var(--gold),var(--rose));transition:transform .38s cubic-bezier(.2,.8,.2,1);z-index:0}
-.price-row{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
-.price-row .now{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--gold-2)}
-.price-row .old{color:var(--faint);text-decoration:line-through;font-size:1rem}
-.price-row .save{background:rgba(63,138,92,.22);color:var(--sage);border:1px solid var(--line);border-radius:100px;padding:.2rem .7rem;font-size:.78rem;font-weight:600}
-.installments{color:var(--muted);font-size:.92rem;margin:.3rem 0 1.2rem}
-.perks{margin:1.2rem 0}
-.perks li{display:flex;gap:.6rem;align-items:center;color:var(--muted);font-size:.9rem;padding:.32rem 0}
-.perks .tick{color:var(--gold)}
-.badge-float{display:inline-flex;align-items:center;gap:.4rem;color:var(--sage);font-size:.82rem;margin-top:.6rem}
-.mini{width:78px;filter:drop-shadow(0 16px 22px rgba(0,0,0,.5))}
-.mini.dim{opacity:.42;width:62px}
+.offer{max-width:920px;margin-inline:auto;background:var(--navy);color:#fff;border-radius:var(--radius);overflow:hidden}
+.offer-in{padding:34px 30px}
+.kits{display:grid;gap:14px;grid-template-columns:1fr;margin:22px 0}
+@media(min-width:640px){.kits{grid-template-columns:repeat(3,1fr)}}
+.kit{position:relative;border:1px solid var(--line-d);border-radius:var(--radius-sm);padding:20px 18px;cursor:pointer;transition:border-color .3s,background .3s;background:rgba(255,255,255,.03)}
+.kit:hover{border-color:var(--gold-2)}
+.kit.on{border-color:var(--gold-2);background:rgba(199,154,78,.12)}
+.kit .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(115deg,var(--gold),var(--gold-2));color:#20140a;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .7rem;border-radius:100px;white-space:nowrap}
+.kit .qt{font-family:'Bodoni Moda',serif;font-size:1.3rem}
+.kit .pp{color:var(--gold-2);font-weight:700;font-size:1.15rem;margin-top:.2rem}
+.kit .un{color:rgba(255,255,255,.6);font-size:.78rem}
+.offer .now{font-family:'Bodoni Moda',serif;font-size:2.6rem;color:var(--gold-2)}
+.offer .old{color:rgba(255,255,255,.45);text-decoration:line-through;margin-left:.5rem;font-size:1rem}
+.offer .inst{color:rgba(255,255,255,.75);margin:.2rem 0 1.2rem}
+.offer .perks{margin:1rem 0 1.4rem}
+.offer .perks li{display:flex;gap:.6rem;color:rgba(255,255,255,.82);padding:.28rem 0;font-size:.92rem}
+.offer .perks .tick{color:var(--gold-2)}
+.offer .safe{display:inline-flex;gap:.4rem;color:rgba(255,255,255,.6);font-size:.82rem;margin-top:.7rem}
 
 /* faq */
-.faq{max-width:760px}
+.faq{max-width:760px;margin-inline:auto}
 .q{border-top:1px solid var(--line)}
 .q:last-child{border-bottom:1px solid var(--line)}
-.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:20px 0;text-align:left;font-size:1.05rem;font-weight:600}
+.q button{width:100%;display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:20px 0;text-align:left;font-size:1.05rem;font-weight:600;color:var(--navy)}
 .q .plus{color:var(--gold);font-size:1.3rem;transition:transform .3s;flex:0 0 auto}
 .q.open .plus{transform:rotate(45deg)}
-.q .a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--muted);font-size:.95rem}
+.q .a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--muted)}
 .q .a p{padding-bottom:20px}
 
-/* footer */
-footer{border-top:1px solid var(--line);padding:56px 0 100px;margin-top:40px;background:rgba(12,20,16,.72)}
-.foot-grid{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:flex-start}
-.foot-brand{max-width:320px}
-.foot-brand p{color:var(--muted);font-size:.9rem;margin-top:.8rem}
-.foot-cta{display:flex;flex-direction:column;gap:12px}
-.legal{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);color:var(--faint);font-size:.78rem;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+/* escassez */
+.scarcity{background:var(--navy);color:#fff;text-align:center}
+.scarcity h2{font-family:'Bodoni Moda',serif;font-size:clamp(2rem,5vw,3.2rem);max-width:18ch;margin:0 auto 1rem}
+.scarcity p{color:rgba(255,255,255,.8);max-width:52ch;margin:0 auto 1.5rem}
+.urgency{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--gold);color:var(--gold-2);border-radius:100px;padding:.6rem 1.2rem;font-size:.86rem;font-weight:600;margin-bottom:1.6rem}
+.dotpulse{width:9px;height:9px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(224,162,171,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,162,171,.6)}70%{box-shadow:0 0 0 12px rgba(224,162,171,0)}100%{box-shadow:0 0 0 0 rgba(224,162,171,0)}}
 
-/* reveal */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.pote{animation:none}}
+/* footer */
+footer{background:var(--navy-2);color:rgba(255,255,255,.7);padding:50px 0 110px;font-size:.88rem}
+.foot-top{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line-d);padding-bottom:24px;margin-bottom:20px}
+.legal{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:rgba(255,255,255,.45);font-size:.78rem}
 
 /* barra fixa mobile */
-.buybar{position:fixed;inset-inline:0;bottom:0;z-index:50;display:none;background:rgba(12,20,16,.94);border-top:1px solid var(--line);backdrop-filter:blur(12px);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
-.buybar .p{font-family:'Fraunces',serif;color:var(--gold-2);font-size:1.15rem}
-.buybar .p small{display:block;color:var(--muted);font-size:.68rem;font-family:'Manrope';letter-spacing:.03em}
+.buybar{position:fixed;inset-inline:0;bottom:0;z-index:60;display:none;background:rgba(15,30,60,.96);border-top:1px solid var(--line-d);backdrop-filter:blur(12px);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px;color:#fff}
+.buybar .p{font-family:'Bodoni Moda',serif;color:var(--gold-2);font-size:1.15rem}
+.buybar .p small{display:block;color:rgba(255,255,255,.6);font-size:.66rem;font-family:'Manrope'}
 @media(max-width:760px){.buybar{display:flex}footer{padding-bottom:120px}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<canvas id="strands" aria-hidden="true"></canvas>
-<div class="veil" aria-hidden="true"></div>
-
-<div class="wrap">
-
-<header>
-  <div class="shell nav">
-    <a class="brand" href="#top" aria-label="Hair Botanika">
-      <svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/>
-        <defs><linearGradient id="gg" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#f2d79c"/><stop offset=".55" stop-color="#e9b7a4"/><stop offset="1" stop-color="#a6d6b6"/>
-        </linearGradient></defs>
-      </svg>
-      <span>Hair Botanika</span>
-    </a>
-    <a class="nav-cta" href="#oferta"><span class="lbl">Quero começar</span><span>→</span></a>
+<!-- ============================================================
+     SEÇÃO 1 — HERO
+     Objetivo: fisgar em 3s com a promessa (transformação), dar
+     credibilidade e levar ao CTA. Copy: benefício-desejo + prova.
+     ============================================================ -->
+<header class="hero" id="topo">
+  <video autoplay muted loop playsinline poster="hair-rotulo.png" class="herovid"
+    src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_024855_9740f948-c1a7-4fda-9ec2-80bcef0a4eb6.mp4"></video>
+  <div class="scrim"></div>
+  <div class="wrap shell">
+    <nav class="navbar">
+      <span class="brand"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/><defs><linearGradient id="gg" x1="2" y1="3" x2="38" y2="39" gradientUnits="userSpaceOnUse"><stop stop-color="#e7c887"/><stop offset=".6" stop-color="#c79a4e"/><stop offset="1" stop-color="#e0a2ab"/></linearGradient></defs></svg>Hair Botanika</span>
+      <a class="nav-cta" href="#oferta">Quero começar →</a>
+    </nav>
+    <div class="hero-body">
+      <div>
+        <span class="eyebrow" style="color:var(--gold-2)">Cabelos · Unhas · Pele</span>
+        <h1 class="display reveal">Cabelos mais fortes.<br>Unhas firmes.<br><em>Você, mais confiante.</em></h1>
+        <p class="sub reveal">O cabelo caindo no ralo, a unha que lasca, a pele sem viço — quase sempre são sinais do que falta <b>por dentro</b>. O Hair Botanika reúne <b>12 ativos</b> (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas) que nutrem a raiz de dentro pra fora. Não é milagre: é constância.</p>
+        <div class="hero-cta reveal">
+          <button class="btn btn-primary js-buy" data-kit="1"><span>Quero começar minha rotina</span><span class="ic">→</span></button>
+          <a class="btn btn-ghost-d" href="#solucao">Como funciona</a>
+        </div>
+        <div class="trust reveal"><span class="stars">★★★★★</span> <span>de quem cuida de dentro pra fora</span></div>
+      </div>
+      <div class="hero-media reveal">
+        <div class="frame">
+          <video autoplay muted loop playsinline poster="hair-rotulo.png"
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_030050_9c0d045e-b71e-4c0a-854e-22a96c84a66f.mp4"></video>
+        </div>
+        <div class="tag"><b>12 ativos</b> · 60 cápsulas</div>
+      </div>
+    </div>
   </div>
 </header>
 
-<a id="top"></a>
-<section class="hero">
-  <div class="shell hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow reveal">Cabelos · Unhas · Pele</span>
-      <h1 class="display reveal">Força que nasce <span class="grad">da raiz</span>.
-        <span class="sub">Hair Botanika</span>
-      </h1>
-      <p class="lead reveal">12 ativos em uma cápsula — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína e vitaminas — para nutrir o fio, fortalecer a unha e iluminar a pele. Não é milagre: é constância.</p>
-      <div class="hero-cta reveal">
-        <button class="btn btn-primary js-buy" data-kit="1"><span>Começar agora</span><span class="ic">→</span></button>
-        <a class="btn btn-ghost" href="#ativos"><span>Ver a fórmula</span></a>
-      </div>
-      <div class="trust reveal"><span class="stars">★★★★★</span> <span>Cuidado de dentro pra fora, na rotina</span></div>
-    </div>
-
-    <div class="bottle-stage reveal">
-      <div class="halo"></div>
-      <img class="pote" src="hair-rotulo.png" alt="Pote Hair Botanika — 60 cápsulas" width="330" height="440" fetchpriority="high" />
-      <div class="chip c1">✦ <b>12 ativos</b> em 1 cápsula</div>
-      <div class="chip c2"><b>Silício orgânico</b> · colágeno</div>
-      <div class="chip c3"><b>Biotina</b> · menos queda</div>
-    </div>
-  </div>
-</section>
-
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>Biotina</span><span>Silício Orgânico</span><span>Zinco</span><span>Ferro</span><span>Cisteína</span><span>Metionina</span><span>Iodo</span><span>Vitamina A</span><span>Vitamina E</span><span>Complexo B</span>
-    <span>Biotina</span><span>Silício Orgânico</span><span>Zinco</span><span>Ferro</span><span>Cisteína</span><span>Metionina</span><span>Iodo</span><span>Vitamina A</span><span>Vitamina E</span><span>Complexo B</span>
-  </div>
-</div>
-
-<section id="tres">
+<!-- ============================================================
+     SEÇÃO 2 — DOR
+     Objetivo: espelhar a dor real pra criar identificação ("é comigo").
+     Copy: frases na pele da cliente, sem julgamento.
+     ============================================================ -->
+<section id="dor">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">Um cuidado, três frentes</span>
-      <h2 class="display">O fio, a unha e a pele<br>vêm do mesmo lugar.</h2>
-      <p>Queda, unha que descama e pele sem viço costumam ser sinais do mesmo déficit de nutrientes. Hair Botanika trabalha a origem.</p>
+      <span class="eyebrow">A real verdade</span>
+      <h2 class="display">Cansada de ver o cabelo<br>ficar no ralo do banho?</h2>
+      <p>Se você se reconhece aqui, o problema quase nunca está só no shampoo.</p>
     </div>
-    <div class="targets">
-      <article class="tcard reveal"><span class="glow"></span>
-        <div class="ico">🌿</div><div class="tnum">01</div>
-        <h3>Cabelos</h3>
-        <p>Biotina, Cisteína e Zinco apoiam a estrutura do fio e a manutenção do couro cabeludo — menos quebra, mais densidade ao longo da rotina.</p>
-      </article>
-      <article class="tcard reveal"><span class="glow"></span>
-        <div class="ico">💅</div><div class="tnum">02</div>
-        <h3>Unhas</h3>
-        <p>Silício Orgânico e Metionina contribuem para unhas mais firmes e resistentes, que param de lascar e descamar com facilidade.</p>
-      </article>
-      <article class="tcard reveal"><span class="glow"></span>
-        <div class="ico">✨</div><div class="tnum">03</div>
-        <h3>Pele</h3>
-        <p>Vitaminas A e E com Silício apoiam a produção de colágeno e o viço natural da pele — firmeza e luz que vêm de dentro.</p>
-      </article>
+    <div class="pains">
+      <div class="pain reveal"><span class="x">✕</span><p><b>Queda que assusta</b> — fios na escova, no travesseiro e no ralo todo santo dia.</p></div>
+      <div class="pain reveal"><span class="x">✕</span><p><b>Cabelo fino, sem volume e sem brilho</b> — parece que não cresce nunca.</p></div>
+      <div class="pain reveal"><span class="x">✕</span><p><b>Unhas que descamam e lascam</b> — quebram antes de crescer.</p></div>
+      <div class="pain reveal"><span class="x">✕</span><p><b>Pele opaca, sem viço</b> — perdeu a firmeza e a luz de antes.</p></div>
+      <div class="pain reveal"><span class="x">✕</span><p><b>Você já tentou de tudo "por fora"</b> — cremes, ampolas, cronograma… e nada muda de verdade.</p></div>
+      <div class="pain reveal"><span class="x">✕</span><p><b>A confiança foi junto</b> — bate aquele desânimo toda vez que se olha no espelho.</p></div>
     </div>
   </div>
 </section>
 
-<section id="ativos">
-  <div class="shell">
-    <div class="sec-head reveal">
-      <span class="eyebrow">A fórmula, sem enrolação</span>
-      <h2 class="display">12 ativos escolhidos<br>com critério.</h2>
-      <p>Cada ingrediente tem função. O time completo cuida de cabelo, unha e pele em conjunto — dose funcional, fórmula limpa.</p>
+<!-- ============================================================
+     SEÇÃO 3 — SOLUÇÃO
+     Objetivo: reenquadrar o problema (é de dentro) e apresentar o
+     produto como a virada. Copy: mecanismo simples + revelação do produto.
+     ============================================================ -->
+<section id="solucao" class="band-navy">
+  <div class="shell sol">
+    <div class="frame reveal">
+      <video autoplay muted loop playsinline poster="hair-rotulo.png"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260731_030050_9c0d045e-b71e-4c0a-854e-22a96c84a66f.mp4"></video>
     </div>
-    <div class="actives">
-      <div class="acol reveal">
-        <h4><span class="dot" style="background:var(--leaf)"></span>Estrutura do fio</h4>
-        <ul>
-          <li><span class="tick">✓</span><span><b>Biotina</b> — manutenção dos cabelos</span></li>
-          <li><span class="tick">✓</span><span><b>Cisteína</b> — aminoácido da queratina</span></li>
-          <li><span class="tick">✓</span><span><b>Metionina</b> — aminoácido essencial</span></li>
-          <li><span class="tick">✓</span><span><b>Zinco</b> — manutenção de cabelos e unhas</span></li>
-        </ul>
-      </div>
-      <div class="acol reveal">
-        <h4><span class="dot" style="background:var(--gold)"></span>Firmeza &amp; colágeno</h4>
-        <ul>
-          <li><span class="tick">✓</span><span><b>Silício Orgânico</b> — apoio ao colágeno</span></li>
-          <li><span class="tick">✓</span><span><b>Ferro</b> — transporte de oxigênio</span></li>
-          <li><span class="tick">✓</span><span><b>Iodo</b> — função tireoidiana</span></li>
-          <li><span class="tick">✓</span><span><b>Vitamina E</b> — antioxidante</span></li>
-        </ul>
-      </div>
-      <div class="acol reveal">
-        <h4><span class="dot" style="background:var(--rose)"></span>Viço &amp; energia celular</h4>
-        <ul>
-          <li><span class="tick">✓</span><span><b>Vitamina A</b> — pele e mucosas</span></li>
-          <li><span class="tick">✓</span><span><b>Vitamina B1</b> — metabolismo energético</span></li>
-          <li><span class="tick">✓</span><span><b>Vitamina B2</b> — pele saudável</span></li>
-          <li><span class="tick">✓</span><span><b>Vitamina B5</b> — ácido pantotênico</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="stats reveal">
-      <div class="stat"><div class="n num" data-target="12">0</div><div class="l">ativos na fórmula</div></div>
-      <div class="stat"><div class="n num" data-target="60">0</div><div class="l">cápsulas · 38g</div></div>
-      <div class="stat"><div class="n num" data-target="3" data-suffix=" em 1">0</div><div class="l">cabelo · unha · pele</div></div>
-      <div class="stat"><div class="n">0<span style="font-family:Fraunces">%</span></div><div class="l">açúcar e glúten</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="ritual">
-  <div class="shell ritual">
     <div class="reveal">
-      <span class="eyebrow">A rotina que funciona</span>
-      <h2 class="display" style="font-size:clamp(1.9rem,5vw,2.8rem);margin:.6rem 0 1rem">Constância &gt; milagre.</h2>
-      <ul class="steps">
-        <li><span class="sn">1</span><h4>Todo dia, no mesmo horário</h4><p>Cápsulas junto de uma refeição. Simples de encaixar — de manhã ou à noite, o que ficar natural pra você.</p></li>
-        <li><span class="sn">2</span><h4>As primeiras semanas</h4><p>O corpo repõe o que faltava. As unhas costumam ser as primeiras a responder à firmeza.</p></li>
-        <li><span class="sn">3</span><h4>O ciclo do fio</h4><p>Cabelo tem tempo próprio. É na constância de semanas que a diferença na queda e na densidade aparece.</p></li>
-      </ul>
+      <span class="eyebrow" style="color:var(--gold-2)">A virada</span>
+      <h2 class="display">A força do cabelo começa na raiz — e a raiz se nutre por dentro.</h2>
+      <p>Cabelo, unha e pele são o <b>retrato</b> do que falta no seu corpo. Nenhum creme resolve um déficit de nutrientes de fora pra dentro.</p>
+      <p>O <b>Hair Botanika</b> entrega, em uma cápsula por dia, os <b>12 ativos</b> que a sua raiz precisa pra voltar a produzir <b>fio forte, unha firme e pele com viço</b> — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B.</p>
+      <div class="facts">
+        <span>12 ativos</span><span>60 cápsulas</span><span>Sem açúcar</span><span>Sem glúten</span><span>Quality Premium</span>
+      </div>
     </div>
-    <div class="leaf-art reveal"><div class="big display">da raiz<br>ao fio</div></div>
   </div>
 </section>
 
-<section id="prova">
+<!-- ============================================================
+     SEÇÃO 4 — BENEFÍCIOS
+     Objetivo: traduzir ativos em resultados desejados (o que ela ganha).
+     Copy: benefício em negrito + o ativo que entrega (compliance: "auxilia/apoia").
+     ============================================================ -->
+<section id="beneficios">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="eyebrow">O que muda</span>
+      <h2 class="display">O que acontece quando você<br>cuida da raiz todo dia</h2>
+    </div>
+    <div class="bens">
+      <div class="ben reveal"><div class="ico">🌿</div><h3>Menos queda, mais força</h3><p>Biotina, Cisteína e Zinco apoiam a estrutura do fio — menos quebra, fio mais resistente.</p></div>
+      <div class="ben reveal"><div class="ico">📈</div><h3>Crescimento e densidade</h3><p>Nutrientes que apoiam o couro cabeludo, contribuindo para fios mais cheios ao longo da rotina.</p></div>
+      <div class="ben reveal"><div class="ico">💅</div><h3>Unhas que param de quebrar</h3><p>Silício Orgânico e Metionina contribuem para unhas firmes e resistentes.</p></div>
+      <div class="ben reveal"><div class="ico">✨</div><h3>Pele com viço e firmeza</h3><p>Vitaminas A e E com Silício apoiam o colágeno e a luz natural da pele.</p></div>
+      <div class="ben reveal"><div class="ico">⚡</div><h3>Mais energia e vitalidade</h3><p>Ferro e complexo B participam do metabolismo energético do dia a dia.</p></div>
+      <div class="ben reveal"><div class="ico">🍃</div><h3>Fórmula limpa</h3><p>Sem adição de açúcares, sem glúten. Quality Premium Ingredients — 1 cápsula, 12 ativos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEÇÃO 5 — PARA QUEM É INDICADO
+     Objetivo: auto-seleção ("isso é pra mim"). Copy: checklist de perfis.
+     ============================================================ -->
+<section id="paraquem">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Feito pra você</span>
+      <h2 class="display">O Hair Botanika é pra você que…</h2>
+    </div>
+    <ul class="forwho">
+      <li class="reveal"><span class="ck">✓</span><p>Percebe <b>queda além do normal</b> e quer estancar antes de piorar.</p></li>
+      <li class="reveal"><span class="ck">✓</span><p>Quer cabelo <b>mais cheio, forte e com brilho</b> — e que finalmente cresça.</p></li>
+      <li class="reveal"><span class="ck">✓</span><p>Sofre com <b>unhas fracas</b> que descamam e nunca ficam bonitas.</p></li>
+      <li class="reveal"><span class="ck">✓</span><p>Sente a <b>pele sem viço</b>, sem firmeza, precisando de luz.</p></li>
+      <li class="reveal"><span class="ck">✓</span><p>Passou por <b>química, pós-parto, estresse ou dieta</b> e viu o cabelo enfraquecer.</p></li>
+      <li class="reveal"><span class="ck">✓</span><p>Quer um cuidado <b>simples e constante</b>: uma rotina, resultado que aparece.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEÇÃO 6 — DEPOIMENTOS
+     Objetivo: prova social real (quebra de ceticismo). Copy: relatos reais.
+     ============================================================ -->
+<section id="depoimentos" style="background:var(--cream-2)">
   <div class="shell">
     <div class="sec-head reveal">
       <span class="eyebrow">Quem já cuida</span>
-      <h2 class="display">A diferença aparece<br>na escova.</h2>
+      <h2 class="display">A diferença aparece na escova</h2>
     </div>
     <div class="proof">
-      <article class="qcard reveal">
-        <div class="qm">“</div><div class="st">★★★★★</div>
-        <p>Em uma semana de Hair Botanika eu já vi uma enorme diferença na queda. Não sai mais chumaço de cabelo no banho.</p>
-        <div class="who"><b>Cliente Botanika</b> · relato no direct</div>
-      </article>
-      <article class="qcard reveal">
-        <div class="qm">“</div><div class="st">★★★★★</div>
-        <p>Comprei o Tri, o Hair e a Vitamina C. Com uma semana de uso já me sinto uma pessoa completamente diferente — minha saúde está em outro nível.</p>
-        <div class="who"><b>Cliente Botanika</b> · relato no direct</div>
-      </article>
-      <article class="qcard reveal">
-        <div class="qm">“</div><div class="st">★★★★★</div>
-        <p>Suplemento honesto: dose funcional e fórmula limpa. Cuidar de cabelo, unha e pele virou parte da minha rotina, sem hype.</p>
-        <div class="who"><b>Rotina Botanika</b> · comunidade</div>
-      </article>
+      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Em uma semana de Hair Botanika eu já vi uma enorme diferença na queda. <b>Não sai mais chumaço de cabelo no banho.</b>"</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
+      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Comprei o Tri, o Hair e a Vitamina C. Com uma semana de uso já me sinto uma pessoa <b>completamente diferente</b> — minha saúde está em outro nível."</p><div class="who"><b>Cliente Botanika</b> · relato no direct</div></div>
+      <div class="qcard reveal"><div class="st">★★★★★</div><p>"Suplemento honesto: dose funcional e fórmula limpa. Cuidar de <b>cabelo, unha e pele</b> virou parte da minha rotina, sem hype."</p><div class="who"><b>Rotina Botanika</b> · comunidade</div></div>
     </div>
   </div>
 </section>
 
-<section id="oferta">
+<!-- ============================================================
+     SEÇÃO 7 — GARANTIA
+     Objetivo: remover o risco da decisão. Copy: segurança + direito legal (honesto).
+     ============================================================ -->
+<section id="garantia">
   <div class="shell">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Escolha seu ritmo</span>
-      <h2 class="display">Comece pela raiz.</h2>
-      <p>Quanto maior o ciclo, melhor o resultado — e melhor o preço por pote. Frete grátis acima de R$349 · cupom <b style="color:var(--gold-2)">BOTANIKA</b> 5% OFF.</p>
-    </div>
-    <div class="offer reveal">
-      <div class="offer-in">
-        <div class="offer-vis"><div class="shelf" id="shelf"></div></div>
-        <div class="offer-body">
-          <div class="eyebrow">Kit Hair Botanika</div>
-          <div class="toggle" id="toggle">
-            <span class="pill" id="pill"></span>
-            <button class="on" data-kit="1">1 pote</button>
-            <button data-kit="2">2 potes</button>
-            <button data-kit="3">3 potes</button>
-          </div>
-          <div class="price-row">
-            <span class="now" id="now">R$ —</span>
-            <span class="old" id="old"></span>
-            <span class="save" id="save"></span>
-          </div>
-          <div class="installments" id="installments">até 3x sem juros</div>
-          <ul class="perks">
-            <li><span class="tick">✓</span> 12 ativos · 60 cápsulas por pote</li>
-            <li><span class="tick">✓</span> Sem açúcar, sem glúten · Quality Premium</li>
-            <li><span class="tick">✓</span> <span id="perk-kit">1 mês de rotina</span></li>
-          </ul>
-          <button class="btn btn-primary js-buy" data-kit="1" style="width:100%;justify-content:center"><span id="cta-label">Quero 1 pote</span><span class="ic">→</span></button>
-          <div class="badge-float">🔒 Compra segura na loja oficial Botanika</div>
-        </div>
+    <div class="guarantee reveal">
+      <div class="seal"><div><b>7</b><span>dias</span></div></div>
+      <div>
+        <span class="eyebrow gold">Risco zero</span>
+        <h3>Sua compra é segura — e sua decisão, tranquila</h3>
+        <ul>
+          <li><span class="tick">✓</span> Compra na <b>loja oficial Botanika</b>, com pagamento 100% seguro.</li>
+          <li><span class="tick">✓</span> <b>7 dias de garantia legal</b> (direito de arrependimento, conforme o Código de Defesa do Consumidor).</li>
+          <li><span class="tick">✓</span> <b>Quality Premium Ingredients</b> — sem adição de açúcares, sem glúten.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section id="faq">
+<!-- ============================================================
+     SEÇÃO 8 — BÔNUS
+     Objetivo: aumentar valor percebido da oferta. Copy: perks reais como bônus.
+     ============================================================ -->
+<section id="bonus" style="background:var(--cream-2)">
   <div class="shell">
     <div class="sec-head reveal">
-      <span class="eyebrow">Perguntas frequentes</span>
-      <h2 class="display">Antes de começar.</h2>
+      <span class="eyebrow gold">Comprando hoje, você ainda leva</span>
+      <h2 class="display">Bônus da sua rotina</h2>
+    </div>
+    <div class="bonus">
+      <div class="bcard reveal"><div class="g">🏷️</div><h3>Cupom BOTANIKA</h3><p>5% OFF aplicado direto no checkout da loja oficial.</p></div>
+      <div class="bcard reveal"><div class="g">🚚</div><h3>Frete grátis</h3><p>Em pedidos acima de R$349 — ideal pra quem fecha o ciclo completo.</p></div>
+      <div class="bcard reveal"><div class="g">💛</div><h3>Ciclo completo</h3><p>No kit 3 meses você acompanha o ciclo do fio com a maior economia por pote.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEÇÃO 9 — OFERTA (preço)
+     Objetivo: apresentar preço com ancoragem por kit + CTA principal.
+     ============================================================ -->
+<section id="oferta">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="eyebrow gold">Sua transformação começa aqui</span>
+      <h2 class="display">Escolha o seu ciclo</h2>
+      <p>Quanto maior o ciclo, melhor o resultado — e menor o preço por pote.</p>
+    </div>
+    <div class="offer reveal">
+      <div class="offer-in">
+        <div class="kits" id="kits">
+          <div class="kit" data-kit="1"><div class="qt">1 pote</div><div class="pp" data-pp>R$ 97,00</div><div class="un">1 mês de rotina</div></div>
+          <div class="kit on" data-kit="2"><span class="tag">Mais escolhido</span><div class="qt">2 potes</div><div class="pp" data-pp>R$ 184,30</div><div class="un">5% OFF · 2 meses</div></div>
+          <div class="kit" data-kit="3"><span class="tag">Melhor custo</span><div class="qt">3 potes</div><div class="pp" data-pp>R$ 261,90</div><div class="un">10% OFF · frete grátis</div></div>
+        </div>
+        <div><span class="now" id="now">R$ 184,30</span><span class="old" id="old">R$ 194,00</span></div>
+        <div class="inst" id="inst">ou 3x de R$ 61,43 sem juros · cupom BOTANIKA 5% OFF</div>
+        <ul class="perks">
+          <li><span class="tick">✓</span> 12 ativos · 60 cápsulas por pote · sem açúcar e sem glúten</li>
+          <li><span class="tick">✓</span> 7 dias de garantia legal · loja oficial Botanika</li>
+          <li><span class="tick">✓</span> <span id="perk">2 meses de rotina — resultado consistente</span></li>
+        </ul>
+        <button class="btn btn-primary js-buy" data-kit="2" style="width:100%;justify-content:center"><span id="cta">Quero o kit 2 potes</span><span class="ic">→</span></button>
+        <div class="safe">🔒 Pagamento seguro · você é redirecionada para a loja oficial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEÇÃO 10 — FAQ
+     Objetivo: derrubar objeções finais (tempo, uso, segurança).
+     ============================================================ -->
+<section id="faq" style="background:var(--cream-2)">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <span class="eyebrow gold">Perguntas frequentes</span>
+      <h2 class="display">Ainda com dúvida?</h2>
     </div>
     <div class="faq">
-      <div class="q reveal"><button>Em quanto tempo vejo resultado? <span class="plus">+</span></button><div class="a"><p>Unhas e pele costumam responder primeiro, nas primeiras semanas. O cabelo segue o próprio ciclo de crescimento — a diferença na queda e na densidade aparece com a constância de semanas. Não é milagre, é rotina.</p></div></div>
-      <div class="q reveal"><button>Como tomar? <span class="plus">+</span></button><div class="a"><p>Siga a indicação do rótulo, junto de uma refeição, no mesmo horário todo dia. A regularidade é o que faz a fórmula trabalhar.</p></div></div>
+      <div class="q reveal"><button>Em quanto tempo eu vejo resultado? <span class="plus">+</span></button><div class="a"><p>Unhas e pele costumam responder primeiro, nas primeiras semanas. O cabelo segue o próprio ciclo de crescimento — a diferença na queda e na densidade aparece com a constância de semanas. Não é milagre, é rotina: por isso os kits de 2 e 3 meses fazem tanta diferença.</p></div></div>
+      <div class="q reveal"><button>Como devo tomar? <span class="plus">+</span></button><div class="a"><p>Siga a indicação do rótulo, junto de uma refeição, no mesmo horário todo dia. A regularidade é o que faz a fórmula trabalhar.</p></div></div>
       <div class="q reveal"><button>Serve para cabelo, unha e pele ao mesmo tempo? <span class="plus">+</span></button><div class="a"><p>Sim. Os 12 ativos — Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo e vitaminas A, E e do complexo B — atuam nas três frentes em conjunto.</p></div></div>
-      <div class="q reveal"><button>Tem açúcar ou glúten? <span class="plus">+</span></button><div class="a"><p>Não. Hair Botanika é sem adição de açúcares e não contém glúten. São 60 cápsulas, peso líquido 38g, Quality Premium.</p></div></div>
+      <div class="q reveal"><button>Tem açúcar, glúten ou contraindicação? <span class="plus">+</span></button><div class="a"><p>Não contém adição de açúcares nem glúten. É um suplemento alimentar; gestantes, lactantes ou pessoas em tratamento devem consultar um profissional de saúde antes de usar.</p></div></div>
+      <div class="q reveal"><button>É seguro comprar? <span class="plus">+</span></button><div class="a"><p>Sim — a compra é feita na loja oficial Botanika, com pagamento seguro e 7 dias de garantia legal (direito de arrependimento).</p></div></div>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEÇÃO 11 — ESCASSEZ / CTA FINAL
+     Objetivo: urgência honesta (cupom/oferta ativa) + fechamento.
+     ============================================================ -->
+<section class="scarcity" id="fechar">
+  <div class="shell">
+    <div class="urgency reveal"><span class="dotpulse"></span> Oferta com cupom <b>BOTANIKA</b> ativa · frete grátis acima de R$349</div>
+    <h2 class="reveal">A constância começa hoje — não na próxima queda.</h2>
+    <p class="reveal">Cada semana que passa é um ciclo do fio que não volta. Comece agora a nutrir a sua raiz e deixe o espelho te mostrar a diferença.</p>
+    <button class="btn btn-primary js-buy reveal" data-kit="2"><span>Começar minha rotina agora</span><span class="ic">→</span></button>
   </div>
 </section>
 
 <footer>
   <div class="shell">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <a class="brand" href="#top"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/></svg><span>Hair Botanika</span></a>
-        <p>Suplemento alimentar em cápsulas para cabelos, unhas e pele. Ingredientes ativos, dose funcional, fórmula limpa. Cuidado que nasce da raiz.</p>
-      </div>
-      <div class="foot-cta">
-        <button class="btn btn-primary js-buy" data-kit="1"><span>Começar minha rotina</span><span class="ic">→</span></button>
-        <a class="btn btn-ghost" href="#ativos"><span>Rever a fórmula</span></a>
-      </div>
+    <div class="foot-top">
+      <span class="brand"><svg class="mk" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 3c1.9 11.5 6.6 16.3 18 18-11.4 1.7-16.1 6.5-18 18-1.9-11.5-6.6-16.3-18-18C13.4 19.3 18.1 14.5 20 3Z" fill="url(#gg)"/></svg>Hair Botanika</span>
+      <button class="btn btn-primary js-buy" data-kit="2" style="padding:.7rem 1.3rem"><span>Quero começar</span><span class="ic">→</span></button>
     </div>
     <div class="legal">
       <span>© 2026 Botanika. Todos os direitos reservados.</span>
-      <span>Suplemento alimentar. Não substitui uma alimentação equilibrada.</span>
+      <span>Suplemento alimentar. Não substitui uma alimentação equilibrada e hábitos saudáveis.</span>
     </div>
   </div>
 </footer>
 
-</div><!-- /wrap -->
-
 <div class="buybar">
-  <div class="p" id="bar-price">R$ —<small>Hair Botanika</small></div>
-  <button class="btn btn-primary js-buy" data-kit="1" style="padding:.7rem 1.2rem"><span>Comprar</span><span class="ic">→</span></button>
+  <div class="p" id="bar">R$ 184,30<small>Kit 2 potes · Hair Botanika</small></div>
+  <button class="btn btn-primary js-buy" data-kit="2" style="padding:.7rem 1.2rem"><span>Comprar</span><span class="ic">→</span></button>
 </div>
 
 <script>
-/* ===================== CONFIG COMERCIAL ===================== */
-// TODO: trocar pelo VARIANT_ID real do Hair Botanika (Shopify).
-var HAIR_VARIANT = "HAIR_VARIANT_ID";
-var STORE = "https://botanikabrasil.com.br";
-var KITS = {
-  1:{qtd:1, now:"R$ 97,00",  old:"",          save:"",                       inst:"ou 3x de R$ 32,33", perk:"1 mês de rotina"},
-  2:{qtd:2, now:"R$ 184,30", old:"R$ 194,00", save:"5% OFF",                 inst:"ou 3x de R$ 61,43", perk:"2 meses · resultado consistente"},
-  3:{qtd:3, now:"R$ 261,90", old:"R$ 291,00", save:"10% OFF · frete grátis", inst:"ou 3x de R$ 87,30", perk:"3 meses · ciclo completo do fio"}
+/* ===== comercial (placeholder até VARIANT real) ===== */
+var HAIR_VARIANT="HAIR_VARIANT_ID", STORE="https://botanikabrasil.com.br";
+var KITS={
+  1:{qtd:1,now:"R$ 97,00",old:"",inst:"ou 3x de R$ 32,33 sem juros · cupom BOTANIKA 5% OFF",perk:"1 mês de rotina"},
+  2:{qtd:2,now:"R$ 184,30",old:"R$ 194,00",inst:"ou 3x de R$ 61,43 sem juros · cupom BOTANIKA 5% OFF",perk:"2 meses de rotina — resultado consistente"},
+  3:{qtd:3,now:"R$ 261,90",old:"R$ 291,00",inst:"ou 3x de R$ 87,30 sem juros · frete grátis + 10% OFF",perk:"3 meses — ciclo completo do fio, melhor custo"}
 };
-var currentKit = 1;
-function goBuy(kit){
-  if(HAIR_VARIANT === "HAIR_VARIANT_ID"){ window.open(STORE, "_blank"); return; }
-  window.open(STORE + "/cart/" + HAIR_VARIANT + ":" + KITS[kit].qtd, "_blank");
+var cur=2;
+function goBuy(k){ if(HAIR_VARIANT==="HAIR_VARIANT_ID"){window.open(STORE,"_blank");return;} window.open(STORE+"/cart/"+HAIR_VARIANT+":"+KITS[k].qtd,"_blank"); }
+var elNow=document.getElementById("now"),elOld=document.getElementById("old"),elInst=document.getElementById("inst"),elPerk=document.getElementById("perk"),elCta=document.getElementById("cta"),elBar=document.getElementById("bar");
+function setKit(k){
+  cur=k; var d=KITS[k];
+  document.querySelectorAll("#kits .kit").forEach(function(el){ el.classList.toggle("on", parseInt(el.getAttribute("data-kit"),10)===k); });
+  elNow.textContent=d.now; elOld.textContent=d.old; elOld.style.display=d.old?"":"none";
+  elInst.textContent=d.inst; elPerk.textContent=d.perk;
+  elCta.textContent="Quero o kit "+(k===1?"1 pote":k+" potes");
+  elBar.innerHTML=d.now+"<small>Kit "+k+" · Hair Botanika</small>";
 }
+document.getElementById("kits").addEventListener("click",function(e){ var el=e.target.closest(".kit"); if(el) setKit(parseInt(el.getAttribute("data-kit"),10)); });
+document.addEventListener("click",function(e){ var b=e.target.closest(".js-buy"); if(b) goBuy(parseInt(b.getAttribute("data-kit"),10)||cur); });
+setKit(2);
 
-/* ===================== OFERTA / kits ===================== */
-var pill=document.getElementById("pill"),toggle=document.getElementById("toggle");
-var elNow=document.getElementById("now"),elOld=document.getElementById("old"),elSave=document.getElementById("save");
-var elInst=document.getElementById("installments"),elPerk=document.getElementById("perk-kit");
-var ctaLabel=document.getElementById("cta-label"),barPrice=document.getElementById("bar-price"),shelf=document.getElementById("shelf");
+/* FAQ */
+document.querySelectorAll(".q").forEach(function(q){ q.querySelector("button").addEventListener("click",function(){
+  var open=q.classList.contains("open");
+  document.querySelectorAll(".q").forEach(function(o){o.classList.remove("open");o.querySelector(".a").style.maxHeight=null;});
+  if(!open){ q.classList.add("open"); var a=q.querySelector(".a"); a.style.maxHeight=a.scrollHeight+"px"; }
+}); });
 
-function miniPote(dim){ return '<img class="mini'+(dim?' dim':'')+'" src="hair-rotulo.png" alt="" aria-hidden="true">'; }
-function renderShelf(kit){ var h=""; for(var i=0;i<3;i++){ h+=miniPote(i>=kit); } shelf.innerHTML=h; }
-function setKit(kit){
-  currentKit=kit; var k=KITS[kit];
-  pill.style.transform="translateX("+((kit-1)*100)+"%)";
-  var b=toggle.querySelectorAll("button"); for(var i=0;i<b.length;i++){ b[i].classList.toggle("on",(i+1)===kit); }
-  elNow.textContent=k.now; elOld.textContent=k.old;
-  elSave.textContent=k.save; elSave.style.display=k.save?"":"none";
-  elInst.textContent=k.inst; elPerk.textContent=k.perk;
-  ctaLabel.textContent="Quero "+(kit===1?"1 pote":kit+" potes");
-  barPrice.innerHTML=k.now+"<small>Kit "+kit+" · Hair Botanika</small>";
-  renderShelf(kit);
-}
-toggle.addEventListener("click",function(e){ var b=e.target.closest("button[data-kit]"); if(b) setKit(parseInt(b.getAttribute("data-kit"),10)); });
-setKit(1);
+/* reveal */
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
 
-document.addEventListener("click",function(e){ var b=e.target.closest(".js-buy"); if(!b) return;
-  var k=b.getAttribute("data-kit"); goBuy(k?parseInt(k,10):currentKit); });
-
-/* ===================== FAQ ===================== */
-document.querySelectorAll(".q").forEach(function(q){
-  q.querySelector("button").addEventListener("click",function(){
-    var open=q.classList.contains("open");
-    document.querySelectorAll(".q").forEach(function(o){ o.classList.remove("open"); o.querySelector(".a").style.maxHeight=null; });
-    if(!open){ q.classList.add("open"); var a=q.querySelector(".a"); a.style.maxHeight=a.scrollHeight+"px"; }
-  });
-});
-
-/* ===================== reveal ===================== */
-var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); },{threshold:.14});
-document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
-
-/* ===================== count-up ===================== */
-function countUp(el){
-  var target=parseFloat(el.getAttribute("data-target"))||0, suffix=el.getAttribute("data-suffix")||"", t0=null, dur=1400;
-  function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(target*e)+suffix; if(p<1) requestAnimationFrame(step); }
-  requestAnimationFrame(step);
-}
-var io2=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ countUp(x.target); io2.unobserve(x.target); } }); },{threshold:.5});
-document.querySelectorAll(".num").forEach(function(el){ io2.observe(el); });
-
-/* ===================== tilt + glow ===================== */
-var canHover=window.matchMedia("(hover:hover)").matches;
-if(canHover){
-  document.querySelectorAll(".tcard").forEach(function(card){
-    var glow=card.querySelector(".glow");
-    card.addEventListener("mousemove",function(e){
-      var r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
-      card.style.transform="perspective(700px) rotateX("+(((y/r.height)-.5)*-6)+"deg) rotateY("+(((x/r.width)-.5)*6)+"deg) translateY(-4px)";
-      if(glow){ glow.style.left=x+"px"; glow.style.top=y+"px"; }
-    });
-    card.addEventListener("mouseleave",function(){ card.style.transform=""; });
-  });
-}
-
-/* ===================== botões magnéticos ===================== */
-if(window.gsap && canHover){
+/* botões magnéticos */
+if(window.gsap && window.matchMedia("(hover:hover)").matches){
   document.querySelectorAll(".btn-primary").forEach(function(btn){
-    var xTo=gsap.quickTo(btn,"x",{duration:.5,ease:"power3"}), yTo=gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
-    btn.addEventListener("mousemove",function(e){ var r=btn.getBoundingClientRect();
-      xTo((e.clientX-r.left-r.width/2)*.3); yTo((e.clientY-r.top-r.height/2)*.4); });
-    btn.addEventListener("mouseleave",function(){ xTo(0); yTo(0); });
+    var xTo=gsap.quickTo(btn,"x",{duration:.5,ease:"power3"}),yTo=gsap.quickTo(btn,"y",{duration:.5,ease:"power3"});
+    btn.addEventListener("mousemove",function(e){var r=btn.getBoundingClientRect();xTo((e.clientX-r.left-r.width/2)*.25);yTo((e.clientY-r.top-r.height/2)*.35);});
+    btn.addEventListener("mouseleave",function(){xTo(0);yTo(0);});
   });
 }
-
-/* ===================== ASSINATURA: cascata de fios (canvas) ===================== */
-(function(){
-  var cv=document.getElementById("strands"), ctx=cv.getContext("2d");
-  var W,H,DPR,strands=[], mouse={x:-9999,y:-9999,active:false};
-  var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  var COL=[[63,138,92],[217,178,106],[233,183,164]]; // verde -> dourado -> rosé
-  function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
-  function colorAt(t){ return t<0.5?mix(COL[0],COL[1],t*2):mix(COL[1],COL[2],(t-0.5)*2); }
-  function resize(){
-    DPR=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
-    cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); build();
-  }
-  function build(){
-    strands=[]; var count=W<640?24:(W<1100?38:54);
-    for(var i=0;i<count;i++){
-      var x=(i/(count-1))*W;
-      strands.push({baseX:x,seg:16,len:H*0.92+Math.random()*H*0.3,amp:20+Math.random()*46,
-        speed:0.14+Math.random()*0.34,phase:Math.random()*Math.PI*2,drift:(Math.random()-0.5)*0.4,
-        width:0.6+Math.random()*1.4,hue:Math.random()});
-    }
-  }
-  function frame(ts){
-    var time=ts*0.001; ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation="lighter";
-    for(var s=0;s<strands.length;s++){
-      var st=strands[s]; ctx.beginPath(); var px=null,py=null;
-      for(var i=0;i<=st.seg;i++){
-        var p=i/st.seg, y=p*st.len-H*0.05;
-        var x=st.baseX+Math.sin(time*st.speed+st.phase+p*3.4)*st.amp*(0.35+p)+Math.sin(time*0.12+st.phase)*st.drift*40;
-        if(mouse.active){
-          var dx=x-mouse.x, dy=y-mouse.y, d2=dx*dx+dy*dy, R=150;
-          if(d2<R*R){ var d=Math.sqrt(d2)||1, f=1-d/R; x+=(dx/d)*f*f*70; }
-        }
-        if(px===null){ ctx.moveTo(x,y); } else { ctx.quadraticCurveTo(px,py,(px+x)/2,(py+y)/2); }
-        px=x; py=y;
-      }
-      var c=colorAt(st.hue*0.6+0.2), a=0.15+st.hue*0.10;
-      ctx.strokeStyle="rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+a+")";
-      ctx.lineWidth=st.width; ctx.lineCap="round"; ctx.stroke();
-    }
-    ctx.globalCompositeOperation="source-over";
-    if(!reduce) requestAnimationFrame(frame);
-  }
-  window.addEventListener("resize",resize,{passive:true});
-  window.addEventListener("pointermove",function(e){ mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; },{passive:true});
-  window.addEventListener("pointerleave",function(){ mouse.active=false; mouse.x=mouse.y=-9999; });
-  resize(); requestAnimationFrame(frame);
-})();
 </script>
 </body>
 </html>
