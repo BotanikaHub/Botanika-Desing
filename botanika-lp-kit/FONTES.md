@@ -51,17 +51,12 @@ Pasta-mãe **`Botanika/LP-KIT/`** — https://drive.google.com/drive/folders/1uI
 |-------|-----------|---------|---------|---------|------------|
 | _(a preencher conforme eu catalogar os lotes)_ | | | | | |
 
-## Assets de produto Botanika
-As pastas de assets por produto (pote transparente, depoimentos) **não existem mais** nesta árvore —
-foram removidas na reorganização. Quando formos construir uma LP, o asset do produto vai **direto para
-`landing-<slug>/` no GitHub** (a LP é autocontida e servida ao vivo). Se preferir uma área de staging
-no Drive pra eles, é só pedir que eu crio.
+## Para que serve tudo isto
+**Só referência de técnica** para criar as LPs da Botanika — cada uma com **identidade e visual novos
+por produto**. Nunca reutilizar os vídeos/mídia do meez.design nem o código do getlayers: é para
+**recriar do zero** inspirado nas referências. Asset de produto (pote etc.) vai direto para
+`landing-<slug>/` no GitHub na hora de construir.
 
 ## Como acionar numa sessão nova
-Catalogar/destilar:
-> "Leia `CLAUDE.md` e `botanika-lp-kit/FONTES.md`. Abre o `02_meez.design/Sections` (ou o lote que eu
-> apontar) no Drive, cataloga no índice e destila só a técnica nova pra `botanika-lp-kit/prompts/`."
-
-Construir/editar LP:
-> "Vou criar a LP do **[produto]**. Usa o repertório em `botanika-lp-kit/` (e, se aplicável, os fundos
-> do `02_meez.design/Backgrounds`). Identidade própria, não clonar."
+👉 O comando completo para criar uma LP está em **`botanika-lp-kit/COMANDO-CRIAR-LP.md`** — copie e cole
+num chat novo (com o Google Drive ligado).
