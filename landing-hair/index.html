@@ -121,7 +121,7 @@ main{position:relative;z-index:1}
 .kicker.center{justify-content:center}
 .kicker b{font-family:var(--head);font-size:15px;opacity:.85;font-weight:600}
 .kicker span{height:1px;width:44px;background:linear-gradient(90deg,var(--rose),transparent)}
-h1{font-size:clamp(41px,7.3vw,82px)}
+h1{font-size:clamp(36px,5.4vw,64px)}
 h2{font-size:clamp(29px,4.6vw,52px)}
 h3{font-size:clamp(19px,2.2vw,23px)}
 .lead{font-size:clamp(16px,1.7vw,19px);color:var(--soft);margin-top:16px;max-width:62ch}
@@ -148,23 +148,23 @@ h3{font-size:clamp(19px,2.2vw,23px)}
   padding:6px 12px;border-radius:100px;background:rgba(21,10,17,.5);border:1px solid var(--line);backdrop-filter:blur(6px)}
 
 /* HERO */
-#hero{padding-top:clamp(126px,17vw,182px);padding-bottom:clamp(48px,7vw,88px);overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(26px,5vw,60px);align-items:center}
-.hero-copy h1{margin:16px 0 8px}
+#hero{min-height:100svh;display:flex;align-items:center;padding-top:clamp(82px,10vh,112px);padding-bottom:clamp(22px,4vh,52px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(22px,4vw,56px);align-items:center;width:100%}
+.hero-copy h1{margin:12px 0 6px}
 .hero-copy h1 .grad-text{font-style:italic;font-weight:500}
-.hero-sub{font-size:clamp(16px,1.8vw,20px);color:var(--soft);max-width:46ch;margin-top:10px}
-.trust{display:flex;align-items:center;gap:11px;margin:22px 0 6px;font-size:13.5px;color:var(--muted)}
+.hero-sub{font-size:clamp(15.5px,1.6vw,18.5px);color:var(--soft);max-width:46ch;margin-top:8px}
+.trust{display:flex;align-items:center;gap:11px;margin:14px 0 4px;font-size:13.5px;color:var(--muted)}
 .stars{color:var(--gold);letter-spacing:2px;font-size:15px}
-.hero-actives{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 26px}
+.hero-actives{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
 .chip{font-size:12.5px;font-weight:500;color:var(--soft);padding:7px 13px;border-radius:100px;border:1px solid var(--line);background:var(--glass)}
 .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .hero-note{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
 .hero-note b{color:var(--rose);font-weight:600}
-.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(64vw,560px)}
+.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(72vw,600px)}
 .stage-glow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(230,178,149,.42),rgba(91,39,64,.18) 45%,transparent 70%);filter:blur(6px);animation:breathe 7s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
-.bottle{position:relative;width:min(70%,380px);z-index:2;
+.bottle{position:relative;width:min(90%,500px);z-index:2;
   filter:drop-shadow(0 42px 55px rgba(0,0,0,.55)) drop-shadow(0 0 34px rgba(230,178,149,.30));animation:float 6.5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(-10px) rotate(-.6deg)}50%{transform:translateY(12px) rotate(.6deg)}}
 .stage-floor{position:absolute;bottom:7%;width:54%;height:24px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(9px)}
@@ -330,7 +330,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   .hero-copy .eyebrow{margin-inline:auto}
   .hero-sub,.hero-actives{margin-inline:auto;justify-content:center}
   .trust,.hero-actions{justify-content:center}
-  .stage{order:-1;min-height:min(86vw,430px)}
+  .stage{order:-1;min-height:min(62vw,330px)}
+  .bottle{width:min(64%,320px)}
+  #hero{min-height:100svh}
   .split,.ingr{grid-template-columns:1fr}
   .split.rev .visual{order:-1}
   .split .visual{order:-1;min-height:auto}
@@ -387,7 +389,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     <div class="hero-grid">
       <div class="hero-copy">
         <span class="eyebrow reveal">Cabelos · Unhas · Pele · 12 ativos</span>
-        <h1 data-split>A beleza que começa na <span class="grad-text">raiz</span>.</h1>
+        <h1 data-split>A beleza que começa na <span class="grad-text">raiz.</span></h1>
         <p class="hero-sub reveal">Nutrição de dentro pra fora — o que aparece no espelho começa muito antes, na raiz do fio.</p>
         <div class="trust reveal"><span class="stars">★★★★★</span><span>de quem cuida de dentro pra fora</span></div>
         <div class="hero-actives reveal" data-stagger>
