@@ -7,8 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
 <style>
 /* ============================================================
    BOTANIKA — WHEY BALANCE CHOCOLATE
@@ -293,18 +291,11 @@ footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ---------- palco 3D (model-viewer) ---------- */
-.stage3d{position:relative;width:min(100%,540px);aspect-ratio:1;margin-inline:auto}
-.mv-prod{position:relative;z-index:2;width:100%;height:100%;background:transparent;
-  --poster-color:transparent;--progress-bar-color:transparent;--progress-mask:transparent;
-  filter:drop-shadow(0 40px 50px rgba(0,0,0,.5))}
-.mv-choco{position:absolute;z-index:1;width:26%;height:26%;background:transparent;
-  --poster-color:transparent;--progress-bar-color:transparent;pointer-events:none;
-  filter:drop-shadow(0 12px 16px rgba(0,0,0,.5))}
-.mv-choco.ch1{top:2%;left:4%;animation:floatY 5s ease-in-out infinite}
-.mv-choco.ch2{top:10%;right:0%;animation:floatY 6.4s ease-in-out .5s infinite}
-.mv-choco.ch3{bottom:6%;left:10%;animation:floatY 5.8s ease-in-out .9s infinite}
-.mv-choco.ch4{bottom:12%;right:6%;animation:floatY 6s ease-in-out .3s infinite}
-@media(prefers-reduced-motion:reduce){.mv-choco{animation:none}}
+.hero-shot{width:100%;max-width:560px;margin-inline:auto;border-radius:22px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 90px -30px rgba(0,0,0,.72)}
+.hero-shot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 80px rgba(4,9,28,.45)}
+.hero-shot{position:relative}
+.hero-shot img{width:100%;height:auto;display:block}
 
 /* ---------- barra de progresso ---------- */
 .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;
@@ -314,6 +305,7 @@ footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(
 .orbit,.levit{transition:transform .25s ease-out;transform-style:preserve-3d}
 
 /* ---------- reveal por letra (blur-up) ---------- */
+.word{display:inline-block;white-space:nowrap}
 .ch{display:inline-block;opacity:0;transform:translateY(26px);filter:blur(10px);
   transition:opacity .55s var(--ease),transform .55s var(--ease),filter .55s var(--ease)}
 .lit .ch{opacity:1;transform:none;filter:none}
@@ -400,11 +392,11 @@ h2.title.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="hero-media reveal">
-    <div class="stage3d">
-      <model-viewer class="mv-choco ch1" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="34deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
-      <model-viewer class="mv-choco ch2" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/747719cd-5550-4e87-9a5e-982b1e365165.glb" auto-rotate rotation-per-second="-28deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
-      <model-viewer class="mv-choco ch3" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="40deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
-      <model-viewer class="mv-prod" id="mvHero" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/ce9a2ec3-462e-4b12-8e89-794c10dee71b.glb" camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="20deg" interaction-prompt="none" environment-image="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="1" camera-orbit="0deg 86deg 105%" field-of-view="30deg" loading="eager" reveal="auto" alt="Pote de Whey Balance Chocolate em 3D"></model-viewer>
+    <div class="hero-shot">
+      <picture>
+        <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192027_89c5c16d-33c3-4cdd-aff5-b2a557aff54a.png">
+        <img loading="eager" alt="Whey Balance Chocolate — sabor chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_183215_894efd71-7b1c-4569-95f5-a449d4ca0e47.png">
+      </picture>
     </div>
     <div class="hero-badge">
       <span class="dot"></span>
@@ -451,10 +443,11 @@ h2.title.reveal{opacity:1;transform:none}
       </div>
     </div>
     <div class="reveal">
-      <div class="stage3d">
-        <model-viewer class="mv-choco ch2" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/747719cd-5550-4e87-9a5e-982b1e365165.glb" auto-rotate rotation-per-second="-32deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
-        <model-viewer class="mv-choco ch4" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="36deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
-        <model-viewer class="mv-prod" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/ce9a2ec3-462e-4b12-8e89-794c10dee71b.glb" camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="-18deg" interaction-prompt="none" environment-image="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="1" camera-orbit="12deg 84deg 105%" field-of-view="30deg" loading="lazy" reveal="auto" alt="Pote de Whey Balance Chocolate em 3D"></model-viewer>
+      <div class="hero-shot">
+        <picture>
+          <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192033_2a2fcc0c-c51a-4c67-8fc4-9354ddefffc2.png">
+          <img loading="lazy" alt="Whey Balance Chocolate com shake cremoso" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184913_3ca6ac21-56aa-4cda-8fdf-070b506457cb.png">
+        </picture>
       </div>
     </div>
   </div>
@@ -800,11 +793,16 @@ h2.title.reveal{opacity:1;transform:none}
       [].slice.call(node.childNodes).forEach(function(k){
         if(k.nodeType===3){
           var frag=doc.createDocumentFragment();
-          k.textContent.split('').forEach(function(c){
-            if(c===' '){ frag.appendChild(doc.createTextNode(' ')); return; }
-            var s=doc.createElement('span'); s.className='ch'; s.textContent=c;
-            s.style.transitionDelay=(count.n*0.03).toFixed(3)+'s'; count.n++;
-            frag.appendChild(s);
+          k.textContent.split(/(\s+)/).forEach(function(tok){
+            if(tok==='') return;
+            if(/^\s+$/.test(tok)){ frag.appendChild(doc.createTextNode(tok)); return; }
+            var w=doc.createElement('span'); w.className='word';
+            tok.split('').forEach(function(c){
+              var s=doc.createElement('span'); s.className='ch'; s.textContent=c;
+              s.style.transitionDelay=(count.n*0.03).toFixed(3)+'s'; count.n++;
+              w.appendChild(s);
+            });
+            frag.appendChild(w);
           });
           node.replaceChild(frag,k);
         } else if(k.nodeType===1 && k.tagName!=='BR'){ walk(k); }
