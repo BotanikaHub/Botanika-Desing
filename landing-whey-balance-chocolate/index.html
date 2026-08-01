@@ -200,6 +200,20 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
   padding:9px 15px;font-size:13px;color:var(--muted);cursor:pointer;transition:.25s;font-family:var(--body)}
 .chip:hover{border-color:rgba(234,177,115,.5);color:var(--cream)}.chip b{color:var(--caramel)}
 
+/* tabela nutricional */
+.nutri{max-width:640px;margin:36px auto 0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--glass);box-shadow:0 30px 70px -30px rgba(0,0,0,.7);text-align:left}
+.nrow{display:grid;grid-template-columns:1fr auto 58px;gap:14px;align-items:baseline;padding:15px 22px;border-bottom:1px solid rgba(234,177,115,.08)}
+.nrow .nm{font-family:var(--body);font-weight:600}
+.nrow .vl{font-family:var(--head);font-size:23px;color:var(--cream);text-align:right;white-space:nowrap}
+.nrow .vd{font-family:var(--body);font-size:13px;color:var(--muted);text-align:right}
+.nrow.head{background:rgba(255,240,220,.03)}
+.nrow.head span{font-family:var(--body)!important;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.nrow.head .vl{font-size:11.5px}
+.nrow.hi{background:rgba(234,177,115,.08)}.nrow.hi .vl{color:var(--caramel)}.nrow.hi .nm{color:var(--cream);font-weight:800}
+.nutri .ft{padding:14px 22px;font-family:var(--body);font-size:11.5px;color:rgba(243,231,214,.5);line-height:1.5}
+.ingr{max-width:640px;margin:18px auto 0;font-family:var(--body);font-size:13.5px;color:var(--muted);text-align:center;line-height:1.7}
+.ingr b{color:var(--cream)}
+
 /* faq */
 .faq{max-width:820px;margin:36px auto 0}
 details{background:var(--glass);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
@@ -444,6 +458,23 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   </div>
 </section>
 
+<!-- 7.5 · TRANSPARÊNCIA (tabela nutricional real) -->
+<section class="section center" id="transparencia">
+  <span class="eyebrow reveal">Transparência total</span>
+  <h2 class="title reveal">Números na mesa. <em>Sem letra miúda</em>.</h2>
+  <p class="lead reveal">Porção de 35 g · 13 porções por embalagem. Exatamente o que diz o rótulo.</p>
+  <div class="nutri reveal">
+    <div class="nrow head"><span class="nm">Nutriente</span><span class="vl">Por porção (35 g)</span><span class="vd">%VD*</span></div>
+    <div class="nrow"><span class="nm">Valor energético</span><span class="vl">135 kcal</span><span class="vd">7%</span></div>
+    <div class="nrow"><span class="nm">Carboidratos</span><span class="vl">9 g</span><span class="vd">3%</span></div>
+    <div class="nrow hi"><span class="nm">Proteínas</span><span class="vl"><span class="num" data-target="23" data-suffix=" g">23 g</span></span><span class="vd">31%</span></div>
+    <div class="nrow"><span class="nm">Gorduras totais</span><span class="vl">0,8 g</span><span class="vd">1%</span></div>
+    <div class="nrow"><span class="nm">Sódio</span><span class="vl">138 mg</span><span class="vd">6%</span></div>
+    <div class="ft">Não contém quantidades significativas de açúcares totais, açúcares adicionados, gorduras saturadas, gorduras trans e fibras alimentares. *Percentual de valores diários fornecido pela porção.</div>
+  </div>
+  <p class="ingr reveal"><b>Ingredientes:</b> whey concentrado, colágeno hidrolisado C‑PURE®, cacau em pó, aroma natural de chocolate, goma guar e edulcorantes naturais (glicosídeos de esteviol e taumatina). Contém lactose. Não contém glúten. Pode conter traços de soja e ovo.</p>
+</section>
+
 <!-- 8 · OFERTA -->
 <section class="section center" id="oferta">
   <span class="eyebrow reveal">Oferta</span>
@@ -455,7 +486,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <button data-qty="3">3 potes</button>
   </div>
   <div class="offer-panel reveal">
-    <div class="kit" id="kitName">Kit 2 potes · rende 2 meses</div>
+    <div class="kit" id="kitName">Kit 2 potes · 26 porções</div>
     <div class="big tnum" id="kitPrice">R$ 294,60</div>
     <div class="per" id="kitPer">R$ 147,30/pote · 3x sem juros</div>
     <div class="save" id="kitSave">5% OFF com cupom BOTANIKA</div>
@@ -476,7 +507,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <details class="reveal"><summary>Qual o sabor e a textura?<span class="pl"></span></summary><div class="faq-a">Chocolate cremoso, adoçado naturalmente e sem corantes artificiais. Dissolve fácil na água ou no leite, sem gosto químico.</div></details>
     <details class="reveal"><summary>O que é o colágeno C‑PURE®?<span class="pl"></span></summary><div class="faq-a">É um colágeno hidrolisado premium combinado ao whey concentrado. Juntos entregam a proposta “força + tônus”: proteína para os músculos e cuidado com o corpo por inteiro.</div></details>
     <details class="reveal"><summary>Tem açúcar ou glúten?<span class="pl"></span></summary><div class="faq-a">Não. É adoçado naturalmente, sem adição de açúcares, sem corantes artificiais e não contém glúten.</div></details>
-    <details class="reveal"><summary>Quantas porções rende?<span class="pl"></span></summary><div class="faq-a">Cada pote tem 455 g, com 23 g de proteína por porção. Rende aproximadamente 1 mês de uso diário.</div></details>
+    <details class="reveal"><summary>Quantas porções rende?<span class="pl"></span></summary><div class="faq-a">Cada pote tem 455 g e rende <b>13 porções</b> (porção de 35 g), com 23 g de proteína por porção. Prepare 35 g em 200 ml de água.</div></details>
     <details class="reveal"><summary>Como funciona a entrega e a garantia?<span class="pl"></span></summary><div class="faq-a">Enviamos para todo o Brasil, com frete grátis acima de R$ 349. Você conta com reembolso garantido em até 7 dias caso não fique satisfeito.</div></details>
   </div>
 </section>
@@ -589,9 +620,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 
   /* oferta */
   var VAR='48115368919272', base='https://botanikabrasil.com.br/cart/';
-  var KITS={1:{n:'Kit 1 pote · 455 g',price:'R$ 147,30',per:'ou 3x de R$ 49,10',save:'5% OFF com cupom BOTANIKA'},
-            2:{n:'Kit 2 potes · rende 2 meses',price:'R$ 294,60',per:'R$ 147,30/pote · 3x sem juros',save:'5% OFF com cupom BOTANIKA'},
-            3:{n:'Kit 3 potes · rende 3 meses',price:'R$ 441,90',per:'R$ 147,30/pote',save:'5% OFF + FRETE GRÁTIS'}};
+  var KITS={1:{n:'Kit 1 pote · 455 g · 13 porções',price:'R$ 147,30',per:'ou 3x de R$ 49,10',save:'5% OFF com cupom BOTANIKA'},
+            2:{n:'Kit 2 potes · 26 porções',price:'R$ 294,60',per:'R$ 147,30/pote · 3x sem juros',save:'5% OFF com cupom BOTANIKA'},
+            3:{n:'Kit 3 potes · 39 porções',price:'R$ 441,90',per:'R$ 147,30/pote',save:'5% OFF + FRETE GRÁTIS'}};
   var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy');
   function setKit(q){ var k=KITS[q]; doc.getElementById('kitName').textContent=k.n; doc.getElementById('kitPrice').textContent=k.price;
     doc.getElementById('kitPer').textContent=k.per; doc.getElementById('kitSave').textContent=k.save;
