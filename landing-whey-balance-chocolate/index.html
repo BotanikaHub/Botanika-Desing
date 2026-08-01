@@ -91,10 +91,10 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(60vw,560px);padding:0 22px}
-.stage::before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,rgba(234,177,115,.32),rgba(207,138,67,.10) 45%,transparent 70%);filter:blur(10px)}
-.pote{position:relative;z-index:2;width:min(80%,430px);height:auto;
+.stage{position:relative;display:grid;place-items:center;min-height:min(66vw,620px);padding:0 22px}
+.stage::before{content:"";position:absolute;width:84%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
+.pote{position:relative;z-index:2;width:min(94%,520px);height:auto;
   filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
 .choco{position:absolute;z-index:1;width:20%;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55));will-change:transform}
@@ -111,7 +111,7 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
-  .pote{width:min(58%,280px)}
+  .pote{width:min(70%,340px)}
 }
 
 /* ---------- mídia em card ---------- */
@@ -602,22 +602,23 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   function resize(){ DPR=Math.min(window.devicePixelRatio||1,2); W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   function seed(){
     blobs=[]; var pal=[[92,44,18],[150,84,34],[207,138,67],[70,30,12],[234,177,115]];
-    for(var i=0;i<6;i++){ var c=pal[i%pal.length]; blobs.push({x:Math.random(),y:Math.random(),r:(Math.random()*.28+.24),
-      vx:(Math.random()-.5)*.00016,vy:(Math.random()-.5)*.00016,c:c,ph:Math.random()*6.283}); }
-    dust=[]; var n=innerWidth<640?36:70;
-    for(var j=0;j<n;j++) dust.push({x:Math.random()*W,y:Math.random()*H,z:Math.random(),r:(Math.random()*1.5+.4)*DPR,s:(Math.random()*.3+.05)*DPR,o:Math.random()*.5+.15,d:Math.random()*6.283});
+    for(var i=0;i<8;i++){ var c=pal[i%pal.length]; blobs.push({x:Math.random(),y:Math.random(),r:(Math.random()*.3+.24),
+      vx:(Math.random()-.5)*.00052,vy:(Math.random()-.5)*.00052,c:c,ph:Math.random()*6.283}); }
+    dust=[]; var n=innerWidth<640?44:90;
+    for(var j=0;j<n;j++) dust.push({x:Math.random()*W,y:Math.random()*H,z:Math.random(),r:(Math.random()*1.6+.4)*DPR,s:(Math.random()*.5+.09)*DPR,o:Math.random()*.55+.15,d:Math.random()*6.283});
   }
   function draw(){
     tmx+=(mx-tmx)*.05; tmy+=(my-tmy)*.05;
     ctx.globalCompositeOperation='source-over'; ctx.fillStyle='rgba(13,7,5,1)'; ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='lighter';
-    var t=(sY*0.0002);
+    var t=(sY*0.00045), nowp=performance.now();
     for(var i=0;i<blobs.length;i++){ var b=blobs[i]; b.x+=b.vx; b.y+=b.vy;
       if(b.x<-.2)b.x=1.2; if(b.x>1.2)b.x=-.2; if(b.y<-.2)b.y=1.2; if(b.y>1.2)b.y=-.2;
-      var ox=(tmx-.5)*.06*(i%2?1:-1), oy=(tmy-.5)*.06*(i%2?-1:1);
-      var cx=(b.x+ox)*W, cy=(b.y+oy - t)*H, rr=b.r*Math.min(W,H)*(1+.06*Math.sin(b.ph+performance.now()*.0003));
+      var ox=(tmx-.5)*.14*(i%2?1:-1), oy=(tmy-.5)*.14*(i%2?-1:1);
+      var wob=Math.sin(b.ph+nowp*.00035)*.03;
+      var cx=(b.x+ox+wob)*W, cy=(b.y+oy - t + Math.cos(b.ph+nowp*.0003)*.02)*H, rr=b.r*Math.min(W,H)*(1+.12*Math.sin(b.ph+nowp*.0006));
       var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);
-      g.addColorStop(0,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0.16)'); g.addColorStop(1,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0)');
+      g.addColorStop(0,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0.2)'); g.addColorStop(1,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0)');
       ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.283); ctx.fill(); }
     for(var k=0;k<dust.length;k++){ var p=dust[k]; p.y-=p.s; p.x+=Math.sin(p.d+p.y*.004)*.16*DPR; if(p.y<-6){ p.y=H+6; p.x=Math.random()*W; }
       var py=((p.y - sY*DPR*p.z*.4)%(H+40)+(H+40))%(H+40);
