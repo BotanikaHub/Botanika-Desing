@@ -39,10 +39,13 @@
 - **Preço:** R$ 99,40 à vista (3× de R$ 33,13) · cupom `BOTANIKA` 5% OFF em todos os kits (não há 10%) · frete grátis real só > R$ 349
   - Kit 1 pote R$ 99,40 → c/ cupom R$ 94,43 · Kit 2 potes R$ 198,80 → R$ 188,86 · Kit 3 potes R$ 298,20 → R$ 283,29 (R$ 94,43/pote)
 - **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten · 1 cápsula/dia
-- **Identidade:** **"Fio de Seda"** — ameixa/vinho profundo escuro + rosé-gold + champagne · fundo canvas "Seda Líquida" (blobs líquidos + filamentos de seda luminosos + poeira nacarada, reage ao mouse/scroll) · **Bodoni Moda + Familjen Grotesk**
-- **Assets:** `hair-rotulo.png` (pote navy transparente, herói flutuante) · `hair-caixa.png` (caixa+pote na solução)
-- **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter com hero quente
-- **Status:** ✅ refeita (identidade própria, distinta do Ômega)
+- **Identidade:** **"Fio de Seda"** — ameixa/vinho profundo escuro + rosé-gold + champagne · **Bodoni Moda + Familjen Grotesk**
+- **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, mesmo pipeline do Ômega — "cabelo/tecido fluindo" do kit 07) com bloom, motes nacarados e repel do ponteiro; **fallback 2D "Seda Líquida"** (canvas) se o WebGL falhar
+- **Imagens (Higgsfield):** editorial (mulher cabelo luminoso 16:9+9:16), cápsulas/ingredientes, macro de fios de seda (band divider), flatlay com o pote — via CDN cloudfront (⚠️ não puderam ser conferidas visualmente no sandbox; validar no preview)
+- **Assets locais:** `hair-rotulo.png` (pote navy transparente, herói) · `hair-caixa.png`
+- **Estrutura:** 12 seções (hero, dor, band, solução, ingredientes, benefícios, ritual, para quem, depoimentos, garantia, oferta, FAQ, escassez) + header, WhatsApp, barra mobile
+- **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter
+- **Status:** ✅ reconstruída v2 (WebGL, imagens editoriais, distinta do Ômega)
 
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
