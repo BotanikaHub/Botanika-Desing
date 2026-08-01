@@ -1,385 +1,297 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#04091c">
+<meta name="theme-color" content="#140b07">
 <title>Whey Balance Chocolate — Proteína limpa com colágeno C-PURE® | Botanika</title>
 <meta name="description" content="Whey concentrado + colágeno C-PURE®. 23 g de proteína por porção, adoçado naturalmente, sem açúcar, sem corantes e sem glúten. Força e tônus de verdade — sabor chocolate.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23081a44'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23e8b64c'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c1109'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23eab173'%3EB%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
 <style>
 /* ============================================================
    BOTANIKA — WHEY BALANCE CHOCOLATE
-   Identidade própria: "Azul Royal & Cacau Dourado"
+   Identidade própria: "Cacau Fundido" (espresso + cobre/caramelo + creme)
    ============================================================ */
 :root{
-  --royal-deep:#04091c;
-  --royal:#0a1f4d;
-  --royal-2:#123a8a;
-  --blue-glow:#2f6bff;
-  --gold:#e8b64c;
-  --gold-soft:#f2cf7a;
-  --cacao:#6b4327;
-  --text:#eaf0ff;
-  --muted:rgba(213,224,255,.66);
-  --glass-bg:rgba(255,255,255,.05);
-  --glass-border:rgba(255,255,255,.12);
-  --maxw:1160px;
-  --ease:cubic-bezier(.2,.7,.2,1);
-  --feather:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%),linear-gradient(180deg,transparent 0,#000 8%,#000 92%,transparent 100%);
+  --bg:#140b07; --bg2:#0d0705; --panel:#1c1109;
+  --copper:#cf8a43; --caramel:#eab173; --cream:#f3e7d6;
+  --text:#f3e7d6; --muted:rgba(243,231,214,.62);
+  --glass:rgba(255,240,220,.045); --line:rgba(234,177,115,.15);
+  --grad:linear-gradient(120deg,var(--copper),var(--caramel));
+  --head:'Cormorant Garamond',Georgia,serif; --body:'Hanken Grotesk',system-ui,sans-serif;
+  --maxw:1160px; --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
 html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  margin:0;overflow-x:hidden;
-  background:var(--royal-deep);color:var(--text);
-  font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  font-size:17px;line-height:1.6;letter-spacing:.1px;
-  -webkit-font-smoothing:antialiased;
-}
+body{margin:0;overflow-x:hidden;background:var(--bg2);color:var(--text);
+  font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 img,video{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:800;line-height:1.08;margin:0}
-.gold{color:var(--gold)}
+h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.02;margin:0;letter-spacing:.2px}
+.gold{color:var(--caramel)}
 .tnum{font-variant-numeric:tabular-nums}
 
 /* ---------- fundo assinatura ---------- */
-#bg-canvas{position:fixed;inset:0;z-index:-2;width:100%;height:100%;display:block}
-.bg-veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
+#bg{position:fixed;inset:0;z-index:-2;width:100%;height:100%;display:block}
+.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(1200px 800px at 78% -8%, rgba(47,107,255,.20), transparent 60%),
-    radial-gradient(900px 700px at 8% 12%, rgba(232,182,76,.08), transparent 55%),
-    radial-gradient(1000px 1000px at 50% 120%, rgba(10,31,77,.55), transparent 60%),
-    linear-gradient(180deg, rgba(4,9,28,.2), rgba(4,9,28,.86));
-}
+    radial-gradient(1100px 760px at 80% -6%, rgba(207,138,67,.18), transparent 60%),
+    radial-gradient(900px 700px at 6% 10%, rgba(120,60,20,.22), transparent 58%),
+    radial-gradient(1000px 1000px at 50% 122%, rgba(8,4,2,.6), transparent 60%),
+    linear-gradient(180deg, rgba(10,6,3,.1), rgba(10,6,3,.82))}
 
 /* ---------- layout ---------- */
-.section{position:relative;max-width:var(--maxw);margin:0 auto;padding:96px 22px}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:12.5px;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-h2.title{font-size:clamp(30px,5vw,50px);letter-spacing:-.5px}
-.lead{color:var(--muted);max-width:60ch;margin:16px 0 0;font-size:clamp(15px,2vw,18px)}
+.section{position:relative;max-width:var(--maxw);margin:0 auto;padding:104px 22px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:700;
+  font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--caramel);margin-bottom:14px}
+.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--caramel),transparent)}
+h2.title{font-size:clamp(34px,5.6vw,60px);font-weight:600;line-height:1.02}
+.title em{font-style:italic;color:var(--caramel)}
+.lead{color:var(--muted);max-width:58ch;margin:16px 0 0;font-size:clamp(15px,2vw,18px);font-family:var(--body)}
 .center{text-align:center}
 .center .eyebrow::before{display:none}
 .center .lead{margin-left:auto;margin-right:auto}
 
 /* ---------- header ---------- */
 header{position:fixed;top:0;left:0;right:0;z-index:60;transition:.4s var(--ease)}
-header.scrolled{background:rgba(4,9,28,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--glass-border)}
+header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav{max-width:var(--maxw);margin:0 auto;padding:15px 22px;display:flex;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
-.brand .b{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#081a44;
-  font-family:'Playfair Display',serif;font-weight:900;font-size:20px;box-shadow:0 6px 20px rgba(232,182,76,.3)}
-.brand small{display:block;font-size:10.5px;letter-spacing:.22em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--body);font-weight:800}
+.brand .b{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);
+  color:#1a0f07;font-family:var(--head);font-weight:700;font-size:22px;box-shadow:0 6px 20px rgba(207,138,67,.34)}
+.brand small{display:block;font-size:10px;letter-spacing:.24em;color:var(--muted);font-weight:700;text-transform:uppercase}
 .nav-links{margin-left:auto;display:flex;gap:26px;align-items:center}
-.nav-links a{font-size:14px;color:var(--muted);font-weight:600;transition:.25s}
-.nav-links a:hover{color:var(--text)}
+.nav-links a{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:600;transition:.25s}
+.nav-links a:hover{color:var(--cream)}
 @media(max-width:820px){.nav-links a:not(.btn){display:none}}
 
 /* ---------- botões ---------- */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font-family:'Manrope';font-weight:800;font-size:15px;padding:14px 26px;border-radius:100px;
-  cursor:pointer;border:0;transition:transform .3s var(--ease),box-shadow .3s var(--ease);white-space:nowrap}
-.btn-buy{background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#0a1024;
-  box-shadow:0 10px 30px rgba(232,182,76,.32)}
-.btn-buy:hover{box-shadow:0 16px 42px rgba(232,182,76,.5)}
-.btn-ghost{background:var(--glass-bg);color:var(--text);border:1px solid var(--glass-border)}
-.btn-ghost:hover{border-color:rgba(232,182,76,.5)}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);
+  font-weight:800;font-size:15px;padding:14px 26px;border-radius:100px;cursor:pointer;border:0;white-space:nowrap;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.btn-buy{background:var(--grad);color:#1a0f07;box-shadow:0 10px 30px rgba(207,138,67,.34)}
+.btn-buy:hover{box-shadow:0 16px 44px rgba(234,177,115,.5)}
+.btn-ghost{background:var(--glass);color:var(--cream);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:rgba(234,177,115,.5)}
 .btn-lg{padding:17px 34px;font-size:16px}
 
 /* ---------- hero ---------- */
-.hero{position:relative;padding-top:132px;padding-bottom:60px;max-width:var(--maxw);margin:0 auto;
-  display:grid;grid-template-columns:1.05fr .95fr;gap:38px;align-items:center}
+.hero{position:relative;padding-top:140px;padding-bottom:40px;max-width:var(--maxw);margin:0 auto;
+  display:grid;grid-template-columns:1.02fr .98fr;gap:34px;align-items:center}
 .hero-copy{padding:0 22px}
-.hero h1{font-size:clamp(38px,6.4vw,68px);letter-spacing:-1.4px;margin-top:10px}
-.hero .sub{color:var(--muted);font-size:clamp(16px,2.2vw,19px);margin:20px 0 0;max-width:52ch}
-.hero-stats{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 32px}
-.stat{flex:1;min-width:120px;background:var(--glass-bg);border:1px solid var(--glass-border);
-  border-radius:16px;padding:16px 18px;backdrop-filter:blur(6px)}
-.stat b{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);display:block;line-height:1}
-.stat span{font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.hero h1{font-size:clamp(46px,7.4vw,86px);line-height:.98;letter-spacing:.3px;margin-top:8px}
+.hero .sub{color:var(--muted);font-size:clamp(16px,2.2vw,19px);margin:20px 0 0;max-width:50ch;font-family:var(--body)}
+.hero-stats{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 30px}
+.stat{flex:1;min-width:120px;background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.stat b{font-family:var(--head);font-size:34px;font-weight:700;color:var(--caramel);display:block;line-height:1}
+.stat span{font-size:12.5px;color:var(--muted)}
 .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.price-hint{font-size:13.5px;color:var(--muted)}
-.price-hint b{color:var(--text);font-size:16px}
-.hero-media{position:relative;padding:0 22px;display:flex;align-items:center;justify-content:center;min-height:min(56vw,520px)}
-.orbit,.levit{position:relative;width:min(100%,480px);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}
-.orbit-prod{position:relative;z-index:2;width:66%;height:auto;
-  filter:drop-shadow(0 46px 55px rgba(0,0,0,.55)) drop-shadow(0 12px 22px rgba(0,0,0,.45))}
-.orbit .orbit-prod{animation:floatY 6s ease-in-out infinite}
-.levit .orbit-prod{width:62%;animation:sway 8s ease-in-out infinite}
-.orbit-ring{position:absolute;inset:0;z-index:1;animation:spin 26s linear infinite}
-.chip{position:absolute;transform:translate(-50%,-50%);will-change:transform}
-.chip img{width:100%;display:block;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
-.orbit-ring .chip{width:16%}
-.orbit-ring .c1{left:50%;top:4%}.orbit-ring .c2{left:93%;top:36%}.orbit-ring .c3{left:77%;top:87%}
-.orbit-ring .c4{left:23%;top:87%}.orbit-ring .c5{left:7%;top:36%}
-.levit .chip{width:16%}
-.levit .lc1{left:17%;top:18%}.levit .lc2{left:83%;top:27%}.levit .lc3{left:27%;top:82%}
-.levit .lc1 img{animation:floatY 5s ease-in-out infinite}
-.levit .lc2 img{animation:floatY 6.4s ease-in-out .4s infinite}
-.levit .lc3 img{animation:floatY 5.8s ease-in-out .8s infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes floatY{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.03)}}
-@keyframes sway{0%,100%{transform:translateY(0) rotate(-1.6deg)}50%{transform:translateY(-9px) rotate(1.6deg)}}
-@media(prefers-reduced-motion:reduce){.orbit-ring,.orbit-prod,.levit .chip img{animation:none}}
-.hero-badge{position:absolute;left:-8px;bottom:18px;background:rgba(6,18,47,.86);backdrop-filter:blur(8px);
-  border:1px solid var(--glass-border);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center;
-  box-shadow:0 14px 34px rgba(3,8,26,.6)}
-.hero-badge .dot{width:9px;height:9px;border-radius:50%;background:#39d98a;box-shadow:0 0 10px #39d98a}
-.hero-badge small{font-size:12px;color:var(--muted);display:block;margin-top:2px}
-.hero-badge b{font-size:13px;display:block}
+.price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
+.price-hint b{color:var(--cream);font-size:16px}
+/* pote flutuante */
+.stage{position:relative;display:grid;place-items:center;min-height:min(60vw,560px);padding:0 22px}
+.stage::before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(234,177,115,.32),rgba(207,138,67,.10) 45%,transparent 70%);filter:blur(10px)}
+.pote{position:relative;z-index:2;width:min(80%,430px);height:auto;
+  filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
+  animation:floaty 7s ease-in-out infinite;will-change:transform}
+.choco{position:absolute;z-index:1;width:20%;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55));will-change:transform}
+.choco.k1{top:8%;left:6%;animation:floaty 5.4s ease-in-out infinite}
+.choco.k2{top:16%;right:2%;width:16%;animation:floaty 6.6s ease-in-out .5s infinite}
+.choco.k3{bottom:12%;left:12%;width:14%;animation:floaty 5.8s ease-in-out .9s infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center}
+.hero-badge .dot{width:9px;height:9px;border-radius:50%;background:#7ad19a;box-shadow:0 0 10px #7ad19a;flex:0 0 auto}
+.hero-badge b{font-size:13px;display:block;font-family:var(--body)}
+.hero-badge small{font-size:12px;color:var(--muted);display:block}
+@media(prefers-reduced-motion:reduce){.pote,.choco{animation:none}}
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding-top:104px;gap:20px}
-  .hero-media{padding:0 22px;min-height:auto;order:-1}
-  .float-prod{width:min(62%,300px)}
-  .hero-copy{padding:0 22px}
+  .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
+  .stage{order:-1;min-height:auto;padding:8px 22px}
+  .pote{width:min(58%,280px)}
 }
 
-/* ---------- media block genérico ---------- */
-.media-frame{position:relative;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.07);
-  box-shadow:0 34px 80px -26px rgba(0,0,0,.7)}
-.media-frame::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 70px rgba(4,9,28,.5)}
-.media-frame img,.media-frame video{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.05);will-change:transform}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-.split.rev .media-frame{order:-1}
-@media(max-width:860px){.split{grid-template-columns:1fr;gap:26px}.split.rev .media-frame{order:0}}
+/* ---------- mídia em card ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}
+.split.rev .shot{order:-1}
+@media(max-width:860px){.split{grid-template-columns:1fr;gap:26px}.split.rev .shot{order:0}}
+.shot{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 40px 90px -34px rgba(0,0,0,.8)}
+.shot::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 80px rgba(8,4,2,.5)}
+.shot img{width:100%;height:auto;display:block}
 
 /* ---------- cards ---------- */
-.grid{display:grid;gap:18px;margin-top:40px}
-.g2{grid-template-columns:repeat(2,1fr)}
+.grid{display:grid;gap:18px;margin-top:42px}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
 @media(max-width:860px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.g2,.g3,.g4{grid-template-columns:1fr}}
-
-.card{position:relative;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:18px;
-  padding:26px 22px;overflow:hidden;transform-style:preserve-3d;transition:border-color .4s,box-shadow .4s}
+@media(max-width:560px){.g3,.g4{grid-template-columns:1fr}}
+.card{position:relative;background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:28px 22px;
+  overflow:hidden;transform-style:preserve-3d;transition:border-color .4s,box-shadow .4s}
 .card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;pointer-events:none;
-  background:radial-gradient(340px 240px at var(--mx,50%) var(--my,0%),rgba(232,182,76,.16),transparent 60%)}
+  background:radial-gradient(340px 240px at var(--mx,50%) var(--my,0%),rgba(234,177,115,.18),transparent 60%)}
 .card:hover::before{opacity:1}
-.card:hover{border-color:rgba(232,182,76,.42);box-shadow:0 22px 50px rgba(3,8,26,.55)}
-.card .wm{position:absolute;right:14px;bottom:2px;font-family:'Playfair Display',serif;font-weight:900;
-  font-size:92px;line-height:1;color:rgba(232,182,76,.10);transition:.4s;pointer-events:none}
-.card:hover .wm{color:rgba(232,182,76,.2)}
-.ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));box-shadow:0 8px 20px rgba(232,182,76,.28)}
-.ico svg{width:24px;height:24px;stroke:#0a1024;stroke-width:2;fill:none}
-.card h3{font-family:'Manrope';font-weight:800;font-size:18px;margin:0 0 7px}
+.card:hover{border-color:rgba(234,177,115,.42);box-shadow:0 24px 54px rgba(0,0,0,.5)}
+.card .wm{position:absolute;right:14px;bottom:0;font-family:var(--head);font-weight:700;font-size:96px;line-height:1;
+  color:rgba(234,177,115,.1);transition:.4s;pointer-events:none}
+.card:hover .wm{color:rgba(234,177,115,.2)}
+.ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;background:var(--grad);
+  box-shadow:0 8px 20px rgba(207,138,67,.3)}
+.ico svg{width:25px;height:25px;stroke:#1a0f07;stroke-width:2;fill:none}
+.card h3{font-family:var(--body);font-weight:800;font-size:18px;margin:0 0 7px}
 .card p{margin:0;color:var(--muted);font-size:14.5px;position:relative}
 
 /* checklist */
-.checks{display:grid;gap:14px;margin-top:30px}
-.check{display:flex;gap:14px;align-items:flex-start;background:var(--glass-bg);border:1px solid var(--glass-border);
-  border-radius:14px;padding:16px 18px}
-.check .tick{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft))}
-.check .tick svg{width:15px;height:15px;stroke:#0a1024;stroke-width:2.6;fill:none}
+.checks{display:grid;gap:14px;margin-top:28px}
+.check{display:flex;gap:14px;align-items:flex-start;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:15px 18px}
+.check .tk{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--grad)}
+.check .tk svg{width:15px;height:15px;stroke:#1a0f07;stroke-width:2.6;fill:none}
 .check b{font-weight:700}.check span{color:var(--muted);font-size:14.5px}
 
-/* selos garantia */
+/* selos */
 .seals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
 @media(max-width:640px){.seals{grid-template-columns:repeat(2,1fr)}}
-.seal{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;padding:20px 16px;text-align:center}
-.seal .ico{margin:0 auto 12px}
-.seal b{display:block;font-size:14px}.seal small{color:var(--muted);font-size:12px}
+.seal{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center}
+.seal .ico{margin:0 auto 12px}.seal b{display:block;font-size:14px;font-family:var(--body)}.seal small{color:var(--muted);font-size:12px}
 
 /* depoimentos */
-.quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
-@media(max-width:720px){.quotes{grid-template-columns:1fr}}
-.quote{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:18px;padding:24px}
-.stars{color:var(--gold);letter-spacing:3px;font-size:15px}
-.quote p{margin:12px 0 16px;font-size:15.5px}
-.quote .who{display:flex;align-items:center;gap:11px}
-.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--royal-2),var(--blue-glow));
-  display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
-.quote .who b{font-size:14px}.quote .who small{color:var(--muted);font-size:12px;display:block}
-.quote.featured{background:rgba(232,182,76,.06);border-color:rgba(232,182,76,.32)}
-.quote.featured p{font-size:clamp(16px,2.4vw,20px);font-family:'Playfair Display',serif;font-style:italic;line-height:1.42}
+.quote{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:26px}
+.stars{color:var(--caramel);letter-spacing:3px;font-size:15px}
+.quote p{margin:12px 0 16px;font-size:clamp(16px,2.3vw,20px);font-family:var(--head);font-style:italic;line-height:1.4}
+.who{display:flex;align-items:center;gap:11px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#1a0f07;font-family:var(--body)}
+.who b{font-size:14px;font-family:var(--body)}.who small{color:var(--muted);font-size:12px;display:block}
 .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px auto 0;max-width:840px}
 @media(max-width:640px){.proof-grid{grid-template-columns:1fr 1fr}}
-.proof{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--glass-border);background:#06122f;box-shadow:0 14px 34px rgba(3,8,26,.5);transition:transform .35s var(--ease),border-color .35s}
-.proof:hover{transform:translateY(-5px);border-color:rgba(232,182,76,.45)}
+.proof{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#0d0705;
+  box-shadow:0 16px 34px rgba(0,0,0,.5);transition:transform .35s var(--ease),border-color .35s}
+.proof:hover{transform:translateY(-5px);border-color:rgba(234,177,115,.45)}
 .proof img{width:100%;height:100%;object-fit:cover;aspect-ratio:9/16;display:block}
 
 /* oferta */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
-@media(max-width:860px){.plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}}
-.plan{position:relative;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:20px;
-  padding:26px 22px;cursor:pointer;transition:.35s var(--ease);text-align:center}
-.plan:hover{transform:translateY(-4px);border-color:rgba(232,182,76,.4)}
-.plan.active{border-color:var(--gold);box-shadow:0 20px 50px rgba(232,182,76,.18);background:rgba(232,182,76,.06)}
-.plan .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold-soft));
-  color:#0a1024;font-size:11.5px;font-weight:800;padding:5px 14px;border-radius:100px;letter-spacing:.03em;white-space:nowrap}
-.plan h3{font-family:'Manrope';font-weight:800;font-size:19px}
-.plan .qt{color:var(--muted);font-size:13px;margin-top:3px}
-.plan .big{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);margin:14px 0 2px}
-.plan .per{font-size:12.5px;color:var(--muted)}
-.plan .save{margin-top:10px;font-size:12.5px;font-weight:700;color:#39d98a}
-.plan .radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--glass-border);margin:16px auto 0;transition:.3s}
-.plan.active .radio{border-color:var(--gold);background:radial-gradient(circle at 50% 50%,var(--gold) 0 42%,transparent 46%)}
-.offer-cta{margin-top:26px;text-align:center}
-.trust-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-.chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass-bg);border:1px solid var(--glass-border);
-  border-radius:100px;padding:9px 15px;font-size:13px;color:var(--muted);cursor:pointer;transition:.25s}
-.chip:hover{border-color:rgba(232,182,76,.5);color:var(--text)}
-.chip b{color:var(--gold)}
+.toggle{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:5px;margin-top:30px;gap:4px}
+.toggle button{font-family:var(--body);font-weight:700;font-size:14px;color:var(--muted);background:transparent;border:0;
+  padding:11px 22px;border-radius:100px;cursor:pointer;transition:.3s}
+.toggle button.on{background:var(--grad);color:#1a0f07}
+.offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
+  border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+.offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
+.offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:8px 0 2px}
+.offer-panel .per{font-size:13px;color:var(--muted)}
+.offer-panel .save{margin-top:8px;font-size:13px;font-weight:700;color:#7ad19a}
+.offer-panel .btn{margin-top:20px;width:100%}
+.trust-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:100px;
+  padding:9px 15px;font-size:13px;color:var(--muted);cursor:pointer;transition:.25s;font-family:var(--body)}
+.chip:hover{border-color:rgba(234,177,115,.5);color:var(--cream)}.chip b{color:var(--caramel)}
 
 /* faq */
-.faq{max-width:820px;margin:34px auto 0}
-details{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;margin-bottom:12px;overflow:hidden}
-summary{list-style:none;cursor:pointer;padding:19px 22px;font-weight:700;font-size:16px;display:flex;
-  justify-content:space-between;align-items:center;gap:14px}
+.faq{max-width:820px;margin:36px auto 0}
+details{background:var(--glass);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+summary{list-style:none;cursor:pointer;padding:19px 22px;font-family:var(--body);font-weight:700;font-size:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px}
 summary::-webkit-details-marker{display:none}
-summary .plus{flex:0 0 auto;width:24px;height:24px;position:relative;transition:.3s}
-summary .plus::before,summary .plus::after{content:"";position:absolute;background:var(--gold);border-radius:2px}
-summary .plus::before{top:11px;left:4px;right:4px;height:2px}
-summary .plus::after{left:11px;top:4px;bottom:4px;width:2px;transition:.3s}
-details[open] summary .plus::after{transform:scaleY(0)}
-details[open] summary .plus{transform:rotate(90deg)}
-.faq-a{padding:0 22px 20px;color:var(--muted);font-size:15px}
+summary .pl{flex:0 0 auto;width:24px;height:24px;position:relative;transition:.3s}
+summary .pl::before,summary .pl::after{content:"";position:absolute;background:var(--caramel);border-radius:2px}
+summary .pl::before{top:11px;left:4px;right:4px;height:2px}
+summary .pl::after{left:11px;top:4px;bottom:4px;width:2px;transition:.3s}
+details[open] summary .pl::after{transform:scaleY(0)}
+details[open] summary .pl{transform:rotate(90deg)}
+.faq-a{padding:0 22px 20px;color:var(--muted);font-size:15px;font-family:var(--body)}
 
 /* escassez */
-.scarcity{position:relative;overflow:hidden;border-radius:24px;border:1px solid rgba(232,182,76,.28);
-  background:linear-gradient(135deg,rgba(10,31,77,.6),rgba(6,18,47,.4));padding:0}
-.scarcity .inner{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch}
+.scarcity{position:relative;overflow:hidden;border-radius:24px;border:1px solid rgba(234,177,115,.28);
+  background:linear-gradient(135deg,rgba(40,20,10,.7),rgba(20,11,7,.5))}
+.scarcity .inner{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
 @media(max-width:820px){.scarcity .inner{grid-template-columns:1fr}}
-.scarcity .txt{padding:44px 38px}
-.scarcity .media-frame{border:0;border-radius:0;box-shadow:none;min-height:100%;-webkit-mask-image:none;mask-image:none;filter:none}
-.scarcity .media-frame img{transform:none}
-.scarcity .media-frame img{height:100%}
+.scarcity .txt{padding:46px 40px}
+.scarcity .shot{border:0;border-radius:0;box-shadow:none}.scarcity .shot img{height:100%;object-fit:cover}
 .countdown{display:flex;gap:12px;margin:24px 0 26px}
-.cd{background:rgba(4,9,28,.6);border:1px solid var(--glass-border);border-radius:14px;padding:12px 8px;text-align:center;min-width:66px}
-.cd b{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);display:block;line-height:1}
+.cd{background:rgba(10,6,3,.6);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;min-width:66px}
+.cd b{font-family:var(--head);font-size:34px;font-weight:700;color:var(--caramel);display:block;line-height:1}
 .cd span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 
 /* rodapé */
-footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(4,9,28,.6)}
+footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(10,6,3,.6)}
 .foot{max-width:var(--maxw);margin:0 auto;padding:54px 22px 30px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}
 @media(max-width:760px){.foot{grid-template-columns:1fr;gap:26px}}
-.foot h4{font-family:'Manrope';font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-.foot a,.foot p{color:var(--muted);font-size:14px;margin:0 0 9px}
-.foot a:hover{color:var(--text)}
+.foot h4{font-family:var(--body);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--caramel);margin:0 0 14px}
+.foot a,.foot p{color:var(--muted);font-size:14px;margin:0 0 9px;font-family:var(--body)}
+.foot a:hover{color:var(--cream)}
 .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.pay span{font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--muted);border:1px solid var(--glass-border);
-  border-radius:6px;padding:5px 8px;background:var(--glass-bg)}
-.legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 40px;color:rgba(213,224,255,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--glass-border)}
+.pay span{font-size:10.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:var(--glass);font-family:var(--body)}
+.legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 110px;color:rgba(243,231,214,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--line);font-family:var(--body)}
+@media(min-width:861px){.legal{padding-bottom:40px}}
 
-/* whatsapp float */
-.wa{position:fixed;right:18px;bottom:18px;z-index:70;width:56px;height:56px;border-radius:50%;
-  background:#25d366;display:grid;place-items:center;box-shadow:0 12px 30px rgba(37,211,102,.45);transition:.3s}
-.wa:hover{transform:scale(1.07)}
-.wa svg{width:30px;height:30px;fill:#fff}
+/* whatsapp + barra mobile + progresso + toast */
+.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:54px;height:54px;border-radius:50%;background:#25d366;
+  display:grid;place-items:center;box-shadow:0 12px 30px rgba(37,211,102,.45);transition:.3s}
+.wa:hover{transform:scale(1.07)}.wa svg{width:29px;height:29px;fill:#fff}
+@media(min-width:861px){.wa{bottom:18px}}
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:75;display:none;align-items:center;gap:12px;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(13,7,5,.92);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line)}
+.buybar .p{font-family:var(--body)}.buybar .p b{color:var(--caramel);font-family:var(--head);font-size:20px}
+.buybar .p small{display:block;color:var(--muted);font-size:11px}
+.buybar .btn{margin-left:auto}
+@media(max-width:860px){.buybar{display:flex}}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;background:var(--grad);box-shadow:0 0 12px rgba(234,177,115,.5)}
+.toast{position:fixed;left:50%;bottom:96px;z-index:90;transform:translateX(-50%) translateY(20px);background:var(--caramel);
+  color:#1a0f07;font-weight:800;font-size:14px;padding:12px 22px;border-radius:100px;opacity:0;pointer-events:none;
+  transition:.35s var(--ease);box-shadow:0 12px 30px rgba(234,177,115,.4);font-family:var(--body)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* reveal */
+/* reveal + letras */
 .reveal{opacity:0;transform:translateY(38px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.visible{opacity:1;transform:none}
 .stagger>*{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .stagger.visible>*{opacity:1;transform:none}
-.stagger.visible>*:nth-child(2){transition-delay:.08s}
-.stagger.visible>*:nth-child(3){transition-delay:.16s}
-.stagger.visible>*:nth-child(4){transition-delay:.24s}
-.stagger.visible>*:nth-child(5){transition-delay:.32s}
+.stagger.visible>*:nth-child(2){transition-delay:.08s}.stagger.visible>*:nth-child(3){transition-delay:.16s}
+.stagger.visible>*:nth-child(4){transition-delay:.24s}.stagger.visible>*:nth-child(5){transition-delay:.32s}
 .stagger.visible>*:nth-child(6){transition-delay:.4s}
-@media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1!important;transform:none!important;transition:none}}
-
-.toast{position:fixed;left:50%;bottom:26px;z-index:90;
-  transform:translateX(-50%) translateY(20px);background:var(--gold);color:#0a1024;font-weight:800;font-size:14px;
-  padding:12px 22px;border-radius:100px;opacity:0;pointer-events:none;transition:.35s var(--ease);box-shadow:0 12px 30px rgba(232,182,76,.4)}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ---------- palco 3D (model-viewer) ---------- */
-.hero-shot{width:100%;max-width:560px;margin-inline:auto;border-radius:22px;overflow:hidden;
-  border:1px solid rgba(255,255,255,.07);box-shadow:0 40px 90px -30px rgba(0,0,0,.72)}
-.hero-shot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 80px rgba(4,9,28,.45)}
-.hero-shot{position:relative}
-.hero-shot img{width:100%;height:auto;display:block}
-
-/* ---------- barra de progresso ---------- */
-.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;
-  background:linear-gradient(90deg,var(--gold),var(--gold-soft));box-shadow:0 0 12px rgba(232,182,76,.55)}
-
-/* ---------- tilt do produto seguindo o cursor ---------- */
-.orbit,.levit{transition:transform .25s ease-out;transform-style:preserve-3d}
-
-/* ---------- reveal por letra (blur-up) ---------- */
 .word{display:inline-block;white-space:nowrap}
-.ch{display:inline-block;opacity:0;transform:translateY(26px);filter:blur(10px);
+.ch{display:inline-block;opacity:0;transform:translateY(28px);filter:blur(10px);
   transition:opacity .55s var(--ease),transform .55s var(--ease),filter .55s var(--ease)}
 .lit .ch{opacity:1;transform:none;filter:none}
-h2.title.reveal{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.ch{opacity:1!important;transform:none!important;filter:none!important}}
+h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1!important;transform:none!important}.ch{opacity:1!important;transform:none!important;filter:none!important}}
 
-/* ---------- responsivo (tablet/mobile) ---------- */
-@media(max-width:760px){
-  .section{padding:70px 18px}
-  h2.title{font-size:clamp(26px,6.4vw,38px)}
-  .lead{font-size:15px}
-  .split{gap:22px}
-  .grid{gap:14px}
-  .card{padding:22px 18px}
-  .card .wm{font-size:74px}
-}
+/* responsivo */
+@media(max-width:760px){.section{padding:74px 18px}.card{padding:22px 18px}.card .wm{font-size:76px}}
 @media(max-width:600px){
-  body{font-size:16px}
-  .section{padding:58px 16px}
-  .hero{padding-top:96px}
-  .hero-copy{padding:0 16px}
-  .hero h1{font-size:clamp(32px,9.5vw,44px);letter-spacing:-1px}
-  .hero .sub{font-size:15px}
-  .wrap{padding:0 16px}
-  .nav{padding:11px 14px;gap:10px}
-  .brand span{font-size:15px}
-  .brand small{font-size:9px;letter-spacing:.16em}
-  .btn{padding:11px 16px;font-size:13.5px}
-  .btn-lg{padding:14px 22px;font-size:15px}
-  .hero-stats{gap:8px}
-  .stat{min-width:0;flex:1 1 28%;padding:12px 10px;border-radius:13px}
-  .stat b{font-size:20px}
-  .stat span{font-size:11px}
-  .hero-cta{gap:12px}
-  .float-prod{width:min(74%,270px)}
-  .quote.featured p{font-size:16px}
-  .cd{min-width:0;flex:1;padding:10px 4px}
-  .cd b{font-size:24px}
-  .scarcity .txt{padding:30px 22px}
-  .foot{gap:22px}
+  body{font-size:16px}.section{padding:60px 16px}.hero-copy{padding:0 16px}
+  .nav{padding:11px 14px}.btn{padding:12px 18px;font-size:14px}.btn-lg{padding:15px 24px}
+  .stat{min-width:0;flex:1 1 28%;padding:12px 10px}.stat b{font-size:26px}.stat span{font-size:11px}
+  .cd{min-width:0;flex:1;padding:10px 4px}.cd b{font-size:26px}.scarcity .txt{padding:30px 22px}
 }
-@media(max-width:380px){
-  .hero-stats{flex-direction:column}
-  .stat{flex:1 1 auto}
-}
+@media(max-width:380px){.hero-stats{flex-direction:column}.stat{flex:1 1 auto}}
 </style>
 
-<canvas id="bg-canvas" aria-hidden="true"></canvas>
-<div class="bg-veil" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-<!-- ============ HEADER ============ -->
 <header id="hdr">
   <div class="nav">
-    <a class="brand" href="#topo" aria-label="Botanika — início">
-      <span class="b">B</span>
-      <span>Botanika<small>Whey Balance</small></span>
-    </a>
+    <a class="brand" href="#topo" aria-label="Botanika — início"><span class="b">B</span><span>Botanika<small>Whey Balance</small></span></a>
     <nav class="nav-links">
       <a href="#beneficios">Benefícios</a>
       <a href="#depoimentos">Depoimentos</a>
       <a href="#oferta">Oferta</a>
-      <a class="btn btn-buy js-buy1" href="#oferta">Comprar agora</a>
+      <a class="btn btn-buy js-top" href="#oferta">Comprar agora</a>
     </nav>
   </div>
 </header>
-
-<div class="progress" id="progress" aria-hidden="true"></div>
 <a id="topo"></a>
 
-<!-- ============ 1 · HERO ============ -->
+<!-- 1 · HERO -->
 <section class="hero">
   <div class="hero-copy reveal">
     <span class="eyebrow">Whey Balance · Sabor Chocolate</span>
-    <h1>Proteína limpa que <span class="gold">não pesa</span>.</h1>
+    <h1>Proteína limpa que <em>não pesa</em>.</h1>
     <p class="sub">Whey concentrado <b>+ colágeno C‑PURE®</b>. 23 g de proteína por porção, adoçado naturalmente — <b>força e tônus</b> de verdade, com sabor de chocolate que você quer tomar todo dia.</p>
     <div class="hero-stats stagger">
       <div class="stat"><b class="num" data-target="23" data-suffix="g">23g</b><span>de proteína / porção</span></div>
@@ -387,238 +299,196 @@ h2.title.reveal{opacity:1;transform:none}
       <div class="stat"><b>C‑PURE®</b><span>colágeno hidrolisado</span></div>
     </div>
     <div class="hero-cta">
-      <a class="btn btn-buy btn-lg js-buy1" href="#oferta">Quero experimentar</a>
+      <a class="btn btn-buy btn-lg js-top" href="#oferta">Quero experimentar</a>
       <div class="price-hint">a partir de<br><b>3x R$ 49,10</b> <span class="tnum">· ou R$ 147,30</span></div>
     </div>
   </div>
-  <div class="hero-media reveal">
-    <div class="hero-shot">
-      <picture>
-        <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192027_89c5c16d-33c3-4cdd-aff5-b2a557aff54a.png">
-        <img loading="eager" alt="Whey Balance Chocolate — sabor chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_183215_894efd71-7b1c-4569-95f5-a449d4ca0e47.png">
-      </picture>
-    </div>
-    <div class="hero-badge">
-      <span class="dot"></span>
-      <div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div>
-    </div>
+  <div class="stage reveal">
+    <img class="choco k1" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png">
+    <img class="choco k2" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png">
+    <img class="choco k3" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png">
+    <img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_204204_ee99a334-f083-4c25-9d71-1750a8d549d5.png">
+    <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
 
-<!-- ============ 2 · DOR ============ -->
+<!-- 2 · DOR -->
 <section class="section" id="dor">
   <div class="split">
-    <div class="reveal">
-      <span class="eyebrow">O problema</span>
-      <h2 class="title">O whey de sempre <span class="gold">cansa</span>.</h2>
-      <p class="lead">Você quer proteína pra evoluir — mas esbarra sempre nas mesmas frustrações. E aí o pote fica parado no armário.</p>
-      <div class="grid g2 stagger" style="margin-top:28px">
+    <div>
+      <span class="eyebrow reveal">O problema</span>
+      <h2 class="title reveal">O whey de sempre <em>cansa</em>.</h2>
+      <p class="lead reveal">Você quer proteína pra evoluir — mas esbarra sempre nas mesmas frustrações. E aí o pote fica parado no armário.</p>
+      <div class="grid g3 stagger" style="margin-top:26px;grid-template-columns:1fr 1fr">
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg></div><h3>Gosto artificial</h3><p>Aquele sabor químico e enjoativo que não engana ninguém.</p><span class="wm">01</span></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8 13c2 2 6 2 8 0"/></svg></div><h3>Empelota e separa</h3><p>Textura arenosa, grudenta, difícil de dissolver.</p><span class="wm">02</span></div>
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8h14M5 16h14"/></svg></div><h3>Açúcar e corante</h3><p>Fórmula cheia de aditivos escondidos que você não pediu.</p><span class="wm">03</span></div>
-        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zM8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div><h3>Sensação pesada</h3><p>Termina o copo e vem o desconforto — nada leve.</p><span class="wm">04</span></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div><h3>Sensação pesada</h3><p>Termina o copo e vem o desconforto — nada leve.</p><span class="wm">04</span></div>
       </div>
     </div>
-    <div class="media-frame reveal">
-      <picture>
-        <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192030_8392d48e-f296-427d-899b-c9f2456bb3b2.png">
-        <img loading="lazy" alt="Shake de proteína comum, empelotado e sem graça" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190757_16ea08ec-d36d-4551-bc79-e4948f52d6ef.png">
-      </picture>
+    <div class="shot reveal">
+      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192030_8392d48e-f296-427d-899b-c9f2456bb3b2.png">
+      <img loading="lazy" alt="Shake de proteína comum, empelotado" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190757_16ea08ec-d36d-4551-bc79-e4948f52d6ef.png"></picture>
     </div>
   </div>
 </section>
 
-<!-- ============ 3 · SOLUÇÃO ============ -->
+<!-- 3 · SOLUÇÃO -->
 <section class="section" id="solucao">
   <div class="split rev">
-    <div class="reveal">
-      <span class="eyebrow">A solução</span>
-      <h2 class="title">Proteína <span class="gold">limpa</span>, sabor de verdade.</h2>
-      <p class="lead">O Whey Balance nasceu pra resolver isso: whey concentrado de qualidade unido ao colágeno C‑PURE®, num chocolate cremoso adoçado naturalmente. Simples, gostoso, todo dia.</p>
-      <div class="checks stagger" style="margin-top:26px">
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Whey concentrado</b> <span>— 23 g de proteína por porção.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Colágeno C‑PURE®</b> <span>— o diferencial: força + tônus.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Adoçado naturalmente</b> <span>— sem açúcar, sem corantes.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Não contém glúten</b> <span>— cremoso e leve de verdade.</span></div></div>
+    <div>
+      <span class="eyebrow reveal">A solução</span>
+      <h2 class="title reveal">Proteína <em>limpa</em>, sabor de verdade.</h2>
+      <p class="lead reveal">O Whey Balance nasceu pra resolver isso: whey concentrado de qualidade unido ao colágeno C‑PURE®, num chocolate cremoso adoçado naturalmente. Simples, gostoso, todo dia.</p>
+      <div class="checks stagger">
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Whey concentrado</b> <span>— 23 g de proteína por porção.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Colágeno C‑PURE®</b> <span>— o diferencial: força + tônus.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Adoçado naturalmente</b> <span>— sem açúcar, sem corantes.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Não contém glúten</b> <span>— cremoso e leve de verdade.</span></div></div>
       </div>
     </div>
-    <div class="reveal">
-      <div class="hero-shot">
-        <picture>
-          <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192033_2a2fcc0c-c51a-4c67-8fc4-9354ddefffc2.png">
-          <img loading="lazy" alt="Whey Balance Chocolate com shake cremoso" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184913_3ca6ac21-56aa-4cda-8fdf-070b506457cb.png">
-        </picture>
-      </div>
+    <div class="shot reveal">
+      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192033_2a2fcc0c-c51a-4c67-8fc4-9354ddefffc2.png">
+      <img loading="lazy" alt="Whey Balance Chocolate com shake cremoso" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184913_3ca6ac21-56aa-4cda-8fdf-070b506457cb.png"></picture>
     </div>
   </div>
 </section>
 
-<!-- ============ 4 · BENEFÍCIOS ============ -->
+<!-- 4 · BENEFÍCIOS -->
 <section class="section center" id="beneficios">
   <span class="eyebrow reveal">Benefícios</span>
-  <h2 class="title reveal">Força e <span class="gold">tônus</span> num só pote.</h2>
+  <h2 class="title reveal">Força e <em>tônus</em> num só pote.</h2>
   <p class="lead reveal">Mais que proteína: uma fórmula pensada pra quem cuida do corpo por inteiro — músculo, pele e rotina.</p>
   <div class="grid g4 stagger">
     <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M6 9v6M18 9v6M4 12h16M8 7v10M16 7v10"/></svg></div><h3>23 g de proteína</h3><p>Apoia a construção e a manutenção dos músculos.</p><span class="wm">01</span></div>
     <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3s6 4 6 9a6 6 0 11-12 0c0-5 6-9 6-9z"/></svg></div><h3>Colágeno C‑PURE®</h3><p>Força e tônus — o corpo que se cuida por inteiro.</p><span class="wm">02</span></div>
-    <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="9"/></svg></div><h3>Sem açúcar</h3><p>Adoçado naturalmente, sem corantes artificiais.</p><span class="wm">03</span></div>
+    <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M4 12h16M12 4v16"/></svg></div><h3>Sem açúcar</h3><p>Adoçado naturalmente, sem corantes artificiais.</p><span class="wm">03</span></div>
     <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3C7 8 7 13 12 21c5-8 5-13 0-18z"/></svg></div><h3>Sabor chocolate real</h3><p>Cremoso, gostoso — o whey que você quer tomar.</p><span class="wm">04</span></div>
   </div>
-  <div class="media-frame reveal" style="margin-top:38px;aspect-ratio:16/7">
-    <picture>
-      <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192037_1071e945-f27e-422b-80fd-2124ec23814d.png">
-      <img loading="lazy" alt="Whey Balance Chocolate com ingredientes" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184449_78dba052-0dbf-4eaa-8896-8251e3d34cfc.png">
-    </picture>
+  <div class="shot reveal" style="margin-top:42px">
+    <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192037_1071e945-f27e-422b-80fd-2124ec23814d.png">
+    <img loading="lazy" alt="Whey Balance Chocolate com ingredientes" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184449_78dba052-0dbf-4eaa-8896-8251e3d34cfc.png"></picture>
   </div>
 </section>
 
-<!-- ============ 5 · PARA QUEM É ============ -->
+<!-- 5 · PARA QUEM É -->
 <section class="section" id="paraquem">
   <div class="split">
-    <div class="reveal">
-      <span class="eyebrow">Para quem é</span>
-      <h2 class="title">Feito para a sua <span class="gold">rotina</span>.</h2>
-      <p class="lead">Se você corre atrás dos seus objetivos e não abre mão de se cuidar, o Whey Balance foi feito pra você.</p>
-      <div class="checks stagger" style="margin-top:26px">
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Quem treina</b> <span>e quer proteína de qualidade sem enjoar.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Rotina corrida</b> <span>— um café da manhã prático e completo.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Quem se cuida por inteiro</b> <span>— músculo, pele e bem-estar.</span></div></div>
-        <div class="check"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Fim do açúcar e do gosto químico</b> <span>— proteína limpa de verdade.</span></div></div>
+    <div>
+      <span class="eyebrow reveal">Para quem é</span>
+      <h2 class="title reveal">Feito para a sua <em>rotina</em>.</h2>
+      <p class="lead reveal">Se você corre atrás dos seus objetivos e não abre mão de se cuidar, o Whey Balance foi feito pra você.</p>
+      <div class="checks stagger">
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Quem treina</b> <span>e quer proteína de qualidade sem enjoar.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Rotina corrida</b> <span>— um café da manhã prático e completo.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Quem se cuida por inteiro</b> <span>— músculo, pele e bem-estar.</span></div></div>
+        <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Fim do gosto químico</b> <span>— proteína limpa de verdade.</span></div></div>
       </div>
     </div>
-    <div class="media-frame reveal">
-      <video autoplay muted loop playsinline preload="none"
-        poster="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190803_94fb936c-d76b-4cc3-ae6d-88c2be9d2d45.png">
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_191103_aa7956b9-dc9c-4ab8-b1b2-cbaf6bb07b01.mp4" type="video/mp4">
-      </video>
+    <div class="shot reveal">
+      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192304_de8381b7-b807-4bf9-b15e-57ddc2824a00.png">
+      <img loading="lazy" alt="Pessoa ativa com Whey Balance na cozinha" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190803_94fb936c-d76b-4cc3-ae6d-88c2be9d2d45.png"></picture>
     </div>
   </div>
 </section>
 
-<!-- ============ 6 · DEPOIMENTOS ============ -->
+<!-- 6 · DEPOIMENTOS -->
 <section class="section center" id="depoimentos">
   <span class="eyebrow reveal">Prova social</span>
-  <h2 class="title reveal">Quem experimenta, <span class="gold">recomenda</span>.</h2>
+  <h2 class="title reveal">Quem experimenta, <em>recomenda</em>.</h2>
   <p class="lead reveal">Relatos reais de quem trocou o whey comum pelo Whey Balance.</p>
-  <div class="quote featured reveal" style="text-align:left;max-width:760px;margin:34px auto 0">
+  <div class="quote reveal" style="text-align:left;max-width:760px;margin:34px auto 0">
     <div class="stars">★★★★★</div>
     <p>“Bati com água quente e subiu um cheirinho de leite com chocolate da infância. O gosto é levinho, não é pesado como a maioria dos whey. Esse é o whey mais gostoso que já tomei.”</p>
     <div class="who"><span class="avatar">AO</span><div><b>Amanda Ortolan</b><small>@amandaortolan.eng · cliente Whey Balance</small></div></div>
   </div>
   <div class="proof-grid stagger">
-    <a class="proof reveal" href="proof/depo-amanda-whey.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Depoimento da Amanda sobre o Whey Balance Chocolate" src="proof/depo-amanda-whey.jpg"></a>
-    <a class="proof reveal" href="proof/depo-drwilliam-postreino.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Whey Balance batido no pós-treino" src="proof/depo-drwilliam-postreino.jpg"></a>
-    <a class="proof reveal" href="proof/depo-victoria-haul.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Unboxing com o Whey Balance Chocolate" src="proof/depo-victoria-haul.jpg"></a>
+    <a class="proof reveal" href="proof/depo-amanda-whey.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Depoimento da Amanda sobre o Whey Balance" src="proof/depo-amanda-whey.jpg"></a>
+    <a class="proof reveal" href="proof/depo-drwilliam-postreino.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Whey Balance no pós-treino" src="proof/depo-drwilliam-postreino.jpg"></a>
+    <a class="proof reveal" href="proof/depo-victoria-haul.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Unboxing com Whey Balance" src="proof/depo-victoria-haul.jpg"></a>
   </div>
 </section>
 
-<!-- ============ 7 · GARANTIA ============ -->
+<!-- 7 · GARANTIA -->
 <section class="section" id="garantia">
   <div class="split rev">
-    <div class="reveal">
-      <span class="eyebrow">Garantia &amp; qualidade</span>
-      <h2 class="title">Qualidade que você <span class="gold">confia</span>.</h2>
-      <p class="lead">Ingredientes premium, fórmula transparente e a segurança de uma marca que faz do jeito certo.</p>
+    <div>
+      <span class="eyebrow reveal">Garantia &amp; qualidade</span>
+      <h2 class="title reveal">Qualidade que você <em>confia</em>.</h2>
+      <p class="lead reveal">Ingredientes premium, fórmula transparente e a segurança de uma marca que faz do jeito certo.</p>
       <div class="seals stagger">
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-7 9-7 9s-7-4-7-9V6z"/></svg></div><b>Notificado ANVISA</b><small>registro regular</small></div>
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></div><b>Certificação GMP</b><small>boas práticas</small></div>
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div><b>Testado em lab</b><small>rastreável</small></div>
-        <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3C7 8 7 13 12 21c5-8 5-13 0-18z"/></svg></div><b>Adoçado naturalmente</b><small>sem corantes</small></div>
+        <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3C7 8 7 13 12 21c5-8 5-13 0-18z"/></svg></div><b>Adoçado natural</b><small>sem corantes</small></div>
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg></div><b>Sem glúten</b><small>sem açúcar add.</small></div>
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0zM12 7v5l3 2"/></svg></div><b>Reembolso 7 dias</b><small>satisfação garantida</small></div>
       </div>
     </div>
-    <div class="media-frame reveal">
-      <picture>
-        <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192050_304e03f6-6968-45c4-bcaf-b00763caf881.png">
-        <img loading="lazy" alt="Selos de qualidade do Whey Balance" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_185941_0652ce1f-3803-4fcc-a7ae-a8ebb2c6a894.png">
-      </picture>
+    <div class="shot reveal">
+      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192050_304e03f6-6968-45c4-bcaf-b00763caf881.png">
+      <img loading="lazy" alt="Selos de qualidade do Whey Balance" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_185941_0652ce1f-3803-4fcc-a7ae-a8ebb2c6a894.png"></picture>
     </div>
   </div>
 </section>
 
-<!-- ============ 8 · OFERTA ============ -->
+<!-- 8 · OFERTA -->
 <section class="section center" id="oferta">
   <span class="eyebrow reveal">Oferta</span>
-  <h2 class="title reveal">Escolha seu <span class="gold">kit</span>.</h2>
+  <h2 class="title reveal">Escolha seu <em>kit</em>.</h2>
   <p class="lead reveal">Quanto mais potes, mais economia. Cupom <b>BOTANIKA</b> aplica 5% OFF no checkout.</p>
-  <div class="plans" id="plans">
-    <div class="plan" data-qty="1" data-price="147,30">
-      <h3>1 Pote</h3><div class="qt">455 g · 30 porções</div>
-      <div class="big tnum">R$ 147,30</div><div class="per">ou 3x de R$ 49,10</div>
-      <div class="save">experimentar</div>
-      <div class="radio"></div>
-    </div>
-    <div class="plan active" data-qty="2" data-price="279,87">
-      <span class="tag">MAIS ESCOLHIDO</span>
-      <h3>2 Potes</h3><div class="qt">rende 2 meses</div>
-      <div class="big tnum">R$ 279,87</div><div class="per">com cupom · R$ 139,93/pote</div>
-      <div class="save">economize com BOTANIKA</div>
-      <div class="radio"></div>
-    </div>
-    <div class="plan" data-qty="3" data-price="397,71">
-      <span class="tag">FRETE GRÁTIS</span>
-      <h3>3 Potes</h3><div class="qt">rende 3 meses</div>
-      <div class="big tnum">R$ 397,71</div><div class="per">com cupom · R$ 132,57/pote</div>
-      <div class="save">+ frete grátis</div>
-      <div class="radio"></div>
-    </div>
+  <div class="toggle reveal" id="toggle" role="tablist">
+    <button data-qty="1">1 pote</button>
+    <button class="on" data-qty="2">2 potes</button>
+    <button data-qty="3">3 potes</button>
   </div>
-  <div class="offer-cta">
+  <div class="offer-panel reveal">
+    <div class="kit" id="kitName">Kit 2 potes · rende 2 meses</div>
+    <div class="big tnum" id="kitPrice">R$ 279,87</div>
+    <div class="per" id="kitPer">com cupom · R$ 139,93/pote</div>
+    <div class="save" id="kitSave">Economize com BOTANIKA</div>
     <a class="btn btn-buy btn-lg" id="offerBuy" href="https://botanikabrasil.com.br/cart/48115368919272:2?discount=BOTANIKA">Comprar 2 potes agora</a>
   </div>
   <div class="trust-row reveal">
-    <span class="chip" id="couponChip">Cupom <b>BOTANIKA</b> · 5% OFF — toque pra copiar</span>
+    <span class="chip" id="coupon">Cupom <b>BOTANIKA</b> · 5% OFF — toque pra copiar</span>
     <span class="chip">🚚 Frete grátis acima de <b>R$ 349</b></span>
     <span class="chip">🔒 Compra segura</span>
   </div>
-  <div class="media-frame reveal" style="margin-top:34px;max-width:760px;margin-inline:auto;aspect-ratio:16/9">
-    <picture>
-      <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192051_319b47a4-eff0-4be5-a91b-bfb6d8034076.png">
-      <img loading="lazy" alt="Whey Balance Chocolate — oferta" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_185724_5dd64798-6a2b-4e5f-9aa1-f90f869e6fe0.png">
-    </picture>
-  </div>
 </section>
 
-<!-- ============ 9 · FAQ ============ -->
+<!-- 9 · FAQ -->
 <section class="section center" id="faq">
   <span class="eyebrow reveal">Dúvidas</span>
-  <h2 class="title reveal">Perguntas <span class="gold">frequentes</span>.</h2>
+  <h2 class="title reveal">Perguntas <em>frequentes</em>.</h2>
   <div class="faq" style="text-align:left">
-    <details class="reveal"><summary>Qual o sabor e a textura?<span class="plus"></span></summary><div class="faq-a">Chocolate cremoso, adoçado naturalmente e sem corantes artificiais. Dissolve fácil na água ou no leite, sem gosto químico.</div></details>
-    <details class="reveal"><summary>O que é o colágeno C‑PURE®?<span class="plus"></span></summary><div class="faq-a">É um colágeno hidrolisado premium combinado ao whey concentrado. Juntos entregam a proposta “força + tônus”: proteína para os músculos e cuidado com o corpo por inteiro.</div></details>
-    <details class="reveal"><summary>Tem açúcar ou glúten?<span class="plus"></span></summary><div class="faq-a">Não. É adoçado naturalmente, sem adição de açúcares, sem corantes artificiais e não contém glúten.</div></details>
-    <details class="reveal"><summary>Quantas porções rende?<span class="plus"></span></summary><div class="faq-a">Cada pote tem 455 g, com 23 g de proteína por porção. Rende aproximadamente 1 mês de uso diário.</div></details>
-    <details class="reveal"><summary>Como funciona a entrega e a garantia?<span class="plus"></span></summary><div class="faq-a">Enviamos para todo o Brasil, com frete grátis acima de R$ 349. Você conta com reembolso garantido em até 7 dias caso não fique satisfeito.</div></details>
+    <details class="reveal"><summary>Qual o sabor e a textura?<span class="pl"></span></summary><div class="faq-a">Chocolate cremoso, adoçado naturalmente e sem corantes artificiais. Dissolve fácil na água ou no leite, sem gosto químico.</div></details>
+    <details class="reveal"><summary>O que é o colágeno C‑PURE®?<span class="pl"></span></summary><div class="faq-a">É um colágeno hidrolisado premium combinado ao whey concentrado. Juntos entregam a proposta “força + tônus”: proteína para os músculos e cuidado com o corpo por inteiro.</div></details>
+    <details class="reveal"><summary>Tem açúcar ou glúten?<span class="pl"></span></summary><div class="faq-a">Não. É adoçado naturalmente, sem adição de açúcares, sem corantes artificiais e não contém glúten.</div></details>
+    <details class="reveal"><summary>Quantas porções rende?<span class="pl"></span></summary><div class="faq-a">Cada pote tem 455 g, com 23 g de proteína por porção. Rende aproximadamente 1 mês de uso diário.</div></details>
+    <details class="reveal"><summary>Como funciona a entrega e a garantia?<span class="pl"></span></summary><div class="faq-a">Enviamos para todo o Brasil, com frete grátis acima de R$ 349. Você conta com reembolso garantido em até 7 dias caso não fique satisfeito.</div></details>
   </div>
 </section>
 
-<!-- ============ 10 · ESCASSEZ ============ -->
+<!-- 10 · ESCASSEZ -->
 <section class="section" id="escassez">
   <div class="scarcity reveal">
     <div class="inner">
       <div class="txt">
         <span class="eyebrow">Oferta por tempo limitado</span>
-        <h2 class="title" style="font-size:clamp(28px,4vw,42px)">Garanta com o <span class="gold">cupom BOTANIKA</span>.</h2>
+        <h2 class="title" style="font-size:clamp(30px,4.4vw,46px)">Garanta com o <em>cupom BOTANIKA</em>.</h2>
         <p class="lead">5% OFF no checkout e frete grátis acima de R$ 349. A condição encerra em:</p>
-        <div class="countdown" id="countdown" data-deadline="">
-          <div class="cd"><b id="cd-h">00</b><span>horas</span></div>
-          <div class="cd"><b id="cd-m">00</b><span>min</span></div>
-          <div class="cd"><b id="cd-s">00</b><span>seg</span></div>
-        </div>
-        <a class="btn btn-buy btn-lg js-buy1" href="#oferta">Aproveitar agora</a>
+        <div class="countdown" id="countdown"><div class="cd"><b id="cd-h">00</b><span>horas</span></div><div class="cd"><b id="cd-m">00</b><span>min</span></div><div class="cd"><b id="cd-s">00</b><span>seg</span></div></div>
+        <a class="btn btn-buy btn-lg js-top" href="#oferta">Aproveitar agora</a>
       </div>
-      <div class="media-frame">
-        <picture>
-          <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192253_bbfb80ba-3b1e-4451-b30d-a29dc4d8979a.png">
-          <img loading="lazy" alt="Whey Balance Chocolate — últimas unidades" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190810_4bc26cff-08c1-4854-8b8b-715ce1de234b.png">
-        </picture>
+      <div class="shot">
+        <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192253_bbfb80ba-3b1e-4451-b30d-a29dc4d8979a.png">
+        <img loading="lazy" alt="Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190810_4bc26cff-08c1-4854-8b8b-715ce1de234b.png"></picture>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 11 · RODAPÉ ============ -->
+<!-- 11 · RODAPÉ -->
 <footer>
   <div class="foot">
     <div>
@@ -626,209 +496,137 @@ h2.title.reveal{opacity:1;transform:none}
       <p>Suplementos premium com curadoria do Dr. William Araújo (@drwilliamaraujo). Fabricação by GSA.</p>
       <div class="pay"><span>PIX</span><span>VISA</span><span>MASTER</span><span>ELO</span><span>AMEX</span><span>BOLETO</span></div>
     </div>
-    <div>
-      <h4>Contato</h4>
-      <a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a>
-      <a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a>
-      <p>Seg–Sex · 9h às 18h</p>
-    </div>
-    <div>
-      <h4>Redes</h4>
-      <a href="https://instagram.com/botanikabrasil">Instagram</a>
-      <a href="https://youtube.com/@BotanikaBrasil">YouTube</a>
-      <a href="https://wa.me/5531972679362">WhatsApp</a>
-    </div>
+    <div><h4>Contato</h4><a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a><a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a><p>Seg–Sex · 9h às 18h</p></div>
+    <div><h4>Redes</h4><a href="https://instagram.com/botanikabrasil">Instagram</a><a href="https://youtube.com/@BotanikaBrasil">YouTube</a><a href="https://wa.me/5531972679362">WhatsApp</a></div>
   </div>
-  <div class="legal">
-    Suplemento alimentar. Não substitui uma alimentação equilibrada e um estilo de vida saudável. Não trata, previne ou cura doenças. Não indicado para gestantes, lactantes e crianças sem orientação de profissional de saúde. Contém os ingredientes descritos no rótulo. Em caso de dúvida, consulte seu nutricionista ou médico. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.
-  </div>
+  <div class="legal">Suplemento alimentar. Não substitui uma alimentação equilibrada e um estilo de vida saudável. Não trata, previne ou cura doenças. Não indicado para gestantes, lactantes e crianças sem orientação de profissional de saúde. Contém os ingredientes descritos no rótulo. Em caso de dúvida, consulte seu nutricionista ou médico. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</div>
 </footer>
 
 <a class="wa" href="https://wa.me/5531972679362?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20Whey%20Balance%20Chocolate." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M.06 24l1.68-6.13A11.87 11.87 0 010 11.9C0 5.34 5.34 0 11.9 0a11.82 11.82 0 018.4 3.5 11.82 11.82 0 013.48 8.4c0 6.56-5.34 11.9-11.9 11.9a11.9 11.9 0 01-5.7-1.45L.06 24zM6.6 20.14l.36.22a9.88 9.88 0 004.94 1.36 9.89 9.89 0 009.88-9.82 9.88 9.88 0 00-16.87-7 9.82 9.82 0 00-1.4 12.3l.24.38-1 3.63 3.85-1zm11.3-5.4c-.09-.15-.33-.24-.7-.42s-2.17-1.07-2.5-1.2-.58-.18-.83.18-.95 1.2-1.16 1.44-.43.27-.8.09a8.13 8.13 0 01-2.4-1.48 8.98 8.98 0 01-1.66-2.06c-.17-.3 0-.46.13-.63s.3-.35.44-.53.19-.3.3-.5.05-.37 0-.52-.83-2-1.14-2.74-.6-.62-.83-.63h-.7a1.36 1.36 0 00-.98.46 4.13 4.13 0 00-1.29 3.07 7.16 7.16 0 001.5 3.8 16.4 16.4 0 006.29 5.56 21.2 21.2 0 002.1.78 5.05 5.05 0 002.32.15c.7-.11 2.17-.89 2.48-1.74s.3-1.6.21-1.75z"/></svg>
 </a>
 
+<div class="buybar">
+  <div class="p"><b class="tnum">R$ 147,30</b><small>ou 3x R$ 49,10 · cupom BOTANIKA</small></div>
+  <a class="btn btn-buy" href="https://botanikabrasil.com.br/cart/48115368919272:1?discount=BOTANIKA">Comprar</a>
+</div>
 <div class="toast" id="toast">Cupom BOTANIKA copiado!</div>
 
 <script>
 (function(){
   "use strict";
-  var doc=document;
+  var doc=document, mm=window.matchMedia('(hover:hover) and (pointer:fine)').matches,
+      reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches, G=window.gsap;
 
-  /* ---- header scroll ---- */
   var hdr=doc.getElementById('hdr');
-  function onScroll(){ if(window.scrollY>24) hdr.classList.add('scrolled'); else hdr.classList.remove('scrolled'); }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-
-  /* ---- ano ---- */
+  function onSc(){ if(window.scrollY>24) hdr.classList.add('scrolled'); else hdr.classList.remove('scrolled'); }
+  window.addEventListener('scroll',onSc,{passive:true}); onSc();
   var yr=doc.getElementById('yr'); if(yr) yr.textContent=(new Date()).getFullYear();
 
-  /* ---- reveal on scroll ---- */
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
-  },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+  /* reveal + stagger */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} }); },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
   doc.querySelectorAll('.reveal,.stagger').forEach(function(el){ io.observe(el); });
 
-  /* ---- count-up ---- */
-  var cio=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting) return; cio.unobserve(e.target);
-      var el=e.target, target=parseFloat(el.getAttribute('data-target'))||0, suf=el.getAttribute('data-suffix')||'', t0=null;
-      function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/900,1); var v=Math.round(target*(1-Math.pow(1-p,3)));
-        el.textContent=v.toLocaleString('pt-BR')+suf; if(p<1) requestAnimationFrame(step); }
-      requestAnimationFrame(step);
-    });
-  },{threshold:.6});
+  /* count-up */
+  var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; cio.unobserve(e.target);
+    var el=e.target, t=parseFloat(el.getAttribute('data-target'))||0, suf=el.getAttribute('data-suffix')||'', s=null;
+    function step(ts){ if(!s)s=ts; var p=Math.min((ts-s)/900,1), v=Math.round(t*(1-Math.pow(1-p,3)));
+      el.textContent=v.toLocaleString('pt-BR')+suf; if(p<1) requestAnimationFrame(step); } requestAnimationFrame(step);
+  }); },{threshold:.6});
   doc.querySelectorAll('.num[data-target]').forEach(function(el){ cio.observe(el); });
 
-  /* ---- tilt 3D + glow (desktop) ---- */
-  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-    doc.querySelectorAll('.card').forEach(function(card){
-      var rx=0,ry=0,tx=0,ty=0,raf=null;
-      function render(){ card.style.transform='perspective(900px) rotateX('+ry+'deg) rotateY('+rx+'deg) translateY(-6px)'; raf=null; }
-      card.addEventListener('mousemove',function(ev){
-        var r=card.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width, py=(ev.clientY-r.top)/r.height;
-        rx=(px-.5)*10; ry=(.5-py)*10; card.style.setProperty('--mx',(px*100)+'%'); card.style.setProperty('--my',(py*100)+'%');
-        if(!raf) raf=requestAnimationFrame(render);
-      });
-      card.addEventListener('mouseleave',function(){ card.style.transform=''; });
-    });
-    /* magnetic buttons */
-    doc.querySelectorAll('.btn-buy').forEach(function(b){
-      b.addEventListener('mousemove',function(ev){ var r=b.getBoundingClientRect();
-        b.style.transform='translate('+((ev.clientX-r.left-r.width/2)*.18)+'px,'+((ev.clientY-r.top-r.height/2)*.28)+'px)'; });
-      b.addEventListener('mouseleave',function(){ b.style.transform=''; });
-    });
+  /* reveal por letra */
+  function split(el){ var n={c:0}; (function walk(node){ [].slice.call(node.childNodes).forEach(function(k){
+    if(k.nodeType===3){ var f=doc.createDocumentFragment(); k.textContent.split(/(\s+)/).forEach(function(tok){
+      if(tok==='') return; if(/^\s+$/.test(tok)){ f.appendChild(doc.createTextNode(tok)); return; }
+      var w=doc.createElement('span'); w.className='word'; tok.split('').forEach(function(c){
+        var s=doc.createElement('span'); s.className='ch'; s.textContent=c; s.style.transitionDelay=(n.c*0.03).toFixed(3)+'s'; n.c++; w.appendChild(s); });
+      f.appendChild(w); }); node.replaceChild(f,k);
+    } else if(k.nodeType===1 && k.tagName!=='BR'){ walk(k); } }); })(el); }
+  var titles=[].slice.call(doc.querySelectorAll('h2.title, .hero h1'));
+  titles.forEach(split);
+  var lio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('lit'); lio.unobserve(e.target);} }); },{threshold:.25});
+  titles.forEach(function(t){ lio.observe(t); });
+
+  /* tilt + glow */
+  if(mm){ doc.querySelectorAll('.card').forEach(function(card){
+    var qx=G?G.quickTo(card,'rotationY',{duration:.5,ease:'power3'}):null, qy=G?G.quickTo(card,'rotationX',{duration:.5,ease:'power3'}):null;
+    card.addEventListener('mousemove',function(ev){ var r=card.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width, py=(ev.clientY-r.top)/r.height;
+      card.style.setProperty('--mx',(px*100)+'%'); card.style.setProperty('--my',(py*100)+'%');
+      if(G){ qx((px-.5)*10); qy((.5-py)*10); } else { card.style.transform='perspective(900px) rotateX('+((.5-py)*8)+'deg) rotateY('+((px-.5)*8)+'deg)'; } });
+    card.addEventListener('mouseleave',function(){ if(G){ qx(0); qy(0); } else card.style.transform=''; });
+  });
+  /* botões magnéticos + pote reativo */
+  doc.querySelectorAll('.btn-buy').forEach(function(b){
+    var bx=G?G.quickTo(b,'x',{duration:.4,ease:'power3'}):null, by=G?G.quickTo(b,'y',{duration:.4,ease:'power3'}):null;
+    b.addEventListener('mousemove',function(ev){ var r=b.getBoundingClientRect(); if(G){ bx((ev.clientX-r.left-r.width/2)*.25); by((ev.clientY-r.top-r.height/2)*.4);} });
+    b.addEventListener('mouseleave',function(){ if(G){ bx(0); by(0);} });
+  });
+  var pote=doc.getElementById('pote');
+  if(pote && G){ var rx=G.quickTo(pote,'rotationY',{duration:.7,ease:'power3'}), ry=G.quickTo(pote,'rotationX',{duration:.7,ease:'power3'});
+    window.addEventListener('mousemove',function(e){ rx((e.clientX/innerWidth-.5)*14); ry((.5-e.clientY/innerHeight)*10); },{passive:true}); }
   }
 
-  /* ---- oferta: seleção de kit + checkout dinâmico ---- */
-  var VARIANT='48115368919272', base='https://botanikabrasil.com.br/cart/';
-  var plans=doc.querySelectorAll('#plans .plan'), offerBuy=doc.getElementById('offerBuy');
-  function selectPlan(p){
-    plans.forEach(function(x){ x.classList.remove('active'); });
-    p.classList.add('active');
-    var q=p.getAttribute('data-qty');
-    offerBuy.setAttribute('href', base+VARIANT+':'+q+'?discount=BOTANIKA');
-    offerBuy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
-  }
-  plans.forEach(function(p){ p.addEventListener('click',function(){ selectPlan(p); }); });
+  /* oferta */
+  var VAR='48115368919272', base='https://botanikabrasil.com.br/cart/';
+  var KITS={1:{n:'Kit 1 pote · 455 g',price:'R$ 147,30',per:'3x de R$ 49,10',save:'experimentar'},
+            2:{n:'Kit 2 potes · rende 2 meses',price:'R$ 279,87',per:'com cupom · R$ 139,93/pote',save:'Economize com BOTANIKA'},
+            3:{n:'Kit 3 potes · rende 3 meses',price:'R$ 397,71',per:'com cupom · R$ 132,57/pote',save:'+ frete grátis'}};
+  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy');
+  function setKit(q){ var k=KITS[q]; doc.getElementById('kitName').textContent=k.n; doc.getElementById('kitPrice').textContent=k.price;
+    doc.getElementById('kitPer').textContent=k.per; doc.getElementById('kitSave').textContent=k.save;
+    buy.setAttribute('href',base+VAR+':'+q+'?discount=BOTANIKA'); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
+    [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
+  [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
 
-  /* botões "kit 1" soltos */
-  doc.querySelectorAll('.js-buy1').forEach(function(a){
-    if(a.getAttribute('href')==='#oferta') return; /* âncora, deixa rolar */
-  });
+  /* cupom copiar */
+  var toast=doc.getElementById('toast'); function showT(m){ toast.textContent=m; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },1900); }
+  var cp=doc.getElementById('coupon'); if(cp) cp.addEventListener('click',function(){ var t='BOTANIKA';
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ showT('Cupom BOTANIKA copiado!'); }).catch(function(){ showT('Cupom: BOTANIKA'); }); } else showT('Cupom: BOTANIKA'); });
 
-  /* ---- cupom copiar ---- */
-  var toast=doc.getElementById('toast');
-  function showToast(msg){ toast.textContent=msg; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },1900); }
-  var chip=doc.getElementById('couponChip');
-  if(chip) chip.addEventListener('click',function(){
-    var t='BOTANIKA';
-    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ showToast('Cupom BOTANIKA copiado!'); }).catch(function(){ showToast('Cupom: BOTANIKA'); }); }
-    else showToast('Cupom: BOTANIKA');
-  });
-
-  /* ---- countdown (24h rolling, persistente por dia) ---- */
+  /* countdown 24h */
   var cd=doc.getElementById('countdown');
-  if(cd){
-    var KEY='wb_deadline', dl=parseInt(localStorage.getItem(KEY)||'0',10), now=Date.now();
-    if(!dl || dl<now){ dl=now+24*3600*1000; localStorage.setItem(KEY,String(dl)); }
-    var hE=doc.getElementById('cd-h'),mE=doc.getElementById('cd-m'),sE=doc.getElementById('cd-s');
-    function pad(n){ return (n<10?'0':'')+n; }
-    function tick(){
-      var d=Math.max(0,dl-Date.now()), h=Math.floor(d/3600000), m=Math.floor(d%3600000/60000), s=Math.floor(d%60000/1000);
-      hE.textContent=pad(h); mE.textContent=pad(m); sE.textContent=pad(s);
-      if(d<=0){ dl=Date.now()+24*3600*1000; localStorage.setItem(KEY,String(dl)); }
-    }
-    tick(); setInterval(tick,1000);
-  }
+  if(cd){ var KEY='wb_dl', dl=parseInt(localStorage.getItem(KEY)||'0',10), now=Date.now();
+    if(!dl||dl<now){ dl=now+24*3600*1000; localStorage.setItem(KEY,String(dl)); }
+    var hE=doc.getElementById('cd-h'),mE=doc.getElementById('cd-m'),sE=doc.getElementById('cd-s'); function pad(n){ return (n<10?'0':'')+n; }
+    function tick(){ var d=Math.max(0,dl-Date.now()); hE.textContent=pad(Math.floor(d/3600000)); mE.textContent=pad(Math.floor(d%3600000/60000)); sE.textContent=pad(Math.floor(d%60000/1000));
+      if(d<=0){ dl=Date.now()+24*3600*1000; localStorage.setItem(KEY,String(dl)); } } tick(); setInterval(tick,1000); }
 
-  /* ---- fundo assinatura: cena imersiva (profundidade + orbes + parallax) ---- */
-  var cv=doc.getElementById('bg-canvas'), ctx=cv.getContext('2d'), parts=[], orbs=[], W,H,DPR, sY=0;
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  /* progresso */
+  var prog=doc.getElementById('progress');
+  function updP(){ var h=doc.documentElement.scrollHeight-innerHeight; if(prog) prog.style.width=(h>0?(window.scrollY/h)*100:0)+'%'; }
+  window.addEventListener('scroll',updP,{passive:true}); updP();
+
+  /* ===== fundo assinatura: "Cacau Fundido" (canvas, reativo ao mouse) ===== */
+  var cv=doc.getElementById('bg'), ctx=cv.getContext('2d'), W,H,DPR, blobs=[], dust=[], mx=.5, my=.4, tmx=.5, tmy=.4, sY=0;
   function resize(){ DPR=Math.min(window.devicePixelRatio||1,2); W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   function seed(){
-    parts=[]; var n=Math.round((innerWidth*innerHeight)/22000); if(innerWidth<640)n=Math.round(n*.55); n=Math.min(n,120);
-    for(var i=0;i<n;i++){ var z=Math.random(); parts.push({x:Math.random()*W,y:Math.random()*H,z:z,r:(z*1.8+.4)*DPR,s:(z*.32+.05)*DPR,o:z*.5+.12,d:Math.random()*6.283}); }
-    orbs=[]; var m=innerWidth<640?3:5;
-    for(var j=0;j<m;j++) orbs.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*.5+.2,r:(Math.random()*170+120)*DPR,hue:j%2,d:Math.random()*6.283});
+    blobs=[]; var pal=[[92,44,18],[150,84,34],[207,138,67],[70,30,12],[234,177,115]];
+    for(var i=0;i<6;i++){ var c=pal[i%pal.length]; blobs.push({x:Math.random(),y:Math.random(),r:(Math.random()*.28+.24),
+      vx:(Math.random()-.5)*.00016,vy:(Math.random()-.5)*.00016,c:c,ph:Math.random()*6.283}); }
+    dust=[]; var n=innerWidth<640?36:70;
+    for(var j=0;j<n;j++) dust.push({x:Math.random()*W,y:Math.random()*H,z:Math.random(),r:(Math.random()*1.5+.4)*DPR,s:(Math.random()*.3+.05)*DPR,o:Math.random()*.5+.15,d:Math.random()*6.283});
   }
   function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(var k=0;k<orbs.length;k++){ var o=orbs[k]; var span=H+400*DPR; var oy=((o.y-sY*DPR*o.z*.25)%span+span)%span-200*DPR;
-      var c=o.hue?'232,182,76':'47,107,255'; var g=ctx.createRadialGradient(o.x,oy,0,o.x,oy,o.r);
-      g.addColorStop(0,'rgba('+c+',0.10)'); g.addColorStop(1,'rgba('+c+',0)');
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(o.x,oy,o.r,0,6.283); ctx.fill(); }
-    for(var i=0;i<parts.length;i++){ var p=parts[i]; p.y-=p.s; p.x+=Math.sin(p.d+p.y*.004)*.18*DPR; if(p.y<-6){ p.y=H+6; p.x=Math.random()*W; }
-      var py=((p.y-sY*DPR*p.z*.5)%(H+40)+(H+40))%(H+40);
-      ctx.beginPath(); ctx.arc(p.x,py,p.r,0,6.283); ctx.fillStyle='rgba(232,182,76,'+p.o+')'; ctx.shadowColor='rgba(232,182,76,.6)'; ctx.shadowBlur=6*DPR; ctx.fill(); }
+    tmx+=(mx-tmx)*.05; tmy+=(my-tmy)*.05;
+    ctx.globalCompositeOperation='source-over'; ctx.fillStyle='rgba(13,7,5,1)'; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    var t=(sY*0.0002);
+    for(var i=0;i<blobs.length;i++){ var b=blobs[i]; b.x+=b.vx; b.y+=b.vy;
+      if(b.x<-.2)b.x=1.2; if(b.x>1.2)b.x=-.2; if(b.y<-.2)b.y=1.2; if(b.y>1.2)b.y=-.2;
+      var ox=(tmx-.5)*.06*(i%2?1:-1), oy=(tmy-.5)*.06*(i%2?-1:1);
+      var cx=(b.x+ox)*W, cy=(b.y+oy - t)*H, rr=b.r*Math.min(W,H)*(1+.06*Math.sin(b.ph+performance.now()*.0003));
+      var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);
+      g.addColorStop(0,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0.16)'); g.addColorStop(1,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.283); ctx.fill(); }
+    for(var k=0;k<dust.length;k++){ var p=dust[k]; p.y-=p.s; p.x+=Math.sin(p.d+p.y*.004)*.16*DPR; if(p.y<-6){ p.y=H+6; p.x=Math.random()*W; }
+      var py=((p.y - sY*DPR*p.z*.4)%(H+40)+(H+40))%(H+40);
+      ctx.beginPath(); ctx.arc(p.x,py,p.r,0,6.283); ctx.fillStyle='rgba(234,177,115,'+p.o+')'; ctx.shadowColor='rgba(234,177,115,.6)'; ctx.shadowBlur=6*DPR; ctx.fill(); }
     ctx.shadowBlur=0; if(!reduce) requestAnimationFrame(draw);
   }
   resize(); seed(); draw();
   var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ resize(); seed(); if(reduce)draw(); },200); });
-
-  /* ---- parallax de scroll: fundo + mídias (na imagem interna, sem quebrar o reveal) ---- */
-  var frames=[].slice.call(doc.querySelectorAll('.media-frame, .hero-media .frame')).filter(function(el){ return !el.closest('.scarcity'); });
-  var ticking=false;
-  function parallax(){
-    for(var i=0;i<frames.length;i++){ var el=frames[i], inner=el.querySelector('img,video');
-      if(!inner) continue; var r=el.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) continue;
-      var mid=(r.top+r.height/2-innerHeight/2)/innerHeight; inner.style.transform='scale(1.06) translateY('+(mid*-16).toFixed(1)+'px)'; }
-  }
-  function onScroll(){ sY=window.scrollY||window.pageYOffset||0;
-    if(reduce){ draw(); parallax(); return; }
-    if(!ticking){ ticking=true; requestAnimationFrame(function(){ parallax(); ticking=false; }); }
-  }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-
-  /* ---- barra de progresso de scroll ---- */
-  var prog=doc.getElementById('progress');
-  function updProg(){ var h=doc.documentElement.scrollHeight-innerHeight; if(prog) prog.style.width=(h>0?(window.scrollY/h)*100:0)+'%'; }
-  window.addEventListener('scroll',updProg,{passive:true}); updProg();
-
-  /* ---- reveal por letra (blur-up), preservando spans internos (ex.: .gold) ---- */
-  function splitChars(el){
-    var count={n:0};
-    (function walk(node){
-      [].slice.call(node.childNodes).forEach(function(k){
-        if(k.nodeType===3){
-          var frag=doc.createDocumentFragment();
-          k.textContent.split(/(\s+)/).forEach(function(tok){
-            if(tok==='') return;
-            if(/^\s+$/.test(tok)){ frag.appendChild(doc.createTextNode(tok)); return; }
-            var w=doc.createElement('span'); w.className='word';
-            tok.split('').forEach(function(c){
-              var s=doc.createElement('span'); s.className='ch'; s.textContent=c;
-              s.style.transitionDelay=(count.n*0.03).toFixed(3)+'s'; count.n++;
-              w.appendChild(s);
-            });
-            frag.appendChild(w);
-          });
-          node.replaceChild(frag,k);
-        } else if(k.nodeType===1 && k.tagName!=='BR'){ walk(k); }
-      });
-    })(el);
-  }
-  var titles=[].slice.call(doc.querySelectorAll('h2.title, .hero h1'));
-  titles.forEach(splitChars);
-  var lio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('lit'); lio.unobserve(e.target);} }); },{threshold:.3});
-  titles.forEach(function(t){ lio.observe(t); });
-
-  /* ---- tilt 3D do produto seguindo o cursor (hero + solução) ---- */
-  var stages=[].slice.call(doc.querySelectorAll('.orbit,.levit'));
-  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-    var rafT=false;
-    window.addEventListener('mousemove',function(e){
-      if(rafT) return; rafT=true; var cx=e.clientX, cy=e.clientY;
-      requestAnimationFrame(function(){
-        var mx=(cx/innerWidth-.5), my=(cy/innerHeight-.5);
-        for(var i=0;i<stages.length;i++){ var st=stages[i]; var r=st.getBoundingClientRect();
-          if(r.bottom<0||r.top>innerHeight) continue;
-          st.style.transform='perspective(1100px) rotateY('+(mx*9).toFixed(2)+'deg) rotateX('+(-my*7).toFixed(2)+'deg)';
-        }
-        rafT=false;
-      });
-    },{passive:true});
-  }
+  window.addEventListener('mousemove',function(e){ mx=e.clientX/innerWidth; my=e.clientY/innerHeight; },{passive:true});
+  window.addEventListener('scroll',function(){ sY=window.scrollY||0; if(reduce)draw(); },{passive:true});
 })();
 </script>

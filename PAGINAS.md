@@ -48,7 +48,7 @@
 - **Shopify:** produto `whey-balance-chocolate` · **VARIANT_ID `48115368919272`**
 - **Preço:** 3x de R$ 49,10 · ou R$ 147,30 à vista · 455 g · kits 2/3 com cupom `BOTANIKA` (5% OFF) — *confirmar descontos de kit na loja*
 - **Produto:** whey concentrado + colágeno hidrolisado C-PURE® · 23 g de proteína/porção · adoçado naturalmente · sem açúcar/corantes/glúten · força + tônus
-- **Identidade:** "Azul Royal & Cacau Dourado" — azul-royal profundo + dourado · fundo canvas de partículas douradas · Playfair Display + Manrope
+- **Identidade:** "Cacau Fundido" — espresso + cobre/caramelo + creme · fundo canvas de chocolate fundido (reativo ao mouse) · Cormorant Garamond + Hanken Grotesk
 - **Mídia:** imagens/vídeos Higgs Field (16:9 desktop + 9:16 mobile via `<picture>`) hospedados no CDN Higgsfield · depoimentos reais em `landing-whey-balance-chocolate/proof/`
 - **Status:** ✅ pronta (depoimentos reais integrados; confirmar descontos de kit)
 
