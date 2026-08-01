@@ -35,12 +35,17 @@
 ### 3. Hair Botanika — Cabelos, Unhas e Pele
 - **Pasta:** `landing-hair/`
 - **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-hair/index.html
-- **Shopify:** produto `hair-botanika` (confirmar handle) · **VARIANT_ID `HAIR_VARIANT_ID` (⚠️ placeholder — trocar pelo real)**
-- **Preço:** *placeholder* 3x de R$ 32,33 · ou R$ 97,00 · kits 2 (5% OFF) e 3 (10% OFF + frete grátis) — *confirmar preços/variant na loja*
-- **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten
-- **Identidade:** "Seiva & Raiz" — verde-botânico profundo + rosé-champagne + dourado · fundo canvas "cascata de fios luminosos" (reage ao mouse) · Italiana + Outfit
-- **Pote:** render SVG estilizado (trocar por PNG transparente quando disponível)
-- **Status:** ✅ pronta (pendente: VARIANT_ID + preços reais da loja)
+- **Shopify:** produto `hair-botanika` · **VARIANT_ID `48650670670056`** (SKU 80.1.5)
+- **Preço:** R$ 99,40 à vista (3× de R$ 33,13) · cupom `BOTANIKA` 5% OFF em todos os kits (não há 10%) · frete grátis real só > R$ 349
+  - Kit 1 pote R$ 99,40 → c/ cupom R$ 94,43 · Kit 2 potes R$ 198,80 → R$ 188,86 · Kit 3 potes R$ 298,20 → R$ 283,29 (R$ 94,43/pote)
+- **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten · 1 cápsula/dia
+- **Identidade:** **"Fio de Seda"** — ameixa/vinho profundo escuro + rosé-gold + champagne · **Bodoni Moda + Familjen Grotesk**
+- **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, mesmo pipeline do Ômega — "cabelo/tecido fluindo" do kit 07) com bloom, motes nacarados e repel do ponteiro; **fallback 2D "Seda Líquida"** (canvas) se o WebGL falhar
+- **Imagens (Higgsfield):** editorial (mulher cabelo luminoso 16:9+9:16), cápsulas/ingredientes, macro de fios de seda (band divider), flatlay com o pote — via CDN cloudfront (⚠️ não puderam ser conferidas visualmente no sandbox; validar no preview)
+- **Assets locais:** `hair-rotulo.png` (pote navy transparente, herói) · `hair-caixa.png`
+- **Estrutura:** 12 seções (hero, dor, band, solução, ingredientes, benefícios, ritual, para quem, depoimentos, garantia, oferta, FAQ, escassez) + header, WhatsApp, barra mobile
+- **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter
+- **Status:** ✅ reconstruída v2 (WebGL, imagens editoriais, distinta do Ômega)
 
 ### 4. Whey Balance Chocolate — Whey + Colágeno C-PURE®
 - **Pasta:** `landing-whey-balance-chocolate/`
