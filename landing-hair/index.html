@@ -452,8 +452,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       </div>
       <div>
         <div class="kicker"><span></span><b>02</b> A virada de chave</div>
-        <h2 class="serif hsplit" data-split>A força do cabelo começa na raiz — e a raiz se nutre por dentro.</h2>
-        <p class="lead reveal">O <b>Hair Botanika</b> entrega, em <b>uma cápsula por dia</b>, os 12 ativos que a sua raiz precisa pra voltar a produzir fio forte, unha firme e pele com viço. Não é milagre: é a nutrição certa, todo dia.</p>
+        <h2 class="serif hsplit" data-split>O problema quase nunca está no shampoo.</h2>
+        <p class="lead reveal">Se você já gastou com sérum, máscara e shampoo caro e o problema continua, talvez o que falta <b>não seja mais um produto por fora</b> — e sim nutrição por dentro. O <b>Hair Botanika</b> entrega, em <b>uma cápsula por dia</b>, os 12 ativos que a raiz precisa pra produzir fio forte, unha firme e pele com viço.</p>
         <ul class="pts reveal" data-stagger>
           <li><span class="ck">✓</span><span><b>Biotina, Cisteína e Zinco</b> — estrutura e resistência do fio.</span></li>
           <li><span class="ck">✓</span><span><b>Silício Orgânico e Ferro</b> — densidade, crescimento e vitalidade.</span></li>
@@ -517,8 +517,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   <div class="shell">
     <div class="sec-head reveal">
       <div class="kicker"><span></span><b>05</b> Simples de manter</div>
-      <h2 class="serif hsplit" data-split>Uma cápsula. Todo dia. No mesmo horário.</h2>
-      <p class="lead">A rotina mais fácil que existe — e a constância é o que faz a fórmula trabalhar por você.</p>
+      <h2 class="serif hsplit" data-split>Simples, todo dia, sem drama.</h2>
+      <p class="lead">A rotina mais fácil que existe — 1 cápsula por dia, e a constância faz a fórmula trabalhar por você.</p>
     </div>
     <div class="ritual reveal" data-stagger>
       <div class="step"><h3 class="serif">Tome com uma refeição</h3><p>1 cápsula por dia, junto de uma refeição, no mesmo horário. Só isso.</p></div>
@@ -573,7 +573,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <div class="seal"><div><b>7</b><span>dias</span></div></div>
       <div>
         <div class="kicker"><span></span><b>08</b> Risco zero</div>
-        <h3 class="serif" style="font-size:clamp(22px,3vw,30px)">Sua compra é segura — e sua decisão, tranquila</h3>
+        <h3 class="serif" style="font-size:clamp(22px,3vw,30px)">Garantia incondicional de 7 dias.</h3>
         <ul>
           <li><b>✓</b> Compra na loja oficial Botanika, com pagamento 100% seguro.</li>
           <li><b>✓</b> 7 dias de garantia legal (direito de arrependimento, conforme o CDC).</li>
@@ -589,22 +589,22 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   <div class="shell">
     <div class="sec-head center reveal">
       <div class="kicker center"><span></span><b>09</b> Escolha o seu ciclo</div>
-      <h2 class="serif hsplit" data-split>Cabelo, unha e pele respondem à constância</h2>
-      <p class="lead" style="margin-inline:auto">Por isso o ciclo completo entrega o melhor resultado — e o melhor valor por pote.</p>
+      <h2 class="serif hsplit" data-split>Sem brinde, sem pegadinha — só desconto real por quantidade.</h2>
+      <p class="lead" style="margin-inline:auto">Quanto mais potes, maior o desconto — aplicado automaticamente no checkout. O ciclo completo tem o melhor valor por pote.</p>
     </div>
     <div class="offer reveal">
       <div class="offer-top">
         <div class="toggle" id="toggle" role="tablist">
-          <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">≈ 2 meses</span></button>
-          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">mais popular</span></button>
-          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">ciclo completo</span></button>
+          <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
+          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
+          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
         </div>
       </div>
       <div class="offer-body">
         <div class="offer-price">
           <div class="price-old" id="p-old">R$ 198,80</div>
           <div class="price-now" id="p-now">R$ 188,86</div>
-          <div class="price-cup">🏷️ com cupom <b style="font-family:var(--head)">BOTANIKA</b> aplicado</div>
+          <div class="price-cup" id="p-disc">🏷️ −5% por quantidade · aplicado no checkout</div>
           <div class="price-meta">
             <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 66,27 sem juros</span></div>
             <div class="li"><i>◆</i> <span id="p-per">R$ 94,43 por pote</span></div>
@@ -614,9 +614,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
         </div>
         <div class="offer-cta">
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
-          <div class="coupon" id="coupon" title="Toque para copiar">
-            <span>cupom · <b>BOTANIKA</b> · 5% OFF</span>
-            <span id="coupon-hint">toque pra copiar</span>
+          <div class="coupon" aria-hidden="true">
+            <span>🔒 desconto por quantidade <b>já aplicado</b> no checkout</span>
           </div>
           <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil</div>
         </div>
@@ -647,8 +646,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   <div class="shell">
     <div class="final reveal">
       <div class="kicker center"><span></span><b>11</b> A constância começa hoje</div>
-      <h2 class="serif hsplit" data-split>Não na próxima queda. Hoje.</h2>
-      <p class="lead" style="margin-inline:auto">A condição de lançamento com o cupom <b>BOTANIKA</b> está no ar — garanta o seu ciclo antes que ela feche.</p>
+      <h2 class="serif hsplit" data-split>O primeiro passo é hoje.</h2>
+      <p class="lead" style="margin-inline:auto">Não na próxima queda, não na próxima escova — hoje. O desconto por quantidade está no ar; garanta o seu ciclo.</p>
       <div class="countdown" id="countdown" aria-label="Tempo restante da condição de lançamento">
         <div class="cd"><b id="cd-d">00</b><span>dias</span></div>
         <div class="cd"><b id="cd-h">00</b><span>horas</span></div>
@@ -746,18 +745,19 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   var COUPON='BOTANIKA';
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+'?discount='+COUPON;var e=utmString();if(e)u+='&'+e;return u;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{old:'R$ 99,40',now:'R$ 94,43',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 94,43 por pote',dur:'≈ 2 meses de rotina',save:'',label:'1 pote · com BOTANIKA'},
-    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 66,27 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',save:'Você economiza R$ 9,94',label:'2 potes · com BOTANIKA'},
-    '3':{old:'R$ 298,20',now:'R$ 283,29',parc:'ou 3× de R$ 99,40 sem juros',per:'R$ 94,43 por pote',dur:'≈ 6 meses · ciclo completo',save:'Você economiza R$ 14,91',label:'3 potes · com BOTANIKA'}
+    '1':{old:'',now:'R$ 99,40',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote'},
+    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%'},
+    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
-    set('p-old',k.old);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
+    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
+    set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.now);set('bar-label',k.label);
     var href=checkout(kit);

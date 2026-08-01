@@ -36,8 +36,7 @@
 - **Pasta:** `landing-hair/`
 - **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-hair/index.html
 - **Shopify:** produto `hair-botanika` · **VARIANT_ID `48650670670056`** (SKU 80.1.5)
-- **Preço:** R$ 99,40 à vista (3× de R$ 33,13) · cupom `BOTANIKA` 5% OFF em todos os kits (não há 10%) · frete grátis real só > R$ 349
-  - Kit 1 pote R$ 99,40 → c/ cupom R$ 94,43 · Kit 2 potes R$ 198,80 → R$ 188,86 · Kit 3 potes R$ 298,20 → R$ 283,29 (R$ 94,43/pote)
+- **Preço/descontos:** descontos **automáticos por quantidade** no Shopify (`HAIR5` = −5% em 2un, `HAIR10` = −10% em 3un — ambos ATIVOS): **1 pote R$ 99,40 · 2 potes R$ 188,86 (−5%) · 3 potes R$ 268,38 (−10%, R$ 89,46/pote)**. Checkout **sem cupom** (o desconto aplica sozinho por quantidade). Frete grátis real só > R$ 349. *(cupom `BOTANIKA` 5% existe, mas é redundante/pior que o automático nos kits)*
 - **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten · 1 cápsula/dia
 - **Identidade:** **"Fio de Seda"** — ameixa/vinho profundo escuro + rosé-gold + champagne · **Bodoni Moda + Familjen Grotesk**
 - **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, mesmo pipeline do Ômega — "cabelo/tecido fluindo" do kit 07) com bloom, motes nacarados e repel do ponteiro; **fallback 2D "Seda Líquida"** (canvas) se o WebGL falhar
