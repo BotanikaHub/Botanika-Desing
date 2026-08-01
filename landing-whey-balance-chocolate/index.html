@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 <style>
 /* ============================================================
@@ -291,6 +292,20 @@ footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(
   padding:12px 22px;border-radius:100px;opacity:0;pointer-events:none;transition:.35s var(--ease);box-shadow:0 12px 30px rgba(232,182,76,.4)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ---------- palco 3D (model-viewer) ---------- */
+.stage3d{position:relative;width:min(100%,540px);aspect-ratio:1;margin-inline:auto}
+.mv-prod{position:relative;z-index:2;width:100%;height:100%;background:transparent;
+  --poster-color:transparent;--progress-bar-color:transparent;--progress-mask:transparent;
+  filter:drop-shadow(0 40px 50px rgba(0,0,0,.5))}
+.mv-choco{position:absolute;z-index:1;width:26%;height:26%;background:transparent;
+  --poster-color:transparent;--progress-bar-color:transparent;pointer-events:none;
+  filter:drop-shadow(0 12px 16px rgba(0,0,0,.5))}
+.mv-choco.ch1{top:2%;left:4%;animation:floatY 5s ease-in-out infinite}
+.mv-choco.ch2{top:10%;right:0%;animation:floatY 6.4s ease-in-out .5s infinite}
+.mv-choco.ch3{bottom:6%;left:10%;animation:floatY 5.8s ease-in-out .9s infinite}
+.mv-choco.ch4{bottom:12%;right:6%;animation:floatY 6s ease-in-out .3s infinite}
+@media(prefers-reduced-motion:reduce){.mv-choco{animation:none}}
+
 /* ---------- barra de progresso ---------- */
 .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;
   background:linear-gradient(90deg,var(--gold),var(--gold-soft));box-shadow:0 0 12px rgba(232,182,76,.55)}
@@ -385,15 +400,11 @@ h2.title.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="hero-media reveal">
-    <div class="orbit">
-      <div class="orbit-ring">
-        <span class="chip c1"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-        <span class="chip c2"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-        <span class="chip c3"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-        <span class="chip c4"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-        <span class="chip c5"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-      </div>
-      <img class="orbit-prod" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_204204_ee99a334-f083-4c25-9d71-1750a8d549d5.png">
+    <div class="stage3d">
+      <model-viewer class="mv-choco ch1" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="34deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
+      <model-viewer class="mv-choco ch2" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/747719cd-5550-4e87-9a5e-982b1e365165.glb" auto-rotate rotation-per-second="-28deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
+      <model-viewer class="mv-choco ch3" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="40deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
+      <model-viewer class="mv-prod" id="mvHero" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/ce9a2ec3-462e-4b12-8e89-794c10dee71b.glb" camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="20deg" interaction-prompt="none" environment-image="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="1" camera-orbit="0deg 86deg 105%" field-of-view="30deg" loading="eager" reveal="auto" alt="Pote de Whey Balance Chocolate em 3D"></model-viewer>
     </div>
     <div class="hero-badge">
       <span class="dot"></span>
@@ -440,11 +451,10 @@ h2.title.reveal{opacity:1;transform:none}
       </div>
     </div>
     <div class="reveal">
-      <div class="levit">
-        <span class="chip lc1"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-        <span class="chip lc2"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-        <span class="chip lc3"><img loading="lazy" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-        <img class="orbit-prod" loading="lazy" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_204204_ee99a334-f083-4c25-9d71-1750a8d549d5.png">
+      <div class="stage3d">
+        <model-viewer class="mv-choco ch2" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/747719cd-5550-4e87-9a5e-982b1e365165.glb" auto-rotate rotation-per-second="-32deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
+        <model-viewer class="mv-choco ch4" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/7fd45761-6f02-4e86-920a-29cc2d94a044.glb" auto-rotate rotation-per-second="36deg" interaction-prompt="none" disable-zoom disable-tap environment-image="neutral" exposure="1" shadow-intensity="0.4" loading="lazy" reveal="auto" alt=""></model-viewer>
+        <model-viewer class="mv-prod" src="https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/ce9a2ec3-462e-4b12-8e89-794c10dee71b.glb" camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="-18deg" interaction-prompt="none" environment-image="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="1" camera-orbit="12deg 84deg 105%" field-of-view="30deg" loading="lazy" reveal="auto" alt="Pote de Whey Balance Chocolate em 3D"></model-viewer>
       </div>
     </div>
   </div>
