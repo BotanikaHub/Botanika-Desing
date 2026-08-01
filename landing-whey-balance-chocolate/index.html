@@ -177,6 +177,13 @@ header.scrolled{background:rgba(4,9,28,.78);backdrop-filter:blur(14px);border-bo
 .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--royal-2),var(--blue-glow));
   display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
 .quote .who b{font-size:14px}.quote .who small{color:var(--muted);font-size:12px;display:block}
+.quote.featured{background:rgba(232,182,76,.06);border-color:rgba(232,182,76,.32)}
+.quote.featured p{font-size:clamp(16px,2.4vw,20px);font-family:'Playfair Display',serif;font-style:italic;line-height:1.42}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px auto 0;max-width:840px}
+@media(max-width:640px){.proof-grid{grid-template-columns:1fr 1fr}}
+.proof{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--glass-border);background:#06122f;box-shadow:0 14px 34px rgba(3,8,26,.5);transition:transform .35s var(--ease),border-color .35s}
+.proof:hover{transform:translateY(-5px);border-color:rgba(232,182,76,.45)}
+.proof img{width:100%;height:100%;object-fit:cover;aspect-ratio:9/16;display:block}
 
 /* oferta */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
@@ -407,18 +414,17 @@ footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(
 <section class="section center" id="depoimentos">
   <span class="eyebrow reveal">Prova social</span>
   <h2 class="title reveal">Quem experimenta, <span class="gold">recomenda</span>.</h2>
-  <p class="lead reveal">A diferença de uma proteína limpa de verdade — no sabor e no dia a dia.</p>
-  <div class="media-frame reveal" style="margin-top:34px;aspect-ratio:16/7">
-    <video autoplay muted loop playsinline preload="none"
-      poster="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190807_7940232f-2fa4-4606-a8a1-a9253d7d77cb.png">
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_191327_c69d1583-9210-459a-86ff-7ef58f10102a.mp4" type="video/mp4">
-    </video>
+  <p class="lead reveal">Relatos reais de quem trocou o whey comum pelo Whey Balance.</p>
+  <div class="quote featured reveal" style="text-align:left;max-width:760px;margin:34px auto 0">
+    <div class="stars">★★★★★</div>
+    <p>“Bati com água quente e subiu um cheirinho de leite com chocolate da infância. O gosto é levinho, não é pesado como a maioria dos whey. Esse é o whey mais gostoso que já tomei.”</p>
+    <div class="who"><span class="avatar">AO</span><div><b>Amanda Ortolan</b><small>@amandaortolan.eng · cliente Whey Balance</small></div></div>
   </div>
-  <div class="quotes" style="text-align:left">
-    <div class="quote reveal"><div class="stars">★★★★★</div><p>“Finalmente um whey de chocolate que eu tomo puro na água e é gostoso. Não empelota e não pesa no estômago.”</p><div class="who"><span class="avatar">MA</span><div><b>Marina A.</b><small>cliente Botanika</small></div></div></div>
-    <div class="quote reveal"><div class="stars">★★★★★</div><p>“O colágeno junto fez diferença pra mim. Sabor limpo, sem aquele gosto artificial de sempre. Virou meu café da manhã.”</p><div class="who"><span class="avatar">RC</span><div><b>Rafael C.</b><small>cliente Botanika</small></div></div></div>
+  <div class="proof-grid stagger">
+    <a class="proof reveal" href="proof/depo-amanda-whey.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Depoimento da Amanda sobre o Whey Balance Chocolate" src="proof/depo-amanda-whey.jpg"></a>
+    <a class="proof reveal" href="proof/depo-drwilliam-postreino.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Whey Balance batido no pós-treino" src="proof/depo-drwilliam-postreino.jpg"></a>
+    <a class="proof reveal" href="proof/depo-victoria-haul.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Unboxing com o Whey Balance Chocolate" src="proof/depo-victoria-haul.jpg"></a>
   </div>
-  <p class="lead center" style="margin-top:18px;font-size:13px;opacity:.7">Depoimentos ilustrativos — substituir por avaliações reais autorizadas antes de publicar.</p>
 </section>
 
 <!-- ============ 7 · GARANTIA ============ -->
@@ -519,7 +525,7 @@ footer{border-top:1px solid var(--glass-border);margin-top:40px;background:rgba(
       </div>
       <div class="media-frame">
         <picture>
-          <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190810_4bc26cff-08c1-4854-8b8b-715ce1de234b.png">
+          <source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192253_bbfb80ba-3b1e-4451-b30d-a29dc4d8979a.png">
           <img loading="lazy" alt="Whey Balance Chocolate — últimas unidades" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190810_4bc26cff-08c1-4854-8b8b-715ce1de234b.png">
         </picture>
       </div>
