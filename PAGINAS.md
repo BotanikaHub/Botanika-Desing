@@ -37,12 +37,12 @@
 - **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-hair/index.html
 - **Shopify:** produto `hair-botanika` · **VARIANT_ID `48650670670056`** (SKU 80.1.5)
 - **Preço/descontos:** descontos **automáticos por quantidade** no Shopify (`HAIR5` = −5% em 2un, `HAIR10` = −10% em 3un — ambos ATIVOS): **1 pote R$ 99,40 · 2 potes R$ 188,86 (−5%) · 3 potes R$ 268,38 (−10%, R$ 89,46/pote)**. Checkout **sem cupom** (o desconto aplica sozinho por quantidade). Frete grátis real só > R$ 349. *(cupom `BOTANIKA` 5% existe, mas é redundante/pior que o automático nos kits)*
-- **Produto:** 12 ativos (Biotina, Silício Orgânico, Zinco, Ferro, Cisteína, Metionina, Iodo, Vit A/E/B1/B2/B5) · 60 cápsulas · 38g · sem açúcar/glúten · 1 cápsula/dia
+- **Produto:** **13 ativos** (fórmula atual: Vit A/E/B1/B2/B5, Biotina, Zinco, Ferro, Iodo, **Selênio**, **Licopeno**, Cisteína, Metionina, Silício) · 60 cáps · 38g · sem açúcar/glúten · 1 cáps/dia · rende 60 dias
 - **Identidade:** **"Fio de Seda"** — ameixa/vinho profundo escuro + rosé-gold + champagne · **Bodoni Moda + Familjen Grotesk**
 - **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, mesmo pipeline do Ômega — "cabelo/tecido fluindo" do kit 07) com bloom, motes nacarados e repel do ponteiro; **fallback 2D "Seda Líquida"** (canvas) se o WebGL falhar
-- **Imagens (Higgsfield):** editorial (mulher cabelo luminoso 16:9+9:16), cápsulas/ingredientes, macro de fios de seda (band divider), flatlay com o pote — via CDN cloudfront (⚠️ não puderam ser conferidas visualmente no sandbox; validar no preview)
+- **Imagens:** **fotos REAIS do Shopify** (hero, para-quem, e kits 1/2/3 potes dinâmicos na oferta) puxadas dos metafields; band divider = 1 render abstrato (macro de fios). Fonte: metafields do produto (título, tabela nutricional, benefícios, FAQ, para-quem, ritual — tudo real)
 - **Assets locais:** `hair-rotulo.png` (pote navy transparente, herói) · `hair-caixa.png`
-- **Estrutura:** 12 seções (hero, dor, band, solução, ingredientes, benefícios, ritual, para quem, depoimentos, garantia, oferta, FAQ, escassez) + header, WhatsApp, barra mobile
+- **Estrutura:** 13 seções (+ **Tabela de transparência** com doses/%VD reais). Hero pain-first ("Você já tentou de tudo por fora — menos olhar por dentro"). Copy da Lovable + metafields Shopify
 - **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter
 - **Status:** ✅ reconstruída v2 (WebGL, imagens editoriais, distinta do Ômega)
 
