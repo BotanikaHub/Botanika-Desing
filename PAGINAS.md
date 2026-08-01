@@ -42,6 +42,16 @@
 - **Pote:** render SVG estilizado (trocar por PNG transparente quando disponível)
 - **Status:** ✅ pronta (pendente: VARIANT_ID + preços reais da loja)
 
+### 4. Whey Balance Chocolate — Whey Concentrado + Colágeno C-PURE®
+- **Pasta:** `landing-whey-balance/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-whey-balance/index.html
+- **Shopify:** produto `whey-balance-chocolate` · **VARIANT_ID `48115368919272`**
+- **Preço:** R$ 147,30 à vista (3x de R$ 49,10) · kits 2 (5% OFF) e 3 (10% OFF) — *confirmar preços de kit na loja*
+- **Produto:** whey concentrado + colágeno hidrolisado C-PURE® · 23 g de proteína/dose · 455 g · 13 porções · sabor chocolate (cacau natural) · adoçado naturalmente (estévia + taumatina) · sem corantes artificiais · sem adição de açúcares · não contém glúten · contém lactose
+- **Identidade:** azul-cobalto profundo (rótulo) + dourado premium + cacau · fundo radial azul com peças de cacau flutuando (parallax + repulsão pelo cursor) e partículas subindo · **vídeo 3D animado do pote como centro do hero** · Playfair Display + Manrope
+- **Assets:** `landing-whey-balance/assets/produto.png` (referência do rótulo) · hero vídeo/still gerados no Higgsfield (CloudFront — localizar no repo quando possível)
+- **Status:** 🚧 em construção (hero pronto; faltam demais seções da LP)
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`

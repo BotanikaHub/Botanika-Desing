@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whey Balance Chocolate | Botanika — Proteína limpa, sabor de verdade</title>
+<meta name="description" content="Whey concentrado + Colágeno C-PURE®. 23 g de proteína por dose, sabor chocolate com cacau natural. Adoçado naturalmente, sem corantes e sem adição de açúcares.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-inner:#0e4f8f;
+  --bg-mid:#062a52;
+  --bg-outer:#010a16;
+  --text:#eef4ff;
+  --muted:rgba(226,236,255,.68);
+  --gold:#e8b64c;
+  --gold-soft:#f2cf7a;
+  --cacao:#7a4a28;
+  --navy:#06264a;
+  --glass-bg:rgba(255,255,255,.05);
+  --glass-border:rgba(255,255,255,.14);
+  --font-body:'Manrope',system-ui,sans-serif;
+  --font-head:'Playfair Display',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  font-family:var(--font-body);
+  color:var(--text);
+  background:radial-gradient(circle at 50% 42%,var(--bg-inner) 0%,var(--bg-mid) 48%,var(--bg-outer) 100%);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::after{ /* vinheta */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(circle at 50% 45%,transparent 55%,rgba(1,10,22,.55) 100%);
+}
+a{color:inherit;text-decoration:none}
+
+/* ---------- HEADER ---------- */
+.site-header{
+  position:fixed;top:0;left:0;width:100%;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.6rem 4%;
+}
+.logo{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:1.15rem;letter-spacing:.01em}
+.logo svg{color:var(--gold)}
+.logo b{font-family:var(--font-head);font-weight:700}
+.nav{
+  display:flex;gap:.25rem;padding:.35rem;border-radius:100px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 8px 32px rgba(0,0,0,.18),inset 0 0 0 1px rgba(255,255,255,.06);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+}
+.nav a{
+  font-size:.82rem;font-weight:500;color:var(--muted);
+  padding:.5rem 1.1rem;border-radius:100px;transition:all .3s ease;white-space:nowrap;
+}
+.nav a:hover,.nav a.active{background:var(--gold);color:var(--navy);font-weight:600}
+.buy-top{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  color:var(--navy);border:none;font-weight:700;font-size:.82rem;
+  padding:.8rem 1.5rem;border-radius:100px;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease;
+  box-shadow:0 10px 24px rgba(232,182,76,.24);
+}
+.buy-top:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(232,182,76,.34)}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  padding:7.5rem 4% 3rem;overflow:hidden;
+}
+.hero-grid{
+  position:relative;z-index:10;width:100%;max-width:1400px;
+  display:flex;align-items:stretch;justify-content:space-between;gap:2rem;
+  min-height:calc(100vh - 10rem);
+}
+
+/* colunas */
+.hero-left,.hero-right{display:flex;flex-direction:column;justify-content:center;gap:1.6rem;padding:2rem 0}
+.hero-left{max-width:440px}
+.hero-right{max-width:340px;align-items:flex-end;text-align:right}
+
+.eyebrow{
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+.hero-title{
+  font-family:var(--font-head);font-weight:800;line-height:.94;
+  font-size:clamp(3.1rem,6.4vw,5.6rem);letter-spacing:-.01em;
+}
+.hero-title em{display:block;font-style:italic;font-weight:700;
+  background:linear-gradient(120deg,var(--gold-soft),var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-desc{color:var(--muted);font-size:1.05rem;line-height:1.6;max-width:400px}
+
+.cta-row{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.buy-btn{
+  display:inline-flex;align-items:center;gap:1rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:var(--navy);
+  border:none;font-weight:800;font-size:1rem;padding:.5rem .5rem .5rem 1.6rem;
+  border-radius:100px;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease;
+  box-shadow:0 14px 34px rgba(232,182,76,.28);
+}
+.buy-btn:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(232,182,76,.4)}
+.buy-btn .plus{
+  width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;line-height:1;
+}
+.price{font-size:.9rem;color:var(--muted);line-height:1.4}
+.price b{color:var(--text);font-weight:700}
+
+.badge{display:flex;align-items:center;gap:.85rem;margin-top:.4rem}
+.badge .seal{
+  width:46px;height:46px;border-radius:12px;flex:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:var(--navy);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(232,182,76,.25);
+}
+.badge .bt{display:flex;flex-direction:column}
+.badge .bt strong{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+.badge .bt span{font-size:.82rem;color:var(--muted)}
+
+/* coluna direita */
+.spec-card{
+  width:100%;padding:1.4rem 1.5rem;border-radius:22px;text-align:left;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 20px 50px rgba(0,0,0,.28);
+}
+.spec{display:flex;align-items:baseline;gap:.6rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.spec:last-of-type{border-bottom:none}
+.spec b{font-family:var(--font-head);font-weight:800;font-size:1.7rem;color:var(--gold);min-width:74px}
+.spec span{font-size:.86rem;color:var(--muted)}
+.flavor-chip{
+  margin-top:1rem;display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;
+  padding:.5rem .9rem;border-radius:100px;background:rgba(122,74,40,.28);border:1px solid rgba(232,182,76,.35);
+  color:var(--gold-soft);
+}
+.side-title{
+  font-family:var(--font-head);font-weight:800;line-height:.92;
+  font-size:clamp(2.6rem,5.4vw,4.6rem);text-align:right;letter-spacing:-.01em;
+}
+.side-title .outline{
+  -webkit-text-stroke:1.5px rgba(255,255,255,.6);color:transparent;display:block;
+}
+.side-title .fill{
+  background:linear-gradient(120deg,var(--gold-soft),var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;display:block;
+}
+
+/* ---------- CENTRO: VÍDEO ---------- */
+.hero-center{
+  position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.hero-center::before{
+  content:"";position:absolute;width:min(70vw,760px);height:min(70vw,760px);
+  background:radial-gradient(circle,rgba(14,79,143,.55) 0%,transparent 68%);filter:blur(10px);
+}
+.video-wrap{
+  position:relative;width:min(58vw,720px);aspect-ratio:16/9;
+  border-radius:20px;overflow:hidden;
+  opacity:0;transform:translateY(24px);
+  box-shadow:0 40px 90px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+  will-change:transform;
+  transition:opacity 1.2s ease .25s;
+}
+.video-wrap.in{opacity:1}
+.video-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+.video-wrap::after{ /* leve brilho superior */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 30%);
+}
+.float-anim{animation:bob 6s ease-in-out infinite}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -18px}}
+
+/* ---------- CAMADAS FLUTUANTES (cacau) ---------- */
+.float-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.float-bg{z-index:1}
+.float-fg{z-index:20}
+.piece{position:absolute;will-change:transform;filter:drop-shadow(0 14px 22px rgba(0,0,0,.45))}
+.choc{
+  border-radius:12px;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.34) 0 2px,transparent 2px 33.33%),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.34) 0 2px,transparent 2px 33.33%),
+    linear-gradient(135deg,#9a6238,#3d2414);
+  background-color:#5c3620;
+  box-shadow:inset 0 2px 6px rgba(255,255,255,.16),inset 0 -8px 14px rgba(0,0,0,.5);
+}
+.nib{border-radius:50%;background:radial-gradient(circle at 34% 30%,#7a563a,#2a1608)}
+.caramel{border-radius:14px;background:linear-gradient(135deg,var(--gold-soft),#b9782f);
+  box-shadow:inset 0 2px 6px rgba(255,255,255,.35),inset 0 -8px 14px rgba(0,0,0,.35)}
+
+/* ---------- PARTÍCULAS SUBINDO ---------- */
+#particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.spark{position:absolute;bottom:-40px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.85),rgba(232,182,76,.25));
+  opacity:0}
+@keyframes rise{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  12%{opacity:.5}
+  88%{opacity:.5}
+  100%{transform:translateY(-108vh) translateX(28px);opacity:0}
+}
+
+/* ---------- ENTRADA TEXTO ---------- */
+.fade-up{opacity:0;transform:translateY(26px);animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) forwards}
+.hero-left .fade-up:nth-child(1){animation-delay:.15s}
+.hero-left .fade-up:nth-child(2){animation-delay:.25s}
+.hero-left .fade-up:nth-child(3){animation-delay:.35s}
+.hero-left .fade-up:nth-child(4){animation-delay:.45s}
+.hero-left .fade-up:nth-child(5){animation-delay:.55s}
+.hero-right .fade-up:nth-child(1){animation-delay:.4s}
+.hero-right .fade-up:nth-child(2){animation-delay:.55s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width:1024px){
+  .nav{display:none}
+  .hero-grid{flex-direction:column;align-items:center;text-align:center;gap:1rem;min-height:auto}
+  .hero-left,.hero-right{max-width:520px;align-items:center;text-align:center;padding:0}
+  .hero-center{position:relative;inset:auto;order:-1;margin-bottom:.5rem}
+  .video-wrap{width:min(90vw,560px)}
+  .hero-desc{margin-inline:auto}
+  .side-title{text-align:center}
+  .badge{justify-content:center}
+  .cta-row{justify-content:center}
+  .spec-card{text-align:left}
+}
+@media (max-width:560px){
+  .site-header{padding:1.1rem 5%}
+  .buy-top{padding:.7rem 1.1rem}
+  .hero{padding:6rem 6% 3rem}
+  .hero-title{font-size:clamp(2.6rem,11vw,3.4rem)}
+}
+@media (prefers-reduced-motion:reduce){
+  .float-anim{animation:none}
+  .fade-up{animation-duration:.01ms}
+  .spark{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo" aria-label="Botanika">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 3C7 6 5 11 6 18c6 1 11-2 14-8-4 .5-7 2-9 5 .5-5 .5-9 1-12Z" fill="currentColor"/>
+    </svg>
+    <b>Botanika</b>
+  </div>
+  <nav class="nav" aria-label="Navegação">
+    <a href="#" class="active">Início</a>
+    <a href="#formula">Fórmula</a>
+    <a href="#sabor">Sabor</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="#como-tomar">Como tomar</a>
+  </nav>
+  <a class="buy-top" href="https://botanikabrasil.com.br/cart/48115368919272:1" aria-label="Comprar Whey Balance">Comprar</a>
+</header>
+
+<main class="hero">
+  <div id="particles" aria-hidden="true"></div>
+  <div class="float-layer float-bg" id="floatBg" aria-hidden="true"></div>
+
+  <div class="hero-center" aria-hidden="true">
+    <div class="video-wrap float-anim" id="videoWrap">
+      <video
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_180153_ce705c3d-db40-4336-a625-31ed86077db7.mp4"
+        poster="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_174723_cc1d86e0-c5b5-49a8-9d7d-68468e71e524.png"
+        autoplay muted loop playsinline preload="metadata"></video>
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-left">
+      <span class="eyebrow fade-up">Whey concentrado + Colágeno C-PURE®</span>
+      <h1 class="hero-title fade-up">Proteína limpa,<em>sabor de verdade.</em></h1>
+      <p class="hero-desc fade-up">23 g de proteína por dose, sabor chocolate com cacau natural. Adoçado naturalmente — sem corantes e sem adição de açúcares.</p>
+      <div class="cta-row fade-up">
+        <a class="buy-btn" href="https://botanikabrasil.com.br/cart/48115368919272:1">Comprar agora <span class="plus">+</span></a>
+        <span class="price">3x de <b>R$ 49,10</b><br>ou R$ 147,30 à vista</span>
+      </div>
+      <div class="badge fade-up">
+        <span class="seal" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.6.9-5.5-4-3.9 5.5-.8L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="bt">
+          <strong>Premium</strong>
+          <span>Sem glúten · Sem adição de açúcares</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="spec-card fade-up">
+        <div class="spec"><b>23g</b><span>proteína por dose<br>whey + colágeno C-PURE®</span></div>
+        <div class="spec"><b>455g</b><span>13 porções por embalagem</span></div>
+        <div class="spec"><b>0</b><span>açúcar adicionado · adoçado naturalmente</span></div>
+        <span class="flavor-chip">Sabor Chocolate · cacau natural</span>
+      </div>
+      <h2 class="side-title fade-up">
+        <span class="outline">Força</span>
+        <span class="fill">+ Tônus</span>
+      </h2>
+    </div>
+  </div>
+
+  <div class="float-layer float-fg" id="floatFg" aria-hidden="true"></div>
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  // Reveal do vídeo
+  var vw = document.getElementById('videoWrap');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ vw.classList.add('in'); }); });
+
+  // ---- Peças de cacau (parallax + repulsão) ----
+  // {layer, type, size, top%, left%, opacity}
+  var defs = [
+    {l:'fg',t:'choc',    s:120, top:24, left:26, o:1},
+    {l:'fg',t:'nib',     s:46,  top:62, left:40, o:.9},
+    {l:'fg',t:'caramel', s:70,  top:30, left:70, o:1},
+    {l:'fg',t:'choc',    s:90,  top:74, left:66, o:1},
+    {l:'fg',t:'nib',     s:34,  top:16, left:52, o:.8},
+    {l:'bg',t:'choc',    s:150, top:20, left:12, o:.5},
+    {l:'bg',t:'caramel', s:64,  top:52, left:84, o:.5},
+    {l:'bg',t:'nib',     s:54,  top:80, left:22, o:.55},
+    {l:'bg',t:'choc',    s:80,  top:70, left:80, o:.45}
+  ];
+  var fg = document.getElementById('floatFg');
+  var bg = document.getElementById('floatBg');
+  var pieces = [];
+  defs.forEach(function(d,i){
+    var el = document.createElement('div');
+    el.className = 'piece ' + d.t;
+    el.style.width = d.s+'px';
+    el.style.height = d.s+'px';
+    el.style.top = d.top+'%';
+    el.style.left = d.left+'%';
+    el.style.opacity = d.o;
+    (d.l==='fg'?fg:bg).appendChild(el);
+    pieces.push({el:el, rx:0, ry:0, angle:Math.random()*360, dur:[5,7,6,8,5.5,6.5,9,11,10][i%9], phase:i*0.7});
+  });
+
+  var mouse={x:0,y:0,px:-9999,py:-9999}, cur={x:0,y:0};
+  window.addEventListener('mousemove',function(e){
+    mouse.x=(e.clientX/window.innerWidth)-0.5;
+    mouse.y=(e.clientY/window.innerHeight)-0.5;
+    mouse.px=e.clientX; mouse.py=e.clientY;
+  });
+
+  var start = Date.now();
+  function loop(){
+    var t=(Date.now()-start)*0.001;
+    cur.x += (mouse.x-cur.x)*0.05;
+    cur.y += (mouse.y-cur.y)*0.05;
+
+    // parallax das camadas
+    fg.style.transform='translate('+(cur.x*55)+'px,'+(cur.y*55)+'px)';
+    bg.style.transform='translate('+(cur.x*-28)+'px,'+(cur.y*-28)+'px)';
+
+    // tilt suave do vídeo seguindo o cursor
+    vw.style.transform='perspective(1000px) rotateY('+(cur.x*8)+'deg) rotateX('+(cur.y*-6)+'deg) translate('+(cur.x*18)+'px,'+(cur.y*18)+'px)';
+
+    for(var i=0;i<pieces.length;i++){
+      var p=pieces[i];
+      var tRx=0,tRy=0,sp=1;
+      if(fine && mouse.px>-9000){
+        var r=p.el.getBoundingClientRect();
+        var cx=r.left+r.width/2, cy=r.top+r.height/2;
+        var dx=mouse.px-cx, dy=mouse.py-cy;
+        var dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<360){
+          var f=(360-dist)/360;
+          tRx=(dx/dist)*f*-80; tRy=(dy/dist)*f*-80; sp=1+f*5;
+        }
+      }
+      p.rx += (tRx-p.rx)*0.1;
+      p.ry += (tRy-p.ry)*0.1;
+      p.angle += 0.2*sp;
+      var ph=(t+p.phase)*(Math.PI*2/p.dur);
+      var fy=Math.sin(ph)*14, fa=Math.cos(ph)*6;
+      p.el.style.transform='translate('+(p.rx)+'px,'+(p.ry+fy)+'px) rotate('+(p.angle+fa)+'deg)';
+    }
+    requestAnimationFrame(loop);
+  }
+  if(!reduce) requestAnimationFrame(loop);
+
+  // ---- Partículas subindo ----
+  var pc=document.getElementById('particles');
+  function spark(){
+    if(!pc || document.hidden) return;
+    var s=document.createElement('div');
+    s.className='spark';
+    var sz=Math.random()*14+6;
+    s.style.width=sz+'px'; s.style.height=sz+'px';
+    s.style.left=(Math.random()*100)+'%';
+    var dur=Math.random()*6+5;
+    s.style.animation='rise '+dur+'s linear forwards';
+    pc.appendChild(s);
+    setTimeout(function(){ s.remove(); }, dur*1000);
+  }
+  if(!reduce) setInterval(spark,480);
+})();
+</script>
+</body>
+</html>
