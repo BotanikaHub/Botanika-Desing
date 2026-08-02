@@ -11,7 +11,7 @@
 - **Guia de construção/design:** `botanika-lp-superprompt.md` (design system, interações, regras).
 - **Checkout Shopify:** `https://botanikabrasil.com.br/cart/<VARIANT_ID>:<QTD>` (kit 1 nos botões soltos; a oferta muda por kit).
 - Ao terminar uma edição: validar (`node --check` nos scripts), commit, e push para a branch `lp`.
-- **Camada imersiva compartilhada:** todas as LPs usam libs self-hosted em `<pasta>/vendor/` (gsap + ScrollTrigger + lenis) → **scroll suave (Lenis)**, **cursor glow**, **parallax de imagens** e header some ao rolar. Bloco aditivo e guardado (degrada com segurança; respeita `prefers-reduced-motion`).
+- **Camada imersiva compartilhada:** todas as LPs usam libs self-hosted em `<pasta>/vendor/` (gsap + ScrollTrigger) → **cursor glow**, **parallax de imagens** (ScrollTrigger) e header some ao rolar. Scroll nativo + `scroll-behavior:smooth` (o Lenis foi removido por travar o scroll em algumas páginas). Bloco aditivo e guardado (degrada com segurança; respeita `prefers-reduced-motion`).
 
 ## Páginas
 
@@ -45,7 +45,7 @@
 - **Assets locais:** `hair-rotulo.png` (pote navy transparente, herói) · `hair-caixa.png`
 - **Estrutura:** 13 seções (+ **Tabela de transparência** com doses/%VD reais). Hero pain-first ("Você já tentou de tudo por fora — menos olhar por dentro"). Copy da Lovable + metafields Shopify
 - **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter
-- **Imersão:** Lenis (scroll suave) + GSAP ScrollTrigger (parallax de imagens + **cor do fundo WebGL por seção**), cursor glow, entrada cinematográfica do hero, marquee de ativos, barras de %VD animadas, header some ao rolar. Libs de animação **self-hosted** em `landing-hair/vendor/` (three via unpkg).
+- **Imersão:** GSAP ScrollTrigger (parallax de imagens + **cor do fundo WebGL por seção**), cursor glow, entrada cinematográfica do hero, marquee de ativos, barras de %VD animadas, header some ao rolar. Libs de animação **self-hosted** em `landing-hair/vendor/` (three via unpkg).
 - **Status:** ✅ reconstruída v2 (WebGL, imagens editoriais, distinta do Ômega)
 
 ### 4. Whey Balance Chocolate — Whey + Colágeno C-PURE®
