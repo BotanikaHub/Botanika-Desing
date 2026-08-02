@@ -26,3 +26,5 @@ Sempre que a tarefa envolver **criar ou editar uma landing page**, leia primeiro
 ## Como o usuário edita uma LP específica (comando pra colar em chat novo)
 
 > "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
+
+**Criar uma LP nova?** O comando completo e otimizado (v2) está em `botanika-lp-kit/COMANDO-CRIAR-LP.md` — leia e siga-o à risca; use `landing-hair/` como exemplo-régua.

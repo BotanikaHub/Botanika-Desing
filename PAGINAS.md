@@ -58,3 +58,8 @@
 
 ## Como editar uma página específica (comando pra colar num chat novo)
 > "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
+
+## Como CRIAR uma nova página (comando pra colar num chat novo)
+> "Leia `botanika-lp-kit/COMANDO-CRIAR-LP.md` no repo `botanikahub/botanika-desing` e siga-o à risca. Use como régua `git show origin/lp:landing-hair/index.html` e `git show origin/lp:landing-omega/index.html`. Vou criar a LP do **[PRODUTO]**. Responda só com (a) pasta, (b) identidade proposta e (c) referências — e aguarde meu ok."
+
+O comando completo (v2, com todos os aprendizados: metafields do Shopify como fonte da verdade, descontos automáticos por quantidade, fotos reais, WebGL flow-wave, loader, tabela de doses, prova em print) fica em **`botanika-lp-kit/COMANDO-CRIAR-LP.md`**. **Exemplo-régua da última LP:** `landing-hair/` (a mais completa).
