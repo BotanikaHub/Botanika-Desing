@@ -176,6 +176,28 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 /* offer kit image (muda por kit) */
 .kit-visual{height:clamp(140px,20vw,180px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
 .kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:opacity .3s var(--ease)}
+/* loader */
+.loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-in{text-align:center;width:min(78vw,300px)}
+.loader-brand{font-family:var(--head);font-size:23px;margin-bottom:16px}
+.loader-brand span{font-family:var(--body);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose)}
+.loader-count b{font-family:var(--head);font-weight:600;font-size:clamp(56px,12vw,104px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.loader-bar{height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:14px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .2s linear}
+/* message / print-style proof */
+.proof-hero{max-width:580px;margin:0 auto 30px}
+.msg{border:1px solid var(--line-2);border-radius:var(--radius);padding:20px 22px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(48,24,39,.4));position:relative}
+.msg-top{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.msg-top .dot{width:8px;height:8px;border-radius:50%;background:#25d366;box-shadow:0 0 8px #25d366}
+.msg-top b{color:var(--soft);font-weight:600}
+.bubble{font-size:17px;line-height:1.5;color:var(--cream);background:rgba(230,178,149,.12);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:14px 16px}
+.msg-stars{color:var(--gold);letter-spacing:2px;margin-top:12px;font-size:15px}
+/* video */
+.vid{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);box-shadow:0 34px 80px -40px rgba(0,0,0,.8);background:var(--panel)}
+.vid video{width:100%;height:100%;object-fit:cover;display:block}
+.vid::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(90% 90% at 50% 30%,transparent,rgba(15,7,12,.35))}
+.vid .cap{position:absolute;left:16px;bottom:14px;z-index:2;font-size:12.5px;color:var(--soft);padding:6px 12px;border-radius:100px;background:rgba(21,10,17,.5);border:1px solid var(--line);backdrop-filter:blur(6px)}
 .stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(72vw,600px)}
 .stage-glow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(230,178,149,.42),rgba(91,39,64,.18) 45%,transparent 70%);filter:blur(6px);animation:breathe 7s ease-in-out infinite}
@@ -191,7 +213,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 
 /* full-width image band divider */
 .band{position:relative;height:clamp(200px,30vw,360px);overflow:hidden;border-block:1px solid var(--line)}
-.band img{width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
+.band img,.band video{width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
 .band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg),transparent 30%,transparent 70%,var(--bg)),linear-gradient(180deg,rgba(15,7,12,.4),rgba(15,7,12,.55))}
 .band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
 .band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:22ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
@@ -379,6 +401,13 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </style>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-in">
+    <div class="loader-brand">Botanika <span>Hair</span></div>
+    <div class="loader-count"><b id="loader-num">000</b></div>
+    <div class="loader-bar"><i id="loader-fill"></i></div>
+  </div>
+</div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <canvas id="gl" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
@@ -449,8 +478,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </section>
 
 <!-- band divider -->
-<div class="band reveal" aria-hidden="false">
-  <img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_230227_08216b6e-1d92-4444-b837-58077ccffdce.png" alt="Fios de cabelo saudáveis, brilhantes como fios de seda">
+<div class="band reveal">
+  <video autoplay muted loop playsinline preload="metadata" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_230227_08216b6e-1d92-4444-b837-58077ccffdce.png" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_235943_1f6e38dc-824a-472b-9981-fade1ba90822.mp4" aria-hidden="true"></video>
   <div class="band-txt"><p>“Fio forte não nasce no creme. Nasce na raiz.”</p></div>
 </div>
 
@@ -612,8 +641,14 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <div class="numc"><b class="num" data-target="60">0</b><span>dias de uso por pote</span></div>
       <div class="numc"><b class="num" data-target="1" data-suffix="/dia">0</b><span>cápsula, rotina simples</span></div>
     </div>
-    <div class="proof" data-stagger>
-      <div class="quote"><span class="st">★★★★★</span><p>“Em uma semana do Hair Botanika eu já vi uma enorme diferença na queda. Não sai mais chumaço de cabelo no banho.”</p><span class="who">Cliente Botanika · relato no direct</span></div>
+    <div class="proof-hero reveal">
+      <div class="msg">
+        <div class="msg-top"><span class="dot"></span> respondeu ao seu story · <b>relato no direct</b></div>
+        <div class="bubble">Em uma semana do Hair Botanika eu já vi uma enorme diferença na queda. Não sai mais chumaço de cabelo no banho.</div>
+        <div class="msg-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="proof" data-stagger style="grid-template-columns:repeat(2,1fr);max-width:760px;margin-inline:auto">
       <div class="quote"><span class="st">★★★★★</span><p>“Comprei o Tri, o Hair e a Vitamina C. Com uma semana já me sinto uma pessoa completamente diferente.”</p><span class="who">Cliente Botanika · relato no direct</span></div>
       <div class="quote"><span class="st">★★★★★</span><p>“Suplemento honesto: dose funcional e fórmula limpa. Cuidar de cabelo, unha e pele virou rotina, sem hype.”</p><span class="who">Rotina Botanika · comunidade</span></div>
     </div>
@@ -654,6 +689,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
           <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
           <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+          <button data-kit="4" role="tab"><span>4 potes</span><span class="tag">−10% + frete grátis</span></button>
         </div>
       </div>
       <div class="offer-body">
@@ -809,7 +845,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   var KITS={
     '1':{old:'',now:'R$ 99,40',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_uma-embalagem-iluminacao-_fFp2Rp4CDY_1.png?v=1782230763'},
     '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_duas-embalagens-juntas-um_Teil9mdVNR.png?v=1782229421'},
-    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_ohYPzy7829.png?v=1782230149'}
+    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_ohYPzy7829.png?v=1782230149'},
+    '4':{old:'R$ 397,60',now:'R$ 357,84',parc:'ou 3× de R$ 119,28 sem juros',per:'R$ 89,46 por pote',dur:'≈ 8 meses · frete grátis incluso',disc:'🏷️ −10% + 🚚 frete grátis',save:'Economiza R$ 39,76 + o frete',label:'4 potes · frete grátis',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_ohYPzy7829.png?v=1782230149'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
@@ -901,6 +938,20 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 
   applyKit('2');wireCheckout();
   if(win.fbq)fbq('track','ViewContent',{content_name:'Hair Botanika',content_ids:[VARIANT],content_type:'product'});
+
+  /* loader 000 -> 100 */
+  (function(){
+    var ld=doc.getElementById('loader'); if(!ld) return;
+    var num=doc.getElementById('loader-num'), fill=doc.getElementById('loader-fill');
+    function finish(){ if(ld.classList.contains('done'))return; ld.classList.add('done'); setTimeout(function(){ if(ld.parentNode) ld.parentNode.removeChild(ld); },800); }
+    if(reduce){ finish(); return; }
+    var t0=null, dur=1300;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var v=Math.round((1-Math.pow(1-p,2))*100);
+      if(num) num.textContent=(v<10?'00':v<100?'0':'')+v; if(fill) fill.style.width=v+'%';
+      if(p<1) requestAnimationFrame(step); else setTimeout(finish,180); }
+    requestAnimationFrame(step);
+    setTimeout(finish,3000);
+  })();
 })();
 </script>
 
