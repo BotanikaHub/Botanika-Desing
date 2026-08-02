@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Super Vitamina C — Botanika | Vitamina C + Quercetina + Própolis</title>
+<meta name="description" content="Super Vitamina C da Botanika: 1000 mg de vitamina C com quercetina e própolis — três ativos em sinergia para apoiar a imunidade e a proteção antioxidante. 2 cápsulas por dia.">
+<meta name="theme-color" content="#170b04">
+<link rel="canonical" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-super-vitamina-c/index.html">
+
+<meta property="og:type" content="product">
+<meta property="og:title" content="Super Vitamina C — Botanika | Vitamina C + Quercetina + Própolis">
+<meta property="og:description" content="1000 mg de vitamina C com quercetina e própolis. Três ativos em sinergia, uma dose. Apoio à imunidade e proteção antioxidante.">
+<meta property="og:image" content="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/Super_Vitamina_C_Vitamina_C_Quercetina_Propolis_1.png?v=1782243595">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Super Vitamina C — Botanika">
+<meta name="twitter:description" content="1000 mg de vitamina C + quercetina + própolis. Três ativos em sinergia, uma dose.">
+<meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/Super_Vitamina_C_Vitamina_C_Quercetina_Propolis_1.png?v=1782243595">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{ "imports": {
+    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
+} }
+</script>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','828186133708463');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1"></noscript>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#170b04; --bg2:#0e0602; --panel:#241408; --panel-2:#2e1a0a;
+  --amber:#f4a92b; --amber-hi:#ffc65a; --amber-lo:#c76b12;
+  --orange:#ff7a1a; --orange-hi:#ff9a44;
+  --lime:#cde94a; --lime-hi:#e2f77a;
+  --cream:#fdf3e3; --text:#fdf3e3;
+  --muted:rgba(253,243,227,.60); --soft:rgba(253,243,227,.82);
+  --glass:rgba(255,220,160,.05); --glass-2:rgba(255,220,160,.08);
+  --line:rgba(244,169,43,.16); --line-2:rgba(244,169,43,.32);
+  --grad:linear-gradient(118deg,var(--orange),var(--amber));
+  --grad-lime:linear-gradient(118deg,var(--amber),var(--lime));
+  --head:'Spectral',Georgia,'Times New Roman',serif;
+  --body:'Onest',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --maxw:1180px; --ease:cubic-bezier(.2,.7,.2,1); --radius:24px; --radius-sm:16px;
+}
+html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:var(--body);
+  font-size:17px;line-height:1.62;font-weight:400;letter-spacing:.003em;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video{max-width:100%;display:block;height:auto}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--amber);color:#2a1500}
+
+canvas#gl,canvas#bg{position:fixed;inset:0;width:100%;height:100%;display:block}
+canvas#gl{z-index:-2}
+canvas#bg{z-index:-3}
+.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 78% at 50% -10%,rgba(255,122,26,.12),transparent 60%),
+             radial-gradient(70% 55% at 86% 12%,rgba(205,233,74,.12),transparent 72%),
+             linear-gradient(180deg,rgba(14,6,2,.04),rgba(14,6,2,.55))}
+
+.serif{font-family:var(--head);font-weight:600;line-height:1.06;letter-spacing:-.01em}
+.shell{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(18px,5vw,44px)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--amber);
+  padding:7px 15px;border:1px solid var(--line-2);border-radius:100px;background:var(--glass)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px var(--orange)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:var(--grad);box-shadow:0 0 16px rgba(255,122,26,.6)}
+
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s var(--ease)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:18px;
+  margin:12px auto;max-width:calc(var(--maxw) + 26px);padding:11px clamp(14px,4vw,22px);
+  border:1px solid var(--line);border-radius:100px;background:rgba(23,11,4,.34);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:.4s var(--ease)}
+.hdr.scrolled .hdr-in{background:rgba(14,6,2,.82);border-color:var(--line-2)}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--head);font-weight:600;font-size:19px}
+.brand i{width:11px;height:11px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px var(--orange);font-style:normal;display:inline-block}
+.brand small{font-family:var(--body);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);opacity:.92}
+.nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:var(--soft)}
+.nav-links a{position:relative;transition:.25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:1.5px;width:0;background:var(--grad);transition:.3s var(--ease)}
+.nav-links a:hover{color:var(--cream)}.nav-links a:hover::after{width:100%}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--body);font-weight:700;font-size:15.5px;letter-spacing:.01em;padding:15px 28px;
+  border-radius:100px;cursor:pointer;border:0;color:#2a1500;background:var(--grad);
+  box-shadow:0 12px 34px -12px rgba(255,122,26,.7),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:nowrap}
+.btn:hover{box-shadow:0 20px 48px -12px rgba(255,122,26,.85),inset 0 1px 0 rgba(255,255,255,.45)}
+.btn:active{transform:scale(.97)}
+.btn.sm{padding:11px 20px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line-2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--amber);background:var(--glass)}
+.btn.block{width:100%}
+
+/* sections */
+main{position:relative;z-index:1}
+.sec{position:relative;padding:clamp(70px,10vw,124px) 0}
+.sec-head{max-width:760px;margin-bottom:clamp(32px,5vw,52px)}
+.sec-head.center{margin-inline:auto;text-align:center}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--amber);display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.kicker.center{justify-content:center}
+.kicker b{font-family:var(--head);font-size:15px;opacity:.85;font-weight:600}
+.kicker span{height:1px;width:44px;background:linear-gradient(90deg,var(--amber),transparent)}
+h1{font-size:clamp(30px,4.4vw,52px)}
+h2{font-size:clamp(29px,4.6vw,52px)}
+h3{font-size:clamp(19px,2.2vw,23px)}
+.lead{font-size:clamp(16px,1.7vw,19px);color:var(--soft);margin-top:16px;max-width:62ch}
+.muted{color:var(--muted)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+[data-stagger]>*{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[data-stagger].visible>*{opacity:1;transform:none}
+.word{display:inline-block;white-space:nowrap}
+.word i{display:inline-block;font-style:inherit;opacity:0;filter:blur(12px);transform:translateY(.42em);transition:opacity .7s var(--ease),filter .7s var(--ease),transform .7s var(--ease)}
+.reveal.visible .word i,h1.visible .word i,.hsplit.visible .word i{opacity:1;filter:blur(0);transform:none}
+.grad-text i{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* image cards */
+.imgcard{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);
+  box-shadow:0 34px 80px -40px rgba(0,0,0,.8);background:var(--panel)}
+.imgcard img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.imgcard::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 90% at 50% 20%,transparent,rgba(14,6,2,.42)),linear-gradient(180deg,transparent 55%,rgba(14,6,2,.5))}
+.imgcard:hover img{transform:scale(1.045)}
+.imgcard .cap{position:absolute;left:16px;bottom:14px;z-index:2;font-size:12.5px;color:var(--soft);
+  padding:6px 12px;border-radius:100px;background:rgba(23,11,4,.5);border:1px solid var(--line);backdrop-filter:blur(6px)}
+
+/* HERO */
+#hero{min-height:100svh;display:flex;align-items:center;padding-top:clamp(82px,10vh,112px);padding-bottom:clamp(22px,4vh,52px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(22px,4vw,56px);align-items:center;width:100%}
+.hero-copy h1{margin:12px 0 6px;line-height:1.07;letter-spacing:-.015em}
+.hero-copy h1 .grad-text{font-style:italic;font-weight:500}
+.hero-sub{font-size:clamp(15.5px,1.6vw,18.5px);color:var(--soft);max-width:47ch;margin-top:8px}
+.trust{display:flex;align-items:center;gap:11px;margin:14px 0 4px;font-size:13.5px;color:var(--muted)}
+.stars{color:var(--amber);letter-spacing:2px;font-size:15px}
+.hero-actives{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.chip{font-size:12.5px;font-weight:500;color:var(--soft);padding:7px 13px;border-radius:100px;border:1px solid var(--line);background:var(--glass)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hero-note{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hero-note b{color:var(--amber);font-weight:600}
+.hero-punch{font-family:var(--head);font-style:italic;font-weight:600;font-size:clamp(16px,2vw,21px);color:var(--amber);margin-bottom:2px}
+
+/* dose table */
+.dose{max-width:840px;margin-inline:auto}
+.dose-wrap{overflow-x:auto;border:1px solid var(--line-2);border-radius:var(--radius);background:linear-gradient(165deg,var(--glass),rgba(46,26,10,.32))}
+.dose-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:440px;font-variant-numeric:tabular-nums}
+.dose-table th,.dose-table td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line)}
+.dose-table thead th{font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.dose-table th:nth-child(2),.dose-table td:nth-child(2),.dose-table th:nth-child(3),.dose-table td:nth-child(3){text-align:right;white-space:nowrap}
+.dose-table td:first-child{color:var(--cream)}
+.dose-table tbody tr.key td:first-child{color:#fff;font-weight:600}
+.dose-table td:nth-child(3){font-family:var(--head);color:var(--amber-hi);font-weight:600}
+.dose-table tbody tr:last-child td{border-bottom:0}
+.dose-table tbody tr:hover{background:rgba(255,122,26,.05)}
+.dose-foot{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.55}
+
+/* offer kit image */
+.kit-visual{height:clamp(140px,20vw,180px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:opacity .3s var(--ease)}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-in{text-align:center;width:min(78vw,300px)}
+.loader-brand{font-family:var(--head);font-size:23px;margin-bottom:16px}
+.loader-brand span{font-family:var(--body);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber)}
+.loader-count b{font-family:var(--head);font-weight:600;font-size:clamp(56px,12vw,104px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.loader-bar{height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:14px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .2s linear}
+
+/* message / print-style proof */
+.proof-hero{max-width:580px;margin:0 auto 30px}
+.msg{border:1px solid var(--line-2);border-radius:var(--radius);padding:20px 22px;background:linear-gradient(165deg,rgba(255,220,160,.05),rgba(46,26,10,.4));position:relative}
+.msg-top{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.msg-top .dot{width:8px;height:8px;border-radius:50%;background:#25d366;box-shadow:0 0 8px #25d366}
+.msg-top b{color:var(--soft);font-weight:600}
+.bubble{font-size:17px;line-height:1.5;color:var(--cream);background:rgba(255,122,26,.12);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:14px 16px}
+.msg-stars{color:var(--amber);letter-spacing:2px;margin-top:12px;font-size:15px}
+
+/* band divider (abstract, self-contained) */
+.band{position:relative;height:clamp(200px,30vw,360px);overflow:hidden;border-block:1px solid var(--line);
+  background:radial-gradient(60% 130% at 18% 22%,rgba(255,122,26,.34),transparent 60%),
+             radial-gradient(52% 130% at 82% 74%,rgba(205,233,74,.20),transparent 60%),
+             linear-gradient(120deg,#1c0e05,#241408)}
+.band::before{content:"";position:absolute;inset:-30%;background:
+  radial-gradient(closest-side,rgba(255,198,90,.20),transparent 70%) 30% 40%/40% 60% no-repeat,
+  radial-gradient(closest-side,rgba(255,122,26,.16),transparent 70%) 72% 55%/44% 70% no-repeat;
+  filter:blur(4px);animation:bandfloat 12s ease-in-out infinite}
+@keyframes bandfloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-3%,0) scale(1.06)}}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg),transparent 26%,transparent 74%,var(--bg)),linear-gradient(180deg,rgba(14,6,2,.32),rgba(14,6,2,.5))}
+.band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
+.band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:24ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+
+/* generic cards */
+.grid{display:grid;gap:18px}
+.g-2{grid-template-columns:repeat(2,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.cardgrid{perspective:1200px}
+.card{position:relative;padding:26px 24px;border-radius:var(--radius);border:1px solid var(--line);
+  background:linear-gradient(165deg,var(--glass),rgba(46,26,10,.3));transform-style:preserve-3d;
+  transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);will-change:transform;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.35s;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),rgba(255,122,26,.14),transparent 60%)}
+.card:hover{border-color:var(--line-2);box-shadow:0 24px 52px -28px rgba(0,0,0,.72)}
+.card:hover::before{opacity:1}
+.card .wm{position:absolute;right:16px;bottom:6px;font-family:var(--head);font-weight:700;font-size:74px;line-height:1;color:rgba(244,169,43,.09);transition:.35s;pointer-events:none}
+.card:hover .wm{color:rgba(244,169,43,.16)}
+.ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:22px;margin-bottom:15px;
+  background:linear-gradient(160deg,rgba(255,122,26,.22),rgba(205,233,74,.1));border:1px solid var(--line-2)}
+.card h3{margin-bottom:8px;position:relative;z-index:1}
+.card p{font-size:15px;color:var(--muted);position:relative;z-index:1}
+.card p b{color:var(--soft);font-weight:600}
+
+/* pain */
+.pain{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:var(--radius-sm);border:1px solid var(--line);background:rgba(46,26,10,.26)}
+.pain .x{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;color:#f0b8a0;background:rgba(200,90,50,.14);border:1px solid rgba(210,110,60,.3)}
+.pain p{font-size:15px;color:var(--soft)}.pain p b{color:var(--cream);font-weight:600}
+
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,58px);align-items:center}
+.split.rev .visual{order:2}
+.split .visual{position:relative;min-height:min(70vw,460px)}
+.split .visual.prod{display:flex;align-items:center;justify-content:center}
+.box-img{width:min(82%,400px);filter:drop-shadow(0 34px 48px rgba(0,0,0,.5)) drop-shadow(0 0 30px rgba(255,122,26,.24));animation:float 7s ease-in-out infinite}
+.pts{list-style:none;margin-top:22px;display:grid;gap:13px}
+.pts li{display:flex;gap:13px;align-items:flex-start;font-size:15.5px;color:var(--soft)}
+.pts .ck{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#2a1500;background:var(--grad);font-weight:800}
+
+/* ingredientes */
+.ingr-sub{max-width:60ch}
+
+/* stage / bottle */
+.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(72vw,600px)}
+.stage-glow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,122,26,.42),rgba(244,169,43,.16) 45%,transparent 70%);filter:blur(6px);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+.bottle{position:relative;width:min(90%,480px);z-index:2;
+  filter:drop-shadow(0 42px 55px rgba(0,0,0,.55)) drop-shadow(0 0 34px rgba(255,122,26,.3));animation:float 6.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-10px) rotate(-.6deg)}50%{transform:translateY(12px) rotate(.6deg)}}
+.stage-floor{position:absolute;bottom:7%;width:54%;height:24px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(9px)}
+.mini-badge{position:absolute;z-index:3;padding:9px 13px;border-radius:14px;border:1px solid var(--line-2);
+  background:rgba(23,11,4,.6);backdrop-filter:blur(8px);font-size:12px;color:var(--soft);display:flex;gap:8px;align-items:center}
+.mini-badge b{font-family:var(--head);color:var(--amber);font-size:16px;font-weight:600}
+.mini-badge.a{top:14%;left:0}.mini-badge.b{bottom:16%;right:0}
+
+/* ritual */
+.ritual{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step}
+.step{position:relative;padding:28px 24px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(165deg,var(--glass),rgba(46,26,10,.28))}
+.step::before{counter-increment:step;content:"0" counter(step);font-family:var(--head);font-size:34px;font-weight:600;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;margin-bottom:10px}
+.step h3{margin-bottom:7px}.step p{font-size:14.5px;color:var(--muted)}
+
+/* para quem */
+.forwho{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.frow{display:flex;gap:13px;align-items:flex-start;padding:15px 18px;border-radius:var(--radius-sm);border:1px solid var(--line);background:rgba(46,26,10,.2);transition:.3s var(--ease)}
+.frow:hover{border-color:var(--line-2);background:rgba(255,122,26,.06)}
+.frow .ck{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#2a1500;background:var(--grad);font-weight:800}
+.frow p{font-size:15px;color:var(--soft)}.frow p b{color:var(--cream)}
+
+/* depoimentos + numbers */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
+.numc{text-align:center;padding:24px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--glass)}
+.numc b{display:block;font-family:var(--head);font-weight:600;font-size:clamp(30px,4.6vw,48px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.numc span{font-size:13px;color:var(--muted)}
+.proof{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:760px;margin-inline:auto}
+.quote{padding:26px 24px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(165deg,var(--glass),rgba(46,26,10,.3));display:flex;flex-direction:column;gap:12px}
+.quote .st{color:var(--amber);letter-spacing:2px;font-size:15px}
+.quote p{font-size:15.5px;color:var(--cream);line-height:1.56}
+.quote .who{font-size:12.5px;color:var(--muted);margin-top:auto;display:flex;align-items:center;gap:8px}
+.quote .who::before{content:"";width:20px;height:1px;background:var(--amber)}
+
+/* garantia */
+.guard{display:grid;grid-template-columns:auto 1fr;gap:clamp(22px,4vw,40px);align-items:center;padding:clamp(26px,4vw,44px);
+  border-radius:var(--radius);border:1px solid var(--line-2);background:linear-gradient(150deg,rgba(255,122,26,.1),rgba(46,26,10,.3))}
+.seal{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;text-align:center;border:1.5px solid var(--line-2);background:radial-gradient(circle,rgba(255,122,26,.16),transparent 70%)}
+.seal b{font-family:var(--head);font-weight:600;font-size:30px;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.seal span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.guard ul{list-style:none;display:grid;gap:10px;margin-top:14px}
+.guard li{display:flex;gap:11px;font-size:15px;color:var(--soft)}
+.guard li b{color:var(--amber);font-weight:700}
+
+/* OFERTA */
+#oferta .shell{max-width:960px}
+.offer{position:relative;border-radius:calc(var(--radius) + 6px);border:1px solid var(--line-2);overflow:hidden;
+  background:linear-gradient(165deg,rgba(46,26,10,.55),rgba(14,6,2,.62));box-shadow:0 40px 90px -40px rgba(0,0,0,.8)}
+.offer-top{padding:clamp(26px,4vw,40px);text-align:center;border-bottom:1px solid var(--line)}
+.toggle{display:inline-flex;gap:6px;padding:6px;border-radius:100px;border:1px solid var(--line-2);background:rgba(14,6,2,.5);margin:20px auto 0}
+.toggle button{font-family:var(--body);font-weight:600;font-size:14px;color:var(--soft);cursor:pointer;padding:11px 20px;border-radius:100px;border:0;background:transparent;transition:.28s var(--ease);white-space:nowrap}
+.toggle button .tag{display:block;font-size:10.5px;letter-spacing:.03em;color:var(--amber);margin-top:2px;font-weight:700}
+.toggle button.active{color:#2a1500;background:var(--grad);box-shadow:0 8px 22px -8px rgba(255,122,26,.7)}
+.toggle button.active .tag{color:#3a1c05}
+.offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
+.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
+.price-now{font-family:var(--head);font-weight:600;font-size:clamp(40px,6vw,58px);line-height:1;margin:6px 0}
+.price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--amber);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:6px}
+.price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
+.price-meta .li{display:flex;gap:9px;align-items:center}
+.price-meta .li i{font-style:normal;color:var(--amber)}
+.save-badge{display:inline-block;font-size:12.5px;font-weight:700;color:#2a1500;background:var(--amber);padding:4px 11px;border-radius:100px;margin-top:12px}
+.offer-cta{display:grid;gap:12px}
+.coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:13px 16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);transition:.25s}
+.coupon:hover{border-color:var(--amber)}
+.coupon b{font-family:var(--head);letter-spacing:.06em;color:var(--amber-hi)}
+.coupon span{font-size:12px;color:var(--muted)}
+.ship{font-size:13px;color:var(--muted);text-align:center}
+.ship b{color:var(--amber)}
+
+/* faq */
+.faq{max-width:780px;margin-inline:auto;display:grid;gap:12px}
+.faq details{border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(46,26,10,.22);overflow:hidden;transition:.3s}
+.faq details[open]{border-color:var(--line-2);background:rgba(46,26,10,.36)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;justify-content:space-between;gap:16px;font-family:var(--head);font-weight:600;font-size:17px;color:var(--cream)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{flex:none;color:var(--amber);transition:.3s;font-family:var(--body)}
+.faq details[open] summary .pl{transform:rotate(45deg)}
+.faq .ans{padding:0 22px 20px;font-size:15px;color:var(--muted)}
+
+/* escassez */
+.final{text-align:center;max-width:780px;margin-inline:auto}
+.stockbar{max-width:420px;margin:22px auto 0}
+.stockbar .track{height:8px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden}
+.stockbar .fill{height:100%;width:0;background:var(--grad);border-radius:100px;transition:width 1.4s var(--ease)}
+.stockbar small{display:block;margin-top:8px;font-size:12.5px;color:var(--muted)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z-index:1}
+.foot{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+.foot .brand{font-size:17px}
+.foot p{font-size:12.5px;color:var(--muted);max-width:52ch;margin-top:10px}
+.foot a.mini{font-size:13px;color:var(--soft)}
+.legal{margin-top:22px;font-size:11.5px;color:rgba(253,243,227,.4);line-height:1.6;max-width:82ch}
+
+/* whatsapp */
+.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#25d366;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transition:transform .25s var(--ease)}
+.wa:hover{transform:scale(1.08)}
+.wa svg{width:30px;height:30px;fill:#fff}
+
+/* mobile buy bar */
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:rgba(14,6,2,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line-2)}
+.buybar .info{line-height:1.15}
+.buybar .info b{font-family:var(--head);font-size:19px}
+.buybar .info span{display:block;font-size:11px;color:var(--muted)}
+.buybar .btn{flex:1;justify-content:center}
+
+/* short desktop/laptop viewports (ex.: 1366×768): garante hero na 1ª dobra */
+@media(min-width:961px) and (max-height:820px){
+  #hero{padding-top:clamp(74px,9vh,92px);padding-bottom:14px}
+  .hero-copy h1{font-size:clamp(26px,3.1vw,40px)}
+  .hero-sub{margin-top:6px}
+  .hero-actives{margin:10px 0 12px}
+  .stage{min-height:min(56vh,440px)}
+  .bottle{width:min(78%,390px)}
+  .mini-badge.a{top:10%}.mini-badge.b{bottom:12%}
+}
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-copy .eyebrow{margin-inline:auto}
+  .hero-sub,.hero-actives{margin-inline:auto;justify-content:center}
+  .trust,.hero-actions{justify-content:center}
+  .stage{order:-1;min-height:min(62vw,340px)}
+  .bottle{width:min(62%,320px)}
+  #hero{min-height:100svh}
+  .split,.ingr{grid-template-columns:1fr}
+  .split.rev .visual{order:-1}
+  .split .visual{order:-1;min-height:auto}
+  .ritual{grid-template-columns:1fr}
+  .g-3{grid-template-columns:repeat(2,1fr)}
+  .offer-body{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+@media(max-width:760px){
+  .hdr .btn.sm{display:none}
+  .buybar{display:flex}
+  footer{padding-bottom:150px}
+  .wa{bottom:120px}
+  .proof{grid-template-columns:1fr}
+  .guard{grid-template-columns:1fr;text-align:center}
+  .seal{margin-inline:auto}.guard li{justify-content:center}
+}
+@media(max-width:600px){
+  body{font-size:16px}
+  .g-2,.g-3,.forwho{grid-template-columns:1fr}
+  .toggle{flex-wrap:wrap;justify-content:center}
+  #hero{padding-top:96px;padding-bottom:16px}
+  .hero-copy h1{font-size:clamp(25px,6.6vw,33px)}
+  .hero-sub{font-size:14.5px;margin-top:6px}
+  .hero-actives{margin:10px 0 12px}
+  .stage{min-height:min(52vw,264px)}
+  .bottle{width:min(54%,240px)}
+  .hero-punch{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal,[data-stagger]>*,.word i{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-in">
+    <div class="loader-brand">Botanika <span>Super C</span></div>
+    <div class="loader-count"><b id="loader-num">000</b></div>
+    <div class="loader-bar"><i id="loader-fill"></i></div>
+  </div>
+</div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a class="brand" href="#hero"><i></i>Botanika <small>Super C</small></a>
+    <nav class="nav-links">
+      <a href="#solucao">Como funciona</a>
+      <a href="#ingredientes">Fórmula</a>
+      <a href="#beneficios">Benefícios</a>
+      <a href="#depoimentos">Relatos</a>
+      <a href="#oferta">Kits</a>
+    </nav>
+    <a class="btn sm" data-checkout href="#oferta">Quero minha dose</a>
+  </div>
+</header>
+
+<main>
+<!-- 1 · HERO -->
+<section class="sec" id="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">Imunidade · Antioxidante · 3 ativos</span>
+        <p class="hero-punch reveal">Toda vez que o tempo vira, lá vem a fraqueza.</p>
+        <h1 data-split>Talvez o problema não seja a vitamina C — e sim ela estar <span class="grad-text">sozinha.</span></h1>
+        <p class="hero-sub reveal">Vitamina C pura ajuda, mas para no meio do caminho. A <b>Super Vitamina C</b> junta <b>1000 mg de vitamina C + quercetina + própolis</b> — três frentes de apoio numa única dose.</p>
+        <div class="trust reveal"><span class="stars">★★★★★</span><span>de quem cuida da imunidade o ano todo</span></div>
+        <div class="hero-actives reveal" data-stagger>
+          <span class="chip">Vitamina C 1000 mg</span><span class="chip">Quercetina</span><span class="chip">Própolis</span><span class="chip">30 doses</span>
+        </div>
+        <div class="hero-actions reveal">
+          <a class="btn" data-checkout href="#oferta">Quero minha dose</a>
+          <span class="hero-note"><b>2 cápsulas por dia.</b> 30 dias por pote · a partir de 3× R$ 29,84</span>
+        </div>
+      </div>
+      <div class="stage reveal">
+        <div class="stage-glow"></div>
+        <div class="stage-floor"></div>
+        <div class="mini-badge a"><b>1000</b> mg de vitamina C</div>
+        <div class="mini-badge b"><b>3</b> ativos numa dose</div>
+        <img class="bottle" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/Super_Vitamina_C_Vitamina_C_Quercetina_Propolis_1.png?v=1782243595" alt="Super Vitamina C Botanika — vitamina C, quercetina e própolis" width="480" height="480" fetchpriority="high">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · DOR -->
+<section class="sec" id="dor">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>01</b> A vitamina C de sempre</div>
+      <h2 class="serif hsplit" data-split>A vitamina C que todo mundo toma. E que <span class="grad-text">para no básico.</span></h2>
+      <p class="lead">Vitamina C todo mundo conhece. Mas a maioria dos suplementos para por aí — dose simbólica, um ativo só, e a mesma sensação de que faltou alguma coisa quando a estação vira.</p>
+    </div>
+    <div class="grid g-2" data-stagger>
+      <div class="pain"><span class="x">✕</span><p><b>Resfriado atrás de resfriado</b> toda mudança de estação, como se a defesa estivesse sempre atrasada.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Aquela sensação de imunidade em baixa</b> — cansaço, corpo pedindo um reforço.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Vitamina C isolada</b> que ajuda, mas parece não dar conta sozinha.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Comprar vitamina C, quercetina e própolis separados</b> sai caro e vira três potes na bancada.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Antioxidante que você sabe que precisa</b> — mas que nunca encaixa de verdade na rotina.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Fórmulas com dose de vitrine</b>, bem longe dos 1000 mg que fazem diferença.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- band divider -->
+<div class="band reveal" aria-hidden="true">
+  <div class="band-txt"><p>“Vitamina C todo mundo conhece. A diferença está no que vem junto.”</p></div>
+</div>
+
+<!-- 3 · SOLUÇÃO -->
+<section class="sec" id="solucao">
+  <div class="shell">
+    <div class="split">
+      <div class="visual reveal">
+        <div class="imgcard" style="aspect-ratio:4/5" data-tilt>
+          <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/Super_vitamina_C.png?v=1782247465" alt="Super Vitamina C Botanika — três ativos em sinergia">
+          <span class="cap">três frentes, uma dose</span>
+        </div>
+      </div>
+      <div>
+        <div class="kicker"><span></span><b>02</b> A virada de chave</div>
+        <h2 class="serif hsplit" data-split>Vitamina C não trabalha <span class="grad-text">sozinha.</span></h2>
+        <p class="lead reveal">Vitamina C como base. Quercetina para potencializar a ação antioxidante. Própolis como ingrediente natural complementar. <b>Três frentes de apoio ao organismo em uma única dose</b> — sem precisar comprar três produtos.</p>
+        <ul class="pts reveal" data-stagger>
+          <li><span class="ck">✓</span><span><b>Base</b> — 1000 mg de vitamina C, que contribui para o funcionamento normal do sistema imune.</span></li>
+          <li><span class="ck">✓</span><span><b>Potência</b> — quercetina, flavonoide antioxidante que complementa a vitamina C na proteção celular.</span></li>
+          <li><span class="ck">✓</span><span><b>Natural</b> — própolis, ingrediente da colmeia, para complementar o perfil funcional da fórmula.</span></li>
+          <li><span class="ck">✓</span><span><b>Prática</b> — 2 cápsulas por dia, com água. Três ativos num pote só.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · INGREDIENTES -->
+<section class="sec" id="ingredientes">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>03</b> O que tem dentro</div>
+      <h2 class="serif hsplit" data-split>Três ativos em <span class="grad-text">sinergia.</span></h2>
+      <p class="lead ingr-sub">Vitamina C, quercetina e própolis. Três frentes de apoio ao organismo — dose relevante, não simbólica.</p>
+    </div>
+    <div class="grid g-3 cardgrid" data-stagger>
+      <div class="card"><div class="ico">🍊</div><h3 class="serif">Vitamina C</h3><p>Contribui para o funcionamento normal do sistema imune, para a proteção das células contra radicais livres e para a formação de colágeno.</p><span class="wm">C</span></div>
+      <div class="card"><div class="ico">🍃</div><h3 class="serif">Quercetina</h3><p>Flavonoide presente em frutas e vegetais, com ação antioxidante. Complementa a vitamina C na proteção celular.</p><span class="wm">Q</span></div>
+      <div class="card"><div class="ico">🐝</div><h3 class="serif">Própolis</h3><p>Substância natural produzida pelas abelhas, tradicionalmente associada ao bem-estar. Complementa o perfil funcional da fórmula.</p><span class="wm">P</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · TABELA (transparência) -->
+<section class="sec" id="tabela">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>04</b> Transparência total</div>
+      <h2 class="serif hsplit" data-split>Cada dose, na mesa. <span class="grad-text">Sem letra miúda.</span></h2>
+      <p class="lead" style="margin-inline:auto">Porção de 1,2 g (2 cápsulas de 600 mg) · 30 porções por embalagem.</p>
+    </div>
+    <div class="dose reveal">
+      <div class="dose-wrap">
+        <table class="dose-table">
+          <thead><tr><th>Nutriente / composto</th><th>por porção</th><th>%VD*</th></tr></thead>
+          <tbody>
+            <tr class="key"><td>Vitamina C</td><td>1000 mg</td><td>1.000%</td></tr>
+            <tr class="key"><td>Quercetina</td><td>100 mg</td><td>**</td></tr>
+            <tr class="key"><td>Compostos fenólicos (própolis)</td><td>6 mg</td><td>**</td></tr>
+            <tr><td>Valor energético</td><td>0 kcal</td><td>0%</td></tr>
+            <tr><td>Carboidratos</td><td>0 g</td><td>0%</td></tr>
+            <tr><td>Açúcares totais</td><td>0 g</td><td>—</td></tr>
+            <tr><td>Açúcares adicionados</td><td>0 g</td><td>0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="dose-foot">* Percentual de valores diários fornecidos pela porção. ** Valor Diário não estabelecido. Não contém quantidades significativas de valor energético, carboidratos, açúcares totais, açúcares adicionados, proteínas, gorduras totais, gorduras saturadas, gorduras trans, fibra alimentar e sódio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · BENEFÍCIOS -->
+<section class="sec" id="beneficios">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>05</b> O que a fórmula faz</div>
+      <h2 class="serif hsplit" data-split>O que muda quando você toma <span class="grad-text">todos os dias.</span></h2>
+    </div>
+    <div class="grid g-3 cardgrid" data-stagger>
+      <div class="card"><div class="ico">🛡️</div><h3 class="serif">Apoia o sistema imune</h3><p>A vitamina C contribui para o funcionamento normal das defesas do organismo.</p><span class="wm">01</span></div>
+      <div class="card"><div class="ico">✨</div><h3 class="serif">Proteção antioxidante reforçada</h3><p><b>Vitamina C + quercetina</b> oferecem dupla ação contra radicais livres.</p><span class="wm">02</span></div>
+      <div class="card"><div class="ico">🐝</div><h3 class="serif">Própolis como aliado natural</h3><p>Ingrediente da colmeia, tradicionalmente utilizado para apoio ao bem-estar.</p><span class="wm">03</span></div>
+      <div class="card"><div class="ico">🧬</div><h3 class="serif">Contribui para o colágeno</h3><p>A vitamina C participa da síntese de colágeno, essencial para pele, cartilagens e tecidos.</p><span class="wm">04</span></div>
+      <div class="card"><div class="ico">🩸</div><h3 class="serif">Auxilia na absorção de ferro</h3><p>A vitamina C melhora o aproveitamento do ferro de origem vegetal.</p><span class="wm">05</span></div>
+      <div class="card"><div class="ico">💊</div><h3 class="serif">Praticidade em cápsula</h3><p><b>2 cápsulas com água</b> e segue o dia. Sem preparo, sem complicação.</p><span class="wm">06</span></div>
+      <div class="card"><div class="ico">🔁</div><h3 class="serif">Uso diário contínuo</h3><p>A vitamina C é hidrossolúvel — o corpo não estoca. O uso diário é a melhor estratégia.</p><span class="wm">07</span></div>
+      <div class="card"><div class="ico">🍊</div><h3 class="serif">Três ativos em sinergia</h3><p>Vitamina C, quercetina e própolis reunidos em uma única dose.</p><span class="wm">08</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · RITUAL -->
+<section class="sec" id="ritual">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>06</b> Simples de manter</div>
+      <h2 class="serif hsplit" data-split>Simples como <span class="grad-text">deve ser.</span></h2>
+      <p class="lead">A vitamina C é hidrossolúvel e o corpo não estoca — por isso o segredo é a constância. Duas cápsulas, todo dia, sem drama.</p>
+    </div>
+    <div class="ritual reveal" data-stagger>
+      <div class="step"><h3 class="serif">Pegue 1 dose</h3><p>A dose diária são 2 cápsulas de 600 mg — 1000 mg de vitamina C + quercetina + própolis.</p></div>
+      <div class="step"><h3 class="serif">Ingira com água</h3><p>Pela manhã ou ao longo do dia, no horário que combinar com a sua rotina.</p></div>
+      <div class="step"><h3 class="serif">Repita todos os dias</h3><p>A consistência é o segredo. Uso diário contínuo é o que faz a fórmula trabalhar por você.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · PARA QUEM -->
+<section class="sec" id="paraquem">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>07</b> Feito pra você</div>
+      <h2 class="serif hsplit" data-split>A Super Vitamina C é pra você que…</h2>
+    </div>
+    <div class="forwho reveal" data-stagger>
+      <div class="frow"><span class="ck">✓</span><p>Quer <b>apoiar o sistema imune</b> de forma natural e completa.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Já toma <b>vitamina C</b> e quer algo mais potente.</p></div>
+      <div class="frow"><span class="ck">✓</span><p><b>Valoriza antioxidantes</b> na rotina do dia a dia.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Busca <b>praticidade</b> — sem preparo, sem complicação.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Quer <b>vitamina C + quercetina + própolis</b> sem comprar três produtos.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>É <b>adulto, a partir de 19 anos</b>, sem alergia a produtos da colmeia.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · DEPOIMENTOS -->
+<section class="sec" id="depoimentos">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>08</b> Quem já cuida</div>
+      <h2 class="serif hsplit" data-split>Reforço que entra na rotina.</h2>
+    </div>
+    <div class="nums reveal" data-stagger>
+      <div class="numc"><b class="num" data-target="1000" data-suffix=" mg">0</b><span>de vitamina C por dose</span></div>
+      <div class="numc"><b class="num" data-target="3">0</b><span>ativos em sinergia</span></div>
+      <div class="numc"><b class="num" data-target="30">0</b><span>doses por embalagem</span></div>
+    </div>
+    <div class="proof-hero reveal">
+      <div class="msg">
+        <div class="msg-top"><span class="dot"></span> respondeu ao seu story · <b>relato no direct</b></div>
+        <div class="bubble">Comprei o Tri, o Hair e a Vitamina C. Com uma semana já me sinto uma pessoa completamente diferente.</div>
+        <div class="msg-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="proof reveal" data-stagger>
+      <div class="quote"><span class="st">★★★★★</span><p>“Gostei de ter vitamina C, quercetina e própolis num pote só. Antes eu comprava separado e sempre esquecia um.”</p><span class="who">Cliente Botanika · relato no direct</span></div>
+      <div class="quote"><span class="st">★★★★★</span><p>“Suplemento honesto: dose funcional e fórmula limpa. Cuidar da imunidade virou rotina, sem hype.”</p><span class="who">Rotina Botanika · comunidade</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · GARANTIA -->
+<section class="sec" id="garantia">
+  <div class="shell">
+    <div class="guard reveal">
+      <div class="seal"><div><b>7</b><span>dias</span></div></div>
+      <div>
+        <div class="kicker"><span></span><b>09</b> Risco zero</div>
+        <h3 class="serif" style="font-size:clamp(22px,3vw,30px)">Garantia de satisfação de 7 dias.</h3>
+        <ul>
+          <li><b>✓</b> Compra na loja oficial Botanika, com pagamento 100% seguro.</li>
+          <li><b>✓</b> 7 dias de garantia legal (direito de arrependimento, conforme o CDC).</li>
+          <li><b>✓</b> Uso responsável: este produto não é um medicamento. Não exceder a recomendação diária.</li>
+          <li><b>✓</b> Mantenha fora do alcance de crianças. Não recomendado para alérgicos a própolis.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · OFERTA -->
+<section class="sec" id="oferta">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>10</b> Escolha o seu kit</div>
+      <h2 class="serif hsplit" data-split>Sem brinde, sem pegadinha — só desconto real por quantidade.</h2>
+      <p class="lead" style="margin-inline:auto">Quanto mais potes, maior o desconto — aplicado automaticamente no checkout. Como a vitamina C é de uso diário e contínuo, os kits maiores garantem que você não fique sem.</p>
+    </div>
+    <div class="offer reveal">
+      <div class="offer-top">
+        <div class="kit-visual"><img id="kit-img" alt="Kit Super Vitamina C Botanika" loading="lazy"></div>
+        <div class="toggle" id="toggle" role="tablist">
+          <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
+          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
+          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-price">
+          <div class="price-old" id="p-old">R$ 179,04</div>
+          <div class="price-now" id="p-now">R$ 170,09</div>
+          <div class="price-cup" id="p-disc">🍊 −5% por quantidade · aplicado no checkout</div>
+          <div class="price-meta">
+            <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 56,70 sem juros</span></div>
+            <div class="li"><i>◆</i> <span id="p-per">R$ 85,04 por pote</span></div>
+            <div class="li"><i>◆</i> <span id="p-dur">≈ 2 meses de rotina</span></div>
+          </div>
+          <div class="save-badge" id="p-save">Você economiza R$ 8,95</div>
+        </div>
+        <div class="offer-cta">
+          <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
+          <div class="coupon" id="coupon">
+            <span>🔒 <b>BOTANIKA</b> · 5% OFF no pote avulso</span>
+            <span id="coupon-hint">toque pra copiar</span>
+          </div>
+          <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil com rastreamento</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · FAQ -->
+<section class="sec" id="faq">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>11</b> Perguntas frequentes</div>
+      <h2 class="serif hsplit" data-split>Antes de comprar, você merece saber.</h2>
+    </div>
+    <div class="faq reveal" data-stagger>
+      <details><summary>Qual a dose de vitamina C?<span class="pl">+</span></summary><div class="ans">Cada dose (2 cápsulas de 600 mg) traz 1000 mg de vitamina C, além de 100 mg de quercetina e 6 mg de compostos fenólicos do própolis.</div></details>
+      <details><summary>Quantas cápsulas por dia?<span class="pl">+</span></summary><div class="ans">São 2 cápsulas por dia (1 dose), ingeridas com água. Cada embalagem rende 30 doses — cerca de 30 dias de uso.</div></details>
+      <details><summary>Posso tomar todos os dias?<span class="pl">+</span></summary><div class="ans">Sim. A vitamina C é hidrossolúvel e o corpo não estoca — o uso diário é recomendado.</div></details>
+      <details><summary>O que é quercetina?<span class="pl">+</span></summary><div class="ans">Um flavonoide encontrado em frutas e vegetais, com ação antioxidante que complementa a vitamina C na proteção celular.</div></details>
+      <details><summary>Posso combinar com outros suplementos de vitamina C?<span class="pl">+</span></summary><div class="ans">Consulte um profissional de saúde para evitar exceder a dose adequada ao seu caso.</div></details>
+      <details><summary>Quem tem alergia a própolis pode usar?<span class="pl">+</span></summary><div class="ans">Não recomendado para pessoas alérgicas a produtos da colmeia (própolis).</div></details>
+      <details><summary>Rende quantas doses?<span class="pl">+</span></summary><div class="ans">30 porções por embalagem.</div></details>
+      <details><summary>Como armazenar?<span class="pl">+</span></summary><div class="ans">Em local seco e fresco, ao abrigo do sol.</div></details>
+      <details><summary>O que fazer se esquecer uma dose?<span class="pl">+</span></summary><div class="ans">Retome no dia seguinte, normalmente. Não dobre a dose.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · ESCASSEZ -->
+<section class="sec" id="escassez">
+  <div class="shell">
+    <div class="final reveal">
+      <div class="kicker center"><span></span><b>12</b> Comece hoje</div>
+      <h2 class="serif hsplit" data-split>Sua imunidade não espera a próxima estação.</h2>
+      <p class="lead" style="margin-inline:auto">A vitamina C funciona pela constância — e a constância começa hoje, não na próxima gripe. O desconto por quantidade já está no ar; garanta o seu.</p>
+      <div class="stockbar">
+        <div class="track"><div class="fill" id="stockfill"></div></div>
+        <small>Lote atual em giro — reponha antes de ficar sem a sua rotina.</small>
+      </div>
+      <div style="margin-top:26px"><a class="btn" data-checkout href="#oferta">Garantir minha Super Vitamina C</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="shell">
+    <div class="foot">
+      <div>
+        <div class="brand"><i></i>Botanika <small>Super C</small></div>
+        <p>Super Vitamina C — Vitamina C + Quercetina + Própolis. Suplemento alimentar em cápsulas · 60 cápsulas (30 doses) · três ativos em sinergia.</p>
+      </div>
+      <div style="display:grid;gap:8px;text-align:right">
+        <a class="mini" href="https://botanikabrasil.com.br" target="_blank" rel="noopener">Loja oficial ↗</a>
+        <a class="mini" href="https://wa.me/5531972679362" target="_blank" rel="noopener">Atendimento no WhatsApp ↗</a>
+        <a class="mini" href="mailto:atendimento@botanikabrasil.com.br">atendimento@botanikabrasil.com.br</a>
+      </div>
+    </div>
+    <p class="legal">Este produto é um suplemento alimentar e não substitui uma alimentação equilibrada e hábitos de vida saudáveis. Não é medicamento. Não trata, previne ou cura doenças. Não exceder a recomendação diária de consumo. Mantenha fora do alcance de crianças. Não recomendado para menores de 19 anos, gestantes e lactantes, salvo orientação de profissional de saúde. Não recomendado para pessoas alérgicas a produtos da colmeia (própolis). Conservar em local seco e fresco, ao abrigo do sol. Resultados variam de pessoa para pessoa e dependem de constância. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5531972679362?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Super%20Vitamina%20C%20da%20Botanika." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+</a>
+
+<div class="buybar" id="buybar">
+  <div class="info"><b id="bar-price">R$ 170,09</b><span id="bar-label">2 potes · −5%</span></div>
+  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var doc=document, win=window;
+  var reduce=win.matchMedia&&win.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ===== fallback 2D "Efervescência Cítrica" (usado se o WebGL falhar) ===== */
+  var fb={running:false,raf:0};
+  win.__stopFallback=function(){ fb.running=false; if(fb.raf) cancelAnimationFrame(fb.raf); };
+  win.__startFallback=function(){
+    var cv=doc.getElementById('bg'); if(!cv||fb.running) return; fb.running=true;
+    var ctx=cv.getContext('2d',{alpha:false});
+    var W=0,H=0,RS=.6,MX=0,t=0,tmx=.5,tmy=.4,tsY=0,sprite=null;
+    var PAL=[[255,122,26],[244,169,43],[205,233,74],[255,198,90],[199,107,18],[255,154,68]];
+    var blobs=[],strands=[],dust=[];
+    function rnd(a,b){return a+(b-a)*Math.random();}
+    function mkSprite(){var s=doc.createElement('canvas');s.width=s.height=32;var c=s.getContext('2d');
+      var g=c.createRadialGradient(16,16,0,16,16,16);g.addColorStop(0,'rgba(255,240,210,.95)');g.addColorStop(.4,'rgba(255,198,90,.5)');g.addColorStop(1,'rgba(255,198,90,0)');
+      c.fillStyle=g;c.fillRect(0,0,32,32);return s;}
+    function resize(){RS=win.innerWidth<760?.5:.6;W=cv.width=Math.max(1,Math.round(win.innerWidth*RS));H=cv.height=Math.max(1,Math.round(win.innerHeight*RS));MX=Math.max(W,H);}
+    function build(){blobs=[];for(var i=0;i<7;i++){var c=PAL[i%PAL.length];blobs.push({x:Math.random(),y:Math.random(),r:rnd(.30,.60),vx:rnd(-.00018,.00018),vy:rnd(-.00016,.00016),c:c,a:rnd(.09,.18),mag:i<2});}
+      strands=[];for(var j=0;j<5;j++){strands.push({y:rnd(.12,.9),amp:rnd(.03,.10),k:rnd(1.1,2.4),ph:rnd(0,6.28),sp:rnd(.15,.4),w:rnd(.8,2.2),a:rnd(.05,.12)});}
+      dust=[];for(var d=0;d<52;d++){dust.push({x:Math.random(),y:Math.random(),r:rnd(.5,1.8),v:rnd(.00008,.00026),ph:rnd(0,6.28)});}}
+    function draw(){
+      var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#170b04');g.addColorStop(.55,'#130803');g.addColorStop(1,'#0e0602');
+      ctx.globalCompositeOperation='source-over';ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+      ctx.globalCompositeOperation='lighter';
+      for(var i=0;i<blobs.length;i++){var b=blobs[i];var cx=b.x*W,cy=(b.y+tsY*.05)*H,r=b.r*MX;
+        var rg=ctx.createRadialGradient(cx,cy,0,cx,cy,r);rg.addColorStop(0,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+','+b.a+')');rg.addColorStop(1,'rgba('+b.c[0]+','+b.c[1]+','+b.c[2]+',0)');
+        ctx.fillStyle=rg;ctx.beginPath();ctx.arc(cx,cy,r,0,6.2832);ctx.fill();}
+      var influ=(tmx-.5);
+      for(var s=0;s<strands.length;s++){var st=strands[s];var yBase=(st.y-tsY*.12)*H;ctx.beginPath();
+        for(var xp=0;xp<=W;xp+=Math.max(6,W/60)){var xn=xp/W;var yy=yBase+st.amp*H*Math.sin(st.k*xn*6.2832+st.ph+t*st.sp)+influ*st.amp*H*Math.cos(xn*6.2832);if(xp===0)ctx.moveTo(xp,yy);else ctx.lineTo(xp,yy);}
+        var lg=ctx.createLinearGradient(0,0,W,0);lg.addColorStop(0,'rgba(255,122,26,0)');lg.addColorStop(.5,'rgba(255,198,90,'+st.a+')');lg.addColorStop(1,'rgba(205,233,74,0)');
+        ctx.strokeStyle=lg;ctx.lineWidth=st.w*RS*2;ctx.stroke();}
+      if(sprite)for(var d=0;d<dust.length;d++){var p=dust[d];var px=(p.x+.02*Math.sin(t*.2+p.ph))*W,py=(p.y%1)*H,sz=p.r*RS*10;ctx.globalAlpha=.6;ctx.drawImage(sprite,px-sz/2,py-sz/2,sz,sz);ctx.globalAlpha=1;}
+      ctx.globalCompositeOperation='source-over';}
+    function stepP(){tsY+=((win.__sY||0)-tsY)*.05;t+=.006;
+      for(var i=0;i<blobs.length;i++){var b=blobs[i];if(b.mag){b.x+=(tmx-b.x)*.006;b.y+=(tmy-b.y)*.006;}b.x+=b.vx;b.y+=b.vy;if(b.x<-.3)b.x=1.3;if(b.x>1.3)b.x=-.3;if(b.y<-.3)b.y=1.3;if(b.y>1.3)b.y=-.3;}
+      for(var d=0;d<dust.length;d++){dust[d].y-=dust[d].v;if(dust[d].y<-.05)dust[d].y=1.05;}}
+    function loop(){ if(!fb.running) return; stepP();draw();fb.raf=win.requestAnimationFrame(loop);}
+    sprite=mkSprite();resize();build();
+    win.addEventListener('resize',resize,{passive:true});
+    win.addEventListener('mousemove',function(e){tmx=e.clientX/win.innerWidth;tmy=e.clientY/win.innerHeight;},{passive:true});
+    doc.getElementById('bg').style.display='block';
+    if(reduce){draw();fb.running=false;}else loop();
+  };
+  win.__startFallback();
+
+  /* ---------- commerce config ---------- */
+  var VARIANT='48115368460520';
+  var COUPON='BOTANIKA';
+  var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
+  function utmParts(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var parts=utmParts();
+    /* pote avulso ganha o cupom BOTANIKA (5%); kits 2/3 deixam o desconto automático (SUPER5/SUPER10) aplicar sozinho */
+    if(qty==='1'||qty===1)parts.unshift('discount='+COUPON);
+    if(parts.length)u+='?'+parts.join('&');return u;}
+  var TIER_IMG={
+    '1':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/MKP_BOTANIKA_SUPER_VITAMINA_C_ROTULO.png?v=1782231584',
+    '2':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_duas-embalagens-juntas-um_UyboL3Gwny.png?v=1782231623',
+    '3':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_62lQszbiJO.png?v=1782231650'
+  };
+  var KITS={
+    '1':{old:'',now:'R$ 89,52',parc:'ou 3× de R$ 29,84 sem juros',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',disc:'🏷️ Use BOTANIKA e ganhe 5% OFF',save:'',label:'1 pote',img:TIER_IMG['1']},
+    '2':{old:'R$ 179,04',now:'R$ 170,09',parc:'ou 3× de R$ 56,70 sem juros',per:'R$ 85,04 por pote',dur:'≈ 2 meses de rotina',disc:'🍊 −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 8,95',label:'2 potes · −5%',img:TIER_IMG['2']},
+    '3':{old:'R$ 268,56',now:'R$ 241,70',parc:'ou 3× de R$ 80,57 sem juros',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',disc:'🍊 −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3']}
+  };
+  var currentKit='2';
+  function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
+  function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
+  function applyKit(kit){
+    currentKit=kit;var k=KITS[kit];if(!k)return;
+    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
+    set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
+    var ki=doc.getElementById('kit-img');if(ki&&k.img)ki.setAttribute('src',k.img);
+    var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
+    set('bar-price',k.now);set('bar-label',k.label);
+    var href=checkout(kit);
+    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+  }
+  each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
+  var coupon=doc.getElementById('coupon');
+  if(coupon)coupon.addEventListener('click',function(){var done=function(){var h=doc.getElementById('coupon-hint');if(h){h.textContent='copiado ✓';setTimeout(function(){h.textContent='toque pra copiar';},1800);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(COUPON).then(done,done);else done();});
+  function wireCheckout(){
+    each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
+      a.addEventListener('click',function(e){
+        if(id==='buy'||id==='bar-buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
+        e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
+      });
+    });
+  }
+
+  /* ---------- title split ---------- */
+  function split(){
+    each(doc.querySelectorAll('[data-split]'),function(h){
+      var walk=function(node){
+        var kids=[].slice.call(node.childNodes);
+        each(kids,function(n){
+          if(n.nodeType===3){
+            var frag=doc.createDocumentFragment(),words=n.textContent.split(/(\s+)/);
+            each(words,function(w){if(w.trim()===''){frag.appendChild(doc.createTextNode(w));return;}var span=doc.createElement('span');span.className='word';var inner=doc.createElement('i');inner.textContent=w;span.appendChild(inner);frag.appendChild(span);});
+            node.replaceChild(frag,n);
+          } else if(n.nodeType===1 && !n.classList.contains('grad-text')){walk(n);}
+          else if(n.nodeType===1){var tx=n.textContent;n.textContent='';var span=doc.createElement('span');span.className='word';var inner=doc.createElement('i');inner.textContent=tx;span.appendChild(inner);n.appendChild(span);}
+        });
+      };
+      walk(h);
+      each(h.querySelectorAll('.word i'),function(i,idx){i.style.transitionDelay=(idx*0.045)+'s';});
+    });
+  }
+  split();
+
+  /* ---------- reveal ---------- */
+  if('IntersectionObserver' in win && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+    each(doc.querySelectorAll('.reveal,[data-stagger],[data-split]'),function(el){io.observe(el);});
+    each(doc.querySelectorAll('[data-stagger]'),function(box){each(box.children,function(c,i){c.style.transitionDelay=(i*0.07)+'s';});});
+  } else { each(doc.querySelectorAll('.reveal,[data-stagger],[data-split]'),function(el){el.classList.add('visible');}); }
+
+  /* ---------- count up ---------- */
+  function countUp(el){var target=parseFloat(el.getAttribute('data-target'))||0,suffix=el.getAttribute('data-suffix')||'',dur=1200,t0=null;
+    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e).toLocaleString('pt-BR')+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+  if('IntersectionObserver' in win){var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(reduce)e.target.textContent=(parseFloat(e.target.getAttribute('data-target'))||0).toLocaleString('pt-BR')+(e.target.getAttribute('data-suffix')||'');else countUp(e.target);cio.unobserve(e.target);}});},{threshold:.5});each(doc.querySelectorAll('.num'),function(n){cio.observe(n);});}
+
+  /* ---------- header + progress + scroll signal ---------- */
+  var hdr=doc.getElementById('hdr'),prog=doc.getElementById('progress');
+  function onScroll(){var y=win.pageYOffset||doc.documentElement.scrollTop;if(hdr)hdr.classList.toggle('scrolled',y>40);var h=doc.documentElement.scrollHeight-win.innerHeight;win.__sY=h>0?(y/h):0;if(prog)prog.style.width=(h>0?(y/h*100):0)+'%';}
+  win.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* ---------- GSAP: magnetic buttons + tilt ---------- */
+  if(win.gsap && !reduce){
+    each(doc.querySelectorAll('.btn'),function(btn){
+      var xT=gsap.quickTo(btn,'x',{duration:.4,ease:'power3'}),yT=gsap.quickTo(btn,'y',{duration:.4,ease:'power3'});
+      btn.addEventListener('mousemove',function(e){var r=btn.getBoundingClientRect();xT((e.clientX-r.left-r.width/2)*.35);yT((e.clientY-r.top-r.height/2)*.4);});
+      btn.addEventListener('mouseleave',function(){xT(0);yT(0);});
+    });
+    each(doc.querySelectorAll('.card'),function(card){
+      card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px');var rx=((e.clientY-r.top)/r.height-.5)*-5,ry=((e.clientX-r.left)/r.width-.5)*5;gsap.to(card,{rotateX:rx,rotateY:ry,transformPerspective:800,duration:.4,ease:'power2'});});
+      card.addEventListener('mouseleave',function(){gsap.to(card,{rotateX:0,rotateY:0,duration:.6,ease:'power3'});});
+    });
+    each(doc.querySelectorAll('[data-tilt]'),function(el){
+      el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var rx=((e.clientY-r.top)/r.height-.5)*-4,ry=((e.clientX-r.left)/r.width-.5)*4;gsap.to(el,{rotateX:rx,rotateY:ry,transformPerspective:900,duration:.5,ease:'power2'});});
+      el.addEventListener('mouseleave',function(){gsap.to(el,{rotateX:0,rotateY:0,duration:.7,ease:'power3'});});
+    });
+  }
+
+  /* ---------- escassez (gatilho honesto, sem countdown) ---------- */
+  setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
+  set('yr',(new Date()).getFullYear());
+
+  applyKit('2');wireCheckout();
+  if(win.fbq)fbq('track','ViewContent',{content_name:'Super Vitamina C',content_ids:[VARIANT],content_type:'product'});
+
+  /* loader 000 -> 100 */
+  (function(){
+    var ld=doc.getElementById('loader'); if(!ld) return;
+    var num=doc.getElementById('loader-num'), fill=doc.getElementById('loader-fill');
+    function finish(){ if(ld.classList.contains('done'))return; ld.classList.add('done'); setTimeout(function(){ if(ld.parentNode) ld.parentNode.removeChild(ld); },800); }
+    if(reduce){ finish(); return; }
+    var t0=null, dur=1300;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var v=Math.round((1-Math.pow(1-p,2))*100);
+      if(num) num.textContent=(v<10?'00':v<100?'0':'')+v; if(fill) fill.style.width=v+'%';
+      if(p<1) requestAnimationFrame(step); else setTimeout(finish,180); }
+    requestAnimationFrame(step);
+    setTimeout(finish,3000);
+  })();
+})();
+</script>
+
+<!-- ===== Fundo-assinatura WebGL: "Efervescência Cítrica" (flow-wave recolorido) ===== -->
+<script type="module">
+try{
+  const THREE = await import('three');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+  const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
+  const { GammaCorrectionShader } = await import('three/addons/shaders/GammaCorrectionShader.js');
+  const { CopyShader } = await import('three/addons/shaders/CopyShader.js');
+
+  // Efervescência Cítrica palette
+  const bgColor='#170b04', flameColor='#ff7a1a', flameColor2='#cde94a', flameAmt=0.22;
+  const atmoColor='#ffd27a', atmoCount = innerWidth<760?70:140, atmoSize=22, atmoSpeed=1.0;
+  const colorLow='#7a3b06', colorHigh='#ffc65a', opacity=0.10, pointSize=4.8, brightness=0.32;
+  const waveHeight=3, flow=1.05, tilt=0, scale=0.275, scrollRise=1.0;
+  const camStartY=7, camStartZ=16, camEndY=0.8, camEndZ=-2;
+  const lookStartZ=2, lookEndZ=-16, parallax=1.2, pointerRadius=7.0, pointerStrength=0.9;
+  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
+
+  const canvas=document.getElementById('gl');
+  const _t=document.createElement('canvas');
+  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
+
+  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x000000); scene.fog=new THREE.Fog(0x000000,0,15);
+  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,7,16);
+  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
+  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
+
+  const SNOISE=`
+    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
+    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
+      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
+      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
+      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
+      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
+      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
+      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
+      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
+      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
+      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
+      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
+
+  const geo=new THREE.SphereGeometry(4.2,innerWidth<760?120:200,innerWidth<760?320:600);
+  const uniforms={uTime:{value:0},uStream:{value:0},uAppear:{value:0},
+    uColLow:{value:hexToVec3(colorLow)},uColHigh:{value:hexToVec3(colorHigh)},
+    uOpacity:{value:opacity},uSize:{value:pointSize},uBrightness:{value:brightness},
+    uWaveHeight:{value:waveHeight},uFlow:{value:flow},uScale:{value:scale},
+    uCursor:{value:new THREE.Vector3()},uRepelRadius:{value:pointerRadius},uRepelStrength:{value:pointerStrength},uActivity:{value:0}};
+  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,
+    vertexShader:`uniform float uTime;uniform float uStream;uniform float uSize;uniform float uWaveHeight;uniform float uFlow;uniform float uScale;
+      uniform vec3 uColLow;uniform vec3 uColHigh;uniform vec3 uCursor;uniform float uRepelRadius;uniform float uRepelStrength;uniform float uActivity;
+      varying float vFade;varying vec3 vColor;${SNOISE}
+      void main(){vec3 wp=vec3(position.x*13.0,0.0,position.z*25.0);wp.x+=position.y*6.0;float zc=wp.z+uStream;
+        float wn=snoise(vec3(wp.x*0.08,zc*0.08,uTime*0.15*uFlow))*2.0;wn+=snoise(vec3(wp.x*0.16,zc*0.16,uTime*0.3*uFlow))*0.8;wp.y+=wn*uWaveHeight;
+        vec3 finalPos=wp*uScale;vec4 modelPosition=modelMatrix*vec4(finalPos,1.0);vec3 toP=modelPosition.xyz-uCursor;float cd=length(toP);
+        float fall=smoothstep(uRepelRadius,0.0,cd);modelPosition.xyz+=normalize(toP+vec3(0.0001))*fall*uRepelStrength*uActivity;
+        vec4 mvPosition=viewMatrix*modelPosition;float colMix=smoothstep(-3.0,3.0,position.y+position.x*0.5);
+        vColor=mix(uColLow,uColHigh,clamp(colMix,0.0,1.0));vFade=1.0;gl_PointSize=uSize*(10.0/-mvPosition.z);gl_PointSize=max(gl_PointSize,1.5);gl_Position=projectionMatrix*mvPosition;}`,
+    fragmentShader:`uniform float uOpacity;uniform float uBrightness;uniform float uAppear;varying float vFade;varying vec3 vColor;
+      void main(){vec2 xy=gl_PointCoord-0.5;float ll=length(xy);if(ll>0.5)discard;float a=smoothstep(0.5,0.1,ll);gl_FragColor=vec4(vColor*uBrightness,vFade*a*uOpacity*uAppear);}`});
+  const points=new THREE.Points(geo,mat);points.frustumCulled=false;points.layers.enable(3);
+  const group=new THREE.Group();group.add(points);scene.add(group);
+
+  const FinalPass={uniforms:{iTime:{value:0},tDiffuse:{value:null},torusTexture:{value:null},bloomTexture:{value:null},haloTexture:{value:null},
+      uBg:{value:hexToVec3(bgColor)},uFlameA:{value:hexToVec3(flameColor)},uFlameB:{value:hexToVec3(flameColor2)},uFlameAmt:{value:flameAmt}},
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`uniform float iTime;uniform sampler2D tDiffuse;uniform sampler2D bloomTexture;uniform sampler2D torusTexture;uniform sampler2D haloTexture;
+      uniform vec3 uBg;uniform vec3 uFlameA;uniform vec3 uFlameB;uniform float uFlameAmt;varying vec2 vUv;
+      vec3 warp3d(vec3 pos,float t){float curv=.8,a=1.9,b=0.7;pos*=2.;pos.x+=curv*sin(t+a*pos.y)+t*b;pos.y+=curv*cos(t+a*pos.x);
+        pos.y+=curv*sin(t+a*pos.z)+t*b;pos.z+=curv*cos(t+a*pos.y);pos.z+=curv*sin(t+a*pos.x)+t*b;pos.x+=curv*cos(t+a*pos.z);return 0.5+0.5*cos(pos.xyz+vec3(1,2,4));}
+      void main(){vec2 uv=2.*vUv-1.;vec3 w=pow(warp3d(vec3(uv.x,sin(uv.y),uv.y),iTime*1.5),vec3(1.5));
+        vec3 flame=1.5*uFlameA*w.x;flame*=w.y;flame+=uFlameB*w.z;flame*=smoothstep(0.25,1.,abs(uv.y));
+        float md=smoothstep(-0.7,1.,-uv.y*uv.x);flame*=md*md;vec3 bg=uBg*(1.0-0.4*length(uv));vec3 halo=texture2D(haloTexture,vUv).xyz;
+        gl_FragColor=vec4(bg+flame*uFlameAmt+texture2D(bloomTexture,vUv).xyz+texture2D(torusTexture,vUv).xyz+texture2D(tDiffuse,vUv).xyz+halo,1.);}`};
+
+  const renderScene=new RenderPass(scene,camera);
+  const torusComposer=new EffectComposer(renderer);torusComposer.renderToScreen=false;
+  torusComposer.addPass(renderScene);torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
+  torusComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.22,0.2,0));torusComposer.addPass(new ShaderPass(CopyShader));
+  const bloomComposer=new EffectComposer(renderer);bloomComposer.renderToScreen=false;
+  bloomComposer.addPass(renderScene);bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.4,0.55,0));bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
+  const finalPass=new ShaderPass(FinalPass);
+  const finalComposer=new EffectComposer(renderer);finalComposer.addPass(renderScene);finalComposer.addPass(finalPass);
+  finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
+  finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
+  finalPass.uniforms.haloTexture.value=blackTex;
+
+  let atmoMat;
+  (function(){const N=Math.round(atmoCount);const positions=new Float32Array(N*3),sizes=new Float32Array(N),seeds=new Float32Array(N);
+    for(let i=0;i<N;i++){positions[i*3]=2*Math.random()-1;positions[i*3+1]=2*Math.random()-1;positions[i*3+2]=2*Math.random()-1;sizes[i]=atmoSize*(0.4+Math.random());seeds[i]=Math.random();}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(positions,3));g.setAttribute('size',new THREE.BufferAttribute(sizes,1));g.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
+    atmoMat=new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,
+      uniforms:{uTime:{value:0},uColor:{value:hexToVec3(atmoColor)},uRes:{value:new THREE.Vector2(innerWidth*devicePixelRatio,innerHeight*devicePixelRatio)}},
+      vertexShader:`attribute float size;attribute float seed;uniform float uTime;uniform vec2 uRes;varying float vA;
+        vec3 warp(vec3 p,float t){float c=0.9,a=1.9,b=0.02,s=0.05;p*=2.;p.x+=c*sin(s*t+a*p.y)+t*b;p.y+=c*cos(s*t+a*p.x);p.y+=c*sin(s*t+a*p.z)+t*b;p.z+=c*cos(s*t+a*p.y);p.z+=c*sin(s*t+a*p.x)+t*b;p.x+=c*cos(s*t+a*p.z);return cos(p+vec3(1,2,4));}
+        void main(){vec3 v=position*4.0+warp(position,uTime)*1.2;vec4 mv=modelViewMatrix*vec4(v,1.0);float r=length(v);float farF=1.0-smoothstep(5.0,6.5,r);float nearF=smoothstep(0.0,0.5,-mv.z);vA=farF*nearF;gl_PointSize=size*uRes.y/900.0/-mv.z;gl_PointSize=max(gl_PointSize,1.0);gl_Position=projectionMatrix*mv;}`,
+      fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-0.5;float l=length(p);if(l>0.5)discard;float tex=smoothstep(0.5,0.0,l);gl_FragColor=vec4(uColor*tex,tex*vA*0.6);}`});
+    const pts=new THREE.Points(g,atmoMat);pts.frustumCulled=false;pts.layers.enable(3);
+    pts.onBeforeRender=function(){const t=performance.now()/1000;atmoMat.uniforms.uTime.value=t*atmoSpeed*8.0;pts.position.copy(camera.position);finalPass.uniforms.iTime.value=t;};
+    scene.add(pts);})();
+
+  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
+  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
+  addEventListener('scroll',onScroll,{passive:true});
+  const mTarget={x:0,y:0},m={x:0,y:0};
+  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
+  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
+  addEventListener('mouseout',()=>{POINTER.active=false;});
+  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
+  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
+
+  const sceneObj={stream:0,appearStart:performance.now(),t0:performance.now()/1000,
+    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;this.stream+=dt*(flow*2.0)*4.0;uniforms.uStream.value=this.stream;
+      uniforms.uWaveHeight.value=waveHeight*(1+scroll*scrollRise);const ea=Math.min(scroll/0.35,1.0);const e=ea*ea*(3-2*ea);
+      const camY=Lerp(camStartY,camEndY,e),camZ=Lerp(camStartZ,camEndZ,e);camera.position.set(mm.x*parallax,camY+mm.y*parallax*0.3,camZ);camera.lookAt(mm.x*parallax*0.5,Lerp(0.0,0.6,e),Lerp(lookStartZ,lookEndZ,e));
+      group.rotation.x=-tilt;group.rotation.y=0;updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
+      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.4));}};
+
+  function loop(){requestAnimationFrame(loop);scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
+    camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
+  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();for(const c of[torusComposer,bloomComposer,finalComposer]){c.setPixelRatio(dpr);c.setSize(w,h);}if(atmoMat)atmoMat.uniforms.uRes.value.set(w*dpr,h*dpr);onScroll();}
+  addEventListener('resize',resize);
+  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  resize();onScroll();
+  if(window.__stopFallback)window.__stopFallback();
+  document.getElementById('bg').style.display='none';
+  if(rm){camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
+  else loop();
+}catch(err){
+  var g=document.getElementById('gl'); if(g) g.style.display='none';
+  if(window.__startFallback) window.__startFallback();
+}
+</script>
+</body>
+</html>

@@ -56,6 +56,15 @@
 - **Mídia:** imagens/vídeos Higgs Field (16:9 desktop + 9:16 mobile via `<picture>`) hospedados no CDN Higgsfield · depoimentos reais em `landing-whey-balance-chocolate/proof/`
 - **Status:** ✅ pronta (depoimentos reais integrados; confirmar descontos de kit)
 
+### 5. Super Vitamina C — Vitamina C + Quercetina + Própolis
+- **Pasta:** `landing-super-vitamina-c/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-super-vitamina-c/index.html
+- **Shopify:** produto `super-vitamina-c` · **VARIANT_ID `48115368460520`**
+- **Preço:** R$ 89,52 (ou 3× de R$ 29,84) · kits 2 un `SUPER5` (−5%) e 3 un `SUPER10` (−10%) — descontos automáticos por quantidade; cupom `BOTANIKA` (5%) no pote avulso · frete grátis > R$349
+- **Produto:** Vitamina C 1000 mg + Quercetina 100 mg + Própolis (6 mg de compostos fenólicos) · 60 cápsulas (30 doses) · 2 cápsulas/dia
+- **Identidade:** "Âmbar Vivo · Efervescência Cítrica" — âmbar-noite + laranja/mel + lima-quercetina · fundo WebGL flow-wave recolorido ("vitamina C líquida" + motes) com fallback 2D · Spectral + Onest
+- **Status:** ✅ pronta
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
