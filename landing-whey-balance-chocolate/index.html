@@ -173,18 +173,72 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .seal .ico{margin:0 auto 12px}.seal b{display:block;font-size:14px;font-family:var(--body)}.seal small{color:var(--muted);font-size:12px}
 
 /* depoimentos */
-.quote{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:26px}
 .stars{color:var(--caramel);letter-spacing:3px;font-size:15px}
-.quote p{margin:12px 0 16px;font-size:clamp(16px,2.3vw,20px);font-family:var(--head);font-style:italic;line-height:1.4}
-.who{display:flex;align-items:center;gap:11px}
-.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#1a0f07;font-family:var(--body)}
-.who b{font-size:14px;font-family:var(--body)}.who small{color:var(--muted);font-size:12px;display:block}
-.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px auto 0;max-width:840px}
-@media(max-width:640px){.proof-grid{grid-template-columns:1fr 1fr}}
-.proof{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#0d0705;
-  box-shadow:0 16px 34px rgba(0,0,0,.5);transition:transform .35s var(--ease),border-color .35s}
-.proof:hover{transform:translateY(-5px);border-color:rgba(234,177,115,.45)}
-.proof img{width:100%;height:100%;object-fit:cover;aspect-ratio:9/16;display:block}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#1a0f07;font-family:var(--body);flex:0 0 auto}
+
+/* barra de confiança */
+.tstats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:30px auto 0;max-width:760px}
+.tstat{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:16px 22px;min-width:150px;text-align:center}
+.tstat b{display:block;font-family:var(--head);font-size:32px;color:var(--caramel);line-height:1;letter-spacing:.01em}
+.tstat b .u{font-size:15px;color:var(--caramel);opacity:.85}
+.tstat small{color:var(--muted);font-size:12px;font-family:var(--body);display:block;margin-top:6px;line-height:1.4}
+
+/* spotlight rotativo de citações reais */
+.spot{position:relative;max-width:720px;margin:40px auto 0}
+.spot .q{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease);
+  position:absolute;inset:0;pointer-events:none;
+  background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:32px 34px;text-align:left;
+  box-shadow:0 34px 80px -38px rgba(0,0,0,.75)}
+.spot .q::before{content:"\201C";position:absolute;top:2px;right:26px;font-family:var(--head);font-size:120px;line-height:1;color:rgba(234,177,115,.14)}
+.spot .q.on{opacity:1;transform:none;position:relative;pointer-events:auto}
+.spot blockquote{margin:12px 0 8px;font-family:var(--head);font-style:italic;font-size:clamp(21px,3.1vw,30px);line-height:1.34;color:var(--cream);position:relative}
+.spot .sub{color:var(--muted);font-size:14.5px;font-family:var(--body);line-height:1.6;max-width:92%}
+.spot .who2{display:flex;align-items:center;gap:12px;margin-top:18px}
+.spot .who2 b{font-size:14px;font-family:var(--body);display:flex;align-items:center;gap:6px;color:var(--cream)}
+.spot .who2 small{color:var(--muted);font-size:12px;display:block;font-family:var(--body)}
+.dots{display:flex;gap:9px;justify-content:center;margin-top:22px}
+.dots button{width:9px;height:9px;border-radius:50%;border:0;background:rgba(234,177,115,.28);cursor:pointer;padding:0;transition:.35s var(--ease)}
+.dots button.on{background:var(--grad);width:28px;border-radius:6px}
+
+/* prova real — cartões estilo tela de celular */
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:48px auto 0;max-width:940px;perspective:1300px}
+@media(max-width:720px){.proof-grid{grid-template-columns:1fr;max-width:340px;gap:34px}}
+.device{position:relative;text-align:left;transform-style:preserve-3d;will-change:transform}
+.device .frame{position:relative;border-radius:28px;overflow:hidden;background:#0d0705;cursor:zoom-in;
+  border:1px solid rgba(234,177,115,.22);
+  box-shadow:0 34px 66px -28px rgba(0,0,0,.78),inset 0 0 0 1px rgba(255,240,220,.04);
+  transition:border-color .45s,box-shadow .45s}
+.device .frame::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.30),transparent 14%,transparent 82%,rgba(13,7,5,.5))}
+.device .frame::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:.45s;
+  background:radial-gradient(120% 55% at 50% 0%,rgba(234,177,115,.16),transparent 62%)}
+.device:hover .frame{border-color:rgba(234,177,115,.5);box-shadow:0 46px 86px -30px rgba(0,0,0,.82),0 0 46px -12px rgba(234,177,115,.28)}
+.device:hover .frame::after{opacity:1}
+.device .frame img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;object-position:top center}
+.device .zoom{position:absolute;bottom:12px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;
+  background:rgba(13,7,5,.55);border:1px solid rgba(234,177,115,.35);display:grid;place-items:center;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transform:scale(.85);transition:.4s var(--ease);pointer-events:none}
+.device:hover .zoom{opacity:1;transform:scale(1)}
+.device .zoom svg{width:15px;height:15px;stroke:var(--caramel);stroke-width:2;fill:none}
+.device .cap{display:flex;align-items:center;gap:11px;margin-top:16px}
+.device .cap .av{width:38px;height:38px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#1a0f07;font-family:var(--body);font-size:12.5px;flex:0 0 auto}
+.device .cap b{font-size:13.5px;font-family:var(--body);display:flex;align-items:center;gap:5px;color:var(--cream)}
+.device .cap small{color:var(--muted);font-size:11.5px;display:block;font-family:var(--body)}
+.vtick{width:14px;height:14px;flex:0 0 auto}
+.device .said{margin:13px 3px 0;color:var(--muted);font-size:13.5px;font-family:var(--body);line-height:1.6;font-style:italic}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(8,4,2,.82);backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px);
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
+.lb.open{opacity:1;visibility:visible}
+.lb img{max-height:88vh;max-width:min(94vw,430px);border-radius:24px;border:1px solid rgba(234,177,115,.3);
+  box-shadow:0 44px 110px -22px rgba(0,0,0,.88);transform:scale(.93);transition:transform .48s var(--ease)}
+.lb.open img{transform:scale(1)}
+.lb .x{position:absolute;top:22px;right:22px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
+  background:var(--glass);color:var(--cream);font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.lb .x:hover{border-color:rgba(234,177,115,.6)}
 
 /* oferta */
 .toggle{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:5px;margin-top:30px;gap:4px}
@@ -442,17 +496,62 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 <!-- 6 · DEPOIMENTOS -->
 <section class="section center" id="depoimentos">
   <span class="eyebrow reveal">Prova social</span>
-  <h2 class="title reveal">Quem experimenta, <em>recomenda</em>.</h2>
-  <p class="lead reveal">Relatos reais de quem trocou o whey comum pelo Whey Balance.</p>
-  <div class="quote reveal" style="text-align:left;max-width:760px;margin:34px auto 0">
-    <div class="stars">★★★★★</div>
-    <p>“Bati com água quente e subiu um cheirinho de leite com chocolate da infância. O gosto é levinho, não é pesado como a maioria dos whey. Esse é o whey mais gostoso que já tomei.”</p>
-    <div class="who"><span class="avatar">AO</span><div><b>Amanda Ortolan</b><small>@amandaortolan.eng · cliente Whey Balance</small></div></div>
+  <h2 class="title reveal">Quem experimenta, <em>volta pra contar</em>.</h2>
+  <p class="lead reveal">Prints reais — sem edição — de quem marcou a Botanika depois de trocar o whey comum pelo Whey Balance.</p>
+
+  <div class="tstats reveal">
+    <div class="tstat"><b>5,0<span class="u"> ★</span></b><small>reação nos prints<br>que recebemos</small></div>
+    <div class="tstat"><b>2<span class="u"> em 1</span></b><small>whey + colágeno<br>C-PURE® na mesma dose</small></div>
+    <div class="tstat"><b>@botanika<span class="u">brasil</span></b><small>clientes reais<br>marcados no story</small></div>
   </div>
+
+  <div class="spot reveal" id="spot">
+    <div class="q on">
+      <div class="stars">★★★★★</div>
+      <blockquote>“Esse é o whey mais gostoso que já tomei.”</blockquote>
+      <div class="sub">Bati com água quente e subiu um cheirinho de leite com chocolate da infância. O gosto é levinho, não é pesado como a maioria dos whey.</div>
+      <div class="who2"><span class="avatar">AO</span><div><b>Amanda Ortolan</b><small>@amandaortolan.eng · trocou o café na gravidez</small></div></div>
+    </div>
+    <div class="q">
+      <div class="stars">★★★★★</div>
+      <blockquote>“Agora eu tô bem dms, né?!”</blockquote>
+      <div class="sub">Haul completo da Botanika no story — Whey Balance junto de creatina, sleep e mais. Cupom <b style="color:var(--caramel)">victoria</b> pra quem quiser repetir.</div>
+      <div class="who2"><span class="avatar">VM</span><div><b>Victoria Miranda</b><small>@victoriamirandap · haul completo Botanika</small></div></div>
+    </div>
+    <div class="q">
+      <div class="stars">★★★★★</div>
+      <blockquote>“Pós-treino é Whey Balance.”</blockquote>
+      <div class="sub">Marcou a Botanika no story do dia a dia — o mesmo médico que assina a curadoria dos produtos.</div>
+      <div class="who2"><span class="avatar">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#cf8a43"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#1a0f07" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria Botanika</small></div></div>
+    </div>
+  </div>
+  <div class="dots" id="spotDots"></div>
+
   <div class="proof-grid stagger">
-    <a class="proof reveal" href="proof/depo-amanda-whey.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Depoimento da Amanda sobre o Whey Balance" src="proof/depo-amanda-whey.jpg"></a>
-    <a class="proof reveal" href="proof/depo-drwilliam-postreino.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Whey Balance no pós-treino" src="proof/depo-drwilliam-postreino.jpg"></a>
-    <a class="proof reveal" href="proof/depo-victoria-haul.jpg" target="_blank" rel="noopener"><img loading="lazy" alt="Unboxing com Whey Balance" src="proof/depo-victoria-haul.jpg"></a>
+    <figure class="device reveal">
+      <div class="frame" data-full="proof/depo-amanda-whey.jpg" role="button" tabindex="0" aria-label="Ver depoimento da Amanda em tela cheia">
+        <img loading="lazy" alt="Print da Amanda: chegou o meu Whey, o mais gostoso que já tomei" src="proof/depo-amanda-whey.jpg">
+        <span class="zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></span>
+      </div>
+      <figcaption class="cap"><span class="av">AO</span><div><b>Amanda Ortolan</b><small>@amandaortolan.eng · cliente</small></div></figcaption>
+      <p class="said">“O whey mais gostoso que já tomei — levinho, não enjoa.”</p>
+    </figure>
+    <figure class="device reveal">
+      <div class="frame" data-full="proof/depo-drwilliam-postreino.jpg" role="button" tabindex="0" aria-label="Ver story do Dr. William em tela cheia">
+        <img loading="lazy" alt="Story do Dr. William Araújo com Whey Balance no pós-treino" src="proof/depo-drwilliam-postreino.jpg">
+        <span class="zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></span>
+      </div>
+      <figcaption class="cap"><span class="av">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#cf8a43"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#1a0f07" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria</small></div></figcaption>
+      <p class="said">“Pós-treino @botanikabrasil.” — quem assina a curadoria também toma.</p>
+    </figure>
+    <figure class="device reveal">
+      <div class="frame" data-full="proof/depo-victoria-haul.jpg" role="button" tabindex="0" aria-label="Ver haul da Victoria em tela cheia">
+        <img loading="lazy" alt="Story da Victoria com haul completo da Botanika, incluindo Whey Balance" src="proof/depo-victoria-haul.jpg">
+        <span class="zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></span>
+      </div>
+      <figcaption class="cap"><span class="av">VM</span><div><b>Victoria Miranda</b><small>@victoriamirandap · cliente</small></div></figcaption>
+      <p class="said">“Agora eu tô bem dms, né?!” — haul completo da linha Botanika.</p>
+    </figure>
   </div>
 </section>
 
@@ -724,6 +823,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   if(!reduce && window.Lenis && fine){
     try{
       var lenis=new Lenis({duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);},smoothWheel:true});
+      window.__lenis=lenis;
       (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
       D.documentElement.style.scrollBehavior='auto';
       if(ST) lenis.on('scroll',function(){ ST.update(); });
@@ -753,5 +853,63 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   if(cue) ST.create({trigger:'.hero',start:'top top',end:'40% top',scrub:true,onUpdate:function(s){ cue.style.opacity=String(1-s.progress); }});
 
   setTimeout(function(){ try{ ST.refresh(); }catch(e){} },300);
+})();
+</script>
+
+<script>
+/* ===== depoimentos: spotlight rotativo + lightbox + tilt ===== */
+(function(){
+  "use strict";
+  var D=document, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,
+      fine=matchMedia('(hover:hover) and (pointer:fine)').matches, G=window.gsap;
+
+  /* spotlight rotativo de citações reais */
+  var spot=D.getElementById('spot'), dotsW=D.getElementById('spotDots');
+  if(spot && dotsW){
+    var qs=[].slice.call(spot.querySelectorAll('.q')), i=0, timer=null;
+    if(qs.length>1){
+      qs.forEach(function(_,k){ var b=D.createElement('button'); if(k===0) b.className='on';
+        b.setAttribute('aria-label','Ver depoimento '+(k+1)); b.addEventListener('click',function(){ go(k,true); }); dotsW.appendChild(b); });
+      var dots=[].slice.call(dotsW.children);
+      var go=function(k,manual){ qs[i].classList.remove('on'); dots[i].classList.remove('on');
+        i=((k%qs.length)+qs.length)%qs.length; qs[i].classList.add('on'); dots[i].classList.add('on');
+        if(manual){ stop(); start(); } };
+      var start=function(){ if(!reduce) timer=setInterval(function(){ go(i+1); },5400); };
+      var stop=function(){ if(timer){ clearInterval(timer); timer=null; } };
+      spot.addEventListener('mouseenter',stop); spot.addEventListener('mouseleave',start);
+      start();
+    }
+  }
+
+  /* tilt 3D sutil nos cartões de prova */
+  if(fine && G){
+    D.querySelectorAll('.device').forEach(function(d){
+      var f=d.querySelector('.frame'); if(!f) return;
+      var qx=G.quickTo(d,'rotationY',{duration:.5,ease:'power3'}), qy=G.quickTo(d,'rotationX',{duration:.5,ease:'power3'});
+      d.addEventListener('mousemove',function(e){ var r=f.getBoundingClientRect();
+        qx(((e.clientX-r.left)/r.width-.5)*9); qy((.5-(e.clientY-r.top)/r.height)*9); });
+      d.addEventListener('mouseleave',function(){ qx(0); qy(0); });
+    });
+  }
+
+  /* lightbox das provas reais */
+  var frames=[].slice.call(D.querySelectorAll('.device .frame[data-full]'));
+  if(frames.length){
+    var lb=D.createElement('div'); lb.className='lb';
+    lb.innerHTML='<button class="x" aria-label="Fechar">&times;</button><img alt="Depoimento em tela cheia">';
+    D.body.appendChild(lb);
+    var lbImg=lb.querySelector('img'), lbX=lb.querySelector('.x');
+    function open(src){ lbImg.src=src; lb.classList.add('open'); D.documentElement.style.overflow='hidden';
+      if(window.__lenis){ try{ window.__lenis.stop(); }catch(e){} } }
+    function close(){ lb.classList.remove('open'); D.documentElement.style.overflow='';
+      if(window.__lenis){ try{ window.__lenis.start(); }catch(e){} }
+      setTimeout(function(){ if(!lb.classList.contains('open')) lbImg.src=''; },420); }
+    frames.forEach(function(f){
+      f.addEventListener('click',function(){ open(f.getAttribute('data-full')); });
+      f.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(f.getAttribute('data-full')); } });
+    });
+    lb.addEventListener('click',function(e){ if(e.target===lb||e.target===lbX) close(); });
+    D.addEventListener('keydown',function(e){ if(e.key==='Escape'&&lb.classList.contains('open')) close(); });
+  }
 })();
 </script>
