@@ -485,6 +485,29 @@ canvas#oranges{position:fixed;inset:0;width:100%;height:100%;z-index:6;pointer-e
 .hero-copy h1 .grad-text i{background:linear-gradient(110deg,var(--orange),var(--amber-hi),var(--lime),var(--amber),var(--orange));background-size:280% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sheen 7s linear infinite}
 @keyframes sheen{to{background-position:280% 0}}
 
+/* galeria de depoimentos — mural de stories reais */
+.stories-note{text-align:center;color:var(--muted);font-size:13.5px;max-width:64ch;margin:0 auto 34px;line-height:1.6}
+.stories{columns:3;column-gap:20px;margin-top:4px}
+.story{position:relative;break-inside:avoid;margin:0 0 20px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);
+  background:var(--panel);box-shadow:0 30px 70px -42px rgba(0,0,0,.9);transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow .4s var(--ease),border-color .4s var(--ease)}
+.story img{width:100%;height:auto;display:block;transition:transform 1.2s var(--ease)}
+.story:hover{border-color:var(--amber);box-shadow:0 44px 96px -38px rgba(255,122,26,.42)}
+.story:hover img{transform:scale(1.05)}
+.story::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(14,6,2,.34) 0%,transparent 20%,transparent 52%,rgba(14,6,2,.9) 100%)}
+.story .handle{position:absolute;top:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--cream);
+  padding:6px 11px;border-radius:100px;background:rgba(14,6,2,.5);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.story .handle i{width:15px;height:15px;border-radius:50%;background:var(--grad);box-shadow:0 0 8px var(--orange);display:inline-block}
+.story figcaption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:18px 16px 16px}
+.story .st{color:var(--amber);letter-spacing:2px;font-size:13px;display:block;margin-bottom:7px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.story figcaption p{font-size:13.5px;line-height:1.5;color:var(--cream);text-shadow:0 1px 12px rgba(0,0,0,.85)}
+.story figcaption p b{color:var(--amber-hi);font-weight:600}
+.story .vf{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:10.5px;letter-spacing:.02em;color:var(--soft);text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.story .vf::before{content:"✓";color:#39d67d;font-weight:800}
+@media(max-width:900px){.stories{columns:2}}
+@media(max-width:560px){.stories{columns:1;max-width:400px;margin-inline:auto}}
+
 @media(max-width:760px){ .scrollcue{display:none} }
 @media(prefers-reduced-motion:reduce){
   .stage-ring,.marquee .track,.hero-copy h1 .grad-text i{animation:none!important}
@@ -709,23 +732,40 @@ canvas#oranges{position:fixed;inset:0;width:100%;height:100%;z-index:6;pointer-e
   <div class="shell">
     <div class="sec-head center reveal">
       <div class="kicker center"><span></span><b>08</b> Quem já cuida</div>
-      <h2 class="serif hsplit" data-split>Reforço que entra na rotina.</h2>
+      <h2 class="serif hsplit" data-split>A rotina de quem já leva a sério.</h2>
     </div>
     <div class="nums reveal" data-stagger>
       <div class="numc"><b class="num" data-target="1000" data-suffix=" mg">0</b><span>de vitamina C por dose</span></div>
       <div class="numc"><b class="num" data-target="3">0</b><span>ativos em sinergia</span></div>
       <div class="numc"><b class="num" data-target="30">0</b><span>doses por embalagem</span></div>
     </div>
-    <div class="proof-hero reveal">
-      <div class="msg">
-        <div class="msg-top"><span class="dot"></span> respondeu ao seu story · <b>relato no direct</b></div>
-        <div class="bubble">Comprei o Tri, o Hair e a Vitamina C. Com uma semana já me sinto uma pessoa completamente diferente.</div>
-        <div class="msg-stars">★★★★★</div>
-      </div>
-    </div>
-    <div class="proof reveal" data-stagger>
-      <div class="quote"><span class="st">★★★★★</span><p>“Gostei de ter vitamina C, quercetina e própolis num pote só. Antes eu comprava separado e sempre esquecia um.”</p><span class="who">Cliente Botanika · relato no direct</span></div>
-      <div class="quote"><span class="st">★★★★★</span><p>“Suplemento honesto: dose funcional e fórmula limpa. Cuidar da imunidade virou rotina, sem hype.”</p><span class="who">Rotina Botanika · comunidade</span></div>
+    <p class="stories-note reveal">Relatos reais de clientes e da comunidade Botanika — no Instagram e no direct. Alguns mostram a rotina completa da linha; a <b style="color:var(--amber-hi)">Super Vitamina C</b> entra junto no dia a dia.</p>
+    <div class="stories reveal" data-stagger>
+      <figure class="story" data-tilt>
+        <img loading="lazy" src="proof/p10-betynha.jpg" alt="Cliente Botanika recebendo a Super Vitamina C, Tetra Vit D e Hair" width="1320" height="2346">
+        <span class="handle"><i></i>@betynha__</span>
+        <figcaption><span class="st">★★★★★</span><p>“Suplementos chegando!” — <b>Super Vitamina C</b>, Tetra Vit D e Hair na rotina.</p><span class="vf">story real no Instagram</span></figcaption>
+      </figure>
+      <figure class="story" data-tilt>
+        <img loading="lazy" src="proof/p04-depoimento-dm.jpg" alt="Relato no direct citando a vitamina C da Botanika" width="1284" height="2282">
+        <span class="handle"><i></i>relato no direct</span>
+        <figcaption><span class="st">★★★★★</span><p>“Comprei o Tri, o Hair e a <b>vitamina C</b>! Com uma semana já me sinto uma pessoa completamente diferente.”</p><span class="vf">mensagem real</span></figcaption>
+      </figure>
+      <figure class="story" data-tilt>
+        <img loading="lazy" src="proof/p08-victoria-box.jpg" alt="Caixa cheia de Super Vitamina C da Botanika" width="1284" height="2282">
+        <span class="handle"><i></i>@victoriamirandap</span>
+        <figcaption><span class="st">★★★★★</span><p>“Agora eu tô bem dms, né?!” — caixa cheia, com <b>Super Vitamina C</b>.</p><span class="vf">story real no Instagram</span></figcaption>
+      </figure>
+      <figure class="story" data-tilt>
+        <img loading="lazy" src="proof/p01-omega-leticia.jpg" alt="Cliente Botanika com encomenda da marca" width="1320" height="2346">
+        <span class="handle"><i></i>@leticiarezende_adv</span>
+        <figcaption><span class="st">★★★★★</span><p>“Chegaram minhas encomendas da @botanikabrasil 🙏 @drwilliamaraujo fala e eu obedeço.”</p><span class="vf">story real no Instagram</span></figcaption>
+      </figure>
+      <figure class="story" data-tilt>
+        <img loading="lazy" src="proof/p05-rebeca.jpg" alt="Cliente Botanika segurando produto da marca" width="1320" height="2346">
+        <span class="handle"><i></i>@rebecamilhas</span>
+        <figcaption><span class="st">★★★★★</span><p>“Testando uma nova marca. Certeza de um bom resultado. Ele não erra.”</p><span class="vf">story real no Instagram</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
