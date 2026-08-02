@@ -44,6 +44,7 @@
 - **Assets locais:** `hair-rotulo.png` (pote navy transparente, herói) · `hair-caixa.png`
 - **Estrutura:** 13 seções (+ **Tabela de transparência** com doses/%VD reais). Hero pain-first ("Você já tentou de tudo por fora — menos olhar por dentro"). Copy da Lovana + metafields Shopify
 - **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) · repasse de UTMs no checkout · OG/Twitter
+- **Imersão:** Lenis (scroll suave) + GSAP ScrollTrigger (parallax de imagens + **cor do fundo WebGL por seção**), cursor glow, entrada cinematográfica do hero, marquee de ativos, barras de %VD animadas, header some ao rolar. Libs de animação **self-hosted** em `landing-hair/vendor/` (three via unpkg).
 - **Status:** ✅ reconstruída v2 (WebGL, imagens editoriais, distinta do Ômega)
 
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
