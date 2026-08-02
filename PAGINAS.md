@@ -42,6 +42,16 @@
 - **Pote:** render SVG estilizado (trocar por PNG transparente quando disponível)
 - **Status:** ✅ pronta (pendente: VARIANT_ID + preços reais da loja)
 
+### 4. Sleep Inositol — Relaxamento e Rotina do Sono
+- **Pasta:** `landing-sleep/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-sleep/index.html
+- **Shopify:** produto `sleep-inositol` · **VARIANT_ID `48115368853736`**
+- **Preço:** R$ 119,70 (3× de R$ 39,90) · kits 2 (−5% = R$ 227,43) e 3 (−10% = R$ 323,19) · frete grátis > R$349
+- **Produto:** pó · 150 g · 19 porções · 7 ativos (Taurato de Magnésio 350 mg, Inositol 2 g, Glicina 1.000 mg, Taurina 200 mg, Triptofano 100 mg, Melatonina 0,21 mg, Camomila + Lavanda) · sabor camomila/laranja/lavanda · sem açúcar/glúten
+- **Identidade:** "Crepúsculo & Camomila" — crepúsculo ameixa quente + âmbar-mel + lilás-lavanda · fundo WebGL "Aurora do Sono" (campo de pontos que reage ao mouse) + lua âmbar · fonte Newsreader + Instrument Sans
+- **Pote:** `landing-sleep/sleep-pote.png` (render navy do Drive, transparente)
+- **Status:** ✅ pronta (dev na branch `claude/sleep-inositol-lp-9fg7bw`; publicar em `lp`)
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
