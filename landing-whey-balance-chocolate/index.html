@@ -19,9 +19,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
 
 <style>
 /* ============================================================
@@ -911,5 +911,42 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     lb.addEventListener('click',function(e){ if(e.target===lb||e.target===lbX) close(); });
     D.addEventListener('keydown',function(e){ if(e.key==='Escape'&&lb.classList.contains('open')) close(); });
   }
+})();
+</script>
+<style>
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+.imm-cursor{position:fixed;top:0;left:0;width:24px;height:24px;border-radius:50%;pointer-events:none;z-index:9999;background:radial-gradient(circle,rgba(207,138,67,.5),transparent 68%);mix-blend-mode:screen;opacity:0;transition:width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),opacity .35s;will-change:transform}
+.imm-cursor.big{width:56px;height:56px;background:radial-gradient(circle,rgba(207,138,67,.3),transparent 70%)}
+@media(pointer:coarse){.imm-cursor{display:none}}
+@media(prefers-reduced-motion:reduce){.imm-cursor{display:none}}
+</style>
+<script>
+(function(){"use strict";
+var d=document,w=window,reduce=w.matchMedia&&w.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(d.querySelector('.imm-cursor'))return;
+var GS=w.gsap,ST=w.ScrollTrigger;if(GS&&ST){try{GS.registerPlugin(ST);}catch(e){}}
+function qa(s){return Array.prototype.slice.call(d.querySelectorAll(s));}
+if(w.Lenis&&!reduce&&!w.__lenisImm&&!d.documentElement.classList.contains('lenis')){
+  try{
+    var l=new w.Lenis({duration:1.1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));},smoothWheel:true,touchMultiplier:1.5});
+    w.__lenisImm=l;l.on('scroll',function(){if(ST)ST.update();});
+    if(GS){GS.ticker.add(function(t){l.raf(t*1000);});GS.ticker.lagSmoothing(0);}else{(function r(t){l.raf(t);requestAnimationFrame(r);})(0);}
+    qa('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id.length<2)return;var t=d.querySelector(id);if(!t)return;e.preventDefault();l.scrollTo(t,{offset:-70,duration:1.2});});});
+  }catch(e){}
+}
+if(!(w.matchMedia&&w.matchMedia('(pointer:coarse)').matches)&&!reduce){
+  var c=d.createElement('div');c.className='imm-cursor';d.body.appendChild(c);
+  var cx=w.innerWidth/2,cy=w.innerHeight/2,tx=cx,ty=cy;
+  w.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;c.style.opacity='1';},{passive:true});
+  w.addEventListener('mouseout',function(){c.style.opacity='0';});
+  (function loop(){cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;c.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+  qa('a,button,summary,.card,[data-tilt],.plan,.faq details').forEach(function(el){el.addEventListener('mouseenter',function(){c.classList.add('big');});el.addEventListener('mouseleave',function(){c.classList.remove('big');});});
+}
+if(GS&&ST&&!reduce){qa('.shot img, .proof img').forEach(function(img){var f=img.parentElement;if(!f)return;GS.fromTo(img,{yPercent:-8},{yPercent:8,ease:'none',scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:true}});});}
+var hdr=d.querySelector('#hdr'),ly=0;
+if(hdr){hdr.style.transition=(hdr.style.transition?hdr.style.transition+', ':'')+'transform .5s cubic-bezier(.2,.7,.2,1)';
+  w.addEventListener('scroll',function(){var y=w.pageYOffset||d.documentElement.scrollTop;if(y>460&&y>ly+4){hdr.style.transform='translateY(-130%)';}else if(y<ly-4||y<200){hdr.style.transform='';}ly=y;},{passive:true});}
 })();
 </script>

@@ -11,6 +11,7 @@
 - **Guia de construção/design:** `botanika-lp-superprompt.md` (design system, interações, regras).
 - **Checkout Shopify:** `https://botanikabrasil.com.br/cart/<VARIANT_ID>:<QTD>` (kit 1 nos botões soltos; a oferta muda por kit).
 - Ao terminar uma edição: validar (`node --check` nos scripts), commit, e push para a branch `lp`.
+- **Camada imersiva compartilhada:** todas as LPs usam libs self-hosted em `<pasta>/vendor/` (gsap + ScrollTrigger + lenis) → **scroll suave (Lenis)**, **cursor glow**, **parallax de imagens** e header some ao rolar. Bloco aditivo e guardado (degrada com segurança; respeita `prefers-reduced-motion`).
 
 ## Páginas
 
