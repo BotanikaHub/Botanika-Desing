@@ -20,6 +20,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <style>
 /* ============================================================
@@ -103,16 +105,17 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(80vw,760px);padding:0 22px}
+.stage{position:relative;display:grid;place-items:center;min-height:min(80vw,760px);padding:0 22px;perspective:1200px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
-.pote{position:relative;z-index:2;width:min(118%,690px);height:auto;
+.poteWrap{position:relative;z-index:2;width:min(118%,690px);will-change:transform}
+.pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
-.choco{position:absolute;z-index:1;width:20%;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55));will-change:transform}
-.choco.k1{top:8%;left:6%;animation:floaty 5.4s ease-in-out infinite}
-.choco.k2{top:16%;right:2%;width:16%;animation:floaty 6.6s ease-in-out .5s infinite}
-.choco.k3{bottom:12%;left:12%;width:14%;animation:floaty 5.8s ease-in-out .9s infinite}
+.choWrap{position:absolute;z-index:1;will-change:transform}
+.choWrap.k1{top:2%;left:4%;width:20%}.choWrap.k2{top:10%;right:2%;width:16%}.choWrap.k3{bottom:10%;left:12%;width:14%}
+.choco{width:100%;height:auto;display:block;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55));animation:floaty 6s ease-in-out infinite}
+.choWrap.k1 .choco{animation-duration:5.4s}.choWrap.k2 .choco{animation-duration:6.6s;animation-delay:.5s}.choWrap.k3 .choco{animation-duration:5.8s;animation-delay:.9s}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 .hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
   border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center}
@@ -123,7 +126,7 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
-  .pote{width:min(90%,450px)}
+  .poteWrap{width:min(90%,450px)}
 }
 
 /* ---------- mídia em card ---------- */
@@ -270,6 +273,23 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(10,6,3,.
   transition:.35s var(--ease);box-shadow:0 12px 30px rgba(234,177,115,.4);font-family:var(--body)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* scroll cue */
+.scrollcue{position:relative;display:block;width:24px;height:40px;margin:-28px auto 0;z-index:5;border:1.6px solid var(--line);border-radius:14px}
+.scrollcue span{position:absolute;left:50%;top:7px;width:4px;height:8px;border-radius:3px;background:var(--caramel);transform:translateX(-50%);animation:scdot 1.6s ease-in-out infinite}
+@keyframes scdot{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,15px)}}
+@media(max-width:900px){.scrollcue{display:none}}
+/* nav ativa */
+.nav-links a.act{color:var(--caramel)}
+/* brilho do CTA */
+.btn-buy{overflow:hidden}
+.btn-buy::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;transform:skewX(-18deg);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);animation:shine 5s ease-in-out infinite}
+@keyframes shine{0%,55%{left:-70%}100%{left:140%}}
+@media(prefers-reduced-motion:reduce){.btn-buy::after,.scrollcue span{animation:none}}
+/* linha do eyebrow cresce ao revelar */
+.eyebrow.reveal::before{width:0;transition:width .8s var(--ease) .15s}
+.eyebrow.reveal.visible::before{width:26px}
+
 /* reveal + letras */
 .reveal{opacity:0;transform:translateY(38px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.visible{opacity:1;transform:none}
@@ -330,13 +350,14 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="stage reveal">
-    <img class="choco k1" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png">
-    <img class="choco k2" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png">
-    <img class="choco k3" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png">
-    <img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png">
+    <span class="choWrap k1"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
+    <span class="choWrap k2"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
+    <span class="choWrap k3"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
+    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
+<a class="scrollcue" href="#dor" aria-label="Rolar"><span></span></a>
 
 <!-- 2 · DOR -->
 <section class="section" id="dor">
@@ -605,9 +626,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     b.addEventListener('mousemove',function(ev){ var r=b.getBoundingClientRect(); if(G){ bx((ev.clientX-r.left-r.width/2)*.25); by((ev.clientY-r.top-r.height/2)*.4);} });
     b.addEventListener('mouseleave',function(){ if(G){ bx(0); by(0);} });
   });
-  var pote=doc.getElementById('pote');
-  if(pote && G){ var rx=G.quickTo(pote,'rotationY',{duration:.7,ease:'power3'}), ry=G.quickTo(pote,'rotationX',{duration:.7,ease:'power3'});
-    window.addEventListener('mousemove',function(e){ rx((e.clientX/innerWidth-.5)*14); ry((.5-e.clientY/innerHeight)*10); },{passive:true}); }
+  var poteW=doc.querySelector('.poteWrap');
+  if(poteW && G){ var rx=G.quickTo(poteW,'rotationY',{duration:.7,ease:'power3'}), ry=G.quickTo(poteW,'rotationX',{duration:.7,ease:'power3'});
+    window.addEventListener('mousemove',function(e){ rx((e.clientX/innerWidth-.5)*12); ry((.5-e.clientY/innerHeight)*9); },{passive:true}); }
   }
 
   /* ===== Meta Pixel eventos + UTMs no checkout ===== */
@@ -689,5 +710,48 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ resize(); seed(); if(reduce)draw(); },220); });
   window.addEventListener('mousemove',function(e){ mx=e.clientX/innerWidth; my=e.clientY/innerHeight; },{passive:true});
   window.addEventListener('scroll',function(){ sY=window.scrollY||0; },{passive:true});
+})();
+</script>
+
+<script>
+/* ===== acabamento: scroll suave (Lenis) + animacoes de scroll (GSAP ScrollTrigger) ===== */
+(function(){
+  var G=window.gsap, ST=window.ScrollTrigger, D=document,
+      fine=matchMedia('(hover:hover) and (pointer:fine)').matches,
+      reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* scroll suave no desktop */
+  if(!reduce && window.Lenis && fine){
+    try{
+      var lenis=new Lenis({duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);},smoothWheel:true});
+      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+      D.documentElement.style.scrollBehavior='auto';
+      if(ST) lenis.on('scroll',function(){ ST.update(); });
+      D.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click',function(e){ var h=a.getAttribute('href'); if(h.length>1){ var t=D.querySelector(h); if(t){ e.preventDefault(); lenis.scrollTo(t,{offset:-72}); } } }); });
+    }catch(e){}
+  }
+
+  if(reduce || !G || !ST){ return; }
+  try{ G.registerPlugin(ST); }catch(e){ return; }
+
+  /* parallax do hero: pote + chocolates */
+  var pw=D.querySelector('.poteWrap');
+  if(pw) G.to(pw,{yPercent:-18,rotationZ:1.5,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}});
+  D.querySelectorAll('.choWrap').forEach(function(c,i){ G.to(c,{yPercent:(i%2?38:-34),xPercent:(i%2?12:-10),ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}}); });
+
+  /* imagens: zoom sutil ao entrar (Ken Burns) */
+  D.querySelectorAll('.shot').forEach(function(s){ var img=s.querySelector('img'); if(img){ try{ G.fromTo(img,{scale:1.16},{scale:1,ease:'none',scrollTrigger:{trigger:s,start:'top 88%',end:'top 32%',scrub:.5}}); }catch(e){} } });
+
+  /* nav ativa conforme a secao */
+  var map={}; D.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a){ var id=a.getAttribute('href').slice(1); if(id) map[id]=a; });
+  Object.keys(map).forEach(function(id){ var el=D.getElementById(id); if(!el) return;
+    ST.create({trigger:el,start:'top 55%',end:'bottom 55%',onToggle:function(self){ if(self.isActive){ for(var k in map) map[k].classList.toggle('act',k===id); } }});
+  });
+
+  /* indicador de scroll some ao rolar */
+  var cue=D.querySelector('.scrollcue');
+  if(cue) ST.create({trigger:'.hero',start:'top top',end:'40% top',scrub:true,onUpdate:function(s){ cue.style.opacity=String(1-s.progress); }});
+
+  setTimeout(function(){ try{ ST.refresh(); }catch(e){} },300);
 })();
 </script>
