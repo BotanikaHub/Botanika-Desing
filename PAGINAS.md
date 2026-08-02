@@ -67,6 +67,18 @@
 - **Identidade:** "Âmbar Vivo · Efervescência Cítrica" — âmbar-noite + laranja/mel + lima-quercetina · fundo WebGL flow-wave recolorido ("vitamina C líquida" + motes) com fallback 2D · Spectral + Onest
 - **Status:** ✅ pronta
 
+### 6. TetraVit D — Vitaminas A, D3, E e K2 em Gotas
+- **Pasta:** `landing-tetravit/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-tetravit/index.html
+- **Shopify:** produto `tetravit-d` · **VARIANT_ID `48115367936232`** (SKU 80.1.9)
+- **Preço:** R$ 117,12 à vista · ou 3x de R$ 39,04 · kits 2 (5% OFF → R$ 222,53) e 3 (10% OFF → R$ 316,22) · cupom `BOTANIKA` · frete grátis > R$349
+- **Produto:** A, D3 (50 mcg/333% VD), E, K2 (MK-7) em veículo TCM · 30 ml · 2 gotas/dia · 300 doses (~10 meses) · sem glúten/açúcar
+- **Identidade:** **"Luz Líquida"** — espresso/âmbar quente + mel/ouro-líquido + coral-nascer-do-sol + verde-mineral K2 · fundo canvas próprio (gotículas de óleo dourado subindo + "sol" que segue o cursor) · **Newsreader + Sora**
+- **Ângulo:** dor primeiro — "D3 sozinha é metade da equação"; sinergia D3+K2 (íons de cálcio animados em SVG) como coração da página
+- **Imagens:** caixa em **PNG transparente** (recorte via Higgsfield, CDN cloudfront) flutuando no hero/oferta; **depoimentos reais** em `landing-tetravit/proof/` (galeria estilo stories) + **UGC real** em "para quem é"; fotos Shopify enquadradas nas seções internas
+- **Imersão:** smooth-scroll com momentum + parallax por seção, aura de cor por seção, loader, count-up, tilt+glow, botões magnéticos, barra de compra fixa no mobile. **100% autocontido** (sem `vendor/`, canvas 2D próprio), Safari-safe
+- **Status:** ✅ pronta
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
