@@ -54,9 +54,11 @@
 - **Shopify:** produto `whey-balance-chocolate` · **VARIANT_ID `48115368919272`**
 - **Preço:** 3x de R$ 49,10 · ou R$ 147,30 à vista · 455 g · kits 2/3 com cupom `BOTANIKA` (5% OFF) — *confirmar descontos de kit na loja*
 - **Produto:** whey concentrado + colágeno hidrolisado C-PURE® · 23 g de proteína/porção · adoçado naturalmente · sem açúcar/corantes/glúten · força + tônus
-- **Identidade:** "Cacau Fundido" — espresso + cobre/caramelo + creme · fundo canvas de chocolate fundido (reativo ao mouse) · Cormorant Garamond + Hanken Grotesk
+- **Identidade:** "Cacau Fundido" — espresso + cobre/caramelo + creme · Cormorant Garamond + Hanken Grotesk
+- **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, mesmo pipeline de Hair/SuperVitC — "cacau fundido líquido" com bloom, motes de caramelo e repel do ponteiro) + **fallback 2D "chocolate fundido"** (canvas) se o WebGL falhar · loader · libs self-hosted em `vendor/` (three via unpkg importmap)
 - **Mídia:** imagens/vídeos Higgs Field (16:9 desktop + 9:16 mobile via `<picture>`) hospedados no CDN Higgsfield · depoimentos reais em `landing-whey-balance-chocolate/proof/`
-- **Status:** ✅ pronta (depoimentos reais integrados; confirmar descontos de kit)
+- **Imersão:** GSAP ScrollTrigger (parallax hero + Ken Burns nas imagens), cursor glow, header some ao rolar, count-up, tilt+glow nos cards, spotlight de citações, lightbox, barra de compra fixa no mobile, Meta Pixel (PageView + ViewContent + InitiateCheckout)
+- **Status:** ✅ reconstruída v2 (WebGL "Cacau Fundido" + fallback, loader, self-hosted; distinta das demais)
 
 ### 5. Super Vitamina C — Vitamina C + Quercetina + Própolis
 - **Pasta:** `landing-super-vitamina-c/`
