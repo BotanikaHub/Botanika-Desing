@@ -77,11 +77,12 @@
 - **Shopify:** produto `tetravit-d` · **VARIANT_ID `48115367936232`** (SKU 80.1.9)
 - **Preço:** R$ 117,12 à vista · ou 3x de R$ 39,04 · kits 2 (5% OFF → R$ 222,53) e 3 (10% OFF → R$ 316,22) · cupom `BOTANIKA` · frete grátis > R$349
 - **Produto:** A, D3 (50 mcg/333% VD), E, K2 (MK-7) em veículo TCM · 30 ml · 2 gotas/dia · 300 doses (~10 meses) · sem glúten/açúcar
-- **Identidade:** **"Luz Líquida"** — espresso/âmbar quente + mel/ouro-líquido + coral-nascer-do-sol + verde-mineral K2 · fundo canvas próprio (gotículas de óleo dourado subindo + "sol" que segue o cursor) · **Newsreader + Sora**
+- **Identidade:** **"Luz Líquida"** — espresso/âmbar quente + mel/ouro-líquido + coral-nascer-do-sol + verde-mineral K2 · **Newsreader + Sora**
+- **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, âmbar/mel/coral com bloom e repel do ponteiro) + **fallback 2D "Luz Líquida"** (canvas próprio: gotículas de óleo dourado subindo + "sol" que segue o cursor) se o WebGL falhar · three via unpkg importmap
 - **Ângulo:** dor primeiro — "D3 sozinha é metade da equação"; sinergia D3+K2 (íons de cálcio animados em SVG) como coração da página
 - **Imagens:** caixa em **PNG transparente** (recorte via Higgsfield, CDN cloudfront) flutuando no hero/oferta; **depoimentos reais** em `landing-tetravit/proof/` (galeria estilo stories) + **UGC real** em "para quem é"; fotos Shopify enquadradas nas seções internas
-- **Imersão:** smooth-scroll com momentum + parallax por seção, aura de cor por seção, loader, count-up, tilt+glow, botões magnéticos, barra de compra fixa no mobile. **100% autocontido** (sem `vendor/`, canvas 2D próprio), Safari-safe
-- **Status:** ✅ pronta
+- **Imersão:** smooth-scroll com momentum + parallax por seção, aura de cor por seção, loader, count-up, tilt+glow, botões magnéticos, barra de compra fixa no mobile. Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout). Safari-safe
+- **Status:** ✅ reconstruída v2 (WebGL "Luz Líquida" + fallback 2D próprio)
 
 ### 7. Sleep Inositol — Relaxamento e Rotina do Sono
 - **Pasta:** `landing-sleep/`
