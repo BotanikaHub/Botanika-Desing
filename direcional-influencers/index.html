@@ -341,12 +341,21 @@
     border:1px solid var(--gline);border-radius:100px;padding:8px 16px}
   @media(max-width:600px){.htag{display:none}.brandmark .wm span{display:none}}
 
-  /* seal svg pieces */
+  /* seal svg pieces — botanical apothecary emblem */
   .seal .ring{fill:none;stroke:var(--forest);stroke-width:2}
-  .seal .ring2{fill:none;stroke:var(--gold);stroke-width:1;opacity:.8}
+  .seal .beads{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:.5 4.3;stroke-linecap:round;opacity:.8}
+  .seal .rivet{fill:var(--gold)}
   .seal .mono{fill:var(--forest);font-family:'Fraunces',serif;font-weight:500}
-  .seal .sprig{fill:none;stroke:var(--sage);stroke-width:1.6;stroke-linecap:round}
+  .seal .stem{fill:none;stroke:var(--sage);stroke-width:1.5;stroke-linecap:round}
+  .seal .leaf{fill:var(--sage-soft)}
   .seal .berry{fill:var(--gold)}
+  .seal .crown{transform-box:fill-box}
+  .seal .crown .leaf,.seal .crown .berry{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center;
+    animation:pop .7s var(--ease-out) forwards}
+  .seal .crown .leaf:nth-of-type(1){animation-delay:.35s}
+  .seal .crown .leaf:nth-of-type(2){animation-delay:.5s}
+  .seal .crown .berry{animation-delay:.65s}
+  @media(prefers-reduced-motion:reduce){.seal .crown .leaf,.seal .crown .berry{opacity:1;transform:none;animation:none}}
 
   /* ---------- HERO ---------- */
   .hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:30px;
@@ -579,11 +588,14 @@
   .final{position:relative;text-align:center;margin-top:60px;border-radius:26px;overflow:hidden;
     background:radial-gradient(100% 100% at 50% 0%,rgba(198,166,103,.16),transparent 60%),linear-gradient(160deg,var(--forest),var(--forest-deep));
     color:var(--cream);padding:clamp(46px,7vw,80px) clamp(24px,5vw,60px)}
-  .final .fseal{width:70px;height:70px;margin:0 auto 22px}
-  .final .fseal .ring{stroke:var(--gold-bright)}
-  .final .fseal .ring2{stroke:var(--gold-bright)}
+  .final .fseal{width:74px;height:74px;margin:0 auto 22px}
+  .final .fseal .ring{stroke:var(--gline)}
+  .final .fseal .beads{stroke:var(--gold-bright)}
+  .final .fseal .rivet{fill:var(--gold-bright)}
   .final .fseal .mono{fill:var(--gold-bright)}
-  .final .fseal .sprig{stroke:var(--sage-soft)}
+  .final .fseal .stem{stroke:var(--sage-soft)}
+  .final .fseal .leaf{fill:var(--sage-soft)}
+  .final .fseal .berry{fill:var(--gold-bright)}
   .final .kk{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-bright);font-weight:600;margin-bottom:16px}
   .final h2{font-size:clamp(30px,5.5vw,52px);color:var(--cream);margin-bottom:16px}
   .final h2 em{color:var(--gold-bright)}
@@ -598,6 +610,7 @@
     display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
     font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage)}
   footer .fb{color:var(--gold-deep);font-weight:600}
+  footer .fhandles{color:var(--sage);font-weight:500}
 
   #toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,20px);z-index:90;opacity:0;pointer-events:none;
     background:var(--forest);color:var(--cream);font-size:12.5px;padding:12px 22px;border-radius:100px;
@@ -628,11 +641,19 @@
 <header id="hd">
   <a class="brandmark" href="#top" aria-label="Botanika — início">
     <svg class="seal" viewBox="0 0 100 100" role="img" aria-label="Selo Botanika">
-      <circle class="ring" cx="50" cy="50" r="45"/>
-      <circle class="ring2" cx="50" cy="50" r="39"/>
-      <path class="sprig" d="M50 22 C50 30 50 36 50 42 M50 27 C45 24 41 25 39 29 M50 27 C55 24 59 25 61 29 M50 34 C46 32 43 33 41 36 M50 34 C54 32 57 33 59 36"/>
-      <circle class="berry" cx="50" cy="20" r="2.4"/>
-      <text class="mono" x="50" y="72" font-size="42" text-anchor="middle">B</text>
+      <circle class="ring" cx="50" cy="50" r="46"/>
+      <circle class="beads" cx="50" cy="50" r="40"/>
+      <circle class="rivet" cx="4" cy="50" r="1.7"/>
+      <circle class="rivet" cx="96" cy="50" r="1.7"/>
+      <g class="crown">
+        <path class="stem" d="M50 34 C50 27 50 20 50 13"/>
+        <path class="stem" d="M50 25 C45 22 42 23 40 26"/>
+        <path class="stem" d="M50 25 C55 22 58 23 60 26"/>
+        <path class="leaf" d="M40 26 C34 23 32 16 35 11 C41 13 44 19 44 25 C43 26 41 27 40 26Z"/>
+        <path class="leaf" d="M60 26 C66 23 68 16 65 11 C59 13 56 19 56 25 C57 26 59 27 60 26Z"/>
+        <circle class="berry" cx="50" cy="11" r="2.6"/>
+      </g>
+      <text class="mono" x="50" y="76" font-size="44" text-anchor="middle">B</text>
     </svg>
     <span class="wm"><b>BOTANIKA</b><span>Suplementos honestos</span></span>
   </a>
@@ -881,10 +902,17 @@
 
     <div class="final rv">
       <svg class="fseal" viewBox="0 0 100 100" aria-hidden="true">
-        <circle class="ring" cx="50" cy="50" r="45" fill="none" stroke-width="2"/>
-        <circle class="ring2" cx="50" cy="50" r="39" fill="none" stroke-width="1"/>
-        <path class="sprig" d="M50 22 C50 30 50 36 50 42 M50 27 C45 24 41 25 39 29 M50 27 C55 24 59 25 61 29 M50 34 C46 32 43 33 41 36 M50 34 C54 32 57 33 59 36" fill="none" stroke-width="1.6" stroke-linecap="round"/>
-        <text class="mono" x="50" y="72" font-family="Fraunces,serif" font-size="42" text-anchor="middle">B</text>
+        <circle class="ring" cx="50" cy="50" r="46" fill="none" stroke-width="1.4"/>
+        <circle class="beads" cx="50" cy="50" r="40" fill="none" stroke-width="2" stroke-dasharray=".5 4.3" stroke-linecap="round"/>
+        <circle class="rivet" cx="4" cy="50" r="1.7"/>
+        <circle class="rivet" cx="96" cy="50" r="1.7"/>
+        <path class="stem" d="M50 34 C50 27 50 20 50 13" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="stem" d="M50 25 C45 22 42 23 40 26" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="stem" d="M50 25 C55 22 58 23 60 26" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <path class="leaf" d="M40 26 C34 23 32 16 35 11 C41 13 44 19 44 25 C43 26 41 27 40 26Z"/>
+        <path class="leaf" d="M60 26 C66 23 68 16 65 11 C59 13 56 19 56 25 C57 26 59 27 60 26Z"/>
+        <circle class="berry" cx="50" cy="11" r="2.6"/>
+        <text class="mono" x="50" y="76" font-family="Fraunces,serif" font-size="44" text-anchor="middle">B</text>
       </svg>
       <div class="kk">Botanika · Suplementos honestos</div>
       <h2>Na dúvida, <em>pergunte antes</em></h2>
@@ -896,8 +924,9 @@
 </section>
 
 <footer>
-  <span class="fb">Botanika · Direcional para Influenciadoras</span>
-  <span>Confidencial · Uso interno · v2.0</span>
+  <span class="fb">Botanika · Suplementos honestos</span>
+  <span class="fhandles">@botanikabrasil · botanikabrasil.com.br</span>
+  <span>Direcional para Influenciadoras · Uso interno · v2.0</span>
 </footer>
 </div>
 
