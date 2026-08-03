@@ -105,6 +105,16 @@
 - **Imagens:** pote local `landing-creatina/pote.png` + cenas do CDN Shopify; depoimentos em `landing-creatina/proof/` (genéricos/comunidade — sem fotos reais deste produto)
 - **Status:** ✅ pronta
 
+## Documentos (não são LPs de produto)
+
+### Direcional para Influenciadoras
+- **Pasta:** `direcional-influencers/`
+- **Link (web animada):** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/direcional-influencers/index.html
+- **Arquivos:** `index.html` (web animada, tema claro), `print.html` (versão paginada A4) e `Direcional-Influencers-Botanika-2026.pdf` (PDF pra WhatsApp)
+- **Conteúdo:** guia de conteúdo para influenciadoras — tom da marca + a forma correta de citar o **Dr. William Araújo** (nomenclaturas aprovadas × proibidas, conformidade CFM). Separado do briefing de UGC.
+- **Identidade:** "Herbário Botanika" — papel claro + verde-floresta/dourado/sálvia · selo botânico · fundo de partículas + vinha de progresso · Fraunces + Outfit
+- **Status:** ✅ pronta
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
