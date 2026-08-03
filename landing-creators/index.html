@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Seja um Creator Botanika — Creator Club</title>
+<meta name="description" content="Entre para o Creator Club da Botanika: receba os produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Vagas limitadas para a primeira turma." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Seja um Creator Botanika — Creator Club" />
+<meta property="og:description" content="Produtos + comissão + painel próprio. Recrutamento aberto para a primeira turma de creators da Botanika." />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0b1510; --bg-2:#0f1e17; --panel:#122019; --panel-2:#16281f;
+    --ink:#eef3ec; --muted:#9db0a3; --faint:#6f8175;
+    --green:#3f9c63; --green-deep:#1f5137; --green-soft:rgba(63,156,99,.14);
+    --gold:#d8b25a; --gold-2:#ecd08a; --gold-soft:rgba(216,178,90,.14);
+    --line:rgba(216,178,90,.16); --line-2:rgba(255,255,255,.07);
+    --serif:"Marcellus",Georgia,serif; --sans:"Figtree",system-ui,sans-serif; --mono:"Geist Mono",ui-monospace,monospace;
+    --wrap:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--sans);background:var(--bg);color:var(--ink);
+    line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    position:relative;min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--gold);color:#0b1510}
+
+  /* ---------- Fundo ---------- */
+  #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+  .bg-veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 80% at 50% -10%, rgba(216,178,90,.10), transparent 60%),
+               linear-gradient(180deg, rgba(11,21,16,.35), rgba(11,21,16,.72));}
+  .cursor-glow{position:fixed;top:0;left:0;width:520px;height:520px;border-radius:50%;
+    z-index:2;pointer-events:none;transform:translate(-50%,-50%);opacity:0;
+    background:radial-gradient(circle, rgba(216,178,90,.16), transparent 62%);
+    transition:opacity .5s ease;mix-blend-mode:screen}
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--green),var(--gold));}
+
+  /* ---------- Camadas ---------- */
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px;position:relative;z-index:3}
+  main,header,footer{position:relative;z-index:3}
+  section{padding:clamp(64px,9vw,120px) 0}
+
+  /* ---------- Loader ---------- */
+  #loader{position:fixed;inset:0;z-index:200;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+    transition:opacity .8s ease, visibility .8s ease}
+  #loader.done{opacity:0;visibility:hidden}
+  .load-mark{font-family:var(--serif);font-size:15px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold)}
+  .load-num{font-family:var(--mono);font-size:56px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .load-bar{width:min(260px,60vw);height:2px;background:var(--line-2);overflow:hidden;border-radius:2px}
+  .load-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold))}
+
+  /* ---------- Header ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:transform .45s ease, background .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent}
+  header.scrolled{background:rgba(11,21,16,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line-2)}
+  header.hidden{transform:translateY(-100%)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:19px;letter-spacing:.02em}
+  .brand .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--green),var(--green-deep));color:#fff;font-size:14px}
+  .brand small{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:block;line-height:1}
+
+  /* ---------- Botões ---------- */
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;
+    padding:14px 26px;border-radius:100px;cursor:pointer;border:1px solid transparent;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, background .3s, color .3s;will-change:transform}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#0b1510;box-shadow:0 10px 30px -12px rgba(216,178,90,.6)}
+  .btn-gold:hover{box-shadow:0 16px 40px -12px rgba(216,178,90,.75)}
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:rgba(255,255,255,.02)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-2)}
+  .btn-sm{padding:11px 20px;font-size:14px}
+
+  /* ---------- Utilitários ---------- */
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+    border:1px solid var(--line);border-radius:100px;padding:7px 15px;background:var(--gold-soft)}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(63,156,99,.6);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,156,99,.55)}70%{box-shadow:0 0 0 10px rgba(63,156,99,0)}100%{box-shadow:0 0 0 0 rgba(63,156,99,0)}}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+  .lead{color:var(--muted);font-size:clamp(16px,2vw,19px);max-width:56ch}
+  .reveal{opacity:0;transform:translateY(26px)}
+
+  /* ---------- Hero ---------- */
+  #hero{min-height:100svh;display:flex;align-items:center;padding-top:90px;padding-bottom:60px}
+  #hero h1{font-size:clamp(42px,8vw,86px);margin:22px 0 20px;max-width:14ch}
+  .hero-word{display:inline-block}
+  #hero .gold{color:var(--gold-2)}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:22px;margin-top:38px;color:var(--faint);font-size:13.5px}
+  .hero-meta span{display:flex;align-items:center;gap:8px}
+  .hero-meta b{color:var(--ink);font-weight:600}
+  .chev{display:block;width:22px;height:22px;margin:46px auto 0;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg);opacity:.6;animation:bob 2s infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(45deg)}50%{transform:translateY(8px) rotate(45deg)}}
+
+  /* ---------- Grid de cards ---------- */
+  .sec-head{max-width:640px;margin-bottom:52px}
+  .sec-head h2{font-size:clamp(30px,4.6vw,50px)}
+  .sec-head p{margin-top:16px}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line-2);
+    border-radius:18px;padding:26px 24px;transition:transform .4s cubic-bezier(.2,.8,.2,1), border-color .4s, box-shadow .4s;will-change:transform}
+  .card:hover{border-color:var(--line);box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
+  .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;margin-bottom:18px;
+    background:var(--green-soft);border:1px solid var(--line);color:var(--gold-2)}
+  .ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6}
+  .card h3{font-size:20px;margin-bottom:9px}
+  .card p{color:var(--muted);font-size:14.5px}
+
+  /* ---------- Como funciona ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  .step{position:relative;padding:28px 22px;border:1px solid var(--line-2);border-radius:18px;background:rgba(18,32,25,.5)}
+  .step::before{counter-increment:s;content:"0" counter(s);font-family:var(--mono);font-size:13px;color:var(--gold);
+    letter-spacing:.1em;display:block;margin-bottom:14px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14px}
+  .step .line{position:absolute;top:34px;right:-9px;width:18px;height:1px;background:var(--line);z-index:2}
+  .step:last-child .line{display:none}
+
+  /* ---------- Autoridade ---------- */
+  .auth{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .auth .badge-md{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:100px;
+    padding:9px 16px;background:var(--gold-soft);font-size:13.5px;margin-bottom:22px}
+  .auth h2{font-size:clamp(28px,4vw,44px)}
+  .auth p{color:var(--muted);margin-top:16px;font-size:16px}
+  .auth .fine{font-size:12.5px;color:var(--faint);margin-top:18px}
+  .stats{border:1px solid var(--line-2);border-radius:20px;background:linear-gradient(180deg,var(--panel),var(--panel-2));padding:30px}
+  .stat{padding:16px 0;border-bottom:1px solid var(--line-2)}
+  .stat:last-child{border-bottom:0}
+  .stat .n{font-family:var(--serif);font-size:34px;color:var(--gold-2);line-height:1}
+  .stat .l{color:var(--muted);font-size:13.5px;margin-top:4px}
+  .ph{color:var(--gold);border-bottom:1px dashed var(--gold);cursor:help}
+
+  /* ---------- Formulário ---------- */
+  #candidatar{scroll-margin-top:80px}
+  .form-shell{display:grid;grid-template-columns:.85fr 1.15fr;gap:0;border:1px solid var(--line);
+    border-radius:24px;overflow:hidden;background:linear-gradient(180deg,var(--panel),var(--panel-2))}
+  .form-aside{padding:44px 38px;background:
+      radial-gradient(120% 90% at 0% 0%, rgba(63,156,99,.16), transparent 55%),
+      linear-gradient(180deg, rgba(31,81,55,.35), rgba(11,21,16,.2));border-right:1px solid var(--line-2)}
+  .form-aside h2{font-size:32px}
+  .form-aside p{color:var(--muted);margin-top:14px;font-size:15px}
+  .form-aside ul{list-style:none;margin-top:26px;display:grid;gap:12px}
+  .form-aside li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink)}
+  .form-aside li svg{width:19px;height:19px;stroke:var(--gold-2);fill:none;stroke-width:1.8;flex:none;margin-top:2px}
+  form{padding:40px 38px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .fld{margin-bottom:16px}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;font-weight:500}
+  label .req{color:var(--gold)}
+  .inp,select,textarea{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line-2);
+    background:rgba(11,21,16,.55);color:var(--ink);font-family:inherit;font-size:15px;transition:border-color .25s, box-shadow .25s}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239db0a3' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+  .inp:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+  .inp::placeholder{color:var(--faint)}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg label{margin:0;cursor:pointer}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg span{display:inline-block;padding:9px 16px;border:1px solid var(--line-2);border-radius:100px;font-size:14px;color:var(--muted);transition:all .2s}
+  .seg input:checked + span{border-color:var(--gold);color:var(--gold-2);background:var(--gold-soft)}
+  .form-note{font-size:12px;color:var(--faint);margin-top:6px}
+  .submit-row{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+  .msg{display:none;padding:14px 16px;border-radius:12px;font-size:14.5px}
+  .msg.ok{display:block;background:var(--green-soft);border:1px solid var(--green);color:#cdecd8}
+  .msg.err{display:block;background:rgba(210,90,70,.12);border:1px solid #c0553f;color:#f2c7bd}
+
+  /* ---------- CTA final ---------- */
+  .final{text-align:center;max-width:720px;margin:0 auto}
+  .final h2{font-size:clamp(32px,5.4vw,60px)}
+  .final p{color:var(--muted);margin:18px auto 30px;max-width:48ch}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line-2);padding:34px 0;color:var(--faint);font-size:13px}
+  .foot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+
+  /* ---------- Responsivo ---------- */
+  @media (max-width:900px){
+    .cards,.steps{grid-template-columns:1fr 1fr}
+    .auth{grid-template-columns:1fr;gap:30px}
+    .form-shell{grid-template-columns:1fr}
+    .form-aside{border-right:0;border-bottom:1px solid var(--line-2)}
+    .step .line{display:none}
+  }
+  @media (max-width:560px){
+    .cards,.steps,.grid2{grid-template-columns:1fr}
+    form,.form-aside{padding:30px 24px}
+    .nav .btn{display:none}
+    #hero h1{font-size:clamp(38px,12vw,56px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="load-mark">Creator Club</div>
+  <div class="load-num" id="loadNum">000</div>
+  <div class="load-bar"><i id="loadBar"></i></div>
+</div>
+
+<canvas id="bg"></canvas>
+<div class="bg-veil"></div>
+<div class="cursor-glow" id="glow"></div>
+<div class="progress" id="progress"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Creator Club Botanika">
+      <span class="dot">🌱</span>
+      <span>Creator Club<small>por Botanika</small></span>
+    </a>
+    <a href="#candidatar" class="btn btn-gold btn-sm" data-mag>Quero me candidatar</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wrap">
+      <span class="eyebrow reveal"><span class="pulse"></span> Recrutamento aberto · 1ª turma</span>
+      <h1 id="heroTitle">Seja um <span class="gold">creator</span> Botanika.</h1>
+      <p class="lead reveal">Entre para o Creator Club: receba os nossos produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Sem mensalidade, sem planilha, sem achismo.</p>
+      <div class="hero-cta reveal">
+        <a href="#candidatar" class="btn btn-gold" data-mag>Quero me candidatar</a>
+        <a href="#como" class="btn btn-ghost" data-mag>Como funciona</a>
+      </div>
+      <div class="hero-meta reveal">
+        <span>✦ <b>Produtos</b> enviados</span>
+        <span>✦ <b>Comissão</b> por venda</span>
+        <span>✦ <b>Painel</b> em tempo real</span>
+      </div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <!-- POR QUE -->
+  <section id="beneficios">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="kicker">Por que entrar</div>
+        <h2>Um clube feito para quem cria com verdade.</h2>
+        <p class="lead">Você já fala de saúde e bem-estar para a sua audiência. Aqui, isso vira parceria — com apoio, produto e reconhecimento.</p>
+      </div>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
+          <h3>Produtos enviados</h3>
+          <p>Você recebe os produtos da Botanika em casa para conhecer, usar e criar conteúdo com propriedade.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Comissão por venda</h3>
+          <p>Cupom e link exclusivos. Cada venda que você indica vira comissão — transparente e em tempo real.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Coprodução de conteúdo</h3>
+          <p>Nosso time cria junto com você: ângulos, roteiros e materiais para o seu conteúdo render mais.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.9H21l-5.3 4 2 6.9L12 15.9 6.3 19.8l2-6.9L3 8.9h6.6z"/></svg></div>
+          <h3>Acesso a lançamentos</h3>
+          <p>Primeira fila nos lançamentos e nas novidades da marca — antes de todo mundo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="kicker">Como funciona</div>
+        <h2>Do cadastro à sua primeira entrega.</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><span class="line"></span><h3>Cadastre-se</h3><p>Preencha o formulário aqui embaixo — leva 2 minutos.</p></div>
+        <div class="step reveal"><span class="line"></span><h3>Seleção</h3><p>Nosso time analisa seu perfil e o seu conteúdo com carinho.</p></div>
+        <div class="step reveal"><span class="line"></span><h3>Onboarding</h3><p>Aprovado, você recebe seu cupom, seu painel e as orientações.</p></div>
+        <div class="step reveal"><h3>Primeiras entregas</h3><p>Recebe os produtos e começa a criar — e a ganhar por isso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTORIDADE -->
+  <section id="autoridade">
+    <div class="wrap">
+      <div class="auth">
+        <div class="reveal">
+          <div class="badge-md">🩺 Ciência &amp; propósito</div>
+          <h2>Uma marca séria por trás de cada indicação.</h2>
+          <p>A Botanika nasce de fórmulas pensadas com rigor e propósito, com o acompanhamento do <b>Dr. William Araújo, médico parceiro da Botanika</b>. Você recomenda uma linha em que confia — e é reconhecido por isso.</p>
+          <p class="fine">Sem promessas milagrosas: o Creator Club é sobre conteúdo honesto e parceria de longo prazo.</p>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><div class="n"><span class="ph" title="Preencher com o número real">[nº]</span></div><div class="l">creators já no clube</div></div>
+          <div class="stat"><div class="n"><span class="ph" title="Preencher com o número real">[nº]</span>+</div><div class="l">produtos na linha Botanika</div></div>
+          <div class="stat"><div class="n">100%</div><div class="l">vendas rastreadas no seu painel</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section id="candidatar">
+    <div class="wrap">
+      <div class="form-shell reveal">
+        <aside class="form-aside">
+          <h2>Candidatura</h2>
+          <p>Conte sobre você e sua audiência. Quanto mais real, melhor a gente te conhece.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Leva 2 minutos</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Sem custo, sem compromisso</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Resposta do time após a análise</li>
+          </ul>
+        </aside>
+
+        <form id="leadForm" novalidate>
+          <div class="fld">
+            <label>Nome completo <span class="req">*</span></label>
+            <input class="inp" name="name" required placeholder="Seu nome" autocomplete="name" />
+          </div>
+
+          <div class="grid2">
+            <div class="fld">
+              <label>@ do seu perfil principal <span class="req">*</span></label>
+              <input class="inp" name="handle" required placeholder="@seuperfil" />
+            </div>
+            <div class="fld">
+              <label>Rede principal <span class="req">*</span></label>
+              <select name="network" required>
+                <option value="" disabled selected>Selecione</option>
+                <option>Instagram</option><option>TikTok</option><option>YouTube</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="fld">
+              <label>Nº de seguidores <span class="req">*</span></label>
+              <select name="followers_range" required>
+                <option value="" disabled selected>Selecione</option>
+                <option>Menos de 5 mil</option><option>5 mil a 20 mil</option>
+                <option>20 mil a 100 mil</option><option>Mais de 100 mil</option>
+              </select>
+            </div>
+            <div class="fld">
+              <label>Nicho <span class="req">*</span></label>
+              <select name="niche" required>
+                <option value="" disabled selected>Selecione</option>
+                <option>Saúde</option><option>Fitness</option><option>Bem-estar</option>
+                <option>Maternidade</option><option>Outro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fld">
+            <label>Você já produz conteúdo de suplementos / saúde? <span class="req">*</span></label>
+            <div class="seg">
+              <label><input type="radio" name="produces_health_content" value="Sim" required /><span>Sim</span></label>
+              <label><input type="radio" name="produces_health_content" value="Não" /><span>Não</span></label>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="fld">
+              <label>Já é cliente Botanika? <span class="req">*</span></label>
+              <div class="seg">
+                <label><input type="radio" name="is_botanika_customer" value="Sim" required /><span>Sim</span></label>
+                <label><input type="radio" name="is_botanika_customer" value="Não" /><span>Não</span></label>
+              </div>
+            </div>
+            <div class="fld">
+              <label>Taxa de engajamento média</label>
+              <input class="inp" name="engagement_rate" placeholder="Ex.: 4% (opcional)" />
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="fld">
+              <label>Formato que mais produz <span class="req">*</span></label>
+              <select name="main_format" required>
+                <option value="" disabled selected>Selecione</option>
+                <option>Reels</option><option>UGC</option><option>Stories</option><option>Vídeo longo</option>
+              </select>
+            </div>
+            <div class="fld">
+              <label>Cidade / UF <span class="req">*</span></label>
+              <input class="inp" name="city_uf" required placeholder="Ex.: Betim / MG" />
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="fld">
+              <label>WhatsApp <span class="req">*</span></label>
+              <input class="inp" name="whatsapp" required placeholder="(00) 00000-0000" inputmode="tel" />
+            </div>
+            <div class="fld">
+              <label>E-mail <span class="req">*</span></label>
+              <input class="inp" name="email" type="email" required placeholder="voce@email.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <!-- Atribuição (ocultos) -->
+          <input type="hidden" name="utm_source" />
+          <input type="hidden" name="utm_medium" />
+          <input type="hidden" name="utm_campaign" />
+          <input type="hidden" name="utm_content" />
+          <input type="hidden" name="utm_term" />
+          <input type="hidden" name="referrer" />
+          <input type="hidden" name="landing_url" />
+
+          <div class="msg" id="formMsg" role="status"></div>
+          <div class="submit-row">
+            <button type="submit" class="btn btn-gold" id="submitBtn" data-mag>Enviar candidatura</button>
+            <p class="form-note">Ao enviar, você concorda em ser contatado(a) pela equipe da Botanika sobre o Creator Club.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="final">
+    <div class="wrap">
+      <div class="final reveal">
+        <div class="kicker" style="text-align:center">Vagas limitadas</div>
+        <h2>A primeira turma tem vagas contadas.</h2>
+        <p>Estamos selecionando um grupo enxuto de creators para começar junto com a gente. Se faz sentido para você, candidate-se agora.</p>
+        <a href="#candidatar" class="btn btn-gold" data-mag>Garantir minha candidatura</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Botanika · Creator Club</span>
+    <span>Conteúdo honesto, parceria de verdade.</span>
+  </div>
+</footer>
+
+<!-- libs self-hosted -->
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+/* ============================================================
+   Creator Club — LP de recrutamento
+   CONFIG DO FORMULÁRIO (preencher para persistir os leads):
+   Crie a tabela `creators_leads` no Supabase e cole abaixo a
+   URL do projeto e a ANON KEY (com policy de INSERT liberada).
+   Enquanto ficar em branco, a LP funciona em modo demonstração
+   (mostra sucesso na tela, sem gravar).
+   ============================================================ */
+var SUPABASE_URL = "";                 // ex.: https://xxxx.supabase.co   (PENDENTE)
+var SUPABASE_ANON_KEY = "";            // ex.: eyJhbGciOi...               (PENDENTE)
+var LEADS_TABLE = "creators_leads";
+
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Loader ---------- */
+  var loader = document.getElementById("loader");
+  var numEl = document.getElementById("loadNum");
+  var barEl = document.getElementById("loadBar");
+  var p = 0;
+  function tick() {
+    p += Math.max(1, (100 - p) * 0.12);
+    if (p >= 100) p = 100;
+    numEl.textContent = ("00" + Math.round(p)).slice(-3);
+    barEl.style.width = p + "%";
+    if (p < 100) { setTimeout(tick, 55); }
+    else { setTimeout(function () { loader.classList.add("done"); startReveals(); }, 320); }
+  }
+  if (reduce) { loader.classList.add("done"); } else { tick(); }
+
+  /* ---------- Fundo canvas: aurora verde→dourado + motes ---------- */
+  var canvas = document.getElementById("bg");
+  var ctx = canvas.getContext("2d");
+  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1.6);
+  var mouse = { x: -999, y: -999, tx: -999, ty: -999 };
+  var motes = [];
+  function resize() {
+    W = canvas.width = Math.floor(innerWidth * DPR);
+    H = canvas.height = Math.floor(innerHeight * DPR);
+    canvas.style.width = innerWidth + "px";
+    canvas.style.height = innerHeight + "px";
+  }
+  resize();
+  addEventListener("resize", resize);
+  function seedMotes() {
+    motes = [];
+    var n = innerWidth < 640 ? 34 : 70;
+    for (var i = 0; i < n; i++) {
+      motes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: (Math.random() * 1.6 + 0.4) * DPR,
+        vx: (Math.random() - 0.5) * 0.12 * DPR,
+        vy: (-Math.random() * 0.22 - 0.05) * DPR,
+        a: Math.random() * 0.5 + 0.2,
+        tw: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  seedMotes();
+  var t = 0;
+  function blob(cx, cy, r, c0, c1) {
+    var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, c0); g.addColorStop(1, c1);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+  }
+  function draw() {
+    t += 0.004;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+    var cx = W * (0.3 + Math.sin(t) * 0.12);
+    var cy = H * (0.28 + Math.cos(t * 0.8) * 0.08);
+    blob(cx, cy, Math.max(W, H) * 0.45, "rgba(31,81,55,0.55)", "rgba(31,81,55,0)");
+    var gx = W * (0.72 + Math.cos(t * 0.7) * 0.1);
+    var gy = H * (0.7 + Math.sin(t * 0.9) * 0.1);
+    blob(gx, gy, Math.max(W, H) * 0.4, "rgba(216,178,90,0.20)", "rgba(216,178,90,0)");
+    mouse.x += (mouse.tx - mouse.x) * 0.06;
+    mouse.y += (mouse.ty - mouse.y) * 0.06;
+    if (mouse.x > -500) blob(mouse.x, mouse.y, 260 * DPR, "rgba(236,208,138,0.10)", "rgba(236,208,138,0)");
+
+    for (var i = 0; i < motes.length; i++) {
+      var m = motes[i];
+      m.x += m.vx; m.y += m.vy; m.tw += 0.03;
+      if (mouse.x > -500) {
+        var dx = m.x - mouse.x, dy = m.y - mouse.y, d2 = dx * dx + dy * dy, rr = (150 * DPR) * (150 * DPR);
+        if (d2 < rr) { var f = (1 - d2 / rr) * 0.6; m.x += dx * 0.02 * f; m.y += dy * 0.02 * f; }
+      }
+      if (m.y < -10) { m.y = H + 10; m.x = Math.random() * W; }
+      if (m.x < -10) m.x = W + 10; if (m.x > W + 10) m.x = -10;
+      var tw = (Math.sin(m.tw) * 0.4 + 0.6) * m.a;
+      ctx.fillStyle = "rgba(236,208,138," + tw.toFixed(3) + ")";
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    requestAnimationFrame(draw);
+  }
+  if (!reduce) { draw(); } else {
+    ctx.globalCompositeOperation = "lighter";
+    blob(W * 0.3, H * 0.3, Math.max(W, H) * 0.45, "rgba(31,81,55,0.5)", "rgba(31,81,55,0)");
+    blob(W * 0.72, H * 0.7, Math.max(W, H) * 0.4, "rgba(216,178,90,0.18)", "rgba(216,178,90,0)");
+  }
+
+  /* ---------- Cursor glow ---------- */
+  var glow = document.getElementById("glow");
+  var fine = window.matchMedia && window.matchMedia("(pointer:fine)").matches;
+  addEventListener("mousemove", function (e) {
+    mouse.tx = e.clientX * DPR; mouse.ty = e.clientY * DPR;
+    if (fine) { glow.style.opacity = "1"; glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"; }
+  });
+
+  /* ---------- Header hide + progress ---------- */
+  var header = document.getElementById("header");
+  var progress = document.getElementById("progress");
+  var lastY = 0;
+  addEventListener("scroll", function () {
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    header.classList.toggle("scrolled", y > 20);
+    if (y > lastY && y > 400) header.classList.add("hidden"); else header.classList.remove("hidden");
+    lastY = y;
+    var h = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
+  }, { passive: true });
+
+  /* ---------- GSAP: reveals, hero, magnético ---------- */
+  function startReveals() {
+    if (reduce || !window.gsap) {
+      var rs = document.querySelectorAll(".reveal");
+      for (var i = 0; i < rs.length; i++) { rs[i].style.opacity = 1; rs[i].style.transform = "none"; }
+      return;
+    }
+    if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+    /* hero: título por palavra */
+    var title = document.getElementById("heroTitle");
+    var html = title.innerHTML;
+    title.innerHTML = html.replace(/(<span[^>]*>.*?<\/span>|[^\s<]+)(\s*)/g, function (m, w, sp) {
+      return '<span class="hero-word" style="display:inline-block">' + w + "</span>" + sp;
+    });
+    gsap.set(".hero-word", { yPercent: 115, opacity: 0 });
+    gsap.to(".hero-word", { yPercent: 0, opacity: 1, duration: 0.9, ease: "power3.out", stagger: 0.05, delay: 0.15 });
+    gsap.to("#hero .reveal", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.12, delay: 0.5 });
+
+    /* reveals por scroll */
+    var els = document.querySelectorAll(".reveal");
+    for (var j = 0; j < els.length; j++) {
+      if (els[j].closest("#hero")) continue;
+      (function (el) {
+        gsap.to(el, {
+          opacity: 1, y: 0, duration: 0.9, ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 86%" }
+        });
+      })(els[j]);
+    }
+
+    /* botões magnéticos */
+    if (fine) {
+      var mags = document.querySelectorAll("[data-mag]");
+      for (var k = 0; k < mags.length; k++) {
+        (function (b) {
+          var xTo = gsap.quickTo(b, "x", { duration: 0.4, ease: "power3" });
+          var yTo = gsap.quickTo(b, "y", { duration: 0.4, ease: "power3" });
+          b.addEventListener("mousemove", function (e) {
+            var r = b.getBoundingClientRect();
+            xTo((e.clientX - (r.left + r.width / 2)) * 0.3);
+            yTo((e.clientY - (r.top + r.height / 2)) * 0.3);
+          });
+          b.addEventListener("mouseleave", function () { xTo(0); yTo(0); });
+        })(mags[k]);
+      }
+    }
+  }
+
+  /* ---------- UTMs nos campos ocultos ---------- */
+  var qs = new URLSearchParams(location.search);
+  ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
+    var el = document.querySelector('input[name="' + k + '"]');
+    if (el) el.value = qs.get(k) || "";
+  });
+  var ref = document.querySelector('input[name="referrer"]'); if (ref) ref.value = document.referrer || "";
+  var lu = document.querySelector('input[name="landing_url"]'); if (lu) lu.value = location.href;
+
+  /* ---------- Submit ---------- */
+  var form = document.getElementById("leadForm");
+  var msg = document.getElementById("formMsg");
+  var btn = document.getElementById("submitBtn");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    msg.className = "msg";
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = v; });
+    btn.disabled = true; var old = btn.textContent; btn.textContent = "Enviando…";
+
+    function ok() {
+      msg.textContent = "🎉 Candidatura enviada! Nosso time vai analisar e falar com você. Fique de olho no WhatsApp e no e-mail.";
+      msg.className = "msg ok"; form.reset(); btn.textContent = "Enviado ✓";
+    }
+    function fail(t) {
+      msg.textContent = t || "Não foi possível enviar agora. Tente novamente em instantes.";
+      msg.className = "msg err"; btn.disabled = false; btn.textContent = old;
+    }
+
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      // modo demonstração (persistência ainda não configurada)
+      setTimeout(ok, 500);
+      if (window.console) console.warn("[Creator Club] Supabase não configurado — lead não gravado:", data);
+      return;
+    }
+    fetch(SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/" + LEADS_TABLE, {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(data)
+    }).then(function (r) {
+      if (r.ok) ok(); else r.text().then(function (tx) { fail("Erro ao enviar (" + r.status + ")."); if (window.console) console.error(tx); });
+    }).catch(function () { fail(); });
+  });
+})();
+</script>
+</body>
+</html>
