@@ -29,9 +29,11 @@
 - **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-tri/index.html
 - **Shopify:** produto `tri-mg-complex` · **VARIANT_ID `48115368558824`**
 - **Preço:** 3x de R$ 29,17 · ou R$ 87,50 à vista · kits 2 (5% OFF) e 3 (10% OFF) — *confirmar preços de kit na loja*
-- **Identidade:** meia-noite índigo + menta/violeta/champagne · fundo constelação mineral interativa (muda de cor por seção) · molécula "3 em 1" orbitando · Fraunces
+- **Identidade:** "Constelação Mineral" — meia-noite índigo + menta/violeta/champagne · molécula "3 em 1" orbitando (SVG) · Fraunces + Manrope
+- **Fundo-assinatura:** **WebGL flow-wave recolorido** (Three.js 0.143, índigo/menta/violeta com bloom e repel do ponteiro) + **fallback 2D "constelação mineral interativa"** (canvas, muda de cor por seção via `data-tint`) se o WebGL falhar · loader · libs self-hosted em `vendor/` (three via unpkg importmap)
 - **Imagem do pote:** `landing-tri/bottle-tri.png` (transparente)
-- **Status:** ✅ pronta
+- **Rastreamento:** Meta Pixel `828186133708463` (PageView + ViewContent + InitiateCheckout) + repasse de UTMs no checkout
+- **Status:** ✅ reconstruída v2 (WebGL + Pixel + loader; constelação 2D vira fallback)
 
 ### 3. Hair Botanika — Cabelos, Unhas e Pele
 - **Pasta:** `landing-hair/`
