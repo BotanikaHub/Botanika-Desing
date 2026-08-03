@@ -79,6 +79,26 @@
 - **Imersão:** smooth-scroll com momentum + parallax por seção, aura de cor por seção, loader, count-up, tilt+glow, botões magnéticos, barra de compra fixa no mobile. **100% autocontido** (sem `vendor/`, canvas 2D próprio), Safari-safe
 - **Status:** ✅ pronta
 
+### 7. Sleep Inositol — Relaxamento e Rotina do Sono
+- **Pasta:** `landing-sleep/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-sleep/index.html
+- **Shopify:** produto `sleep-inositol` · **VARIANT_ID `48115368853736`**
+- **Preço:** R$ 119,70 (3× de R$ 39,90) · kits 2 (−5% = R$ 227,43) e 3 (−10% = R$ 323,19) · frete grátis > R$349
+- **Produto:** pó · 150 g · 19 porções · 7 ativos (Taurato de Magnésio 350 mg, Inositol 2 g, Glicina 1.000 mg, Taurina 200 mg, Triptofano 100 mg, Melatonina 0,21 mg, Camomila + Lavanda) · sabor camomila/laranja/lavanda · sem açúcar/glúten
+- **Identidade:** "Crepúsculo & Camomila" — crepúsculo ameixa quente + âmbar-mel + lilás-lavanda · fundo WebGL "Aurora do Sono" (campo de pontos que reage ao mouse) + lua âmbar · Newsreader + Instrument Sans
+- **Pote:** `landing-sleep/sleep-pote.png` (render navy do Drive, transparente)
+- **Status:** ✅ pronta
+
+### 8. Creatina + Taurato — Creatina Monohidratada + Magnésio Taurato
+- **Pasta:** `landing-creatina/`
+- **Link:** https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-creatina/index.html
+- **Shopify:** produto `creatina-l-carnitina` (⚠️ handle legado — o produto **atual** é Creatina Mono + Mg Taurato, não creatina+L-carnitina) · **VARIANT_ID `48115368820968`**
+- **Preço:** R$ 128,30 à vista · ou 3x de R$ 42,77 · kits 2 (−5%), 3 (−10%) e 4 (−10% + frete grátis)
+- **Produto:** Creatina Monohidratada 3 g + Magnésio Taurato 63 mg por dose · sem sabor · pó · 222 g · 60 doses · sem açúcar/glúten
+- **Identidade:** "Carga Mineral" — grafite/aço frio + **íon azul** (creatina/carga) + **prata-platina** (magnésio/recuperação) · fundo WebGL "rede cristalina de creatina" (treliça que acende em íon perto do cursor e esfria pra prata longe; pulso tipo ATP) · Bricolage Grotesque + Manrope + Space Grotesk (números)
+- **Imagens:** pote local `landing-creatina/pote.png` + cenas do CDN Shopify; depoimentos em `landing-creatina/proof/` (genéricos/comunidade — sem fotos reais deste produto)
+- **Status:** ✅ pronta
+
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
 - **Pasta:** `landing-<slug>/`
