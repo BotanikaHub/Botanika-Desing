@@ -332,6 +332,9 @@
   header.shrink{padding:12px clamp(20px,6vw,70px);background:rgba(251,250,246,.82);
     backdrop-filter:blur(16px) saturate(1.1);border-bottom:1px solid var(--line-2)}
   .brandmark{display:flex;align-items:center;gap:14px}
+  .brandlogo{height:34px;width:auto;display:block;transition:height .45s var(--ease)}
+  header.shrink .brandlogo{height:28px}
+  .brandfallback{display:inline-flex;align-items:center;gap:14px}
   .seal{width:44px;height:44px;flex-shrink:0;transition:transform .6s var(--ease)}
   header.shrink .seal{transform:scale(.9)}
   .brandmark .wm{display:flex;flex-direction:column;line-height:1}
@@ -588,6 +591,7 @@
   .final{position:relative;text-align:center;margin-top:60px;border-radius:26px;overflow:hidden;
     background:radial-gradient(100% 100% at 50% 0%,rgba(198,166,103,.16),transparent 60%),linear-gradient(160deg,var(--forest),var(--forest-deep));
     color:var(--cream);padding:clamp(46px,7vw,80px) clamp(24px,5vw,60px)}
+  .final .flogo{height:34px;width:auto;margin:0 auto 24px;display:block}
   .final .fseal{width:74px;height:74px;margin:0 auto 22px}
   .final .fseal .ring{stroke:var(--gline)}
   .final .fseal .beads{stroke:var(--gold-bright)}
@@ -640,22 +644,27 @@
 
 <header id="hd">
   <a class="brandmark" href="#top" aria-label="Botanika — início">
-    <svg class="seal" viewBox="0 0 100 100" role="img" aria-label="Selo Botanika">
-      <circle class="ring" cx="50" cy="50" r="46"/>
-      <circle class="beads" cx="50" cy="50" r="40"/>
-      <circle class="rivet" cx="4" cy="50" r="1.7"/>
-      <circle class="rivet" cx="96" cy="50" r="1.7"/>
-      <g class="crown">
-        <path class="stem" d="M50 34 C50 27 50 20 50 13"/>
-        <path class="stem" d="M50 25 C45 22 42 23 40 26"/>
-        <path class="stem" d="M50 25 C55 22 58 23 60 26"/>
-        <path class="leaf" d="M40 26 C34 23 32 16 35 11 C41 13 44 19 44 25 C43 26 41 27 40 26Z"/>
-        <path class="leaf" d="M60 26 C66 23 68 16 65 11 C59 13 56 19 56 25 C57 26 59 27 60 26Z"/>
-        <circle class="berry" cx="50" cy="11" r="2.6"/>
-      </g>
-      <text class="mono" x="50" y="76" font-size="44" text-anchor="middle">B</text>
-    </svg>
-    <span class="wm"><b>BOTANIKA</b><span>Suplementos honestos</span></span>
+    <img class="brandlogo" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/logo-c.png?v=1773968592"
+         width="990" height="187" alt="Botanika" fetchpriority="high"
+         onerror="this.style.display='none';var f=document.getElementById('brandfb');if(f)f.style.display='inline-flex'">
+    <span class="brandfallback" id="brandfb" style="display:none">
+      <svg class="seal" viewBox="0 0 100 100" role="img" aria-label="Selo Botanika">
+        <circle class="ring" cx="50" cy="50" r="46"/>
+        <circle class="beads" cx="50" cy="50" r="40"/>
+        <circle class="rivet" cx="4" cy="50" r="1.7"/>
+        <circle class="rivet" cx="96" cy="50" r="1.7"/>
+        <g class="crown">
+          <path class="stem" d="M50 34 C50 27 50 20 50 13"/>
+          <path class="stem" d="M50 25 C45 22 42 23 40 26"/>
+          <path class="stem" d="M50 25 C55 22 58 23 60 26"/>
+          <path class="leaf" d="M40 26 C34 23 32 16 35 11 C41 13 44 19 44 25 C43 26 41 27 40 26Z"/>
+          <path class="leaf" d="M60 26 C66 23 68 16 65 11 C59 13 56 19 56 25 C57 26 59 27 60 26Z"/>
+          <circle class="berry" cx="50" cy="11" r="2.6"/>
+        </g>
+        <text class="mono" x="50" y="76" font-size="44" text-anchor="middle">B</text>
+      </svg>
+      <span class="wm"><b>BOTANIKA</b><span>Suplementos honestos</span></span>
+    </span>
   </a>
   <span class="htag">Confidencial · Uso interno</span>
 </header>
@@ -901,7 +910,10 @@
     </div>
 
     <div class="final rv">
-      <svg class="fseal" viewBox="0 0 100 100" aria-hidden="true">
+      <img class="flogo" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/logo-w.png?v=1773968593"
+           width="990" height="187" alt="Botanika" loading="lazy"
+           onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block'">
+      <svg class="fseal" viewBox="0 0 100 100" aria-hidden="true" style="display:none">
         <circle class="ring" cx="50" cy="50" r="46" fill="none" stroke-width="1.4"/>
         <circle class="beads" cx="50" cy="50" r="40" fill="none" stroke-width="2" stroke-dasharray=".5 4.3" stroke-linecap="round"/>
         <circle class="rivet" cx="4" cy="50" r="1.7"/>
