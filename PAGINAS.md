@@ -21,8 +21,9 @@
 - **Shopify:** produto `super-omega-3-coq10` · **VARIANT_ID `48115368034536`**
 - **Preço:** 3x de R$ 54,37 · ou R$ 163,12 à vista · kits 2 (5% OFF) e 3 (10% OFF)
 - **Identidade:** oceano profundo azul-marinho + dourado · fundo WebGL (ondas + koi + cápsulas) · Playfair Display
+- **Pote:** `landing-omega/bottle-omega.png` (extraído do base64 e otimizado — HTML caiu de ~1,7 MB para ~140 KB)
 - **Fotos de depoimento:** `landing-omega/proof/` (também usadas pelo Tri)
-- **Status:** ✅ pronta
+- **Status:** ✅ pronta (otimizada: imagem do pote externalizada)
 
 ### 2. Tri[Mg] Complex — Magnésio 3 em 1
 - **Pasta:** `landing-tri/`
