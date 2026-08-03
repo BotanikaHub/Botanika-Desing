@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Botanika — Landing Pages</title>
+<meta name="description" content="Índice de todas as landing pages da Botanika, sempre na última versão.">
+<style>
+  :root{
+    --bg:#f3f1e9;
+    --bg-elev:#fbfaf5;
+    --ink:#20261f;
+    --ink-soft:#5c6156;
+    --line:#ded9c8;
+    --gold:#a8842f;
+    --gold-soft:#c9a24a;
+    --forest:#243a2c;
+    --shadow:24px 24px 60px rgba(36,58,44,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12160f;--bg-elev:#1a1f16;--ink:#eef0e6;--ink-soft:#a3a894;
+      --line:#2c3324;--gold:#d3ad57;--gold-soft:#e0c477;--forest:#c7d6bd;
+      --shadow:24px 24px 60px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f3f1e9;--bg-elev:#fbfaf5;--ink:#20261f;--ink-soft:#5c6156;
+    --line:#ded9c8;--gold:#a8842f;--gold-soft:#c9a24a;--forest:#243a2c;
+    --shadow:24px 24px 60px rgba(36,58,44,.10);
+  }
+  :root[data-theme="dark"]{
+    --bg:#12160f;--bg-elev:#1a1f16;--ink:#eef0e6;--ink-soft:#a3a894;
+    --line:#2c3324;--gold:#d3ad57;--gold-soft:#e0c477;--forest:#c7d6bd;
+    --shadow:24px 24px 60px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{overflow-x:hidden}
+  body{margin:0}
+  .wrap{
+    max-width:1120px;margin:0 auto;padding:clamp(32px,6vw,80px) clamp(20px,5vw,56px) 96px;
+    color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 100% 0%, color-mix(in srgb,var(--gold-soft) 10%, transparent), transparent 55%),
+      var(--bg);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin:0 0 18px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);opacity:.7}
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:500;font-size:clamp(2.3rem,6vw,4rem);line-height:1.02;
+    letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance;
+  }
+  h1 em{font-style:italic;color:var(--gold)}
+  .lede{
+    font-size:clamp(1rem,2.2vw,1.18rem);line-height:1.55;color:var(--ink-soft);
+    max-width:56ch;margin:0;
+  }
+  .lede code{font-family:ui-monospace,Menlo,monospace;font-size:.9em}
+  .meta-row{
+    margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:10px 26px;font-size:.82rem;color:var(--ink-soft);
+  }
+  .meta-row b{color:var(--ink);font-weight:600}
+  .meta-row code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82em;
+    background:color-mix(in srgb,var(--forest) 8%,transparent);
+    padding:2px 7px;border-radius:5px;color:var(--forest);
+  }
+
+  .grid{
+    margin-top:clamp(36px,5vw,56px);
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px;
+  }
+  .card{
+    --accent:var(--gold);
+    position:relative;display:flex;flex-direction:column;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:18px;
+    padding:26px 26px 22px;text-decoration:none;color:inherit;overflow:hidden;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0 auto 0 0;width:4px;
+    background:linear-gradient(var(--accent),color-mix(in srgb,var(--accent) 40%,transparent));
+    opacity:.9;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
+  .num{
+    font-family:Georgia,serif;font-size:.9rem;color:var(--ink-soft);
+    font-variant-numeric:tabular-nums;letter-spacing:.05em;
+  }
+  .swatches{display:flex;gap:6px}
+  .swatches span{width:13px;height:13px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+
+  .card h2{
+    font-family:Georgia,"Times New Roman",serif;font-weight:500;
+    font-size:1.5rem;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .tag{
+    font-family:ui-sans-serif,system-ui,sans-serif;font-size:.6rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:100px;
+    background:color-mix(in srgb,var(--accent) 16%,transparent);
+    color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+    line-height:1;
+  }
+  .card .sub{font-size:.9rem;color:var(--ink-soft);line-height:1.45;margin:0 0 16px}
+  .identity{
+    font-size:.8rem;color:var(--ink-soft);line-height:1.5;margin:0 0 20px;
+    padding-left:14px;border-left:2px solid color-mix(in srgb,var(--accent) 45%,var(--line));
+  }
+  .identity b{color:var(--accent);font-weight:600}
+  .go{
+    margin-top:auto;display:flex;align-items:center;justify-content:space-between;
+    padding-top:16px;border-top:1px solid var(--line);
+    font-size:.82rem;font-weight:600;letter-spacing:.02em;color:var(--accent);
+  }
+  .go .arrow{transition:transform .3s}
+  .card:hover .go .arrow{transform:translateX(5px)}
+  .variant{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--ink-soft);font-weight:400;letter-spacing:0}
+
+  footer{
+    margin-top:44px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:14px 28px;align-items:baseline;
+    font-size:.82rem;color:var(--ink-soft);
+  }
+  footer a{color:var(--gold);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 35%,transparent)}
+  footer a:hover{border-bottom-color:var(--gold)}
+  .tip{max-width:62ch;line-height:1.5}
+  .tip code{font-family:ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(--forest) 8%,transparent);padding:1px 6px;border-radius:5px}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">Botanika · Landing Pages</p>
+  <h1>Todas as páginas, <em>sempre na última versão</em></h1>
+  <p class="lede">Cada produto tem sua própria identidade visual e vive numa pasta isolada. Os links do branch <code>lp</code> atualizam sozinhos a cada edição; os marcados como <b>prévia</b> ainda não foram publicados em <code>lp</code>.</p>
+
+  <div class="meta-row">
+    <span><b>8</b> páginas</span>
+    <span><b>6</b> em <code>lp</code> · <b>2</b> em prévia</span>
+    <span>Repo: <code>botanikahub/botanika-desing</code></span>
+    <span>Status: <b>todas ✅ prontas</b></span>
+  </div>
+
+  <div class="grid">
+
+    <a class="card" style="--accent:#2f6f9e" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-omega/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">01</span>
+        <span class="swatches"><span style="background:#12324f"></span><span style="background:#2f6f9e"></span><span style="background:#c9a24a"></span></span>
+      </div>
+      <h2>Super Ômega 3 + CoQ10</h2>
+      <p class="sub">Ômega 3 de alta concentração com Coenzima Q10.</p>
+      <p class="identity"><b>Oceano profundo</b> — azul-marinho + dourado · fundo WebGL de ondas e koi · Playfair Display</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48115368034536</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#6f6fd6" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-tri/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">02</span>
+        <span class="swatches"><span style="background:#1c1b3a"></span><span style="background:#7fd6c2"></span><span style="background:#c9b3e0"></span></span>
+      </div>
+      <h2>Tri[Mg] Complex</h2>
+      <p class="sub">Magnésio 3 em 1 — três formas em uma cápsula.</p>
+      <p class="identity"><b>Meia-noite índigo</b> — menta/violeta/champagne · constelação mineral interativa · Fraunces</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48115368558824</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#b5567e" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-hair/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">03</span>
+        <span class="swatches"><span style="background:#4a1830"></span><span style="background:#d99a86"></span><span style="background:#e9d6b8"></span></span>
+      </div>
+      <h2>Hair Botanika</h2>
+      <p class="sub">Cabelos, unhas e pele — 13 ativos, 60 cápsulas.</p>
+      <p class="identity"><b>Fio de Seda</b> — ameixa/vinho + rosé-gold + champagne · WebGL flow-wave · Bodoni Moda</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48650670670056</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#b87333" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-whey-balance-chocolate/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">04</span>
+        <span class="swatches"><span style="background:#3a2418"></span><span style="background:#b87333"></span><span style="background:#e6d3b8"></span></span>
+      </div>
+      <h2>Whey Balance Chocolate</h2>
+      <p class="sub">Whey + Colágeno C-PURE® · 23 g de proteína/porção.</p>
+      <p class="identity"><b>Cacau Fundido</b> — espresso + cobre/caramelo + creme · canvas de chocolate reativo · Cormorant Garamond</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48115368919272</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#d38a1e" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-super-vitamina-c/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">05</span>
+        <span class="swatches"><span style="background:#6b3d10"></span><span style="background:#e8a13a"></span><span style="background:#c7d64a"></span></span>
+      </div>
+      <h2>Super Vitamina C</h2>
+      <p class="sub">Vitamina C 1000 mg + Quercetina + Própolis.</p>
+      <p class="identity"><b>Âmbar Vivo</b> — âmbar-noite + laranja/mel + lima-quercetina · WebGL flow-wave · Spectral + Onest</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48115368460520</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#c78a2c" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-tetravit/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">06</span>
+        <span class="swatches"><span style="background:#6b4423"></span><span style="background:#e0a83a"></span><span style="background:#e08a5a"></span></span>
+      </div>
+      <h2>TetraVit D</h2>
+      <p class="sub">Vitaminas A, D3, E e K2 (MK-7) em gotas · 30 ml.</p>
+      <p class="identity"><b>Luz Líquida</b> — espresso/âmbar + mel/ouro + coral · gotículas douradas + sol que segue o cursor · Newsreader + Sora</p>
+      <span class="go"><span>Abrir página <span class="variant">· 48115367936232</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#9b7fc4" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/8fa3eac72d3a91ae975e822f389f3879c4493907/landing-sleep/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">07</span>
+        <span class="swatches"><span style="background:#3a2140"></span><span style="background:#e0a85a"></span><span style="background:#b9a6d9"></span></span>
+      </div>
+      <h2>Sleep Inositol <span class="tag">prévia</span></h2>
+      <p class="sub">Relaxamento e rotina do sono · pó 150 g · 7 ativos.</p>
+      <p class="identity"><b>Crepúsculo &amp; Camomila</b> — ameixa quente + âmbar-mel + lilás-lavanda · WebGL "Aurora do Sono" + lua âmbar · Newsreader + Instrument Sans</p>
+      <span class="go"><span>Abrir prévia <span class="variant">· 48115368853736</span></span><span class="arrow">→</span></span>
+    </a>
+
+    <a class="card" style="--accent:#4a90d9" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/claude/lp-creatina-l-carnitina-2ph0sp/landing-creatina/index.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <span class="num">08</span>
+        <span class="swatches"><span style="background:#2b2f36"></span><span style="background:#4a90d9"></span><span style="background:#c3ccd6"></span></span>
+      </div>
+      <h2>Creatina + Taurato <span class="tag">prévia</span></h2>
+      <p class="sub">Creatina Mono 3 g + Magnésio Taurato · pó 222 g · 60 doses.</p>
+      <p class="identity"><b>Carga Mineral</b> — grafite/aço frio + íon azul + prata-platina · WebGL "rede cristalina" · Bricolage Grotesque + Manrope</p>
+      <span class="go"><span>Abrir prévia <span class="variant">· 48115368820968</span></span><span class="arrow">→</span></span>
+    </a>
+
+  </div>
+
+  <footer>
+    <p class="tip">Links do branch <code>lp</code> pegam sempre a última versão publicada. Para um preview travado num commit (sem cache), troque <code>lp</code> pelo SHA do commit. As duas em <b>prévia</b> (Sleep e Creatina) ainda não foram mescladas em <code>lp</code>.</p>
+    <span>Checkout: <code>botanikabrasil.com.br/cart/&lt;VARIANT_ID&gt;:&lt;QTD&gt;</code></span>
+  </footer>
+</main>
+</body>
+</html>
