@@ -499,6 +499,28 @@
     </style>
 </head>
 <body>
+<!-- ===== Rastreamento: Meta Pixel + GA4 (hierarquia de eventos) ===== -->
+<script>
+(function(){
+  var META_PIXEL='828186133708463';   /* Pixel - Botanika 2.0 */
+  var GA4_ID='G-XXXXXXXXXX';           /* <-- TROCAR pelo ID real do GA4 (Google Analytics 4) */
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init',META_PIXEL); fbq('track','PageView'); fbq('track','ViewContent');
+  var gaOn=GA4_ID && GA4_ID.indexOf('XXXX')===-1;
+  if(gaOn){
+    var g=document.createElement('script');g.async=!0;g.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(g);
+    window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};
+    gtag('js',new Date());gtag('config',GA4_ID);gtag('event','view_item');
+  }
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('a[href*="/cart/"]'); if(!el) return;
+    if(window.fbq){ fbq('track','AddToCart'); fbq('track','InitiateCheckout'); }
+    if(gaOn && window.gtag){ gtag('event','add_to_cart'); gtag('event','begin_checkout'); }
+  },true);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
+<!-- ===== /Rastreamento ===== -->
     <canvas id="ocean-scene"></canvas>
     <div class="ocean-veil"></div>
     <div class="wave-fade"></div>
