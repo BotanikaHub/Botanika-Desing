@@ -190,8 +190,11 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .vdbar{display:block;height:4px;border-radius:2px;background:var(--grad);width:0;margin-top:6px;max-width:120px;margin-left:auto;box-shadow:0 0 10px rgba(233,196,137,.4)}
 
 /* offer kit image */
-.kit-visual{height:clamp(140px,20vw,180px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
-.kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:opacity .3s var(--ease)}
+.kit-visual{height:clamp(150px,21vw,190px);display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px}
+.kit-pot{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:height .35s var(--ease),opacity .35s var(--ease),transform .35s var(--ease)}
+.kit-visual[data-count="2"] .kit-pot{height:88%;margin-inline:-5%}
+.kit-visual[data-count="3"] .kit-pot{height:78%;margin-inline:-7%}
+.kit-visual[data-count="3"] .kit-pot:nth-child(2){height:94%;position:relative;z-index:2}
 
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
@@ -328,13 +331,17 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .toggle button.active{color:#211534;background:var(--grad);box-shadow:0 8px 22px -8px rgba(182,166,224,.7)}
 .toggle button.active .tag{color:#33224a}
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
-.price-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.disc-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;letter-spacing:.02em;color:#211534;background:var(--grad);padding:6px 14px;border-radius:100px;box-shadow:0 8px 20px -10px rgba(233,196,137,.75)}
-.price-now{font-family:var(--head);font-weight:600;font-size:clamp(42px,6.2vw,60px);line-height:1;margin:2px 0;color:var(--cream)}
-.price-now small{font-family:var(--head);font-size:.46em;color:var(--lilac);font-weight:600;margin-right:2px}
-.price-now em{font-family:var(--body);font-style:normal;font-size:.24em;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase;vertical-align:middle;margin-left:6px}
-.price-full{margin-top:9px;font-size:13.5px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
-.price-old{font-size:13.5px;color:var(--muted);text-decoration:line-through;opacity:.75}
+.price-badges{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}
+.disc-badge{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;letter-spacing:.01em;color:#211534;background:var(--grad);padding:8px 16px;border-radius:100px;
+  box-shadow:0 10px 26px -8px rgba(233,196,137,.85),inset 0 1px 0 rgba(255,255,255,.4);animation:discglow 2.6s ease-in-out infinite}
+@keyframes discglow{0%,100%{box-shadow:0 10px 26px -8px rgba(233,196,137,.8),inset 0 1px 0 rgba(255,255,255,.4)}50%{box-shadow:0 12px 34px -6px rgba(182,166,224,.9),inset 0 1px 0 rgba(255,255,255,.5)}}
+.price-lead{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);margin-bottom:2px}
+.price-now{font-family:var(--head);font-weight:700;font-size:clamp(48px,7.4vw,70px);line-height:.98;margin:2px 0;color:var(--cream)}
+.price-now small{font-family:var(--head);font-size:.44em;font-weight:700;margin-right:4px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.price-now em{display:block;font-family:var(--body);font-style:normal;font-size:.19em;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+.price-full{margin-top:12px;font-size:13px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;opacity:.72}
+.price-old{font-size:13px;color:var(--muted);text-decoration:line-through}
 .price-full #p-avista{color:var(--soft);font-weight:600}
 .price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
 .price-meta .li{display:flex;gap:9px;align-items:center}
@@ -763,7 +770,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-visual"><img id="kit-img" src="sleep-pote.png" alt="Kit Sleep Inositol Botanika" loading="lazy"></div>
+        <div class="kit-visual" id="kit-visual" data-count="2">
+          <img class="kit-pot" src="sleep-pote.png" alt="Kit Sleep Inositol Botanika" loading="lazy">
+          <img class="kit-pot" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
+          <img class="kit-pot" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
+        </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
           <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
@@ -776,7 +787,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
             <span class="disc-badge" id="p-disc">🏷️ −5% por quantidade</span>
             <span class="save-badge" id="p-save">economize R$ 11,97</span>
           </div>
-          <div class="price-now"><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros</em></div>
+          <div class="price-now"><span class="price-lead">Parcele em</span><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros no cartão</em></div>
           <div class="price-full"><span class="price-old" id="p-old">R$ 239,40</span><span id="p-avista">ou R$ 227,43 à vista</span></div>
           <div class="price-meta">
             <div class="li"><i>◆</i> <span id="p-per">R$ 113,72 por pote</span></div>
@@ -930,9 +941,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',barlabel:'1 pote · à vista R$ 119,70'},
-    '2':{old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% por quantidade',save:'economize R$ 11,97',barlabel:'2 potes · −5% · R$ 227,43 à vista'},
-    '3':{old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% por quantidade',save:'economize R$ 35,91',barlabel:'3 potes · −10% · R$ 323,19 à vista'}
+    '1':{qty:1,old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',barlabel:'1 pote · à vista R$ 119,70'},
+    '2':{qty:2,old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% por quantidade',save:'economize R$ 11,97',barlabel:'2 potes · −5% · R$ 227,43 à vista'},
+    '3':{qty:3,old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% por quantidade',save:'economize R$ 35,91',barlabel:'3 potes · −10% · R$ 323,19 à vista'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
@@ -945,6 +956,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     toggleEl('p-save',k.save,'inline-flex');
     set('p-parc',k.parc);set('p-avista',k.avista);set('p-per',k.per);set('p-dur',k.dur);
     set('bar-price','3× '+k.parc);set('bar-label',k.barlabel);
+    var kv=doc.getElementById('kit-visual');if(kv){kv.setAttribute('data-count',k.qty);each(kv.querySelectorAll('.kit-pot'),function(im,i){im.style.display=(i<k.qty)?'':'none';});}
     var buy=doc.getElementById('buy');if(buy)buy.setAttribute('href',checkout(kit));
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
