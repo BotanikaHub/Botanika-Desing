@@ -260,10 +260,20 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
 @media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
-.offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:8px 0 2px}
+.offer-panel .badge{display:inline-block;margin:0 0 4px;font-family:var(--body);font-weight:800;font-size:12px;letter-spacing:.04em;
+  color:#1a0f07;background:var(--grad);border-radius:100px;padding:5px 13px}
+.offer-panel .badge.hide{display:none}
+.offer-panel .full{font-family:var(--body);font-size:15px;color:var(--muted);text-decoration:line-through;margin:8px 0 0;min-height:18px}
+.offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:2px 0 2px}
 .offer-panel .per{font-size:13px;color:var(--muted)}
-.offer-panel .save{margin-top:8px;font-size:13px;font-weight:700;color:#7ad19a}
-.offer-panel .btn{margin-top:20px;width:100%}
+/* parcelamento em destaque */
+.offer-panel .inst{margin:14px auto 0;display:inline-flex;align-items:baseline;gap:7px;background:rgba(234,177,115,.1);
+  border:1px solid rgba(234,177,115,.3);border-radius:14px;padding:10px 18px;font-family:var(--body)}
+.offer-panel .inst .x{font-family:var(--head);font-size:24px;font-weight:700;color:var(--cream);line-height:1}
+.offer-panel .inst .lbl{font-size:12.5px;color:var(--muted)}
+.offer-panel .inst .lbl b{color:var(--caramel);font-weight:700}
+.offer-panel .save{margin-top:12px;font-size:13px;font-weight:700;color:#7ad19a}
+.offer-panel .btn{margin-top:18px;width:100%}
 .trust-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:100px;
   padding:9px 15px;font-size:13px;color:var(--muted);cursor:pointer;transition:.25s;font-family:var(--body)}
@@ -625,7 +635,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 <section class="section center" id="oferta">
   <span class="eyebrow reveal">Oferta</span>
   <h2 class="title reveal">Escolha seu <em>kit</em>.</h2>
-  <p class="lead reveal">Quanto mais potes, mais economia. Cupom <b>BOTANIKA</b> aplica 5% OFF no checkout.</p>
+  <p class="lead reveal">Quanto mais potes, mais economia — o desconto entra <b>automático no carrinho</b>, sem precisar de cupom.</p>
   <div class="toggle reveal" id="toggle" role="tablist">
     <button data-qty="1">1 pote</button>
     <button class="on" data-qty="2">2 potes</button>
@@ -633,14 +643,17 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   </div>
   <div class="offer-panel reveal">
     <div class="kitpots" id="kitPots" aria-hidden="true"></div>
-    <div class="kit" id="kitName">Kit 2 potes · 26 porções</div>
-    <div class="big tnum" id="kitPrice">R$ 294,60</div>
-    <div class="per" id="kitPer">R$ 147,30/pote · 3x sem juros</div>
-    <div class="save" id="kitSave">5% OFF com cupom BOTANIKA</div>
-    <a class="btn btn-buy btn-lg" id="offerBuy" href="https://botanikabrasil.com.br/cart/48115368919272:2?discount=BOTANIKA">Comprar 2 potes agora</a>
+    <div class="badge" id="kitBadge">5% OFF</div>
+    <div class="kit" id="kitName">Kit 2 potes</div>
+    <div class="full tnum" id="kitFull">de R$ 294,60</div>
+    <div class="big tnum" id="kitPrice">R$ 279,87</div>
+    <div class="per" id="kitPer">R$ 139,94 por pote</div>
+    <div class="inst"><span class="x tnum" id="kitInst">3x de R$ 93,29</span><span class="lbl"><b>sem juros</b><br>no cartão</span></div>
+    <div class="save" id="kitSave">Você economiza R$ 14,73</div>
+    <a class="btn btn-buy btn-lg" id="offerBuy" href="https://botanikabrasil.com.br/cart/48115368919272:2">Comprar 2 potes agora</a>
   </div>
   <div class="trust-row reveal">
-    <span class="chip" id="coupon">Cupom <b>BOTANIKA</b> · 5% OFF — toque pra copiar</span>
+    <span class="chip">🎁 <b>2 potes 5%</b> · <b>3 potes 10%</b> — automático</span>
     <span class="chip">🚚 Frete grátis acima de <b>R$ 349</b></span>
     <span class="chip">🔒 Compra segura</span>
   </div>
@@ -665,8 +678,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <div class="inner">
       <div class="txt">
         <span class="eyebrow">Oferta por tempo limitado</span>
-        <h2 class="title" style="font-size:clamp(30px,4.4vw,46px)">Garanta com o <em>cupom BOTANIKA</em>.</h2>
-        <p class="lead">5% OFF no checkout e frete grátis acima de R$ 349. A condição encerra em:</p>
+        <h2 class="title" style="font-size:clamp(30px,4.4vw,46px)">Leve mais, <em>pague menos</em>.</h2>
+        <p class="lead">Desconto <b>automático no carrinho</b>: 2 potes 5% OFF · 3 potes 10% OFF, e frete grátis acima de R$ 349. A condição encerra em:</p>
         <div class="countdown" id="countdown"><div class="cd"><b id="cd-h">00</b><span>horas</span></div><div class="cd"><b id="cd-m">00</b><span>min</span></div><div class="cd"><b id="cd-s">00</b><span>seg</span></div></div>
         <a class="btn btn-buy btn-lg js-top" href="#oferta">Aproveitar agora</a>
       </div>
@@ -703,10 +716,10 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 </a>
 
 <div class="buybar">
-  <div class="p"><b class="tnum">R$ 147,30</b><small>ou 3x R$ 49,10 · cupom BOTANIKA</small></div>
-  <a class="btn btn-buy" href="https://botanikabrasil.com.br/cart/48115368919272:1?discount=BOTANIKA">Comprar</a>
+  <div class="p"><b class="tnum">R$ 147,30</b><small>3x de R$ 49,10 sem juros · 2+ potes com desconto</small></div>
+  <a class="btn btn-buy" href="https://botanikabrasil.com.br/cart/48115368919272:1">Comprar</a>
 </div>
-<div class="toast" id="toast">Cupom BOTANIKA copiado!</div>
+<div class="toast" id="toast"></div>
 
 <script>
 (function(){
@@ -770,7 +783,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   function fbqt(ev,p){ if(window.fbq){ try{ fbq('track',ev,p||{}); }catch(e){} } }
   function fbqc(ev,p){ if(window.fbq){ try{ fbq('trackCustom',ev,p||{}); }catch(e){} } }
   function qn(q){ return parseInt(q,10)||1; }
-  function valFor(q){ return Math.round(PRICE*qn(q)*100)/100; }
+  /* preço já com o desconto automático por quantidade: 2 potes -5%, 3 potes -10% */
+  var TOTALS={1:147.30,2:279.87,3:397.71};
+  function valFor(q){ return TOTALS[qn(q)]||Math.round(PRICE*qn(q)*100)/100; }
   function ga4Item(q){ return {item_id:PID,item_name:PNAME,item_brand:'Botanika',price:PRICE,quantity:qn(q)}; }
   /* dispara o evento equivalente no Meta e no GA4 (dataLayer) de uma vez */
   function dle(ga4Event,q){ dl({ecommerce:null}); dl({event:ga4Event,ecommerce:{currency:'BRL',value:valFor(q),items:[ga4Item(q)]}}); }
@@ -783,16 +798,23 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 
   /* oferta */
   var VAR=PID, base='https://botanikabrasil.com.br/cart/';
-  var KITS={1:{n:'Kit 1 pote · 455 g · 13 porções',price:'R$ 147,30',per:'ou 3x de R$ 49,10',save:'5% OFF com cupom BOTANIKA'},
-            2:{n:'Kit 2 potes · 26 porções',price:'R$ 294,60',per:'R$ 147,30/pote · 3x sem juros',save:'5% OFF com cupom BOTANIKA'},
-            3:{n:'Kit 3 potes · 39 porções',price:'R$ 441,90',per:'R$ 147,30/pote',save:'5% OFF + FRETE GRÁTIS'}};
+  var KITS={
+    1:{n:'Kit 1 pote',badge:'',full:'',price:'R$ 147,30',per:'',inst:'3x de R$ 49,10',save:''},
+    2:{n:'Kit 2 potes',badge:'5% OFF',full:'de R$ 294,60',price:'R$ 279,87',per:'R$ 139,94 por pote',inst:'3x de R$ 93,29',save:'Você economiza R$ 14,73'},
+    3:{n:'Kit 3 potes',badge:'10% OFF',full:'de R$ 441,90',price:'R$ 397,71',per:'R$ 132,57 por pote',inst:'3x de R$ 132,57',save:'Economiza R$ 44,19 + frete grátis'}};
   var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
   var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
   function renderPots(q){ if(!potsEl) return; var n=qn(q),h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
     potsEl.classList.remove('pop'); potsEl.innerHTML=h; void potsEl.offsetWidth; potsEl.classList.add('pop'); }
-  function setKit(q){ var k=KITS[q]; doc.getElementById('kitName').textContent=k.n; doc.getElementById('kitPrice').textContent=k.price;
-    doc.getElementById('kitPer').textContent=k.per; doc.getElementById('kitSave').textContent=k.save;
-    buy.setAttribute('href',withParams(base+VAR+':'+q+'?discount=BOTANIKA')); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
+  function set(id,txt){ var el=doc.getElementById(id); if(el) el.textContent=txt; }
+  function showEl(id,on){ var el=doc.getElementById(id); if(el) el.style.display=on?'':'none'; }
+  function setKit(q){ var k=KITS[q];
+    var bd=doc.getElementById('kitBadge'); if(bd){ bd.textContent=k.badge; bd.classList.toggle('hide',!k.badge); }
+    set('kitName',k.n); showEl('kitFull',!!k.full); set('kitFull',k.full);
+    set('kitPrice',k.price); showEl('kitPer',!!k.per); set('kitPer',k.per);
+    set('kitInst',k.inst); showEl('kitSave',!!k.save); set('kitSave',k.save);
+    /* checkout sem cupom: o desconto automático por quantidade (WHEY5/WHEY10) aplica sozinho — cupom bloquearia o 10% */
+    buy.setAttribute('href',withParams(base+VAR+':'+q)); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
     renderPots(q);
     /* selecionar kit = interesse (topo do funil) */
     fbqt('AddToWishlist',{content_name:PNAME,content_ids:[PID],content_type:'product',value:valFor(q),currency:'BRL'});
@@ -821,11 +843,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     a.addEventListener('click',function(){ fbqt('Lead',{content_name:PNAME,value:PRICE,currency:'BRL'}); dl({event:'generate_lead',lead_source:'whatsapp'}); });
   });
 
-  /* cupom copiar */
-  var toast=doc.getElementById('toast'); function showT(m){ toast.textContent=m; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },1900); }
-  var cp=doc.getElementById('coupon'); if(cp) cp.addEventListener('click',function(){ var t='BOTANIKA';
-    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ showT('Cupom BOTANIKA copiado!'); }).catch(function(){ showT('Cupom: BOTANIKA'); }); } else showT('Cupom: BOTANIKA');
-    fbqc('CopyCoupon',{coupon:'BOTANIKA'}); dl({event:'select_promotion',promotion_name:'BOTANIKA',coupon:'BOTANIKA'}); });
+  /* toast utilitário (mantido para avisos) */
+  var toast=doc.getElementById('toast'); function showT(m){ if(!toast) return; toast.textContent=m; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },1900); }
 
   /* countdown 24h */
   var cd=doc.getElementById('countdown');
