@@ -317,13 +317,16 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .toggle button.active{color:#2a0f16;background:var(--grad);box-shadow:0 8px 22px -8px rgba(230,178,149,.7)}
 .toggle button.active .tag{color:#3a1420}
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
-.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.price-now{font-family:var(--head);font-weight:600;font-size:clamp(40px,6vw,58px);line-height:1;margin:6px 0}
-.price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--gold);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:6px}
-.price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
+.price-disc{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--gold);padding:7px 14px;border-radius:100px;border:1px solid var(--line-2);background:linear-gradient(120deg,rgba(232,199,154,.16),rgba(230,178,149,.08));box-shadow:0 0 24px -10px rgba(232,199,154,.55)}
+.price-parc{font-family:var(--head);font-weight:600;font-size:clamp(32px,5vw,50px);line-height:1.02;margin:13px 0 5px;color:var(--cream)}
+.price-parc .cur{font-size:.62em;color:var(--gold);margin-right:2px}
+.price-avista{font-size:13.5px;color:var(--muted)}
+.price-avista b{color:var(--soft);font-weight:600}
+.price-old{color:var(--muted);opacity:.6;text-decoration:line-through;margin-left:6px;font-size:12.5px}
+.save-badge{display:inline-block;font-size:13px;font-weight:800;color:#2a0f16;background:var(--grad);padding:5px 13px;border-radius:100px;margin-top:12px;box-shadow:0 8px 20px -10px rgba(230,178,149,.7)}
+.price-meta{margin-top:14px;display:grid;gap:7px;font-size:13.5px;color:var(--soft)}
 .price-meta .li{display:flex;gap:9px;align-items:center}
 .price-meta .li i{font-style:normal;color:var(--rose)}
-.save-badge{display:inline-block;font-size:12.5px;font-weight:700;color:#2a0f16;background:var(--gold);padding:4px 11px;border-radius:100px;margin-top:12px}
 .offer-cta{display:grid;gap:12px}
 .coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:13px 16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);transition:.25s}
 .coupon:hover{border-color:var(--rose)}
@@ -757,15 +760,14 @@ html.lenis{scroll-behavior:auto!important}
       </div>
       <div class="offer-body">
         <div class="offer-price">
-          <div class="price-old" id="p-old">R$ 198,80</div>
-          <div class="price-now" id="p-now">R$ 188,86</div>
-          <div class="price-cup" id="p-disc">🏷️ −5% por quantidade · aplicado no checkout</div>
+          <div class="price-disc" id="p-disc">🏷️ −5% por quantidade · aplicado no checkout</div>
+          <div class="price-parc"><span id="p-parc">3× de R$ 62,95 sem juros</span></div>
+          <div class="price-avista">ou <b id="p-now">R$ 188,86</b> à vista <s class="price-old" id="p-old">R$ 198,80</s></div>
+          <div class="save-badge" id="p-save">Você economiza R$ 9,94</div>
           <div class="price-meta">
-            <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 66,27 sem juros</span></div>
             <div class="li"><i>◆</i> <span id="p-per">R$ 94,43 por pote</span></div>
             <div class="li"><i>◆</i> <span id="p-dur">≈ 4 meses de rotina</span></div>
           </div>
-          <div class="save-badge" id="p-save">Você economiza R$ 9,94</div>
         </div>
         <div class="offer-cta">
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
@@ -919,9 +921,9 @@ html.lenis{scroll-behavior:auto!important}
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{old:'',now:'R$ 99,40',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png'},
-    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png'},
-    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png'}
+    '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png'},
+    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png'},
+    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png'}
   };
   var currentKit='2';
 
@@ -942,7 +944,7 @@ html.lenis{scroll-behavior:auto!important}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
-    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
+    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='inline';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var ki=doc.getElementById('kit-img');if(ki&&k.img)ki.setAttribute('src',k.img);
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
