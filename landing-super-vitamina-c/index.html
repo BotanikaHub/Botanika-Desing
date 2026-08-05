@@ -997,10 +997,12 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     '3':{old:'R$ 268,56',now:'R$ 241,70',parc:'ou 3× de R$ 80,57 sem juros',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',disc:'🍊 −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3']}
   };
   var currentKit='2';
+  var setOfferOrangeCount=function(){}; /* preenchido pela camada de laranjas da oferta */
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];if(!k)return;
+    setOfferOrangeCount(kit);
     var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.classList.add('swap');setTimeout(function(){ki.setAttribute('src',k.img);ki.classList.remove('swap');},180);}
@@ -1169,24 +1171,26 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     else { last=performance.now(); win.requestAnimationFrame(frame); }
   })();
 
-  /* ---------- laranjas animadas DENTRO do bloco de oferta (contidas, quicam nas bordas, reagem ao mouse) ---------- */
+  /* ---------- laranjas animadas DENTRO da oferta — quantidade VARIA com o kit escolhido, com fade-in ---------- */
   (function(){
     var offer=doc.querySelector('#oferta .offer'); if(!offer) return;
     var cv=doc.createElement('canvas'); cv.className='offer-oranges'; cv.setAttribute('aria-hidden','true'); offer.insertBefore(cv,offer.firstChild);
     var ctx=cv.getContext('2d'); if(!ctx) return;
     function rnd(a,b){return a+(b-a)*Math.random();}
-    var ow=0,oh=0,DPR=1,run=false,last=0,list=[],mx=-1e4,my=-1e4;
+    var ow=0,oh=0,DPR=1,run=false,last=0,list=[],mx=-1e4,my=-1e4,target=8;
+    var MAP=win.innerWidth<760?{'1':5,'2':8,'3':12}:{'1':8,'2':13,'3':18};
     function size(){var r=offer.getBoundingClientRect();ow=Math.max(1,r.width);oh=Math.max(1,r.height);DPR=Math.min(win.devicePixelRatio||1,2);cv.width=Math.round(ow*DPR);cv.height=Math.round(oh*DPR);}
-    function build(){var N=win.innerWidth<760?4:6;list=[];for(var i=0;i<N;i++){var depth=rnd(.55,1),sp=rnd(11,22),ang=rnd(0,6.2832);
-      list.push({x:rnd(.12,.88)*ow,y:rnd(.12,.88)*oh,r:rnd(13,24)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,rot:rnd(0,6.28),vr:rnd(-.5,.5),depth:depth,ox:0,oy:0});}}
+    function make(){var depth=rnd(.55,1),sp=rnd(11,22),ang=rnd(0,6.2832);return {x:rnd(.1,.9)*ow,y:rnd(.1,.9)*oh,r:rnd(15,28)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,rot:rnd(0,6.28),vr:rnd(-.5,.5),depth:depth,ox:0,oy:0,in:0};}
+    function reconcile(){ while(list.length<target)list.push(make()); if(list.length>target)list.length=target; }
+    function setCount(kit){ target=MAP[kit]||MAP['2']; if(ow>0)reconcile(); }
     function orange(o){
-      var r=o.r*DPR; ctx.save(); ctx.translate((o.x+o.ox)*DPR,(o.y+o.oy)*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.4+.35*o.depth;
+      var r=o.r*DPR,base=(.52+.36*o.depth)*o.in; ctx.save(); ctx.translate((o.x+o.ox)*DPR,(o.y+o.oy)*DPR); ctx.rotate(o.rot); ctx.globalAlpha=base;
       var g=ctx.createRadialGradient(-r*.32,-r*.34,r*.08,0,0,r);
       g.addColorStop(0,'#ffe6a0');g.addColorStop(.45,'#ff8a1e');g.addColorStop(1,'#b5500d');
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,6.2832);ctx.fill();
-      ctx.globalAlpha*=.65;ctx.strokeStyle='rgba(255,228,168,.6)';ctx.lineWidth=Math.max(1,r*.05);ctx.beginPath();ctx.arc(0,0,r*.92,-2.5,-.8);ctx.stroke();
-      ctx.globalAlpha=.4+.35*o.depth;
-      ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.arc(-r*.3,-r*.32,r*.13,0,6.2832);ctx.fill();
+      ctx.globalAlpha=base*.7;ctx.strokeStyle='rgba(255,228,168,.7)';ctx.lineWidth=Math.max(1,r*.05);ctx.beginPath();ctx.arc(0,0,r*.92,-2.5,-.8);ctx.stroke();
+      ctx.globalAlpha=base;
+      ctx.fillStyle='rgba(255,255,255,.6)';ctx.beginPath();ctx.arc(-r*.3,-r*.32,r*.14,0,6.2832);ctx.fill();
       ctx.fillStyle='#8ec84a';ctx.save();ctx.translate(r*.02,-r*.1);ctx.rotate(-.5);ctx.beginPath();ctx.ellipse(r*.26,-r*.16,r*.32,r*.13,0,0,6.2832);ctx.fill();ctx.restore();
       ctx.restore();
     }
@@ -1195,20 +1199,22 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
       var r=offer.getBoundingClientRect(), lx=mx-r.left, ly=my-r.top;
       ctx.clearRect(0,0,cv.width,cv.height);
       for(var i=0;i<list.length;i++){var o=list[i];
+        o.in+=(1-o.in)*Math.min(1,dt*3);
         o.x+=o.vx*dt; o.y+=o.vy*dt; var pad=o.r+2;
         if(o.x<pad){o.x=pad;o.vx=Math.abs(o.vx);}else if(o.x>ow-pad){o.x=ow-pad;o.vx=-Math.abs(o.vx);}
         if(o.y<pad){o.y=pad;o.vy=Math.abs(o.vy);}else if(o.y>oh-pad){o.y=oh-pad;o.vy=-Math.abs(o.vy);}
-        var dx=o.x-lx, dy=o.y-ly, d=Math.sqrt(dx*dx+dy*dy), R=120;
-        if(d<R){var f=(1-d/R);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*40-o.ox)*.2;o.oy+=(Math.sin(a)*f*40-o.oy)*.2;}
+        var dx=o.x-lx, dy=o.y-ly, d=Math.sqrt(dx*dx+dy*dy), R=125;
+        if(d<R){var f=(1-d/R);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*44-o.ox)*.2;o.oy+=(Math.sin(a)*f*44-o.oy)*.2;}
         else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
         o.rot+=o.vr*dt; orange(o);
       }
       win.requestAnimationFrame(frame);
     }
     win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
-    var rz; win.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(size,180);},{passive:true});
-    size();build();
-    if(reduce){ for(var i=0;i<list.length;i++)orange(list[i]); }
+    var rz; win.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){MAP=win.innerWidth<760?{'1':5,'2':8,'3':12}:{'1':8,'2':13,'3':18};size();reconcile();},180);},{passive:true});
+    setOfferOrangeCount=setCount;
+    size(); target=MAP[currentKit]||MAP['2']; reconcile();
+    if(reduce){ for(var i=0;i<list.length;i++){list[i].in=1;orange(list[i]);} }
     else { run=true; last=performance.now(); win.requestAnimationFrame(frame); }
   })();
 
