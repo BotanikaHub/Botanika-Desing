@@ -949,7 +949,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 
 <div class="buybar" id="buybar">
   <div class="info"><b id="bar-price">3× R$ 56,70</b><span id="bar-label">−5% · 2 potes · R$ 170,09 à vista</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">COMPRAR AGORA</a>
 </div>
 
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -1037,7 +1037,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.parcx+' '+k.parcv);set('bar-label',(k.off?k.off+' · ':'')+k.label+' · '+k.now+' à vista');
     var href=checkout(kit);
-    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    var buyEl=doc.getElementById('buy');if(buyEl)buyEl.setAttribute('href',href); /* só o COMPRAR AGORA da oferta vai pro checkout */
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
@@ -1046,7 +1046,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){return;} /* deixa navegar; eventos no bloco de rastreamento padrão */
+        if(id==='buy'){return;} /* único checkout: COMPRAR AGORA da oferta. Eventos no bloco de rastreamento padrão */
         e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
       });
     });
