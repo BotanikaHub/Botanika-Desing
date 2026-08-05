@@ -354,9 +354,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 .legal{margin-top:22px;font-size:11.5px;color:rgba(246,238,233,.4);line-height:1.6;max-width:82ch}
 
 /* whatsapp */
-.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:rgba(16,8,13,.92);border:1px solid var(--line-2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 12px 30px -8px rgba(230,178,149,.45);transition:transform .25s var(--ease)}
+.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--grad);box-shadow:0 14px 32px -10px rgba(230,178,149,.75),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .25s var(--ease)}
 .wa:hover{transform:scale(1.08)}
-.wa svg{width:30px;height:30px;fill:#e8b79a}
+.wa svg{width:30px;height:30px;fill:#2a0f16}
 
 /* mobile buy bar */
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
@@ -897,10 +897,10 @@ html.lenis{scroll-behavior:auto!important}
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{old:'',now:'R$ 99,40',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_uma-embalagem-iluminacao-_fFp2Rp4CDY_1.png?v=1782230763'},
-    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_122935_58116789-644a-4404-b527-de58a177fb00.png'},
-    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_122936_de941b9f-4b48-41e7-844f-e0dfc5ca2b72.png'},
-    '4':{old:'R$ 397,60',now:'R$ 357,84',parc:'ou 3× de R$ 119,28 sem juros',per:'R$ 89,46 por pote',dur:'≈ 8 meses · frete grátis incluso',disc:'🏷️ −10% + 🚚 frete grátis',save:'Economiza R$ 39,76 + o frete',label:'4 potes · frete grátis',img:'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_122936_de941b9f-4b48-41e7-844f-e0dfc5ca2b72.png'}
+    '1':{old:'',now:'R$ 99,40',parc:'ou 3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png'},
+    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'ou 3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png'},
+    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png'},
+    '4':{old:'R$ 397,60',now:'R$ 357,84',parc:'ou 3× de R$ 119,28 sem juros',per:'R$ 89,46 por pote',dur:'≈ 8 meses · frete grátis incluso',disc:'🏷️ −10% + 🚚 frete grátis',save:'Economiza R$ 39,76 + o frete',label:'4 potes · frete grátis',img:'bottle-3.png'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
