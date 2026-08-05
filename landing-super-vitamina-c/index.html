@@ -56,9 +56,10 @@ img,video{max-width:100%;display:block;height:auto}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--amber);color:#2a1500}
 
-canvas#gl,canvas#bg{position:fixed;inset:0;width:100%;height:100%;display:block}
-canvas#gl{z-index:-2}
-canvas#bg{z-index:-3}
+canvas#gl,canvas#bg,canvas#oranges{position:fixed;inset:0;width:100%;height:100%;display:block}
+canvas#gl{z-index:-3}
+canvas#bg{z-index:-4}
+canvas#oranges{z-index:-2;pointer-events:none}
 .veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:radial-gradient(120% 78% at 50% -10%,rgba(255,122,26,.12),transparent 60%),
              radial-gradient(70% 55% at 86% 12%,rgba(205,233,74,.12),transparent 72%),
@@ -340,12 +341,20 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 .foot .brand{font-size:17px}
 .foot p{font-size:12.5px;color:var(--muted);max-width:52ch;margin-top:10px}
 .foot a.mini{font-size:13px;color:var(--soft)}
+.socials{display:flex;gap:10px;justify-content:flex-end;margin-bottom:6px}
+.socials a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);background:var(--glass);transition:.3s var(--ease)}
+.socials a:hover{color:var(--amber);border-color:var(--amber);transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(255,122,26,.5)}
+.socials svg{width:18px;height:18px}
+@media(max-width:760px){.socials{justify-content:center}}
 .legal{margin-top:22px;font-size:11.5px;color:rgba(253,243,227,.4);line-height:1.6;max-width:82ch}
 
-/* whatsapp */
-.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#25d366;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transition:transform .25s var(--ease)}
-.wa:hover{transform:scale(1.08)}
-.wa svg{width:30px;height:30px;fill:#fff}
+/* whatsapp — no estilo da página (âmbar sobre vidro escuro) */
+.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(23,11,4,.82);border:1px solid var(--line-2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 12px 30px -10px rgba(255,122,26,.55);transition:transform .25s var(--ease),box-shadow .3s var(--ease);animation:waglow 2.8s ease-in-out infinite}
+.wa:hover{transform:scale(1.08);box-shadow:0 16px 42px -10px rgba(255,122,26,.75)}
+.wa svg{width:29px;height:29px;fill:var(--amber)}
+@keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(255,122,26,.26)}50%{box-shadow:0 0 24px 7px rgba(255,122,26,.5)}}
 
 /* mobile buy bar */
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
@@ -526,6 +535,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 </div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <canvas id="gl" aria-hidden="true"></canvas>
+<canvas id="oranges" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -882,6 +892,11 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
         <p>Super Vitamina C — Vitamina C + Quercetina + Própolis. Suplemento alimentar em cápsulas · 60 cápsulas (30 doses) · três ativos em sinergia.</p>
       </div>
       <div style="display:grid;gap:8px;text-align:right">
+        <div class="socials" aria-label="Redes sociais da Botanika">
+          <a href="https://www.instagram.com/botanikabrasil/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.youtube.com/@BotanikaBrasil" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg></a>
+          <a href="https://wa.me/5531972679362" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+        </div>
         <a class="mini" href="https://botanikabrasil.com.br" target="_blank" rel="noopener">Loja oficial ↗</a>
         <a class="mini" href="https://wa.me/5531972679362" target="_blank" rel="noopener">Atendimento no WhatsApp ↗</a>
         <a class="mini" href="mailto:atendimento@botanikabrasil.com.br">atendimento@botanikabrasil.com.br</a>
@@ -961,9 +976,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     if(qty==='1'||qty===1)parts.unshift('discount='+COUPON);
     if(parts.length)u+='?'+parts.join('&');return u;}
   var TIER_IMG={
-    '1':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/MKP_BOTANIKA_SUPER_VITAMINA_C_ROTULO.png?v=1782231584',
-    '2':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_duas-embalagens-juntas-um_UyboL3Gwny.png?v=1782231623',
-    '3':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_62lQszbiJO.png?v=1782231650'
+    '1':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155400_ef4e6cf7-b46d-4f8f-9f65-55ac3b6ffe45.png',
+    '2':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155358_093fd0ef-bc22-41e7-ae3c-73b7cb7c6a90.png',
+    '3':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155359_89b289cc-7ead-482a-ab9d-f5b2b74b6e38.png'
   };
   var KITS={
     '1':{old:'',now:'R$ 89,52',parc:'ou 3× de R$ 29,84 sem juros',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',disc:'🏷️ Use BOTANIKA e ganhe 5% OFF',save:'',label:'1 pote',img:TIER_IMG['1']},
@@ -1070,6 +1085,43 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
       var rafL=function(time){lenis.raf(time);win.requestAnimationFrame(rafL);};win.requestAnimationFrame(rafL);
     }catch(e){}
   }
+
+  /* ---------- laranjas ambiente (sutis, ATRÁS do conteúdo — não cobrem texto, não capturam clique, não afetam o scroll) ---------- */
+  (function(){
+    var cv=doc.getElementById('oranges'); if(!cv) return;
+    var ctx=cv.getContext('2d'); if(!ctx) return;
+    var W=win.innerWidth,H=win.innerHeight,DPR=1,run=false,last=0,list=[];
+    var N=win.innerWidth<760?3:5;
+    function rnd(a,b){return a+(b-a)*Math.random();}
+    function resize(){DPR=Math.min(win.devicePixelRatio||1,2);cv.width=Math.round(win.innerWidth*DPR);cv.height=Math.round(win.innerHeight*DPR);W=win.innerWidth;H=win.innerHeight;}
+    function build(){list=[];for(var i=0;i<N;i++){var depth=rnd(.5,1),sp=rnd(5,11),ang=rnd(0,6.2832);
+      list.push({x:rnd(.06,.94)*W,y:rnd(.06,.94)*H,r:rnd(18,32)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,curl:rnd(-.12,.12),rot:rnd(0,6.2832),vr:rnd(-.2,.2),depth:depth});}}
+    function orange(o){
+      var r=o.r*DPR; ctx.save(); ctx.translate(o.x*DPR,o.y*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.16+.2*o.depth;
+      var g=ctx.createRadialGradient(-r*.32,-r*.34,r*.08,0,0,r);
+      g.addColorStop(0,'#ffde93');g.addColorStop(.45,'#ff8a1e');g.addColorStop(1,'#b5500d');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,6.2832);ctx.fill();
+      ctx.globalAlpha*=.6;ctx.strokeStyle='rgba(255,224,160,.5)';ctx.lineWidth=Math.max(1,r*.05);ctx.beginPath();ctx.arc(0,0,r*.92,-2.5,-.8);ctx.stroke();
+      ctx.globalAlpha=.16+.2*o.depth;
+      ctx.fillStyle='#8ec84a';ctx.save();ctx.translate(r*.02,-r*.1);ctx.rotate(-.5);ctx.beginPath();ctx.ellipse(r*.26,-r*.16,r*.32,r*.13,0,0,6.2832);ctx.fill();ctx.restore();
+      ctx.restore();
+    }
+    function frame(now){ if(!run)return;
+      var dt=(now-last)/1000; if(!(dt>0))dt=.016; if(dt>.05)dt=.05; last=now;
+      ctx.clearRect(0,0,cv.width,cv.height);
+      for(var i=0;i<list.length;i++){var o=list[i];
+        var ca=Math.cos(o.curl*dt),sa=Math.sin(o.curl*dt),nvx=o.vx*ca-o.vy*sa,nvy=o.vx*sa+o.vy*ca;o.vx=nvx;o.vy=nvy;
+        o.x+=o.vx*dt; o.y+=o.vy*dt;
+        var m=o.r+40; if(o.x<-m)o.x=W+m;else if(o.x>W+m)o.x=-m; if(o.y<-m)o.y=H+m;else if(o.y>H+m)o.y=-m;
+        o.rot+=o.vr*dt; orange(o);
+      }
+      win.requestAnimationFrame(frame);
+    }
+    win.addEventListener('resize',resize,{passive:true});
+    resize();build();
+    if(reduce){ for(var i=0;i<list.length;i++)orange(list[i]); }
+    else { run=true; last=performance.now(); win.requestAnimationFrame(frame); }
+  })();
 
   /* ---------- escassez (gatilho honesto, sem countdown) ---------- */
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
