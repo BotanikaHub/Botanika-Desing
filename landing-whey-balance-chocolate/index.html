@@ -260,19 +260,20 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
 @media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
-.offer-panel .badge{display:inline-block;margin:0 0 4px;font-family:var(--body);font-weight:800;font-size:12px;letter-spacing:.04em;
-  color:#1a0f07;background:var(--grad);border-radius:100px;padding:5px 13px}
+/* selo de desconto em evidência */
+.offer-panel .badge{display:inline-block;margin:0 0 6px;font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.03em;
+  color:#1a0f07;background:var(--grad);border-radius:100px;padding:7px 17px;box-shadow:0 8px 20px -6px rgba(234,177,115,.6)}
 .offer-panel .badge.hide{display:none}
-.offer-panel .full{font-family:var(--body);font-size:15px;color:var(--muted);text-decoration:line-through;margin:8px 0 0;min-height:18px}
-.offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:2px 0 2px}
-.offer-panel .per{font-size:13px;color:var(--muted)}
-/* parcelamento em destaque */
-.offer-panel .inst{margin:14px auto 0;display:inline-flex;align-items:baseline;gap:7px;background:rgba(234,177,115,.1);
-  border:1px solid rgba(234,177,115,.3);border-radius:14px;padding:10px 18px;font-family:var(--body)}
-.offer-panel .inst .x{font-family:var(--head);font-size:24px;font-weight:700;color:var(--cream);line-height:1}
-.offer-panel .inst .lbl{font-size:12.5px;color:var(--muted)}
-.offer-panel .inst .lbl b{color:var(--caramel);font-weight:700}
-.offer-panel .save{margin-top:12px;font-size:13px;font-weight:700;color:#7ad19a}
+/* parcela = protagonista */
+.offer-panel .insthero{margin:10px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap}
+.offer-panel .insthero .pre{font-family:var(--body);font-size:18px;font-weight:700;color:var(--cream)}
+.offer-panel .insthero .big{font-family:var(--head);font-size:clamp(46px,8vw,60px);font-weight:700;color:var(--caramel);line-height:.95}
+.offer-panel .insthero .suf{font-family:var(--body);font-size:12.5px;color:var(--muted);text-align:left;line-height:1.25}
+/* preço cheio / à vista = segundo plano */
+.offer-panel .avista{margin-top:8px;font-family:var(--body);font-size:13.5px;color:var(--muted)}
+.offer-panel .avista b{color:var(--cream);font-weight:700}
+.offer-panel .avista s{color:rgba(243,231,214,.4);margin-left:8px}
+.offer-panel .save{margin-top:12px;font-size:13.5px;font-weight:800;color:#7ad19a}
 .offer-panel .btn{margin-top:18px;width:100%}
 .trust-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:100px;
@@ -645,10 +646,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <div class="kitpots" id="kitPots" aria-hidden="true"></div>
     <div class="badge" id="kitBadge">5% OFF</div>
     <div class="kit" id="kitName">Kit 2 potes</div>
-    <div class="full tnum" id="kitFull">de R$ 294,60</div>
-    <div class="big tnum" id="kitPrice">R$ 279,87</div>
-    <div class="per" id="kitPer">R$ 139,94 por pote</div>
-    <div class="inst"><span class="x tnum" id="kitInst">3x de R$ 93,29</span><span class="lbl"><b>sem juros</b><br>no cartão</span></div>
+    <div class="insthero"><span class="pre">3x de</span><span class="big tnum" id="kitInst">R$ 93,29</span><span class="suf">sem juros<br>no cartão</span></div>
+    <div class="avista" id="kitAvista">ou <b class="tnum" id="kitAvistaVal">R$ 279,87</b> à vista <s class="tnum" id="kitFull">R$ 294,60</s></div>
     <div class="save" id="kitSave">Você economiza R$ 14,73</div>
     <a class="btn btn-buy btn-lg" id="offerBuy" href="https://botanikabrasil.com.br/cart/48115368919272:2">Comprar 2 potes agora</a>
   </div>
@@ -799,9 +798,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   /* oferta */
   var VAR=PID, base='https://botanikabrasil.com.br/cart/';
   var KITS={
-    1:{n:'Kit 1 pote',badge:'',full:'',price:'R$ 147,30',per:'',inst:'3x de R$ 49,10',save:''},
-    2:{n:'Kit 2 potes',badge:'5% OFF',full:'de R$ 294,60',price:'R$ 279,87',per:'R$ 139,94 por pote',inst:'3x de R$ 93,29',save:'Você economiza R$ 14,73'},
-    3:{n:'Kit 3 potes',badge:'10% OFF',full:'de R$ 441,90',price:'R$ 397,71',per:'R$ 132,57 por pote',inst:'3x de R$ 132,57',save:'Economiza R$ 44,19 + frete grátis'}};
+    1:{n:'Kit 1 pote',badge:'',inst:'R$ 49,10',avista:'R$ 147,30',full:'',save:''},
+    2:{n:'Kit 2 potes',badge:'5% OFF',inst:'R$ 93,29',avista:'R$ 279,87',full:'R$ 294,60',save:'Você economiza R$ 14,73'},
+    3:{n:'Kit 3 potes',badge:'10% OFF',inst:'R$ 132,57',avista:'R$ 397,71',full:'R$ 441,90',save:'Economiza R$ 44,19 + frete grátis'}};
   var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
   var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
   function renderPots(q){ if(!potsEl) return; var n=qn(q),h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
@@ -810,9 +809,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   function showEl(id,on){ var el=doc.getElementById(id); if(el) el.style.display=on?'':'none'; }
   function setKit(q){ var k=KITS[q];
     var bd=doc.getElementById('kitBadge'); if(bd){ bd.textContent=k.badge; bd.classList.toggle('hide',!k.badge); }
-    set('kitName',k.n); showEl('kitFull',!!k.full); set('kitFull',k.full);
-    set('kitPrice',k.price); showEl('kitPer',!!k.per); set('kitPer',k.per);
-    set('kitInst',k.inst); showEl('kitSave',!!k.save); set('kitSave',k.save);
+    set('kitName',k.n); set('kitInst',k.inst); set('kitAvistaVal',k.avista);
+    showEl('kitFull',!!k.full); set('kitFull',k.full);
+    showEl('kitSave',!!k.save); set('kitSave',k.save);
     /* checkout sem cupom: o desconto automático por quantidade (WHEY5/WHEY10) aplica sozinho — cupom bloquearia o 10% */
     buy.setAttribute('href',withParams(base+VAR+':'+q)); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
     renderPots(q);
