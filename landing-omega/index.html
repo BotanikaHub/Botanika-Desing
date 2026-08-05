@@ -303,15 +303,18 @@
         .proof-head { text-align: center; max-width: 720px; margin: 0 auto 2.6rem; }
         .proof-head h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); margin-bottom: 0.9rem; }
         .proof-head .lead { color: var(--muted); font-size: 1.08rem; line-height: 1.7; margin: 0 auto; }
-        .proof-grid { display: grid; grid-template-columns: repeat(var(--pcols, 4), 1fr); gap: 1rem; }
-        .proof-cell { aspect-ratio: 2 / 3; }
-        .proof-card {
-            width: 100%; height: 100%; border-radius: 18px; overflow: hidden;
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.55); transform: scale(0); will-change: transform;
-        }
-        .proof-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        @media (max-width: 760px) { .proof { padding: 3rem 6% 2rem; } .proof-grid { gap: 0.7rem; } }
+        .proof-carousel { position: relative; }
+        .proof-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 6px 2px 4px; }
+        .proof-track::-webkit-scrollbar { display: none; }
+        .proof-slide { flex: 0 0 auto; width: clamp(240px, 30vw, 300px); aspect-ratio: 2 / 3; scroll-snap-align: center; border-radius: 18px; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+        .proof-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .pc-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 6; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-size: 1.7rem; line-height: 1; color: var(--gold-soft); background: rgba(6,12,28,0.82); border: 1px solid var(--glass-border); backdrop-filter: blur(6px); transition: transform .2s, background .3s; }
+        .pc-arrow:hover { background: rgba(232,182,76,0.16); transform: translateY(-50%) scale(1.08); }
+        .pc-arrow.prev { left: -8px; } .pc-arrow.next { right: -8px; }
+        .pc-dots { display: flex; gap: 8px; justify-content: center; margin-top: 18px; }
+        .pc-dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; cursor: pointer; background: rgba(255,255,255,0.22); transition: background .3s, transform .3s; }
+        .pc-dot.on { background: var(--gold); transform: scale(1.35); }
+        @media (max-width: 760px) { .proof { padding: 3rem 6% 2rem; } .pc-arrow { display: none; } .proof-slide { width: clamp(220px, 74vw, 280px); } }
 
         /* Offer */
         .offer { position: relative; z-index: 5; max-width: 900px; margin: 0 auto; text-align: center; padding: 6rem 5% 4rem; }
@@ -524,7 +527,6 @@
     <canvas id="ocean-scene"></canvas>
     <div class="ocean-veil"></div>
     <div class="wave-fade"></div>
-    <div id="bubbles-container"></div>
 
     <header class="header" id="header">
         <div class="logo">
@@ -537,7 +539,7 @@
             <a href="#beneficios">Benefícios</a>
             <a href="#garantia">Garantia</a>
         </nav>
-        <a href="https://botanikabrasil.com.br/cart/48115368034536:1" target="_blank" rel="noopener" class="btn-buy">Comprar</a>
+        <a href="#comprar" class="btn-buy">Comprar</a>
     </header>
 
     <!-- ===== HERO ===== -->
@@ -561,7 +563,7 @@
                     <div class="hero-stat"><div class="n">90</div><div class="l">Cápsulas</div></div>
                 </div>
                 <div class="hero-cta">
-                    <a href="https://botanikabrasil.com.br/cart/48115368034536:1" target="_blank" rel="noopener" class="btn-buy">Comprar agora
+                    <a href="#comprar" class="btn-buy">Comprar agora
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </a>
                     <a href="#formula" class="btn-ghost">Ver a fórmula</a>
@@ -776,7 +778,7 @@
                 <div class="plan-bonus">🎁 + Manual da Suplementação</div>
             </button>
         </div>
-        <a href="https://botanikabrasil.com.br/cart/48115368034536:1" id="mainBuy" target="_blank" rel="noopener" class="btn-buy">Quero o meu Super Ômega 3
+        <a href="https://botanikabrasil.com.br/cart/48115368034536:1?discount=BOTANIKA" id="mainBuy" target="_blank" rel="noopener" class="btn-buy">Quero o meu Super Ômega 3
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <p class="guarantee">🔒 Compra segura · Satisfação garantida · Entrega para todo o Brasil</p>
@@ -815,7 +817,7 @@
                 <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-lab">seg</span></div>
             </div>
             <div>
-                <a href="https://botanikabrasil.com.br/cart/48115368034536:1" target="_blank" rel="noopener" class="btn-buy">Quero garantir o meu Super Ômega 3
+                <a href="#comprar" class="btn-buy">Quero garantir o meu Super Ômega 3
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
             </div>
@@ -894,7 +896,7 @@
                     plans.forEach(x => { x.classList.remove('selected'); x.setAttribute('aria-pressed', 'false'); });
                     p.classList.add('selected'); p.setAttribute('aria-pressed', 'true');
                     const mainBuy = document.getElementById('mainBuy');
-                    if (mainBuy) mainBuy.href = 'https://botanikabrasil.com.br/cart/48115368034536:' + (p.dataset.plan || '1');
+                    if (mainBuy) mainBuy.href = 'https://botanikabrasil.com.br/cart/48115368034536:' + (p.dataset.plan || '1') + '?discount=BOTANIKA';
                 });
             });
 
@@ -904,7 +906,7 @@
             plans.forEach(plan => {
                 const jars = plan.querySelector('.plan-jars');
                 if (!jars) return;
-                const n = CAP_COUNT[plan.dataset.plan] || 4;
+                const n = 0; /* cápsulas removidas do site */
                 const caps = [];
                 for (let i = 0; i < n; i++) {
                     const el = document.createElement('span');
@@ -952,82 +954,49 @@
             requestAnimationFrame(capOrbit);
         })();
 
-        // ===== Social-proof gallery: scattered cards scale in/out as you scroll through =====
+        // ===== Depoimentos: carrossel horizontal (swipe + setas + dots, autoplay) =====
         (function () {
-            const grid = document.getElementById('proofGrid');
-            if (!grid) return;
+            const root = document.getElementById('proofGrid');
+            if (!root) return;
             const IMAGES = [
-                'proof/p01-omega-leticia.jpg',
-                'proof/p02-omega-flatlay.jpg',
-                'proof/p03-omega-aurea.jpg',
-                'proof/p04-depoimento-dm.jpg',
-                'proof/p05-rebeca.jpg',
-                'proof/p06-hotel.jpg',
-                'proof/p07-orquideas.jpg',
-                'proof/p08-victoria-box.jpg',
-                'proof/p09-dr-postreino.jpg',
-                'proof/p10-betynha.jpg'
+                'proof/p01-omega-leticia.jpg', 'proof/p02-omega-flatlay.jpg', 'proof/p03-omega-aurea.jpg',
+                'proof/p04-depoimento-dm.jpg', 'proof/p05-rebeca.jpg', 'proof/p06-hotel.jpg',
+                'proof/p07-orquideas.jpg', 'proof/p08-victoria-box.jpg', 'proof/p09-dr-postreino.jpg', 'proof/p10-betynha.jpg'
             ];
-            let cards = [];
-            const colsFor = (w) => w < 640 ? 2 : (w < 1024 ? 3 : 4);
-            // scattered layout: place images in a shifting pattern, leave the rest empty
-            function buildLayout(count, cols) {
-                const cells = []; let placed = 0, r = 0;
-                while (placed < count) {
-                    const base = r * cols;
-                    for (let c = 0; c < cols; c++) cells[base + c] = -1;
-                    const a = (r * 2 + (r % 2)) % cols;
-                    cells[base + a] = placed++;
-                    if (r % 3 === 0 && placed < count) {
-                        let b = (a + 2) % cols; if (b === a) b = (a + 1) % cols;
-                        cells[base + b] = placed++;
-                    }
-                    r++;
-                }
-                const total = Math.ceil(cells.length / cols) * cols;
-                for (let i = cells.length; i < total; i++) cells[i] = -1;
-                return cells;
+            const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            root.className = 'proof-carousel';
+            const track = document.createElement('div'); track.className = 'proof-track';
+            IMAGES.forEach(function (src) {
+                const s = document.createElement('div'); s.className = 'proof-slide';
+                const img = document.createElement('img'); img.loading = 'lazy'; img.decoding = 'async';
+                img.src = src; img.alt = 'Depoimento de cliente Botanika';
+                s.appendChild(img); track.appendChild(s);
+            });
+            root.appendChild(track);
+            const prev = document.createElement('button'); prev.className = 'pc-arrow prev'; prev.setAttribute('aria-label', 'Depoimento anterior'); prev.textContent = '‹';
+            const next = document.createElement('button'); next.className = 'pc-arrow next'; next.setAttribute('aria-label', 'Próximo depoimento'); next.textContent = '›';
+            root.appendChild(prev); root.appendChild(next);
+            const dotsWrap = document.createElement('div'); dotsWrap.className = 'pc-dots'; root.appendChild(dotsWrap);
+            const slides = track.children;
+            for (let i = 0; i < slides.length; i++) {
+                const d = document.createElement('button'); d.className = 'pc-dot'; d.setAttribute('aria-label', 'Ir para depoimento ' + (i + 1));
+                d.addEventListener('click', (function (n) { return function () { go(n); }; })(i));
+                dotsWrap.appendChild(d);
             }
-            function render() {
-                const cols = colsFor(innerWidth);
-                grid.style.setProperty('--pcols', cols);
-                const cells = buildLayout(IMAGES.length, cols);
-                grid.innerHTML = ''; cards = [];
-                cells.forEach((idx, i) => {
-                    const cell = document.createElement('div');
-                    cell.className = 'proof-cell';
-                    if (idx >= 0) {
-                        const card = document.createElement('div');
-                        card.className = 'proof-card';
-                        const col = i % cols;
-                        card.style.transformOrigin = (col < cols / 2) ? 'right bottom' : 'left bottom';
-                        const img = document.createElement('img');
-                        img.loading = 'lazy'; img.decoding = 'async';
-                        img.src = IMAGES[idx]; img.alt = 'Prova social';
-                        card.appendChild(img); cell.appendChild(card);
-                        cards.push({ cell, card });
-                    }
-                    grid.appendChild(cell);
-                });
-            }
-            render();
-            let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 200); }, { passive: true });
-            function proofLoop() {
-                requestAnimationFrame(proofLoop);
-                const vh = innerHeight;
-                for (const c of cards) {
-                    const r = c.cell.getBoundingClientRect();
-                    let s;
-                    if (r.bottom <= 0 || r.top >= vh) s = 0;
-                    else {
-                        const enter = Math.min(1, (vh - r.top) / (vh * 0.6));   // scale up as it rises in
-                        const exit = Math.min(1, r.bottom / (vh * 0.4));         // scale down as it leaves the top
-                        s = Math.max(0, Math.min(enter, exit));
-                    }
-                    c.card.style.transform = 'scale(' + s.toFixed(3) + ')';
-                }
-            }
-            requestAnimationFrame(proofLoop);
+            let idx = 0;
+            function step() { return slides[0].getBoundingClientRect().width + 16; }
+            function update() { const ds = dotsWrap.children; for (let i = 0; i < ds.length; i++) ds[i].classList.toggle('on', i === idx); }
+            function go(i) { idx = (i + slides.length) % slides.length; track.scrollTo({ left: idx * step(), behavior: 'smooth' }); update(); }
+            prev.addEventListener('click', function () { go(idx - 1); });
+            next.addEventListener('click', function () { go(idx + 1); });
+            let st; track.addEventListener('scroll', function () { clearTimeout(st); st = setTimeout(function () { idx = Math.round(track.scrollLeft / step()); update(); }, 120); }, { passive: true });
+            update();
+            let timer = null;
+            function play() { if (!reduce && !timer) timer = setInterval(function () { go(idx + 1); }, 3800); }
+            function stop() { if (timer) { clearInterval(timer); timer = null; } }
+            root.addEventListener('pointerenter', stop); root.addEventListener('pointerleave', play);
+            document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+            play();
         })();
 
         // ===== Scroll reveal + count-up (robust; runs even if later blocks fail) =====
