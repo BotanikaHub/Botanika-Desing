@@ -21,12 +21,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script type="importmap">
-{ "imports": {
-    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
-} }
-</script>
 
 <!-- Meta Pixel -->
 <script>
@@ -65,7 +59,6 @@ a{color:inherit;text-decoration:none}
 ::selection{background:var(--amber);color:#241205}
 
 /* ambient layers */
-canvas#gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:-4}
 canvas#bg{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:-4}
 .aura{position:fixed;z-index:-3;width:60vmax;height:60vmax;border-radius:50%;pointer-events:none;
   left:50%;top:30%;transform:translate(-50%,-50%);filter:blur(30px);opacity:.5;
@@ -427,13 +420,18 @@ h1 .grad-text i,.hsplit .grad-text i{background:var(--grad);-webkit-background-c
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
 .kit-visual{height:clamp(150px,22vw,200px);display:flex;align-items:center;justify-content:center;margin-bottom:6px;perspective:800px}
 .kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55)) drop-shadow(0 0 26px rgba(240,168,60,.25));transition:transform .5s var(--ease)}
-.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.price-now{font-family:var(--head);font-weight:600;font-size:clamp(40px,6vw,58px);line-height:1;margin:6px 0;transition:transform .3s var(--ease)}
-.price-now.pop{transform:scale(1.06)}
-.price-per{font-size:13.5px;color:var(--soft)}
-.price-per b{color:var(--honey)}
-.price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--honey);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:10px}
-.save-badge{display:inline-block;font-size:12.5px;font-weight:600;color:#241205;background:var(--honey);padding:4px 11px;border-radius:100px;margin-top:12px}
+.save-badge{display:inline-block;font-size:12.5px;font-weight:600;color:#241205;background:var(--grad);padding:5px 13px;border-radius:100px;margin-bottom:12px;box-shadow:0 8px 20px -8px rgba(240,168,60,.7);transition:opacity .3s}
+.price-parc{font-family:var(--head);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;line-height:1;transition:transform .3s var(--ease)}
+.price-parc.pop{transform:scale(1.05)}
+.price-parc .pp-pre{font-size:clamp(15px,2vw,19px);color:var(--soft);font-weight:500}
+.price-parc b{font-weight:600;font-size:clamp(36px,6.4vw,56px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.price-parc .pp-suf{font-family:var(--body);font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.price-sub{margin-top:9px;font-size:13.5px;color:var(--muted)}
+.price-sub .price-old{text-decoration:line-through;margin-right:7px;opacity:.8}
+.price-sub b{color:var(--soft);font-weight:600}
+.disc-note{margin-top:11px;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--honey);
+  padding:7px 13px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass)}
+.disc-note i{font-style:normal}
 .offer-cta{display:grid;gap:12px}
 .price-meta{margin-top:4px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
 .price-meta .li{display:flex;gap:9px;align-items:center}
@@ -546,7 +544,6 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   </div>
 </div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
-<canvas id="gl" aria-hidden="true"></canvas>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="aura" id="aura" aria-hidden="true"></div>
 <div class="veil" aria-hidden="true"></div>
@@ -584,7 +581,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
         </div>
         <div class="hero-actions reveal">
           <a class="btn" data-checkout href="#oferta">Começar meu frasco</a>
-          <span class="hero-note"><b>2 gotas por dia.</b> A partir de R$ 117,12 — ou 3x de R$ 39,04.</span>
+          <span class="hero-note"><b>3x de R$ 37,09</b> sem juros · R$ 111,26 à vista · desconto já no link.</span>
         </div>
         <div class="hero-stats reveal" data-stagger>
           <div class="hstat"><b class="num" data-target="300">0</b><span>doses por frasco</span></div>
@@ -961,15 +958,15 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     <div class="sec-head center reveal">
       <div class="kicker center"><span class="ln"></span><b>10</b> Comece hoje</div>
       <h2 class="serif hsplit" data-split>Escolha seu <span class="grad-text">ciclo</span>.</h2>
-      <p class="lead" style="margin-inline:auto">Quanto mais frascos, maior o desconto. Cupom <b>BOTANIKA</b> dá 5% extra e frete grátis acima de R$ 349.</p>
+      <p class="lead" style="margin-inline:auto">Desconto por quantidade aplicado <b>automaticamente</b>: −5% em 2 frascos, −10% em 3. No frasco avulso, o cupom <b>BOTANIKA</b> (−5%) já vai embutido no link. Frete grátis acima de R$ 349.</p>
     </div>
     <div class="offer reveal">
       <div class="offer-top">
         <p class="muted" style="font-size:14px">Frasco de 30 ml · 300 doses · 2 gotas por dia</p>
         <div class="toggle" id="kitToggle" role="tablist">
-          <button data-kit="1" data-qty="1" data-total="117,12" data-per="117,12" data-parc="39,04" data-old="" data-save="" class="active">1 frasco<span class="tag">experimentar</span></button>
-          <button data-kit="2" data-qty="2" data-total="222,53" data-per="111,26" data-parc="74,18" data-old="234,24" data-save="Economize 5%">2 frascos<span class="tag">mais vendido</span></button>
-          <button data-kit="3" data-qty="3" data-total="316,22" data-per="105,41" data-parc="105,41" data-old="351,36" data-save="Economize 10%">3 frascos<span class="tag">melhor preço</span></button>
+          <button data-kit="1" data-qty="1" data-total="111,26" data-per="111,26" data-parc="37,09" data-old="117,12" data-savepct="5" data-saveamt="5,86" data-code="BOTANIKA" data-disc="Cupom BOTANIKA aplicado no checkout" class="active">1 frasco<span class="tag">experimentar</span></button>
+          <button data-kit="2" data-qty="2" data-total="222,53" data-per="111,26" data-parc="74,18" data-old="234,24" data-savepct="5" data-saveamt="11,71" data-code="" data-disc="−5% automático · 2 frascos">2 frascos<span class="tag">mais vendido</span></button>
+          <button data-kit="3" data-qty="3" data-total="316,22" data-per="105,41" data-parc="105,41" data-old="351,36" data-savepct="10" data-saveamt="35,14" data-code="" data-disc="−10% automático · 3 frascos">3 frascos<span class="tag">melhor preço</span></button>
         </div>
       </div>
       <div class="offer-body">
@@ -984,18 +981,14 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
           </div>
         </div>
         <div class="offer-cta">
-          <div>
-            <span class="price-old" id="priceOld"></span>
-            <div class="price-now grad-text" id="priceNow">R$ 117,12</div>
-            <div class="price-per">ou <b id="priceParc">3x de R$ 39,04</b> sem juros · <span id="pricePer">R$ 117,12/frasco</span></div>
-            <div><span class="save-badge" id="saveBadge" style="display:none"></span></div>
+          <div class="price-box">
+            <span class="save-badge" id="saveBadge">−5% · você economiza R$ 5,86</span>
+            <div class="price-parc"><span class="pp-pre">3x de</span> <b id="priceParc">R$ 37,09</b> <span class="pp-suf">sem juros</span></div>
+            <div class="price-sub"><span class="price-old" id="priceOld">R$ 117,12</span> <b id="priceNow">R$ 111,26</b> à vista · <span id="pricePer">R$ 111,26/frasco</span></div>
+            <div class="disc-note" id="discNote"><i>🏷️</i><span>Cupom BOTANIKA aplicado no checkout</span></div>
           </div>
-          <a class="btn block" id="buyBtn" data-checkout href="https://botanikabrasil.com.br/cart/48115367936232:1">Comprar agora</a>
-          <div class="coupon" id="coupon" title="Toque para copiar">
-            <div><b>BOTANIKA</b> <span>· 5% OFF no checkout</span></div>
-            <span id="couponMsg">toque pra copiar</span>
-          </div>
-          <p class="ship">🚚 <b>Frete grátis</b> acima de R$ 349 · pagamento 100% protegido</p>
+          <a class="btn block" id="buyBtn" data-checkout href="https://botanikabrasil.com.br/cart/48115367936232:1?discount=BOTANIKA">Comprar com desconto</a>
+          <p class="ship">🚚 <b>Frete grátis</b> acima de R$ 349 · pagamento 100% protegido · desconto já vai aplicado no link</p>
         </div>
       </div>
     </div>
@@ -1031,7 +1024,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <p class="lead" style="margin-inline:auto">Pare de repor a D3 pela metade. Complete o quarteto lipossolúvel com a K2 que direciona, a A que protege a visão e a imunidade, e a E antioxidante — em 2 gotas por dia.</p>
       <div class="hero-actions" style="justify-content:center;margin-top:26px">
         <a class="btn" data-checkout href="#oferta">Quero meu TetraVit D</a>
-        <span class="hero-note"><b>A partir de R$ 117,12</b> · cupom BOTANIKA 5% OFF</span>
+        <span class="hero-note"><b>3x de R$ 37,09</b> sem juros · −10% em 3 frascos</span>
       </div>
       <div class="stockbar">
         <div class="track"><i class="fill" id="stockFill" data-w="82"></i></div>
@@ -1072,7 +1065,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b class="grad-text" id="barPrice">R$ 117,12</b><span id="barLabel">1 frasco · 2 gotas/dia</span></div>
+  <div class="info"><b class="grad-text" id="barPrice">3x R$ 37,09</b><span id="barLabel">1 frasco · R$ 111,26 à vista</span></div>
   <a class="btn" data-checkout href="#oferta">Comprar</a>
 </div>
 
@@ -1242,20 +1235,25 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   var toggle=document.getElementById('kitToggle');
   var priceNow=document.getElementById('priceNow'), priceOld=document.getElementById('priceOld'),
       priceParc=document.getElementById('priceParc'), pricePer=document.getElementById('pricePer'),
-      saveBadge=document.getElementById('saveBadge'), buyBtn=document.getElementById('buyBtn'),
+      saveBadge=document.getElementById('saveBadge'), buyBtn=document.getElementById('buyBtn'), discNote=document.getElementById('discNote'),
       barPrice=document.getElementById('barPrice'), barLabel=document.getElementById('barLabel'), kitImg=document.getElementById('kitImg');
   function setKit(btn){
     Array.prototype.forEach.call(toggle.children,function(b){b.classList.remove('active');});
     btn.classList.add('active');
     var qty=btn.getAttribute('data-qty'),total=btn.getAttribute('data-total'),per=btn.getAttribute('data-per'),
-        parc=btn.getAttribute('data-parc'),old=btn.getAttribute('data-old'),save=btn.getAttribute('data-save');
-    priceNow.textContent='R$ '+total; priceParc.textContent='3x de R$ '+parc; pricePer.textContent='R$ '+per+'/frasco';
-    if(old){ priceOld.textContent='R$ '+old; priceOld.style.display='inline'; } else { priceOld.textContent=''; }
-    if(save){ saveBadge.textContent=save; saveBadge.style.display='inline-block'; } else { saveBadge.style.display='none'; }
-    buyBtn.setAttribute('href','https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty);
-    barPrice.textContent='R$ '+total; barLabel.textContent=qty+(qty==='1'?' frasco':' frascos')+' · 2 gotas/dia';
-    priceNow.classList.add('pop'); if(kitImg){ kitImg.style.transform='rotateY(18deg) scale(1.04)'; }
-    setTimeout(function(){ priceNow.classList.remove('pop'); if(kitImg) kitImg.style.transform=''; },320);
+        parc=btn.getAttribute('data-parc'),old=btn.getAttribute('data-old'),
+        savepct=btn.getAttribute('data-savepct'),saveamt=btn.getAttribute('data-saveamt'),
+        code=btn.getAttribute('data-code'),disc=btn.getAttribute('data-disc');
+    priceParc.textContent='R$ '+parc;                          // parcelado em destaque
+    priceNow.textContent='R$ '+total;                          // à vista (2º plano)
+    priceOld.textContent='R$ '+old;
+    pricePer.textContent='R$ '+per+'/frasco';
+    saveBadge.textContent='−'+savepct+'% · você economiza R$ '+saveamt;
+    if(discNote){ var dn=discNote.querySelector('span'); if(dn) dn.textContent=disc; }
+    buyBtn.setAttribute('href','https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(code?('?discount='+code):''));
+    barPrice.textContent='3x R$ '+parc; barLabel.textContent=qty+(qty==='1'?' frasco':' frascos')+' · R$ '+total+' à vista';
+    priceParc.classList.add('pop'); if(kitImg){ kitImg.style.transform='rotateY(18deg) scale(1.04)'; }
+    setTimeout(function(){ priceParc.classList.remove('pop'); if(kitImg) kitImg.style.transform=''; },320);
   }
   if(toggle){ Array.prototype.forEach.call(toggle.children,function(b){ b.addEventListener('click',function(){ setKit(b); }); }); }
 
@@ -1311,15 +1309,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       }
       ctx.globalCompositeOperation='source-over'; requestAnimationFrame(frame);
     }
-    function paintStatic(){ ctx.globalCompositeOperation='lighter';
+    if(!reduce){ requestAnimationFrame(frame); }
+    else { ctx.globalCompositeOperation='lighter';
       for(var j=0;j<drops.length;j++){ var d2=drops[j]; var rg2=ctx.createRadialGradient(d2.x,d2.y,0,d2.x,d2.y,d2.r);
         rg2.addColorStop(0,color(0.3,d2.hue)); rg2.addColorStop(1,color(0,d2.hue)); ctx.fillStyle=rg2; ctx.beginPath(); ctx.arc(d2.x,d2.y,d2.r,0,6.2832); ctx.fill(); }
       ctx.globalCompositeOperation='source-over'; }
-    /* expõe controle p/ o WebGL assumir quando disponível (senão as gotículas 2D ficam) */
-    window.__stopFallback=function(){ running=false; };
-    window.__startFallback=function(){ canvas.style.display='block'; if(reduce){ paintStatic(); return; } if(!running){ running=true; requestAnimationFrame(frame); } };
-    if(!reduce){ requestAnimationFrame(frame); }
-    else { paintStatic(); }
   })();
 
   /* ---------- loader ---------- */
@@ -1335,147 +1329,6 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   setTimeout(function(){ onScroll(); }, 1200);
   onScroll();
 })();
-</script>
-
-<script type="module">
-/* ===== Fundo-assinatura WebGL: "Luz Líquida" (flow-wave recolorido, Three.js) ===== */
-try{
-  const THREE = await import('three');
-  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
-  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
-  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
-  const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
-  const { GammaCorrectionShader } = await import('three/addons/shaders/GammaCorrectionShader.js');
-  const { CopyShader } = await import('three/addons/shaders/CopyShader.js');
-
-  // Luz Líquida palette (espresso/âmbar · mel/ouro-líquido · coral-nascer-do-sol)
-  const bgColor='#140c05', flameColor='#f0a83c', flameColor2='#ff8a5b', flameAmt=0.18;
-  const atmoColor='#f6c96b', atmoCount = innerWidth<760?60:120, atmoSize=22, atmoSpeed=0.9;
-  const colorLow='#5a3410', colorHigh='#f6c96b', opacity=0.10, pointSize=4.6, brightness=0.32;
-  const waveHeight=3, flow=1.0, tilt=0, scale=0.275, scrollRise=1.0;
-  const camStartY=7, camStartZ=16, camEndY=0.8, camEndZ=-2;
-  const lookStartZ=2, lookEndZ=-16, parallax=1.2, pointerRadius=7.0, pointerStrength=0.9;
-  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
-  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
-
-  const canvas=document.getElementById('gl');
-  const _t=document.createElement('canvas');
-  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
-
-  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
-  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x000000); scene.fog=new THREE.Fog(0x000000,0,15);
-  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,7,16);
-  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
-  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
-
-  const SNOISE=`
-    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
-    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
-      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
-      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
-      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
-      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
-      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
-      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
-      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
-      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
-      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
-      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
-      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
-      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
-
-  const geo=new THREE.SphereGeometry(4.2,innerWidth<760?120:200,innerWidth<760?320:600);
-  const uniforms={uTime:{value:0},uStream:{value:0},uAppear:{value:0},
-    uColLow:{value:hexToVec3(colorLow)},uColHigh:{value:hexToVec3(colorHigh)},
-    uOpacity:{value:opacity},uSize:{value:pointSize},uBrightness:{value:brightness},
-    uWaveHeight:{value:waveHeight},uFlow:{value:flow},uScale:{value:scale},
-    uCursor:{value:new THREE.Vector3()},uRepelRadius:{value:pointerRadius},uRepelStrength:{value:pointerStrength},uActivity:{value:0}};
-  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,
-    vertexShader:`uniform float uTime;uniform float uStream;uniform float uSize;uniform float uWaveHeight;uniform float uFlow;uniform float uScale;
-      uniform vec3 uColLow;uniform vec3 uColHigh;uniform vec3 uCursor;uniform float uRepelRadius;uniform float uRepelStrength;uniform float uActivity;
-      varying float vFade;varying vec3 vColor;${SNOISE}
-      void main(){vec3 wp=vec3(position.x*13.0,0.0,position.z*25.0);wp.x+=position.y*6.0;float zc=wp.z+uStream;
-        float wn=snoise(vec3(wp.x*0.08,zc*0.08,uTime*0.15*uFlow))*2.0;wn+=snoise(vec3(wp.x*0.16,zc*0.16,uTime*0.3*uFlow))*0.8;wp.y+=wn*uWaveHeight;
-        vec3 finalPos=wp*uScale;vec4 modelPosition=modelMatrix*vec4(finalPos,1.0);vec3 toP=modelPosition.xyz-uCursor;float cd=length(toP);
-        float fall=smoothstep(uRepelRadius,0.0,cd);modelPosition.xyz+=normalize(toP+vec3(0.0001))*fall*uRepelStrength*uActivity;
-        vec4 mvPosition=viewMatrix*modelPosition;float colMix=smoothstep(-3.0,3.0,position.y+position.x*0.5);
-        vColor=mix(uColLow,uColHigh,clamp(colMix,0.0,1.0));vFade=1.0;gl_PointSize=uSize*(10.0/-mvPosition.z);gl_PointSize=max(gl_PointSize,1.5);gl_Position=projectionMatrix*mvPosition;}`,
-    fragmentShader:`uniform float uOpacity;uniform float uBrightness;uniform float uAppear;varying float vFade;varying vec3 vColor;
-      void main(){vec2 xy=gl_PointCoord-0.5;float ll=length(xy);if(ll>0.5)discard;float a=smoothstep(0.5,0.1,ll);gl_FragColor=vec4(vColor*uBrightness,vFade*a*uOpacity*uAppear);}`});
-  const points=new THREE.Points(geo,mat);points.frustumCulled=false;points.layers.enable(3);
-  const group=new THREE.Group();group.add(points);scene.add(group);
-
-  const FinalPass={uniforms:{iTime:{value:0},tDiffuse:{value:null},torusTexture:{value:null},bloomTexture:{value:null},haloTexture:{value:null},
-      uBg:{value:hexToVec3(bgColor)},uFlameA:{value:hexToVec3(flameColor)},uFlameB:{value:hexToVec3(flameColor2)},uFlameAmt:{value:flameAmt}},
-    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
-    fragmentShader:`uniform float iTime;uniform sampler2D tDiffuse;uniform sampler2D bloomTexture;uniform sampler2D torusTexture;uniform sampler2D haloTexture;
-      uniform vec3 uBg;uniform vec3 uFlameA;uniform vec3 uFlameB;uniform float uFlameAmt;varying vec2 vUv;
-      vec3 warp3d(vec3 pos,float t){float curv=.8,a=1.9,b=0.7;pos*=2.;pos.x+=curv*sin(t+a*pos.y)+t*b;pos.y+=curv*cos(t+a*pos.x);
-        pos.y+=curv*sin(t+a*pos.z)+t*b;pos.z+=curv*cos(t+a*pos.y);pos.z+=curv*sin(t+a*pos.x)+t*b;pos.x+=curv*cos(t+a*pos.z);return 0.5+0.5*cos(pos.xyz+vec3(1,2,4));}
-      void main(){vec2 uv=2.*vUv-1.;vec3 w=pow(warp3d(vec3(uv.x,sin(uv.y),uv.y),iTime*1.5),vec3(1.5));
-        vec3 flame=1.5*uFlameA*w.x;flame*=w.y;flame+=uFlameB*w.z;flame*=smoothstep(0.25,1.,abs(uv.y));
-        float md=smoothstep(-0.7,1.,-uv.y*uv.x);flame*=md*md;vec3 bg=uBg*(1.0-0.4*length(uv));vec3 halo=texture2D(haloTexture,vUv).xyz;
-        gl_FragColor=vec4(bg+flame*uFlameAmt+texture2D(bloomTexture,vUv).xyz+texture2D(torusTexture,vUv).xyz+texture2D(tDiffuse,vUv).xyz+halo,1.);}`};
-
-  const renderScene=new RenderPass(scene,camera);
-  const torusComposer=new EffectComposer(renderer);torusComposer.renderToScreen=false;
-  torusComposer.addPass(renderScene);torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  torusComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.22,0.2,0));torusComposer.addPass(new ShaderPass(CopyShader));
-  const bloomComposer=new EffectComposer(renderer);bloomComposer.renderToScreen=false;
-  bloomComposer.addPass(renderScene);bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.4,0.55,0));bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  const finalPass=new ShaderPass(FinalPass);
-  const finalComposer=new EffectComposer(renderer);finalComposer.addPass(renderScene);finalComposer.addPass(finalPass);
-  finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
-  finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
-  finalPass.uniforms.haloTexture.value=blackTex;
-
-  let atmoMat;
-  (function(){const N=Math.round(atmoCount);const positions=new Float32Array(N*3),sizes=new Float32Array(N),seeds=new Float32Array(N);
-    for(let i=0;i<N;i++){positions[i*3]=2*Math.random()-1;positions[i*3+1]=2*Math.random()-1;positions[i*3+2]=2*Math.random()-1;sizes[i]=atmoSize*(0.4+Math.random());seeds[i]=Math.random();}
-    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(positions,3));g.setAttribute('size',new THREE.BufferAttribute(sizes,1));g.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
-    atmoMat=new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,
-      uniforms:{uTime:{value:0},uColor:{value:hexToVec3(atmoColor)},uRes:{value:new THREE.Vector2(innerWidth*devicePixelRatio,innerHeight*devicePixelRatio)}},
-      vertexShader:`attribute float size;attribute float seed;uniform float uTime;uniform vec2 uRes;varying float vA;
-        vec3 warp(vec3 p,float t){float c=0.9,a=1.9,b=0.02,s=0.05;p*=2.;p.x+=c*sin(s*t+a*p.y)+t*b;p.y+=c*cos(s*t+a*p.x);p.y+=c*sin(s*t+a*p.z)+t*b;p.z+=c*cos(s*t+a*p.y);p.z+=c*sin(s*t+a*p.x)+t*b;p.x+=c*cos(s*t+a*p.z);return cos(p+vec3(1,2,4));}
-        void main(){vec3 v=position*4.0+warp(position,uTime)*1.2;vec4 mv=modelViewMatrix*vec4(v,1.0);float r=length(v);float farF=1.0-smoothstep(5.0,6.5,r);float nearF=smoothstep(0.0,0.5,-mv.z);vA=farF*nearF;gl_PointSize=size*uRes.y/900.0/-mv.z;gl_PointSize=max(gl_PointSize,1.0);gl_Position=projectionMatrix*mv;}`,
-      fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-0.5;float l=length(p);if(l>0.5)discard;float tex=smoothstep(0.5,0.0,l);gl_FragColor=vec4(uColor*tex,tex*vA*0.6);}`});
-    const pts=new THREE.Points(g,atmoMat);pts.frustumCulled=false;pts.layers.enable(3);
-    pts.onBeforeRender=function(){const t=performance.now()/1000;atmoMat.uniforms.uTime.value=t*atmoSpeed*8.0;pts.position.copy(camera.position);finalPass.uniforms.iTime.value=t;};
-    scene.add(pts);})();
-
-  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
-  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
-  addEventListener('scroll',onScroll,{passive:true});
-  const mTarget={x:0,y:0},m={x:0,y:0};
-  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
-  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
-  addEventListener('mouseout',()=>{POINTER.active=false;});
-  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
-  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
-
-  const sceneObj={stream:0,appearStart:performance.now(),t0:performance.now()/1000,
-    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;this.stream+=dt*(flow*2.0)*4.0;uniforms.uStream.value=this.stream;
-      uniforms.uWaveHeight.value=waveHeight*(1+scroll*scrollRise);const ea=Math.min(scroll/0.35,1.0);const e=ea*ea*(3-2*ea);
-      const camY=Lerp(camStartY,camEndY,e),camZ=Lerp(camStartZ,camEndZ,e);camera.position.set(mm.x*parallax,camY+mm.y*parallax*0.3,camZ);camera.lookAt(mm.x*parallax*0.5,Lerp(0.0,0.6,e),Lerp(lookStartZ,lookEndZ,e));
-      group.rotation.x=-tilt;group.rotation.y=0;updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
-      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.4));}};
-
-  function loop(){requestAnimationFrame(loop);scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
-    camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();for(const c of[torusComposer,bloomComposer,finalComposer]){c.setPixelRatio(dpr);c.setSize(w,h);}if(atmoMat)atmoMat.uniforms.uRes.value.set(w*dpr,h*dpr);onScroll();}
-  addEventListener('resize',resize);
-  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  resize();onScroll();
-  if(window.__stopFallback)window.__stopFallback();
-  var fb2d=document.getElementById('bg'); if(fb2d) fb2d.style.display='none';
-  if(rm){camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  else loop();
-}catch(err){
-  var g=document.getElementById('gl'); if(g) g.style.display='none';
-  if(window.__startFallback) window.__startFallback();
-}
 </script>
 </body>
 </html>
