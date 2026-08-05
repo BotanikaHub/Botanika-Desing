@@ -1,0 +1,15 @@
+# Cloudflare Pages — slugs limpos das LPs (servidos no subdomínio ofertas.botanikabrasil.com.br)
+# Regra 200 = rewrite (a URL curta permanece; o Pages serve o conteúdo da pasta landing-*).
+# Ao criar uma LP nova: adicione 2 linhas seguindo o mesmo padrão (/slug e /slug/*).
+
+/omega3          /landing-omega/index.html   200
+/omega3/*        /landing-omega/:splat        200
+
+/trimagnesio     /landing-tri/index.html      200
+/trimagnesio/*   /landing-tri/:splat          200
+
+/hair            /landing-hair/index.html     200
+/hair/*          /landing-hair/:splat         200
+
+# Raiz do subdomínio → loja oficial (evita página em branco)
+/                https://botanikabrasil.com.br   302
