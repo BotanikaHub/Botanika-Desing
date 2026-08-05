@@ -462,7 +462,7 @@
         .footer-legal { color: rgba(226,236,255,0.42); font-size: 0.76rem; line-height: 1.65; margin-bottom: 0.9rem; }
         .footer-legal b { color: rgba(226,236,255,0.62); }
         .footer-copy { color: rgba(226,236,255,0.35); font-size: 0.76rem; }
-        .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: rgba(10,18,38,0.72); backdrop-filter: blur(6px); border: none; display: grid; place-items: center; transition: transform .2s, background .3s; animation: waGlow 2.4s ease-in-out infinite; }
+        .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: rgba(10,18,38,0.92); backdrop-filter: blur(6px); border: 1px solid rgba(232,182,76,0.35); display: grid; place-items: center; transition: transform .2s, background .3s; animation: waGlow 2.4s ease-in-out infinite; }
         .wa-float:hover { transform: scale(1.08); background: rgba(232,182,76,0.12); }
         .wa-float svg { width: 32px; height: 32px; color: var(--gold-soft); }
         @keyframes waGlow { 0%, 100% { box-shadow: 0 0 12px 2px rgba(232,182,76,0.3); } 50% { box-shadow: 0 0 24px 7px rgba(232,182,76,0.6); } }
@@ -1312,20 +1312,26 @@
 
         // ===== Scarcity countdown =====
         (function () {
-            // >>> Ajuste aqui a data/hora real do fim da promoção (horário de Brasília, UTC-3).
-            const PROMO_END = new Date('2026-08-02T23:59:59-03:00').getTime();
+            // Oferta "só hoje": conta do acesso até a meia-noite (00h) do dia local do visitante.
+            // Recalcula sozinho após virar o dia, então sempre aponta para a meia-noite mais próxima.
+            function nextMidnight() {
+                const n = new Date();
+                return new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1, 0, 0, 0, 0).getTime();
+            }
+            let PROMO_END = nextMidnight();
             const elD = document.getElementById('cd-d'), elH = document.getElementById('cd-h'),
                   elM = document.getElementById('cd-m'), elS = document.getElementById('cd-s');
             if (!elD) return;
             const pad = n => String(n).padStart(2, '0');
             function tick() {
-                let diff = Math.max(0, PROMO_END - Date.now());
+                if (Date.now() >= PROMO_END) PROMO_END = nextMidnight();
+                const diff = Math.max(0, PROMO_END - Date.now());
                 const s = Math.floor(diff / 1000);
                 elD.textContent = pad(Math.floor(s / 86400));
                 elH.textContent = pad(Math.floor((s % 86400) / 3600));
                 elM.textContent = pad(Math.floor((s % 3600) / 60));
                 elS.textContent = pad(s % 60);
-                if (diff > 0) requestAnimationFrame(() => setTimeout(tick, 1000));
+                requestAnimationFrame(() => setTimeout(tick, 1000));
             }
             tick();
         })();
