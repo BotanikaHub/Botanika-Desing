@@ -532,7 +532,16 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   fbq('init',META_PIXEL); fbq('track','PageView'); fbq('track','ViewContent');
   var gaOn=GA4_ID && GA4_ID.indexOf('XXXX')===-1;
   if(gaOn){var g=document.createElement('script');g.async=!0;g.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(g);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA4_ID);gtag('event','view_item');}
-  document.addEventListener('click',function(e){var el=e.target.closest('a[href*="/cart/"]');if(!el)return;if(window.fbq){fbq('track','AddToCart');fbq('track','InitiateCheckout');}if(gaOn&&window.gtag){gtag('event','add_to_cart');gtag('event','begin_checkout');}},true);
+  var leadFired=false, wishFired=false;
+  document.addEventListener('click',function(e){
+    var t=e.target; if(!t||!t.closest)return;
+    /* AddToCart + InitiateCheckout — clique em COMPRAR (link /cart/) */
+    if(t.closest('a[href*="/cart/"]')){ if(window.fbq){fbq('track','AddToCart');fbq('track','InitiateCheckout');} if(gaOn&&window.gtag){gtag('event','add_to_cart');gtag('event','begin_checkout');} }
+    /* Lead — clique no WhatsApp (intenção de contato), 1x por sessão */
+    if(!leadFired && t.closest('a[href*="wa.me"]')){ leadFired=true; if(window.fbq)fbq('track','Lead'); if(gaOn&&window.gtag)gtag('event','generate_lead'); }
+    /* AddToWishlist — escolha de um kit no toggle, 1x por sessão */
+    if(!wishFired && t.closest('#toggle button[data-kit]')){ wishFired=true; if(window.fbq)fbq('track','AddToWishlist'); if(gaOn&&window.gtag)gtag('event','add_to_wishlist'); }
+  },true);
 })();
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
