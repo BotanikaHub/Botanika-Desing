@@ -673,7 +673,6 @@
         <h2 class="title">O preço de hoje <span class="grad-text">não vai durar.</span></h2>
         <p class="lead center">Garanta o valor promocional — e o <b style="color:var(--text)">Manual da Suplementação</b> no kit 3 — antes que a oferta acabe. Use o cupom <b style="color:var(--champ)">BOTANIKA</b> e ganhe mais 5% OFF.</p>
         <div class="cd" role="timer" aria-label="Tempo restante">
-            <div class="cd-b"><span class="cd-n" id="cd-d">00</span><span class="cd-l">dias</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-h">00</span><span class="cd-l">horas</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-m">00</span><span class="cd-l">min</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-s">00</span><span class="cd-l">seg</span></div>
@@ -864,14 +863,15 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
         b.classList.add('ok');cta.textContent='✓ Copiado!';clearTimeout(t);t=setTimeout(()=>{b.classList.remove('ok');cta.textContent='Toque para copiar'},2200)});
 })();
 
-// ---- countdown (ajuste PROMO_END) ----
+// ---- countdown: oferta "só hoje" — do acesso até a meia-noite (00h) local ----
 (function(){
-    const END=new Date('2026-08-10T23:59:59-03:00').getTime();
-    const D=document.getElementById('cd-d'),H=document.getElementById('cd-h'),M=document.getElementById('cd-m'),S=document.getElementById('cd-s');
-    if(!D)return;const p=n=>String(n).padStart(2,'0');
-    function tick(){let df=Math.max(0,END-Date.now());const s=Math.floor(df/1000);
-        D.textContent=p(Math.floor(s/86400));H.textContent=p(Math.floor(s%86400/3600));M.textContent=p(Math.floor(s%3600/60));S.textContent=p(s%60);
-        if(df>0)setTimeout(tick,1000)}
+    const nextMidnight=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0,0).getTime();};
+    let END=nextMidnight();
+    const H=document.getElementById('cd-h'),M=document.getElementById('cd-m'),S=document.getElementById('cd-s');
+    if(!H)return;const p=n=>String(n).padStart(2,'0');
+    function tick(){if(Date.now()>=END)END=nextMidnight();const df=Math.max(0,END-Date.now());const s=Math.floor(df/1000);
+        H.textContent=p(Math.floor(s%86400/3600));M.textContent=p(Math.floor(s%3600/60));S.textContent=p(s%60);
+        setTimeout(tick,1000)}
     tick();
 })();
 
