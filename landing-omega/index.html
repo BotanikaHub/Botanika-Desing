@@ -788,7 +788,6 @@
             <h2 class="titleshadow">O preço de hoje <span class="gold">não vai durar</span>.</h2>
             <p class="lead center">Garanta o valor promocional — e o <b>Manual da Suplementação</b> no kit 3 — antes que a oferta acabe. Use o cupom <b>BOTANIKA</b> e ganhe mais <b>5% OFF</b>.</p>
             <div class="countdown" id="countdown" role="timer" aria-label="Tempo restante da oferta">
-                <div class="cd-box"><span class="cd-num" id="cd-d">00</span><span class="cd-lab">dias</span></div>
                 <div class="cd-box"><span class="cd-num" id="cd-h">00</span><span class="cd-lab">horas</span></div>
                 <div class="cd-box"><span class="cd-num" id="cd-m">00</span><span class="cd-lab">min</span></div>
                 <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-lab">seg</span></div>
@@ -1319,15 +1318,14 @@
                 return new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1, 0, 0, 0, 0).getTime();
             }
             let PROMO_END = nextMidnight();
-            const elD = document.getElementById('cd-d'), elH = document.getElementById('cd-h'),
+            const elH = document.getElementById('cd-h'),
                   elM = document.getElementById('cd-m'), elS = document.getElementById('cd-s');
-            if (!elD) return;
+            if (!elH) return;
             const pad = n => String(n).padStart(2, '0');
             function tick() {
                 if (Date.now() >= PROMO_END) PROMO_END = nextMidnight();
                 const diff = Math.max(0, PROMO_END - Date.now());
                 const s = Math.floor(diff / 1000);
-                elD.textContent = pad(Math.floor(s / 86400));
                 elH.textContent = pad(Math.floor((s % 86400) / 3600));
                 elM.textContent = pad(Math.floor((s % 3600) / 60));
                 elS.textContent = pad(s % 60);

@@ -6,17 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Meta Pixel -->
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','828186133708463');fbq('track','PageView');</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
-<script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script type="importmap">
-{ "imports": {
-    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
-} }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
     :root{
         --bg:#0a0913; --bg2:#120f24; --panel:#161331;
@@ -36,22 +26,7 @@
     .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
     /* ---- animated background ---- */
-    #gl{position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;display:block}
     #aurora{position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
-    /* ---- loader ---- */
-    #loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--bg);
-        transition:opacity .8s cubic-bezier(.2,.7,.2,1),visibility .8s}
-    #loader.done{opacity:0;visibility:hidden;pointer-events:none}
-    .ldr{display:flex;flex-direction:column;align-items:center;gap:20px}
-    .ldr .mark{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--grad);
-        color:#0a0913;font-family:var(--head);font-weight:700;font-size:34px;box-shadow:0 10px 34px rgba(111,224,192,.34);
-        animation:ldrpulse 1.5s cubic-bezier(.2,.7,.2,1) infinite}
-    .ldr .bar{width:150px;height:3px;border-radius:3px;background:rgba(155,140,240,.16);overflow:hidden}
-    .ldr .bar i{display:block;height:100%;width:40%;border-radius:3px;background:var(--grad);animation:ldrbar 1.15s cubic-bezier(.2,.7,.2,1) infinite}
-    .ldr small{font-family:var(--body);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-    @keyframes ldrpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-    @keyframes ldrbar{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
-    @media(prefers-reduced-motion:reduce){.ldr .mark,.ldr .bar i{animation:none}}
     .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
     .veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 80% at 50% -10%,transparent,rgba(8,7,18,.5) 70%,var(--bg) 100%)}
@@ -383,8 +358,6 @@
     @media(max-width:600px){.container{padding:4.5rem 6%}.rv{transition:none;opacity:1;transform:none}}
 </style>
 
-<div id="loader" aria-hidden="true"><div class="ldr"><span class="mark">B</span><span class="bar"><i></i></span><small>Botanika</small></div></div>
-<canvas id="gl" aria-hidden="true"></canvas>
 <canvas id="aurora"></canvas>
 <div class="grain"></div>
 <div class="veil"></div>
@@ -700,7 +673,6 @@
         <h2 class="title">O preço de hoje <span class="grad-text">não vai durar.</span></h2>
         <p class="lead center">Garanta o valor promocional — e o <b style="color:var(--text)">Manual da Suplementação</b> no kit 3 — antes que a oferta acabe. Use o cupom <b style="color:var(--champ)">BOTANIKA</b> e ganhe mais 5% OFF.</p>
         <div class="cd" role="timer" aria-label="Tempo restante">
-            <div class="cd-b"><span class="cd-n" id="cd-d">00</span><span class="cd-l">dias</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-h">00</span><span class="cd-l">horas</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-m">00</span><span class="cd-l">min</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-s">00</span><span class="cd-l">seg</span></div>
@@ -805,9 +777,6 @@
         if(running)requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
-    // expõe controle p/ o WebGL assumir quando disponível (senão a constelação 2D fica)
-    window.__stopFallback=function(){ running=false; };
-    window.__startFallback=function(){ c.style.display='block'; if(!running&&!reduce){ running=true; requestAnimationFrame(frame); } };
 
     // layered parallax of the hero bottle cluster (no CSS-animation conflict: moves the whole stage)
     const stage=document.getElementById('stage');
@@ -894,14 +863,15 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
         b.classList.add('ok');cta.textContent='✓ Copiado!';clearTimeout(t);t=setTimeout(()=>{b.classList.remove('ok');cta.textContent='Toque para copiar'},2200)});
 })();
 
-// ---- countdown (ajuste PROMO_END) ----
+// ---- countdown: oferta "só hoje" — do acesso até a meia-noite (00h) local ----
 (function(){
-    const END=new Date('2026-08-10T23:59:59-03:00').getTime();
-    const D=document.getElementById('cd-d'),H=document.getElementById('cd-h'),M=document.getElementById('cd-m'),S=document.getElementById('cd-s');
-    if(!D)return;const p=n=>String(n).padStart(2,'0');
-    function tick(){let df=Math.max(0,END-Date.now());const s=Math.floor(df/1000);
-        D.textContent=p(Math.floor(s/86400));H.textContent=p(Math.floor(s%86400/3600));M.textContent=p(Math.floor(s%3600/60));S.textContent=p(s%60);
-        if(df>0)setTimeout(tick,1000)}
+    const nextMidnight=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0,0).getTime();};
+    let END=nextMidnight();
+    const H=document.getElementById('cd-h'),M=document.getElementById('cd-m'),S=document.getElementById('cd-s');
+    if(!H)return;const p=n=>String(n).padStart(2,'0');
+    function tick(){if(Date.now()>=END)END=nextMidnight();const df=Math.max(0,END-Date.now());const s=Math.floor(df/1000);
+        H.textContent=p(Math.floor(s%86400/3600));M.textContent=p(Math.floor(s%3600/60));S.textContent=p(s%60);
+        setTimeout(tick,1000)}
     tick();
 })();
 
@@ -968,204 +938,4 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
 
 // ---- smooth anchors ----
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1){const t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}}));
-</script>
-
-<style>
-html.lenis,html.lenis body{height:auto}
-html.lenis{scroll-behavior:auto!important}
-.lenis.lenis-smooth{scroll-behavior:auto!important}
-.lenis.lenis-stopped{overflow:hidden}
-.imm-cursor{position:fixed;top:0;left:0;width:24px;height:24px;border-radius:50%;pointer-events:none;z-index:9999;background:radial-gradient(circle,rgba(150,225,205,.5),transparent 68%);mix-blend-mode:screen;opacity:0;transition:width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),opacity .35s;will-change:transform}
-.imm-cursor.big{width:56px;height:56px;background:radial-gradient(circle,rgba(150,225,205,.3),transparent 70%)}
-@media(pointer:coarse){.imm-cursor{display:none}}
-@media(prefers-reduced-motion:reduce){.imm-cursor{display:none}}
-</style>
-<script>
-(function(){"use strict";
-var d=document,w=window,reduce=w.matchMedia&&w.matchMedia('(prefers-reduced-motion:reduce)').matches;
-if(d.querySelector('.imm-cursor'))return;
-var GS=w.gsap,ST=w.ScrollTrigger;if(GS&&ST){try{GS.registerPlugin(ST);}catch(e){}}
-function qa(s){return Array.prototype.slice.call(d.querySelectorAll(s));}
-if(w.Lenis&&!reduce&&!w.__lenisImm&&!d.documentElement.classList.contains('lenis')){
-  try{
-    var l=new w.Lenis({duration:1.1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));},smoothWheel:true,touchMultiplier:1.5});
-    w.__lenisImm=l;l.on('scroll',function(){if(ST)ST.update();});
-    if(GS){GS.ticker.add(function(t){l.raf(t*1000);});GS.ticker.lagSmoothing(0);}else{(function r(t){l.raf(t);requestAnimationFrame(r);})(0);}
-    qa('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id.length<2)return;var t=d.querySelector(id);if(!t)return;e.preventDefault();l.scrollTo(t,{offset:-70,duration:1.2});});});
-  }catch(e){}
-}
-if(!(w.matchMedia&&w.matchMedia('(pointer:coarse)').matches)&&!reduce){
-  var c=d.createElement('div');c.className='imm-cursor';d.body.appendChild(c);
-  var cx=w.innerWidth/2,cy=w.innerHeight/2,tx=cx,ty=cy;
-  w.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;c.style.opacity='1';},{passive:true});
-  w.addEventListener('mouseout',function(){c.style.opacity='0';});
-  (function loop(){cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;c.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
-  qa('a,button,summary,.card,[data-tilt],.plan,.faq details').forEach(function(el){el.addEventListener('mouseenter',function(){c.classList.add('big');});el.addEventListener('mouseleave',function(){c.classList.remove('big');});});
-}
-if(GS&&ST&&!reduce){qa('.proof img').forEach(function(img){var f=img.parentElement;if(!f)return;GS.fromTo(img,{yPercent:-8},{yPercent:8,ease:'none',scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:true}});});}
-var hdr=d.querySelector('#hd'),ly=0;
-if(hdr){hdr.style.transition=(hdr.style.transition?hdr.style.transition+', ':'')+'transform .5s cubic-bezier(.2,.7,.2,1)';
-  w.addEventListener('scroll',function(){var y=w.pageYOffset||d.documentElement.scrollTop;if(y>460&&y>ly+4){hdr.style.transform='translateY(-130%)';}else if(y<ly-4||y<200){hdr.style.transform='';}ly=y;},{passive:true});}
-})();
-</script>
-
-<script>
-/* ===== loader + Meta Pixel (ViewContent + InitiateCheckout) + repasse de UTMs ===== */
-(function(){"use strict";
-  var d=document,w=window,ld=d.getElementById('loader');
-  function done(){ if(ld) ld.classList.add('done'); }
-  w.addEventListener('load',done); setTimeout(done,2200);
-  function fbqt(ev,p){ if(w.fbq){ try{ fbq('track',ev,p||{}); }catch(e){} } }
-  var VAR='48115368558824';
-  var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','fbclid','gclid','ttclid','src','sck','ref'];
-  var qs=new URLSearchParams(location.search),fwd=[];
-  PASS.forEach(function(k){var v=qs.get(k);if(v!==null)fwd.push(encodeURIComponent(k)+'='+encodeURIComponent(v));});
-  var fwdStr=fwd.join('&');
-  fbqt('ViewContent',{content_name:'Tri[Mg] Complex',content_ids:[VAR],content_type:'product',value:87.50,currency:'BRL'});
-  Array.prototype.slice.call(d.querySelectorAll('a[href*="/cart/"]')).forEach(function(a){
-    if(fwdStr){var h=a.getAttribute('href');a.setAttribute('href',h+(h.indexOf('?')>-1?'&':'?')+fwdStr);}
-    a.addEventListener('click',function(){ fbqt('InitiateCheckout',{content_ids:[VAR],content_type:'product',currency:'BRL'}); });
-  });
-})();
-</script>
-
-<script type="module">
-/* ===== Fundo-assinatura WebGL: "Constelação Mineral" (flow-wave recolorido, Three.js) ===== */
-try{
-  const THREE = await import('three');
-  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
-  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
-  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
-  const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
-  const { GammaCorrectionShader } = await import('three/addons/shaders/GammaCorrectionShader.js');
-  const { CopyShader } = await import('three/addons/shaders/CopyShader.js');
-
-  // Constelação Mineral palette (meia-noite índigo · menta · violeta · champagne)
-  const bgColor='#0a0913', flameColor='#6fe0c0', flameColor2='#9b8cf0', flameAmt=0.18;
-  const atmoColor='#8fe6d0', atmoCount = innerWidth<760?60:120, atmoSize=22, atmoSpeed=0.9;
-  const colorLow='#241f45', colorHigh='#c9b3e0', opacity=0.10, pointSize=4.6, brightness=0.30;
-  const waveHeight=3, flow=1.0, tilt=0, scale=0.275, scrollRise=1.0;
-  const camStartY=7, camStartZ=16, camEndY=0.8, camEndZ=-2;
-  const lookStartZ=2, lookEndZ=-16, parallax=1.2, pointerRadius=7.0, pointerStrength=0.9;
-  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
-  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
-
-  const canvas=document.getElementById('gl');
-  const _t=document.createElement('canvas');
-  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
-
-  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
-  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x000000); scene.fog=new THREE.Fog(0x000000,0,15);
-  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,7,16);
-  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
-  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
-
-  const SNOISE=`
-    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
-    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
-      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
-      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
-      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
-      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
-      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
-      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
-      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
-      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
-      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
-      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
-      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
-      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
-
-  const geo=new THREE.SphereGeometry(4.2,innerWidth<760?120:200,innerWidth<760?320:600);
-  const uniforms={uTime:{value:0},uStream:{value:0},uAppear:{value:0},
-    uColLow:{value:hexToVec3(colorLow)},uColHigh:{value:hexToVec3(colorHigh)},
-    uOpacity:{value:opacity},uSize:{value:pointSize},uBrightness:{value:brightness},
-    uWaveHeight:{value:waveHeight},uFlow:{value:flow},uScale:{value:scale},
-    uCursor:{value:new THREE.Vector3()},uRepelRadius:{value:pointerRadius},uRepelStrength:{value:pointerStrength},uActivity:{value:0}};
-  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,
-    vertexShader:`uniform float uTime;uniform float uStream;uniform float uSize;uniform float uWaveHeight;uniform float uFlow;uniform float uScale;
-      uniform vec3 uColLow;uniform vec3 uColHigh;uniform vec3 uCursor;uniform float uRepelRadius;uniform float uRepelStrength;uniform float uActivity;
-      varying float vFade;varying vec3 vColor;${SNOISE}
-      void main(){vec3 wp=vec3(position.x*13.0,0.0,position.z*25.0);wp.x+=position.y*6.0;float zc=wp.z+uStream;
-        float wn=snoise(vec3(wp.x*0.08,zc*0.08,uTime*0.15*uFlow))*2.0;wn+=snoise(vec3(wp.x*0.16,zc*0.16,uTime*0.3*uFlow))*0.8;wp.y+=wn*uWaveHeight;
-        vec3 finalPos=wp*uScale;vec4 modelPosition=modelMatrix*vec4(finalPos,1.0);vec3 toP=modelPosition.xyz-uCursor;float cd=length(toP);
-        float fall=smoothstep(uRepelRadius,0.0,cd);modelPosition.xyz+=normalize(toP+vec3(0.0001))*fall*uRepelStrength*uActivity;
-        vec4 mvPosition=viewMatrix*modelPosition;float colMix=smoothstep(-3.0,3.0,position.y+position.x*0.5);
-        vColor=mix(uColLow,uColHigh,clamp(colMix,0.0,1.0));vFade=1.0;gl_PointSize=uSize*(10.0/-mvPosition.z);gl_PointSize=max(gl_PointSize,1.5);gl_Position=projectionMatrix*mvPosition;}`,
-    fragmentShader:`uniform float uOpacity;uniform float uBrightness;uniform float uAppear;varying float vFade;varying vec3 vColor;
-      void main(){vec2 xy=gl_PointCoord-0.5;float ll=length(xy);if(ll>0.5)discard;float a=smoothstep(0.5,0.1,ll);gl_FragColor=vec4(vColor*uBrightness,vFade*a*uOpacity*uAppear);}`});
-  const points=new THREE.Points(geo,mat);points.frustumCulled=false;points.layers.enable(3);
-  const group=new THREE.Group();group.add(points);scene.add(group);
-
-  const FinalPass={uniforms:{iTime:{value:0},tDiffuse:{value:null},torusTexture:{value:null},bloomTexture:{value:null},haloTexture:{value:null},
-      uBg:{value:hexToVec3(bgColor)},uFlameA:{value:hexToVec3(flameColor)},uFlameB:{value:hexToVec3(flameColor2)},uFlameAmt:{value:flameAmt}},
-    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
-    fragmentShader:`uniform float iTime;uniform sampler2D tDiffuse;uniform sampler2D bloomTexture;uniform sampler2D torusTexture;uniform sampler2D haloTexture;
-      uniform vec3 uBg;uniform vec3 uFlameA;uniform vec3 uFlameB;uniform float uFlameAmt;varying vec2 vUv;
-      vec3 warp3d(vec3 pos,float t){float curv=.8,a=1.9,b=0.7;pos*=2.;pos.x+=curv*sin(t+a*pos.y)+t*b;pos.y+=curv*cos(t+a*pos.x);
-        pos.y+=curv*sin(t+a*pos.z)+t*b;pos.z+=curv*cos(t+a*pos.y);pos.z+=curv*sin(t+a*pos.x)+t*b;pos.x+=curv*cos(t+a*pos.z);return 0.5+0.5*cos(pos.xyz+vec3(1,2,4));}
-      void main(){vec2 uv=2.*vUv-1.;vec3 w=pow(warp3d(vec3(uv.x,sin(uv.y),uv.y),iTime*1.5),vec3(1.5));
-        vec3 flame=1.5*uFlameA*w.x;flame*=w.y;flame+=uFlameB*w.z;flame*=smoothstep(0.25,1.,abs(uv.y));
-        float md=smoothstep(-0.7,1.,-uv.y*uv.x);flame*=md*md;vec3 bg=uBg*(1.0-0.4*length(uv));vec3 halo=texture2D(haloTexture,vUv).xyz;
-        gl_FragColor=vec4(bg+flame*uFlameAmt+texture2D(bloomTexture,vUv).xyz+texture2D(torusTexture,vUv).xyz+texture2D(tDiffuse,vUv).xyz+halo,1.);}`};
-
-  const renderScene=new RenderPass(scene,camera);
-  const torusComposer=new EffectComposer(renderer);torusComposer.renderToScreen=false;
-  torusComposer.addPass(renderScene);torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  torusComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.22,0.2,0));torusComposer.addPass(new ShaderPass(CopyShader));
-  const bloomComposer=new EffectComposer(renderer);bloomComposer.renderToScreen=false;
-  bloomComposer.addPass(renderScene);bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.4,0.55,0));bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  const finalPass=new ShaderPass(FinalPass);
-  const finalComposer=new EffectComposer(renderer);finalComposer.addPass(renderScene);finalComposer.addPass(finalPass);
-  finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
-  finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
-  finalPass.uniforms.haloTexture.value=blackTex;
-
-  let atmoMat;
-  (function(){const N=Math.round(atmoCount);const positions=new Float32Array(N*3),sizes=new Float32Array(N),seeds=new Float32Array(N);
-    for(let i=0;i<N;i++){positions[i*3]=2*Math.random()-1;positions[i*3+1]=2*Math.random()-1;positions[i*3+2]=2*Math.random()-1;sizes[i]=atmoSize*(0.4+Math.random());seeds[i]=Math.random();}
-    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(positions,3));g.setAttribute('size',new THREE.BufferAttribute(sizes,1));g.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
-    atmoMat=new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,
-      uniforms:{uTime:{value:0},uColor:{value:hexToVec3(atmoColor)},uRes:{value:new THREE.Vector2(innerWidth*devicePixelRatio,innerHeight*devicePixelRatio)}},
-      vertexShader:`attribute float size;attribute float seed;uniform float uTime;uniform vec2 uRes;varying float vA;
-        vec3 warp(vec3 p,float t){float c=0.9,a=1.9,b=0.02,s=0.05;p*=2.;p.x+=c*sin(s*t+a*p.y)+t*b;p.y+=c*cos(s*t+a*p.x);p.y+=c*sin(s*t+a*p.z)+t*b;p.z+=c*cos(s*t+a*p.y);p.z+=c*sin(s*t+a*p.x)+t*b;p.x+=c*cos(s*t+a*p.z);return cos(p+vec3(1,2,4));}
-        void main(){vec3 v=position*4.0+warp(position,uTime)*1.2;vec4 mv=modelViewMatrix*vec4(v,1.0);float r=length(v);float farF=1.0-smoothstep(5.0,6.5,r);float nearF=smoothstep(0.0,0.5,-mv.z);vA=farF*nearF;gl_PointSize=size*uRes.y/900.0/-mv.z;gl_PointSize=max(gl_PointSize,1.0);gl_Position=projectionMatrix*mv;}`,
-      fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-0.5;float l=length(p);if(l>0.5)discard;float tex=smoothstep(0.5,0.0,l);gl_FragColor=vec4(uColor*tex,tex*vA*0.6);}`});
-    const pts=new THREE.Points(g,atmoMat);pts.frustumCulled=false;pts.layers.enable(3);
-    pts.onBeforeRender=function(){const t=performance.now()/1000;atmoMat.uniforms.uTime.value=t*atmoSpeed*8.0;pts.position.copy(camera.position);finalPass.uniforms.iTime.value=t;};
-    scene.add(pts);})();
-
-  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
-  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
-  addEventListener('scroll',onScroll,{passive:true});
-  const mTarget={x:0,y:0},m={x:0,y:0};
-  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
-  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
-  addEventListener('mouseout',()=>{POINTER.active=false;});
-  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
-  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
-
-  const sceneObj={stream:0,appearStart:performance.now(),t0:performance.now()/1000,
-    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;this.stream+=dt*(flow*2.0)*4.0;uniforms.uStream.value=this.stream;
-      uniforms.uWaveHeight.value=waveHeight*(1+scroll*scrollRise);const ea=Math.min(scroll/0.35,1.0);const e=ea*ea*(3-2*ea);
-      const camY=Lerp(camStartY,camEndY,e),camZ=Lerp(camStartZ,camEndZ,e);camera.position.set(mm.x*parallax,camY+mm.y*parallax*0.3,camZ);camera.lookAt(mm.x*parallax*0.5,Lerp(0.0,0.6,e),Lerp(lookStartZ,lookEndZ,e));
-      group.rotation.x=-tilt;group.rotation.y=0;updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
-      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.4));}};
-
-  function loop(){requestAnimationFrame(loop);scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
-    camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();for(const c of[torusComposer,bloomComposer,finalComposer]){c.setPixelRatio(dpr);c.setSize(w,h);}if(atmoMat)atmoMat.uniforms.uRes.value.set(w*dpr,h*dpr);onScroll();}
-  addEventListener('resize',resize);
-  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  resize();onScroll();
-  if(window.__stopFallback)window.__stopFallback();
-  var fb2d=document.getElementById('aurora'); if(fb2d) fb2d.style.display='none';
-  if(rm){camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  else loop();
-}catch(err){
-  var g=document.getElementById('gl'); if(g) g.style.display='none';
-  if(window.__startFallback) window.__startFallback();
-}
 </script>
