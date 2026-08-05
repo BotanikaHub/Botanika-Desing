@@ -112,6 +112,7 @@
         <div class="sticky-1025 top-30">
           <cart-items class="js-contents{% if cart == empty %} is-empty{% endif %}">
             {% if cart != empty %}{% render 'botanika-cart-gamified' %}{% endif %}
+            {% if cart != empty %}{% render 'botanika-orderbump' %}{% endif %}
             {% if cart == empty %}
               <div class="cart__warnings text-center">
                 <h1 class="heading-letter-spacing cart__empty-title mb-20">{{ 'general.cart.empty' | t }}</h1>

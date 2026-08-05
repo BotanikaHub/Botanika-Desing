@@ -1,8 +1,8 @@
 {%- comment -%}
   ============================================================
-  Selo/faixa da campanha na página de produto.
-  Aparece SOMENTE nos produtos cujos handles estão na lista
-  (padrão: os 3 da Semana da Imunidade). Nos demais, não renderiza.
+  Selo/faixa da campanha na página de produto (modo Dia D).
+  Aparece SOMENTE nos produtos cujos handles estão na lista.
+  Linha principal (–8% Dia D) + reforço opcional (Manual + frete).
   ============================================================
 {%- endcomment -%}
 {%- liquid
@@ -19,17 +19,34 @@
 -%}
 {%- if bs.show and match -%}
   <div class="camp-selo" style="--cs-bg:{{ bs.bg_color }};--cs-fg:{{ bs.text_color }};" {{ block.shopify_attributes }}>
-    {%- if bs.icon != blank -%}<span class="camp-selo__ic">{{ bs.icon }}</span>{%- endif -%}
-    <span class="camp-selo__tx">{{ bs.text }}</span>
+    <span class="camp-selo__pulse" aria-hidden="true"></span>
+    <div class="camp-selo__body">
+      <span class="camp-selo__main">
+        {%- if bs.icon != blank -%}<span class="camp-selo__ic">{{ bs.icon }}</span>{%- endif -%}
+        <span class="camp-selo__tx">{{ bs.text }}</span>
+      </span>
+      {%- if bs.subtext != blank -%}<span class="camp-selo__sub">{{ bs.subtext }}</span>{%- endif -%}
+    </div>
   </div>
   {%- style -%}
     .camp-selo {
-      display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
-      background: var(--cs-bg, #323C91); color: var(--cs-fg, #ffffff);
-      padding: 10px 16px; border-radius: 12px; font-weight: 700; line-height: 1.2;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; gap: 12px; margin: 0 0 16px;
+      background: linear-gradient(100deg, var(--cs-bg, #E10E1B) 0%, #ff3b2e 55%, var(--cs-bg, #E10E1B) 100%);
+      background-size: 200% 100%; animation: csShine 6s linear infinite;
+      color: var(--cs-fg, #ffffff);
+      padding: 12px 16px; border-radius: 14px; line-height: 1.15;
+      box-shadow: 0 8px 22px rgba(225,14,27,.28);
     }
+    .camp-selo__pulse { width: 9px; height: 9px; border-radius: 50%; background: #fff; flex: 0 0 auto; box-shadow: 0 0 0 0 rgba(255,255,255,.8); animation: csPulse 1.4s ease-out infinite; }
+    .camp-selo__body { display: flex; flex-direction: column; gap: 2px; }
+    .camp-selo__main { display: flex; align-items: center; gap: 8px; }
     .camp-selo__ic { font-size: 20px; flex: 0 0 auto; }
-    .camp-selo__tx { font-size: 14.5px; }
+    .camp-selo__tx { font-size: 15px; font-weight: 900; letter-spacing: .01em; text-transform: uppercase; }
+    .camp-selo__sub { font-size: 12.5px; font-weight: 600; opacity: .95; }
+    @keyframes csShine { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes csPulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.7); } 70% { box-shadow: 0 0 0 7px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+    @media (prefers-reduced-motion: reduce) { .camp-selo { animation: none; } .camp-selo__pulse { animation: none; } }
   {%- endstyle -%}
 {%- endif -%}
 {% schema %}
@@ -38,10 +55,11 @@
   "tag": null,
   "settings": [
     { "type": "checkbox", "id": "show", "label": "Mostrar selo", "default": true },
-    { "type": "text", "id": "handles", "label": "Produtos (handles, separados por vírgula)", "info": "Handle é o final da URL do produto. Ex.: tetravit-d,super-omega-3-coq10,super-vitamina-c", "default": "tetravit-d,super-omega-3-coq10,super-vitamina-c" },
-    { "type": "text", "id": "icon", "label": "Ícone (emoji)", "default": "🛡️" },
-    { "type": "text", "id": "text", "label": "Texto", "default": "Semana da Imunidade — 8% OFF neste produto" },
-    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#323C91" },
+    { "type": "text", "id": "handles", "label": "Produtos (handles, separados por vírgula)", "info": "Handle é o final da URL do produto.", "default": "tetravit-d,super-omega-3-coq10,super-vitamina-c" },
+    { "type": "text", "id": "icon", "label": "Ícone (emoji)", "default": "⚡" },
+    { "type": "text", "id": "text", "label": "Texto principal", "default": "DIA D — 8% OFF neste produto" },
+    { "type": "text", "id": "subtext", "label": "Reforço (opcional)", "default": "🎁 Manual da Suplementação grátis • 🚚 Frete grátis acima de R$349" },
+    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#E10E1B" },
     { "type": "color", "id": "text_color", "label": "Texto", "default": "#ffffff" }
   ],
   "presets": [ { "name": "Selo da campanha" } ]

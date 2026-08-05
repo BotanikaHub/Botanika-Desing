@@ -1,0 +1,72 @@
+{%- comment -%}
+  ============================================================
+  Orderbump do Dia D no carrinho — 1 produto complementar
+  (best-seller barato) pra empurrar o ticket acima de R$349
+  e destravar o frete grátis. Só aparece se ainda não estiver
+  no carrinho. Add-to-cart funciona sem JS (form POST).
+  Produto: definido em settings.bump_handle (fallback tri-mg-complex).
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign bump_handle = settings.bump_handle | default: 'tri-mg-complex'
+  assign bump = all_products[bump_handle]
+  assign in_cart = false
+  for li in cart.items
+    if li.product.handle == bump_handle
+      assign in_cart = true
+      break
+    endif
+  endfor
+  assign v = bump.selected_or_first_available_variant
+-%}
+{%- if bump != empty and bump.available and v != nil and in_cart == false -%}
+  <div class="dd-bump">
+    <span class="dd-bump__flag">⚡ OFERTA DIA D</span>
+    <div class="dd-bump__row">
+      {%- if bump.featured_image != blank -%}
+        <img class="dd-bump__img" src="{{ bump.featured_image | image_url: width: 160 }}" alt="{{ bump.title | escape }}" loading="lazy" width="72" height="72">
+      {%- endif -%}
+      <div class="dd-bump__info">
+        <p class="dd-bump__name">{{ bump.title }}</p>
+        <p class="dd-bump__hook">Adicione e passe de <b>R$349</b> pra ganhar <b>frete grátis</b> 🚚</p>
+        <span class="dd-bump__price">{{ v.price | money }}</span>
+      </div>
+      <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="dd-bump__form">
+        <input type="hidden" name="id" value="{{ v.id }}">
+        <input type="hidden" name="return_to" value="{{ routes.cart_url }}">
+        <button type="submit" class="dd-bump__btn" aria-label="Adicionar {{ bump.title | escape }} ao carrinho">+ Adicionar</button>
+      </form>
+    </div>
+  </div>
+  {%- style -%}
+    .dd-bump {
+      position: relative; margin: 14px 0; padding: 16px 14px 14px; border-radius: 16px;
+      border: 2px dashed #E10E1B; background: linear-gradient(180deg, #fff5f4, #ffffff);
+      box-shadow: 0 6px 18px rgba(225,14,27,.10);
+    }
+    .dd-bump__flag {
+      position: absolute; top: -11px; left: 14px; background: linear-gradient(100deg,#E10E1B,#ff3b2e); color: #fff;
+      font-size: 11px; font-weight: 900; letter-spacing: .04em; padding: 4px 12px; border-radius: 999px;
+      box-shadow: 0 3px 10px rgba(225,14,27,.35);
+    }
+    .dd-bump__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .dd-bump__img { flex: 0 0 auto; width: 72px; height: 72px; object-fit: cover; border-radius: 12px; background: #fff; }
+    .dd-bump__info { flex: 1 1 160px; min-width: 0; }
+    .dd-bump__name { margin: 0 0 3px; font-weight: 800; font-size: 14px; line-height: 1.2; color: #1a1f4d; }
+    .dd-bump__hook { margin: 0 0 4px; font-size: 12.5px; line-height: 1.3; color: #444; }
+    .dd-bump__hook b { color: #E10E1B; }
+    .dd-bump__price { font-weight: 900; font-size: 15px; color: #1a1f4d; }
+    .dd-bump__form { flex: 0 0 auto; margin: 0; }
+    .dd-bump__btn {
+      cursor: pointer; border: 0; background: linear-gradient(90deg,#ff2a1a,#E10E1B); color: #fff;
+      font-weight: 900; letter-spacing: .02em; padding: 12px 20px; border-radius: 999px; white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(225,14,27,.35);
+    }
+    .dd-bump__btn:hover { transform: translateY(-1px); }
+    @media (max-width: 480px) {
+      .dd-bump__info { flex-basis: calc(100% - 84px); }
+      .dd-bump__form { width: 100%; }
+      .dd-bump__btn { width: 100%; }
+    }
+  {%- endstyle -%}
+{%- endif -%}

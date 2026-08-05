@@ -1,45 +1,96 @@
 {%- comment -%}
   ============================================================
-  Banner da campanha (home). Placeholder por texto+cor enquanto
-  a arte nao chega; quando a arte estiver pronta, basta subir
-  a imagem (desktop/mobile) no editor.
+  Banner da campanha (home) — modo DIA D (alta urgência).
+  Se subir arte (desktop/mobile), a imagem substitui o placeholder.
+  Sem arte, renderiza o hero premium com contador + chips + CTA.
   ============================================================
 {%- endcomment -%}
 {%- liquid
   assign st = section.settings
 -%}
 {%- if st.show -%}
-  <div class="camp-banner" style="--cb-bg:{{ st.bg_color }};--cb-fg:{{ st.text_color }};">
-    {%- if st.cta_link != blank -%}<a class="camp-banner__link" href="{{ st.cta_link }}" aria-label="{{ st.heading | default: 'Campanha' | escape }}">{%- endif -%}
-      {%- if st.image_desktop != blank -%}
+  <div class="camp-banner" style="--cb-bg:{{ st.bg_color }};--cb-fg:{{ st.text_color }};--cb-accent:{{ st.accent_color }};">
+    {%- if st.image_desktop != blank -%}
+      {%- if st.cta_link != blank -%}<a class="camp-banner__link" href="{{ st.cta_link }}" aria-label="{{ st.heading | default: 'Campanha' | escape }}">{%- endif -%}
         <picture>
           {%- if st.image_mobile != blank -%}<source media="(max-width: 749px)" srcset="{{ st.image_mobile | image_url: width: 1400 }}">{%- endif -%}
-          <img class="camp-banner__img" src="{{ st.image_desktop | image_url: width: 2000 }}" alt="{{ st.heading | escape }}" loading="lazy" decoding="async">
+          <img class="camp-banner__img" src="{{ st.image_desktop | image_url: width: 2000 }}" alt="{{ st.heading | escape }}" loading="eager" decoding="async">
         </picture>
-      {%- else -%}
-        <div class="camp-banner__ph">
+      {%- if st.cta_link != blank -%}</a>{%- endif -%}
+    {%- else -%}
+      <div class="camp-banner__ph">
+        <div class="camp-banner__glow" aria-hidden="true"></div>
+        <div class="camp-banner__content">
           {%- if st.eyebrow != blank -%}<span class="camp-banner__eyebrow">{{ st.eyebrow }}</span>{%- endif -%}
           {%- if st.heading != blank -%}<h2 class="camp-banner__title">{{ st.heading }}</h2>{%- endif -%}
           {%- if st.subheading != blank -%}<p class="camp-banner__sub">{{ st.subheading }}</p>{%- endif -%}
-          {%- if st.cta_text != blank -%}<span class="camp-banner__btn">{{ st.cta_text }}</span>{%- endif -%}
+
+          {%- assign chips = st.badges | split: '|' -%}
+          {%- if chips.size > 0 -%}
+            <div class="camp-banner__chips">
+              {%- for c in chips -%}<span class="camp-banner__chip">{{ c | strip }}</span>{%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if st.show_countdown -%}
+            <div class="camp-banner__cd">
+              <span class="camp-banner__cdlabel">{{ st.countdown_label }}</span>
+              {%- render 'botanika-countdown', variant: 'hero' -%}
+            </div>
+          {%- endif -%}
+
+          {%- if st.cta_text != blank -%}
+            <a class="camp-banner__btn" {% if st.cta_link != blank %}href="{{ st.cta_link }}"{% else %}href="#"{% endif %}>{{ st.cta_text }} <span aria-hidden="true">›</span></a>
+          {%- endif -%}
         </div>
-      {%- endif -%}
-    {%- if st.cta_link != blank -%}</a>{%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 
   {%- style -%}
-    .camp-banner { width: 100%; }
+    .camp-banner { width: 100%; overflow: hidden; }
     .camp-banner__link { display: block; text-decoration: none; }
     .camp-banner__img { display: block; width: 100%; height: auto; }
     .camp-banner__ph {
-      background: var(--cb-bg, #323C91); color: var(--cb-fg, #ffffff);
-      text-align: center; padding: 48px 20px; display: flex; flex-direction: column;
-      align-items: center; gap: 10px;
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(120% 140% at 85% 10%, rgba(225,14,27,.55) 0%, rgba(225,14,27,0) 45%),
+        linear-gradient(135deg, #10143a 0%, var(--cb-bg, #1a1f4d) 45%, #0b0e2a 100%);
+      color: var(--cb-fg, #ffffff);
+      text-align: center; padding: clamp(38px, 6vw, 72px) 20px;
     }
-    .camp-banner__eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 13px; font-weight: 700; opacity: .9; }
-    .camp-banner__title { margin: 0; font-size: clamp(28px, 5vw, 52px); font-weight: 800; line-height: 1.05; }
-    .camp-banner__sub { margin: 0; font-size: clamp(15px, 2vw, 19px); opacity: .92; max-width: 720px; }
-    .camp-banner__btn { margin-top: 8px; display: inline-block; background: #ffffff; color: var(--cb-bg, #323C91); font-weight: 800; padding: 12px 26px; border-radius: 999px; }
+    .camp-banner__glow {
+      position: absolute; inset: -40% -10% auto auto; width: 60%; height: 200%;
+      background: radial-gradient(circle, rgba(225,14,27,.30) 0%, rgba(225,14,27,0) 70%);
+      animation: cbGlow 6s ease-in-out infinite alternate; pointer-events: none;
+    }
+    .camp-banner__content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 860px; margin: 0 auto; }
+    .camp-banner__eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--cb-accent, #E10E1B); color: #fff;
+      text-transform: uppercase; letter-spacing: .14em; font-size: clamp(11px, 1.4vw, 13px); font-weight: 800;
+      padding: 7px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(225,14,27,.4);
+      animation: cbPulse 1.8s ease-in-out infinite;
+    }
+    .camp-banner__title { margin: 0; font-size: clamp(38px, 8vw, 82px); font-weight: 900; line-height: .98; letter-spacing: -.02em; text-shadow: 0 4px 30px rgba(0,0,0,.35); }
+    .camp-banner__sub { margin: 0; font-size: clamp(15px, 2vw, 20px); opacity: .94; max-width: 680px; }
+    .camp-banner__chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
+    .camp-banner__chip { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: #fff; font-weight: 700; font-size: clamp(12px, 1.6vw, 14px); padding: 8px 14px; border-radius: 999px; }
+    .camp-banner__cd { margin-top: 6px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .camp-banner__cdlabel { text-transform: uppercase; letter-spacing: .18em; font-size: 11px; font-weight: 800; color: rgba(255,255,255,.75); }
+    .camp-banner__btn {
+      margin-top: 8px; display: inline-block; text-decoration: none;
+      background: linear-gradient(90deg, #ff2a1a, var(--cb-accent, #E10E1B));
+      color: #fff; font-weight: 900; letter-spacing: .04em; font-size: clamp(15px, 2vw, 18px);
+      padding: 15px 38px; border-radius: 999px; box-shadow: 0 10px 26px rgba(225,14,27,.45);
+      text-transform: uppercase;
+    }
+    .camp-banner__btn:hover { transform: translateY(-2px); }
+    @keyframes cbGlow { from { opacity: .6; } to { opacity: 1; } }
+    @keyframes cbPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @media (prefers-reduced-motion: reduce) {
+      .camp-banner__glow, .camp-banner__eyebrow { animation: none; }
+    }
   {%- endstyle -%}
 {%- endif -%}
 {% schema %}
@@ -47,18 +98,22 @@
   "name": "Banner da campanha",
   "settings": [
     { "type": "checkbox", "id": "show", "label": "Mostrar banner", "default": true },
-    { "type": "header", "content": "Imagem (quando a arte estiver pronta)" },
+    { "type": "header", "content": "Imagem (quando a arte estiver pronta — substitui o placeholder)" },
     { "type": "image_picker", "id": "image_desktop", "label": "Imagem (desktop)" },
     { "type": "image_picker", "id": "image_mobile", "label": "Imagem (mobile)" },
-    { "type": "header", "content": "Placeholder (texto, enquanto não há arte)" },
-    { "type": "text", "id": "eyebrow", "label": "Chamada", "default": "Botanika" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Semana da Imunidade" },
-    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Fortaleça sua imunidade de dentro pra fora — 8% OFF em Vitamina D, Ômega 3 e Vitamina C." },
+    { "type": "header", "content": "Conteúdo (hero Dia D, enquanto não há arte)" },
+    { "type": "text", "id": "eyebrow", "label": "Chamada (pill)", "default": "⚡ ACESSO ANTECIPADO • SÓ HOJE 07/08" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "DIA D BOTANIKA" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "8% OFF em TODA a linha de suplementos. Hoje é o dia — e acaba à meia-noite." },
+    { "type": "textarea", "id": "badges", "label": "Chips de benefício (separe por |)", "default": "8% OFF em toda a linha | 🎁 Manual da Suplementação grátis | 🚚 Frete grátis acima de R$349" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Mostrar contador no hero", "default": true },
+    { "type": "text", "id": "countdown_label", "label": "Rótulo do contador", "default": "A OFERTA TERMINA EM" },
     { "type": "text", "id": "cta_text", "label": "Texto do botão", "default": "Aproveitar agora" },
     { "type": "url", "id": "cta_link", "label": "Link do botão" },
     { "type": "header", "content": "Cores do placeholder" },
-    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#323C91" },
-    { "type": "color", "id": "text_color", "label": "Texto", "default": "#ffffff" }
+    { "type": "color", "id": "bg_color", "label": "Fundo (base)", "default": "#1a1f4d" },
+    { "type": "color", "id": "text_color", "label": "Texto", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "Acento (urgência)", "default": "#E10E1B" }
   ],
   "presets": [ { "name": "Banner da campanha" } ]
 }

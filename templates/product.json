@@ -35,11 +35,12 @@
         "campaign_selo_Im1x9k": {
           "type": "_product-campaign-selo",
           "settings": {
-            "show": false,
-            "handles": "tetravit-d,super-omega-3-coq10,super-vitamina-c",
-            "icon": "🛡️",
-            "text": "Semana da Imunidade — 8% OFF neste produto",
-            "bg_color": "#c8342f",
+            "show": true,
+            "handles": "tetravit-d,super-omega-3-coq10,super-vitamina-c,tri-mg-complex,creatina-l-carnitina,sleep-inositol,whey-balance-chocolate,hair-botanika",
+            "icon": "⚡",
+            "text": "DIA D — 8% OFF neste produto",
+            "subtext": "🎁 Manual da Suplementação grátis • 🚚 Frete grátis acima de R$349",
+            "bg_color": "#E10E1B",
             "text_color": "#ffffff"
           },
           "blocks": {}

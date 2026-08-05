@@ -1,18 +1,28 @@
 {%- comment -%}
   Barra de contador regressivo no topo do site (acima das demais barras).
   Data-limite/cores vêm das Configurações do tema → "Contador de oferta".
+  Mensagem e botão (CTA) são desta seção.
 {%- endcomment -%}
 {%- if section.settings.show -%}
-  {%- render 'botanika-countdown', variant: 'bar', message: section.settings.message, bg: section.settings.bg_color, fg: section.settings.text_color -%}
+  {%- render 'botanika-countdown',
+    variant: 'bar',
+    message: section.settings.message,
+    bg: section.settings.bg_color,
+    fg: section.settings.text_color,
+    cta_text: section.settings.cta_text,
+    cta_link: section.settings.cta_link
+  -%}
 {%- endif -%}
 {% schema %}
 {
   "name": "Barra de contador",
   "settings": [
     { "type": "checkbox", "id": "show", "label": "Mostrar barra", "default": true },
-    { "type": "text", "id": "message", "label": "Mensagem", "default": "🔥 Oferta de fim de semana termina em" },
-    { "type": "color", "id": "bg_color", "label": "Cor de fundo da barra", "default": "#FFFFFF" },
-    { "type": "color", "id": "text_color", "label": "Cor do texto", "default": "#000000" }
+    { "type": "text", "id": "message", "label": "Mensagem", "default": "⚡ DIA D • 8% OFF EM TODA A LINHA — TERMINA EM" },
+    { "type": "text", "id": "cta_text", "label": "Texto do botão (opcional)", "default": "APROVEITAR" },
+    { "type": "url", "id": "cta_link", "label": "Link do botão" },
+    { "type": "color", "id": "bg_color", "label": "Cor de fundo da barra", "default": "#E10E1B" },
+    { "type": "color", "id": "text_color", "label": "Cor do texto", "default": "#FFFFFF" }
   ],
   "presets": [
     { "name": "Barra de contador" }
