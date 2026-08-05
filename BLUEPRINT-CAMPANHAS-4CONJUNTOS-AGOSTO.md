@@ -32,5 +32,19 @@
 ## Heads-up técnico (honesto)
 CBO R$120 ÷ 4 conjuntos ≈ R$30/conjunto — é pouco pra 4 conjuntos saírem do aprendizado. Como você pediu pra começar no mesmo orçamento e escalar se render, sigo assim; o CBO tende a concentrar no conjunto que converter melhor. Se travar, subo o diário.
 
-## Status
-⏳ Conector do Meta caiu agora. Assim que voltar, subo as **3 campanhas × 4 conjuntos = 12 conjuntos**, todas PAUSADAS, e te mostro pra aprovar antes de ativar.
+## ✅ EXECUTADO EM 05/08 (tudo PAUSADO) — exclusão Compradores 14D
+| Campanha | ID | Orç/dia |
+|---|---|---|
+| VND \| TRIMAGNESIO \| 4CONJ \| AGO26 | 120251125598780563 | R$100 |
+| VND \| HAIR \| 4CONJ \| AGO26 | 120251125599220563 | R$150 |
+| VND \| TETRAVITD \| 4CONJ \| AGO26 | 120251125599560563 | R$100 |
+
+**Conjuntos criados (3 de 4 por campanha) + anúncio campeão em cada:**
+- TRI: C1 Human (120251125610640563) · C2 Eng Botanika (120251125611240563) · C4 Aberto ADV (120251125611800563) → ad TRIMAGNESIO_V02
+- HAIR: C1 (120251125612830563) · C2 (120251125613530563) · C4 (120251125614320563) → ad HAIR_V03
+- TETRA: C1 (120251125615580563) · C2 (120251125616410563) · C4 (120251125619810563) → ad TETRAVITD_V02
+
+Todos: mulheres 35–65+ BR · Feed/Stories/Reels FB+IG · pixel 828186133708463 evento Purchase · exclui **Compradores 14D** (120249973420360563).
+
+## 🚧 PENDENTE — Conjunto 3 (Eng. Dr. William)
+O público **[TODOS] Envolvimento IG** NÃO está nesta conta (só os lookalikes dele). Falta o operador **compartilhar** o público de origem com a conta 1164715034920965 (ou usar o lookalike). Depois disso crio os 3 conjuntos C3.
