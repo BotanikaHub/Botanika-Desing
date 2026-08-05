@@ -21,7 +21,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <style>
 /* ============================================================
@@ -38,7 +37,7 @@
   --maxw:1160px; --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
-html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
 body{margin:0;overflow-x:hidden;background:var(--bg2);color:var(--text);
   font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 img,video{max-width:100%;display:block}
@@ -110,11 +109,11 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
   background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
 .pote{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
+  filter:drop-shadow(0 24px 28px rgba(0,0,0,.5));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
 .choWrap{position:absolute;z-index:1;will-change:transform}
 .choWrap.k1{top:2%;left:4%;width:20%}.choWrap.k2{top:10%;right:2%;width:16%}.choWrap.k3{bottom:10%;left:12%;width:14%}
-.choco{width:100%;height:auto;display:block;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55));animation:floaty 6s ease-in-out infinite}
+.choco{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 11px rgba(0,0,0,.45));animation:floaty 6s ease-in-out infinite}
 .choWrap.k1 .choco{animation-duration:5.4s}.choWrap.k2 .choco{animation-duration:6.6s;animation-delay:.5s}.choWrap.k3 .choco{animation-duration:5.8s;animation-delay:.9s}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 .hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
@@ -813,13 +812,16 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   function resize(){ RS=innerWidth<760?0.5:0.6; W=cv.width=Math.max(1,Math.round(innerWidth*RS)); H=cv.height=Math.max(1,Math.round(innerHeight*RS));
     cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   function seed(){
-    blobs=[]; var pal=[[92,44,18],[150,84,34],[207,138,67],[70,30,12],[234,177,115]];
-    for(var i=0;i<7;i++){ var c=pal[i%pal.length]; blobs.push({x:Math.random(),y:Math.random(),r:(Math.random()*.34+.28),
+    blobs=[]; var pal=[[92,44,18],[150,84,34],[207,138,67],[70,30,12],[234,177,115]]; var nb=innerWidth<760?4:7;
+    for(var i=0;i<nb;i++){ var c=pal[i%pal.length]; blobs.push({x:Math.random(),y:Math.random(),r:(Math.random()*.34+.28),
       vx:(Math.random()-.5)*.00010,vy:(Math.random()-.5)*.00010,c:c,ph:Math.random()*6.283}); }
     dust=[]; var n=innerWidth<640?22:40;
     for(var j=0;j<n;j++) dust.push({x:Math.random()*W,y:Math.random()*H,z:Math.random(),r:(Math.random()*10+5),s:(Math.random()*.22+.05),o:Math.random()*.45+.12,d:Math.random()*6.283});
   }
-  function draw(){
+  var lastT=0, minDT=(innerWidth<760?40:0);               /* mobile: limita a ~25fps p/ liberar a thread do scroll */
+  function draw(ts){
+    if(!reduce) requestAnimationFrame(draw);
+    if(minDT && ts!==undefined){ if(ts-lastT<minDT) return; lastT=ts; }
     tmx+=(mx-tmx)*.018; tmy+=(my-tmy)*.018;               /* suavização longa = líquido */
     ctx.globalCompositeOperation='source-over'; ctx.fillStyle='#0d0705'; ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='lighter';
@@ -835,7 +837,6 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     if(sprite){ for(var k=0;k<dust.length;k++){ var p=dust[k]; p.y-=p.s; p.x+=Math.sin(p.d+p.y*.01)*.1; if(p.y<-12){ p.y=H+12; p.x=Math.random()*W; }
       var py=((p.y - sY*RS*p.z*.3)%(H+24)+(H+24))%(H+24); ctx.globalAlpha=p.o; ctx.drawImage(sprite,p.x-p.r/2,py-p.r/2,p.r,p.r); } ctx.globalAlpha=1; }
     ctx.globalCompositeOperation='source-over';
-    if(!reduce) requestAnimationFrame(draw);
   }
   makeSprite(); resize(); seed(); draw();
   var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ resize(); seed(); if(reduce)draw(); },220); });
@@ -851,28 +852,21 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       fine=matchMedia('(hover:hover) and (pointer:fine)').matches,
       reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  /* scroll suave no desktop */
-  if(!reduce && window.Lenis && fine){
-    try{
-      var lenis=new Lenis({duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);},smoothWheel:true});
-      window.__lenis=lenis;
-      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
-      D.documentElement.style.scrollBehavior='auto';
-      if(ST) lenis.on('scroll',function(){ ST.update(); });
-      D.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click',function(e){ var h=a.getAttribute('href'); if(h.length>1){ var t=D.querySelector(h); if(t){ e.preventDefault(); lenis.scrollTo(t,{offset:-72}); } } }); });
-    }catch(e){}
-  }
+  /* scroll nativo (sem Lenis): mais leve e nunca "trava". Âncoras usam scroll-behavior:smooth + scroll-padding-top do CSS. */
 
   if(reduce || !G || !ST){ return; }
   try{ G.registerPlugin(ST); }catch(e){ return; }
 
-  /* parallax do hero: pote + chocolates */
-  var pw=D.querySelector('.poteWrap');
-  if(pw) G.to(pw,{yPercent:-18,rotationZ:1.5,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}});
-  D.querySelectorAll('.choWrap').forEach(function(c,i){ G.to(c,{yPercent:(i%2?38:-34),xPercent:(i%2?12:-10),ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}}); });
+  /* efeitos de scroll pesados (parallax/zoom) só no desktop com ponteiro fino — no mobile o scroll fica 100% nativo e leve */
+  if(fine){
+    /* parallax do hero: pote + chocolates */
+    var pw=D.querySelector('.poteWrap');
+    if(pw) G.to(pw,{yPercent:-14,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}});
+    D.querySelectorAll('.choWrap').forEach(function(c,i){ G.to(c,{yPercent:(i%2?30:-26),ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}}); });
 
-  /* imagens: zoom sutil ao entrar (Ken Burns) */
-  D.querySelectorAll('.shot').forEach(function(s){ var img=s.querySelector('img'); if(img){ try{ G.fromTo(img,{scale:1.16},{scale:1,ease:'none',scrollTrigger:{trigger:s,start:'top 88%',end:'top 32%',scrub:.5}}); }catch(e){} } });
+    /* imagens: zoom sutil ao entrar (Ken Burns) */
+    D.querySelectorAll('.shot').forEach(function(s){ var img=s.querySelector('img'); if(img){ try{ G.fromTo(img,{scale:1.12},{scale:1,ease:'none',scrollTrigger:{trigger:s,start:'top 88%',end:'top 32%',scrub:.5}}); }catch(e){} } });
+  }
 
   /* nav ativa conforme a secao */
   var map={}; D.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a){ var id=a.getAttribute('href').slice(1); if(id) map[id]=a; });
