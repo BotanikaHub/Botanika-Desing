@@ -305,8 +305,18 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .toggle button.active{color:#2a1500;background:var(--grad);box-shadow:0 8px 22px -8px rgba(255,122,26,.7)}
 .toggle button.active .tag{color:#3a1c05}
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
+.price-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:2px}
 .price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.price-now{font-family:var(--head);font-weight:600;font-size:clamp(40px,6vw,58px);line-height:1;margin:6px 0}
+.disc-badge{display:inline-flex;align-items:center;font-family:var(--body);font-weight:800;font-size:13.5px;letter-spacing:.03em;color:#2a1500;
+  background:linear-gradient(135deg,var(--orange),var(--amber));padding:5px 12px;border-radius:100px;box-shadow:0 8px 20px -8px rgba(255,122,26,.75);white-space:nowrap}
+.parc-main{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:10px 0 4px;line-height:1}
+.parc-main .parc-x{font-family:var(--head);font-weight:600;font-size:clamp(22px,3vw,30px);color:var(--amber-hi)}
+.parc-main .parc-v{font-family:var(--head);font-weight:700;font-size:clamp(42px,6.4vw,62px);line-height:.95;
+  color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text;transition:transform .3s var(--ease)}
+.parc-main .parc-v.pop{transform:scale(1.06)}
+.parc-main .parc-lbl{font-size:13px;color:var(--soft);font-weight:700;text-transform:uppercase;letter-spacing:.09em}
+.price-cash{font-size:15px;color:var(--muted);margin-bottom:2px}
+.price-cash b{color:var(--soft);font-weight:600;font-family:var(--head)}
 .price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--amber);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:6px}
 .price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
 .price-meta .li{display:flex;gap:9px;align-items:center}
@@ -843,11 +853,18 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
       </div>
       <div class="offer-body">
         <div class="offer-price">
-          <div class="price-old" id="p-old">R$ 179,04</div>
-          <div class="price-now" id="p-now">R$ 170,09</div>
-          <div class="price-cup" id="p-disc">🍊 −5% por quantidade · aplicado no checkout</div>
+          <div class="price-head">
+            <span class="disc-badge" id="p-off">−5% OFF</span>
+            <div class="price-old" id="p-old">R$ 179,04</div>
+          </div>
+          <div class="parc-main">
+            <span class="parc-x" id="p-parc-x">3×</span>
+            <span class="parc-v" id="p-parc-v">R$ 56,70</span>
+            <span class="parc-lbl">sem juros</span>
+          </div>
+          <div class="price-cash">ou <b id="p-now">R$ 170,09</b> à vista</div>
+          <div class="price-cup" id="p-disc">🍊 Desconto de 5% por quantidade · aplicado no checkout</div>
           <div class="price-meta">
-            <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 56,70 sem juros</span></div>
             <div class="li"><i>◆</i> <span id="p-per">R$ 85,04 por pote</span></div>
             <div class="li"><i>◆</i> <span id="p-dur">≈ 2 meses de rotina</span></div>
           </div>
@@ -931,7 +948,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">R$ 170,09</b><span id="bar-label">2 potes · −5%</span></div>
+  <div class="info"><b id="bar-price">3× R$ 56,70</b><span id="bar-label">−5% · 2 potes · R$ 170,09 à vista</span></div>
   <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
 </div>
 
@@ -1001,9 +1018,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     '3':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155359_89b289cc-7ead-482a-ab9d-f5b2b74b6e38.png'
   };
   var KITS={
-    '1':{old:'',now:'R$ 89,52',parc:'ou 3× de R$ 29,84 sem juros',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',disc:'🏷️ Use BOTANIKA e ganhe 5% OFF',save:'',label:'1 pote',img:TIER_IMG['1']},
-    '2':{old:'R$ 179,04',now:'R$ 170,09',parc:'ou 3× de R$ 56,70 sem juros',per:'R$ 85,04 por pote',dur:'≈ 2 meses de rotina',disc:'🍊 −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 8,95',label:'2 potes · −5%',img:TIER_IMG['2']},
-    '3':{old:'R$ 268,56',now:'R$ 241,70',parc:'ou 3× de R$ 80,57 sem juros',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',disc:'🍊 −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3']}
+    '1':{old:'',now:'R$ 89,52',parcx:'3×',parcv:'R$ 29,84',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',off:'',disc:'🏷️ Cupom BOTANIKA já aplicado · 5% OFF no avulso',save:'',label:'1 pote',img:TIER_IMG['1']},
+    '2':{old:'R$ 179,04',now:'R$ 170,09',parcx:'3×',parcv:'R$ 56,70',per:'R$ 85,04 por pote',dur:'≈ 2 meses de rotina',off:'−5%',disc:'🍊 Desconto de 5% por quantidade · aplicado no checkout',save:'Você economiza R$ 8,95',label:'2 potes · −5%',img:TIER_IMG['2']},
+    '3':{old:'R$ 268,56',now:'R$ 241,70',parcx:'3×',parcv:'R$ 80,57',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',off:'−10%',disc:'🍊 Desconto de 10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3']}
   };
   var currentKit='2';
   var setOfferOrangeCount=function(){}; /* preenchido pela camada de laranjas da oferta */
@@ -1013,11 +1030,12 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     currentKit=kit;var k=KITS[kit];if(!k)return;
     setOfferOrangeCount(kit);
     var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
-    set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
+    set('p-disc',k.disc);set('p-now',k.now);set('p-per',k.per);set('p-dur',k.dur);set('p-parc-x',k.parcx);set('p-parc-v',k.parcv);
+    var pof=doc.getElementById('p-off');if(pof){if(k.off){pof.style.display='inline-flex';pof.textContent=k.off+' OFF';}else pof.style.display='none';}
     var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.classList.add('swap');setTimeout(function(){ki.setAttribute('src',k.img);ki.classList.remove('swap');},180);}
-    var pn=doc.getElementById('p-now');if(pn&&!reduce){pn.classList.remove('pop');void pn.offsetWidth;pn.classList.add('pop');setTimeout(function(){pn.classList.remove('pop');},340);}
+    var pv=doc.getElementById('p-parc-v');if(pv&&!reduce){pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop');setTimeout(function(){pv.classList.remove('pop');},340);}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
-    set('bar-price',k.now);set('bar-label',k.label);
+    set('bar-price',k.parcx+' '+k.parcv);set('bar-label',(k.off?k.off+' · ':'')+k.label+' · '+k.now+' à vista');
     var href=checkout(kit);
     each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
