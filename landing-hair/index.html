@@ -40,6 +40,13 @@ fbq('init','828186133708463');fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1"></noscript>
 
+<!-- Google tag (GA4 / Google Ads) — cole seu ID abaixo p/ ativar -->
+<script>
+window.GOOGLE_ID='';/* ← cole 'G-XXXXXXXX' (GA4) ou 'AW-XXXXXXXX' (Google Ads). Vazio = desativado. */
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+(function(){var id=window.GOOGLE_ID;if(!id)return;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);document.head.appendChild(s);gtag('js',new Date());gtag('config',id);})();
+</script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -917,6 +924,20 @@ html.lenis{scroll-behavior:auto!important}
     '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'ou 3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png'}
   };
   var currentKit='2';
+
+  /* ---------- funil de eventos: Meta Pixel + Google (uma vez cada) ---------- */
+  /* Hierarquia: PageView › ViewContent › AddToWishlist › Lead › AddToCart › InitiateCheckout › AddPaymentInfo › Purchase(Shopify) */
+  var GMAP={ViewContent:'view_item',AddToWishlist:'add_to_wishlist',Lead:'generate_lead',AddToCart:'add_to_cart',InitiateCheckout:'begin_checkout',AddPaymentInfo:'add_payment_info',Purchase:'purchase'};
+  var fired={};
+  function money(s){var m=String(s||'').replace(/[^\d,]/g,'').replace(',','.');return parseFloat(m)||0;}
+  function fire(ev,opts){
+    opts=opts||{};
+    if(opts.once!==false){if(fired[ev])return;fired[ev]=true;}
+    var k=KITS[currentKit]||{},qty=parseInt(currentKit,10)||1,val=('value'in opts)?opts.value:money(k.now),unit=qty?+(val/qty).toFixed(2):val;
+    try{if(win.fbq)win.fbq('track',ev,{content_ids:[VARIANT],content_type:'product',content_name:'Hair Botanika',contents:[{id:VARIANT,quantity:qty}],currency:'BRL',value:val,num_items:qty});}catch(e){}
+    try{if(win.gtag&&win.GOOGLE_ID&&GMAP[ev])win.gtag('event',GMAP[ev],{currency:'BRL',value:val,items:[{item_id:VARIANT,item_name:'Hair Botanika',price:unit,quantity:qty}]});}catch(e){}
+  }
+
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function applyKit(kit){
@@ -930,13 +951,15 @@ html.lenis{scroll-behavior:auto!important}
     each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
-  each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
+  each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));fire('AddToCart');});});
   var coupon=doc.getElementById('coupon');
-  if(coupon)coupon.addEventListener('click',function(){var done=function(){var h=doc.getElementById('coupon-hint');if(h){h.textContent='copiado ✓';setTimeout(function(){h.textContent='toque pra copiar';},1800);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(COUPON).then(done,done);else done();});
+  if(coupon)coupon.addEventListener('click',function(){fire('Lead');var done=function(){var h=doc.getElementById('coupon-hint');if(h){h.textContent='copiado ✓';setTimeout(function(){h.textContent='toque pra copiar';},1800);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(COUPON).then(done,done);else done();});
+  /* WhatsApp = Lead */
+  each(doc.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp"]'),function(a){a.addEventListener('click',function(){fire('Lead');});});
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
+        if(id==='buy'||id==='bar-buy'){fire('AddToCart');fire('InitiateCheckout');fire('AddPaymentInfo');return;}
         e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
       });
     });
@@ -1074,7 +1097,10 @@ html.lenis{scroll-behavior:auto!important}
   set('yr',(new Date()).getFullYear());
 
   applyKit('2');wireCheckout();
-  if(win.fbq)fbq('track','ViewContent',{content_name:'Hair Botanika',content_ids:[VARIANT],content_type:'product'});
+  fire('ViewContent');
+  /* AddToWishlist = rolou até a oferta */
+  (function(){var t=doc.getElementById('oferta');if(!t)return;if(!win.IntersectionObserver){fire('AddToWishlist');return;}
+    var io=new IntersectionObserver(function(en){each(en,function(e){if(e.isIntersecting){fire('AddToWishlist');io.disconnect();}});},{threshold:.35});io.observe(t);})();
 
   /* loader 000 -> 100 */
   (function(){
