@@ -959,7 +959,7 @@ html.lenis{scroll-behavior:auto!important}
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){fire('AddToCart');fire('InitiateCheckout');fire('AddPaymentInfo');return;}
+        if(id==='buy'||id==='bar-buy'){fire('AddToCart');fire('InitiateCheckout');return;}
         e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
       });
     });
