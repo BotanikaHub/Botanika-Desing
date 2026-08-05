@@ -352,8 +352,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 .wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
   background:rgba(23,11,4,.82);border:1px solid var(--line-2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   box-shadow:0 12px 30px -10px rgba(255,122,26,.55);transition:transform .25s var(--ease),box-shadow .3s var(--ease);animation:waglow 2.8s ease-in-out infinite}
-.wa:hover{transform:scale(1.08);box-shadow:0 16px 42px -10px rgba(255,122,26,.75)}
-.wa svg{width:29px;height:29px;fill:var(--amber)}
+.wa:hover{transform:scale(1.08);background:rgba(255,122,26,.14);box-shadow:0 16px 42px -10px rgba(255,122,26,.75)}
+.wa svg{width:30px;height:30px;fill:var(--amber-hi)}
 @keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(255,122,26,.26)}50%{box-shadow:0 0 24px 7px rgba(255,122,26,.5)}}
 
 /* mobile buy bar */
@@ -429,6 +429,15 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   background:conic-gradient(from 0deg,transparent,rgba(255,122,26,.30),transparent 38%,rgba(205,233,74,.22),transparent 66%,rgba(255,198,90,.32),transparent);
   filter:blur(16px);animation:spin 20s linear infinite;opacity:.85}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* laranjas orbitando o pote (3D: passam na frente e atrás do pote) */
+.orbit{position:absolute;inset:0;pointer-events:none}
+.orb{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;will-change:transform;
+  background:radial-gradient(circle at 34% 30%,#ffe6a0,#ff8a1e 46%,#b5500d);
+  box-shadow:inset -3px -4px 7px rgba(120,58,8,.55),inset 3px 3px 6px rgba(255,230,170,.35),0 8px 16px rgba(0,0,0,.35);
+  filter:drop-shadow(0 0 6px rgba(255,140,30,.35))}
+.orb::before{content:"";position:absolute;top:-10%;left:50%;width:44%;height:26%;background:linear-gradient(140deg,#a6d95a,#6faf30);
+  border-radius:70% 20% 60% 20%;transform:translateX(-40%) rotate(-38deg);transform-origin:left center}
+.orb::after{content:"";position:absolute;top:14%;left:22%;width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.7),transparent 70%)}
 .scrollcue{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:7px;
   font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:opacity .5s}
 .scrollcue.hide{opacity:0;pointer-events:none}
@@ -907,7 +916,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 </footer>
 
 <a class="wa" href="https://wa.me/5531972679362?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Super%20Vitamina%20C%20da%20Botanika." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
 </a>
 
 <div class="buybar" id="buybar">
@@ -976,7 +985,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     if(qty==='1'||qty===1)parts.unshift('discount='+COUPON);
     if(parts.length)u+='?'+parts.join('&');return u;}
   var TIER_IMG={
-    '1':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155400_ef4e6cf7-b46d-4f8f-9f65-55ac3b6ffe45.png',
+    '1':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png',
     '2':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155358_093fd0ef-bc22-41e7-ae3c-73b7cb7c6a90.png',
     '3':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155359_89b289cc-7ead-482a-ab9d-f5b2b74b6e38.png'
   };
@@ -1086,23 +1095,23 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     }catch(e){}
   }
 
-  /* ---------- laranjas ambiente (sutis, ATRÁS do conteúdo — não cobrem texto, não capturam clique, não afetam o scroll) ---------- */
+  /* ---------- laranjas ambiente: flutuam ALEATÓRIAS (não acompanham o scroll) e REAGEM ao mouse ---------- */
   (function(){
     var cv=doc.getElementById('oranges'); if(!cv) return;
     var ctx=cv.getContext('2d'); if(!ctx) return;
-    var W=win.innerWidth,H=win.innerHeight,DPR=1,run=false,last=0,list=[];
-    var N=win.innerWidth<760?3:5;
+    var W=win.innerWidth,H=win.innerHeight,DPR=1,run=false,last=0,list=[],px=-1e4,py=-1e4;
+    var N=win.innerWidth<760?4:7;
     function rnd(a,b){return a+(b-a)*Math.random();}
     function resize(){DPR=Math.min(win.devicePixelRatio||1,2);cv.width=Math.round(win.innerWidth*DPR);cv.height=Math.round(win.innerHeight*DPR);W=win.innerWidth;H=win.innerHeight;}
-    function build(){list=[];for(var i=0;i<N;i++){var depth=rnd(.5,1),sp=rnd(5,11),ang=rnd(0,6.2832);
-      list.push({x:rnd(.06,.94)*W,y:rnd(.06,.94)*H,r:rnd(18,32)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,curl:rnd(-.12,.12),rot:rnd(0,6.2832),vr:rnd(-.2,.2),depth:depth});}}
+    function build(){list=[];for(var i=0;i<N;i++){var depth=rnd(.5,1),sp=rnd(6,13),ang=rnd(0,6.2832);
+      list.push({x:rnd(.06,.94)*W,y:rnd(.06,.94)*H,r:rnd(16,30)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,curl:rnd(-.13,.13),rot:rnd(0,6.2832),vr:rnd(-.2,.2),depth:depth,ox:0,oy:0});}}
     function orange(o){
-      var r=o.r*DPR; ctx.save(); ctx.translate(o.x*DPR,o.y*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.16+.2*o.depth;
+      var r=o.r*DPR; ctx.save(); ctx.translate((o.x+o.ox)*DPR,(o.y+o.oy)*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.17+.2*o.depth;
       var g=ctx.createRadialGradient(-r*.32,-r*.34,r*.08,0,0,r);
       g.addColorStop(0,'#ffde93');g.addColorStop(.45,'#ff8a1e');g.addColorStop(1,'#b5500d');
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,6.2832);ctx.fill();
       ctx.globalAlpha*=.6;ctx.strokeStyle='rgba(255,224,160,.5)';ctx.lineWidth=Math.max(1,r*.05);ctx.beginPath();ctx.arc(0,0,r*.92,-2.5,-.8);ctx.stroke();
-      ctx.globalAlpha=.16+.2*o.depth;
+      ctx.globalAlpha=.17+.2*o.depth;
       ctx.fillStyle='#8ec84a';ctx.save();ctx.translate(r*.02,-r*.1);ctx.rotate(-.5);ctx.beginPath();ctx.ellipse(r*.26,-r*.16,r*.32,r*.13,0,0,6.2832);ctx.fill();ctx.restore();
       ctx.restore();
     }
@@ -1113,14 +1122,44 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
         var ca=Math.cos(o.curl*dt),sa=Math.sin(o.curl*dt),nvx=o.vx*ca-o.vy*sa,nvy=o.vx*sa+o.vy*ca;o.vx=nvx;o.vy=nvy;
         o.x+=o.vx*dt; o.y+=o.vy*dt;
         var m=o.r+40; if(o.x<-m)o.x=W+m;else if(o.x>W+m)o.x=-m; if(o.y<-m)o.y=H+m;else if(o.y>H+m)o.y=-m;
+        var dx=o.x-px, dy=o.y-py, d=Math.sqrt(dx*dx+dy*dy), R=150;
+        if(d<R){var f=(1-d/R);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*64-o.ox)*.2;o.oy+=(Math.sin(a)*f*64-o.oy)*.2;}
+        else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
         o.rot+=o.vr*dt; orange(o);
       }
       win.requestAnimationFrame(frame);
     }
+    win.addEventListener('mousemove',function(e){px=e.clientX;py=e.clientY;},{passive:true});
     win.addEventListener('resize',resize,{passive:true});
     resize();build();
     if(reduce){ for(var i=0;i<list.length;i++)orange(list[i]); }
     else { run=true; last=performance.now(); win.requestAnimationFrame(frame); }
+  })();
+
+  /* ---------- laranjas ORBITANDO o pote no hero (3D: passam na frente e atrás), reagem ao mouse ---------- */
+  (function(){
+    var stage=doc.querySelector('#hero .stage'); if(!stage) return;
+    function rnd(a,b){return a+(b-a)*Math.random();}
+    var wrap=doc.createElement('div'); wrap.className='orbit'; wrap.setAttribute('aria-hidden','true'); stage.appendChild(wrap);
+    var N=win.innerWidth<760?3:4, orbs=[];
+    for(var i=0;i<N;i++){var el=doc.createElement('span');el.className='orb';var base=win.innerWidth<760?24:34;var sz=base*(0.78+Math.random()*0.5);el.style.width=sz+'px';el.style.height=sz+'px';wrap.appendChild(el);
+      orbs.push({el:el,ang:(i/N)*6.2832+Math.random(),spd:rnd(.28,.5)*(Math.random()<.5?1:-1),tilt:rnd(.4,.55),ox:0,oy:0});}
+    var mx=-1e4,my=-1e4,last=0,run=!reduce;
+    win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+    function frame(now){ if(!run)return; var dt=(now-last)/1000; if(!(dt>0))dt=.016; if(dt>.05)dt=.05; last=now;
+      var r=stage.getBoundingClientRect(); var cx=r.left+r.width/2, cy=r.top+r.height*0.45, R=Math.min(r.width,r.height)*0.44;
+      for(var i=0;i<orbs.length;i++){var o=orbs[i]; o.ang+=o.spd*dt;
+        var ppx=Math.cos(o.ang)*R, ppy=Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
+        var sx=cx+ppx, sy=cy+ppy, dx=sx-mx, dy=sy-my, dd=Math.sqrt(dx*dx+dy*dy), RR=130;
+        if(dd<RR){var f=(1-dd/RR);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*44-o.ox)*.2;o.oy+=(Math.sin(a)*f*44-o.oy)*.2;}
+        else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
+        o.el.style.transform='translate(-50%,-50%) translate('+(ppx+o.ox).toFixed(1)+'px,'+(ppy+o.oy).toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+        o.el.style.zIndex=dep>0?6:1; o.el.style.opacity=(.5+.45*((dep+1)/2)).toFixed(2);
+      }
+      win.requestAnimationFrame(frame);
+    }
+    if(reduce){ for(var i=0;i<orbs.length;i++){var o=orbs[i];o.el.style.transform='translate(-50%,-50%) translate('+(Math.cos(o.ang)*90).toFixed(0)+'px,'+(Math.sin(o.ang)*44).toFixed(0)+'px)';} }
+    else { last=performance.now(); win.requestAnimationFrame(frame); }
   })();
 
   /* ---------- escassez (gatilho honesto, sem countdown) ---------- */
