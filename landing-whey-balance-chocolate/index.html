@@ -19,14 +19,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script type="importmap">
-{ "imports": {
-    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
-} }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <style>
 /* ============================================================
@@ -53,7 +48,6 @@ h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.02;margin:0;lette
 .tnum{font-variant-numeric:tabular-nums}
 
 /* ---------- fundo assinatura ---------- */
-#gl{position:fixed;inset:0;z-index:-2;width:100%;height:100%;display:block}
 #bg{position:fixed;inset:0;z-index:-2;width:100%;height:100%;display:block}
 .veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
@@ -61,21 +55,6 @@ h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.02;margin:0;lette
     radial-gradient(900px 700px at 6% 10%, rgba(120,60,20,.22), transparent 58%),
     radial-gradient(1000px 1000px at 50% 122%, rgba(8,4,2,.6), transparent 60%),
     linear-gradient(180deg, rgba(10,6,3,.1), rgba(10,6,3,.82))}
-
-/* ---------- loader ---------- */
-#loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--bg2);
-  transition:opacity .8s var(--ease),visibility .8s}
-#loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.ldr{display:flex;flex-direction:column;align-items:center;gap:20px}
-.ldr .mark{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--grad);
-  color:#1a0f07;font-family:var(--head);font-weight:700;font-size:34px;box-shadow:0 10px 34px rgba(207,138,67,.4);
-  animation:ldrpulse 1.5s var(--ease) infinite}
-.ldr .bar{width:150px;height:3px;border-radius:3px;background:rgba(234,177,115,.16);overflow:hidden}
-.ldr .bar i{display:block;height:100%;width:40%;border-radius:3px;background:var(--grad);animation:ldrbar 1.15s var(--ease) infinite}
-.ldr small{font-family:var(--body);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-@keyframes ldrpulse{0%,100%{transform:scale(1);box-shadow:0 10px 34px rgba(207,138,67,.4)}50%{transform:scale(1.06);box-shadow:0 14px 44px rgba(234,177,115,.55)}}
-@keyframes ldrbar{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
-@media(prefers-reduced-motion:reduce){.ldr .mark,.ldr .bar i{animation:none}}
 
 /* ---------- layout ---------- */
 .section{position:relative;max-width:var(--maxw);margin:0 auto;padding:104px 22px}
@@ -126,10 +105,10 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(80vw,760px);padding:0 22px;perspective:1200px}
+.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
-.poteWrap{position:relative;z-index:2;width:min(118%,690px);will-change:transform}
+.poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
@@ -147,7 +126,7 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
-  .poteWrap{width:min(90%,450px)}
+  .poteWrap{width:min(62%,300px)}
 }
 
 /* ---------- mídia em card ---------- */
@@ -269,6 +248,15 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .toggle button.on{background:var(--grad);color:#1a0f07}
 .offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
   border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+.kitpots{display:flex;justify-content:center;align-items:flex-end;gap:2px;min-height:118px;margin:2px 0 14px}
+.kitpots img{height:112px;width:auto;display:block;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6));
+  animation:floaty 6s ease-in-out infinite;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.kitpots img:nth-child(2){animation-delay:.5s;margin-left:-14px}
+.kitpots img:nth-child(3){animation-delay:.9s;margin-left:-14px}
+.kitpots.pop img{animation:floaty 6s ease-in-out infinite,potIn .5s var(--ease) both}
+@keyframes potIn{0%{opacity:0;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}
+@media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
+@media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 .offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:8px 0 2px}
 .offer-panel .per{font-size:13px;color:var(--muted)}
@@ -326,16 +314,26 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(10,6,3,.
 .foot h4{font-family:var(--body);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--caramel);margin:0 0 14px}
 .foot a,.foot p{color:var(--muted);font-size:14px;margin:0 0 9px;font-family:var(--body)}
 .foot a:hover{color:var(--cream)}
+.foot-contact a{display:block}
+.foot-social{display:flex;gap:10px;margin-top:2px;flex-wrap:wrap}
+.foot-social a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+  color:var(--muted);margin:0;transition:color .3s,border-color .3s,transform .2s var(--ease)}
+.foot-social a:hover{color:var(--caramel);border-color:rgba(234,177,115,.6);transform:translateY(-3px)}
+.foot-social svg{width:19px;height:19px}
 .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .pay span{font-size:10.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:var(--glass);font-family:var(--body)}
 .legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 110px;color:rgba(243,231,214,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--line);font-family:var(--body)}
 @media(min-width:861px){.legal{padding-bottom:40px}}
 
 /* whatsapp + barra mobile + progresso + toast */
-.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:54px;height:54px;border-radius:50%;background:#25d366;
-  display:grid;place-items:center;box-shadow:0 12px 30px rgba(37,211,102,.45);transition:.3s}
-.wa:hover{transform:scale(1.07)}.wa svg{width:29px;height:29px;fill:#fff}
+.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:56px;height:56px;border-radius:50%;
+  background:rgba(28,17,9,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);
+  display:grid;place-items:center;transition:transform .2s var(--ease),background .3s;animation:waGlow 2.6s ease-in-out infinite}
+.wa:hover{transform:scale(1.08);background:rgba(234,177,115,.14)}
+.wa svg{width:30px;height:30px;fill:var(--caramel)}
+@keyframes waGlow{0%,100%{box-shadow:0 0 12px 2px rgba(234,177,115,.28)}50%{box-shadow:0 0 24px 7px rgba(234,177,115,.55)}}
 @media(min-width:861px){.wa{bottom:18px}}
+@media(prefers-reduced-motion:reduce){.wa{animation:none}}
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:75;display:none;align-items:center;gap:12px;
   padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(13,7,5,.92);backdrop-filter:blur(12px);
   border-top:1px solid var(--line)}
@@ -392,8 +390,6 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 @media(max-width:380px){.hero-stats{flex-direction:column}.stat{flex:1 1 auto}}
 </style>
 
-<div id="loader" aria-hidden="true"><div class="ldr"><span class="mark">B</span><span class="bar"><i></i></span><small>Botanika</small></div></div>
-<canvas id="gl" aria-hidden="true"></canvas>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="progress" id="progress" aria-hidden="true"></div>
@@ -630,6 +626,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <button data-qty="3">3 potes</button>
   </div>
   <div class="offer-panel reveal">
+    <div class="kitpots" id="kitPots" aria-hidden="true"></div>
     <div class="kit" id="kitName">Kit 2 potes · 26 porções</div>
     <div class="big tnum" id="kitPrice">R$ 294,60</div>
     <div class="per" id="kitPer">R$ 147,30/pote · 3x sem juros</div>
@@ -683,8 +680,14 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       <p>Suplementos premium com curadoria do Dr. William Araújo (@drwilliamaraujo). Fabricação by GSA.</p>
       <div class="pay"><span>PIX</span><span>VISA</span><span>MASTER</span><span>ELO</span><span>AMEX</span><span>BOLETO</span></div>
     </div>
-    <div><h4>Contato</h4><a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a><a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a><p>Seg–Sex · 9h às 18h</p></div>
-    <div><h4>Redes</h4><a href="https://instagram.com/botanikabrasil">Instagram</a><a href="https://youtube.com/@BotanikaBrasil">YouTube</a><a href="https://wa.me/5531972679362">WhatsApp</a></div>
+    <div class="foot-contact"><h4>Contato</h4><a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a><a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a><p>Seg–Sex · 9h às 18h</p></div>
+    <div><h4>Redes</h4>
+      <div class="foot-social">
+        <a href="https://instagram.com/botanikabrasil" target="_blank" rel="noopener" aria-label="Instagram da Botanika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://youtube.com/@BotanikaBrasil" target="_blank" rel="noopener" aria-label="YouTube da Botanika"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg></a>
+        <a href="https://wa.me/5531972679362" target="_blank" rel="noopener" aria-label="WhatsApp da Botanika"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+      </div>
+    </div>
   </div>
   <div class="legal">Suplemento alimentar. Não substitui uma alimentação equilibrada e um estilo de vida saudável. Não trata, previne ou cura doenças. Não indicado para gestantes, lactantes e crianças sem orientação de profissional de saúde. Contém os ingredientes descritos no rótulo. Em caso de dúvida, consulte seu nutricionista ou médico. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</div>
 </footer>
@@ -767,12 +770,17 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   var KITS={1:{n:'Kit 1 pote · 455 g · 13 porções',price:'R$ 147,30',per:'ou 3x de R$ 49,10',save:'5% OFF com cupom BOTANIKA'},
             2:{n:'Kit 2 potes · 26 porções',price:'R$ 294,60',per:'R$ 147,30/pote · 3x sem juros',save:'5% OFF com cupom BOTANIKA'},
             3:{n:'Kit 3 potes · 39 porções',price:'R$ 441,90',per:'R$ 147,30/pote',save:'5% OFF + FRETE GRÁTIS'}};
-  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy');
+  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
+  var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
+  function renderPots(q){ if(!potsEl) return; var n=parseInt(q,10)||1,h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
+    potsEl.classList.remove('pop'); potsEl.innerHTML=h; void potsEl.offsetWidth; potsEl.classList.add('pop'); }
   function setKit(q){ var k=KITS[q]; doc.getElementById('kitName').textContent=k.n; doc.getElementById('kitPrice').textContent=k.price;
     doc.getElementById('kitPer').textContent=k.per; doc.getElementById('kitSave').textContent=k.save;
     buy.setAttribute('href',withParams(base+VAR+':'+q+'?discount=BOTANIKA')); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
+    renderPots(q);
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
+  renderPots('2');
   fbqt('ViewContent',{content_name:'Whey Balance Chocolate',content_ids:['48115368919272'],content_type:'product',value:147.30,currency:'BRL'});
   [].slice.call(doc.querySelectorAll('a[href*="/cart/"]')).forEach(function(a){
     a.setAttribute('href',withParams(a.getAttribute('href')));
@@ -827,12 +835,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     if(sprite){ for(var k=0;k<dust.length;k++){ var p=dust[k]; p.y-=p.s; p.x+=Math.sin(p.d+p.y*.01)*.1; if(p.y<-12){ p.y=H+12; p.x=Math.random()*W; }
       var py=((p.y - sY*RS*p.z*.3)%(H+24)+(H+24))%(H+24); ctx.globalAlpha=p.o; ctx.drawImage(sprite,p.x-p.r/2,py-p.r/2,p.r,p.r); } ctx.globalAlpha=1; }
     ctx.globalCompositeOperation='source-over';
-    if(running && !reduce) requestAnimationFrame(draw);
+    if(!reduce) requestAnimationFrame(draw);
   }
-  var running=false;
-  window.__startFallback=function(){ if(running) return; running=true; cv.style.display='block'; if(reduce){ draw(); } else { requestAnimationFrame(draw); } };
-  window.__stopFallback=function(){ running=false; };
-  makeSprite(); resize(); seed(); window.__startFallback();
+  makeSprite(); resize(); seed(); draw();
   var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ resize(); seed(); if(reduce)draw(); },220); });
   window.addEventListener('mousemove',function(e){ mx=e.clientX/innerWidth; my=e.clientY/innerHeight; },{passive:true});
   window.addEventListener('scroll',function(){ sY=window.scrollY||0; },{passive:true});
@@ -846,7 +851,17 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       fine=matchMedia('(hover:hover) and (pointer:fine)').matches,
       reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  /* scroll suave: nativo via scroll-behavior:smooth (Lenis removido do projeto) */
+  /* scroll suave no desktop */
+  if(!reduce && window.Lenis && fine){
+    try{
+      var lenis=new Lenis({duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);},smoothWheel:true});
+      window.__lenis=lenis;
+      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+      D.documentElement.style.scrollBehavior='auto';
+      if(ST) lenis.on('scroll',function(){ ST.update(); });
+      D.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click',function(e){ var h=a.getAttribute('href'); if(h.length>1){ var t=D.querySelector(h); if(t){ e.preventDefault(); lenis.scrollTo(t,{offset:-72}); } } }); });
+    }catch(e){}
+  }
 
   if(reduce || !G || !ST){ return; }
   try{ G.registerPlugin(ST); }catch(e){ return; }
@@ -916,11 +931,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     lb.innerHTML='<button class="x" aria-label="Fechar">&times;</button><img alt="Depoimento em tela cheia">';
     D.body.appendChild(lb);
     var lbImg=lb.querySelector('img'), savedY=0, isOpen=false;
-    /* trava de scroll segura p/ iOS: fixa o body preservando a posição */
+    /* trava de scroll segura p/ iOS: desktop usa Lenis.stop(); mobile fixa o body preservando a posição */
     function lock(){ savedY=window.scrollY||window.pageYOffset||0;
-      var b=D.body; b.style.position='fixed'; b.style.top=(-savedY)+'px'; b.style.left='0'; b.style.right='0'; b.style.width='100%'; }
+      if(window.__lenis){ try{ window.__lenis.stop(); }catch(e){} }
+      else { var b=D.body; b.style.position='fixed'; b.style.top=(-savedY)+'px'; b.style.left='0'; b.style.right='0'; b.style.width='100%'; } }
     function unlock(){
-      var b=D.body; b.style.position=''; b.style.top=''; b.style.left=''; b.style.right=''; b.style.width=''; window.scrollTo(0,savedY); }
+      if(window.__lenis){ try{ window.__lenis.start(); }catch(e){} }
+      else { var b=D.body; b.style.position=''; b.style.top=''; b.style.left=''; b.style.right=''; b.style.width=''; window.scrollTo(0,savedY); } }
     function open(src){ if(isOpen) return; isOpen=true; lbImg.src=src; lb.classList.add('open'); lock(); }
     function close(){ if(!isOpen) return; isOpen=false; lb.classList.remove('open'); unlock();
       setTimeout(function(){ if(!isOpen) lbImg.src=''; },420); }
@@ -933,174 +950,4 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     D.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) close(); });
   }
 })();
-</script>
-
-<style>
-.imm-cursor{position:fixed;top:0;left:0;width:26px;height:26px;border-radius:50%;pointer-events:none;z-index:95;
-  background:radial-gradient(circle,rgba(234,177,115,.5),transparent 68%);mix-blend-mode:screen;opacity:0;
-  transition:width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),opacity .35s;will-change:transform}
-.imm-cursor.big{width:60px;height:60px;background:radial-gradient(circle,rgba(234,177,115,.32),transparent 70%)}
-@media(pointer:coarse){.imm-cursor{display:none}}
-@media(prefers-reduced-motion:reduce){.imm-cursor{display:none}}
-</style>
-<script>
-/* ===== camada imersiva: loader + cursor glow + header some ao rolar ===== */
-(function(){"use strict";
-  var d=document,w=window,reduce=w.matchMedia&&w.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var ld=d.getElementById('loader');
-  function done(){ if(ld) ld.classList.add('done'); }
-  w.addEventListener('load',done); setTimeout(done,2200);
-  if(!(w.matchMedia&&w.matchMedia('(pointer:coarse)').matches)&&!reduce){
-    var c=d.createElement('div');c.className='imm-cursor';d.body.appendChild(c);
-    var cx=w.innerWidth/2,cy=w.innerHeight/2,tx=cx,ty=cy;
-    w.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;c.style.opacity='1';},{passive:true});
-    w.addEventListener('mouseout',function(){c.style.opacity='0';});
-    (function loop(){cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;c.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
-    Array.prototype.slice.call(d.querySelectorAll('a,button,summary,.card,.device,.chip')).forEach(function(el){el.addEventListener('mouseenter',function(){c.classList.add('big');});el.addEventListener('mouseleave',function(){c.classList.remove('big');});});
-  }
-  var hdr=d.getElementById('hdr'),ly=0;
-  if(hdr){ w.addEventListener('scroll',function(){var y=w.pageYOffset||d.documentElement.scrollTop;
-    if(y>460&&y>ly+4){hdr.style.transform='translateY(-130%)';}else if(y<ly-4||y<200){hdr.style.transform='';}ly=y;},{passive:true}); }
-})();
-</script>
-
-<script type="module">
-/* ===== fundo-assinatura WebGL: "Cacau Fundido" (flow-wave recolorido, Three.js) ===== */
-try{
-  const THREE = await import('three');
-  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
-  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
-  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
-  const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
-  const { GammaCorrectionShader } = await import('three/addons/shaders/GammaCorrectionShader.js');
-  const { CopyShader } = await import('three/addons/shaders/CopyShader.js');
-
-  // Cacau Fundido palette
-  const bgColor='#140b07', flameColor='#c9762f', flameColor2='#eab173', flameAmt=0.17;
-  const atmoColor='#eab173', atmoCount = innerWidth<760?60:120, atmoSize=22, atmoSpeed=0.9;
-  const colorLow='#5c2c12', colorHigh='#eab173', opacity=0.11, pointSize=4.8, brightness=0.34;
-  const waveHeight=3, flow=1.0, tilt=0, scale=0.275, scrollRise=1.0;
-  const camStartY=7, camStartZ=16, camEndY=0.8, camEndZ=-2;
-  const lookStartZ=2, lookEndZ=-16, parallax=1.2, pointerRadius=7.0, pointerStrength=0.9;
-  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
-  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
-
-  const canvas=document.getElementById('gl');
-  const _t=document.createElement('canvas');
-  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
-
-  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
-  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x000000); scene.fog=new THREE.Fog(0x000000,0,15);
-  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,7,16);
-  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
-  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
-
-  const SNOISE=`
-    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
-    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
-      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
-      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
-      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
-      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
-      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
-      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
-      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
-      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
-      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
-      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
-      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
-      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
-
-  const geo=new THREE.SphereGeometry(4.2,innerWidth<760?120:200,innerWidth<760?320:600);
-  const uniforms={uTime:{value:0},uStream:{value:0},uAppear:{value:0},
-    uColLow:{value:hexToVec3(colorLow)},uColHigh:{value:hexToVec3(colorHigh)},
-    uOpacity:{value:opacity},uSize:{value:pointSize},uBrightness:{value:brightness},
-    uWaveHeight:{value:waveHeight},uFlow:{value:flow},uScale:{value:scale},
-    uCursor:{value:new THREE.Vector3()},uRepelRadius:{value:pointerRadius},uRepelStrength:{value:pointerStrength},uActivity:{value:0}};
-  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,
-    vertexShader:`uniform float uTime;uniform float uStream;uniform float uSize;uniform float uWaveHeight;uniform float uFlow;uniform float uScale;
-      uniform vec3 uColLow;uniform vec3 uColHigh;uniform vec3 uCursor;uniform float uRepelRadius;uniform float uRepelStrength;uniform float uActivity;
-      varying float vFade;varying vec3 vColor;${SNOISE}
-      void main(){vec3 wp=vec3(position.x*13.0,0.0,position.z*25.0);wp.x+=position.y*6.0;float zc=wp.z+uStream;
-        float wn=snoise(vec3(wp.x*0.08,zc*0.08,uTime*0.15*uFlow))*2.0;wn+=snoise(vec3(wp.x*0.16,zc*0.16,uTime*0.3*uFlow))*0.8;wp.y+=wn*uWaveHeight;
-        vec3 finalPos=wp*uScale;vec4 modelPosition=modelMatrix*vec4(finalPos,1.0);vec3 toP=modelPosition.xyz-uCursor;float cd=length(toP);
-        float fall=smoothstep(uRepelRadius,0.0,cd);modelPosition.xyz+=normalize(toP+vec3(0.0001))*fall*uRepelStrength*uActivity;
-        vec4 mvPosition=viewMatrix*modelPosition;float colMix=smoothstep(-3.0,3.0,position.y+position.x*0.5);
-        vColor=mix(uColLow,uColHigh,clamp(colMix,0.0,1.0));vFade=1.0;gl_PointSize=uSize*(10.0/-mvPosition.z);gl_PointSize=max(gl_PointSize,1.5);gl_Position=projectionMatrix*mvPosition;}`,
-    fragmentShader:`uniform float uOpacity;uniform float uBrightness;uniform float uAppear;varying float vFade;varying vec3 vColor;
-      void main(){vec2 xy=gl_PointCoord-0.5;float ll=length(xy);if(ll>0.5)discard;float a=smoothstep(0.5,0.1,ll);gl_FragColor=vec4(vColor*uBrightness,vFade*a*uOpacity*uAppear);}`});
-  const points=new THREE.Points(geo,mat);points.frustumCulled=false;points.layers.enable(3);
-  const group=new THREE.Group();group.add(points);scene.add(group);
-
-  const FinalPass={uniforms:{iTime:{value:0},tDiffuse:{value:null},torusTexture:{value:null},bloomTexture:{value:null},haloTexture:{value:null},
-      uBg:{value:hexToVec3(bgColor)},uFlameA:{value:hexToVec3(flameColor)},uFlameB:{value:hexToVec3(flameColor2)},uFlameAmt:{value:flameAmt}},
-    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
-    fragmentShader:`uniform float iTime;uniform sampler2D tDiffuse;uniform sampler2D bloomTexture;uniform sampler2D torusTexture;uniform sampler2D haloTexture;
-      uniform vec3 uBg;uniform vec3 uFlameA;uniform vec3 uFlameB;uniform float uFlameAmt;varying vec2 vUv;
-      vec3 warp3d(vec3 pos,float t){float curv=.8,a=1.9,b=0.7;pos*=2.;pos.x+=curv*sin(t+a*pos.y)+t*b;pos.y+=curv*cos(t+a*pos.x);
-        pos.y+=curv*sin(t+a*pos.z)+t*b;pos.z+=curv*cos(t+a*pos.y);pos.z+=curv*sin(t+a*pos.x)+t*b;pos.x+=curv*cos(t+a*pos.z);return 0.5+0.5*cos(pos.xyz+vec3(1,2,4));}
-      void main(){vec2 uv=2.*vUv-1.;vec3 w=pow(warp3d(vec3(uv.x,sin(uv.y),uv.y),iTime*1.5),vec3(1.5));
-        vec3 flame=1.5*uFlameA*w.x;flame*=w.y;flame+=uFlameB*w.z;flame*=smoothstep(0.25,1.,abs(uv.y));
-        float md=smoothstep(-0.7,1.,-uv.y*uv.x);flame*=md*md;vec3 bg=uBg*(1.0-0.4*length(uv));vec3 halo=texture2D(haloTexture,vUv).xyz;
-        gl_FragColor=vec4(bg+flame*uFlameAmt+texture2D(bloomTexture,vUv).xyz+texture2D(torusTexture,vUv).xyz+texture2D(tDiffuse,vUv).xyz+halo,1.);}`};
-
-  const renderScene=new RenderPass(scene,camera);
-  const torusComposer=new EffectComposer(renderer);torusComposer.renderToScreen=false;
-  torusComposer.addPass(renderScene);torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  torusComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.22,0.2,0));torusComposer.addPass(new ShaderPass(CopyShader));
-  const bloomComposer=new EffectComposer(renderer);bloomComposer.renderToScreen=false;
-  bloomComposer.addPass(renderScene);bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.4,0.55,0));bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
-  const finalPass=new ShaderPass(FinalPass);
-  const finalComposer=new EffectComposer(renderer);finalComposer.addPass(renderScene);finalComposer.addPass(finalPass);
-  finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
-  finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
-  finalPass.uniforms.haloTexture.value=blackTex;
-
-  let atmoMat;
-  (function(){const N=Math.round(atmoCount);const positions=new Float32Array(N*3),sizes=new Float32Array(N),seeds=new Float32Array(N);
-    for(let i=0;i<N;i++){positions[i*3]=2*Math.random()-1;positions[i*3+1]=2*Math.random()-1;positions[i*3+2]=2*Math.random()-1;sizes[i]=atmoSize*(0.4+Math.random());seeds[i]=Math.random();}
-    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(positions,3));g.setAttribute('size',new THREE.BufferAttribute(sizes,1));g.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
-    atmoMat=new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,
-      uniforms:{uTime:{value:0},uColor:{value:hexToVec3(atmoColor)},uRes:{value:new THREE.Vector2(innerWidth*devicePixelRatio,innerHeight*devicePixelRatio)}},
-      vertexShader:`attribute float size;attribute float seed;uniform float uTime;uniform vec2 uRes;varying float vA;
-        vec3 warp(vec3 p,float t){float c=0.9,a=1.9,b=0.02,s=0.05;p*=2.;p.x+=c*sin(s*t+a*p.y)+t*b;p.y+=c*cos(s*t+a*p.x);p.y+=c*sin(s*t+a*p.z)+t*b;p.z+=c*cos(s*t+a*p.y);p.z+=c*sin(s*t+a*p.x)+t*b;p.x+=c*cos(s*t+a*p.z);return cos(p+vec3(1,2,4));}
-        void main(){vec3 v=position*4.0+warp(position,uTime)*1.2;vec4 mv=modelViewMatrix*vec4(v,1.0);float r=length(v);float farF=1.0-smoothstep(5.0,6.5,r);float nearF=smoothstep(0.0,0.5,-mv.z);vA=farF*nearF;gl_PointSize=size*uRes.y/900.0/-mv.z;gl_PointSize=max(gl_PointSize,1.0);gl_Position=projectionMatrix*mv;}`,
-      fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-0.5;float l=length(p);if(l>0.5)discard;float tex=smoothstep(0.5,0.0,l);gl_FragColor=vec4(uColor*tex,tex*vA*0.6);}`});
-    const pts=new THREE.Points(g,atmoMat);pts.frustumCulled=false;pts.layers.enable(3);
-    pts.onBeforeRender=function(){const t=performance.now()/1000;atmoMat.uniforms.uTime.value=t*atmoSpeed*8.0;pts.position.copy(camera.position);finalPass.uniforms.iTime.value=t;};
-    scene.add(pts);})();
-
-  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
-  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
-  addEventListener('scroll',onScroll,{passive:true});
-  const mTarget={x:0,y:0},m={x:0,y:0};
-  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
-  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
-  addEventListener('mouseout',()=>{POINTER.active=false;});
-  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
-  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
-
-  const sceneObj={stream:0,appearStart:performance.now(),t0:performance.now()/1000,
-    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;this.stream+=dt*(flow*2.0)*4.0;uniforms.uStream.value=this.stream;
-      uniforms.uWaveHeight.value=waveHeight*(1+scroll*scrollRise);const ea=Math.min(scroll/0.35,1.0);const e=ea*ea*(3-2*ea);
-      const camY=Lerp(camStartY,camEndY,e),camZ=Lerp(camStartZ,camEndZ,e);camera.position.set(mm.x*parallax,camY+mm.y*parallax*0.3,camZ);camera.lookAt(mm.x*parallax*0.5,Lerp(0.0,0.6,e),Lerp(lookStartZ,lookEndZ,e));
-      group.rotation.x=-tilt;group.rotation.y=0;updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
-      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.4));}};
-
-  function loop(){requestAnimationFrame(loop);scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
-    camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();for(const c of[torusComposer,bloomComposer,finalComposer]){c.setPixelRatio(dpr);c.setSize(w,h);}if(atmoMat)atmoMat.uniforms.uRes.value.set(w*dpr,h*dpr);onScroll();}
-  addEventListener('resize',resize);
-  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  resize();onScroll();
-  if(window.__stopFallback)window.__stopFallback();
-  var bg2d=document.getElementById('bg'); if(bg2d) bg2d.style.display='none';
-  if(rm){camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
-  else loop();
-}catch(err){
-  var g=document.getElementById('gl'); if(g) g.style.display='none';
-  if(window.__startFallback) window.__startFallback();
-}
 </script>
