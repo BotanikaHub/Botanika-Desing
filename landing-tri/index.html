@@ -393,7 +393,7 @@
         <a href="#tomar">Como tomar</a>
         <a href="#comprar">Oferta</a>
     </nav>
-    <a class="btn header-cta" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener">Comprar</a>
+    <a class="btn header-cta" href="#comprar">Comprar</a>
 </header>
 
 <!-- HERO -->
@@ -409,7 +409,7 @@
                 <span class="form-chip"><i style="background:var(--violet)"></i>Citrato</span>
             </div>
             <div class="hero-cta">
-                <a class="btn" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener">Quero mais equilíbrio
+                <a class="btn" href="#comprar">Quero mais equilíbrio
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 <a class="btn btn-ghost" href="#formula">Ver a fórmula</a>
             </div>
@@ -662,7 +662,7 @@
                 <div class="buy-cash">ou <span id="buyCash">R$ 87,50</span> à vista</div>
                 <div class="buy-save" id="buySave"></div>
                 <span class="buy-bonus" id="buyBonus">🎁 + Manual da Suplementação</span>
-                <a class="btn" id="mainBuy" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener">Quero o meu Tri[Mg] Complex
+                <a class="btn" id="mainBuy" href="https://botanikabrasil.com.br/cart/48115368558824:1?discount=BOTANIKA" target="_blank" rel="noopener">Quero o meu Tri[Mg] Complex
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 <div class="buy-perks"><span><b>✓</b> Frete grátis +R$349</span><span><b>✓</b> 7 dias de garantia</span><span><b>✓</b> Compra segura</span></div>
             </div>
@@ -699,7 +699,7 @@
             <div class="cd-b"><span class="cd-n" id="cd-m">00</span><span class="cd-l">min</span></div>
             <div class="cd-b"><span class="cd-n" id="cd-s">00</span><span class="cd-l">seg</span></div>
         </div>
-        <div><a class="btn" href="https://botanikabrasil.com.br/cart/48115368558824:1" target="_blank" rel="noopener" style="font-size:1.05rem;padding:1.15rem 2.6rem">Quero garantir o meu Tri[Mg] Complex
+        <div><a class="btn" href="#comprar" style="font-size:1.05rem;padding:1.15rem 2.6rem">Quero garantir o meu Tri[Mg] Complex
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
         <p class="guar">🔒 Compra segura · Satisfação garantida · Entrega para todo o Brasil</p>
     </div>
@@ -867,7 +867,7 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&typeof gsap!=='undefi
         bonus.classList.toggle('show',d.bonus);
         if(badge){badge.textContent=d.badge;badge.classList.toggle('show',!!d.badge)}
         if(window.__setOrbits)window.__setOrbits({'1':5,'2':9,'3':14}[p]||5);
-        if(buy)buy.href='https://botanikabrasil.com.br/cart/48115368558824:'+p;
+        if(buy)buy.href='https://botanikabrasil.com.br/cart/48115368558824:'+p+'?discount=BOTANIKA';
     }
     btns.forEach(b=>b.addEventListener('click',()=>{
         btns.forEach(x=>{x.classList.remove('on');x.setAttribute('aria-selected','false')});
