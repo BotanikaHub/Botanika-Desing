@@ -105,10 +105,10 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(80vw,760px);padding:0 22px;perspective:1200px}
+.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
-.poteWrap{position:relative;z-index:2;width:min(118%,690px);will-change:transform}
+.poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 54px 60px rgba(0,0,0,.6)) drop-shadow(0 14px 26px rgba(0,0,0,.5));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
@@ -126,7 +126,7 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
-  .poteWrap{width:min(90%,450px)}
+  .poteWrap{width:min(62%,300px)}
 }
 
 /* ---------- mídia em card ---------- */
@@ -248,6 +248,15 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .toggle button.on{background:var(--grad);color:#1a0f07}
 .offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
   border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+.kitpots{display:flex;justify-content:center;align-items:flex-end;gap:2px;min-height:118px;margin:2px 0 14px}
+.kitpots img{height:112px;width:auto;display:block;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6));
+  animation:floaty 6s ease-in-out infinite;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.kitpots img:nth-child(2){animation-delay:.5s;margin-left:-14px}
+.kitpots img:nth-child(3){animation-delay:.9s;margin-left:-14px}
+.kitpots.pop img{animation:floaty 6s ease-in-out infinite,potIn .5s var(--ease) both}
+@keyframes potIn{0%{opacity:0;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}
+@media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
+@media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 .offer-panel .big{font-family:var(--head);font-size:52px;font-weight:700;color:var(--caramel);line-height:1;margin:8px 0 2px}
 .offer-panel .per{font-size:13px;color:var(--muted)}
@@ -305,16 +314,26 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(10,6,3,.
 .foot h4{font-family:var(--body);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--caramel);margin:0 0 14px}
 .foot a,.foot p{color:var(--muted);font-size:14px;margin:0 0 9px;font-family:var(--body)}
 .foot a:hover{color:var(--cream)}
+.foot-contact a{display:block}
+.foot-social{display:flex;gap:10px;margin-top:2px;flex-wrap:wrap}
+.foot-social a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+  color:var(--muted);margin:0;transition:color .3s,border-color .3s,transform .2s var(--ease)}
+.foot-social a:hover{color:var(--caramel);border-color:rgba(234,177,115,.6);transform:translateY(-3px)}
+.foot-social svg{width:19px;height:19px}
 .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .pay span{font-size:10.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:var(--glass);font-family:var(--body)}
 .legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 110px;color:rgba(243,231,214,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--line);font-family:var(--body)}
 @media(min-width:861px){.legal{padding-bottom:40px}}
 
 /* whatsapp + barra mobile + progresso + toast */
-.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:54px;height:54px;border-radius:50%;background:#25d366;
-  display:grid;place-items:center;box-shadow:0 12px 30px rgba(37,211,102,.45);transition:.3s}
-.wa:hover{transform:scale(1.07)}.wa svg{width:29px;height:29px;fill:#fff}
+.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:56px;height:56px;border-radius:50%;
+  background:rgba(28,17,9,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);
+  display:grid;place-items:center;transition:transform .2s var(--ease),background .3s;animation:waGlow 2.6s ease-in-out infinite}
+.wa:hover{transform:scale(1.08);background:rgba(234,177,115,.14)}
+.wa svg{width:30px;height:30px;fill:var(--caramel)}
+@keyframes waGlow{0%,100%{box-shadow:0 0 12px 2px rgba(234,177,115,.28)}50%{box-shadow:0 0 24px 7px rgba(234,177,115,.55)}}
 @media(min-width:861px){.wa{bottom:18px}}
+@media(prefers-reduced-motion:reduce){.wa{animation:none}}
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:75;display:none;align-items:center;gap:12px;
   padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(13,7,5,.92);backdrop-filter:blur(12px);
   border-top:1px solid var(--line)}
@@ -607,6 +626,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <button data-qty="3">3 potes</button>
   </div>
   <div class="offer-panel reveal">
+    <div class="kitpots" id="kitPots" aria-hidden="true"></div>
     <div class="kit" id="kitName">Kit 2 potes · 26 porções</div>
     <div class="big tnum" id="kitPrice">R$ 294,60</div>
     <div class="per" id="kitPer">R$ 147,30/pote · 3x sem juros</div>
@@ -660,8 +680,14 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       <p>Suplementos premium com curadoria do Dr. William Araújo (@drwilliamaraujo). Fabricação by GSA.</p>
       <div class="pay"><span>PIX</span><span>VISA</span><span>MASTER</span><span>ELO</span><span>AMEX</span><span>BOLETO</span></div>
     </div>
-    <div><h4>Contato</h4><a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a><a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a><p>Seg–Sex · 9h às 18h</p></div>
-    <div><h4>Redes</h4><a href="https://instagram.com/botanikabrasil">Instagram</a><a href="https://youtube.com/@BotanikaBrasil">YouTube</a><a href="https://wa.me/5531972679362">WhatsApp</a></div>
+    <div class="foot-contact"><h4>Contato</h4><a href="mailto:contato@botanikabrasil.com.br">contato@botanikabrasil.com.br</a><a href="https://wa.me/5531972679362">WhatsApp (31) 97267‑9362</a><p>Seg–Sex · 9h às 18h</p></div>
+    <div><h4>Redes</h4>
+      <div class="foot-social">
+        <a href="https://instagram.com/botanikabrasil" target="_blank" rel="noopener" aria-label="Instagram da Botanika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://youtube.com/@BotanikaBrasil" target="_blank" rel="noopener" aria-label="YouTube da Botanika"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg></a>
+        <a href="https://wa.me/5531972679362" target="_blank" rel="noopener" aria-label="WhatsApp da Botanika"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+      </div>
+    </div>
   </div>
   <div class="legal">Suplemento alimentar. Não substitui uma alimentação equilibrada e um estilo de vida saudável. Não trata, previne ou cura doenças. Não indicado para gestantes, lactantes e crianças sem orientação de profissional de saúde. Contém os ingredientes descritos no rótulo. Em caso de dúvida, consulte seu nutricionista ou médico. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</div>
 </footer>
@@ -744,12 +770,17 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   var KITS={1:{n:'Kit 1 pote · 455 g · 13 porções',price:'R$ 147,30',per:'ou 3x de R$ 49,10',save:'5% OFF com cupom BOTANIKA'},
             2:{n:'Kit 2 potes · 26 porções',price:'R$ 294,60',per:'R$ 147,30/pote · 3x sem juros',save:'5% OFF com cupom BOTANIKA'},
             3:{n:'Kit 3 potes · 39 porções',price:'R$ 441,90',per:'R$ 147,30/pote',save:'5% OFF + FRETE GRÁTIS'}};
-  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy');
+  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
+  var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
+  function renderPots(q){ if(!potsEl) return; var n=parseInt(q,10)||1,h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
+    potsEl.classList.remove('pop'); potsEl.innerHTML=h; void potsEl.offsetWidth; potsEl.classList.add('pop'); }
   function setKit(q){ var k=KITS[q]; doc.getElementById('kitName').textContent=k.n; doc.getElementById('kitPrice').textContent=k.price;
     doc.getElementById('kitPer').textContent=k.per; doc.getElementById('kitSave').textContent=k.save;
     buy.setAttribute('href',withParams(base+VAR+':'+q+'?discount=BOTANIKA')); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
+    renderPots(q);
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
+  renderPots('2');
   fbqt('ViewContent',{content_name:'Whey Balance Chocolate',content_ids:['48115368919272'],content_type:'product',value:147.30,currency:'BRL'});
   [].slice.call(doc.querySelectorAll('a[href*="/cart/"]')).forEach(function(a){
     a.setAttribute('href',withParams(a.getAttribute('href')));
