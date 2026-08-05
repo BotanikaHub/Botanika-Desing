@@ -328,13 +328,18 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .toggle button.active{color:#211534;background:var(--grad);box-shadow:0 8px 22px -8px rgba(182,166,224,.7)}
 .toggle button.active .tag{color:#33224a}
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
-.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.price-now{font-family:var(--head);font-weight:600;font-size:clamp(40px,6vw,58px);line-height:1;margin:6px 0}
-.price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--amber);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:6px}
+.price-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.disc-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;letter-spacing:.02em;color:#211534;background:var(--grad);padding:6px 14px;border-radius:100px;box-shadow:0 8px 20px -10px rgba(233,196,137,.75)}
+.price-now{font-family:var(--head);font-weight:600;font-size:clamp(42px,6.2vw,60px);line-height:1;margin:2px 0;color:var(--cream)}
+.price-now small{font-family:var(--head);font-size:.46em;color:var(--lilac);font-weight:600;margin-right:2px}
+.price-now em{font-family:var(--body);font-style:normal;font-size:.24em;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase;vertical-align:middle;margin-left:6px}
+.price-full{margin-top:9px;font-size:13.5px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.price-old{font-size:13.5px;color:var(--muted);text-decoration:line-through;opacity:.75}
+.price-full #p-avista{color:var(--soft);font-weight:600}
 .price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
 .price-meta .li{display:flex;gap:9px;align-items:center}
 .price-meta .li i{font-style:normal;color:var(--lilac)}
-.save-badge{display:inline-block;font-size:12.5px;font-weight:700;color:#211534;background:var(--amber);padding:4px 11px;border-radius:100px;margin-top:12px}
+.save-badge{display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--amber-hi);background:rgba(233,196,137,.12);border:1px solid var(--line-2);padding:6px 13px;border-radius:100px}
 .offer-cta{display:grid;gap:12px}
 .coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:13px 16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);transition:.25s}
 .coupon:hover{border-color:var(--lilac)}
@@ -767,20 +772,22 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       </div>
       <div class="offer-body">
         <div class="offer-price">
-          <div class="price-old" id="p-old">R$ 239,40</div>
-          <div class="price-now" id="p-now">R$ 227,43</div>
-          <div class="price-cup" id="p-disc">🏷️ −5% por quantidade · aplicado no checkout</div>
+          <div class="price-badges">
+            <span class="disc-badge" id="p-disc">🏷️ −5% por quantidade</span>
+            <span class="save-badge" id="p-save">economize R$ 11,97</span>
+          </div>
+          <div class="price-now"><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros</em></div>
+          <div class="price-full"><span class="price-old" id="p-old">R$ 239,40</span><span id="p-avista">ou R$ 227,43 à vista</span></div>
           <div class="price-meta">
-            <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 75,81 sem juros</span></div>
             <div class="li"><i>◆</i> <span id="p-per">R$ 113,72 por pote</span></div>
             <div class="li"><i>◆</i> <span id="p-dur">≈ 38 noites de ritual</span></div>
+            <div class="li"><i>◆</i> <span>desconto aplicado automaticamente no checkout</span></div>
           </div>
-          <div class="save-badge" id="p-save">Você economiza R$ 11,97</div>
         </div>
         <div class="offer-cta">
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
           <div class="coupon" aria-hidden="true">
-            <span>🔒 desconto por quantidade <b>já aplicado</b> no checkout</span>
+            <span>🔒 desconto por quantidade <b>automático</b> — sem precisar de cupom</span>
           </div>
           <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil com rastreio</div>
         </div>
@@ -866,8 +873,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">R$ 227,43</b><span id="bar-label">2 potes · −5%</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR</a>
+  <div class="info"><b id="bar-price">3× R$ 75,81</b><span id="bar-label">2 potes · −5% · R$ 227,43 à vista</span></div>
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">Ver oferta</a>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
@@ -917,34 +924,39 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 
   /* ---------- commerce config ---------- */
   var VARIANT='48115368853736';
-  var COUPON='BOTANIKA';
+  // Descontos SLEEP5 (−5% a partir de 2 un.) e SLEEP10 (−10% a partir de 3 un.) são
+  // automáticos por quantidade na Shopify — aplicam sozinhos no checkout, sem cupom no link.
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{old:'',now:'R$ 119,70',parc:'ou 3× de R$ 39,90 sem juros',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'Preço cheio · sem desconto',save:'',label:'1 pote'},
-    '2':{old:'R$ 239,40',now:'R$ 227,43',parc:'ou 3× de R$ 75,81 sem juros',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 11,97',label:'2 potes · −5%'},
-    '3':{old:'R$ 359,10',now:'R$ 323,19',parc:'ou 3× de R$ 107,73 sem juros',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 35,91',label:'3 potes · −10%'}
+    '1':{old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',barlabel:'1 pote · à vista R$ 119,70'},
+    '2':{old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% por quantidade',save:'economize R$ 11,97',barlabel:'2 potes · −5% · R$ 227,43 à vista'},
+    '3':{old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% por quantidade',save:'economize R$ 35,91',barlabel:'3 potes · −10% · R$ 323,19 à vista'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
+  function toggleEl(id,val,disp){var el=doc.getElementById(id);if(!el)return;if(val){el.style.display=disp;el.textContent=val;}else el.style.display='none';}
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
-    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
-    set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
-    var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
-    set('bar-price',k.now);set('bar-label',k.label);
-    var href=checkout(kit);
-    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    toggleEl('p-old',k.old,'inline');
+    toggleEl('p-disc',k.disc,'inline-flex');
+    toggleEl('p-save',k.save,'inline-flex');
+    set('p-parc',k.parc);set('p-avista',k.avista);set('p-per',k.per);set('p-dur',k.dur);
+    set('bar-price','3× '+k.parc);set('bar-label',k.barlabel);
+    var buy=doc.getElementById('buy');if(buy)buy.setAttribute('href',checkout(kit));
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
+  function scrollToOffer(){var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});}
   function wireCheckout(){
+    // Único botão de checkout real = "COMPRAR AGORA" da oferta (#buy), com o kit/desconto escolhido.
+    // Todos os outros botões de compra funcionam como âncora para a seção de oferta.
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
-        e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
+        if(id==='buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
+        e.preventDefault();scrollToOffer();
       });
     });
   }
