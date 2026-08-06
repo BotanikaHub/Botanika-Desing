@@ -13,6 +13,15 @@
 - Ao terminar uma edição: validar (`node --check` nos scripts), commit, e push para a branch `lp`.
 - **Camada imersiva compartilhada:** todas as LPs usam libs self-hosted em `<pasta>/vendor/` (gsap + ScrollTrigger) → **cursor glow**, **parallax de imagens** (ScrollTrigger) e header some ao rolar. Scroll nativo + `scroll-behavior:smooth` (o Lenis foi removido por travar o scroll em algumas páginas). Bloco aditivo e guardado (degrada com segurança; respeita `prefers-reduced-motion`).
 
+## 🌐 DOMÍNIO OFICIAL DAS CAMPANHAS (produção)
+As LPs são servidas no domínio da marca via **Cloudflare Pages** (host) + **GoDaddy** (DNS). É este o link que vai nos anúncios:
+- **`https://ofertas.botanikabrasil.com.br/<slug>`** — slugs: `omega3` · `trimagnesio` · `hair` · `whey` · `vitaminac` · `tetravit` · `sleep` · `creatina`.
+- **Como funciona:** o projeto Cloudflare Pages `botanika-desing` publica a branch `lp` e roda `build.sh`, que gera os slugs curtos a partir das pastas `landing-*` (fonte da verdade). CNAME `ofertas` → `botanika-desing.pages.dev` na GoDaddy. Deploy automático a cada push na `lp`.
+- **Produto novo no domínio:** criar `landing-<slug>` + 1 linha no `build.sh` (`clone landing-<slug> <slug-do-anuncio>`).
+- **NÃO** trocar nameservers da GoDaddy nem mexer no registro raiz `@`/`www` (é a loja Shopify). Detalhes: `botanika-lp-kit/HOSTING.md`.
+- **Portal interno** com todas as LPs: `landing-hub/` (raw.githack, uso da equipe) — os cards já apontam pro domínio de produção.
+- raw.githack (`.../lp/landing-<slug>/index.html`) segue valendo só para **preview**.
+
 ## Páginas
 
 ### 1. Super Ômega 3 + CoQ10
