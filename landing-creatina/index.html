@@ -410,13 +410,20 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .toggle button.active{color:#03101f;background:var(--grad);box-shadow:0 8px 22px -8px rgba(62,120,240,.7)}
 .toggle button.active .tag{color:#06213f}
 .offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
-.price-old{font-size:15px;color:var(--muted);text-decoration:line-through}
-.price-now{font-family:var(--head);font-weight:700;font-size:clamp(40px,6vw,56px);line-height:1;margin:6px 0;letter-spacing:-.02em}
-.price-cup{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--silver-hi);padding:7px 14px;border-radius:100px;border:1px dashed var(--line-2);background:var(--glass);margin-top:6px}
-.price-meta{margin-top:14px;display:grid;gap:7px;font-size:14px;color:var(--soft)}
-.price-meta .li{display:flex;gap:9px;align-items:center}
-.price-meta .li i{font-style:normal;color:var(--ion-hi)}
-.save-badge{display:inline-block;font-size:12.5px;font-weight:700;color:#03101f;background:var(--silver-hi);padding:4px 11px;border-radius:100px;margin-top:12px}
+.price-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.price-disc{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:#03101f;background:var(--grad);padding:9px 16px;border-radius:100px;box-shadow:0 10px 26px -10px rgba(62,120,240,.8);animation:discglow 2.8s var(--ease) infinite}
+.price-disc::before{content:"🏷️";font-size:13px}
+@keyframes discglow{0%,100%{box-shadow:0 10px 26px -12px rgba(62,120,240,.7)}50%{box-shadow:0 12px 34px -8px rgba(62,120,240,1)}}
+.save-badge{display:inline-flex;align-items:center;font-size:13px;font-weight:800;color:var(--ion-hi);background:var(--glass-2);border:1px solid var(--line-2);padding:8px 14px;border-radius:100px}
+.price-parc{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:14px;color:var(--muted);line-height:1}
+.price-parc b{font-family:var(--head);font-weight:800;font-size:clamp(42px,7.2vw,64px);line-height:.95;letter-spacing:-.025em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.price-parc .pl{font-size:14px;color:var(--muted)}
+.price-sub{margin-top:9px;font-size:14px;color:var(--soft)}
+.price-sub b{color:var(--ion-hi);font-weight:700}
+.price-cash{margin-top:13px;font-size:13.5px;color:var(--muted)}
+.price-cash b{font-family:var(--mono);font-weight:700;color:var(--soft)}
+.price-old{font-size:12.5px;color:var(--muted);text-decoration:line-through;opacity:.6;margin-left:6px}
+.price-dur{margin-top:8px;font-size:13px;color:var(--muted)}
 .offer-cta{display:grid;gap:12px}
 .coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:13px 16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);transition:.25s}
 .coupon:hover{border-color:var(--ion-hi)}
@@ -463,9 +470,12 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 .legal{margin-top:22px;font-size:11.5px;color:rgba(210,224,238,.4);line-height:1.6;max-width:82ch}
 
 /* whatsapp */
-.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#25d366;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transition:transform .25s var(--ease)}
-.wa:hover{transform:scale(1.08)}
-.wa svg{width:30px;height:30px;fill:#fff}
+.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(14,21,32,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line-2);
+  transition:transform .25s var(--ease),border-color .25s;animation:waglow 2.8s ease-in-out infinite}
+.wa:hover{transform:scale(1.08);border-color:var(--ion-hi)}
+.wa svg{width:29px;height:29px;color:var(--ion-hi);fill:currentColor}
+@keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(62,120,240,.28)}50%{box-shadow:0 0 26px 7px rgba(62,120,240,.5)}}
 
 /* mobile buy bar */
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
@@ -869,26 +879,21 @@ html.lenis{scroll-behavior:auto!important}
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
           <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
           <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
-          <button data-kit="4" role="tab"><span>4 potes</span><span class="tag">−10% + frete grátis</span></button>
         </div>
       </div>
       <div class="offer-body">
         <div class="offer-price">
-          <div class="price-old" id="p-old">R$ 256,60</div>
-          <div class="price-now" id="p-now">R$ 243,77</div>
-          <div class="price-cup" id="p-disc">🏷️ −5% por quantidade · aplicado no checkout</div>
-          <div class="price-meta">
-            <div class="li"><i>◆</i> <span id="p-parc">ou 3× de R$ 81,26 sem juros</span></div>
-            <div class="li"><i>◆</i> <span id="p-per">R$ 121,89 por pote</span></div>
-            <div class="li"><i>◆</i> <span id="p-dur">≈ 4 meses de rotina</span></div>
-          </div>
-          <div class="save-badge" id="p-save">Você economiza R$ 12,83</div>
+          <div class="price-badges"><span class="price-disc" id="p-disc">−5% por quantidade</span><span class="save-badge" id="p-save">economize R$ 12,83</span></div>
+          <div class="price-parc"><span class="pl">em até</span><b id="p-parc">3× de R$ 81,26</b></div>
+          <div class="price-sub"><b>sem juros</b> · <span id="p-per">R$ 121,89 / pote</span></div>
+          <div class="price-cash">à vista <b id="p-now">R$ 243,77</b><span class="price-old" id="p-old">R$ 256,60</span></div>
+          <div class="price-dur" id="p-dur">≈ 4 meses · 1 dose/dia</div>
         </div>
         <div class="offer-cta">
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
-          <div class="coupon" id="coupon">
-            <span>Cupom <b>BOTANIKA</b> · 5% OFF extra</span>
-            <span id="coupon-hint">toque pra copiar</span>
+          <div class="coupon" id="coupon" style="cursor:default">
+            <span>🔒 <b>Desconto já aplicado</b> no checkout — nada pra digitar</span>
+            <span>pagamento 100% seguro</span>
           </div>
           <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil</div>
         </div>
@@ -954,8 +959,6 @@ html.lenis{scroll-behavior:auto!important}
       <div style="display:grid;gap:8px;text-align:right">
         <a class="mini" href="https://botanikabrasil.com.br" target="_blank" rel="noopener">Loja oficial ↗</a>
         <a class="mini" href="https://wa.me/5531972679362" target="_blank" rel="noopener">Atendimento no WhatsApp ↗</a>
-        <a class="mini" href="https://www.instagram.com/botanikabrasil/" target="_blank" rel="noopener">Instagram ↗</a>
-        <a class="mini" href="https://www.youtube.com/@BotanikaBrasil" target="_blank" rel="noopener">YouTube ↗</a>
       </div>
     </div>
     <p class="legal">Este produto é um suplemento alimentar e não substitui uma alimentação equilibrada e hábitos de vida saudáveis. Não é medicamento. Não exceder a recomendação diária de consumo. Mantenha fora do alcance de crianças. Conservar em local seco e fresco, ao abrigo do sol. Resultados variam de pessoa para pessoa e dependem de constância. Gestantes, lactantes e pessoas em uso de medicamentos devem consultar um profissional de saúde. As imagens da seção de comunidade são de clientes Botanika e ilustram a marca. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</p>
@@ -965,7 +968,7 @@ html.lenis{scroll-behavior:auto!important}
 <div class="lightbox" id="lightbox" aria-hidden="true"><button class="close" id="lbClose" aria-label="Fechar">✕</button><img id="lbImg" src="" alt="Depoimento Botanika"></div>
 
 <a class="wa" href="https://wa.me/5531972679362?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Creatina%20%2B%20Taurato%20da%20Botanika." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
 </a>
 
 <div class="buybar" id="buybar">
@@ -1031,22 +1034,23 @@ html.lenis{scroll-behavior:auto!important}
   var COUPON='BOTANIKA';
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
-  var IMG1='https://cdn.shopify.com/s/files/1/0780/7238/1672/files/MKP_ROTULO_BOTANIKA_CREATINA_1.png?v=1782231123';
-  var IMG2='https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_duas-embalagens-juntas-um_tf04pqsmZJ.png?v=1782231156';
-  var IMG3='https://cdn.shopify.com/s/files/1/0780/7238/1672/files/magnific_3-embalagens-juntas-uma-m_1saMocHr4r.png?v=1782231186';
+  function checkout(kit){var q=String(kit);var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+q;var params=[];var code=(KITS[q]&&KITS[q].code)?KITS[q].code:'';if(code)params.push('discount='+encodeURIComponent(code));var e=utmString();if(e)params.push(e);if(params.length)u+='?'+params.join('&');return u;}
+  var IMG1='pote.png';   // 1 pote (transparente, local)
+  var IMG2='pote2.png';  // 2 potes (composição transparente)
+  var IMG3='pote3.png';  // 3 potes (composição transparente)
+  // Descontos reais na loja: CREATINA5 (auto, ≥2 un.) e CREATINA10 (auto, ≥3 un.) aplicam sozinhos no checkout.
+  // BOTANIKA (5%) é código e NÃO acumula — usado só no kit de 1 pote (onde não há desconto por quantidade).
   var KITS={
-    '1':{old:'',now:'R$ 128,30',parc:'ou 3× de R$ 42,77 sem juros',per:'R$ 128,30 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto por quantidade',save:'',label:'1 pote',img:IMG1},
-    '2':{old:'R$ 256,60',now:'R$ 243,77',parc:'ou 3× de R$ 81,26 sem juros',per:'R$ 121,89 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 12,83',label:'2 potes · −5%',img:IMG2},
-    '3':{old:'R$ 384,90',now:'R$ 346,41',parc:'ou 3× de R$ 115,47 sem juros',per:'R$ 115,47 por pote',dur:'≈ 6 meses · melhor valor',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 38,49',label:'3 potes · −10%',img:IMG3},
-    '4':{old:'R$ 513,20',now:'R$ 461,88',parc:'ou 3× de R$ 153,96 sem juros',per:'R$ 115,47 por pote',dur:'≈ 8 meses · frete grátis incluso',disc:'🏷️ −10% + 🚚 frete grátis',save:'Economiza R$ 51,32 + o frete',label:'4 potes · frete grátis',img:IMG3}
+    '1':{code:'BOTANIKA',old:'R$ 128,30',now:'R$ 121,89',parc:'3× de R$ 40,63',per:'R$ 121,89 / pote',dur:'≈ 2 meses · 1 dose/dia',disc:'cupom BOTANIKA · −5%',save:'economize R$ 6,42',label:'1 pote · −5%',img:IMG1},
+    '2':{old:'R$ 256,60',now:'R$ 243,77',parc:'3× de R$ 81,26',per:'R$ 121,89 / pote',dur:'≈ 4 meses · 1 dose/dia',disc:'−5% por quantidade',save:'economize R$ 12,83',label:'2 potes · −5%',img:IMG2},
+    '3':{old:'R$ 384,90',now:'R$ 346,41',parc:'3× de R$ 115,47',per:'R$ 115,47 / pote',dur:'≈ 6 meses · melhor valor',disc:'−10% por quantidade',save:'economize R$ 38,49',label:'3 potes · −10%',img:IMG3}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
-    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
+    var po=doc.getElementById('p-old');if(po){po.textContent=k.old||'';po.style.display=k.old?'':'none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.style.opacity='0';setTimeout(function(){ki.setAttribute('src',k.img);ki.style.opacity='1';},180);}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
@@ -1056,12 +1060,12 @@ html.lenis{scroll-behavior:auto!important}
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
-  var coupon=doc.getElementById('coupon');
-  if(coupon)coupon.addEventListener('click',function(){var done=function(){var h=doc.getElementById('coupon-hint');if(h){h.textContent='copiado ✓';setTimeout(function(){h.textContent='toque pra copiar';},1800);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(COUPON).then(done,done);else done();});
+  /* Só o botão dentro da oferta (#buy) leva ao checkout — todos os outros botões de compra
+     são âncora e rolam até a seção de oferta, pra o cliente escolher o kit e ver o desconto. */
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
+        if(id==='buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
         e.preventDefault();var t=doc.getElementById('oferta');if(t){ if(win.__lenis) win.__lenis.scrollTo(t,{offset:-70}); else t.scrollIntoView({behavior:reduce?'auto':'smooth'}); }
       });
     });
