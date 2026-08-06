@@ -34,5 +34,18 @@ Link do anúncio = a LP do produto (coluna acima). Ex.: anúncio de Hair → `ht
 - CBO, pausadas. (C3 Dr William segue dependendo do compartilhamento do público — mesmo caso das outras.)
 - Nome sugerido: `TESTE | <PRODUTO> | LP | 4CONJ | AGO26`.
 
-## Status
-⏸️ Aguardando você subir os UGC no Meta e avisar. Aí eu monto as 5 campanhas teste (pausadas) com UGC + campeão apontando pras LPs.
+## ✅ EXECUTADO EM 05/08 (tudo PAUSADO) — 4 campanhas teste → LPs
+Top 4 por vendas (com UGC). Whey/Sleep/Creatina fora (sem UGC), Vitamina C fora (5ª). R$100 CBO cada.
+| Campanha | ID | LP | Vídeos usados (campeão + UGC) |
+|---|---|---|---|
+| TESTE \| HAIR \| LP \| AGO26 | 120251127930920563 | /hair | HAIR_V03 + LissiaHairBotanika |
+| TESTE \| TRIMAGNESIO \| LP \| AGO26 | 120251127934030563 | /trimagnesio | tri_btnk_01 + TriMgComplex |
+| TESTE \| TETRAVITD \| LP \| AGO26 | 120251127936840563 | /tetravit | TETRAVITD_V02 + LissiaTetraVitD |
+| TESTE \| OMEGA3 \| LP \| AGO26 | 120251127938820563 | /omega3 | OMEGA3_V02 + LarissaOmega31 |
+
+- **12 conjuntos** (C1 Human · C2 Eng Botanika · C4 Aberto ADV por campanha) + **24 anúncios** (2/conjunto: campeão + UGC).
+- Todos: mulheres 35–65+ BR · Feed/Stories/Reels FB+IG · pixel **828186133708463** Purchase · exclui **Compradores 14D** · destino LP + UTM (`utm_source=facebook&utm_medium=paid&utm_campaign=teste_<produto>_lp&utm_content=campeao|ugc_*`).
+
+**Ainda dá pra somar (ready, é só pedir):** UGC extras — Hair combo, Tri LissiaTriMgComplex2, TetraVitD LissiaTetraVitD2, Ômega LarissaOmega3 + combo + unboxing.
+**Você adiciona no Ads Manager:** o 4º conjunto (Eng Dr William).
+**Crítico antes de ativar:** confirmar que as LPs têm o pixel 828186133708463 e preservam a query string até o checkout.
