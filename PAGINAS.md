@@ -6,7 +6,20 @@
 - **Repositório:** `botanikahub/botanika-desing`
 - **Uma pasta por produto:** `landing-<slug>/index.html` (arquivo único, HTML autocontido).
 - **Branch de publicação:** `lp` (todas as páginas ficam nela). O link muda só pela pasta.
-- **Link fixo de cada página:** `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-<slug>/index.html`
+- **Link fixo de cada página (preview):** `https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-<slug>/index.html`
+
+## 🌐 DOMÍNIO OFICIAL DAS CAMPANHAS (produção)
+As LPs são servidas no domínio da marca via **Cloudflare Pages** (host) + **GoDaddy** (DNS).
+- **Domínio:** `https://ofertas.botanikabrasil.com.br/<slug-curto>` — **é este o link que vai nos anúncios.**
+  - Ômega 3 → `https://ofertas.botanikabrasil.com.br/omega3`
+  - Tri[Mg] → `https://ofertas.botanikabrasil.com.br/trimagnesio`
+  - Hair → `https://ofertas.botanikabrasil.com.br/hair`
+- **Como funciona:** o Cloudflare Pages (projeto `botanika-desing`) publica a branch `lp` e roda `build.sh`,
+  que gera os slugs curtos a partir das pastas `landing-*` (fonte da verdade). CNAME `ofertas` → `botanika-desing.pages.dev` na GoDaddy.
+- **Deploy automático:** todo push na `lp` republica no domínio em ~1-2 min. **Produto novo:** criar `landing-<slug>` + 1 linha no `build.sh` (`clone landing-<slug> <slug-do-anuncio>`).
+- **NÃO** mexer nos nameservers da GoDaddy nem no registro raiz `@`/`www` (isso é a loja Shopify). Só o CNAME `ofertas`.
+- Detalhes completos em `botanika-lp-kit/HOSTING.md`.
+- **raw.githack** segue valendo só pra **preview** (repo/legado):
 - **Preview instantâneo (sem cache):** troque `lp` pelo SHA do commit → `.../<sha>/landing-<slug>/index.html`
 - **Guia de construção/design:** `botanika-lp-superprompt.md` (design system, interações, regras).
 - **Checkout Shopify:** `https://botanikabrasil.com.br/cart/<VARIANT_ID>:<QTD>` (kit 1 nos botões soltos; a oferta muda por kit).
