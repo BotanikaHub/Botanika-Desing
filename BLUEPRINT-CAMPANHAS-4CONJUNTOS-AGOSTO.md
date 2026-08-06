@@ -56,3 +56,16 @@ O público **[TODOS] Envolvimento IG** NÃO está nesta conta (só os lookalikes
 - **C3 (Dr William) em RASCUNHO** nas 7 campanhas (3 produto + 4 teste), com anúncio campeão + público provisório (lookalike `120248208219310563`) → trocar público real e publicar.
 - **Correção #1870194:** 28 conjuntos com `location_types:["home"]` (moram no Brasil); "Aberto ADV" com idade 35-65 como sugestão (Advantage+).
 - **Pendências operador:** publicar (menos C3) · refazer Tri produto (criativo Ômega) · confirmar pixel+query string nas LPs antes dos testes · somar UGC extras (opcional).
+
+---
+
+## ✅ CORRECAO TRI — CRIATIVO CERTO (06/08)
+Os anuncios da campanha **VND | TRI | 4CONJ | AGO26** estavam com o criativo **1586521689760045 (conteudo de ÔMEGA)** — trocado pelo criativo correto do Tri.
+
+- **Criativo certo:** `2166029990921894` — "Acorda cansada todos os dias?" (magnesio / Tri[Mg] Complex, video 2329557184482822, CTA SEE_DETAILS).
+- **Novos anuncios criados e ATIVOS:**
+  - C1 Lista Human → ad `120251145628360563`
+  - C2 Eng Botanika → ad `120251145629670563`
+  - C4 Aberto ADV → ad `120251145630890563`
+- **C3 (Dr William, rascunho)** → novo ad `120251145631930563` criado com o criativo certo, permanece PAUSADO (aguarda troca de publico + publicacao).
+- **Anuncios errados (Ômega) renomeados `ZZ NAO USAR` e mantidos pausados:** C1 120251125632610563 · C2 120251125632990563 · C4 120251125633450563 · C3 120251130263110563.
