@@ -48,3 +48,11 @@ Todos: mulheres 35–65+ BR · Feed/Stories/Reels FB+IG · pixel 828186133708463
 
 ## 🚧 PENDENTE — Conjunto 3 (Eng. Dr. William)
 O público **[TODOS] Envolvimento IG** NÃO está nesta conta (só os lookalikes dele). Falta o operador **compartilhar** o público de origem com a conta 1164715034920965 (ou usar o lookalike). Depois disso crio os 3 conjuntos C3.
+
+---
+
+## ✅ EXECUÇÃO FINAL (05/08)
+- **Rebalance R$500:** Hair 4CONJ R$130 · Tri R$100 · TetraVitD R$100 · PROSPECTING R$100 (reativada) · RETARGETING JUL 09/08 R$70 (reativada) · REC pausada.
+- **C3 (Dr William) em RASCUNHO** nas 7 campanhas (3 produto + 4 teste), com anúncio campeão + público provisório (lookalike `120248208219310563`) → trocar público real e publicar.
+- **Correção #1870194:** 28 conjuntos com `location_types:["home"]` (moram no Brasil); "Aberto ADV" com idade 35-65 como sugestão (Advantage+).
+- **Pendências operador:** publicar (menos C3) · refazer Tri produto (criativo Ômega) · confirmar pixel+query string nas LPs antes dos testes · somar UGC extras (opcional).
