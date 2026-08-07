@@ -1,9 +1,6 @@
 {%- comment -%}
-  ============================================================
-  Selo/faixa da campanha na página de produto (modo Dia D).
-  Aparece SOMENTE nos produtos cujos handles estão na lista.
-  Linha principal (–8% Dia D) + reforço opcional (Manual + frete).
-  ============================================================
+  Selo da campanha na página de produto (Dia D). Aparece só nos produtos
+  cujos handles estão na lista. Linha principal (−8% Dia D) + reforço opcional.
 {%- endcomment -%}
 {%- liquid
   assign bs = block.settings
@@ -19,7 +16,6 @@
 -%}
 {%- if bs.show and match -%}
   <div class="camp-selo" style="--cs-bg:{{ bs.bg_color }};--cs-fg:{{ bs.text_color }};" {{ block.shopify_attributes }}>
-    <span class="camp-selo__pulse" aria-hidden="true"></span>
     <div class="camp-selo__body">
       <span class="camp-selo__main">
         {%- if bs.icon != blank -%}<span class="camp-selo__ic">{{ bs.icon }}</span>{%- endif -%}
@@ -30,23 +26,16 @@
   </div>
   {%- style -%}
     .camp-selo {
-      position: relative; overflow: hidden;
       display: flex; align-items: center; gap: 12px; margin: 0 0 16px;
-      background: linear-gradient(100deg, var(--cs-bg, #E10E1B) 0%, #ff3b2e 55%, var(--cs-bg, #E10E1B) 100%);
-      background-size: 200% 100%; animation: csShine 6s linear infinite;
-      color: var(--cs-fg, #ffffff);
-      padding: 12px 16px; border-radius: 14px; line-height: 1.15;
-      box-shadow: 0 8px 22px rgba(225,14,27,.28);
+      background: var(--cs-bg, #14162e); color: var(--cs-fg, #ffffff);
+      padding: 13px 16px; border-radius: 12px; line-height: 1.15;
+      border-left: 4px solid #E23744;
     }
-    .camp-selo__pulse { width: 9px; height: 9px; border-radius: 50%; background: #fff; flex: 0 0 auto; box-shadow: 0 0 0 0 rgba(255,255,255,.8); animation: csPulse 1.4s ease-out infinite; }
-    .camp-selo__body { display: flex; flex-direction: column; gap: 2px; }
+    .camp-selo__body { display: flex; flex-direction: column; gap: 3px; }
     .camp-selo__main { display: flex; align-items: center; gap: 8px; }
-    .camp-selo__ic { font-size: 20px; flex: 0 0 auto; }
-    .camp-selo__tx { font-size: 15px; font-weight: 900; letter-spacing: .01em; text-transform: uppercase; }
-    .camp-selo__sub { font-size: 12.5px; font-weight: 600; opacity: .95; }
-    @keyframes csShine { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-    @keyframes csPulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.7); } 70% { box-shadow: 0 0 0 7px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
-    @media (prefers-reduced-motion: reduce) { .camp-selo { animation: none; } .camp-selo__pulse { animation: none; } }
+    .camp-selo__ic { font-size: 18px; flex: 0 0 auto; }
+    .camp-selo__tx { font-size: 14px; font-weight: 800; letter-spacing: .01em; }
+    .camp-selo__sub { font-size: 12px; font-weight: 500; opacity: .82; }
   {%- endstyle -%}
 {%- endif -%}
 {% schema %}
@@ -59,7 +48,7 @@
     { "type": "text", "id": "icon", "label": "Ícone (emoji)", "default": "⚡" },
     { "type": "text", "id": "text", "label": "Texto principal", "default": "DIA D — 8% OFF neste produto" },
     { "type": "text", "id": "subtext", "label": "Reforço (opcional)", "default": "🎁 Manual da Suplementação grátis • 🚚 Frete grátis acima de R$349" },
-    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#E10E1B" },
+    { "type": "color", "id": "bg_color", "label": "Fundo", "default": "#14162e" },
     { "type": "color", "id": "text_color", "label": "Texto", "default": "#ffffff" }
   ],
   "presets": [ { "name": "Selo da campanha" } ]

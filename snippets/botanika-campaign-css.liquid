@@ -1,32 +1,17 @@
 {%- comment -%}
-  CSS global de destaque dos produtos da campanha (cards + PDP).
-  Renderizado uma vez no theme.liquid. Ligado/desligado e cor via
-  Configurações do tema → "Campanha — destaque de produtos".
+  Realce dos produtos da campanha nos cards. Renderizado uma vez no
+  theme.liquid, ligado via Configurações → "Campanha — destaque de produtos".
+  Versão premium/discreta: apenas um selo "−8% Dia D" no canto do card.
 {%- endcomment -%}
 {%- if settings.camp_active -%}
   <style>
-    :root { --camp: {{ settings.camp_color | default: '#323C91' }}; }
-    /* Ribbon / selo no card — Dia D (vermelho urgente) */
+    /* Selo "−8% Dia D" nos cards — discreto e premium */
     .camp-ribbon {
       position: absolute; top: 10px; left: 10px; z-index: 6;
-      background: linear-gradient(100deg, #E10E1B, #ff3b2e); color: #fff; font-size: 11px; font-weight: 900;
-      padding: 5px 11px; border-radius: 12px; letter-spacing: .01em; line-height: 1.15; text-transform: uppercase;
-      max-width: 78%; box-shadow: 0 3px 10px rgba(225,14,27,.35); pointer-events: none;
-      animation: campRibbon 1.8s ease-in-out infinite;
+      background: #E23744; color: #fff; font-size: 10.5px; font-weight: 800;
+      padding: 5px 10px; border-radius: 8px; letter-spacing: .02em; line-height: 1.1;
+      text-transform: uppercase; max-width: 80%; box-shadow: 0 2px 8px rgba(0,0,0,.16);
+      pointer-events: none;
     }
-    @keyframes campRibbon { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-    @media (prefers-reduced-motion: reduce) { .camp-ribbon { animation: none; } }
-    /* Card destacado — moldura em volta do produto */
-    .is-camp .product-item__wrapper { border: 2.5px solid var(--camp); border-radius: 18px; padding: 12px; background: #fff; box-shadow: 0 12px 30px rgba(50,60,145,.20); }
-    .is-camp .product-item__inner { border-radius: 12px; }
-    .is-camp .product_submit_button,
-    .is-camp .product-form__submit { background: var(--camp) !important; border-color: var(--camp) !important; }
-    .is-camp .card-product-price .price,
-    .is-camp .price-regular .price { color: var(--camp) !important; }
-    /* PDP destacada */
-    .is-camp-pdp .product-form__submit,
-    .is-camp-pdp .product_submit_button { background: var(--camp) !important; border-color: var(--camp) !important; box-shadow: 0 6px 18px rgba(50,60,145,.28); }
-    .is-camp-pdp .price-regular .price,
-    .is-camp-pdp .price { color: var(--camp) !important; }
   </style>
 {%- endif -%}

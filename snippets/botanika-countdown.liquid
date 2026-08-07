@@ -17,7 +17,7 @@
   assign raw = settings.cd_end | default: ''
   assign iso = raw | strip | replace: ' ', 'T' | append: '-03:00'
   assign target = iso | date: '%s'
-  assign bg = bg | default: settings.cd_bg | default: '#E10E1B'
+  assign bg = bg | default: settings.cd_bg | default: '#14162e'
   assign fg = fg | default: settings.cd_text | default: '#ffffff'
   assign hide_done = settings.cd_hide_when_done
   assign cta_text = cta_text | default: ''
@@ -58,22 +58,19 @@
     .bcd__u i { font-style: normal; font-weight: 600; opacity: .8; font-size: .8em; }
     .bcd__sep { display: none; }
 
-    /* ===== Barra do topo — modo Dia D (alta urgência) ===== */
+    /* ===== Barra do topo — Dia D premium (indigo escuro + acento) ===== */
     .bcd--bar {
       color: var(--bcd-fg);
       background: var(--bcd-bg);
-      background-image: linear-gradient(100deg, #a60510 0%, var(--bcd-bg) 35%, #ff3b2e 50%, var(--bcd-bg) 65%, #a60510 100%);
-      background-size: 250% 100%;
-      animation: bcdShine 7s linear infinite;
-      box-shadow: inset 0 -2px 0 rgba(0,0,0,.18);
+      box-shadow: inset 0 -1px 0 rgba(255,255,255,.06);
     }
-    .bcd--bar .bcd__inner { padding: 9px 14px; font-size: 13px; font-weight: 800; letter-spacing: .045em; text-transform: uppercase; line-height: 1; gap: 10px 14px; }
-    .bcd--bar .bcd__msg { text-shadow: 0 1px 2px rgba(0,0,0,.22); }
-    .bcd--bar .bcd__live { width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 0 rgba(255,255,255,.8); animation: bcdPulse 1.4s ease-out infinite; flex: 0 0 auto; }
-    .bcd--bar .bcd__u b { background: rgba(0,0,0,.28); padding: 3px 6px; border-radius: 6px; min-width: 24px; text-align: center; display: inline-block; font-size: 14px; font-weight: 900; }
-    .bcd--bar .bcd__u i { opacity: .85; margin-left: 1px; }
-    .bcd--bar .bcd__cta { color: var(--bcd-bg); background: #fff; font-weight: 900; padding: 6px 14px; border-radius: 999px; text-decoration: none; letter-spacing: .04em; box-shadow: 0 3px 10px rgba(0,0,0,.22); white-space: nowrap; }
-    .bcd--bar .bcd__cta:hover { transform: translateY(-1px); }
+    .bcd--bar .bcd__inner { padding: 10px 14px; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; line-height: 1; gap: 10px 16px; }
+    .bcd--bar .bcd__msg { opacity: .95; }
+    .bcd--bar .bcd__live { width: 8px; height: 8px; border-radius: 50%; background: #E23744; box-shadow: 0 0 0 0 rgba(226,55,68,.6); animation: bcdPulse 1.6s ease-out infinite; flex: 0 0 auto; }
+    .bcd--bar .bcd__u b { background: #E23744; color: #fff; padding: 3px 7px; border-radius: 5px; min-width: 23px; text-align: center; display: inline-block; font-size: 13px; font-weight: 800; }
+    .bcd--bar .bcd__u i { opacity: .55; margin-left: 2px; font-size: .72em; }
+    .bcd--bar .bcd__cta { color: #fff; background: #E23744; font-weight: 800; padding: 7px 16px; border-radius: 999px; text-decoration: none; letter-spacing: .04em; white-space: nowrap; }
+    .bcd--bar .bcd__cta:hover { filter: brightness(1.08); }
 
     /* ===== Hero (dentro do banner escuro do Dia D) ===== */
     .bcd--hero .bcd__inner { gap: 10px 8px; }
@@ -90,10 +87,8 @@
     .bcd--product .bcd__clock b { background: var(--bcd-bg); color: var(--bcd-fg); padding: 5px 8px; border-radius: 8px; min-width: 30px; text-align: center; display: inline-block; font-weight: 800; }
     .bcd--product .bcd__u i { margin-left: 2px; opacity: .7; color: #555; }
 
-    @keyframes bcdShine { 0% { background-position: 0% 50%; } 100% { background-position: 250% 50%; } }
-    @keyframes bcdPulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.7); } 70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+    @keyframes bcdPulse { 0% { box-shadow: 0 0 0 0 rgba(226,55,68,.55); } 70% { box-shadow: 0 0 0 7px rgba(226,55,68,0); } 100% { box-shadow: 0 0 0 0 rgba(226,55,68,0); } }
     @media (prefers-reduced-motion: reduce) {
-      .bcd--bar { animation: none; }
       .bcd--bar .bcd__live { animation: none; }
     }
     @media (max-width: 480px) {
