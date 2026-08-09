@@ -1,6 +1,9 @@
 # Bônus — Guia da Imunidade Infantil
 
-PDF-bônus educativo para pais, na identidade Botanika (linha "Kids": creme + verde botânico + mel + Fraunces/Nunito).
+PDF-bônus educativo para pais, na **identidade oficial da Botanika** (guiada pelo ICP Research / brandbook):
+azul-índigo profundo + creme + amarelo-dourado, sotaque verde (natureza), wordmark **"botanika · você mais saudável"**,
+tipografia **Poppins** (títulos/marca) + **Inter** (corpo), layout editorial premium "ciência + natureza"
+(regras douradas sob títulos índigo, tabelas com cabeçalho índigo, callouts com borda dourada, muito respiro).
 
 ## Arquivos
 - `index.html` — versão **editável** (HTML autocontido, fontes embutidas; 10 páginas A4). Edite o texto e regenere o PDF.
