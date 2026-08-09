@@ -640,7 +640,7 @@
             .site-footer { padding: 2.6rem 6% 2rem; }
             .footer-top { grid-template-columns: 1fr; gap: 1.9rem; }
             /* --- overflow fix: contain the hero glow so it never leaks past the viewport --- */
-            .hero-visual { overflow: hidden; }
+            .hero-visual { overflow: visible; }
             .bottle-glow { inset: -8% -4%; }
             .mini-badge { font-size: 0.62rem; padding: 0.42rem 0.6rem; }
             .mini-badge b { font-size: 0.9rem; }
@@ -1229,10 +1229,12 @@
             (function oloop() {
                 requestAnimationFrame(oloop);
                 const t = performance.now() / 1000;
-                const base = Math.min(orbit.offsetWidth, orbit.offsetHeight) * 0.44;
+                const bwEl = document.getElementById('bottleWrap');
+                const bw = bwEl ? bwEl.offsetWidth : Math.min(orbit.offsetWidth, orbit.offsetHeight);
+                const base = bw * 0.52;   /* órbita presa à borda do pote, não à largura do hero */
                 for (let i = 0; i < dots.length; i++) {
                     const a = t * (0.42 + i * 0.10) + i * 1.15;
-                    const rad = base + i * 7;
+                    const rad = base + i * 6;
                     const x = Math.cos(a) * rad, y = Math.sin(a) * rad * 0.60;
                     const rot = (a * 46 + i * 40) % 360;       // tumble like a floating capsule
                     dots[i].style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${rot}deg)`;
