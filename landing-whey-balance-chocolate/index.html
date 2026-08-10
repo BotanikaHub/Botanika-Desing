@@ -114,17 +114,30 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 30px 34px rgba(0,0,0,.55));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
-.choWrap{position:absolute;z-index:1;will-change:transform}
-.choWrap.k1{top:2%;left:4%;width:20%}.choWrap.k2{top:10%;right:2%;width:16%}.choWrap.k3{bottom:10%;left:12%;width:14%}
-.choco{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 11px rgba(0,0,0,.45));animation:floaty 6s ease-in-out infinite}
-.choWrap.k1 .choco{animation-duration:5.4s}.choWrap.k2 .choco{animation-duration:6.6s;animation-delay:.5s}.choWrap.k3 .choco{animation-duration:5.8s;animation-delay:.9s}
+/* órbita: cada chocolatinho gira ao redor do pote (pivô no centro do palco), passando por trás */
+.choWrap{position:absolute;top:50%;left:50%;width:0;height:0;z-index:1;will-change:transform;animation:orbit 24s linear infinite}
+.choco{position:absolute;display:block;filter:drop-shadow(0 8px 12px rgba(0,0,0,.5));animation:orbitRev 24s linear infinite;will-change:transform}
+.choWrap.k1{animation-duration:23s}
+.choWrap.k1 .choco{width:86px;top:-212px;left:-43px;animation-duration:23s}
+.choWrap.k2{animation-duration:29s;animation-delay:-9s;animation-direction:reverse}
+.choWrap.k2 .choco{width:82px;top:-244px;left:-41px;animation-duration:29s;animation-delay:-9s;animation-direction:reverse}
+.choWrap.k3{animation-duration:26s;animation-delay:-16s}
+.choWrap.k3 .choco{width:74px;top:-190px;left:-37px;animation-duration:26s;animation-delay:-16s}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes orbitRev{to{transform:rotate(-360deg)}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@media(max-width:760px){
+  .choWrap.k1 .choco{width:58px;top:-138px;left:-29px}
+  .choWrap.k2 .choco{width:56px;top:-156px;left:-28px}
+  .choWrap.k3 .choco{width:50px;top:-124px;left:-25px}
+}
 .hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
   border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center}
 .hero-badge .dot{width:9px;height:9px;border-radius:50%;background:#7ad19a;box-shadow:0 0 10px #7ad19a;flex:0 0 auto}
 .hero-badge b{font-size:13px;display:block;font-family:var(--body)}
 .hero-badge small{font-size:12px;color:var(--muted);display:block}
-@media(prefers-reduced-motion:reduce){.pote,.choco{animation:none}}
+@media(prefers-reduced-motion:reduce){.pote,.choco,.choWrap{animation:none}
+  .choWrap.k1{transform:rotate(-35deg)}.choWrap.k2{transform:rotate(95deg)}.choWrap.k3{transform:rotate(215deg)}}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
@@ -934,10 +947,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 
   /* efeitos de scroll pesados (parallax/zoom) só no desktop com ponteiro fino — no mobile o scroll fica 100% nativo e leve */
   if(fine){
-    /* parallax do hero: pote + chocolates */
+    /* parallax do hero: só o pote (os chocolatinhos agora orbitam via CSS) */
     var pw=D.querySelector('.poteWrap');
     if(pw) G.to(pw,{yPercent:-14,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}});
-    D.querySelectorAll('.choWrap').forEach(function(c,i){ G.to(c,{yPercent:(i%2?30:-26),ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}}); });
 
     /* imagens: zoom sutil ao entrar (Ken Burns) */
     D.querySelectorAll('.shot').forEach(function(s){ var img=s.querySelector('img'); if(img){ try{ G.fromTo(img,{scale:1.12},{scale:1,ease:'none',scrollTrigger:{trigger:s,start:'top 88%',end:'top 32%',scrub:.5}}); }catch(e){} } });
