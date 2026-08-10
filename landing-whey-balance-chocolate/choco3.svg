@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Chunk de chocolate triangular">
+  <defs>
+    <linearGradient id="c3top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7f4827"/>
+      <stop offset=".5" stop-color="#572f16"/>
+      <stop offset="1" stop-color="#3a1d0e"/>
+    </linearGradient>
+    <linearGradient id="c3side" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d2010"/>
+      <stop offset="1" stop-color="#241007"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="60" cy="100" rx="44" ry="7" fill="#000" opacity=".3"/>
+  <!-- lateral (espessura) -->
+  <path d="M22 40 L98 34 L64 96 Z" fill="#2a1308"/>
+  <!-- face de cima (triângulo com cantos suaves) -->
+  <path d="M24 34 Q22 30 27 30 L94 26 Q100 26 97 32 L66 90 Q62 96 58 90 Z" fill="url(#c3top)"/>
+  <path d="M24 34 Q22 30 27 30 L94 26 Q100 26 97 32 L66 90 Q62 96 58 90 Z" fill="none" stroke="#a86a3c" stroke-opacity=".55" stroke-width="1.2"/>
+  <!-- triângulo interno rebaixado -->
+  <path d="M36 39 L86 35 L63 79 Z" fill="url(#c3side)" stroke="#1f0e06" stroke-opacity=".5" stroke-width="1.3"/>
+  <!-- brilho -->
+  <path d="M30 33 L88 29 L84 35 L34 38 Z" fill="#fff" opacity=".13"/>
+  <ellipse cx="50" cy="42" rx="8" ry="3.5" fill="#fff" opacity=".1"/>
+</svg>
