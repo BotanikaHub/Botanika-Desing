@@ -250,15 +250,21 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .toggle button.on{background:var(--grad);color:#1a0f07}
 .offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
   border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
-.kitpots{display:flex;justify-content:center;align-items:flex-end;gap:2px;min-height:118px;margin:2px 0 14px}
-.kitpots img{height:112px;width:auto;display:block;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6));
-  animation:floaty 6s ease-in-out infinite;transition:opacity .4s var(--ease),transform .4s var(--ease)}
-.kitpots img:nth-child(2){animation-delay:.5s;margin-left:-14px}
-.kitpots img:nth-child(3){animation-delay:.9s;margin-left:-14px}
-.kitpots.pop img{animation:floaty 6s ease-in-out infinite,potIn .5s var(--ease) both}
-@keyframes potIn{0%{opacity:0;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}
-@media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
-@media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
+/* palco em leque dos potes — abre/fecha ao trocar o kit; overflow visível p/ não cortar */
+.kit-stage{position:relative;height:150px;margin:2px auto 16px;overflow:visible;transition:transform .42s var(--ease)}
+.kit-stage.pop{transform:scale(1.04)}
+.kit-bottle{position:absolute;left:50%;bottom:0;height:150px;width:auto;margin-left:-56px;transform-origin:50% 100%;
+  filter:drop-shadow(0 16px 20px rgba(0,0,0,.6));opacity:0;
+  transition:transform .55s var(--ease),opacity .45s var(--ease)}
+.kit-bottle.b1{opacity:1;z-index:3}
+.kit-bottle.b2,.kit-bottle.b3{z-index:2}
+.kit-stage[data-kit="1"] .b2,.kit-stage[data-kit="1"] .b3{opacity:0;transform:translateX(0) rotate(0)}
+.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(20%) rotate(4deg)}
+.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(-20%) rotate(-4deg)}
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
+@media(max-width:640px){.kit-stage{height:126px}.kit-bottle{height:126px;margin-left:-46px}}
+@media(prefers-reduced-motion:reduce){.kit-stage,.kit-bottle{transition:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 /* selo de desconto em evidência */
 .offer-panel .badge{display:inline-block;margin:0 0 6px;font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.03em;
@@ -267,7 +273,9 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 /* parcela = protagonista */
 .offer-panel .insthero{margin:10px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap}
 .offer-panel .insthero .pre{font-family:var(--body);font-size:18px;font-weight:700;color:var(--cream)}
-.offer-panel .insthero .big{font-family:var(--head);font-size:clamp(46px,8vw,60px);font-weight:700;color:var(--caramel);line-height:.95}
+.offer-panel .insthero .big{font-family:var(--head);font-size:clamp(46px,8vw,60px);font-weight:700;color:var(--caramel);line-height:.95;display:inline-block}
+.offer-panel .insthero .big.pricepop{animation:pricePop .42s var(--ease)}
+@keyframes pricePop{0%{transform:scale(1)}42%{transform:scale(1.06)}100%{transform:scale(1)}}
 .offer-panel .insthero .suf{font-family:var(--body);font-size:12.5px;color:var(--muted);text-align:left;line-height:1.25}
 /* preço cheio / à vista = segundo plano */
 .offer-panel .avista{margin-top:8px;font-family:var(--body);font-size:13.5px;color:var(--muted)}
@@ -441,10 +449,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="stage reveal">
-    <span class="choWrap k1"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-    <span class="choWrap k2"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-    <span class="choWrap k3"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png"></div>
+    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
@@ -643,7 +648,11 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <button data-qty="3">3 potes</button>
   </div>
   <div class="offer-panel reveal">
-    <div class="kitpots" id="kitPots" aria-hidden="true"></div>
+    <div class="kit-stage" id="kitStage" data-kit="2" aria-hidden="true">
+      <img class="kit-bottle b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
+      <img class="kit-bottle b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
+      <img class="kit-bottle b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
+    </div>
     <div class="badge" id="kitBadge">5% OFF</div>
     <div class="kit" id="kitName">Kit 2 potes</div>
     <div class="insthero"><span class="pre">3x de</span><span class="big tnum" id="kitInst">R$ 93,29</span><span class="suf">sem juros<br>no cartão</span></div>
@@ -801,10 +810,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     1:{n:'Kit 1 pote',badge:'',inst:'R$ 49,10',avista:'R$ 147,30',full:'',save:''},
     2:{n:'Kit 2 potes',badge:'5% OFF',inst:'R$ 93,29',avista:'R$ 279,87',full:'R$ 294,60',save:'Você economiza R$ 14,73'},
     3:{n:'Kit 3 potes',badge:'10% OFF',inst:'R$ 132,57',avista:'R$ 397,71',full:'R$ 441,90',save:'Economiza R$ 44,19 + frete grátis'}};
-  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
-  var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
-  function renderPots(q){ if(!potsEl) return; var n=qn(q),h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
-    potsEl.classList.remove('pop'); potsEl.innerHTML=h; void potsEl.offsetWidth; potsEl.classList.add('pop'); }
+  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), stage=doc.getElementById('kitStage');
+  /* leque dos potes: abre/fecha conforme o kit + "pop" no palco e no preço (~420ms) */
+  function fan(q){ if(stage) stage.setAttribute('data-kit',q);
+    var pr=doc.getElementById('kitInst');
+    if(stage){ stage.classList.remove('pop'); void stage.offsetWidth; stage.classList.add('pop'); }
+    if(pr){ pr.classList.remove('pricepop'); void pr.offsetWidth; pr.classList.add('pricepop'); }
+    setTimeout(function(){ if(stage) stage.classList.remove('pop'); if(pr) pr.classList.remove('pricepop'); },420); }
   function set(id,txt){ var el=doc.getElementById(id); if(el) el.textContent=txt; }
   function showEl(id,on){ var el=doc.getElementById(id); if(el) el.style.display=on?'':'none'; }
   function setKit(q){ var k=KITS[q];
@@ -814,13 +826,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     showEl('kitSave',!!k.save); set('kitSave',k.save);
     /* checkout sem cupom: o desconto automático por quantidade (WHEY5/WHEY10) aplica sozinho — cupom bloquearia o 10% */
     buy.setAttribute('href',withParams(base+VAR+':'+q)); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
-    renderPots(q);
+    fan(q);
     /* selecionar kit = interesse (topo do funil) */
     fbqt('AddToWishlist',{content_name:PNAME,content_ids:[PID],content_type:'product',value:valFor(q),currency:'BRL'});
     dle('add_to_wishlist',q);
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
-  renderPots('2');
+  /* kit 2 já vem pré-selecionado no HTML (data-kit="2") — leque e preços iniciais prontos */
 
   /* PageView já dispara no <head> (Pixel) e no GTM (gtm.js). Aqui: ViewContent + view_item ao carregar */
   fbqt('ViewContent',{content_name:PNAME,content_ids:[PID],content_type:'product',value:PRICE,currency:'BRL'});
