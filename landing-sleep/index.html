@@ -40,6 +40,13 @@ fbq('init','828186133708463');fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1"></noscript>
 
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2JFV5TGHCV"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
+</script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -114,7 +121,7 @@ canvas#bg{z-index:-3}
   font-family:var(--body);font-weight:700;font-size:15.5px;letter-spacing:.01em;padding:15px 28px;
   border-radius:100px;cursor:pointer;border:0;color:#211534;background:var(--grad);
   box-shadow:0 12px 34px -12px rgba(182,166,224,.7),inset 0 1px 0 rgba(255,255,255,.35);
-  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:nowrap}
+  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:normal;text-align:center;line-height:1.2}
 .btn:hover{box-shadow:0 20px 48px -12px rgba(233,196,137,.7),inset 0 1px 0 rgba(255,255,255,.45)}
 .btn:active{transform:scale(.97)}
 .btn.sm{padding:11px 20px;font-size:14px}
@@ -190,11 +197,21 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .vdbar{display:block;height:4px;border-radius:2px;background:var(--grad);width:0;margin-top:6px;max-width:120px;margin-left:auto;box-shadow:0 0 10px rgba(233,196,137,.4)}
 
 /* offer kit image */
-.kit-visual{height:clamp(150px,21vw,190px);display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px}
-.kit-pot{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:height .35s var(--ease),opacity .35s var(--ease),transform .35s var(--ease)}
-.kit-visual[data-count="2"] .kit-pot{height:88%;margin-inline:-5%}
-.kit-visual[data-count="3"] .kit-pot{height:78%;margin-inline:-7%}
-.kit-visual[data-count="3"] .kit-pot:nth-child(2){height:94%;position:relative;z-index:2}
+/* palco em leque (padrão Tetra Vit): potes fixos que abrem ao trocar o kit */
+.kit-stage{position:relative;height:clamp(160px,22vw,200px);display:grid;place-items:center;margin-bottom:6px;overflow:visible;perspective:900px;transition:transform .42s var(--ease)}
+.kit-stage.pop{transform:scale(1.04)}
+.kit-bottle{position:absolute;height:100%;width:auto;object-fit:contain;opacity:0;transform:translateX(0) rotate(0) scale(1);transform-origin:bottom center;
+  filter:drop-shadow(0 22px 30px rgba(0,0,0,.55)) drop-shadow(0 0 26px rgba(182,166,224,.22));
+  transition:transform .55s var(--ease),opacity .45s var(--ease)}
+.kit-stage[data-kit="1"] .b1{opacity:1;z-index:3}
+.kit-stage[data-kit="2"] .b1{opacity:1;transform:translateX(-20%) rotate(-4deg);z-index:2}
+.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(20%) rotate(4deg);z-index:3}
+.kit-stage[data-kit="3"] .b1{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9);z-index:2}
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9);z-index:2}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(0) scale(1);z-index:3}
+.bonus{display:none;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--amber-hi);
+  padding:8px 14px;border-radius:12px;border:1px dashed var(--line-2);background:rgba(233,196,137,.08)}
+.bonus.on{display:inline-flex}
 
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
@@ -224,6 +241,17 @@ h3{font-size:clamp(19px,2.2vw,23px)}
   background:radial-gradient(circle at 40% 40%,#f6ecd6,#e6c795 46%,transparent 70%);box-shadow:0 0 80px 20px rgba(233,196,137,.20);opacity:.9}
 .band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
 .band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:24ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+
+/* scrollytelling */
+.scrolly-grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,44px);max-width:820px;margin-inline:auto}
+.scrolly-rail{position:relative;width:3px;border-radius:3px;background:rgba(182,166,224,.14)}
+.scrolly-fill{position:absolute;top:0;left:0;width:100%;height:0;background:var(--grad);border-radius:3px;box-shadow:0 0 14px rgba(182,166,224,.55)}
+.scrolly-steps{display:grid;gap:clamp(30px,7vw,72px);padding:6px 0}
+.sstep{opacity:.35;transform:translateY(8px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.sstep.active{opacity:1;transform:none}
+.sstep-time{font-family:var(--head);font-size:13.5px;color:var(--lilac);letter-spacing:.06em}
+.sstep h3{margin:6px 0 8px;font-size:clamp(22px,3vw,30px)}
+.sstep p{font-size:16px;color:var(--soft);max-width:54ch}
 
 /* generic cards */
 .grid{display:grid;gap:18px}
@@ -260,7 +288,8 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .pts .ck{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#211534;background:var(--grad);font-weight:800}
 
 /* stage / hero bottle */
-.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(72vw,600px)}
+.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(72vw,600px);overflow:visible}
+.orbit{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .stage-glow{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(233,196,137,.34),rgba(157,139,206,.20) 46%,transparent 70%);filter:blur(6px);animation:breathe 8s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.08);opacity:1}}
@@ -283,6 +312,19 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .ativo span{font-size:12.5px;color:var(--muted)}
 .ativo em{flex:none;font-style:normal;font-size:18px}
 .ativo u{display:block;text-decoration:none;font-family:var(--head);font-size:12.5px;color:var(--amber);font-weight:600;margin-top:2px}
+/* gauges circulares dos ativos-chave */
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(30px,5vw,46px)}
+.gauge{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);background:linear-gradient(165deg,var(--glass),rgba(39,27,61,.3))}
+.ring{position:relative;width:clamp(88px,12vw,108px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .track{fill:none;stroke:rgba(182,166,224,.14);stroke-width:7}
+.ring .gfill{fill:none;stroke:var(--amber-hi);stroke-width:7;stroke-linecap:round;stroke-dasharray:263.9;stroke-dashoffset:263.9;transition:stroke-dashoffset 1.5s var(--ease);filter:drop-shadow(0 0 6px rgba(233,196,137,.4))}
+.gauge:nth-child(even) .gfill{stroke:var(--lilac-hi);filter:drop-shadow(0 0 6px rgba(182,166,224,.45))}
+.ring .val{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;font-family:var(--head)}
+.ring .val b{font-size:clamp(22px,3vw,27px);font-weight:600;color:var(--cream);line-height:1}
+.ring .val small{font-size:11px;color:var(--muted);font-family:var(--body);margin-top:2px}
+.gauge .name{font-family:var(--head);font-size:15.5px;font-weight:600;color:var(--cream)}
+.gauge .gcap{font-size:12px;color:var(--muted);text-align:center;line-height:1.35}
 
 /* ritual */
 .ritual{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step}
@@ -321,7 +363,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .guard li b{color:var(--amber);font-weight:700}
 
 /* OFERTA */
-#oferta .shell{max-width:960px}
+#comprar .shell{max-width:960px}
 .offer{position:relative;border-radius:calc(var(--radius) + 6px);border:1px solid var(--line-2);overflow:hidden;
   background:linear-gradient(165deg,rgba(39,27,61,.58),rgba(13,9,22,.64));box-shadow:0 40px 90px -40px rgba(0,0,0,.85)}
 .offer-top{padding:clamp(26px,4vw,40px);text-align:center;border-bottom:1px solid var(--line)}
@@ -336,7 +378,8 @@ h3{font-size:clamp(19px,2.2vw,23px)}
   box-shadow:0 10px 26px -8px rgba(233,196,137,.85),inset 0 1px 0 rgba(255,255,255,.4);animation:discglow 2.6s ease-in-out infinite}
 @keyframes discglow{0%,100%{box-shadow:0 10px 26px -8px rgba(233,196,137,.8),inset 0 1px 0 rgba(255,255,255,.4)}50%{box-shadow:0 12px 34px -6px rgba(182,166,224,.9),inset 0 1px 0 rgba(255,255,255,.5)}}
 .price-lead{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);margin-bottom:2px}
-.price-now{font-family:var(--head);font-weight:700;font-size:clamp(48px,7.4vw,70px);line-height:.98;margin:2px 0;color:var(--cream)}
+.price-now{font-family:var(--head);font-weight:700;font-size:clamp(48px,7.4vw,70px);line-height:.98;margin:2px 0;color:var(--cream);transform-origin:left center;transition:transform .3s var(--ease)}
+.price-now.pop{transform:scale(1.04)}
 .price-now small{font-family:var(--head);font-size:.44em;font-weight:700;margin-right:4px;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .price-now em{display:block;font-family:var(--body);font-style:normal;font-size:.19em;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
@@ -367,7 +410,8 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 
 /* escassez */
 .final{text-align:center;max-width:780px;margin-inline:auto}
-.countdown{display:flex;gap:12px;justify-content:center;margin:26px 0}
+.cd-label{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);margin-top:22px}
+.countdown{display:flex;gap:12px;justify-content:center;margin:14px 0 26px}
 .cd{min-width:74px;padding:14px 10px;border-radius:14px;border:1px solid var(--line-2);background:var(--glass)}
 .cd b{display:block;font-family:var(--head);font-weight:600;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .cd span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -464,7 +508,12 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 @media(max-width:600px){
   body{font-size:16px}
   .g-2,.g-3,.forwho,.ativos{grid-template-columns:1fr}
+  .gauges{grid-template-columns:repeat(2,1fr)}
   .toggle{flex-wrap:wrap;justify-content:center}
+  .kit-stage[data-kit="2"] .b1{transform:translateX(-16%) rotate(-4deg)}
+  .kit-stage[data-kit="2"] .b2{transform:translateX(16%) rotate(4deg)}
+  .kit-stage[data-kit="3"] .b1{transform:translateX(-26%) rotate(-8deg) scale(.9)}
+  .kit-stage[data-kit="3"] .b2{transform:translateX(26%) rotate(8deg) scale(.9)}
 }
 @media(max-width:380px){ .cd{min-width:62px}.countdown{gap:8px} }
 @media(prefers-reduced-motion:reduce){
@@ -497,9 +546,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <a href="#ingredientes">Fórmula</a>
       <a href="#beneficios">Benefícios</a>
       <a href="#ritual">Ritual</a>
-      <a href="#oferta">Kits</a>
+      <a href="#comprar">Kits</a>
     </nav>
-    <a class="btn sm" data-checkout href="#oferta">Quero meu ritual</a>
+    <a class="btn sm" data-checkout href="#comprar">Quero meu ritual</a>
   </div>
 </header>
 
@@ -519,13 +568,14 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
           <span class="chip">Triptofano</span><span class="chip">Melatonina</span><span class="chip">+ Camomila e Lavanda</span>
         </div>
         <div class="hero-actions reveal">
-          <a class="btn" data-checkout href="#oferta">Começar meu ritual</a>
+          <a class="btn" data-checkout href="#comprar">Começar meu ritual</a>
           <span class="hero-note"><b>1 dose antes de dormir.</b> Pronto em segundos.</span>
         </div>
       </div>
       <div class="stage reveal">
         <div class="stage-glow"></div>
         <div class="stage-floor"></div>
+        <canvas class="orbit" id="heroOrbit" aria-hidden="true"></canvas>
         <div class="mini-badge a"><b>7</b> ativos em sinergia</div>
         <div class="mini-badge b"><b>150</b>g · 19 noites</div>
         <img class="bottle" src="sleep-pote.png" alt="Pote do Sleep Inositol Botanika — 150 g, sabor camomila, laranja e lavanda" width="440" height="374" fetchpriority="high">
@@ -560,6 +610,24 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   <div class="band-txt"><p>“A noite não é pra vencer. É pra atravessar com calma.”</p></div>
 </div>
 
+<!-- scrollytelling: a noite em 3 estágios -->
+<section class="sec" id="ritual-noite" data-accent="0.71,0.65,0.88">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span>Do copo ao sono</div>
+      <h2 class="serif hsplit" data-split>Como a sua noite se desenrola.</h2>
+    </div>
+    <div class="scrolly-grid">
+      <div class="scrolly-rail" aria-hidden="true"><span class="scrolly-fill" id="scrolly-fill"></span></div>
+      <div class="scrolly-steps" id="scrolly-steps">
+        <div class="sstep reveal"><span class="sstep-time">22h00 · o ritual começa</span><h3 class="serif">A luz do dia se apaga.</h3><p>Você prepara o copo — 1 dose em 200 ml de água gelada — e sinaliza ao corpo que o dia chegou ao fim.</p></div>
+        <div class="sstep reveal"><span class="sstep-time">22h30 · o corpo responde</span><h3 class="serif">Tudo começa a desacelerar.</h3><p>Taurato de magnésio e glicina apoiam o relaxamento muscular e do sistema nervoso; a mente encontra um ritmo mais lento.</p></div>
+        <div class="sstep reveal"><span class="sstep-time">23h00 · a noite acolhe</span><h3 class="serif">O sono se aproxima.</h3><p>Melatonina e triptofano auxiliam na sinalização do ciclo do sono. A noite deixa de ser luta e vira descanso.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 3 · SOLUÇÃO -->
 <section class="sec" id="solucao">
   <div class="shell">
@@ -578,7 +646,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
           <li><span class="ck">✓</span><span><b>Ritual</b> — camomila e lavanda dão o sabor e o aroma que transformam a dose num momento.</span></li>
         </ul>
         <div class="hero-actions reveal" style="margin-top:22px">
-          <a class="btn" data-checkout href="#oferta">Quero desacelerar à noite</a>
+          <a class="btn" data-checkout href="#comprar">Quero desacelerar à noite</a>
         </div>
       </div>
     </div>
@@ -609,6 +677,28 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
           <img loading="lazy" src="sleep-pote.png" alt="Pote do Sleep Inositol Botanika">
           <span class="cap">dose relevante · sem adição de açúcares</span>
         </div>
+      </div>
+    </div>
+    <div class="gauges reveal" data-stagger>
+      <div class="gauge">
+        <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="gfill" cx="50" cy="50" r="42" data-fill="0.83"/></svg>
+          <div class="val"><b class="num" data-target="350">0</b><small>mg</small></div></div>
+        <div class="name">Magnésio</div><div class="gcap">relaxamento muscular</div>
+      </div>
+      <div class="gauge">
+        <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="gfill" cx="50" cy="50" r="42" data-fill="0.72"/></svg>
+          <div class="val"><b class="num" data-target="1000">0</b><small>mg</small></div></div>
+        <div class="name">Glicina</div><div class="gcap">conforto noturno</div>
+      </div>
+      <div class="gauge">
+        <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="gfill" cx="50" cy="50" r="42" data-fill="0.60"/></svg>
+          <div class="val"><b class="num" data-target="200">0</b><small>mg</small></div></div>
+        <div class="name">Taurina</div><div class="gcap">equilíbrio do organismo</div>
+      </div>
+      <div class="gauge">
+        <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="gfill" cx="50" cy="50" r="42" data-fill="0.50"/></svg>
+          <div class="val"><b class="num" data-target="100">0</b><small>mg</small></div></div>
+        <div class="name">Triptofano</div><div class="gcap">precursor natural do sono</div>
       </div>
     </div>
   </div>
@@ -761,7 +851,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </section>
 
 <!-- 11 · OFERTA -->
-<section class="sec" id="oferta">
+<section class="sec" id="comprar">
   <div class="shell">
     <div class="sec-head center reveal">
       <div class="kicker center"><span></span><b>10</b> Escolha o seu ritual</div>
@@ -770,10 +860,10 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-visual" id="kit-visual" data-count="2">
-          <img class="kit-pot" src="sleep-pote.png" alt="Kit Sleep Inositol Botanika" loading="lazy">
-          <img class="kit-pot" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
-          <img class="kit-pot" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
+        <div class="kit-stage" id="kit-stage" data-kit="2">
+          <img class="kit-bottle b1" src="sleep-pote.png" alt="Pote do Sleep Inositol Botanika" loading="lazy">
+          <img class="kit-bottle b2" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
+          <img class="kit-bottle b3" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
         </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
@@ -784,16 +874,17 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <div class="offer-body">
         <div class="offer-price">
           <div class="price-badges">
-            <span class="disc-badge" id="p-disc">🏷️ −5% por quantidade</span>
+            <span class="disc-badge" id="p-disc">🏷️ −5% automático</span>
             <span class="save-badge" id="p-save">economize R$ 11,97</span>
           </div>
-          <div class="price-now"><span class="price-lead">Parcele em</span><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros no cartão</em></div>
+          <div class="price-now" id="price-now"><span class="price-lead">Parcele em</span><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros no cartão</em></div>
           <div class="price-full"><span class="price-old" id="p-old">R$ 239,40</span><span id="p-avista">ou R$ 227,43 à vista</span></div>
           <div class="price-meta">
             <div class="li"><i>◆</i> <span id="p-per">R$ 113,72 por pote</span></div>
             <div class="li"><i>◆</i> <span id="p-dur">≈ 38 noites de ritual</span></div>
-            <div class="li"><i>◆</i> <span>desconto aplicado automaticamente no checkout</span></div>
+            <div class="li"><i>◆</i> <span>desconto por quantidade aplicado automaticamente</span></div>
           </div>
+          <span class="bonus" id="p-bonus">🎁 Bônus: Guia do Ritual do Sono (e-book)</span>
         </div>
         <div class="offer-cta">
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
@@ -835,9 +926,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     <div class="final reveal">
       <div class="kicker center"><span></span><b>12</b> A sua noite começa hoje</div>
       <h2 class="serif hsplit" data-split>Desacelere. Respire. Descanse.</h2>
-      <p class="lead" style="margin-inline:auto">Não na próxima noite mal dormida — hoje. O desconto por quantidade está no ar; garanta o seu ritual.</p>
-      <div class="countdown" id="countdown" aria-label="Tempo restante da condição de lançamento">
-        <div class="cd"><b id="cd-d">00</b><span>dias</span></div>
+      <p class="lead" style="margin-inline:auto">Não na próxima noite mal dormida — hoje. A condição de hoje encerra à meia-noite; garanta o seu ritual.</p>
+      <div class="cd-label">A condição de hoje encerra em</div>
+      <div class="countdown" id="countdown" aria-label="Tempo restante da condição de hoje">
         <div class="cd"><b id="cd-h">00</b><span>horas</span></div>
         <div class="cd"><b id="cd-m">00</b><span>min</span></div>
         <div class="cd"><b id="cd-s">00</b><span>seg</span></div>
@@ -846,7 +937,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
         <div class="track"><div class="fill" id="stockfill"></div></div>
         <small>Estoque do lote atual — o descanso não espera reposição.</small>
       </div>
-      <div style="margin-top:26px"><a class="btn" data-checkout href="#oferta">Garantir meu ritual com desconto</a></div>
+      <div style="margin-top:26px"><a class="btn" data-checkout href="#comprar">Garantir meu ritual com desconto</a></div>
     </div>
   </div>
 </section>
@@ -885,7 +976,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 
 <div class="buybar" id="buybar">
   <div class="info"><b id="bar-price">3× R$ 75,81</b><span id="bar-label">2 potes · −5% · R$ 227,43 à vista</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#oferta">Ver oferta</a>
+  <a class="btn" id="bar-buy" data-checkout href="#comprar">Ver oferta</a>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
@@ -941,9 +1032,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
   var KITS={
-    '1':{qty:1,old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',barlabel:'1 pote · à vista R$ 119,70'},
-    '2':{qty:2,old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% por quantidade',save:'economize R$ 11,97',barlabel:'2 potes · −5% · R$ 227,43 à vista'},
-    '3':{qty:3,old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% por quantidade',save:'economize R$ 35,91',barlabel:'3 potes · −10% · R$ 323,19 à vista'}
+    '1':{qty:1,old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',bonus:false,barlabel:'1 pote · à vista R$ 119,70'},
+    '2':{qty:2,old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% automático',save:'economize R$ 11,97',bonus:false,barlabel:'2 potes · −5% · R$ 227,43 à vista'},
+    '3':{qty:3,old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% automático',save:'economize R$ 35,91',bonus:true,barlabel:'3 potes · −10% · R$ 323,19 à vista'}
   };
   var currentKit='2';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
@@ -956,22 +1047,35 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     toggleEl('p-save',k.save,'inline-flex');
     set('p-parc',k.parc);set('p-avista',k.avista);set('p-per',k.per);set('p-dur',k.dur);
     set('bar-price','3× '+k.parc);set('bar-label',k.barlabel);
-    var kv=doc.getElementById('kit-visual');if(kv){kv.setAttribute('data-count',k.qty);each(kv.querySelectorAll('.kit-pot'),function(im,i){im.style.display=(i<k.qty)?'':'none';});}
+    var bn=doc.getElementById('p-bonus');if(bn)bn.classList.toggle('on',!!k.bonus);
+    /* palco em leque + "pop" no palco e no preço */
+    var stg=doc.getElementById('kit-stage'),pn=doc.getElementById('price-now');
+    if(stg){stg.setAttribute('data-kit',kit);stg.classList.add('pop');}
+    if(pn)pn.classList.add('pop');
+    setTimeout(function(){if(stg)stg.classList.remove('pop');if(pn)pn.classList.remove('pop');},420);
     var buy=doc.getElementById('buy');if(buy)buy.setAttribute('href',checkout(kit));
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
-  function scrollToOffer(){var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});}
+  function scrollToOffer(){var t=doc.getElementById('comprar');if(t){var top=t.getBoundingClientRect().top+win.pageYOffset-70;win.scrollTo({top:top,behavior:reduce?'auto':'smooth'});}}
   function wireCheckout(){
-    // Único botão de checkout real = "COMPRAR AGORA" da oferta (#buy), com o kit/desconto escolhido.
+    // Único botão de checkout real = "COMPRAR AGORA" da oferta (#buy, aponta p/ /cart/).
     // Todos os outros botões de compra funcionam como âncora para a seção de oferta.
+    // O rastreamento de AddToCart/InitiateCheckout fica no listener de captura no document.
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'){if(win.fbq)fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:parseInt(currentKit,10),content_type:'product'});return;}
+        if(id==='buy')return;
         e.preventDefault();scrollToOffer();
       });
     });
   }
+  /* ---------- rastreamento: clique em qualquer link de carrinho (captura no document) ---------- */
+  doc.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href*="/cart/"]'):null;if(!a)return;
+    var qty=parseInt(currentKit,10)||1;
+    if(win.fbq){fbq('track','AddToCart',{content_ids:[VARIANT],num_items:qty,content_type:'product'});fbq('track','InitiateCheckout',{content_ids:[VARIANT],num_items:qty,content_type:'product'});}
+    if(win.gtag){win.gtag('event','add_to_cart',{items:[{item_id:VARIANT,item_name:'Sleep Inositol',quantity:qty}]});win.gtag('event','begin_checkout',{items:[{item_id:VARIANT,item_name:'Sleep Inositol',quantity:qty}]});}
+  },true);
 
   /* ---------- title split ---------- */
   function split(){
@@ -995,7 +1099,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 
   /* ---------- count up ---------- */
   function countUp(el){var target=parseFloat(el.getAttribute('data-target'))||0,suffix=el.getAttribute('data-suffix')||'',dur=1500,t0=null;
-    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e).toLocaleString('pt-BR')+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
 
   each(doc.querySelectorAll('.imgcard'),function(ic){var r=ic.closest('.reveal');if(r)r.classList.add('rv-s');});
 
@@ -1031,7 +1135,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   if(GS && ST){ GS.registerPlugin(ST); }
 
   each(doc.querySelectorAll('a[href^="#"]'),function(a){
-    a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id.length<2)return;var t=doc.querySelector(id);if(!t)return;e.preventDefault();t.scrollIntoView({behavior:reduce?'auto':'smooth'});});
+    a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id.charAt(0)!=='#'||id.length<2)return;var t=doc.querySelector(id);if(!t)return;e.preventDefault();var top=t.getBoundingClientRect().top+win.pageYOffset-70;win.scrollTo({top:top,behavior:reduce?'auto':'smooth'});});
   });
 
   /* ---------- ScrollTrigger: parallax + cor do fundo por seção ---------- */
@@ -1041,7 +1145,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       GS.fromTo(img,{yPercent:-9},{yPercent:9,ease:'none',scrollTrigger:{trigger:frame,start:'top bottom',end:'bottom top',scrub:true}});
     });
     GS.utils.toArray('.mini-badge').forEach(function(b,i){ GS.to(b,{yPercent:(i%2?20:-16),ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}}); });
-    var accents={dor:[0.71,0.65,0.88],ingredientes:[0.91,0.77,0.54],tabela:[0.92,0.80,0.60],beneficios:[0.71,0.65,0.88],paraquem:[0.91,0.77,0.54],depoimentos:[0.71,0.65,0.88],oferta:[0.91,0.77,0.54],escassez:[0.62,0.55,0.80]};
+    var accents={dor:[0.71,0.65,0.88],ingredientes:[0.91,0.77,0.54],tabela:[0.92,0.80,0.60],beneficios:[0.71,0.65,0.88],paraquem:[0.91,0.77,0.54],depoimentos:[0.71,0.65,0.88],comprar:[0.91,0.77,0.54],escassez:[0.62,0.55,0.80]};
     Object.keys(accents).forEach(function(id){var s=doc.getElementById(id);if(!s)return;ST.create({trigger:s,start:'top 55%',end:'bottom 45%',onToggle:function(self){if(self.isActive)win.__accentTarget=accents[id];}});});
   }
 
@@ -1085,16 +1189,76 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     });
   }
 
-  /* ---------- countdown ---------- */
-  var OFFER_END=new Date('2026-08-11T23:59:59-03:00').getTime();
+  /* ---------- countdown "só hoje" (meia-noite local, recalcula sozinho) ---------- */
   function pad(n){return(n<10?'0':'')+n;}
-  function tick(){var d=OFFER_END-Date.now();if(d<0)d=0;set('cd-d',pad(Math.floor(d/86400000)));set('cd-h',pad(Math.floor(d%86400000/3600000)));set('cd-m',pad(Math.floor(d%3600000/60000)));set('cd-s',pad(Math.floor(d%60000/1000)));}
+  function nextMidnight(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0,0).getTime();}
+  var MIDNIGHT=nextMidnight();
+  function tick(){var d=MIDNIGHT-Date.now();if(d<=0){MIDNIGHT=nextMidnight();d=MIDNIGHT-Date.now();}
+    set('cd-h',pad(Math.floor(d/3600000)));set('cd-m',pad(Math.floor(d%3600000/60000)));set('cd-s',pad(Math.floor(d%60000/1000)));}
   tick();setInterval(tick,1000);
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
   set('yr',(new Date()).getFullYear());
 
+  /* ---------- hero: órbita de partículas presa à borda do pote ---------- */
+  (function(){
+    var cv=doc.getElementById('heroOrbit'),bottle=doc.querySelector('#hero .bottle');
+    if(!cv||!bottle) return; var ctx=cv.getContext('2d'); if(!ctx) return;
+    var DPR=Math.min(win.devicePixelRatio||1,2),W=0,H=0,parts=[],raf=0;
+    function rnd(a,b){return a+Math.random()*(b-a);}
+    var N=win.innerWidth<760?14:22;
+    for(var i=0;i<N;i++){parts.push({a:rnd(0,6.2832),sp:rnd(.12,.34)*(Math.random()<.5?-1:1),rf:rnd(.98,1.14),sz:rnd(1.2,3.2),ph:rnd(0,6.2832),warm:Math.random()<.5});}
+    function resize(){var r=cv.getBoundingClientRect();W=cv.width=Math.max(1,Math.round(r.width*DPR));H=cv.height=Math.max(1,Math.round(r.height*DPR));}
+    resize(); win.addEventListener('resize',resize,{passive:true});
+    var t=0;
+    function frame(){ raf=win.requestAnimationFrame(frame); t+=.016;
+      var cr=cv.getBoundingClientRect(),br=bottle.getBoundingClientRect();
+      // centro e raio a partir da LARGURA DO POTE (não do hero), pra não cortar
+      var cx=(br.left+br.width/2-cr.left)*DPR, cy=(br.top+br.height/2-cr.top)*DPR;
+      var rad=(br.width*0.55)*DPR;
+      ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation='lighter';
+      for(var i=0;i<parts.length;i++){var p=parts[i];p.a+=p.sp*.016;
+        var wob=Math.sin(t*1.1+p.ph)*.05+1;
+        var x=cx+Math.cos(p.a)*rad*p.rf*wob, y=cy+Math.sin(p.a)*rad*p.rf*wob*.86;
+        var depth=(Math.sin(p.a)+1)/2; // frente mais brilhante
+        var al=0.18+depth*0.5, sz=p.sz*DPR*(0.7+depth*0.7);
+        var col=p.warm?'233,196,137':'182,166,224';
+        var g=ctx.createRadialGradient(x,y,0,x,y,sz*3);
+        g.addColorStop(0,'rgba('+col+','+al+')');g.addColorStop(1,'rgba('+col+',0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,sz*3,0,6.2832);ctx.fill();}
+      ctx.globalCompositeOperation='source-over';
+    }
+    if(reduce){ frame(); win.cancelAnimationFrame(raf); } else frame();
+  })();
+
+  /* ---------- gauges: preenche o anel ao entrar na tela ---------- */
+  (function(){
+    var fills=[].slice.call(doc.querySelectorAll('.gfill'));if(!fills.length)return;var C=263.9;
+    function fillOne(el){var f=parseFloat(el.getAttribute('data-fill'))||0;el.style.strokeDashoffset=(C*(1-f)).toFixed(1);}
+    if('IntersectionObserver' in win && !reduce){
+      var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){fillOne(e.target);o.unobserve(e.target);}});},{threshold:.4});
+      each(fills,function(el){o.observe(el);});
+    } else each(fills,fillOne);
+  })();
+
+  /* ---------- scrollytelling: barra de progresso + estágio ativo ---------- */
+  (function(){
+    var wrap=doc.getElementById('scrolly-steps'),fill=doc.getElementById('scrolly-fill');
+    if(!wrap||!fill) return; var steps=[].slice.call(wrap.querySelectorAll('.sstep'));
+    function upd(){
+      var r=wrap.getBoundingClientRect(),vh=win.innerHeight||doc.documentElement.clientHeight;
+      var total=r.height+vh*0.5,seen=Math.min(Math.max(vh*0.75-r.top,0),total);
+      fill.style.height=Math.max(0,Math.min(1,seen/total))*100+'%';
+      var mid=vh*0.5,best=-1,bd=1e9;
+      each(steps,function(s,i){var sr=s.getBoundingClientRect();var d=Math.abs(sr.top+sr.height/2-mid);if(d<bd){bd=d;best=i;}});
+      each(steps,function(s,i){s.classList.toggle('active',i===best);});
+    }
+    win.addEventListener('scroll',upd,{passive:true});win.addEventListener('resize',upd,{passive:true});upd();
+    if(reduce)each(steps,function(s){s.classList.add('active');});
+  })();
+
   applyKit('2');wireCheckout();
   if(win.fbq)fbq('track','ViewContent',{content_name:'Sleep Inositol',content_ids:[VARIANT],content_type:'product'});
+  if(win.gtag)win.gtag('event','view_item',{items:[{item_id:VARIANT,item_name:'Sleep Inositol'}]});
 
   /* loader 000 -> 100 */
   (function(){
