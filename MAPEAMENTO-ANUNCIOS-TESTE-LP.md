@@ -49,3 +49,19 @@ Top 4 por vendas (com UGC). Whey/Sleep/Creatina fora (sem UGC), Vitamina C fora 
 **Ainda dá pra somar (ready, é só pedir):** UGC extras — Hair combo, Tri LissiaTriMgComplex2, TetraVitD LissiaTetraVitD2, Ômega LarissaOmega3 + combo + unboxing.
 **Você adiciona no Ads Manager:** o 4º conjunto (Eng Dr William).
 **Crítico antes de ativar:** confirmar que as LPs têm o pixel 828186133708463 e preservam a query string até o checkout.
+
+---
+
+## 🚀 ATIVADO EM 10/08 — 4 campanhas teste → LP no ar
+Aval do operador ("pode ativar as 4, pixel com certeza esta la"). Ômega mantido (swap p/ Whey cancelado — sem ads exclusivos de Whey).
+
+**Ligado (top-down):** 4 campanhas + 12 conjuntos (C1 Human · C2 Botanika · C4 Aberto ADV) + 24 anúncios (campeão + UGC). R$100/dia cada = **R$400/dia**.
+- HAIR 120251127930920563 · TRI 120251127934030563 · TETRA 120251127936840563 · OMEGA3 120251127938820563
+- Destinos: /hair · /trimagnesio · /tetravit · /omega3 · pixel 828186133708463 (Purchase) · exclui Compradores 14D.
+
+**C3 (Dr William) segue PAUSADO** nas 4 (operador adiciona público real e publica manual):
+- OMEGA3 C3 120251130057960563 · TETRA C3 120251130055680563 · TRI C3 120251130048140563 · HAIR C3 120251130033640563
+
+**UTM:** anúncios com `utm_source=facebook` (rastreia como pago). Padronizar p/ `utm_source=FB` fica como follow-up opcional (mudança de UTM não zera aprendizado). Leitura do teste = **Ads Manager (pixel na LP)**; Utmify/Supabase leem limpo SE a LP preservar a query string até o checkout (Frente 2 — não verificável daqui, domínio bloqueado no proxy).
+
+**Obs:** proxy do ambiente bloqueia `ofertas.botanikabrasil.com.br` — teste de passthrough até o checkout precisa ser feito manualmente pelo operador.
