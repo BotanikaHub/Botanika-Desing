@@ -258,11 +258,17 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
   transition:transform .55s var(--ease),opacity .45s var(--ease)}
 .kit-bottle.b1{opacity:1;z-index:3}
 .kit-bottle.b2,.kit-bottle.b3{z-index:2}
+/* kit 1: 1 pote central */
+.kit-stage[data-kit="1"] .b1{transform:translateX(0) rotate(0)}
 .kit-stage[data-kit="1"] .b2,.kit-stage[data-kit="1"] .b3{opacity:0;transform:translateX(0) rotate(0)}
-.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(24%) rotate(5deg)}
-.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(-24%) rotate(-5deg)}
-.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(40%) rotate(10deg) scale(.9)}
-.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(-40%) rotate(-10deg) scale(.9)}
+/* kit 2: 2 potes (par simétrico) */
+.kit-stage[data-kit="2"] .b1{transform:translateX(-26%) rotate(-5deg)}
+.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(26%) rotate(5deg)}
+.kit-stage[data-kit="2"] .b3{opacity:0;transform:translateX(0) rotate(0)}
+/* kit 3: 3 potes em leque */
+.kit-stage[data-kit="3"] .b1{transform:translateX(0) rotate(0)}
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(42%) rotate(10deg) scale(.9)}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(-42%) rotate(-10deg) scale(.9)}
 @media(max-width:640px){.kit-stage{height:134px}.kit-bottle{height:134px;margin-left:-67px}}
 @media(prefers-reduced-motion:reduce){.kit-stage,.kit-bottle{transition:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
@@ -449,6 +455,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="stage reveal">
+    <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
+    <span class="choWrap k2"><img class="choco" alt="" src="choco.svg"></span>
+    <span class="choWrap k3"><img class="choco" alt="" src="choco.svg"></span>
     <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
