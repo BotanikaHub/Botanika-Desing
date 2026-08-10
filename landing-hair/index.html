@@ -185,8 +185,21 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .dose-table tbody tr:hover{background:rgba(230,178,149,.05)}
 .dose-foot{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.55}
 /* offer kit image (muda por kit) */
-.kit-visual{height:clamp(140px,20vw,180px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
-.kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:opacity .3s var(--ease)}
+/* palco de potes em leque (padrão Tetra Vit) */
+.kit-stage{position:relative;height:clamp(196px,26vw,248px);display:grid;place-items:center;overflow:visible;margin-bottom:4px}
+.kit-bottle{position:absolute;height:clamp(148px,22vw,212px);width:auto;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(0,0,0,.55));transform-origin:50% 88%;opacity:0;transition:transform .55s var(--ease),opacity .45s var(--ease);will-change:transform,opacity}
+.kit-bottle.b2{z-index:3}
+.kit-bottle.b1,.kit-bottle.b3{z-index:2}
+.kit-stage[data-kit="1"] .b2{opacity:1;transform:translateX(0) rotate(0deg) scale(1)}
+.kit-stage[data-kit="2"] .b1{opacity:1;transform:translateX(-20%) rotate(-4deg)}
+.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(20%) rotate(4deg)}
+.kit-stage[data-kit="3"] .b1{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(0) rotate(0deg) scale(1)}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
+.kit-stage.pop{animation:kitPop .42s var(--ease)}
+.offer-price.pop{animation:kitPop .42s var(--ease)}
+@keyframes kitPop{0%{transform:scale(1)}42%{transform:scale(1.04)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.kit-bottle{transition:opacity .2s}.kit-stage.pop,.offer-price.pop{animation:none}}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -223,11 +236,24 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .mini-badge.a{top:14%;left:2%}.mini-badge.b{bottom:16%;right:0}
 
 /* full-width image band divider */
-.band{position:relative;height:clamp(200px,30vw,360px);overflow:hidden;border-block:1px solid var(--line)}
-.band img,.band video{width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
-.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg),transparent 30%,transparent 70%,var(--bg)),linear-gradient(180deg,rgba(15,7,12,.4),rgba(15,7,12,.55))}
+.band{position:relative;height:clamp(200px,30vw,360px);overflow:hidden;border-block:1px solid var(--line);background:radial-gradient(120% 140% at 50% 118%,rgba(58,28,44,.6),var(--bg) 70%)}
+.band-deco{position:absolute;inset:-2px;z-index:1;
+  background:
+    radial-gradient(42% 62% at 18% 32%,rgba(230,178,149,.22),transparent 60%),
+    radial-gradient(40% 56% at 82% 70%,rgba(232,199,154,.17),transparent 62%),
+    radial-gradient(32% 52% at 56% 18%,rgba(199,99,146,.15),transparent 60%);
+  filter:blur(2px);animation:bandDrift 16s ease-in-out infinite alternate}
+.band-deco::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(116deg,transparent 0 33px,rgba(230,178,149,.06) 33px 34px);
+  -webkit-mask:radial-gradient(82% 120% at 50% 100%,#000,transparent 74%);mask:radial-gradient(82% 120% at 50% 100%,#000,transparent 74%);opacity:.65}
+.band-deco::after{content:"";position:absolute;left:-40%;top:0;width:55%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(244,205,180,.12),transparent);transform:skewX(-14deg);animation:bandSheen 7.5s ease-in-out infinite}
+@keyframes bandDrift{0%{transform:translate3d(0,0,0) scale(1.02)}100%{transform:translate3d(0,-3%,0) scale(1.08)}}
+@keyframes bandSheen{0%{left:-45%}56%,100%{left:120%}}
+.band::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,var(--bg),transparent 26%,transparent 74%,var(--bg)),linear-gradient(180deg,rgba(15,7,12,.22),rgba(15,7,12,.34))}
 .band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
 .band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:22ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+@media(prefers-reduced-motion:reduce){.band-deco,.band-deco::after{animation:none}}
 
 /* generic cards */
 .grid{display:grid;gap:18px}
@@ -526,9 +552,9 @@ html.lenis{scroll-behavior:auto!important}
   </div>
 </section>
 
-<!-- band divider -->
+<!-- band divider (abstrata, 100% CSS · autocontida) -->
 <div class="band reveal">
-  <video autoplay muted loop playsinline preload="metadata" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_230227_08216b6e-1d92-4444-b837-58077ccffdce.png" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_235943_1f6e38dc-824a-472b-9981-fade1ba90822.mp4" aria-hidden="true"></video>
+  <div class="band-deco" aria-hidden="true"></div>
   <div class="band-txt"><p>“Fio forte não nasce no creme. Nasce na raiz.”</p></div>
 </div>
 
@@ -751,7 +777,11 @@ html.lenis{scroll-behavior:auto!important}
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-visual"><img id="kit-img" alt="Kit Hair Botanika" loading="lazy"></div>
+        <div class="kit-stage" id="kit-stage" data-kit="2" aria-hidden="true">
+          <img class="kit-bottle b1" src="hair-rotulo.png" alt="" loading="lazy">
+          <img class="kit-bottle b2" src="hair-rotulo.png" alt="Pote do Hair Botanika" loading="lazy">
+          <img class="kit-bottle b3" src="hair-rotulo.png" alt="" loading="lazy">
+        </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
           <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
@@ -919,7 +949,7 @@ html.lenis{scroll-behavior:auto!important}
   var VARIANT='48650670670056';
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
   var KITS={
     '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png'},
     '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png'},
@@ -946,7 +976,8 @@ html.lenis{scroll-behavior:auto!important}
     currentKit=kit;var k=KITS[kit];
     var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='inline';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
-    var ki=doc.getElementById('kit-img');if(ki&&k.img)ki.setAttribute('src',k.img);
+    var stage=doc.getElementById('kit-stage');if(stage){stage.setAttribute('data-kit',kit);stage.classList.remove('pop');void stage.offsetWidth;stage.classList.add('pop');}
+    var op=doc.querySelector('.offer-price');if(op){op.classList.remove('pop');void op.offsetWidth;op.classList.add('pop');}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.now);set('bar-label',k.label);
     var href=checkout(kit);
@@ -1091,7 +1122,15 @@ html.lenis{scroll-behavior:auto!important}
 
   /* ---------- countdown honesto: até a meia-noite local do visitante ("só hoje") ---------- */
   function pad(n){return(n<10?'0':'')+n;}
-  function tick(){var end=new Date();end.setHours(24,0,0,0);var d=end.getTime()-Date.now();if(d<0)d=0;set('cd-h',pad(Math.floor(d/3600000)));set('cd-m',pad(Math.floor(d%3600000/60000)));set('cd-s',pad(Math.floor(d%60000/1000)));}
+  function nextMidnight(){var d=new Date();d.setHours(24,0,0,0);return d.getTime();}
+  var END=nextMidnight();
+  function tick(){
+    if(Date.now()>=END)END=nextMidnight();       /* virou o dia → recalcula sozinho */
+    var d=END-Date.now();if(d<0)d=0;
+    set('cd-h',pad(Math.floor(d/3600000)));
+    set('cd-m',pad(Math.floor(d%3600000/60000)));
+    set('cd-s',pad(Math.floor(d%60000/1000)));
+  }
   tick();setInterval(tick,1000);
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='72%';},600);
   set('yr',(new Date()).getFullYear());
