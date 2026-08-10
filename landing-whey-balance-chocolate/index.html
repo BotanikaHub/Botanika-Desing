@@ -111,9 +111,10 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(234,177,115,.36),rgba(207,138,67,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
-.pote{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 24px 28px rgba(0,0,0,.5));
+.potecard{display:block;background:radial-gradient(120% 100% at 50% 18%,#f7f0e2,#e3d6bd);border-radius:24px;padding:22px;
+  isolation:isolate;border:1px solid rgba(234,177,115,.28);box-shadow:0 44px 90px -34px rgba(0,0,0,.78);
   animation:floaty 7s ease-in-out infinite;will-change:transform}
+.pote{width:100%;height:auto;display:block;mix-blend-mode:multiply}
 .choWrap{position:absolute;z-index:1;will-change:transform}
 .choWrap.k1{top:2%;left:4%;width:20%}.choWrap.k2{top:10%;right:2%;width:16%}.choWrap.k3{bottom:10%;left:12%;width:14%}
 .choco{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 11px rgba(0,0,0,.45));animation:floaty 6s ease-in-out infinite}
@@ -250,21 +251,12 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .toggle button.on{background:var(--grad);color:#1a0f07}
 .offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
   border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
-/* palco em leque dos potes — abre/fecha ao trocar o kit; overflow visível p/ não cortar */
-.kit-stage{position:relative;height:150px;margin:2px auto 16px;overflow:visible;transition:transform .42s var(--ease)}
+/* tile do pote na oferta com "pop" ao trocar o kit */
+.kit-stage{position:relative;margin:2px auto 16px;transition:transform .42s var(--ease)}
 .kit-stage.pop{transform:scale(1.04)}
-.kit-bottle{position:absolute;left:50%;bottom:0;height:150px;width:auto;margin-left:-56px;transform-origin:50% 100%;
-  filter:drop-shadow(0 16px 20px rgba(0,0,0,.6));opacity:0;
-  transition:transform .55s var(--ease),opacity .45s var(--ease)}
-.kit-bottle.b1{opacity:1;z-index:3}
-.kit-bottle.b2,.kit-bottle.b3{z-index:2}
-.kit-stage[data-kit="1"] .b2,.kit-stage[data-kit="1"] .b3{opacity:0;transform:translateX(0) rotate(0)}
-.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(20%) rotate(4deg)}
-.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(-20%) rotate(-4deg)}
-.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
-.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
-@media(max-width:640px){.kit-stage{height:126px}.kit-bottle{height:126px;margin-left:-46px}}
-@media(prefers-reduced-motion:reduce){.kit-stage,.kit-bottle{transition:none}}
+.kit-stage .offercard{max-width:210px;margin:0 auto;padding:16px;animation:none}
+.kit-stage .offercard img{width:100%;height:auto;display:block;mix-blend-mode:multiply}
+@media(prefers-reduced-motion:reduce){.kit-stage{transition:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 /* selo de desconto em evidência */
 .offer-panel .badge{display:inline-block;margin:0 0 6px;font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.03em;
@@ -449,7 +441,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="stage reveal">
-    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132"></div>
+    <div class="poteWrap"><span class="potecard"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco.png?v=1781566984"></span></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
@@ -649,9 +641,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   </div>
   <div class="offer-panel reveal">
     <div class="kit-stage" id="kitStage" data-kit="2" aria-hidden="true">
-      <img class="kit-bottle b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
-      <img class="kit-bottle b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
-      <img class="kit-bottle b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/WHEY_BALANCE_CHOC.png?v=1782246132" alt="">
+      <span class="potecard offercard"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco.png?v=1781566984" alt="Pote de Whey Balance Chocolate"></span>
     </div>
     <div class="badge" id="kitBadge">5% OFF</div>
     <div class="kit" id="kitName">Kit 2 potes</div>
