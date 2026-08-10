@@ -114,22 +114,24 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 30px 34px rgba(0,0,0,.55));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
-/* órbita: cada chocolatinho gira ao redor do pote (pivô no centro do palco), passando por trás */
-.choWrap{position:absolute;top:50%;left:50%;width:0;height:0;z-index:1;will-change:transform;animation:orbit 24s linear infinite}
-.choco{position:absolute;display:block;filter:drop-shadow(0 8px 12px rgba(0,0,0,.5));animation:orbitRev 24s linear infinite;will-change:transform}
-.choWrap.k1{animation-duration:23s}
-.choWrap.k1 .choco{width:86px;top:-212px;left:-43px;animation-duration:23s}
-.choWrap.k2{animation-duration:29s;animation-delay:-9s;animation-direction:reverse}
-.choWrap.k2 .choco{width:82px;top:-244px;left:-41px;animation-duration:29s;animation-delay:-9s;animation-direction:reverse}
-.choWrap.k3{animation-duration:26s;animation-delay:-16s}
-.choWrap.k3 .choco{width:74px;top:-190px;left:-37px;animation-duration:26s;animation-delay:-16s}
+/* órbita: cada chocolatinho gira devagar ao redor do pote (pivô no centro do palco) */
+.choWrap{position:absolute;top:50%;left:50%;width:0;height:0;z-index:3;will-change:transform;animation:orbit 48s linear infinite}
+.choco{position:absolute;display:block;height:auto;max-width:none;
+  filter:drop-shadow(0 10px 14px rgba(0,0,0,.55)) drop-shadow(0 0 12px rgba(234,177,115,.32));
+  animation:orbitRev 48s linear infinite;will-change:transform}
+.choWrap.k1{animation-duration:46s}
+.choWrap.k1 .choco{width:112px;top:-206px;left:-56px;animation-duration:46s}
+.choWrap.k2{animation-duration:56s;animation-delay:-18s;animation-direction:reverse}
+.choWrap.k2 .choco{width:106px;top:-232px;left:-53px;animation-duration:56s;animation-delay:-18s;animation-direction:reverse}
+.choWrap.k3{animation-duration:50s;animation-delay:-30s}
+.choWrap.k3 .choco{width:96px;top:-186px;left:-48px;animation-duration:50s;animation-delay:-30s}
 @keyframes orbit{to{transform:rotate(360deg)}}
 @keyframes orbitRev{to{transform:rotate(-360deg)}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 @media(max-width:760px){
-  .choWrap.k1 .choco{width:58px;top:-138px;left:-29px}
-  .choWrap.k2 .choco{width:56px;top:-156px;left:-28px}
-  .choWrap.k3 .choco{width:50px;top:-124px;left:-25px}
+  .choWrap.k1 .choco{width:76px;top:-136px;left:-38px}
+  .choWrap.k2 .choco{width:72px;top:-150px;left:-36px}
+  .choWrap.k3 .choco{width:64px;top:-120px;left:-32px}
 }
 .hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
   border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center}
