@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Pedaço de chocolate">
+  <defs>
+    <linearGradient id="ctop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9a5a2e"/>
+      <stop offset=".5" stop-color="#6e3c1c"/>
+      <stop offset="1" stop-color="#542c13"/>
+    </linearGradient>
+    <linearGradient id="cleft" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a2f16"/>
+      <stop offset="1" stop-color="#37190b"/>
+    </linearGradient>
+    <linearGradient id="cright" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3e2010"/>
+      <stop offset="1" stop-color="#241007"/>
+    </linearGradient>
+  </defs>
+  <!-- top face with 2x2 squares -->
+  <path d="M60 14 L104 38 L60 62 L16 38 Z" fill="url(#ctop)"/>
+  <path d="M60 14 L82 26 L60 38 L38 26 Z" fill="#fff" opacity=".08"/>
+  <path d="M38 26 L60 38 L60 62 L38 50 Z" fill="#000" opacity=".08"/>
+  <path d="M82 26 L60 38 L60 62 L82 50 Z" fill="#000" opacity=".14"/>
+  <!-- left side -->
+  <path d="M16 38 L60 62 L60 104 L16 80 Z" fill="url(#cleft)"/>
+  <!-- right side -->
+  <path d="M104 38 L60 62 L60 104 L104 80 Z" fill="url(#cright)"/>
+  <!-- segment grooves -->
+  <path d="M38 50 L38 92 M60 62 L60 104" stroke="#000" stroke-opacity=".22" stroke-width="1.5"/>
+  <path d="M82 50 L82 92 M60 62 L60 104" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/>
+  <path d="M16 59 L60 83 L104 59" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/>
+  <!-- glossy highlight -->
+  <path d="M60 14 L104 38 L60 62 L16 38 Z" fill="none" stroke="#c98a52" stroke-opacity=".5" stroke-width="1.2"/>
+</svg>
