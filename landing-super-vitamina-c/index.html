@@ -95,7 +95,7 @@ canvas#oranges{z-index:-2;pointer-events:none}
   font-family:var(--body);font-weight:700;font-size:15.5px;letter-spacing:.01em;padding:15px 28px;
   border-radius:100px;cursor:pointer;border:0;color:#2a1500;background:var(--grad);
   box-shadow:0 12px 34px -12px rgba(255,122,26,.7),inset 0 1px 0 rgba(255,255,255,.35);
-  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:nowrap}
+  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:normal;text-align:center}
 .btn:hover{box-shadow:0 20px 48px -12px rgba(255,122,26,.85),inset 0 1px 0 rgba(255,255,255,.45)}
 .btn:active{transform:scale(.97)}
 .btn.sm{padding:11px 20px;font-size:14px}
@@ -167,9 +167,22 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .dose-table tbody tr:hover{background:rgba(255,122,26,.05)}
 .dose-foot{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.55}
 
-/* offer kit image */
-.kit-visual{height:clamp(140px,20vw,180px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
-.kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(0,0,0,.55));transition:opacity .3s var(--ease)}
+/* offer kit stage — leque de potes (padrão Tetra Vit) */
+.kit-stage{position:relative;width:100%;height:clamp(168px,22vw,208px);overflow:visible;display:grid;place-items:end center;margin-bottom:4px;transition:transform .4s var(--ease)}
+.kit-stage.pop{transform:scale(1.04)}
+.kit-bottle{position:absolute;bottom:0;height:100%;width:auto;object-fit:contain;transform-origin:bottom center;
+  filter:drop-shadow(0 18px 24px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(255,122,26,.28));
+  transition:transform .55s var(--ease),opacity .45s var(--ease)}
+.kit-bottle.b1{z-index:3}.kit-bottle.b2{z-index:2}.kit-bottle.b3{z-index:1}
+.kit-bottle.b2,.kit-bottle.b3{opacity:0}
+.kit-stage[data-n="2"] .b1{transform:translateX(20%) rotate(4deg)}
+.kit-stage[data-n="2"] .b2{opacity:1;transform:translateX(-20%) rotate(-4deg)}
+.kit-stage[data-n="3"] .b1{transform:translateX(0) scale(1.02)}
+.kit-stage[data-n="3"] .b2{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
+.kit-stage[data-n="3"] .b3{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
+.p-bonus{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:8px 13px;border-radius:12px;font-size:13px;color:var(--cream);
+  border:1px dashed var(--line-2);background:linear-gradient(120deg,rgba(205,233,74,.12),rgba(255,122,26,.08))}
+.p-bonus b{color:var(--lime-hi)}
 
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
@@ -342,6 +355,13 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 
 /* escassez */
 .final{text-align:center;max-width:780px;margin-inline:auto}
+.countdown{margin:24px 0 4px;text-align:center}
+.cd-lbl{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:11px;font-weight:700}
+.cd-boxes{display:inline-flex;align-items:center;gap:8px}
+.cd{min-width:66px;padding:12px 8px;border-radius:14px;border:1px solid var(--line-2);background:linear-gradient(165deg,var(--glass),rgba(46,26,10,.3))}
+.cd b{display:block;font-family:var(--head);font-weight:700;font-size:30px;line-height:1;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text;font-variant-numeric:tabular-nums}
+.cd span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px;display:block}
+.cd-sep{font-family:var(--head);font-size:24px;color:var(--amber-lo)}
 .stockbar{max-width:420px;margin:22px auto 0}
 .stockbar .track{height:8px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden}
 .stockbar .fill{height:100%;width:0;background:var(--grad);border-radius:100px;transition:width 1.4s var(--ease)}
@@ -493,9 +513,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.28),transparent 65%);background-size:240% 100%;background-position:170% 0;transition:background-position .7s var(--ease)}
 .btn:hover::after{background-position:-40% 0}
 
-/* oferta: troca de imagem com crossfade + pop no preço */
-#kit-img{transition:opacity .35s var(--ease),transform .5s var(--ease)}
-#kit-img.swap{opacity:0;transform:scale(.9)}
+/* oferta: pop no preço */
 .price-now{transition:transform .3s var(--ease)}
 .price-now.pop{transform:scale(1.07)}
 
@@ -608,7 +626,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
         <div class="stage-floor"></div>
         <div class="mini-badge a" data-par="1.1"><b>1000</b> mg de vitamina C</div>
         <div class="mini-badge b" data-par="-1.2"><b>3</b> ativos numa dose</div>
-        <img class="bottle" id="bottle" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260802_005111_308fd2d5-ec56-453f-a468-cda9599ca468.png" alt="Super Vitamina C Botanika — vitamina C, quercetina e própolis" width="480" height="480" fetchpriority="high">
+        <img class="bottle" id="bottle" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Super Vitamina C Botanika — vitamina C, quercetina e própolis" width="480" height="480" fetchpriority="high">
       </div>
     </div>
   </div>
@@ -844,7 +862,11 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-visual"><img id="kit-img" alt="Kit Super Vitamina C Botanika" loading="lazy"></div>
+        <div class="kit-stage" id="kitStage" data-n="2">
+          <img class="kit-bottle b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
+          <img class="kit-bottle b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
+          <img class="kit-bottle b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Pote da Super Vitamina C" loading="lazy">
+        </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
           <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
@@ -911,6 +933,16 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
       <div class="kicker center"><span></span><b>12</b> Comece hoje</div>
       <h2 class="serif hsplit" data-split>Sua imunidade não espera a próxima estação.</h2>
       <p class="lead" style="margin-inline:auto">A vitamina C funciona pela constância — e a constância começa hoje, não na próxima gripe. O desconto por quantidade já está no ar; garanta o seu.</p>
+      <div class="countdown" id="countdown" aria-label="Tempo restante da condição de hoje">
+        <span class="cd-lbl">A condição de hoje termina em</span>
+        <div class="cd-boxes">
+          <div class="cd"><b id="cd-h">00</b><span>horas</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd"><b id="cd-m">00</b><span>min</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd"><b id="cd-s">00</b><span>seg</span></div>
+        </div>
+      </div>
       <div class="stockbar">
         <div class="track"><div class="fill" id="stockfill"></div></div>
         <small>Lote atual em giro — reponha antes de ficar sem a sua rotina.</small>
@@ -1013,9 +1045,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     if(qty==='1'||qty===1)parts.unshift('discount='+COUPON);
     if(parts.length)u+='?'+parts.join('&');return u;}
   var TIER_IMG={
-    '1':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png',
-    '2':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155358_093fd0ef-bc22-41e7-ae3c-73b7cb7c6a90.png',
-    '3':'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260805_155359_89b289cc-7ead-482a-ab9d-f5b2b74b6e38.png'
+    '1':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888',
+    '2':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888',
+    '3':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888'
   };
   var KITS={
     '1':{old:'',now:'R$ 89,52',parcx:'3×',parcv:'R$ 29,84',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',off:'',disc:'🏷️ Cupom BOTANIKA já aplicado · 5% OFF no avulso',save:'',label:'1 pote',img:TIER_IMG['1']},
@@ -1032,8 +1064,9 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='block';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-per',k.per);set('p-dur',k.dur);set('p-parc-x',k.parcx);set('p-parc-v',k.parcv);
     var pof=doc.getElementById('p-off');if(pof){if(k.off){pof.style.display='inline-flex';pof.textContent=k.off+' OFF';}else pof.style.display='none';}
-    var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.classList.add('swap');setTimeout(function(){ki.setAttribute('src',k.img);ki.classList.remove('swap');},180);}
-    var pv=doc.getElementById('p-parc-v');if(pv&&!reduce){pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop');setTimeout(function(){pv.classList.remove('pop');},340);}
+    var st=doc.getElementById('kitStage');if(st){st.setAttribute('data-n',kit);if(!reduce){st.classList.add('pop');setTimeout(function(){st.classList.remove('pop');},420);}}
+    var pb=doc.getElementById('p-bonus');if(pb)pb.style.display=(kit==='3'?'inline-flex':'none');
+    var pv=doc.getElementById('p-parc-v');if(pv&&!reduce){pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop');setTimeout(function(){pv.classList.remove('pop');},420);}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.parcx+' '+k.parcv);set('bar-label',(k.off?k.off+' · ':'')+k.label+' · '+k.now+' à vista');
     var href=checkout(kit);
@@ -1175,6 +1208,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   /* ---------- laranjas ORBITANDO o pote no hero (3D: passam na frente e atrás), reagem ao mouse ---------- */
   (function(){
     var stage=doc.querySelector('#hero .stage'); if(!stage) return;
+    var bottle=doc.getElementById('bottle');
     function rnd(a,b){return a+(b-a)*Math.random();}
     var wrap=doc.createElement('div'); wrap.className='orbit'; wrap.setAttribute('aria-hidden','true'); stage.appendChild(wrap);
     var N=win.innerWidth<760?3:4, orbs=[];
@@ -1183,9 +1217,11 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     var mx=-1e4,my=-1e4,last=0,run=!reduce;
     win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
     function frame(now){ if(!run)return; var dt=(now-last)/1000; if(!(dt>0))dt=.016; if(dt>.05)dt=.05; last=now;
-      var r=stage.getBoundingClientRect(); var cx=r.left+r.width/2, cy=r.top+r.height*0.45, R=Math.min(r.width,r.height)*0.44;
+      var r=stage.getBoundingClientRect(); var bt=(bottle?bottle.getBoundingClientRect():r);
+      var cx=r.left+r.width/2, cy=r.top+r.height/2;
+      var ox=(bt.left+bt.width/2)-cx, oy=(bt.top+bt.height/2)-cy, R=(bt.width||r.width)*0.6;
       for(var i=0;i<orbs.length;i++){var o=orbs[i]; o.ang+=o.spd*dt;
-        var ppx=Math.cos(o.ang)*R, ppy=Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
+        var ppx=ox+Math.cos(o.ang)*R, ppy=oy+Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
         var sx=cx+ppx, sy=cy+ppy, dx=sx-mx, dy=sy-my, dd=Math.sqrt(dx*dx+dy*dy), RR=130;
         if(dd<RR){var f=(1-dd/RR);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*44-o.ox)*.2;o.oy+=(Math.sin(a)*f*44-o.oy)*.2;}
         else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
@@ -1245,7 +1281,14 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     else { run=true; last=performance.now(); win.requestAnimationFrame(frame); }
   })();
 
-  /* ---------- escassez (gatilho honesto, sem countdown) ---------- */
+  /* ---------- escassez: cronômetro "só hoje" (até a meia-noite local, sem caixa de dias) ---------- */
+  (function(){
+    var h=doc.getElementById('cd-h'),m2=doc.getElementById('cd-m'),s2=doc.getElementById('cd-s'); if(!h) return;
+    function pad(n){return(n<10?'0':'')+n;}
+    function tick(){var now=new Date();var end=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0);var d=end-now;if(d<0)d=0;
+      h.textContent=pad(Math.floor(d/3600000));m2.textContent=pad(Math.floor(d%3600000/60000));s2.textContent=pad(Math.floor(d%60000/1000));}
+    tick();setInterval(tick,1000);
+  })();
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
   set('yr',(new Date()).getFullYear());
 
