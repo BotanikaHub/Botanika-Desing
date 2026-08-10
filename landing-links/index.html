@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Botanika — Todas as Landing Pages</title>
+<meta name="description" content="Índice com o link de todas as landing pages da Botanika.">
+<meta name="theme-color" content="#0b1410">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#0b1410; --card:#111e18; --line:rgba(255,255,255,.10);
+    --text:#eaf3ee; --muted:rgba(234,243,238,.62);
+    --green:#6fce9f; --gold:#e6c079;
+    --grad:linear-gradient(120deg,var(--green),var(--gold));
+    --font:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  html{overflow-x:hidden}
+  body{overflow-x:hidden;max-width:100%;background:var(--bg);color:var(--text);font-family:var(--font);
+    line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(60% 50% at 50% -8%,rgba(111,206,159,.10),transparent 60%),
+                     radial-gradient(50% 40% at 90% 0%,rgba(230,192,121,.08),transparent 60%)}
+  .wrap{width:100%;max-width:920px;margin-inline:auto;padding:clamp(28px,6vw,64px) clamp(18px,5vw,32px) 80px}
+  header{text-align:center;margin-bottom:clamp(28px,5vw,46px)}
+  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem;letter-spacing:.01em}
+  .logo i{width:12px;height:12px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px rgba(111,206,159,.7);display:inline-block}
+  h1{font-size:clamp(1.5rem,4.4vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin:18px 0 6px}
+  h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .sub{color:var(--muted);font-size:.98rem;max-width:52ch;margin-inline:auto}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{display:flex;flex-direction:column;gap:10px;padding:18px 18px 16px;border:1px solid var(--line);border-radius:18px;
+    background:linear-gradient(165deg,rgba(255,255,255,.035),var(--card));transition:border-color .25s ease,transform .25s ease}
+  .card:hover{border-color:rgba(111,206,159,.45);transform:translateY(-3px)}
+  .card .top{display:flex;align-items:center;gap:11px}
+  .emoji{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+    background:linear-gradient(160deg,rgba(111,206,159,.16),rgba(230,192,121,.10));border:1px solid var(--line)}
+  .card h2{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+  .card p{font-size:.86rem;color:var(--muted);min-height:2.4em}
+  .actions{display:flex;align-items:center;gap:12px;margin-top:auto;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.86rem;color:#08130d;
+    background:var(--grad);border-radius:100px;padding:9px 16px;text-decoration:none;white-space:nowrap;
+    box-shadow:0 10px 26px -12px rgba(111,206,159,.7)}
+  .btn:active{transform:scale(.97)}
+  .prev{font-size:.78rem;color:var(--muted);text-decoration:none;border-bottom:1px dashed rgba(234,243,238,.28)}
+  .prev:hover{color:var(--green);border-color:var(--green)}
+  footer{margin-top:42px;text-align:center;color:var(--muted);font-size:.78rem}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo"><i></i>Botanika</span>
+    <h1>Todas as <span>Landing Pages</span></h1>
+    <p class="sub">Índice de acesso rápido. Cada produto abre no domínio oficial (<b>ofertas.botanikabrasil.com.br</b>); o link de <em>preview</em> abre a versão fonte (raw.githack).</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>© <span id="yr">2026</span> Botanika Brasil · uso interno</footer>
+</div>
+
+<script>
+(function(){
+  var BASE='https://ofertas.botanikabrasil.com.br/';
+  var RAW='https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-';
+  // slug = slug curto (produção) · folder = pasta (preview antigo)
+  var LPS=[
+    {emoji:'🐟',name:'Super Ômega 3 + CoQ10',desc:'Coração, cérebro e energia. EPA 990 · DHA 660 · CoQ10 100.',slug:'omega3',folder:'omega'},
+    {emoji:'💠',name:'Tri[Mg] Complex',desc:'Magnésio 3 em 1 — malato, bisglicinato e citrato.',slug:'trimagnesio',folder:'tri'},
+    {emoji:'💪',name:'Creatina + Taurato',desc:'Creatina monohidratada + magnésio taurato, sem sabor.',slug:'creatina',folder:'creatina'},
+    {emoji:'🌙',name:'Sleep Inositol',desc:'Ritual noturno — relaxamento e rotina do sono.',slug:'sleep',folder:'sleep'},
+    {emoji:'💇',name:'Hair Botanika',desc:'Cabelos, unhas e pele — 13 ativos.',slug:'hair',folder:'hair'},
+    {emoji:'🥤',name:'Whey Balance Chocolate',desc:'Whey concentrado + colágeno C-PURE®, sabor chocolate.',slug:'whey',folder:'whey-balance-chocolate'},
+    {emoji:'🍊',name:'Super Vitamina C',desc:'Vitamina C 1000 mg + quercetina + própolis.',slug:'vitaminac',folder:'super-vitamina-c'},
+    {emoji:'💧',name:'TetraVit D',desc:'Vitaminas A · D3 · E · K2 em gotas.',slug:'tetravit',folder:'tetravit'}
+  ];
+  var g=document.getElementById('grid');
+  LPS.forEach(function(p){
+    var live=BASE+p.slug;
+    var prev=RAW+p.folder+'/index.html';
+    var c=document.createElement('div');c.className='card';
+    c.innerHTML=
+      '<div class="top"><span class="emoji">'+p.emoji+'</span><h2>'+p.name+'</h2></div>'+
+      '<p>'+p.desc+'</p>'+
+      '<div class="actions">'+
+        '<a class="btn" href="'+live+'" target="_blank" rel="noopener">Abrir página →</a>'+
+        '<a class="prev" href="'+prev+'" target="_blank" rel="noopener">preview (raw)</a>'+
+      '</div>';
+    g.appendChild(c);
+  });
+  document.getElementById('yr').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

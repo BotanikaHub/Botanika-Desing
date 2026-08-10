@@ -12,4 +12,5 @@ clone landing-super-vitamina-c       vitaminac
 clone landing-tetravit               tetravit
 clone landing-sleep                  sleep
 clone landing-creatina               creatina
+clone landing-links                  links
 echo "Slugs prontos."
