@@ -7,9 +7,8 @@
 <meta property="og:site_name" content="Botanika">
 <meta property="og:title" content="Whey Balance Chocolate — Proteína limpa com colágeno C-PURE®">
 <meta property="og:description" content="23 g de proteína, adoçado naturalmente, sem açúcar, sem corantes e sem glúten. Força e tônus de verdade — sabor chocolate.">
-<meta property="og:image" content="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_220722_a0dadeef-8bac-4188-b29b-a875485b11ec.png">
-<meta property="og:image:width" content="2752">
-<meta property="og:image:height" content="1536">
+<meta property="og:image" content="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-whey-balance-chocolate/pote-whey.svg">
+<meta property="og:image:type" content="image/svg+xml">
 <meta property="og:url" content="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-whey-balance-chocolate/index.html">
 <meta name="twitter:card" content="summary_large_image">
 <!-- Meta Pixel -->
@@ -119,12 +118,20 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .choco{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 11px rgba(0,0,0,.45));animation:floaty 6s ease-in-out infinite}
 .choWrap.k1 .choco{animation-duration:5.4s}.choWrap.k2 .choco{animation-duration:6.6s;animation-delay:.5s}.choWrap.k3 .choco{animation-duration:5.8s;animation-delay:.9s}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-.hero-badge{position:absolute;left:6px;bottom:14px;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
-  border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center}
+.orbit{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none}
+.hero-badge{position:absolute;z-index:3;background:rgba(28,17,9,.82);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:14px;padding:11px 15px;display:flex;gap:10px;align-items:center;
+  box-shadow:0 16px 34px -16px rgba(0,0,0,.7)}
+.hero-badge.b-a{left:2%;bottom:12%;animation:floatb 6.5s ease-in-out infinite}
+.hero-badge.b-b{right:2%;top:14%;animation:floatb 7.5s ease-in-out infinite .6s}
 .hero-badge .dot{width:9px;height:9px;border-radius:50%;background:#7ad19a;box-shadow:0 0 10px #7ad19a;flex:0 0 auto}
+.hero-badge .tk{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--grad)}
+.hero-badge .tk svg{width:13px;height:13px;stroke:#1a0f07;stroke-width:2.6;fill:none}
 .hero-badge b{font-size:13px;display:block;font-family:var(--body)}
 .hero-badge small{font-size:12px;color:var(--muted);display:block}
-@media(prefers-reduced-motion:reduce){.pote,.choco{animation:none}}
+@keyframes floatb{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:900px){.hero-badge.b-a{left:0;bottom:6%}.hero-badge.b-b{right:0;top:6%}}
+@media(prefers-reduced-motion:reduce){.pote,.choco,.hero-badge{animation:none}}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
   .stage{order:-1;min-height:auto;padding:8px 22px}
@@ -139,6 +146,18 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
   box-shadow:0 40px 90px -34px rgba(0,0,0,.8)}
 .shot::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 80px rgba(8,4,2,.5)}
 .shot img{width:100%;height:auto;display:block}
+/* painel de arte local (SVG) no lugar de foto — autocontido */
+.shot.art{display:grid;place-items:center;min-height:300px;padding:30px;
+  background:radial-gradient(120% 90% at 50% 6%,rgba(234,177,115,.16),transparent 62%),linear-gradient(162deg,#1f1409,#0c0604)}
+.shot.art img{width:auto;max-width:78%;max-height:300px;filter:drop-shadow(0 24px 34px rgba(0,0,0,.6))}
+.shot.art.dull img{filter:grayscale(.62) brightness(.8) contrast(.92) drop-shadow(0 20px 28px rgba(0,0,0,.5))}
+.shot.art .tag{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--body);font-size:12px;font-weight:700;
+  padding:6px 13px;border-radius:100px;background:rgba(13,7,5,.72);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.shot.art .tag.bad{color:#e6a3a3;border-color:rgba(230,140,140,.42)}
+.shot.art .tag.good{color:#7ad19a;border-color:rgba(122,209,154,.42)}
+.shot.art .duo{display:flex;align-items:flex-end;justify-content:center;gap:0}
+.shot.art .duo img{max-width:none;height:250px}
+.shot.art .duo .mini{height:120px;margin-left:-26px;align-self:center}
 
 /* ---------- cards ---------- */
 .grid{display:grid;gap:18px;margin-top:42px}
@@ -250,15 +269,24 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 .toggle button.on{background:var(--grad);color:#1a0f07}
 .offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(234,177,115,.32);
   border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
-.kitpots{display:flex;justify-content:center;align-items:flex-end;gap:2px;min-height:118px;margin:2px 0 14px}
-.kitpots img{height:112px;width:auto;display:block;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6));
-  animation:floaty 6s ease-in-out infinite;transition:opacity .4s var(--ease),transform .4s var(--ease)}
-.kitpots img:nth-child(2){animation-delay:.5s;margin-left:-14px}
-.kitpots img:nth-child(3){animation-delay:.9s;margin-left:-14px}
-.kitpots.pop img{animation:floaty 6s ease-in-out infinite,potIn .5s var(--ease) both}
-@keyframes potIn{0%{opacity:0;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:none}}
-@media(max-width:640px){.kitpots{min-height:96px}.kitpots img{height:90px}}
-@media(prefers-reduced-motion:reduce){.kitpots img{animation:none}}
+/* palco de leque dos potes (padrão Tetra Vit) — overflow visível p/ não cortar */
+.kit-stage{position:relative;height:150px;margin:2px auto 16px;overflow:visible;transition:transform .42s var(--ease)}
+.kit-stage.pop{transform:scale(1.04)}
+.kit-bottle{position:absolute;left:50%;bottom:0;height:146px;width:auto;margin-left:-52px;transform-origin:50% 100%;
+  filter:drop-shadow(0 16px 20px rgba(0,0,0,.6));opacity:0;
+  transition:transform .55s var(--ease),opacity .45s var(--ease)}
+.kit-bottle.b1{opacity:1;z-index:3}
+.kit-bottle.b2,.kit-bottle.b3{z-index:2}
+/* kit 1: só o pote central */
+.kit-stage[data-kit="1"] .b2,.kit-stage[data-kit="1"] .b3{opacity:0;transform:translateX(0) rotate(0)}
+/* kit 2: leque suave ±20% / ±4° */
+.kit-stage[data-kit="2"] .b2{opacity:1;transform:translateX(20%) rotate(4deg)}
+.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(-20%) rotate(-4deg)}
+/* kit 3: leque aberto ±32% / ±9° e laterais menores */
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
+@media(max-width:640px){.kit-stage{height:126px}.kit-bottle{height:122px;margin-left:-44px}}
+@media(prefers-reduced-motion:reduce){.kit-stage,.kit-bottle{transition:none}}
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 /* selo de desconto em evidência */
 .offer-panel .badge{display:inline-block;margin:0 0 6px;font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.03em;
@@ -267,7 +295,9 @@ header.scrolled{background:rgba(13,7,5,.72);backdrop-filter:blur(14px);border-bo
 /* parcela = protagonista */
 .offer-panel .insthero{margin:10px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap}
 .offer-panel .insthero .pre{font-family:var(--body);font-size:18px;font-weight:700;color:var(--cream)}
-.offer-panel .insthero .big{font-family:var(--head);font-size:clamp(46px,8vw,60px);font-weight:700;color:var(--caramel);line-height:.95}
+.offer-panel .insthero .big{font-family:var(--head);font-size:clamp(46px,8vw,60px);font-weight:700;color:var(--caramel);line-height:.95;display:inline-block}
+.offer-panel .insthero .big.pricepop{animation:pricePop .42s var(--ease)}
+@keyframes pricePop{0%{transform:scale(1)}42%{transform:scale(1.06)}100%{transform:scale(1)}}
 .offer-panel .insthero .suf{font-family:var(--body);font-size:12.5px;color:var(--muted);text-align:left;line-height:1.25}
 /* preço cheio / à vista = segundo plano */
 .offer-panel .avista{margin-top:8px;font-family:var(--body);font-size:13.5px;color:var(--muted)}
@@ -339,7 +369,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(10,6,3,.
 @media(min-width:861px){.legal{padding-bottom:40px}}
 
 /* whatsapp + barra mobile + progresso + toast */
-.wa{position:fixed;right:18px;bottom:84px;z-index:70;width:56px;height:56px;border-radius:50%;
+.wa{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:70;width:56px;height:56px;border-radius:50%;
   background:rgba(28,17,9,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);
   display:grid;place-items:center;transition:transform .2s var(--ease),background .3s;animation:waGlow 2.6s ease-in-out infinite}
 .wa:hover{transform:scale(1.08);background:rgba(234,177,115,.14)}
@@ -401,10 +431,42 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   .cd{min-width:0;flex:1;padding:10px 4px}.cd b{font-size:26px}.scarcity .txt{padding:30px 22px}
 }
 @media(max-width:380px){.hero-stats{flex-direction:column}.stat{flex:1 1 auto}}
+
+/* ---------- gauges dos stats do hero ---------- */
+.gauge{position:relative;flex:1;min-width:120px;background:var(--glass);border:1px solid var(--line);border-radius:16px;
+  padding:16px 14px;display:flex;align-items:center;gap:12px}
+.gauge .gring{position:relative;width:58px;height:58px;flex:0 0 auto}
+.gauge .ring{width:58px;height:58px;transform:rotate(-90deg)}
+.gauge .ring .bg{fill:none;stroke:rgba(234,177,115,.14);stroke-width:6}
+.gauge .ring .fg{fill:none;stroke:#eab173;stroke-width:6;stroke-linecap:round;
+  stroke-dasharray:176;stroke-dashoffset:176;transition:stroke-dashoffset 1.1s var(--ease)}
+.gauge.on .ring .fg{stroke-dashoffset:var(--off,176)}
+.gauge .ico2{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.gauge .ico2 svg{width:20px;height:20px;stroke:var(--caramel);stroke-width:2;fill:none}
+.gauge .gnum b{font-family:var(--head);font-size:24px;font-weight:700;color:var(--caramel);display:block;line-height:1}
+.gauge .gnum span{font-size:12px;color:var(--muted);font-family:var(--body)}
+@media(max-width:380px){.gauge{min-width:0}}
+
+/* ---------- faixa full-width + scrollytelling ---------- */
+.band-wrap{position:relative;padding:56px 22px;margin:20px 0;text-align:center;
+  background:radial-gradient(120% 130% at 50% 0,rgba(234,177,115,.16),transparent 60%),linear-gradient(180deg,#1c1109,#0d0705);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band-phrase{font-family:var(--head);font-size:clamp(30px,6vw,58px);line-height:1.05;color:var(--cream);margin:0;max-width:16ch;margin-inline:auto}
+.band-phrase em{color:var(--caramel);font-style:italic}
+.band-sub{max-width:56ch;margin:16px auto 0;color:var(--muted);font-family:var(--body);font-size:clamp(14px,2.2vw,17px)}
+.story-track{position:relative;max-width:760px;margin:34px auto 0;padding-left:40px}
+.story-prog{position:absolute;left:14px;top:6px;bottom:6px;width:3px;border-radius:3px;background:rgba(234,177,115,.14);overflow:hidden}
+.story-prog span{position:absolute;left:0;top:0;width:100%;height:0;background:var(--grad);border-radius:3px;transition:height .2s linear}
+.stage-row{display:flex;gap:16px;align-items:flex-start;padding:20px 0;border-bottom:1px solid rgba(234,177,115,.1);text-align:left}
+.stage-row:last-child{border-bottom:0}
+.stage-row .stage-n{font-family:var(--head);font-size:30px;font-weight:700;color:var(--caramel);flex:0 0 auto;width:48px;line-height:1}
+.stage-row b{font-family:var(--body);font-size:17px;color:var(--cream);display:block;margin-bottom:5px}
+.stage-row p{margin:0;color:var(--muted);font-size:14.5px;font-family:var(--body);line-height:1.6}
 </style>
 
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eab173"/><stop offset="1" stop-color="#cf8a43"/></linearGradient></defs></svg>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQ7B2563" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -431,9 +493,15 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <h1>Proteína limpa que <em>não pesa</em>.</h1>
     <p class="sub">Whey concentrado <b>+ colágeno C‑PURE®</b>. 23 g de proteína por porção, adoçado naturalmente — <b>força e tônus</b> de verdade, com sabor de chocolate que você quer tomar todo dia.</p>
     <div class="hero-stats stagger">
-      <div class="stat"><b class="num" data-target="23" data-suffix="g">23g</b><span>de proteína / porção</span></div>
-      <div class="stat"><b>0</b><span>açúcar adicionado</span></div>
-      <div class="stat"><b>C‑PURE®</b><span>colágeno hidrolisado</span></div>
+      <div class="gauge reveal" data-val="76">
+        <div class="gring"><svg class="ring" viewBox="0 0 62 62"><circle class="bg" cx="31" cy="31" r="28"/><circle class="fg" cx="31" cy="31" r="28"/></svg></div>
+        <div class="gnum"><b class="num" data-target="23" data-suffix="g">0g</b><span>proteína/porção</span></div></div>
+      <div class="gauge reveal" data-val="3">
+        <div class="gring"><svg class="ring" viewBox="0 0 62 62"><circle class="bg" cx="31" cy="31" r="28"/><circle class="fg" cx="31" cy="31" r="28"/></svg></div>
+        <div class="gnum"><b>0</b><span>açúcar adicionado</span></div></div>
+      <div class="gauge reveal" data-val="100">
+        <div class="gring"><svg class="ring" viewBox="0 0 62 62"><circle class="bg" cx="31" cy="31" r="28"/><circle class="fg" cx="31" cy="31" r="28"/></svg><span class="ico2"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span></div>
+        <div class="gnum"><b style="font-size:17px">C‑PURE®</b><span>colágeno hidrolisado</span></div></div>
     </div>
     <div class="hero-cta">
       <a class="btn btn-buy btn-lg js-top" href="#oferta">Quero experimentar</a>
@@ -441,11 +509,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     </div>
   </div>
   <div class="stage reveal">
-    <span class="choWrap k1"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-    <span class="choWrap k2"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205423_a8f1b947-4679-40db-a650-419f646f83c6.png"></span>
-    <span class="choWrap k3"><img class="choco" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_205422_9af666db-97b1-4d04-a318-5ed1749fd087.png"></span>
-    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png"></div>
-    <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
+    <canvas class="orbit" id="orbit" aria-hidden="true"></canvas>
+    <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
+    <span class="choWrap k2"><img class="choco" alt="" src="choco.svg"></span>
+    <span class="choWrap k3"><img class="choco" alt="" src="choco.svg"></span>
+    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="pote-whey.svg"></div>
+    <div class="hero-badge b-a"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
+    <div class="hero-badge b-b"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>23 g de proteína</b><small>+ colágeno C‑PURE®</small></div></div>
   </div>
 </section>
 <a class="scrollcue" href="#dor" aria-label="Rolar"><span></span></a>
@@ -464,10 +534,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
         <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div><h3>Sensação pesada</h3><p>Termina o copo e vem o desconforto — nada leve.</p><span class="wm">04</span></div>
       </div>
     </div>
-    <div class="shot reveal">
-      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192030_8392d48e-f296-427d-899b-c9f2456bb3b2.png">
-      <img loading="lazy" alt="Shake de proteína comum, empelotado" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190757_16ea08ec-d36d-4551-bc79-e4948f52d6ef.png"></picture>
-    </div>
+    <div class="shot art dull reveal"><span class="tag bad">Whey comum</span>
+      <img loading="lazy" alt="Shake de proteína comum, empelotado e sem graça" src="shake.svg"></div>
   </div>
 </section>
 
@@ -485,10 +553,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
         <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Não contém glúten</b> <span>— cremoso e leve de verdade.</span></div></div>
       </div>
     </div>
-    <div class="shot reveal">
-      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192033_2a2fcc0c-c51a-4c67-8fc4-9354ddefffc2.png">
-      <img loading="lazy" alt="Whey Balance Chocolate com shake cremoso" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184913_3ca6ac21-56aa-4cda-8fdf-070b506457cb.png"></picture>
-    </div>
+    <div class="shot art reveal"><span class="tag good">Whey Balance</span>
+      <img loading="lazy" alt="Pote de Whey Balance Chocolate" src="pote-whey.svg"></div>
   </div>
 </section>
 
@@ -503,9 +569,23 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M4 12h16M12 4v16"/></svg></div><h3>Sem açúcar</h3><p>Adoçado naturalmente, sem corantes artificiais.</p><span class="wm">03</span></div>
     <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3C7 8 7 13 12 21c5-8 5-13 0-18z"/></svg></div><h3>Sabor chocolate real</h3><p>Cremoso, gostoso — o whey que você quer tomar.</p><span class="wm">04</span></div>
   </div>
-  <div class="shot reveal" style="margin-top:42px">
-    <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192037_1071e945-f27e-422b-80fd-2124ec23814d.png">
-    <img loading="lazy" alt="Whey Balance Chocolate com ingredientes" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_184449_78dba052-0dbf-4eaa-8896-8251e3d34cfc.png"></picture>
+  <div class="shot art reveal" style="margin-top:42px">
+    <img loading="lazy" alt="Shake de Whey Balance Chocolate cremoso" src="shake.svg"></div>
+</section>
+
+<!-- 4.5 · FAIXA + RITUAL (scrollytelling) -->
+<section class="band-wrap">
+  <p class="band-phrase reveal">Proteína limpa. <em>Todo dia.</em></p>
+  <p class="band-sub reveal">23 g de proteína · 0 açúcar adicionado · colágeno C‑PURE® — num chocolate cremoso que dá vontade de repetir.</p>
+</section>
+<section class="section center" id="ritual">
+  <span class="eyebrow reveal">O ritual</span>
+  <h2 class="title reveal">Simples de <em>encaixar</em> no seu dia.</h2>
+  <div class="story-track" id="storyTrack">
+    <div class="story-prog"><span id="storyProg"></span></div>
+    <div class="stage-row reveal"><div class="stage-n">01</div><div><b>Bata em 30 segundos</b><p>35 g em 200 ml de água ou leite gelado. Dissolve fácil, sem empelotar nem gosto químico.</p></div></div>
+    <div class="stage-row reveal"><div class="stage-n">02</div><div><b>Sabor que agrada</b><p>Chocolate cremoso adoçado naturalmente — leve, sem açúcar adicionado e sem corantes.</p></div></div>
+    <div class="stage-row reveal"><div class="stage-n">03</div><div><b>Corpo por inteiro</b><p>Whey concentrado com colágeno C‑PURE®: proteína pra rotina de treino e o cuidado do dia a dia.</p></div></div>
   </div>
 </section>
 
@@ -523,10 +603,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
         <div class="check"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Fim do gosto químico</b> <span>— proteína limpa de verdade.</span></div></div>
       </div>
     </div>
-    <div class="shot reveal">
-      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192304_de8381b7-b807-4bf9-b15e-57ddc2824a00.png">
-      <img loading="lazy" alt="Pessoa ativa com Whey Balance na cozinha" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190803_94fb936c-d76b-4cc3-ae6d-88c2be9d2d45.png"></picture>
-    </div>
+    <div class="shot art reveal"><div class="duo">
+      <img loading="lazy" alt="Pote de Whey Balance Chocolate" src="pote-whey.svg">
+      <img class="mini" loading="lazy" alt="" src="choco.svg"></div></div>
   </div>
 </section>
 
@@ -608,10 +687,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
         <div class="seal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0zM12 7v5l3 2"/></svg></div><b>Reembolso 7 dias</b><small>satisfação garantida</small></div>
       </div>
     </div>
-    <div class="shot reveal">
-      <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192050_304e03f6-6968-45c4-bcaf-b00763caf881.png">
-      <img loading="lazy" alt="Selos de qualidade do Whey Balance" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_185941_0652ce1f-3803-4fcc-a7ae-a8ebb2c6a894.png"></picture>
-    </div>
+    <div class="shot art reveal"><span class="tag good">Qualidade garantida</span>
+      <img loading="lazy" alt="Pote de Whey Balance Chocolate" src="pote-whey.svg"></div>
   </div>
 </section>
 
@@ -643,7 +720,11 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <button data-qty="3">3 potes</button>
   </div>
   <div class="offer-panel reveal">
-    <div class="kitpots" id="kitPots" aria-hidden="true"></div>
+    <div class="kit-stage" id="kitStage" data-kit="2" aria-hidden="true">
+      <img class="kit-bottle b3" src="pote-whey.svg" alt="">
+      <img class="kit-bottle b2" src="pote-whey.svg" alt="">
+      <img class="kit-bottle b1" src="pote-whey.svg" alt="">
+    </div>
     <div class="badge" id="kitBadge">5% OFF</div>
     <div class="kit" id="kitName">Kit 2 potes</div>
     <div class="insthero"><span class="pre">3x de</span><span class="big tnum" id="kitInst">R$ 93,29</span><span class="suf">sem juros<br>no cartão</span></div>
@@ -676,16 +757,14 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   <div class="scarcity reveal">
     <div class="inner">
       <div class="txt">
-        <span class="eyebrow">Oferta por tempo limitado</span>
+        <span class="eyebrow">Só hoje</span>
         <h2 class="title" style="font-size:clamp(30px,4.4vw,46px)">Leve mais, <em>pague menos</em>.</h2>
-        <p class="lead">Desconto <b>automático no carrinho</b>: 2 potes 5% OFF · 3 potes 10% OFF, e frete grátis acima de R$ 349. A condição encerra em:</p>
+        <p class="lead">Desconto <b>automático no carrinho</b>: 2 potes 5% OFF · 3 potes 10% OFF, e frete grátis acima de R$ 349. Só até a <b>meia-noite de hoje</b>:</p>
         <div class="countdown" id="countdown"><div class="cd"><b id="cd-h">00</b><span>horas</span></div><div class="cd"><b id="cd-m">00</b><span>min</span></div><div class="cd"><b id="cd-s">00</b><span>seg</span></div></div>
         <a class="btn btn-buy btn-lg js-top" href="#oferta">Aproveitar agora</a>
       </div>
-      <div class="shot">
-        <picture><source media="(max-width:768px)" srcset="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_192253_bbfb80ba-3b1e-4451-b30d-a29dc4d8979a.png">
-        <img loading="lazy" alt="Whey Balance Chocolate" src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_190810_4bc26cff-08c1-4854-8b8b-715ce1de234b.png"></picture>
-      </div>
+      <div class="shot art">
+        <img loading="lazy" alt="Pote de Whey Balance Chocolate" src="pote-whey.svg" style="object-fit:contain;height:auto"></div>
     </div>
   </div>
 </section>
@@ -715,8 +794,8 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 </a>
 
 <div class="buybar">
-  <div class="p"><b class="tnum">R$ 147,30</b><small>3x de R$ 49,10 sem juros · 2+ potes com desconto</small></div>
-  <a class="btn btn-buy" href="https://botanikabrasil.com.br/cart/48115368919272:1">Comprar</a>
+  <div class="p"><b class="tnum" id="barPrice">3x R$ 93,29</b><small id="barLabel">2 potes · 5% OFF automático</small></div>
+  <a class="btn btn-buy js-top" href="#oferta">Escolher kit</a>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -801,10 +880,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     1:{n:'Kit 1 pote',badge:'',inst:'R$ 49,10',avista:'R$ 147,30',full:'',save:''},
     2:{n:'Kit 2 potes',badge:'5% OFF',inst:'R$ 93,29',avista:'R$ 279,87',full:'R$ 294,60',save:'Você economiza R$ 14,73'},
     3:{n:'Kit 3 potes',badge:'10% OFF',inst:'R$ 132,57',avista:'R$ 397,71',full:'R$ 441,90',save:'Economiza R$ 44,19 + frete grátis'}};
-  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), potsEl=doc.getElementById('kitPots');
-  var POTE='https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260801_221035_47ec8c8a-9356-49c6-8245-8de734f8411a.png';
-  function renderPots(q){ if(!potsEl) return; var n=qn(q),h=''; for(var i=0;i<n;i++){ h+='<img src="'+POTE+'" alt="" draggable="false">'; }
-    potsEl.classList.remove('pop'); potsEl.innerHTML=h; void potsEl.offsetWidth; potsEl.classList.add('pop'); }
+  var tg=doc.getElementById('toggle'), buy=doc.getElementById('offerBuy'), stage=doc.getElementById('kitStage');
+  /* leque dos potes + "pop" no palco e no preço (~420ms) */
+  function fan(q){ if(stage) stage.setAttribute('data-kit',q);
+    var pr=doc.getElementById('kitInst');
+    if(stage){ stage.classList.remove('pop'); void stage.offsetWidth; stage.classList.add('pop'); }
+    if(pr){ pr.classList.remove('pricepop'); void pr.offsetWidth; pr.classList.add('pricepop'); }
+    setTimeout(function(){ if(stage) stage.classList.remove('pop'); if(pr) pr.classList.remove('pricepop'); },420); }
   function set(id,txt){ var el=doc.getElementById(id); if(el) el.textContent=txt; }
   function showEl(id,on){ var el=doc.getElementById(id); if(el) el.style.display=on?'':'none'; }
   function setKit(q){ var k=KITS[q];
@@ -812,15 +894,18 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     set('kitName',k.n); set('kitInst',k.inst); set('kitAvistaVal',k.avista);
     showEl('kitFull',!!k.full); set('kitFull',k.full);
     showEl('kitSave',!!k.save); set('kitSave',k.save);
-    /* checkout sem cupom: o desconto automático por quantidade (WHEY5/WHEY10) aplica sozinho — cupom bloquearia o 10% */
-    buy.setAttribute('href',withParams(base+VAR+':'+q)); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
-    renderPots(q);
+    /* kits 2/3 usam desconto automático por quantidade (WHEY5/WHEY10) — sem código na URL; kit 1 usa cupom BOTANIKA */
+    var url=base+VAR+':'+q+(q==='1'?'?discount=BOTANIKA':'');
+    buy.setAttribute('href',withParams(url)); buy.textContent='Comprar '+q+(q==='1'?' pote agora':' potes agora');
+    /* barra fixa mobile sincronizada com o kit */
+    set('barPrice','3x '+k.inst);
+    set('barLabel',k.n.replace('Kit ','')+(q==='1'?' · cupom BOTANIKA':' · '+k.badge+' automático'));
+    fan(q);
     /* selecionar kit = interesse (topo do funil) */
     fbqt('AddToWishlist',{content_name:PNAME,content_ids:[PID],content_type:'product',value:valFor(q),currency:'BRL'});
     dle('add_to_wishlist',q);
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
-  renderPots('2');
 
   /* PageView já dispara no <head> (Pixel) e no GTM (gtm.js). Aqui: ViewContent + view_item ao carregar */
   fbqt('ViewContent',{content_name:PNAME,content_ids:[PID],content_type:'product',value:PRICE,currency:'BRL'});
@@ -845,13 +930,14 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   /* toast utilitário (mantido para avisos) */
   var toast=doc.getElementById('toast'); function showT(m){ if(!toast) return; toast.textContent=m; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },1900); }
 
-  /* countdown 24h */
+  /* countdown "só hoje": termina à meia-noite local, recalcula sozinho */
   var cd=doc.getElementById('countdown');
-  if(cd){ var KEY='wb_dl', dline=parseInt(localStorage.getItem(KEY)||'0',10), now=Date.now();
-    if(!dline||dline<now){ dline=now+24*3600*1000; localStorage.setItem(KEY,String(dline)); }
+  if(cd){ function nextMidnight(){ var d=new Date(); d.setHours(24,0,0,0); return d.getTime(); }
+    var END=nextMidnight();
     var hE=doc.getElementById('cd-h'),mE=doc.getElementById('cd-m'),sE=doc.getElementById('cd-s'); function pad(n){ return (n<10?'0':'')+n; }
-    function tick(){ var d=Math.max(0,dline-Date.now()); hE.textContent=pad(Math.floor(d/3600000)); mE.textContent=pad(Math.floor(d%3600000/60000)); sE.textContent=pad(Math.floor(d%60000/1000));
-      if(d<=0){ dline=Date.now()+24*3600*1000; localStorage.setItem(KEY,String(dline)); } } tick(); setInterval(tick,1000); }
+    function tick(){ var now=Date.now(); if(now>=END){ END=nextMidnight(); }
+      var d=Math.max(0,END-now); hE.textContent=pad(Math.floor(d/3600000)); mE.textContent=pad(Math.floor(d%3600000/60000)); sE.textContent=pad(Math.floor(d%60000/1000)); }
+    tick(); setInterval(tick,1000); }
 
   /* progresso */
   var prog=doc.getElementById('progress');
@@ -996,6 +1082,45 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     /* qualquer toque no overlay (inclusive na própria imagem) fecha — evita a sensação de "travado" */
     lb.addEventListener('click',function(){ close(); });
     D.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) close(); });
+  }
+})();
+</script>
+
+<script>
+/* ===== gauges do hero + scrollytelling + órbita do pote ===== */
+(function(){
+  "use strict";
+  var D=document, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* gauges: o anel preenche ao entrar na tela (--off = circunferência * (1 - val/100)) */
+  var gio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; gio.unobserve(e.target);
+    var g=e.target, v=parseFloat(g.getAttribute('data-val'))||0; g.style.setProperty('--off',(176*(1-v/100)).toFixed(1)); g.classList.add('on'); }); },{threshold:.4});
+  D.querySelectorAll('.gauge[data-val]').forEach(function(g){ gio.observe(g); });
+
+  /* scrollytelling: barra de progresso conforme rola pela trilha */
+  var track=D.getElementById('storyTrack'), prog=D.getElementById('storyProg');
+  if(track && prog){
+    function upd(){ var r=track.getBoundingClientRect(), vh=innerHeight||1, total=r.height+vh*0.6, passed=vh*0.8-r.top;
+      prog.style.height=(Math.max(0,Math.min(1,passed/total))*100)+'%'; }
+    upd(); window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd,{passive:true});
+  }
+
+  /* órbita de partículas presa à borda do pote (raio derivado da largura do pote, não do hero) */
+  var oc=D.getElementById('orbit'), pote=D.getElementById('pote');
+  if(oc && pote && !reduce && oc.getContext){
+    var ctx=oc.getContext('2d'), parts=[], W=0,H=0,cx=0,cy=0,R=0, dpr=Math.min(2,window.devicePixelRatio||1), raf=0;
+    function layout(){ var st=oc.parentNode.getBoundingClientRect(), pr=pote.getBoundingClientRect();
+      W=st.width; H=st.height; if(!W||!H) return; oc.width=Math.round(W*dpr); oc.height=Math.round(H*dpr); oc.style.width=W+'px'; oc.style.height=H+'px';
+      cx=(pr.left+pr.right)/2-st.left; cy=(pr.top+pr.bottom)/2-st.top; R=pr.width*0.6; }
+    function seed(){ parts=[]; var n=(W<420?9:14); for(var i=0;i<n;i++){ parts.push({a:Math.random()*6.283,r:R*(0.92+Math.random()*0.32),s:(0.0016+Math.random()*0.0024)*(Math.random()<.5?-1:1),z:Math.random(),sz:Math.random()*2.1+1.1}); } }
+    function draw(){ ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      for(var i=0;i<parts.length;i++){ var p=parts[i]; p.a+=p.s; var x=cx+Math.cos(p.a)*p.r, y=cy+Math.sin(p.a)*p.r*0.92, al=0.22+0.5*p.z;
+        ctx.beginPath(); ctx.arc(x,y,p.sz,0,6.283); ctx.fillStyle='rgba(234,177,115,'+al.toFixed(2)+')'; ctx.fill(); }
+      raf=requestAnimationFrame(draw); }
+    function boot(){ layout(); if(R>0){ seed(); if(!raf) draw(); } }
+    boot(); setTimeout(boot,450);
+    if(!pote.complete) pote.addEventListener('load',boot);
+    window.addEventListener('resize',function(){ layout(); seed(); },{passive:true});
   }
 })();
 </script>
