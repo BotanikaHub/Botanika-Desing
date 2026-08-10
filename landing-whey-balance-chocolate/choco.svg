@@ -1,32 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Pedaço de chocolate">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Quadradinho de chocolate">
   <defs>
-    <linearGradient id="ctop" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#9a5a2e"/>
-      <stop offset=".5" stop-color="#6e3c1c"/>
-      <stop offset="1" stop-color="#542c13"/>
+    <linearGradient id="choc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7a4526"/>
+      <stop offset=".5" stop-color="#5a3016"/>
+      <stop offset="1" stop-color="#3f2010"/>
     </linearGradient>
-    <linearGradient id="cleft" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5a2f16"/>
-      <stop offset="1" stop-color="#37190b"/>
-    </linearGradient>
-    <linearGradient id="cright" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3e2010"/>
-      <stop offset="1" stop-color="#241007"/>
+    <linearGradient id="inner" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a2712"/>
+      <stop offset="1" stop-color="#2c1509"/>
     </linearGradient>
   </defs>
-  <!-- top face with 2x2 squares -->
-  <path d="M60 14 L104 38 L60 62 L16 38 Z" fill="url(#ctop)"/>
-  <path d="M60 14 L82 26 L60 38 L38 26 Z" fill="#fff" opacity=".08"/>
-  <path d="M38 26 L60 38 L60 62 L38 50 Z" fill="#000" opacity=".08"/>
-  <path d="M82 26 L60 38 L60 62 L82 50 Z" fill="#000" opacity=".14"/>
-  <!-- left side -->
-  <path d="M16 38 L60 62 L60 104 L16 80 Z" fill="url(#cleft)"/>
-  <!-- right side -->
-  <path d="M104 38 L60 62 L60 104 L104 80 Z" fill="url(#cright)"/>
-  <!-- segment grooves -->
-  <path d="M38 50 L38 92 M60 62 L60 104" stroke="#000" stroke-opacity=".22" stroke-width="1.5"/>
-  <path d="M82 50 L82 92 M60 62 L60 104" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/>
-  <path d="M16 59 L60 83 L104 59" fill="none" stroke="#000" stroke-opacity=".14" stroke-width="1.5"/>
-  <!-- glossy highlight -->
-  <path d="M60 14 L104 38 L60 62 L16 38 Z" fill="none" stroke="#c98a52" stroke-opacity=".5" stroke-width="1.2"/>
+  <!-- sombra -->
+  <ellipse cx="60" cy="99" rx="42" ry="7" fill="#000" opacity=".3"/>
+  <!-- profundidade (lateral do pedaço) -->
+  <rect x="24" y="32" width="72" height="62" rx="11" fill="#2a1308"/>
+  <!-- face de cima -->
+  <rect x="24" y="26" width="72" height="62" rx="11" fill="url(#choc)"/>
+  <!-- borda chanfrada (brilho) -->
+  <rect x="24.6" y="26.6" width="70.8" height="60.8" rx="10.4" fill="none" stroke="#a86a3c" stroke-opacity=".6" stroke-width="1.2"/>
+  <!-- quadrado interno rebaixado -->
+  <rect x="34" y="35" width="52" height="44" rx="7" fill="url(#inner)"/>
+  <rect x="34" y="35" width="52" height="44" rx="7" fill="none" stroke="#1f0e06" stroke-opacity=".5" stroke-width="1.4"/>
+  <!-- brilho no topo -->
+  <path d="M34 33 h52 a5 5 0 0 1 5 5 v3 H29 v-3 a5 5 0 0 1 5-5z" fill="#fff" opacity=".14"/>
+  <ellipse cx="46" cy="45" rx="9" ry="4" fill="#fff" opacity=".1"/>
 </svg>
