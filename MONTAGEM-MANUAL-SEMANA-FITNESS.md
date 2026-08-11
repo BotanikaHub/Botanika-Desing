@@ -55,3 +55,24 @@ utm_source=meta&utm_medium=paid&utm_campaign=semana_fitness&utm_content=<abertur
 
 ---
 *Assim que o conector do Meta voltar, eu subo tudo isso automático via API — este mapa é só o plano B manual.*
+
+---
+
+## ✅ EXECUTADO VIA API (11/08) — CAMPANHA NO AR
+Conexão do Meta voltou; subi tudo via API. Imagens hospedadas no repo público (`ads-semana-fitness/`) e referenciadas por URL raw — o Meta já baixou e hospedou cada criativo (não dependem mais do repo).
+
+**Campanha:** `SEMANA FITNESS | IMG | AGO26` — ID 120251268421230563 — ACTIVE · Vendas/Purchase (pixel 828186133708463) · ABO · 11–15/08.
+
+| Conjunto | ID | Público | Vitalício |
+|---|---|---|---|
+| SF \| C1 LAL Compradores | 120251268428140563 | LAL 1% compradores (Purchase) | R$900 |
+| SF \| C2 Retargeting Visitantes | 120251268433260563 | SITE TODOS 30D + VIU PRODUTO 30D + CHECKOUT INITIATE 30D + CARRINHO 30D (exclui compradores 14D) | R$600 |
+| SF \| C3 Engajamento IG | 120251268431050563 | ENG 90D IG Botanika (exclui compradores 14D) | R$500 |
+
+Todos: mulheres 35–65+ BR · Feed/Stories/Reels FB+IG · advantage_audience:0 (segmentação fixa).
+
+**12 anúncios** (4 imagens × 3 conjuntos), CTA Comprar agora, UTM `utm_source=meta&utm_medium=paid&utm_campaign=semana_fitness&utm_content=<abertura_kit|abertura_oferta|leve2_kits|combo>`:
+- adsemana01/03/04 (Kit/combo/leve2) → página do Kit `kit-whey-balance-creatina-taurato`
+- adsemana02 (oferta geral) → coleção `semana-fitness`
+
+**Pendências:** estoque Kit/Whey 47 un. (vigiar) · sem peça de urgência p/ sábado · imagens só 1:1 (Stories com borda) · ROAS alvo 5.0 real é agressivo (monitorar e realocar).
