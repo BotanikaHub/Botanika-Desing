@@ -76,3 +76,14 @@ Todos: mulheres 35–65+ BR · Feed/Stories/Reels FB+IG · advantage_audience:0 
 - adsemana02 (oferta geral) → coleção `semana-fitness`
 
 **Pendências:** estoque Kit/Whey 47 un. (vigiar) · sem peça de urgência p/ sábado · imagens só 1:1 (Stories com borda) · ROAS alvo 5.0 real é agressivo (monitorar e realocar).
+
+---
+
+## 🎯 OTIMIZAÇÃO EXECUTADA (12/08) — LP × Site + eficiência
+Veredito do teste LP: **site vence de lavada** (Tetra site 8,6x vs LP 2,7x; Hair/Tri LP fizeram 0 venda). Ações aprovadas e aplicadas:
+- ⏸️ **4 campanhas de LP pausadas** (Hair/Tri/TetraVitD/Omega3) — libera R$400/dia do pior ROAS.
+- ⏸️ **Semana Fitness pausada** (falta de Whey).
+- ⬆️ **TetraVitD 4CONJ** R$100 → **R$200/dia** (melhor ROAS de produto, 8,6x).
+- ⬆️ **Tri 4CONJ** R$100 → **R$150/dia** (recuperou, 3 conjuntos positivos).
+- ⏸️ **Hair C1 Lista Human** (conjunto) pausado — 0 venda.
+- ✅ Perenes mantidas: Prospecting R$600 (9,9x) · Retargeting R$120 (13,5x).
