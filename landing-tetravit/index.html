@@ -550,13 +550,6 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </style>
 </head>
 <body>
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-in">
-    <div class="loader-brand">TetraVit <span>D</span></div>
-    <div class="loader-count"><b id="loader-num">000</b></div>
-    <div class="loader-bar"><i id="loader-fill"></i></div>
-  </div>
-</div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="aura" id="aura" aria-hidden="true"></div>
@@ -1338,7 +1331,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   /* ---------- loader ---------- */
   var loader=document.getElementById('loader'), lnum=document.getElementById('loader-num'), lfill=document.getElementById('loader-fill');
   function pad(n){ n=Math.round(n); return n<10?'00'+n:(n<100?'0'+n:''+n); }
-  function finishLoad(){
+  function finishLoad(){ if(!loader){ onScroll(); return; }
     if(reduce){ loader.classList.add('done'); onScroll(); return; }
     var n=0, iv=setInterval(function(){ n+=Math.random()*13+6;
       if(n>=100){ n=100; clearInterval(iv); setTimeout(function(){ loader.classList.add('done'); onScroll(); },260); }

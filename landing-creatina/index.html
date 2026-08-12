@@ -556,13 +556,6 @@ html.lenis{scroll-behavior:auto!important}
   <linearGradient id="gionGradH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3e78f0"/><stop offset="1" stop-color="#aebecd"/></linearGradient>
 </defs></svg>
 
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-in">
-    <div class="loader-brand">Botanika <span>Creatina</span></div>
-    <div class="loader-count"><b id="loader-num">000</b></div>
-    <div class="loader-bar"><i id="loader-fill"></i></div>
-  </div>
-</div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="cdot" id="cdot" aria-hidden="true"></div>
 <canvas id="bg" aria-hidden="true"></canvas>
@@ -973,7 +966,7 @@ html.lenis{scroll-behavior:auto!important}
 
 <div class="buybar" id="buybar">
   <div class="info"><b id="bar-price">R$ 243,77</b><span id="bar-label">2 potes · −5%</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">COMPRAR AGORA</a>
 </div>
 
 <script src="vendor/lenis.min.js"></script>
@@ -1056,7 +1049,7 @@ html.lenis{scroll-behavior:auto!important}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.now);set('bar-label',k.label);
     var href=checkout(kit);
-    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
@@ -1291,7 +1284,7 @@ html.lenis{scroll-behavior:auto!important}
 
   /* loader 000 -> 100 */
   (function(){
-    var ld=doc.getElementById('loader'); if(!ld) return;
+    var ld=doc.getElementById('loader'); if(!ld){ if(win.__afterLoader)win.__afterLoader(); return; }
     var num=doc.getElementById('loader-num'), fill=doc.getElementById('loader-fill');
     function finish(){ if(ld.classList.contains('done'))return; ld.classList.add('done'); if(win.__afterLoader)win.__afterLoader(); setTimeout(function(){ if(ld.parentNode) ld.parentNode.removeChild(ld); },800); }
     if(reduce){ finish(); return; }
