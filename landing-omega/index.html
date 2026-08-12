@@ -23,7 +23,7 @@
             --ink: #1a1626;
             --text: #1a1626;
             --muted: rgba(35, 33, 64, 0.62);
-            --glass-bg: rgba(255, 255, 255, 0.74);
+            --glass-bg: rgba(255, 255, 255, 0.58);
             --glass-border: rgba(48, 56, 144, 0.16);
             --font-head: 'Fraunces', Georgia, serif;
             --font-body: 'Inter', sans-serif;
@@ -227,7 +227,7 @@
         .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; perspective: 1200px; }
         @media (max-width: 900px) { .benefit-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 520px) { .benefit-grid { grid-template-columns: 1fr; } }
-        .benefit-card { position: relative; overflow: hidden; background: linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.66)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem 1.6rem; min-height: 210px; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
+        .benefit-card { position: relative; overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.7rem 1.5rem 1.6rem; min-height: 210px; transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, background 0.4s ease; }
         .benefit-card::before { content:''; position:absolute; inset:0; border-radius:inherit; background: radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(48,56,144,0.18), transparent 60%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
         .benefit-card::after { content:''; position:absolute; left:0; top:0; height:100%; width:3px; background: linear-gradient(var(--gold), var(--gold-soft)); transform: scaleY(0); transform-origin: top; transition: transform .45s cubic-bezier(.16,1,.3,1); }
         .benefit-card:hover { border-color: rgba(48,56,144,0.5); }
@@ -630,6 +630,32 @@
             .hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
             .hero-cta .btn-buy, .hero-cta .btn-ghost { width: 100%; justify-content: center; }
         }
+
+        /* ===================== Liquid-glass surfaces ===================== */
+        .ing-card, .benefit-card, .howto-step, .check-item, .faq-item, .plan,
+        .stat-strip, .gauge-strip, .nutri-card, .cd-box, .mini-badge, .omega-toggle, .proof-slide {
+            -webkit-backdrop-filter: blur(18px) saturate(1.6);
+            backdrop-filter: blur(18px) saturate(1.6);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.70), inset 0 0 0 1px rgba(255,255,255,0.28), 0 16px 40px -22px rgba(32,38,107,0.42);
+        }
+        .ing-card:hover, .benefit-card:hover, .howto-step:hover, .check-item:hover {
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 0 0 1px rgba(255,255,255,0.4), 0 22px 50px -22px rgba(48,56,144,0.4);
+        }
+        .plan.selected { box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 0 0 1.5px var(--gold), 0 20px 48px -20px rgba(48,56,144,0.5); }
+
+        /* ===================== Ambient golden light (very soft, slow) ===================== */
+        .lux-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .lux-bg span { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform, opacity; }
+        .lux-bg span:nth-child(1) { width: 48vw; height: 48vw; left: -10vw; top: -8vw;
+            background: radial-gradient(circle, rgba(248,200,64,0.26), transparent 68%); animation: luxDrift1 38s ease-in-out infinite; }
+        .lux-bg span:nth-child(2) { width: 42vw; height: 42vw; right: -12vw; top: 26vh;
+            background: radial-gradient(circle, rgba(232,182,76,0.20), transparent 68%); animation: luxDrift2 52s ease-in-out infinite; }
+        .lux-bg span:nth-child(3) { width: 40vw; height: 40vw; left: 32vw; bottom: -14vw;
+            background: radial-gradient(circle, rgba(248,200,64,0.16), transparent 70%); animation: luxDrift3 46s ease-in-out infinite; }
+        @keyframes luxDrift1 { 0%,100% { transform: translate(0,0) scale(1); opacity: .5; } 50% { transform: translate(6vw,4vh) scale(1.12); opacity: .8; } }
+        @keyframes luxDrift2 { 0%,100% { transform: translate(0,0) scale(1); opacity: .42; } 50% { transform: translate(-5vw,-3vh) scale(1.16); opacity: .72; } }
+        @keyframes luxDrift3 { 0%,100% { transform: translate(0,0) scale(1.05); opacity: .38; } 50% { transform: translate(4vw,-6vh) scale(.9); opacity: .62; } }
+        @media (prefers-reduced-motion: reduce) { .lux-bg span { animation: none; } }
     </style>
 </head>
 <body>
@@ -655,6 +681,7 @@
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
 <!-- ===== /Rastreamento ===== -->
+    <div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
     <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true"><defs><linearGradient id="omegaGaugeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#303890"/><stop offset="1" stop-color="#4a52b8"/></linearGradient></defs></svg>
 
     <header class="header" id="header">
