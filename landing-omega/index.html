@@ -644,14 +644,15 @@
         .plan.selected { box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 0 0 1.5px var(--gold), 0 20px 48px -20px rgba(48,56,144,0.5); }
 
         /* ===================== Ambient golden light (very soft, slow) ===================== */
-        .lux-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .lux-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+        .lux-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; width: 100vw; height: 100vh; }
         .lux-bg span { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform, opacity; }
         .lux-bg span:nth-child(1) { width: 48vw; height: 48vw; left: -10vw; top: -8vw;
-            background: radial-gradient(circle, rgba(248,200,64,0.26), transparent 68%); animation: luxDrift1 38s ease-in-out infinite; }
+            background: radial-gradient(circle, rgba(248,200,64,0.40), transparent 66%); animation: luxDrift1 34s ease-in-out infinite; }
         .lux-bg span:nth-child(2) { width: 42vw; height: 42vw; right: -12vw; top: 26vh;
-            background: radial-gradient(circle, rgba(232,182,76,0.20), transparent 68%); animation: luxDrift2 52s ease-in-out infinite; }
+            background: radial-gradient(circle, rgba(240,185,58,0.34), transparent 66%); animation: luxDrift2 44s ease-in-out infinite; }
         .lux-bg span:nth-child(3) { width: 40vw; height: 40vw; left: 32vw; bottom: -14vw;
-            background: radial-gradient(circle, rgba(248,200,64,0.16), transparent 70%); animation: luxDrift3 46s ease-in-out infinite; }
+            background: radial-gradient(circle, rgba(248,200,64,0.30), transparent 68%); animation: luxDrift3 40s ease-in-out infinite; }
         @keyframes luxDrift1 { 0%,100% { transform: translate(0,0) scale(1); opacity: .5; } 50% { transform: translate(6vw,4vh) scale(1.12); opacity: .8; } }
         @keyframes luxDrift2 { 0%,100% { transform: translate(0,0) scale(1); opacity: .42; } 50% { transform: translate(-5vw,-3vh) scale(1.16); opacity: .72; } }
         @keyframes luxDrift3 { 0%,100% { transform: translate(0,0) scale(1.05); opacity: .38; } 50% { transform: translate(4vw,-6vh) scale(.9); opacity: .62; } }
@@ -682,6 +683,7 @@
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
 <!-- ===== /Rastreamento ===== -->
     <div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+    <canvas class="lux-canvas" aria-hidden="true"></canvas>
     <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true"><defs><linearGradient id="omegaGaugeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#303890"/><stop offset="1" stop-color="#4a52b8"/></linearGradient></defs></svg>
 
     <header class="header" id="header">
@@ -1462,6 +1464,52 @@
             }
             tick();
         })();
+    </script>
+    <!-- ===== Ambient golden bokeh (soft, slow) ===== -->
+    <script>
+    (function () {
+        var c = document.querySelector('.lux-canvas'); if (!c) return;
+        var ctx = c.getContext('2d');
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
+        function resize(){ W = c.width = Math.floor(innerWidth*dpr); H = c.height = Math.floor(innerHeight*dpr); }
+        resize(); addEventListener('resize', resize, { passive: true });
+        var N = innerWidth < 760 ? 10 : 16, dots = [];
+        for (var i=0;i<N;i++) dots.push({
+            x: Math.random(), y: Math.random(),
+            r: 46 + Math.random()*104,
+            vx: (Math.random()-0.5)*0.006, vy: -(0.008 + Math.random()*0.018),
+            ph: Math.random()*6.283, sp: 0.15 + Math.random()*0.35,
+            a: 0.06 + Math.random()*0.09
+        });
+        function paint(t){
+            ctx.clearRect(0,0,W,H);
+            ctx.globalCompositeOperation = 'lighter';
+            for (var i=0;i<dots.length;i++){
+                var d = dots[i];
+                var px = d.x*W, py = d.y*H, r = d.r*dpr;
+                var puls = reduce ? 1 : (0.62 + 0.38*Math.sin(t*d.sp + d.ph));
+                var g = ctx.createRadialGradient(px,py,0,px,py,r);
+                g.addColorStop(0, 'rgba(250,208,96,'+(d.a*puls).toFixed(3)+')');
+                g.addColorStop(0.45,'rgba(236,186,78,'+(d.a*puls*0.45).toFixed(3)+')');
+                g.addColorStop(1, 'rgba(236,186,78,0)');
+                ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px,py,r,0,6.2832); ctx.fill();
+            }
+        }
+        if (reduce){ paint(0); return; }
+        var t0 = performance.now();
+        (function loop(now){
+            requestAnimationFrame(loop);
+            var dt = Math.min(0.05,(now-t0)/1000); t0 = now;
+            for (var i=0;i<dots.length;i++){
+                var d = dots[i];
+                d.x += d.vx*dt; d.y += d.vy*dt;
+                if (d.y < -0.15) { d.y = 1.15; d.x = Math.random(); }
+                if (d.x < -0.15) d.x = 1.15; else if (d.x > 1.15) d.x = -0.15;
+            }
+            paint(now*0.001);
+        })(performance.now());
+    })();
     </script>
 </body>
 </html>
