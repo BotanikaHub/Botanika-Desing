@@ -33,6 +33,13 @@ fbq('init','828186133708463');fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1"></noscript>
 
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2JFV5TGHCV"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
+</script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -511,6 +518,54 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   transition:width .3s var(--ease),height .3s var(--ease),opacity .35s;will-change:transform}
 .cursor.big{width:58px;height:58px;background:radial-gradient(circle,rgba(246,201,107,.34),transparent 70%)}
 
+/* ===== impact band (full-width) ===== */
+.impact{position:relative;overflow:hidden;border-block:1px solid var(--line);
+  background:linear-gradient(100deg,rgba(42,25,13,.5),rgba(12,6,2,.6));padding:clamp(46px,7vw,80px) 0}
+.impact::before,.impact::after{content:"";position:absolute;top:50%;width:44vw;height:44vw;border-radius:50%;transform:translateY(-50%);pointer-events:none;filter:blur(40px);opacity:.5}
+.impact::before{left:-14vw;background:radial-gradient(circle,rgba(240,168,60,.18),transparent 60%)}
+.impact::after{right:-14vw;background:radial-gradient(circle,rgba(95,184,166,.16),transparent 60%)}
+.impact .shell{position:relative;z-index:1}
+.impact p{font-family:var(--head);font-weight:500;line-height:1.12;text-align:center;font-size:clamp(24px,4.6vw,46px);color:var(--cream);text-wrap:balance;max-width:20ch;margin-inline:auto}
+.impact .gold{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.impact .teal{color:var(--teal)}
+.impact .sub{font-family:var(--body);font-weight:400;font-size:clamp(13px,1.6vw,16px);color:var(--muted);margin-top:16px;max-width:52ch;line-height:1.6}
+
+/* ===== scrollytelling ===== */
+.scrolly{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(24px,5vw,60px);align-items:start;position:relative}
+.scrolly-viz{position:sticky;top:14vh;height:72vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.sviz{position:relative;width:min(100%,360px);aspect-ratio:1;border-radius:var(--radius);border:1px solid var(--line-2);
+  background:radial-gradient(120% 100% at 50% 20%,rgba(42,25,13,.5),rgba(12,6,2,.6));display:grid;place-items:center;overflow:visible}
+.sviz svg{width:82%;height:82%;overflow:visible}
+.sv-node{transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.sv-drop,.sv-link{opacity:0;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.sviz[data-st="1"] .sv-drop{opacity:1}
+.sviz[data-st="2"] .sv-drop{opacity:1}
+.sviz[data-st="2"] .sv-link{opacity:1}
+.sviz[data-st="0"] .sv-node{opacity:1}
+.sviz[data-st="1"] .sv-abek{transform:scale(.86);transform-origin:center}
+.sviz[data-st="2"] .sv-dk{filter:drop-shadow(0 0 10px rgba(95,184,166,.7))}
+.sprog{width:min(100%,360px);height:5px;border-radius:100px;background:rgba(240,168,60,.14);overflow:hidden}
+.sprog i{display:block;height:100%;width:0;background:var(--grad);box-shadow:0 0 12px rgba(240,168,60,.5);transition:width .3s var(--ease)}
+.sprog-label{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.scrolly-steps{display:flex;flex-direction:column}
+.sstep{min-height:66vh;display:flex;flex-direction:column;justify-content:center;opacity:.32;transition:opacity .5s var(--ease)}
+.sstep.on{opacity:1}
+.sstep .n{font-family:var(--head);font-size:15px;font-weight:600;color:var(--honey);letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.sstep .n i{font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;border:1px solid var(--line-2);background:var(--glass)}
+.sstep h3{font-size:clamp(22px,3vw,30px);margin-bottom:10px}
+.sstep p{font-size:clamp(15px,1.7vw,17px);color:var(--soft);max-width:46ch}
+.sstep p b{color:var(--cream)}.sstep p .tl{color:var(--teal);font-weight:600}
+
+/* ===== countdown ===== */
+.countdown{display:flex;gap:12px;justify-content:center;margin:22px 0 4px}
+.cd{min-width:78px;padding:14px 12px;border-radius:16px;border:1px solid var(--line-2);background:linear-gradient(165deg,var(--glass),rgba(42,25,13,.4));text-align:center}
+.cd b{display:block;font-family:var(--head);font-weight:600;font-size:clamp(30px,5vw,40px);line-height:1;font-variant-numeric:tabular-nums;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cd span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+.cd-sep{align-self:center;font-family:var(--head);font-size:26px;color:var(--honey);opacity:.6}
+.cd-note{font-size:12.5px;color:var(--muted);text-align:center;margin-top:6px}
+.cd-note b{color:var(--honey)}
+
 @media(max-width:960px){
   .hero-grid{grid-template-columns:1fr;text-align:center}
   .hero-copy .eyebrow,.hero-report{margin-inline:auto}
@@ -525,6 +580,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   .featured{grid-template-columns:1fr}
   .pq-grid{grid-template-columns:1fr}
   .ugc{max-width:420px;margin-inline:auto}
+  .scrolly{grid-template-columns:1fr;gap:8px}
+  .scrolly-viz{position:static;height:auto;margin-bottom:10px}
+  .sviz{width:min(78%,320px)}
+  .sstep{min-height:auto;opacity:1;padding:22px 0;border-top:1px solid var(--line)}
+  .scrolly-steps .sstep:first-child{border-top:0}
   .nav-links{display:none}
 }
 @media(max-width:760px){
@@ -540,6 +600,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   .toggle{flex-wrap:wrap;justify-content:center}
   .hero-stats{gap:18px}
   .pain-ghost{display:none}
+  .countdown{gap:7px}
+  .cd{min-width:66px;padding:12px 8px}
+  .impact p{max-width:16ch}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important}
@@ -550,6 +613,35 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </style>
 </head>
 <body>
+<!-- ===== Rastreamento: Meta Pixel + GA4 (view + carrinho/checkout) ===== -->
+<script>
+(function(){
+  var VARIANT='48115367936232', NAME='TetraVit D', PRICE=117.12, CUR='BRL';
+  function fb(ev,d){ try{ if(window.fbq) fbq('track',ev,d); }catch(e){} }
+  function ga(ev,d){ try{ if(window.gtag) gtag('event',ev,d); }catch(e){} }
+  function fire(kind){
+    if(kind==='view'){
+      fb('ViewContent',{content_ids:[VARIANT],content_type:'product',content_name:NAME,value:PRICE,currency:CUR});
+      ga('view_item',{currency:CUR,value:PRICE,items:[{item_id:VARIANT,item_name:NAME,price:PRICE,quantity:1}]});
+    }
+  }
+  if(document.readyState!=='loading') fire('view');
+  else document.addEventListener('DOMContentLoaded',function(){ fire('view'); });
+  // carrinho/checkout: clique em qualquer link de /cart/ (captura no document)
+  document.addEventListener('click', function(e){
+    var a=e.target && e.target.closest ? e.target.closest('a[href*="/cart/"]') : null;
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    var qm=href.match(/\/cart\/\d+:(\d+)/); var qty=qm?parseInt(qm[1],10):1;
+    var value=Math.round(PRICE*qty*100)/100;
+    var items=[{item_id:VARIANT,item_name:NAME,price:PRICE,quantity:qty}];
+    fb('AddToCart',{content_ids:[VARIANT],content_type:'product',content_name:NAME,value:value,currency:CUR,num_items:qty});
+    fb('InitiateCheckout',{content_ids:[VARIANT],content_type:'product',value:value,currency:CUR,num_items:qty});
+    ga('add_to_cart',{currency:CUR,value:value,items:items});
+    ga('begin_checkout',{currency:CUR,value:value,items:items});
+  }, true);
+})();
+</script>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="aura" id="aura" aria-hidden="true"></div>
@@ -608,7 +700,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
         <div class="mini-badge b par" data-speed="0.16">💧 <span><b>2</b> gotas · 300 doses</span></div>
         <div class="stage-floor" aria-hidden="true"></div>
         <div class="bottle-wrap par" data-speed="0.08">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260802_145141_ea9bb2c4-4d6a-4f32-ab12-f42d29c7e91c.png" alt="Caixa do TetraVit D — vitaminas A, D3, E e K2 em gotas" width="250" height="360" fetchpriority="high">
+          <img src="caixa-tetravit.png" alt="Caixa do TetraVit D — vitaminas A, D3, E e K2 em gotas" width="620" height="1410" fetchpriority="high">
         </div>
       </div>
     </div>
@@ -728,6 +820,57 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   </div>
 </section>
 
+<!-- 4.5 · SCROLLYTELLING — a lógica do quarteto -->
+<section class="sec" id="logica" data-accent="95,184,166">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span class="ln"></span><b>04</b> Por que juntas</div>
+      <h2 class="serif hsplit" data-split>A lógica do <span class="grad-text">quarteto</span>, em 3 passos.</h2>
+      <p class="lead">A, D, E e K não são quatro suplementos soltos — são um sistema. Role para ver como ele funciona.</p>
+    </div>
+    <div class="scrolly">
+      <div class="scrolly-viz">
+        <div class="sviz" id="sviz" data-st="0" aria-hidden="true">
+          <svg viewBox="0 0 200 200" role="img" aria-label="A, D, E e K em veículo TCM">
+            <g class="sv-abek">
+              <g class="sv-node"><circle cx="70" cy="70" r="22" fill="url(#lgA)"/><text x="70" y="77" text-anchor="middle" font-family="Newsreader,serif" font-size="20" font-weight="600" fill="#241205">A</text></g>
+              <g class="sv-node sv-dk"><circle cx="130" cy="70" r="22" fill="url(#lgD)"/><text x="130" y="77" text-anchor="middle" font-family="Newsreader,serif" font-size="20" font-weight="600" fill="#241205">D</text></g>
+              <g class="sv-node"><circle cx="70" cy="130" r="22" fill="url(#lgA)"/><text x="70" y="137" text-anchor="middle" font-family="Newsreader,serif" font-size="20" font-weight="600" fill="#241205">E</text></g>
+              <g class="sv-node sv-dk"><circle cx="130" cy="130" r="22" fill="url(#lgK)"/><text x="130" y="137" text-anchor="middle" font-family="Newsreader,serif" font-size="20" font-weight="600" fill="#0f2b24">K</text></g>
+            </g>
+            <path class="sv-link" d="M130 92 L130 108" stroke="#5fb8a6" stroke-width="3" stroke-dasharray="4 4"/>
+            <ellipse class="sv-drop" cx="100" cy="100" rx="72" ry="72" fill="none" stroke="rgba(240,168,60,.5)" stroke-width="2"/>
+            <defs>
+              <linearGradient id="lgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c96b"/><stop offset="1" stop-color="#f0a83c"/></linearGradient>
+              <linearGradient id="lgD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd98a"/><stop offset="1" stop-color="#e5764a"/></linearGradient>
+              <linearGradient id="lgK" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fe0cf"/><stop offset="1" stop-color="#5fb8a6"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="sprog"><i id="sprog"></i></div>
+        <div class="sprog-label"><span id="sprogLabel">Passo 1 de 3</span></div>
+      </div>
+      <div class="scrolly-steps" id="scrollySteps">
+        <div class="sstep on" data-i="0">
+          <div class="n"><i>A</i> Lipossolúveis</div>
+          <h3 class="serif">Elas só entram com gordura.</h3>
+          <p>A, D, E e K são <b>vitaminas lipossolúveis</b>: sem um veículo gorduroso por perto, boa parte passa direto sem ser aproveitada. Cápsula seca no estômago vazio rende menos do que deveria.</p>
+        </div>
+        <div class="sstep" data-i="1">
+          <div class="n"><i>TCM</i> O veículo</div>
+          <h3 class="serif">O TCM carrega as quatro.</h3>
+          <p>O <b>veículo TCM</b> (triglicerídeos de cadeia média) é uma gordura de rápida absorção. Ele funciona como transporte, favorecendo o aproveitamento das quatro vitaminas — <b>mesmo sem uma refeição gordurosa</b>.</p>
+        </div>
+        <div class="sstep" data-i="2">
+          <div class="n"><i>D+K</i> A dupla</div>
+          <h3 class="serif">D3 mobiliza, <span class="grad-text warm">K2 direciona.</span></h3>
+          <p>Dentro do quarteto, a <b>D3</b> disponibiliza o cálcio e a <span class="tl">K2 (MK-7)</span> ajuda a direcioná-lo para os ossos. Por isso o conjunto contribui para a <b>manutenção de ossos normais</b> — algo que a D3 isolada não entrega sozinha.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 5 · SINERGIA D3+K2 -->
 <section class="sec" id="sinergia" data-accent="95,184,166">
   <div class="shell">
@@ -814,6 +957,14 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       </div>
       <p class="dose-foot">% VD = Valores Diários de referência com base em uma dieta de 2.000 kcal. Ingredientes: vitamina E (D-alfa-tocoferol), vitamina A (acetato de retinol), vitamina D3 (colecalciferol), vitamina K2 (menaquinona-7) e veículo TCM. Não contém glúten. Sem adição de açúcares. Alérgicos: pode conter derivados de leite e soja.</p>
     </div>
+  </div>
+</section>
+
+<!-- 6.5 · IMPACT BAND -->
+<section class="impact" data-accent="245,190,90" aria-label="Resumo">
+  <div class="shell reveal">
+    <p><span class="gold">Quatro vitaminas</span> lipossolúveis. <span class="teal">Um veículo</span> que faz elas absorverem.</p>
+    <p class="sub">A, D3, E e K2 em veículo TCM, em 2 gotas por dia — sem cápsula, sem açúcar, sem glúten. Suplemento alimentar; não é medicamento.</p>
   </div>
 </section>
 
@@ -1030,16 +1181,24 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 <section class="sec" id="final" data-accent="255,138,91">
   <div class="shell">
     <div class="final reveal">
-      <div class="kicker center"><span class="ln"></span><b>12</b> Feche seu quarteto</div>
+      <div class="kicker center"><span class="ln"></span><b>12</b> Só hoje</div>
       <h2 class="serif hsplit" data-split>Um frasco. Quatro vitaminas. <span class="grad-text">Dez meses.</span></h2>
       <p class="lead" style="margin-inline:auto">Pare de repor a D3 pela metade. Complete o quarteto lipossolúvel com a K2 que direciona, a A que protege a visão e a imunidade, e a E antioxidante — em 2 gotas por dia.</p>
+      <div class="countdown" id="countdown" role="timer" aria-live="off">
+        <div class="cd"><b id="cdH">00</b><span>horas</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd"><b id="cdM">00</b><span>min</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd"><b id="cdS">00</b><span>seg</span></div>
+      </div>
+      <p class="cd-note">O <b>cupom BOTANIKA</b> e o desconto por quantidade valem <b>até a meia-noite de hoje</b>.</p>
       <div class="hero-actions" style="justify-content:center;margin-top:26px">
         <a class="btn" data-checkout href="#oferta">Quero meu TetraVit D</a>
         <span class="hero-note"><b>3x de R$ 37,09</b> sem juros · −10% em 3 frascos</span>
       </div>
       <div class="stockbar">
         <div class="track"><i class="fill" id="stockFill" data-w="82"></i></div>
-        <small>Lote atual do inverno · <b id="stockPct">82%</b> já reservado nesta virada de estação</small>
+        <small>Lote atual · <b id="stockPct">82%</b> já reservado nesta virada de estação</small>
       </div>
     </div>
   </div>
@@ -1280,6 +1439,44 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   var coupon=document.getElementById('coupon'), couponMsg=document.getElementById('couponMsg');
   if(coupon){ coupon.addEventListener('click',function(){ var done=function(){ couponMsg.textContent='copiado ✓'; setTimeout(function(){couponMsg.textContent='toque pra copiar';},1800); };
     if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText('BOTANIKA').then(done,done); } else { done(); } }); }
+
+  /* ---------- scrollytelling ---------- */
+  (function(){
+    var steps=[].slice.call(document.querySelectorAll('#scrollySteps .sstep'));
+    var viz=document.getElementById('sviz'), prog=document.getElementById('sprog'), label=document.getElementById('sprogLabel');
+    if(!steps.length||!viz) return;
+    var active=-1;
+    function setActive(i){
+      if(i===active) return; active=i;
+      steps.forEach(function(s,k){ s.classList.toggle('on',k===i); });
+      viz.setAttribute('data-st', i);
+      if(prog) prog.style.width=(((i+1)/steps.length)*100)+'%';
+      if(label) label.textContent='Passo '+(i+1)+' de '+steps.length;
+    }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ setActive(steps.indexOf(en.target)); } });
+      },{rootMargin:'-45% 0px -45% 0px',threshold:0});
+      steps.forEach(function(s){ io.observe(s); });
+    }
+    setActive(0);
+  })();
+
+  /* ---------- countdown "só hoje" (meia-noite local, self-reset) ---------- */
+  (function(){
+    var H=document.getElementById('cdH'),M=document.getElementById('cdM'),S=document.getElementById('cdS');
+    if(!H||!M||!S) return;
+    function pad(n){ return (n<10?'0':'')+n; }
+    function nextMidnight(){ var d=new Date(); d.setHours(24,0,0,0); return d; }
+    var target=nextMidnight();
+    function tick(){
+      var diff=target-new Date();
+      if(diff<=0){ target=nextMidnight(); diff=target-new Date(); }
+      var s=Math.floor(diff/1000);
+      H.textContent=pad(Math.floor(s/3600)); M.textContent=pad(Math.floor((s%3600)/60)); S.textContent=pad(s%60);
+    }
+    tick(); setInterval(tick,1000);
+  })();
 
   /* ---------- signature background: liquid golden droplets + sun ---------- */
   (function(){
