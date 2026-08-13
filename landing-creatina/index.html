@@ -1318,43 +1318,50 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
 </script>
 
 <script>
-/* Rede-assinatura: malha de pontos + linhas em índigo que reage ao cursor (discreta, no creme) */
+/* Rede-assinatura da Creatina: treliça cristalina (grade) que ondula e acende no cursor — tema claro (índigo) */
 (function(){
   var c=document.querySelector('.lux-canvas'); if(!c) return; var ctx=c.getContext('2d');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var dpr=Math.min(devicePixelRatio||1,2), W=0,H=0;
   function rz(){W=c.width=Math.floor(innerWidth*dpr);H=c.height=Math.floor(innerHeight*dpr);} rz();
   addEventListener('resize',rz,{passive:true});
-  var N=innerWidth<760?38:72, P=[];
-  for(var i=0;i<N;i++) P.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00026,vy:(Math.random()-.5)*.00026});
+  var mob=innerWidth<760, GX=mob?14:22, GY=mob?10:13, NN=GX*GY;
   var mx=-1,my=-1;
   addEventListener('mousemove',function(e){mx=e.clientX/innerWidth;my=e.clientY/innerHeight;},{passive:true});
   addEventListener('mouseout',function(){mx=-1;my=-1;});
-  var D=innerWidth<760?0.15:0.115, DM=0.17;
-  function draw(){
+  var R=mob?0.16:0.13;
+  var xs=new Float32Array(NN), ys=new Float32Array(NN), en=new Float32Array(NN);
+  function draw(t){
     ctx.clearRect(0,0,W,H); ctx.lineWidth=1*dpr;
-    for(var i=0;i<N;i++){ var a=P[i];
-      for(var j=i+1;j<N;j++){ var b=P[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<D){ var al=(1-d/D)*0.14; ctx.strokeStyle='rgba(48,56,144,'+al.toFixed(3)+')';
-          ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke(); } }
-      if(mx>=0){ var ex=a.x-mx,ey=a.y-my,ed=Math.sqrt(ex*ex+ey*ey);
-        if(ed<DM){ var ca=(1-ed/DM)*0.5; ctx.strokeStyle='rgba(48,56,144,'+ca.toFixed(3)+')';
-          ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(mx*W,my*H);ctx.stroke(); } }
-      ctx.fillStyle='rgba(48,56,144,0.26)';
-      ctx.beginPath();ctx.arc(a.x*W,a.y*H,1.5*dpr,0,6.2832);ctx.fill();
+    var i,j,id;
+    for(j=0;j<GY;j++)for(i=0;i<GX;i++){
+      var u=i/(GX-1), v=j/(GY-1); id=j*GX+i;
+      var px=(-0.06+u*1.12)*W, py=(-0.06+v*1.12)*H;
+      var ph=u*6.0+v*4.0, ax=W*0.012, ay=H*0.016;
+      px+=Math.sin(t*0.6+ph)*ax + Math.sin(t*0.35+v*7.0)*ax*0.6;
+      py+=Math.cos(t*0.5+ph)*ay + Math.sin(t*0.4+u*6.0)*ay*0.6;
+      var e=0;
+      if(mx>=0){ var dx=px-mx*W, dy=py-my*H, d=Math.sqrt(dx*dx+dy*dy)/W;
+        if(d<R){ e=(1-d/R); px+=dx*e*0.06; py+=dy*e*0.06; } }
+      var pulse=0.5+0.5*Math.sin(t*1.4-(i+j)*0.32);
+      en[id]=Math.min(1, e*1.1 + pulse*0.18); xs[id]=px; ys[id]=py;
     }
-    if(mx>=0){ var g=ctx.createRadialGradient(mx*W,my*H,0,mx*W,my*H,DM*W);
+    for(j=0;j<GY;j++)for(i=0;i<GX;i++){ id=j*GX+i;
+      if(i<GX-1){ var e1=(en[id]+en[id+1])*0.5; ctx.strokeStyle='rgba(48,56,144,'+(0.06+e1*0.20).toFixed(3)+')';
+        ctx.beginPath();ctx.moveTo(xs[id],ys[id]);ctx.lineTo(xs[id+1],ys[id+1]);ctx.stroke(); }
+      if(j<GY-1){ var e2=(en[id]+en[id+GX])*0.5; ctx.strokeStyle='rgba(48,56,144,'+(0.06+e2*0.20).toFixed(3)+')';
+        ctx.beginPath();ctx.moveTo(xs[id],ys[id]);ctx.lineTo(xs[id+GX],ys[id+GX]);ctx.stroke(); }
+    }
+    for(var k=0;k<NN;k++){ var ee=en[k];
+      ctx.fillStyle='rgba(48,56,144,'+(0.16+ee*0.5).toFixed(3)+')';
+      ctx.beginPath();ctx.arc(xs[k],ys[k],(1.3+ee*1.8)*dpr,0,6.2832);ctx.fill(); }
+    if(mx>=0){ var g=ctx.createRadialGradient(mx*W,my*H,0,mx*W,my*H,R*W);
       g.addColorStop(0,'rgba(248,200,64,0.12)'); g.addColorStop(1,'rgba(248,200,64,0)');
       ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
   }
-  function step(){ for(var i=0;i<N;i++){ var p=P[i];
-    if(mx>=0){ p.vx+=(mx-p.x)*0.0000009; p.vy+=(my-p.y)*0.0000009; }
-    p.x+=p.vx; p.y+=p.vy; p.vx*=0.994; p.vy*=0.994;
-    if(p.x<0){p.x=0;p.vx*=-1;} else if(p.x>1){p.x=1;p.vx*=-1;}
-    if(p.y<0){p.y=0;p.vy*=-1;} else if(p.y>1){p.y=1;p.vy*=-1;}
-  } }
-  if(reduce){ draw(); return; }
-  (function loop(){ requestAnimationFrame(loop); step(); draw(); })();
+  if(reduce){ draw(0); return; }
+  var start=performance.now();
+  (function loop(now){ requestAnimationFrame(loop); draw((now-start)/1000); })(performance.now());
 })();
 </script>
 </body>
