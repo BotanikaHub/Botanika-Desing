@@ -20,27 +20,32 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{ "imports": {
+    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
+} }
+</script>
 
 <!-- Rastreamento padrao (Meta Pixel + GA4) instalado logo apos a tag body -->
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* Identidade Botanika · Super Vitamina C: creme + LARANJA cítrico, acentos lima/dourado */
-  --indigo:#D2560F; --indigo-soft:#B4480C; --indigo-deep:#7C3006; --gold:#F8C840; --ink:#1a1626;
-  --bg:#F8F0E8; --bg2:#FCF7EE; --panel:#FCF7EE; --panel-2:#F1EAD9;
-  --amber:#F8C840; --amber-hi:#FFD873; --amber-lo:#C99A2E;
-  --orange:#E8661B; --orange-hi:#FF8A3D;
-  --lime:#D0E088; --lime-hi:#E1EFA6;
-  --cream:#FCF7EE; --text:#1a1626;
-  --muted:rgba(52,36,24,.62); --soft:rgba(52,36,24,.82);
-  --glass:rgba(255,255,255,.58); --glass-2:rgba(255,255,255,.40);
-  --line:rgba(210,86,20,.15); --line-2:rgba(210,86,20,.30);
-  --grad:linear-gradient(120deg,var(--indigo),var(--gold));
-  --grad-lime:linear-gradient(120deg,var(--indigo-soft),var(--lime));
-  --head:'Fraunces',Georgia,'Times New Roman',serif;
-  --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --bg:#170b04; --bg2:#0e0602; --panel:#241408; --panel-2:#2e1a0a;
+  --amber:#f4a92b; --amber-hi:#ffc65a; --amber-lo:#c76b12;
+  --orange:#ff7a1a; --orange-hi:#ff9a44;
+  --lime:#cde94a; --lime-hi:#e2f77a;
+  --cream:#fdf3e3; --text:#fdf3e3;
+  --muted:rgba(253,243,227,.60); --soft:rgba(253,243,227,.82);
+  --glass:rgba(255,220,160,.05); --glass-2:rgba(255,220,160,.08);
+  --line:rgba(244,169,43,.16); --line-2:rgba(244,169,43,.32);
+  --grad:linear-gradient(118deg,var(--orange),var(--amber));
+  --grad-lime:linear-gradient(118deg,var(--amber),var(--lime));
+  --head:'Spectral',Georgia,'Times New Roman',serif;
+  --body:'Onest',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   --maxw:1180px; --ease:cubic-bezier(.2,.7,.2,1); --radius:24px; --radius-sm:16px;
 }
 html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -125,7 +130,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 
 /* image cards */
 .imgcard{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);
-  box-shadow:0 34px 80px -40px rgba(78,42,16,.8);background:var(--panel)}
+  box-shadow:0 34px 80px -40px rgba(0,0,0,.8);background:var(--panel)}
 .imgcard img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
 .imgcard::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(90% 90% at 50% 20%,transparent,rgba(14,6,2,.42)),linear-gradient(180deg,transparent 55%,rgba(14,6,2,.5))}
@@ -166,7 +171,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .kit-stage{position:relative;width:100%;height:clamp(168px,22vw,208px);overflow:visible;display:grid;place-items:end center;margin-bottom:4px;transition:transform .4s var(--ease)}
 .kit-stage.pop{transform:scale(1.04)}
 .kit-bottle{position:absolute;bottom:0;height:100%;width:auto;object-fit:contain;transform-origin:bottom center;
-  filter:drop-shadow(0 18px 24px rgba(78,42,16,.55)) drop-shadow(0 0 22px rgba(255,122,26,.28));
+  filter:drop-shadow(0 18px 24px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(255,122,26,.28));
   transition:transform .55s var(--ease),opacity .45s var(--ease)}
 .kit-bottle.b1{z-index:3}.kit-bottle.b2{z-index:2}.kit-bottle.b3{z-index:1}
 .kit-bottle.b2,.kit-bottle.b3{opacity:0}
@@ -210,7 +215,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 @keyframes bandfloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-3%,0) scale(1.06)}}
 .band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg),transparent 26%,transparent 74%,var(--bg)),linear-gradient(180deg,rgba(14,6,2,.32),rgba(14,6,2,.5))}
 .band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
-.band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:24ch;text-shadow:0 2px 30px rgba(78,42,16,.6)}
+.band .band-txt p{font-family:var(--head);font-style:italic;font-size:clamp(20px,3.2vw,34px);color:var(--cream);max-width:24ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
 
 /* generic cards */
 .grid{display:grid;gap:18px}
@@ -222,7 +227,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
   transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);will-change:transform;overflow:hidden}
 .card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.35s;
   background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),rgba(255,122,26,.14),transparent 60%)}
-.card:hover{border-color:var(--line-2);box-shadow:0 24px 52px -28px rgba(78,42,16,.72)}
+.card:hover{border-color:var(--line-2);box-shadow:0 24px 52px -28px rgba(0,0,0,.72)}
 .card:hover::before{opacity:1}
 .card .wm{position:absolute;right:16px;bottom:6px;font-family:var(--head);font-weight:700;font-size:74px;line-height:1;color:rgba(244,169,43,.09);transition:.35s;pointer-events:none}
 .card:hover .wm{color:rgba(244,169,43,.16)}
@@ -242,7 +247,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .split.rev .visual{order:2}
 .split .visual{position:relative;min-height:min(70vw,460px)}
 .split .visual.prod{display:flex;align-items:center;justify-content:center}
-.box-img{width:min(82%,400px);filter:drop-shadow(0 34px 48px rgba(78,42,16,.5)) drop-shadow(0 0 30px rgba(255,122,26,.24));animation:float 7s ease-in-out infinite}
+.box-img{width:min(82%,400px);filter:drop-shadow(0 34px 48px rgba(0,0,0,.5)) drop-shadow(0 0 30px rgba(255,122,26,.24));animation:float 7s ease-in-out infinite}
 .pts{list-style:none;margin-top:22px;display:grid;gap:13px}
 .pts li{display:flex;gap:13px;align-items:flex-start;font-size:15.5px;color:var(--soft)}
 .pts .ck{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#2a1500;background:var(--grad);font-weight:800}
@@ -256,9 +261,9 @@ h3{font-size:clamp(19px,2.2vw,23px)}
   background:radial-gradient(circle,rgba(255,122,26,.42),rgba(244,169,43,.16) 45%,transparent 70%);filter:blur(6px);animation:breathe 7s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
 .bottle{position:relative;width:min(90%,480px);z-index:2;
-  filter:drop-shadow(0 42px 55px rgba(78,42,16,.55)) drop-shadow(0 0 34px rgba(255,122,26,.3));animation:float 6.5s ease-in-out infinite}
+  filter:drop-shadow(0 42px 55px rgba(0,0,0,.55)) drop-shadow(0 0 34px rgba(255,122,26,.3));animation:float 6.5s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(-10px) rotate(-.6deg)}50%{transform:translateY(12px) rotate(.6deg)}}
-.stage-floor{position:absolute;bottom:7%;width:54%;height:24px;border-radius:50%;background:radial-gradient(ellipse,rgba(78,42,16,.5),transparent 70%);filter:blur(9px)}
+.stage-floor{position:absolute;bottom:7%;width:54%;height:24px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(9px)}
 .mini-badge{position:absolute;z-index:3;padding:9px 13px;border-radius:14px;border:1px solid var(--line-2);
   background:rgba(23,11,4,.6);backdrop-filter:blur(8px);font-size:12px;color:var(--soft);display:flex;gap:8px;align-items:center}
 .mini-badge b{font-family:var(--head);color:var(--amber);font-size:16px;font-weight:600}
@@ -303,7 +308,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 /* OFERTA */
 #oferta .shell{max-width:960px}
 .offer{position:relative;border-radius:calc(var(--radius) + 6px);border:1px solid var(--line-2);overflow:hidden;
-  background:linear-gradient(165deg,rgba(46,26,10,.55),rgba(14,6,2,.62));box-shadow:0 40px 90px -40px rgba(78,42,16,.8)}
+  background:linear-gradient(165deg,rgba(46,26,10,.55),rgba(14,6,2,.62));box-shadow:0 40px 90px -40px rgba(0,0,0,.8)}
 .offer-oranges{position:absolute;inset:0;z-index:0;pointer-events:none}
 .offer-top,.offer-body{position:relative;z-index:1}
 .offer-top{padding:clamp(26px,4vw,40px);text-align:center;border-bottom:1px solid var(--line)}
@@ -443,108 +448,6 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   .reveal,[data-stagger]>*,.word i{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
 }
 
-/* ============ REALINHAMENTO À IDENTIDADE BOTANIKA — creme + laranja cítrico, liquid-glass, luzes douradas ============ */
-html{overflow-x:hidden}
-body{background:var(--bg);color:var(--ink);
-  background-image:
-    radial-gradient(60% 44% at 88% -4%,rgba(208,224,136,.30),transparent 60%),
-    radial-gradient(52% 40% at 4% 2%,rgba(210,86,20,.10),transparent 60%),
-    radial-gradient(60% 50% at 50% 108%,rgba(248,200,64,.10),transparent 62%);
-  background-attachment:fixed}
-/* remove o fundo escuro pesado (WebGL + fallback + laranjas ambiente) e a partícula da oferta */
-canvas#gl,canvas#bg,.veil{display:none!important}
-/* laranjas livres: camada acima das luzes douradas, atrás do conteúdo */
-canvas#oranges{display:block!important;z-index:-1}
-.offer-oranges{display:block!important}
-/* luzes douradas */
-.lux-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden}
-.lux-canvas{position:fixed;inset:0;z-index:-2;pointer-events:none;width:100vw;height:100vh}
-.lux-bg span{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform,opacity}
-.lux-bg span:nth-child(1){width:48vw;height:48vw;left:-10vw;top:-8vw;background:radial-gradient(circle,rgba(248,200,64,.40),transparent 66%);animation:luxA 34s ease-in-out infinite}
-.lux-bg span:nth-child(2){width:42vw;height:42vw;right:-12vw;top:26vh;background:radial-gradient(circle,rgba(240,185,58,.34),transparent 66%);animation:luxB 44s ease-in-out infinite}
-.lux-bg span:nth-child(3){width:40vw;height:40vw;left:32vw;bottom:-14vw;background:radial-gradient(circle,rgba(248,200,64,.30),transparent 68%);animation:luxC 40s ease-in-out infinite}
-@keyframes luxA{0%,100%{transform:translate(0,0) scale(1);opacity:.5}50%{transform:translate(6vw,4vh) scale(1.12);opacity:.8}}
-@keyframes luxB{0%,100%{transform:translate(0,0) scale(1);opacity:.42}50%{transform:translate(-5vw,-3vh) scale(1.16);opacity:.72}}
-@keyframes luxC{0%,100%{transform:translate(0,0) scale(1.05);opacity:.38}50%{transform:translate(4vw,-6vh) scale(.9);opacity:.62}}
-@media (prefers-reduced-motion:reduce){.lux-bg span{animation:none}}
-/* liquid-glass */
-.card,.story,.quote,.step,.pain,.frow,.numc,.dose-wrap,.offer,.guard,.msg,.faq details,.coupon,.mini-badge,.cd,.imgcard,.chip{
-  background:var(--glass);border:1px solid var(--line);
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(255,255,255,.28),0 16px 40px -22px rgba(78,42,16,.42)}
-.card::before{background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),rgba(210,86,20,.10),transparent 60%)}
-.card .wm{color:rgba(210,86,20,.08)}
-.card p b{color:var(--ink)}
-/* header / buybar / wa / toggle → vidro claro */
-.hdr-in{background:rgba(252,247,238,.6);border-color:var(--line)}
-.hdr.scrolled .hdr-in{background:rgba(252,247,238,.9);border-color:var(--line-2)}
-.brand small{color:var(--indigo-soft)}
-.nav-links a{color:var(--muted)}.nav-links a:hover{color:var(--indigo)}
-.buybar{background:rgba(252,247,238,.92);border-top:1px solid var(--line-2)}
-.buybar .info span{color:var(--muted)}
-.toggle{background:rgba(210,86,20,.06);border-color:var(--line-2)}
-.toggle button{color:var(--soft)}
-.mini-badge{background:rgba(255,255,255,.72)}.mini-badge b{color:var(--indigo)}
-.wa{background:rgba(255,255,255,.8);border:1px solid var(--line-2)}
-.wa svg{fill:#16b657}
-@keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(248,200,64,.32)}50%{box-shadow:0 0 26px 7px rgba(248,200,64,.58)}}
-/* botões → laranja cítrico */
-.btn{background:var(--indigo);color:var(--cream);box-shadow:0 14px 32px -14px rgba(78,42,16,.65),inset 0 1px 0 rgba(255,255,255,.22)}
-.btn:hover{box-shadow:0 20px 46px -14px rgba(78,42,16,.8),inset 0 1px 0 rgba(255,255,255,.32)}
-.btn::after{background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.22),transparent 65%);background-size:240% 100%;background-position:170% 0}
-.btn.ghost{background:transparent;color:var(--indigo);border:1px solid var(--line-2);box-shadow:none}
-.btn.ghost:hover{border-color:var(--indigo);background:rgba(210,86,20,.06)}
-/* eyebrow → pílula lima */
-.eyebrow{background:var(--lime);color:var(--indigo-deep);border-color:transparent;font-weight:700}
-.eyebrow::before{background:var(--indigo);box-shadow:0 0 10px var(--gold)}
-/* realce da "virada" → itálico laranja (legível no creme) */
-.grad-text,.grad-text i,.hero-copy h1 .grad-text i{background:none!important;-webkit-text-fill-color:var(--indigo-soft);color:var(--indigo-soft);font-style:italic;animation:none}
-/* números/valores grandes → laranja sólido */
-.parc-main .parc-v,.numc b,.cd b,.seal b,.price-now,.kicker b{background:none!important;-webkit-text-fill-color:var(--indigo);color:var(--indigo)}
-.parc-main .parc-x{color:var(--gold)}.parc-main .parc-lbl{color:var(--muted)}
-/* selos e acentos */
-.toggle button.active{background:var(--indigo);color:var(--cream)}
-.toggle button.active .tag{color:var(--lime)}
-.disc-badge{background:var(--indigo);color:var(--cream);box-shadow:0 8px 20px -8px rgba(78,42,16,.5)}
-.save-badge{background:var(--lime);color:var(--indigo-deep)}
-.ico{color:var(--indigo);background:linear-gradient(160deg,rgba(210,86,20,.16),rgba(208,224,136,.22));border-color:var(--line-2)}
-.pts .ck,.frow .ck{background:var(--indigo);color:var(--cream)}
-.step::before{background:none!important;-webkit-text-fill-color:var(--indigo);color:var(--indigo)}
-.pain .x{background:rgba(210,86,20,.1);border:1px solid var(--line-2);color:var(--indigo)}
-.kicker,.hero-punch,.cd-lbl,.price-cup{color:var(--indigo-soft)}
-.price-cup{border-color:var(--line-2)}
-.hero-note b,.coupon b,.ship b,.guard li b,.vf,.frow p b,.pain p b{color:var(--indigo-soft)}
-.stars,.st,.msg-stars,.quote .st{color:var(--gold)}
-.parc-hi{border-color:var(--line-2);background:rgba(210,86,20,.06)}
-.kit-bottle{filter:drop-shadow(0 16px 20px rgba(78,42,16,.28)) drop-shadow(0 0 20px rgba(248,200,64,.35))}
-/* órbita cítrica → amarelo/lima (não laranja) */
-.orb{background:radial-gradient(circle at 34% 30%,#FFF0B0,#F8C840 46%,#C99A2E)}
-.orb::before{background:linear-gradient(140deg,#D0E088,#98A657)}
-.stage-glow{background:radial-gradient(circle,rgba(248,200,64,.34),rgba(208,224,136,.16) 45%,transparent 70%)}
-.stage-ring{background:conic-gradient(from 0deg,transparent,rgba(210,86,20,.22),transparent 38%,rgba(208,224,136,.24),transparent 66%,rgba(248,200,64,.34),transparent)}
-/* band / marquee */
-.band{background:radial-gradient(60% 130% at 18% 22%,rgba(248,200,64,.28),transparent 60%),radial-gradient(52% 130% at 82% 74%,rgba(210,86,20,.14),transparent 60%),linear-gradient(120deg,var(--cream),var(--panel-2));border-block:1px solid var(--line)}
-.band .band-txt p{color:var(--ink);text-shadow:0 1px 12px rgba(255,255,255,.5)}
-.marquee{background:linear-gradient(180deg,rgba(210,86,20,.05),transparent);border-block:1px solid var(--line)}
-.marquee .it{color:var(--indigo-soft)}.marquee .it b{background:none;-webkit-text-fill-color:var(--gold);color:var(--gold)}
-/* tabela nutricional em destaque */
-.dose-table thead th{color:var(--indigo-soft)}.dose-table td:first-child{color:var(--ink)}
-.dose-table tbody tr.key td:first-child{color:var(--indigo-deep)}.dose-table td:nth-child(3){color:var(--indigo)}
-.dose-table th,.dose-table td{border-bottom:1px solid var(--line)}.dose-table tbody tr:hover{background:rgba(210,86,20,.05)}
-/* faq / imagens / rodapé */
-.faq summary{color:var(--ink)}.faq .ans{color:var(--muted)}.faq details[open]{background:rgba(255,255,255,.7)}
-.faq summary .pl{color:var(--indigo)}
-.imgcard::after{background:radial-gradient(90% 90% at 50% 20%,transparent,rgba(26,22,38,.26)),linear-gradient(180deg,transparent 60%,rgba(26,22,38,.34))}
-.imgcard .cap,.story .handle{background:rgba(26,22,38,.5);color:#F8F0E8}
-.story figcaption p,.story .vf{color:#fff}
-footer{border-top:1px solid var(--line)}
-.socials a{border-color:var(--line-2);background:var(--glass);color:var(--muted)}
-.socials a:hover{color:var(--indigo);border-color:var(--indigo)}
-.stockbar .track{background:rgba(210,86,20,.12)}
-.scrollcue i{border-color:var(--line-2)}.scrollcue i::before{background:var(--gold)}
-.progress{background:var(--grad)}
-::selection{background:var(--lime);color:var(--indigo-deep)}
-
 /* ============ ELEVAÇÕES v2 ============ */
 /* custom scrollbar cítrica */
 html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
@@ -562,7 +465,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 .orbit{position:absolute;inset:0;pointer-events:none}
 .orb{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;will-change:transform;
   background:radial-gradient(circle at 34% 30%,#ffe6a0,#ff8a1e 46%,#b5500d);
-  box-shadow:inset -3px -4px 7px rgba(120,58,8,.55),inset 3px 3px 6px rgba(255,230,170,.35),0 8px 16px rgba(78,42,16,.35);
+  box-shadow:inset -3px -4px 7px rgba(120,58,8,.55),inset 3px 3px 6px rgba(255,230,170,.35),0 8px 16px rgba(0,0,0,.35);
   filter:drop-shadow(0 0 6px rgba(255,140,30,.35))}
 .orb::before{content:"";position:absolute;top:-10%;left:50%;width:44%;height:26%;background:linear-gradient(140deg,#a6d95a,#6faf30);
   border-radius:70% 20% 60% 20%;transform:translateX(-40%) rotate(-38deg);transform-origin:left center}
@@ -622,7 +525,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 .stories-note{text-align:center;color:var(--muted);font-size:13.5px;max-width:64ch;margin:0 auto 34px;line-height:1.6}
 .stories{columns:3;column-gap:20px;margin-top:4px}
 .story{position:relative;break-inside:avoid;margin:0 0 20px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);
-  background:var(--panel);box-shadow:0 30px 70px -42px rgba(78,42,16,.9);transform-style:preserve-3d;will-change:transform;
+  background:var(--panel);box-shadow:0 30px 70px -42px rgba(0,0,0,.9);transform-style:preserve-3d;will-change:transform;
   transition:box-shadow .4s var(--ease),border-color .4s var(--ease)}
 .story img{width:100%;height:auto;display:block;transition:transform 1.2s var(--ease)}
 .story:hover{border-color:var(--amber);box-shadow:0 44px 96px -38px rgba(255,122,26,.42)}
@@ -633,10 +536,10 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   padding:6px 11px;border-radius:100px;background:rgba(14,6,2,.5);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .story .handle i{width:15px;height:15px;border-radius:50%;background:var(--grad);box-shadow:0 0 8px var(--orange);display:inline-block}
 .story figcaption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:18px 16px 16px}
-.story .st{color:var(--amber);letter-spacing:2px;font-size:13px;display:block;margin-bottom:7px;text-shadow:0 1px 8px rgba(78,42,16,.7)}
-.story figcaption p{font-size:13.5px;line-height:1.5;color:var(--cream);text-shadow:0 1px 12px rgba(78,42,16,.85)}
+.story .st{color:var(--amber);letter-spacing:2px;font-size:13px;display:block;margin-bottom:7px;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.story figcaption p{font-size:13.5px;line-height:1.5;color:var(--cream);text-shadow:0 1px 12px rgba(0,0,0,.85)}
 .story figcaption p b{color:var(--amber-hi);font-weight:600}
-.story .vf{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:10.5px;letter-spacing:.02em;color:var(--soft);text-shadow:0 1px 8px rgba(78,42,16,.8)}
+.story .vf{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:10.5px;letter-spacing:.02em;color:var(--soft);text-shadow:0 1px 8px rgba(0,0,0,.8)}
 .story .vf::before{content:"✓";color:#39d67d;font-weight:800}
 @media(max-width:900px){.stories{columns:2}}
 @media(max-width:560px){.stories{columns:1;max-width:400px;margin-inline:auto}}
@@ -671,9 +574,10 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1" alt=""/></noscript>
 <!-- ===== /Rastreamento ===== -->
-<div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
-<canvas class="lux-canvas" aria-hidden="true"></canvas>
+<canvas id="bg" aria-hidden="true"></canvas>
+<canvas id="gl" aria-hidden="true"></canvas>
 <canvas id="oranges" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
 <header class="hdr" id="hdr">
@@ -1255,16 +1159,16 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     var W=0,H=0,DPR=1,docH=0,run=false,last=0,list=[],px=-1e4,py=-1e4;
     function rnd(a,b){return a+(b-a)*Math.random();}
     function metrics(){DPR=Math.min(win.devicePixelRatio||1,2);W=win.innerWidth;H=win.innerHeight;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);docH=Math.max(doc.documentElement.scrollHeight,H);}
-    function build(){var per=win.innerWidth<760?4:7;var N=Math.max(12,Math.min(54,Math.round((docH/H)*per)));list=[];
+    function build(){var per=win.innerWidth<760?3:5;var N=Math.max(8,Math.min(38,Math.round((docH/H)*per)));list=[];
       for(var i=0;i<N;i++){var depth=rnd(.5,1),sp=rnd(6,13),ang=rnd(0,6.2832);
         list.push({x:rnd(0,W),y:rnd(0,docH),r:rnd(16,30)*depth,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,curl:rnd(-.13,.13),rot:rnd(0,6.2832),vr:rnd(-.2,.2),depth:depth,ox:0,oy:0});}}
     function orange(o,sy){
-      var r=o.r*DPR; ctx.save(); ctx.translate((o.x+o.ox)*DPR,(sy+o.oy)*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.28+.32*o.depth;
+      var r=o.r*DPR; ctx.save(); ctx.translate((o.x+o.ox)*DPR,(sy+o.oy)*DPR); ctx.rotate(o.rot); ctx.globalAlpha=.17+.2*o.depth;
       var g=ctx.createRadialGradient(-r*.32,-r*.34,r*.08,0,0,r);
       g.addColorStop(0,'#ffde93');g.addColorStop(.45,'#ff8a1e');g.addColorStop(1,'#b5500d');
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,6.2832);ctx.fill();
       ctx.globalAlpha*=.6;ctx.strokeStyle='rgba(255,224,160,.5)';ctx.lineWidth=Math.max(1,r*.05);ctx.beginPath();ctx.arc(0,0,r*.92,-2.5,-.8);ctx.stroke();
-      ctx.globalAlpha=.28+.32*o.depth;
+      ctx.globalAlpha=.17+.2*o.depth;
       ctx.fillStyle='#8ec84a';ctx.save();ctx.translate(r*.02,-r*.1);ctx.rotate(-.5);ctx.beginPath();ctx.ellipse(r*.26,-r*.16,r*.32,r*.13,0,0,6.2832);ctx.fill();ctx.restore();
       ctx.restore();
     }
@@ -1400,14 +1304,145 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 })();
 </script>
 
-<!-- ===== Luzes douradas (fundo Botanika) ===== -->
-<script>
-(function(){var c=document.querySelector('.lux-canvas');if(!c)return;var ctx=c.getContext('2d');
- var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;var dpr=Math.min(devicePixelRatio||1,2),W=0,H=0;
- function rz(){W=c.width=Math.floor(innerWidth*dpr);H=c.height=Math.floor(innerHeight*dpr);}rz();addEventListener('resize',rz,{passive:true});
- var N=innerWidth<760?10:16,d=[];for(var i=0;i<N;i++)d.push({x:Math.random(),y:Math.random(),r:46+Math.random()*104,vx:(Math.random()-.5)*.006,vy:-(0.008+Math.random()*.018),ph:Math.random()*6.283,sp:.15+Math.random()*.35,a:.06+Math.random()*.09});
- function paint(t){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';for(var i=0;i<d.length;i++){var o=d[i],px=o.x*W,py=o.y*H,r=o.r*dpr,pu=reduce?1:(0.62+0.38*Math.sin(t*o.sp+o.ph));var g=ctx.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,'rgba(250,208,96,'+(o.a*pu).toFixed(3)+')');g.addColorStop(.45,'rgba(236,186,78,'+(o.a*pu*.45).toFixed(3)+')');g.addColorStop(1,'rgba(236,186,78,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,r,0,6.2832);ctx.fill();}}
- if(reduce){paint(0);return;}var t0=performance.now();(function loop(now){requestAnimationFrame(loop);var dt=Math.min(.05,(now-t0)/1000);t0=now;for(var i=0;i<d.length;i++){var o=d[i];o.x+=o.vx*dt;o.y+=o.vy*dt;if(o.y<-.15){o.y=1.15;o.x=Math.random();}if(o.x<-.15)o.x=1.15;else if(o.x>1.15)o.x=-.15;}paint(now*.001);})(performance.now());})();
+<!-- ===== Fundo-assinatura WebGL: "Efervescência Cítrica" (flow-wave recolorido) ===== -->
+<script type="module">
+try{
+  const THREE = await import('three');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+  const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
+  const { GammaCorrectionShader } = await import('three/addons/shaders/GammaCorrectionShader.js');
+  const { CopyShader } = await import('three/addons/shaders/CopyShader.js');
+
+  // Efervescência Cítrica palette
+  const bgColor='#170b04', flameColor='#ff7a1a', flameColor2='#cde94a', flameAmt=0.22;
+  const atmoColor='#ffd27a', atmoCount = innerWidth<760?70:140, atmoSize=22, atmoSpeed=1.0;
+  const colorLow='#7a3b06', colorHigh='#ffc65a', opacity=0.10, pointSize=4.8, brightness=0.32;
+  const waveHeight=3, flow=1.05, tilt=0, scale=0.275, scrollRise=1.0;
+  const camStartY=7, camStartZ=16, camEndY=0.8, camEndZ=-2;
+  const lookStartZ=2, lookEndZ=-16, parallax=1.2, pointerRadius=7.0, pointerStrength=0.9;
+  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
+
+  const canvas=document.getElementById('gl');
+  const _t=document.createElement('canvas');
+  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
+
+  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x000000); scene.fog=new THREE.Fog(0x000000,0,15);
+  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,7,16);
+  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
+  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
+
+  const SNOISE=`
+    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
+    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
+      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
+      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
+      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
+      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
+      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
+      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
+      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
+      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
+      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
+      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
+
+  const geo=new THREE.SphereGeometry(4.2,innerWidth<760?120:200,innerWidth<760?320:600);
+  const uniforms={uTime:{value:0},uStream:{value:0},uAppear:{value:0},
+    uColLow:{value:hexToVec3(colorLow)},uColHigh:{value:hexToVec3(colorHigh)},
+    uOpacity:{value:opacity},uSize:{value:pointSize},uBrightness:{value:brightness},
+    uWaveHeight:{value:waveHeight},uFlow:{value:flow},uScale:{value:scale},
+    uCursor:{value:new THREE.Vector3()},uRepelRadius:{value:pointerRadius},uRepelStrength:{value:pointerStrength},uActivity:{value:0}};
+  const mat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,
+    vertexShader:`uniform float uTime;uniform float uStream;uniform float uSize;uniform float uWaveHeight;uniform float uFlow;uniform float uScale;
+      uniform vec3 uColLow;uniform vec3 uColHigh;uniform vec3 uCursor;uniform float uRepelRadius;uniform float uRepelStrength;uniform float uActivity;
+      varying float vFade;varying vec3 vColor;${SNOISE}
+      void main(){vec3 wp=vec3(position.x*13.0,0.0,position.z*25.0);wp.x+=position.y*6.0;float zc=wp.z+uStream;
+        float wn=snoise(vec3(wp.x*0.08,zc*0.08,uTime*0.15*uFlow))*2.0;wn+=snoise(vec3(wp.x*0.16,zc*0.16,uTime*0.3*uFlow))*0.8;wp.y+=wn*uWaveHeight;
+        vec3 finalPos=wp*uScale;vec4 modelPosition=modelMatrix*vec4(finalPos,1.0);vec3 toP=modelPosition.xyz-uCursor;float cd=length(toP);
+        float fall=smoothstep(uRepelRadius,0.0,cd);modelPosition.xyz+=normalize(toP+vec3(0.0001))*fall*uRepelStrength*uActivity;
+        vec4 mvPosition=viewMatrix*modelPosition;float colMix=smoothstep(-3.0,3.0,position.y+position.x*0.5);
+        vColor=mix(uColLow,uColHigh,clamp(colMix,0.0,1.0));vFade=1.0;gl_PointSize=uSize*(10.0/-mvPosition.z);gl_PointSize=max(gl_PointSize,1.5);gl_Position=projectionMatrix*mvPosition;}`,
+    fragmentShader:`uniform float uOpacity;uniform float uBrightness;uniform float uAppear;varying float vFade;varying vec3 vColor;
+      void main(){vec2 xy=gl_PointCoord-0.5;float ll=length(xy);if(ll>0.5)discard;float a=smoothstep(0.5,0.1,ll);gl_FragColor=vec4(vColor*uBrightness,vFade*a*uOpacity*uAppear);}`});
+  const points=new THREE.Points(geo,mat);points.frustumCulled=false;points.layers.enable(3);
+  const group=new THREE.Group();group.add(points);scene.add(group);
+
+  const FinalPass={uniforms:{iTime:{value:0},tDiffuse:{value:null},torusTexture:{value:null},bloomTexture:{value:null},haloTexture:{value:null},
+      uBg:{value:hexToVec3(bgColor)},uFlameA:{value:hexToVec3(flameColor)},uFlameB:{value:hexToVec3(flameColor2)},uFlameAmt:{value:flameAmt}},
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader:`uniform float iTime;uniform sampler2D tDiffuse;uniform sampler2D bloomTexture;uniform sampler2D torusTexture;uniform sampler2D haloTexture;
+      uniform vec3 uBg;uniform vec3 uFlameA;uniform vec3 uFlameB;uniform float uFlameAmt;varying vec2 vUv;
+      vec3 warp3d(vec3 pos,float t){float curv=.8,a=1.9,b=0.7;pos*=2.;pos.x+=curv*sin(t+a*pos.y)+t*b;pos.y+=curv*cos(t+a*pos.x);
+        pos.y+=curv*sin(t+a*pos.z)+t*b;pos.z+=curv*cos(t+a*pos.y);pos.z+=curv*sin(t+a*pos.x)+t*b;pos.x+=curv*cos(t+a*pos.z);return 0.5+0.5*cos(pos.xyz+vec3(1,2,4));}
+      void main(){vec2 uv=2.*vUv-1.;vec3 w=pow(warp3d(vec3(uv.x,sin(uv.y),uv.y),iTime*1.5),vec3(1.5));
+        vec3 flame=1.5*uFlameA*w.x;flame*=w.y;flame+=uFlameB*w.z;flame*=smoothstep(0.25,1.,abs(uv.y));
+        float md=smoothstep(-0.7,1.,-uv.y*uv.x);flame*=md*md;vec3 bg=uBg*(1.0-0.4*length(uv));vec3 halo=texture2D(haloTexture,vUv).xyz;
+        gl_FragColor=vec4(bg+flame*uFlameAmt+texture2D(bloomTexture,vUv).xyz+texture2D(torusTexture,vUv).xyz+texture2D(tDiffuse,vUv).xyz+halo,1.);}`};
+
+  const renderScene=new RenderPass(scene,camera);
+  const torusComposer=new EffectComposer(renderer);torusComposer.renderToScreen=false;
+  torusComposer.addPass(renderScene);torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
+  torusComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.22,0.2,0));torusComposer.addPass(new ShaderPass(CopyShader));
+  const bloomComposer=new EffectComposer(renderer);bloomComposer.renderToScreen=false;
+  bloomComposer.addPass(renderScene);bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.4,0.55,0));bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
+  const finalPass=new ShaderPass(FinalPass);
+  const finalComposer=new EffectComposer(renderer);finalComposer.addPass(renderScene);finalComposer.addPass(finalPass);
+  finalPass.uniforms.bloomTexture.value=bloomComposer.renderTarget1.texture;
+  finalPass.uniforms.torusTexture.value=torusComposer.renderTarget1.texture;
+  finalPass.uniforms.haloTexture.value=blackTex;
+
+  let atmoMat;
+  (function(){const N=Math.round(atmoCount);const positions=new Float32Array(N*3),sizes=new Float32Array(N),seeds=new Float32Array(N);
+    for(let i=0;i<N;i++){positions[i*3]=2*Math.random()-1;positions[i*3+1]=2*Math.random()-1;positions[i*3+2]=2*Math.random()-1;sizes[i]=atmoSize*(0.4+Math.random());seeds[i]=Math.random();}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(positions,3));g.setAttribute('size',new THREE.BufferAttribute(sizes,1));g.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
+    atmoMat=new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,depthTest:false,
+      uniforms:{uTime:{value:0},uColor:{value:hexToVec3(atmoColor)},uRes:{value:new THREE.Vector2(innerWidth*devicePixelRatio,innerHeight*devicePixelRatio)}},
+      vertexShader:`attribute float size;attribute float seed;uniform float uTime;uniform vec2 uRes;varying float vA;
+        vec3 warp(vec3 p,float t){float c=0.9,a=1.9,b=0.02,s=0.05;p*=2.;p.x+=c*sin(s*t+a*p.y)+t*b;p.y+=c*cos(s*t+a*p.x);p.y+=c*sin(s*t+a*p.z)+t*b;p.z+=c*cos(s*t+a*p.y);p.z+=c*sin(s*t+a*p.x)+t*b;p.x+=c*cos(s*t+a*p.z);return cos(p+vec3(1,2,4));}
+        void main(){vec3 v=position*4.0+warp(position,uTime)*1.2;vec4 mv=modelViewMatrix*vec4(v,1.0);float r=length(v);float farF=1.0-smoothstep(5.0,6.5,r);float nearF=smoothstep(0.0,0.5,-mv.z);vA=farF*nearF;gl_PointSize=size*uRes.y/900.0/-mv.z;gl_PointSize=max(gl_PointSize,1.0);gl_Position=projectionMatrix*mv;}`,
+      fragmentShader:`uniform vec3 uColor;varying float vA;void main(){vec2 p=gl_PointCoord-0.5;float l=length(p);if(l>0.5)discard;float tex=smoothstep(0.5,0.0,l);gl_FragColor=vec4(uColor*tex,tex*vA*0.6);}`});
+    const pts=new THREE.Points(g,atmoMat);pts.frustumCulled=false;pts.layers.enable(3);
+    pts.onBeforeRender=function(){const t=performance.now()/1000;atmoMat.uniforms.uTime.value=t*atmoSpeed*8.0;pts.position.copy(camera.position);finalPass.uniforms.iTime.value=t;};
+    scene.add(pts);})();
+
+  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
+  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
+  addEventListener('scroll',onScroll,{passive:true});
+  const mTarget={x:0,y:0},m={x:0,y:0};
+  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
+  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
+  addEventListener('mouseout',()=>{POINTER.active=false;});
+  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
+  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
+
+  const sceneObj={stream:0,appearStart:performance.now(),t0:performance.now()/1000,
+    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;this.stream+=dt*(flow*2.0)*4.0;uniforms.uStream.value=this.stream;
+      uniforms.uWaveHeight.value=waveHeight*(1+scroll*scrollRise);const ea=Math.min(scroll/0.35,1.0);const e=ea*ea*(3-2*ea);
+      const camY=Lerp(camStartY,camEndY,e),camZ=Lerp(camStartZ,camEndZ,e);camera.position.set(mm.x*parallax,camY+mm.y*parallax*0.3,camZ);camera.lookAt(mm.x*parallax*0.5,Lerp(0.0,0.6,e),Lerp(lookStartZ,lookEndZ,e));
+      group.rotation.x=-tilt;group.rotation.y=0;updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
+      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.4));}};
+
+  function loop(){requestAnimationFrame(loop);scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
+    camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
+  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();for(const c of[torusComposer,bloomComposer,finalComposer]){c.setPixelRatio(dpr);c.setSize(w,h);}if(atmoMat)atmoMat.uniforms.uRes.value.set(w*dpr,h*dpr);onScroll();}
+  addEventListener('resize',resize);
+  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  resize();onScroll();
+  if(window.__stopFallback)window.__stopFallback();
+  document.getElementById('bg').style.display='none';
+  if(rm){camera.layers.set(1);torusComposer.render();camera.layers.set(2);bloomComposer.render();camera.layers.set(3);finalComposer.render();}
+  else loop();
+}catch(err){
+  var g=document.getElementById('gl'); if(g) g.style.display='none';
+  if(window.__startFallback) window.__startFallback();
+}
 </script>
 </body>
 </html>
