@@ -130,7 +130,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px}
+.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px;margin-top:-32px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(138,90,60,.36),rgba(138,90,60,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
@@ -165,7 +165,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
   .choWrap.k1{transform:rotate(-35deg)}.choWrap.k2{transform:rotate(95deg)}.choWrap.k3{transform:rotate(215deg)}}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:112px;gap:16px}
-  .stage{order:-1;min-height:auto;padding:8px 22px}
+  .stage{order:-1;min-height:auto;padding:8px 22px;margin-top:-16px}
   .poteWrap{width:min(62%,300px)}
 }
 
