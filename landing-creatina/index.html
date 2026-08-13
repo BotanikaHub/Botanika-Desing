@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Creatina + Taurato Botanika — força na ida, recuperação na volta</title>
+<meta name="description" content="Creatina Monohidratada 3 g + Magnésio Taurato 63 mg. Sem sabor. Uma dose, dois propósitos: desempenho no treino e recuperação muscular. 222 g · 60 doses.">
+<meta name="theme-color" content="#F8F0E8">
+<link rel="canonical" href="https://raw.githack.com/BotanikaHub/Botanika-Desing/lp/landing-creatina/index.html">
+
+<meta property="og:type" content="product">
+<meta property="og:title" content="Creatina + Taurato Botanika — força na ida, recuperação na volta">
+<meta property="og:description" content="Creatina Monohidratada 3 g + Magnésio Taurato 63 mg, sem sabor. Uma dose, dois propósitos: desempenho e recuperação.">
+<meta property="og:image" content="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/creatina-taurato-fundo-branco.png?v=1782315087">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Creatina + Taurato Botanika">
+<meta name="twitter:description" content="Creatina 3 g + Magnésio Taurato 63 mg, sem sabor. Desempenho na ida, recuperação na volta.">
+<meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/creatina-taurato-fundo-branco.png?v=1782315087">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{ "imports": {
+    "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
+} }
+</script>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','828186133708463');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=828186133708463&ev=PageView&noscript=1"></noscript>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F8F0E8; --cream-2:#FCF7EE;
+  --indigo:#303890; --indigo-soft:#4a52b8; --indigo-deep:#20266B;
+  --lime:#D0E088; --gold:#F8C840; --ink:#1a1626;
+  --void:#F8F0E8; --void2:#FCF7EE; --panel:#FCF7EE; --panel-2:#F1EAD9; --steel:#ECE7F4;
+  --ion:#303890; --ion-hi:#4a52b8; --ion-lo:#20266B;
+  --silver:#AEB96A; --silver-hi:#D0E088; --silver-lo:#98A657;
+  --platinum:#1a1626; --text:#1a1626;
+  --muted:rgba(35,33,64,.62); --soft:rgba(35,33,64,.82);
+  --glass:rgba(255,255,255,.58); --glass-2:rgba(255,255,255,.40);
+  --line:rgba(48,56,144,.15); --line-2:rgba(48,56,144,.30);
+  --grad:linear-gradient(120deg,var(--indigo),var(--gold));
+  --grad-2:linear-gradient(120deg,var(--indigo-soft),var(--lime));
+  --head:'Fraunces',Georgia,serif;
+  --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:'Inter','Fraunces',sans-serif;
+  --maxw:1180px; --ease:cubic-bezier(.2,.7,.2,1); --ease2:cubic-bezier(.16,1,.3,1); --radius:22px; --radius-sm:15px;
+}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;background:var(--void);color:var(--text);font-family:var(--body);
+  font-size:17px;line-height:1.62;font-weight:400;letter-spacing:.004em;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video{max-width:100%;display:block;height:auto}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ion);color:#03101f}
+
+canvas#gl,canvas#bg{position:fixed;inset:0;width:100%;height:100%;display:block}
+canvas#gl{z-index:-2}
+canvas#bg{z-index:-3}
+.veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 78% at 50% -10%,rgba(48,56,144,.10),transparent 60%),
+             radial-gradient(66% 52% at 86% 10%,rgba(48,56,144,.14),transparent 72%),
+             linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.58))}
+/* premium film grain */
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.serif{font-family:var(--head);font-weight:700;line-height:1.03;letter-spacing:-.018em}
+.shell{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(18px,5vw,44px)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ion-hi);
+  padding:7px 15px;border:1px solid var(--line-2);border-radius:100px;background:var(--glass)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px var(--ion);animation:pip 2.4s ease-in-out infinite}
+@keyframes pip{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+/* shimmering gradient sweep on emphasis words */
+.sheen{position:relative;background:linear-gradient(100deg,var(--ion) 20%,var(--silver-hi) 40%,#fff 50%,var(--silver-hi) 60%,var(--ion) 80%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:sweep 5.5s linear infinite}
+@keyframes sweep{to{background-position:-220% 0}}
+
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:var(--grad);box-shadow:0 0 16px rgba(48,56,144,.6)}
+
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s var(--ease)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:18px;
+  margin:12px auto;max-width:calc(var(--maxw) + 26px);padding:11px clamp(14px,4vw,22px);
+  border:1px solid var(--line);border-radius:100px;background:rgba(255,255,255,.36);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:.4s var(--ease)}
+.hdr.scrolled .hdr-in{background:rgba(252,247,238,.84);border-color:var(--line-2)}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--head);font-weight:700;font-size:19px;letter-spacing:-.01em}
+.brand i{width:11px;height:11px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px var(--ion);font-style:normal;display:inline-block}
+.brand small{font-family:var(--body);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ion-hi);opacity:.9}
+.nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:600;color:var(--soft)}
+.nav-links a{position:relative;transition:.25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:1.5px;width:0;background:var(--grad);transition:.3s var(--ease)}
+.nav-links a:hover{color:var(--platinum)}.nav-links a:hover::after{width:100%}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--body);font-weight:800;font-size:15.5px;letter-spacing:.01em;padding:15px 28px;
+  border-radius:100px;cursor:pointer;border:0;color:#03101f;background:var(--grad);overflow:hidden;
+  box-shadow:0 12px 34px -12px rgba(48,56,144,.7),inset 0 1px 0 rgba(255,255,255,.4);
+  transition:transform .25s var(--ease),box-shadow .3s var(--ease);will-change:transform;white-space:nowrap}
+.btn::after{content:"";position:absolute;top:0;left:-140%;width:60%;height:100%;transform:skewX(-20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:none}
+.btn:hover::after{animation:shine .9s var(--ease)}
+@keyframes shine{to{left:160%}}
+.btn:hover{box-shadow:0 20px 48px -12px rgba(48,56,144,.85),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn:active{transform:scale(.97)}
+.btn.sm{padding:11px 20px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--platinum);border:1px solid var(--line-2);box-shadow:none}
+.btn.ghost::after{display:none}
+.btn.ghost:hover{border-color:var(--ion-hi);background:var(--glass)}
+.btn.block{width:100%}
+.btn.pulse{animation:btnpulse 2.6s var(--ease) infinite}
+@keyframes btnpulse{0%,100%{box-shadow:0 12px 34px -12px rgba(48,56,144,.7)}50%{box-shadow:0 12px 44px -6px rgba(48,56,144,.95)}}
+
+/* sections */
+main{position:relative;z-index:1}
+.sec{position:relative;padding:clamp(70px,10vw,124px) 0}
+.divider{height:1px;max-width:var(--maxw);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line-2),transparent)}
+.sec-head{max-width:740px;margin-bottom:clamp(32px,5vw,52px)}
+.sec-head.center{margin-inline:auto;text-align:center}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--ion-hi);display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.kicker.center{justify-content:center}
+.kicker b{font-family:var(--mono);font-size:14px;opacity:.85;font-weight:600}
+.kicker span{height:1px;width:44px;background:linear-gradient(90deg,var(--ion-hi),transparent)}
+h1{font-size:clamp(31px,4.8vw,58px)}
+h2{font-size:clamp(29px,4.6vw,50px)}
+h3{font-size:clamp(19px,2.2vw,23px)}
+.lead{font-size:clamp(16px,1.7vw,19px);color:var(--soft);margin-top:16px;max-width:62ch}
+.muted{color:var(--muted)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease2),transform 1s var(--ease2)}
+.reveal.rv-s{transform:translateY(26px) scale(.94)}
+.reveal.rv-l{transform:translateX(-46px)}
+.reveal.rv-r{transform:translateX(46px)}
+.reveal.visible{opacity:1;transform:none}
+[data-stagger]>*{opacity:0;transform:translateY(26px);transition:opacity .85s var(--ease2),transform .85s var(--ease2)}
+[data-stagger].visible>*{opacity:1;transform:none}
+.word{display:inline-block;white-space:nowrap}
+.word i{display:inline-block;font-style:inherit;opacity:0;filter:blur(14px);transform:translateY(.5em);transition:opacity .8s var(--ease2),filter .8s var(--ease2),transform .8s var(--ease2)}
+.reveal.visible .word i,h1.visible .word i,.hsplit.visible .word i{opacity:1;filter:blur(0);transform:none}
+.grad-text i{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* HERO */
+#hero{min-height:100svh;display:flex;align-items:center;padding-top:clamp(82px,10vh,112px);padding-bottom:clamp(22px,4vh,52px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(22px,4vw,56px);align-items:center;width:100%}
+.hero-copy h1{margin:12px 0 6px}
+.hero-copy h1 .grad-text{font-style:normal;font-weight:800}
+.hero-sub{font-size:clamp(15.5px,1.6vw,18.5px);color:var(--soft);max-width:47ch;margin-top:8px}
+.trust{display:flex;align-items:center;gap:11px;margin:14px 0 4px;font-size:13.5px;color:var(--muted)}
+.stars{color:var(--gold);letter-spacing:2px;font-size:15px}
+.hero-actives{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.chip{font-size:12.5px;font-weight:600;color:var(--soft);padding:7px 13px;border-radius:100px;border:1px solid var(--line);background:var(--glass)}
+.chip.mono{font-family:var(--mono)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hero-note{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hero-note b{color:var(--ion-hi);font-weight:700}
+.hero-punch{font-family:var(--head);font-weight:600;font-size:clamp(15px,2vw,20px);color:var(--ion-hi);margin-bottom:2px;letter-spacing:-.01em}
+
+/* hero stage: layered, parallax pote */
+.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(74vw,620px);perspective:1200px}
+.stage-glow{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(48,56,144,.42),rgba(24,44,80,.16) 46%,transparent 70%);filter:blur(8px);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.82}50%{transform:scale(1.09);opacity:1}}
+.hero-ring{position:absolute;width:min(96%,540px);aspect-ratio:1;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 68%,rgba(48,56,144,.55) 82%,transparent 92%);
+  -webkit-mask:radial-gradient(circle,transparent 63%,#000 64%);mask:radial-gradient(circle,transparent 63%,#000 64%);
+  animation:spin 16s linear infinite;opacity:.7}
+.hero-ring.b{width:min(78%,430px);animation:spin 22s linear infinite reverse;
+  background:conic-gradient(from 120deg,transparent 0 74%,rgba(248,200,64,.5) 86%,transparent 94%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-orbit{position:absolute;inset:0;pointer-events:none}
+.hero-orbit i{position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:50%;background:var(--ion-hi);box-shadow:0 0 12px var(--ion-hi);
+  transform-origin:0 0;opacity:.85}
+.pote-wrap{position:relative;z-index:2;width:min(84%,420px);transform-style:preserve-3d;transition:transform .3s var(--ease);will-change:transform}
+.bottle{position:relative;filter:drop-shadow(0 42px 55px rgba(32,38,107,.6)) drop-shadow(0 0 44px rgba(48,56,144,.34));animation:float 6.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-10px)}50%{transform:translateY(12px)}}
+.stage-floor{position:absolute;bottom:6%;width:50%;height:26px;border-radius:50%;background:radial-gradient(ellipse,rgba(32,38,107,.6),transparent 70%);filter:blur(10px)}
+.mini-badge{position:absolute;z-index:3;padding:9px 13px;border-radius:14px;border:1px solid var(--line-2);
+  background:rgba(255,255,255,.62);backdrop-filter:blur(8px);font-size:12px;color:var(--soft);display:flex;gap:8px;align-items:center}
+.mini-badge b{font-family:var(--mono);color:var(--ion-hi);font-size:16px;font-weight:700}
+.mini-badge.a{top:12%;left:-2%}.mini-badge.b{bottom:13%;right:-3%}
+.side-label{position:absolute;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.side-label.l{left:-6%;top:44%;transform:rotate(-90deg)}
+.side-label.r{right:-6%;top:52%;transform:rotate(90deg)}
+.side-label b{color:var(--ion-hi)}
+
+/* IDA→VOLTA scrolly */
+.arc{position:relative;height:230vh}
+.arc-pin{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.arc-inner{width:100%;text-align:center}
+.arc-eyebrow{margin-bottom:20px}
+.arc-stage{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(14px,3vw,40px);margin:8px 0 30px}
+.arc-side{text-align:left;transition:opacity .3s linear,transform .3s linear}
+.arc-side.r{text-align:right}
+.arc-side .ph{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ion-hi);margin-bottom:8px}
+.arc-side.r .ph{color:var(--silver-hi)}
+.arc-side h3{font-family:var(--head);font-weight:700;font-size:clamp(22px,3.4vw,40px);line-height:1.02;letter-spacing:-.02em;margin-bottom:8px}
+.arc-side p{font-size:14.5px;color:var(--soft);max-width:34ch}
+.arc-side.r p{margin-left:auto}
+.arc-pote{position:relative;width:clamp(120px,20vw,220px);display:flex;align-items:center;justify-content:center}
+.arc-pote::before{content:"";position:absolute;width:150%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(48,56,144,.4),transparent 66%)}
+.arc-pote img{position:relative;width:100%;filter:drop-shadow(0 26px 34px rgba(32,38,107,.6));transform:rotate(calc((var(--p,0) - .5) * 26deg))}
+.arc-track{position:relative;height:4px;max-width:640px;margin:0 auto;border-radius:100px;background:rgba(255,255,255,.09);overflow:visible}
+.arc-track .fill{position:absolute;inset:0 auto 0 0;width:calc(var(--p,0)*100%);border-radius:100px;background:var(--grad);box-shadow:0 0 16px rgba(48,56,144,.6)}
+.arc-track .mk{position:absolute;top:50%;left:calc(var(--p,0)*100%);width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);
+  background:#fff;box-shadow:0 0 0 5px rgba(48,56,144,.28),0 0 22px rgba(48,56,144,.9)}
+.arc-labels{display:flex;justify-content:space-between;max-width:640px;margin:14px auto 0;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.arc-labels b{transition:color .3s}
+.arc-scrollnote{margin-top:16px;font-size:12px;color:var(--muted);letter-spacing:.06em}
+
+/* dose table */
+.dose{max-width:840px;margin-inline:auto}
+.dose-wrap{overflow-x:auto;border:1px solid var(--line-2);border-radius:var(--radius);background:linear-gradient(165deg,var(--glass),rgba(255,255,255,.34))}
+.dose-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:440px}
+.dose-table th,.dose-table td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--line)}
+.dose-table thead th{font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ion-hi)}
+.dose-table th:nth-child(2),.dose-table td:nth-child(2),.dose-table th:nth-child(3),.dose-table td:nth-child(3){text-align:right;white-space:nowrap}
+.dose-table td:first-child{color:var(--platinum)}
+.dose-table td:nth-child(2){font-family:var(--mono)}
+.dose-table td:nth-child(3){font-family:var(--mono);color:var(--silver-hi);font-weight:600}
+.dose-table tbody tr:last-child td{border-bottom:0}
+.dose-table tbody tr:hover{background:rgba(48,56,144,.05)}
+.dose-table tbody tr.hi td:first-child{color:var(--ion-hi);font-weight:700}
+.dose-foot{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.55}
+.vdbar{display:block;height:4px;border-radius:2px;background:var(--grad);width:0;margin-top:6px;max-width:120px;margin-left:auto;box-shadow:0 0 10px rgba(48,56,144,.4);transition:width 1.3s var(--ease2)}
+
+/* offer kit image */
+.kit-visual{position:relative;height:clamp(160px,24vw,220px);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.kit-visual img{max-height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 22px 30px rgba(32,38,107,.6));transition:opacity .35s var(--ease),transform .5s var(--ease)}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:200;background:var(--void);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-in{text-align:center;width:min(78vw,300px)}
+.loader-brand{font-family:var(--head);font-weight:700;font-size:22px;margin-bottom:16px;letter-spacing:-.01em}
+.loader-brand span{font-family:var(--body);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ion-hi)}
+.loader-count b{font-family:var(--mono);font-weight:600;font-size:clamp(56px,12vw,104px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.loader-bar{height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:14px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .2s linear}
+
+/* full-width band divider */
+.band{position:relative;height:clamp(210px,32vw,380px);overflow:hidden;border-block:1px solid var(--line)}
+.band img{width:100%;height:100%;object-fit:cover;transform:scale(1.08)}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--void),transparent 28%,transparent 72%,var(--void)),linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.6))}
+.band .band-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2;padding:0 20px}
+.band .band-txt p{font-family:var(--head);font-weight:600;font-size:clamp(20px,3.4vw,36px);color:var(--platinum);max-width:24ch;text-shadow:0 2px 30px rgba(32,38,107,.6);letter-spacing:-.01em}
+.band .band-txt b{color:var(--ion-hi)}
+
+/* generic cards */
+.grid{display:grid;gap:18px}
+.g-2{grid-template-columns:repeat(2,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.card{position:relative;padding:26px 24px;border-radius:var(--radius);border:1px solid var(--line);
+  background:linear-gradient(165deg,var(--glass),rgba(255,255,255,.32));
+  transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);will-change:transform;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.35s;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),rgba(48,56,144,.14),transparent 60%)}
+.card:hover{border-color:var(--line-2);box-shadow:0 24px 52px -28px rgba(32,38,107,.75)}
+.card:hover::before{opacity:1}
+.card .wm{position:absolute;right:16px;bottom:2px;font-family:var(--mono);font-weight:700;font-size:74px;line-height:1;color:rgba(48,56,144,.07);transition:.35s;pointer-events:none}
+.card:hover .wm{color:rgba(48,56,144,.14)}
+.ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;margin-bottom:15px;color:var(--ion-hi);
+  background:linear-gradient(160deg,rgba(48,56,144,.20),rgba(248,200,64,.08));border:1px solid var(--line-2)}
+.ico svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card:hover .ico svg{animation:wig .6s var(--ease)}
+@keyframes wig{50%{transform:translateY(-3px) scale(1.08)}}
+.card h3{margin-bottom:8px}
+.card p{font-size:15px;color:var(--muted)}
+.card p b{color:var(--soft);font-weight:600}
+
+/* pain */
+.pain{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:var(--radius-sm);border:1px solid var(--line);background:rgba(255,255,255,.28);transition:.3s var(--ease)}
+.pain:hover{border-color:var(--line-2);background:rgba(255,255,255,.42)}
+.pain .x{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;color:#f0b0b0;background:rgba(180,70,80,.14);border:1px solid rgba(200,90,100,.3)}
+.pain p{font-size:15px;color:var(--soft)}.pain p b{color:var(--platinum);font-weight:600}
+
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,58px);align-items:center}
+.split.rev .visual{order:2}
+.split .visual{position:relative;min-height:min(70vw,460px)}
+.split .visual.prod{display:flex;align-items:center;justify-content:center;perspective:1000px}
+.box-img{width:min(80%,380px);filter:drop-shadow(0 34px 48px rgba(32,38,107,.55)) drop-shadow(0 0 34px rgba(48,56,144,.24));animation:float 7s ease-in-out infinite;transform-style:preserve-3d}
+.pts{list-style:none;margin-top:22px;display:grid;gap:13px}
+.pts li{display:flex;gap:13px;align-items:flex-start;font-size:15.5px;color:var(--soft)}
+.pts .ck{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#03101f;background:var(--grad);font-weight:800}
+
+/* duo (2 ativos) with gauge */
+.duo{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.active-card{position:relative;padding:30px 28px;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;
+  background:linear-gradient(165deg,var(--glass-2),rgba(255,255,255,.36));transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);will-change:transform}
+.active-card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.35s;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%),rgba(48,56,144,.16),transparent 60%)}
+.active-card:hover{border-color:var(--line-2);box-shadow:0 26px 54px -28px rgba(32,38,107,.75)}
+.active-card:hover::before{opacity:1}
+.active-head{display:flex;align-items:center;gap:18px;margin-bottom:16px}
+.gauge{position:relative;flex:none;width:92px;height:92px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .track{stroke:rgba(255,255,255,.08)}
+.gauge .arc{stroke:url(#gionGrad);stroke-linecap:round;transition:stroke-dashoffset 1.4s var(--ease2)}
+.gauge .lbl{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.gauge .lbl b{font-family:var(--mono);font-weight:700;font-size:22px;line-height:1;color:var(--platinum)}
+.gauge .lbl span{font-size:10px;color:var(--muted)}
+.active-card .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ion-hi);
+  padding:5px 11px;border:1px solid var(--line-2);border-radius:100px;background:var(--glass);margin-bottom:8px}
+.active-card.silver .tag{color:var(--silver-hi)}
+.active-card h3{font-size:clamp(19px,2.2vw,24px)}
+.active-card p{font-size:14.5px;color:var(--soft);margin-top:4px}
+.combo-note{margin-top:18px;padding:20px 22px;border-radius:var(--radius-sm);border:1px dashed var(--line-2);background:var(--glass);font-size:15px;color:var(--soft)}
+.combo-note b{color:var(--ion-hi)}
+
+/* ritual w/ connecting line */
+.ritual-wrap{position:relative}
+.ritual-line{position:absolute;left:0;right:0;top:44px;height:2px;pointer-events:none;display:none}
+.ritual-line svg{width:100%;height:2px;overflow:visible}
+.ritual-line path{fill:none;stroke:url(#gionGradH);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1}
+.ritual{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step;position:relative}
+.step{position:relative;padding:28px 24px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(165deg,var(--glass),rgba(255,255,255,.3));transition:.3s var(--ease)}
+.step:hover{border-color:var(--line-2);transform:translateY(-4px)}
+.step .n{counter-increment:step;font-family:var(--mono);font-size:14px;font-weight:700;color:#03101f;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--grad);margin-bottom:14px;box-shadow:0 0 0 6px rgba(48,56,144,.12)}
+.step .n::before{content:"0" counter(step)}
+.step h3{margin-bottom:7px}.step p{font-size:14.5px;color:var(--muted)}
+.tip{margin-top:18px;padding:16px 20px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:linear-gradient(150deg,rgba(48,56,144,.10),rgba(255,255,255,.3));font-size:15px;color:var(--soft)}
+.tip b{color:var(--ion-hi)}
+
+/* para quem */
+.forwho{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.frow{display:flex;gap:13px;align-items:flex-start;padding:15px 18px;border-radius:var(--radius-sm);border:1px solid var(--line);background:rgba(255,255,255,.22);transition:.3s var(--ease)}
+.frow:hover{border-color:var(--line-2);background:rgba(48,56,144,.06);transform:translateX(4px)}
+.frow .ck{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#03101f;background:var(--grad);font-weight:800}
+.frow p{font-size:15px;color:var(--soft)}.frow p b{color:var(--platinum)}
+
+/* numbers */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:38px}
+.numc{position:relative;text-align:center;padding:26px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--glass);overflow:hidden}
+.numc b{display:block;font-family:var(--mono);font-weight:700;font-size:clamp(32px,4.8vw,50px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.numc span{font-size:13px;color:var(--muted)}
+
+/* ===== DEPOIMENTOS — immersive real-photo experience ===== */
+.tm-head{text-align:center;max-width:720px;margin:0 auto clamp(26px,4vw,44px)}
+.rating{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;color:var(--soft);margin-bottom:14px;padding:8px 16px;border-radius:100px;border:1px solid var(--line-2);background:var(--glass)}
+.rating .stars{font-size:14px}
+/* auto marquee of real photos */
+.tmarquee{overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.tmarquee + .tmarquee{margin-top:14px}
+.tm-track{display:inline-flex;gap:14px;will-change:transform;animation:tml 46s linear infinite}
+.tmarquee.rev .tm-track{animation-direction:reverse;animation-duration:54s}
+.tmarquee:hover .tm-track{animation-play-state:paused}
+@keyframes tml{to{transform:translateX(-50%)}}
+.tphoto{position:relative;flex:none;width:clamp(190px,24vw,260px);aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1px solid var(--line-2);
+  box-shadow:0 20px 48px -24px rgba(32,38,107,.8);cursor:pointer;background:var(--panel)}
+.tphoto img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35) contrast(1.02);transition:transform .8s var(--ease),filter .5s}
+.tphoto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(255,255,255,.72));pointer-events:none}
+.tphoto .cap{position:absolute;left:12px;bottom:11px;right:12px;z-index:2;font-size:12px;color:var(--soft);display:flex;align-items:center;gap:7px}
+.tphoto .cap .st{color:var(--gold);letter-spacing:1px;font-size:11px}
+.tphoto:hover img{transform:scale(1.07);filter:grayscale(0) contrast(1.05)}
+/* pinned/quotes row */
+.tquotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(20px,3vw,34px)}
+.quote{position:relative;padding:26px 24px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(165deg,var(--glass),rgba(255,255,255,.3));display:flex;flex-direction:column;gap:12px;transition:.3s var(--ease)}
+.quote:hover{border-color:var(--line-2);transform:translateY(-4px)}
+.quote::before{content:"\201C";position:absolute;top:6px;right:18px;font-family:var(--head);font-size:70px;line-height:1;color:rgba(48,56,144,.12)}
+.quote .st{color:var(--gold);letter-spacing:2px;font-size:15px}
+.quote p{font-size:15.5px;color:var(--platinum);line-height:1.56}
+.quote .who{font-size:12.5px;color:var(--muted);margin-top:auto;display:flex;align-items:center;gap:8px}
+.quote .who::before{content:"";width:20px;height:1px;background:var(--ion-hi)}
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:24px;
+  background:rgba(4,6,11,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lightbox.open{display:flex;animation:lbin .35s var(--ease)}
+@keyframes lbin{from{opacity:0}to{opacity:1}}
+.lightbox img{max-width:min(92vw,560px);max-height:86vh;border-radius:16px;border:1px solid var(--line-2);box-shadow:0 40px 90px -30px #000}
+.lightbox .close{position:absolute;top:20px;right:22px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:var(--glass);color:var(--platinum);font-size:20px;display:grid;place-items:center;cursor:pointer}
+
+/* garantia */
+.guard{display:grid;grid-template-columns:auto 1fr;gap:clamp(22px,4vw,40px);align-items:center;padding:clamp(26px,4vw,44px);
+  border-radius:var(--radius);border:1px solid var(--line-2);background:linear-gradient(150deg,rgba(48,56,144,.10),rgba(255,255,255,.32))}
+.seal{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;text-align:center;border:1.5px solid var(--line-2);background:radial-gradient(circle,rgba(48,56,144,.16),transparent 70%)}
+.seal b{font-family:var(--mono);font-weight:700;font-size:30px;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.seal span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.guard ul{list-style:none;display:grid;gap:10px;margin-top:14px}
+.guard li{display:flex;gap:11px;font-size:15px;color:var(--soft)}
+.guard li b{color:var(--ion-hi);font-weight:700}
+
+/* OFERTA */
+#oferta .shell{max-width:960px}
+.offer{position:relative;border-radius:calc(var(--radius) + 6px);border:1px solid var(--line-2);overflow:hidden;
+  background:linear-gradient(165deg,rgba(255,255,255,.55),rgba(255,255,255,.64));box-shadow:0 40px 90px -40px rgba(32,38,107,.85)}
+.offer-top{padding:clamp(26px,4vw,40px);text-align:center;border-bottom:1px solid var(--line)}
+.toggle{display:inline-flex;gap:6px;padding:6px;border-radius:100px;border:1px solid var(--line-2);background:rgba(255,255,255,.5);margin:20px auto 0;flex-wrap:wrap;justify-content:center}
+.toggle button{font-family:var(--body);font-weight:700;font-size:14px;color:var(--soft);cursor:pointer;padding:11px 18px;border-radius:100px;border:0;background:transparent;transition:.28s var(--ease);white-space:nowrap}
+.toggle button .tag{display:block;font-size:10.5px;letter-spacing:.03em;color:var(--ion-hi);margin-top:2px;font-weight:700}
+.toggle button.active{color:#03101f;background:var(--grad);box-shadow:0 8px 22px -8px rgba(48,56,144,.7)}
+.toggle button.active .tag{color:#06213f}
+.offer-body{padding:clamp(26px,4vw,40px);display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(24px,4vw,44px);align-items:center}
+.price-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.price-disc{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:#03101f;background:var(--grad);padding:9px 16px;border-radius:100px;box-shadow:0 10px 26px -10px rgba(48,56,144,.8);animation:discglow 2.8s var(--ease) infinite}
+.price-disc::before{content:"🏷️";font-size:13px}
+@keyframes discglow{0%,100%{box-shadow:0 10px 26px -12px rgba(48,56,144,.7)}50%{box-shadow:0 12px 34px -8px rgba(48,56,144,1)}}
+.save-badge{display:inline-flex;align-items:center;font-size:13px;font-weight:800;color:var(--ion-hi);background:var(--glass-2);border:1px solid var(--line-2);padding:8px 14px;border-radius:100px}
+.price-parc{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:14px;color:var(--muted);line-height:1}
+.price-parc b{font-family:var(--head);font-weight:800;font-size:clamp(42px,7.2vw,64px);line-height:.95;letter-spacing:-.025em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.price-parc .pl{font-size:14px;color:var(--muted)}
+.price-sub{margin-top:9px;font-size:14px;color:var(--soft)}
+.price-sub b{color:var(--ion-hi);font-weight:700}
+.price-cash{margin-top:13px;font-size:13.5px;color:var(--muted)}
+.price-cash b{font-family:var(--mono);font-weight:700;color:var(--soft)}
+.price-old{font-size:12.5px;color:var(--muted);text-decoration:line-through;opacity:.6;margin-left:6px}
+.price-dur{margin-top:8px;font-size:13px;color:var(--muted)}
+.offer-cta{display:grid;gap:12px}
+.coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:13px 16px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);transition:.25s}
+.coupon:hover{border-color:var(--ion-hi)}
+.coupon b{font-family:var(--mono);letter-spacing:.06em;color:var(--silver-hi)}
+.coupon span{font-size:12px;color:var(--muted)}
+.ship{font-size:13px;color:var(--muted);text-align:center}
+.ship b{color:var(--ion-hi)}
+
+/* faq */
+.faq{max-width:780px;margin-inline:auto;display:grid;gap:12px}
+.faq details{border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(255,255,255,.24);overflow:hidden;transition:.3s}
+.faq details[open]{border-color:var(--line-2);background:rgba(255,255,255,.38)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;justify-content:space-between;gap:16px;font-family:var(--head);font-weight:600;font-size:17px;color:var(--platinum)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{flex:none;color:var(--ion-hi);transition:.3s;font-family:var(--body)}
+.faq details[open] summary .pl{transform:rotate(45deg)}
+.faq .ans{padding:0 22px 20px;font-size:15px;color:var(--muted)}
+
+/* escassez */
+.final{text-align:center;max-width:780px;margin-inline:auto}
+.countdown{display:flex;gap:12px;justify-content:center;margin:26px 0}
+.cd{min-width:74px;padding:14px 10px;border-radius:14px;border:1px solid var(--line-2);background:var(--glass)}
+.cd b{display:block;font-family:var(--mono);font-weight:700;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cd span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stockbar{max-width:420px;margin:14px auto 0}
+.stockbar .track{height:8px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden}
+.stockbar .fill{height:100%;width:0;background:var(--grad);border-radius:100px;transition:width 1.4s var(--ease2)}
+.stockbar small{display:block;margin-top:8px;font-size:12.5px;color:var(--muted)}
+
+/* marquee (ativos) */
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:16px 0;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-track{display:inline-flex;align-items:center;gap:26px;white-space:nowrap;will-change:transform;animation:marq 30s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-item{font-family:var(--head);font-size:clamp(17px,2.3vw,25px);color:var(--platinum);font-weight:600;letter-spacing:-.01em}
+.marquee .sep{color:var(--ion-hi);font-size:13px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z-index:1}
+.foot{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+.foot .brand{font-size:17px}
+.foot p{font-size:12.5px;color:var(--muted);max-width:52ch;margin-top:10px}
+.foot a.mini{font-size:13px;color:var(--soft)}
+.legal{margin-top:22px;font-size:11.5px;color:rgba(35,33,64,.4);line-height:1.6;max-width:82ch}
+
+/* whatsapp */
+.wa{position:fixed;right:18px;bottom:96px;z-index:55;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line-2);
+  transition:transform .25s var(--ease),border-color .25s;animation:waglow 2.8s ease-in-out infinite}
+.wa:hover{transform:scale(1.08);border-color:var(--ion-hi)}
+.wa svg{width:29px;height:29px;color:var(--ion-hi);fill:currentColor}
+@keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(48,56,144,.28)}50%{box-shadow:0 0 26px 7px rgba(48,56,144,.5)}}
+
+/* mobile buy bar */
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:rgba(252,247,238,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line-2)}
+.buybar .info{line-height:1.15}
+.buybar .info b{font-family:var(--head);font-weight:700;font-size:19px}
+.buybar .info span{display:block;font-size:11px;color:var(--muted)}
+.buybar .btn{flex:1;justify-content:center}
+
+/* smooth scroll (lenis) */
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto!important}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+/* custom cursor */
+.cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;pointer-events:none;z-index:150;
+  background:radial-gradient(circle,rgba(48,56,144,.55),transparent 68%);mix-blend-mode:screen;opacity:0;
+  transition:width .3s var(--ease),height .3s var(--ease),background .3s,opacity .35s;will-change:transform}
+.cursor.big{width:54px;height:54px;background:radial-gradient(circle,rgba(48,56,144,.3),transparent 70%)}
+.cdot{position:fixed;top:0;left:0;width:5px;height:5px;border-radius:50%;background:var(--ion-hi);pointer-events:none;z-index:151;opacity:0;transition:opacity .35s;will-change:transform}
+.hdr.hide{transform:translateY(-130%)}
+.scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:26px;height:42px;border:1.5px solid var(--line-2);border-radius:100px;display:grid;place-items:start center;padding-top:7px;z-index:4;opacity:.7}
+.scroll-cue span{width:4px;height:8px;border-radius:2px;background:var(--grad);animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
+
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-copy .eyebrow{margin-inline:auto}
+  .hero-sub,.hero-actives{margin-inline:auto;justify-content:center}
+  .trust,.hero-actions{justify-content:center}
+  .stage{order:-1;min-height:min(76vw,420px)}
+  .pote-wrap{width:min(62%,300px)}
+  .side-label{display:none}
+  #hero{min-height:100svh}
+  .split,.duo{grid-template-columns:1fr}
+  .split.rev .visual{order:-1}
+  .split .visual{order:-1;min-height:auto}
+  .ritual{grid-template-columns:1fr}
+  .ritual-line{display:none!important}
+  .g-3,.g-4{grid-template-columns:repeat(2,1fr)}
+  .tquotes{grid-template-columns:1fr}
+  .offer-body{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .arc{height:auto}
+  .arc-pin{position:static;height:auto;padding:clamp(60px,10vw,90px) 0}
+  .arc-stage{grid-template-columns:1fr;gap:20px}
+  .arc-side,.arc-side.r{text-align:center}.arc-side.r p{margin-inline:auto}
+  .arc-pote{margin:0 auto;width:clamp(140px,40vw,200px)}
+  .arc-pote img{transform:none}
+}
+@media(max-width:760px){
+  .hdr .btn.sm{display:none}
+  .buybar{display:flex}
+  footer{padding-bottom:150px}
+  .wa{bottom:120px}
+  .tquotes{grid-template-columns:1fr}
+  .guard{grid-template-columns:1fr;text-align:center}
+  .seal{margin-inline:auto}.guard li{justify-content:center}
+}
+@media(max-width:600px){
+  body{font-size:16px}
+  .g-2,.g-3,.g-4,.forwho{grid-template-columns:1fr}
+  .nums{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:380px){ .cd{min-width:62px}.countdown{gap:8px} }
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal,[data-stagger]>*,.word i,#hero .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  .cursor,.cdot,.scroll-cue,.grain{display:none!important}
+  .tm-track{animation:none!important}
+}
+
+/* ===================== SKIN BOTANIKA — creme + índigo + lima + dourado ===================== */
+html{overflow-x:hidden}
+body{background:#F8F0E8;color:var(--ink);max-width:100%;
+  background-image:
+    radial-gradient(60% 44% at 88% -4%,rgba(208,224,136,.30),transparent 60%),
+    radial-gradient(52% 40% at 4% 2%,rgba(48,56,144,.10),transparent 60%),
+    radial-gradient(60% 50% at 50% 108%,rgba(248,200,64,.10),transparent 62%);
+  background-attachment:fixed}
+.veil,.grain,canvas#bg,canvas#gl{display:none!important}
+.lux-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.lux-canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100vw;height:100vh}
+.lux-bg span{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform,opacity}
+.lux-bg span:nth-child(1){width:48vw;height:48vw;left:-10vw;top:-8vw;background:radial-gradient(circle,rgba(248,200,64,.40),transparent 66%);animation:luxA 34s ease-in-out infinite}
+.lux-bg span:nth-child(2){width:42vw;height:42vw;right:-12vw;top:26vh;background:radial-gradient(circle,rgba(240,185,58,.34),transparent 66%);animation:luxB 44s ease-in-out infinite}
+.lux-bg span:nth-child(3){width:40vw;height:40vw;left:32vw;bottom:-14vw;background:radial-gradient(circle,rgba(248,200,64,.30),transparent 68%);animation:luxC 40s ease-in-out infinite}
+@keyframes luxA{0%,100%{transform:translate(0,0) scale(1);opacity:.5}50%{transform:translate(6vw,4vh) scale(1.12);opacity:.8}}
+@keyframes luxB{0%,100%{transform:translate(0,0) scale(1);opacity:.42}50%{transform:translate(-5vw,-3vh) scale(1.16);opacity:.72}}
+@keyframes luxC{0%,100%{transform:translate(0,0) scale(1.05);opacity:.38}50%{transform:translate(4vw,-6vh) scale(.9);opacity:.62}}
+@media (prefers-reduced-motion:reduce){.lux-bg span{animation:none}}
+.card,.active-card,.step,.quote,.numc,.pain,.frow,.dose-wrap,.offer,.combo-note,.tip,.guard,.faq details,.coupon,.mini-badge{
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(255,255,255,.28),0 16px 40px -22px rgba(32,38,107,.42)}
+.btn{background:var(--indigo);color:var(--cream);box-shadow:0 14px 32px -14px rgba(32,38,107,.65),inset 0 1px 0 rgba(255,255,255,.22)}
+.btn:hover{box-shadow:0 20px 46px -14px rgba(32,38,107,.8),inset 0 1px 0 rgba(255,255,255,.32)}
+.btn.ghost{background:transparent;color:var(--indigo);border:1px solid var(--line-2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--indigo);background:rgba(48,56,144,.06)}
+.btn.pulse{animation:none}
+.eyebrow{background:var(--lime);color:var(--indigo-deep);border-color:transparent;font-weight:700}
+.eyebrow::before{background:var(--indigo);box-shadow:0 0 10px var(--gold)}
+.toggle button.active{background:var(--indigo);color:var(--cream)}
+.toggle button.active .tag{color:var(--lime)}
+.price-disc{background:var(--indigo);color:var(--cream)}
+.save-badge{background:var(--lime);color:var(--indigo-deep)}
+.step .n,.pts .ck,.frow .ck{background:var(--indigo);color:var(--cream)}
+.ico{color:var(--indigo);background:linear-gradient(160deg,rgba(48,56,144,.16),rgba(208,224,136,.20));border-color:var(--line-2)}
+.grad-text,.grad-text i{background:none;-webkit-text-fill-color:var(--indigo-soft);color:var(--indigo-soft);font-style:italic}
+#hero h1 .grad-text{font-weight:600}
+::selection{background:var(--lime);color:var(--indigo-deep)}
+.wa{background:rgba(255,255,255,.72);border:1px solid var(--line-2);animation:waglow 2.8s ease-in-out infinite}
+.wa svg{color:#16b657}
+@keyframes waglow{0%,100%{box-shadow:0 0 12px 2px rgba(248,200,64,.35)}50%{box-shadow:0 0 26px 7px rgba(248,200,64,.6)}}
+.tphoto::after{background:linear-gradient(180deg,transparent 52%,rgba(26,22,38,.66))}
+.tphoto .cap{color:#F8F0E8}
+.stockbar .track,.arc-track{background:rgba(48,56,144,.12)}
+</style>
+</head>
+<body>
+<!-- ===== Rastreamento: Google Analytics 4 ===== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2JFV5TGHCV"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
+</script>
+<!-- ===== Eventos de compra (Meta Pixel 828186133708463 + GA4) ===== -->
+<script>
+(function(){
+  var VARIANT='48115368820968', NAME='Creatina + Taurato Botanika', CUR='BRL';
+  function fb(ev,data){ if(window.fbq) fbq('track',ev,data); }
+  /* Load: ViewContent (Meta) + view_item (GA4) — o PageView já dispara no <head> */
+  fb('ViewContent',{content_ids:[VARIANT],content_type:'product',content_name:NAME});
+  if(window.gtag) gtag('event','view_item',{currency:CUR,items:[{item_id:VARIANT,item_name:NAME}]});
+  /* Clique em qualquer link de carrinho -> AddToCart + InitiateCheckout / add_to_cart + begin_checkout */
+  document.addEventListener('click',function(e){
+    var a=(e.target&&e.target.closest)?e.target.closest('a[href*="/cart/"]'):null;
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    var m=href.match(/\/cart\/\d+:(\d+)/); var qty=m?parseInt(m[1],10):1;
+    var items=[{item_id:VARIANT,item_name:NAME,quantity:qty}];
+    fb('AddToCart',{content_ids:[VARIANT],content_type:'product',num_items:qty});
+    fb('InitiateCheckout',{content_ids:[VARIANT],content_type:'product',num_items:qty});
+    if(window.gtag){ gtag('event','add_to_cart',{currency:CUR,items:items}); gtag('event','begin_checkout',{currency:CUR,items:items}); }
+  },true);
+})();
+</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="gionGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3e78f0"/><stop offset="1" stop-color="#dce6ef"/></linearGradient>
+  <linearGradient id="gionGradH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3e78f0"/><stop offset="1" stop-color="#aebecd"/></linearGradient>
+</defs></svg>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cdot" id="cdot" aria-hidden="true"></div>
+<div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+<canvas class="lux-canvas" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a class="brand" href="#hero"><i></i>Botanika <small>Creatina</small></a>
+    <nav class="nav-links">
+      <a href="#solucao">Como funciona</a>
+      <a href="#formula">Fórmula</a>
+      <a href="#beneficios">Benefícios</a>
+      <a href="#provas">Comunidade</a>
+      <a href="#oferta">Kits</a>
+    </nav>
+    <a class="btn sm" data-checkout href="#oferta">Quero a minha</a>
+  </div>
+</header>
+
+<main>
+<!-- 1 · HERO -->
+<section class="sec" id="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">Creatina + Taurato · Sem sabor · 2 em 1</span>
+        <p class="hero-punch reveal">Dois potes. Duas doses. Complicação dobrada.</p>
+        <h1 data-split>Força na ida. Recuperação <span class="grad-text">na volta.</span></h1>
+        <p class="hero-sub reveal">Creatina monohidratada para o <b>desempenho</b>. Magnésio taurato para a <b>recuperação</b>. Numa dose só, sem sabor — misture em qualquer bebida.</p>
+        <div class="trust reveal"><span class="stars">★★★★★</span><span>de quem treina com consistência</span></div>
+        <div class="hero-actives reveal" data-stagger>
+          <span class="chip mono">Creatina 3 g</span><span class="chip mono">Magnésio 63 mg</span>
+          <span class="chip">Sem sabor</span><span class="chip">Sem açúcar</span><span class="chip">Sem glúten</span>
+        </div>
+        <div class="hero-actions reveal">
+          <a class="btn pulse" data-checkout href="#oferta">Começar minha rotina</a>
+          <span class="hero-note"><b>1 dose por dia.</b> 60 doses por pote.</span>
+        </div>
+      </div>
+      <div class="stage reveal">
+        <div class="stage-glow"></div>
+        <div class="hero-ring" aria-hidden="true"></div>
+        <div class="hero-ring b" aria-hidden="true"></div>
+        <div class="hero-orbit" id="orbit" aria-hidden="true"></div>
+        <div class="stage-floor"></div>
+        <span class="side-label l"><b>ida</b> · carga</span>
+        <span class="side-label r"><b>volta</b> · recuperação</span>
+        <div class="mini-badge a"><b>3g</b> creatina por dose</div>
+        <div class="mini-badge b"><b>2</b> ativos, 1 dose</div>
+        <div class="pote-wrap" id="poteWrap">
+          <img class="bottle" src="pote.png" alt="Pote da Creatina + Taurato Botanika — 222 g, sem sabor" width="420" height="542" fetchpriority="high">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- 2 · DOR -->
+<section class="sec" id="dor">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>01</b> O treino não termina no treino</div>
+      <h2 class="serif hsplit" data-split>Você treina pesado. E a recuperação, fica pra depois?</h2>
+      <p class="lead">Creatina você já conhece. Mas performance sem recuperação é meia rotina — e comprar magnésio à parte é mais um pote, mais uma dose, mais uma coisa pra lembrar.</p>
+    </div>
+    <div class="grid g-2" data-stagger>
+      <div class="pain"><span class="x">✕</span><p><b>Dois potes na prateleira</b> — creatina de um lado, magnésio do outro, duas medidas por dia.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Cãibra e tensão pós-treino</b> — o músculo trabalha na ida, mas não relaxa direito na volta.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Creatina comum só cuida de metade</b> — desempenho sim, recuperação nem sempre.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Pó com gosto ou difícil de dissolver</b> — vira desculpa pra pular a dose.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Rotina complicada não dura</b> — e creatina só funciona se você tomar todo dia.</p></div>
+      <div class="pain"><span class="x">✕</span><p><b>Magnésio esquecido</b> — o mineral que apoia músculo e sistema nervoso fica sempre em segundo plano.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- band divider -->
+<div class="band reveal">
+  <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/CREATINA.png?v=1782246124" alt="Creatina + Taurato Botanika">
+  <div class="band-txt"><p>Creatina cuida da <b>ida</b>. Magnésio taurato cuida da <b>volta</b>.</p></div>
+</div>
+
+<!-- 3 · IDA → VOLTA (scrollytelling) -->
+<section class="arc" id="arc">
+  <div class="arc-pin">
+    <div class="shell arc-inner">
+      <div class="arc-eyebrow"><span class="eyebrow">A dupla em movimento</span></div>
+      <div class="arc-stage">
+        <div class="arc-side l" id="arcL">
+          <div class="ph">◇ Creatina · carga</div>
+          <h3 class="serif">A ida é potência.</h3>
+          <p>Creatina monohidratada apoia o desempenho físico em esforços de curta duração e alta intensidade. É o combustível da série que conta.</p>
+        </div>
+        <div class="arc-pote"><img src="pote.png" alt="Pote Creatina + Taurato" loading="lazy"></div>
+        <div class="arc-side r" id="arcR">
+          <div class="ph">◇ Magnésio taurato · recuperação</div>
+          <h3 class="serif">A volta é recuperação.</h3>
+          <p>Magnésio na forma taurato contribui para o relaxamento, a função muscular normal e o sistema nervoso. O corpo que volta inteiro pro próximo treino.</p>
+        </div>
+      </div>
+      <div class="arc-track"><div class="fill"></div><div class="mk"></div></div>
+      <div class="arc-labels"><b id="labIda">IDA</b><b id="labVolta">VOLTA</b></div>
+      <div class="arc-scrollnote">role para percorrer o ciclo →</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · SOLUÇÃO -->
+<section class="sec" id="solucao">
+  <div class="shell">
+    <div class="split">
+      <div class="visual prod reveal">
+        <img class="box-img" data-tilt loading="lazy" src="pote.png" alt="Pote da Creatina + Taurato">
+      </div>
+      <div>
+        <div class="kicker"><span></span><b>02</b> Uma dose, dois propósitos</div>
+        <h2 class="serif hsplit" data-split>Junta o que você tomaria separado.</h2>
+        <p class="lead reveal">Creatina para performance. Magnésio para recuperação. Normalmente você compra os dois separados — dois potes, duas doses, duas vezes mais complicação. A <b>Creatina + Taurato da Botanika</b> junta os dois em uma única dose, <b>sem sabor</b>.</p>
+        <ul class="pts reveal" data-stagger>
+          <li><span class="ck">✓</span><span><b>Ida</b> — a creatina monohidratada apoia o desempenho físico em exercícios de curta duração e alta intensidade.</span></li>
+          <li><span class="ck">✓</span><span><b>Volta</b> — o magnésio na forma de taurato contribui para o relaxamento e a função muscular normal.</span></li>
+          <li><span class="ck">✓</span><span><b>Sem complicar</b> — uma medida por dia, dissolve fácil em água, suco ou shake, sem alterar o sabor.</span></li>
+          <li><span class="ck">✓</span><span><b>Fórmula limpa</b> — sem adição de açúcares, sem glúten. 222 g · 60 doses por pote.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · FÓRMULA -->
+<section class="sec" id="formula">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>03</b> O que tem dentro</div>
+      <h2 class="serif hsplit" data-split>Dois ativos que se complementam.</h2>
+      <p class="lead">Creatina para performance. Magnésio para recuperação. Dois ativos que se complementam em uma dose só — em quantidade que faz sentido, não simbólica.</p>
+    </div>
+    <div class="duo reveal" data-stagger>
+      <div class="active-card">
+        <div class="active-head">
+          <div class="gauge"><svg width="92" height="92" viewBox="0 0 92 92"><circle class="track" cx="46" cy="46" r="40" fill="none" stroke-width="7"/><circle class="arc" data-gauge="0.9" cx="46" cy="46" r="40" fill="none" stroke-width="7" stroke-dasharray="251.3" stroke-dashoffset="251.3"/></svg><div class="lbl"><b class="num" data-target="3" data-suffix="g">0</b><span>por dose</span></div></div>
+          <div><span class="tag">◇ performance · ida</span><h3 class="serif">Creatina Monohidratada</h3></div>
+        </div>
+        <p>A forma de creatina mais estudada e com maior evidência disponível. Auxilia no aumento do desempenho físico durante exercícios repetidos de curta duração e alta intensidade.</p>
+      </div>
+      <div class="active-card silver">
+        <div class="active-head">
+          <div class="gauge"><svg width="92" height="92" viewBox="0 0 92 92"><circle class="track" cx="46" cy="46" r="40" fill="none" stroke-width="7"/><circle class="arc" data-gauge="0.62" cx="46" cy="46" r="40" fill="none" stroke-width="7" stroke-dasharray="251.3" stroke-dashoffset="251.3"/></svg><div class="lbl"><b class="num" data-target="63" data-suffix="">0</b><span>mg / dose</span></div></div>
+          <div><span class="tag">◇ recuperação · volta</span><h3 class="serif">Magnésio Taurato</h3></div>
+        </div>
+        <p>O magnésio na forma de taurato combina o mineral com a taurina. Contribui para o relaxamento muscular, a função muscular normal e o funcionamento do sistema nervoso. A forma taurato é conhecida pela boa tolerância.</p>
+      </div>
+    </div>
+    <div class="combo-note reveal">Por que a dupla? <b>Creatina cuida da ida</b> — desempenho, força, intensidade. <b>Magnésio taurato cuida da volta</b> — relaxamento, recuperação, função muscular. Dois ativos que se complementam para quem treina com consistência e quer cuidar do corpo por inteiro.</div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee reveal" aria-hidden="true">
+  <div class="marquee-track" id="marq-track">
+    <span class="marquee-item">Creatina Monohidratada</span><span class="sep">✦</span>
+    <span class="marquee-item">Magnésio Taurato</span><span class="sep">✦</span>
+    <span class="marquee-item">Sem sabor</span><span class="sep">✦</span>
+    <span class="marquee-item">3 g de creatina</span><span class="sep">✦</span>
+    <span class="marquee-item">63 mg de magnésio</span><span class="sep">✦</span>
+    <span class="marquee-item">Saturação progressiva</span><span class="sep">✦</span>
+    <span class="marquee-item">Recuperação muscular</span><span class="sep">✦</span>
+    <span class="marquee-item">1 dose por dia</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- 6 · TABELA -->
+<section class="sec" id="tabela">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>04</b> Números na mesa</div>
+      <h2 class="serif hsplit" data-split>Cada dose, na mesa. Sem letra miúda.</h2>
+      <p class="lead" style="margin-inline:auto">Porção de 3,7 g (2 dosadores internos) · 60 porções por embalagem.</p>
+    </div>
+    <div class="dose reveal">
+      <div class="dose-wrap">
+        <table class="dose-table">
+          <thead><tr><th>Nutriente</th><th>por dose</th><th>%VD*</th></tr></thead>
+          <tbody>
+            <tr class="hi"><td>Creatina</td><td>3000 mg</td><td>**</td></tr>
+            <tr class="hi"><td>Magnésio (taurato)</td><td>63 mg</td><td>15%</td></tr>
+            <tr><td>Valor Energético</td><td>0 kcal</td><td>0%</td></tr>
+            <tr><td>Carboidratos</td><td>0 g</td><td>0%</td></tr>
+            <tr><td>Açúcares totais</td><td>0 g</td><td>0%</td></tr>
+            <tr><td>Açúcares adicionados</td><td>0 g</td><td>0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="dose-foot">* Percentual de valores diários fornecidos pela porção. ** Valor Diário não estabelecido. Não contém quantidades significativas de valor energético, carboidratos, açúcares totais, açúcares adicionados, proteínas, gorduras totais, gorduras saturadas, gorduras trans, fibra alimentar e sódio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · BENEFÍCIOS -->
+<section class="sec" id="beneficios">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>05</b> O que a fórmula faz</div>
+      <h2 class="serif hsplit" data-split>Dois ativos, oito frentes de apoio</h2>
+    </div>
+    <div class="grid g-4" data-stagger>
+      <div class="card"><span class="wm">01</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div><h3 class="serif">Desempenho físico</h3><p><b>A creatina</b> contribui para exercícios de curta duração e alta intensidade.</p></div>
+      <div class="card"><span class="wm">02</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12c3-4 6-4 9 0s6 4 9 0M3 17c3-4 6-4 9 0s6 4 9 0"/></svg></div><h3 class="serif">Relaxamento muscular</h3><p><b>O magnésio taurato</b> apoia a contração e o relaxamento dos músculos após o esforço.</p></div>
+      <div class="card"><span class="wm">03</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M6 4v6a6 6 0 0 0 12 0V4M6 20v-2a6 6 0 0 1 12 0v2M5 4h14M5 20h14"/></svg></div><h3 class="serif">Função muscular normal</h3><p><b>Magnésio</b> é cofator em centenas de reações, incluindo as relacionadas à função muscular.</p></div>
+      <div class="card"><span class="wm">04</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 17 9 11l4 4 8-8M21 7v5M21 7h-5"/></svg></div><h3 class="serif">Saturação progressiva</h3><p>Com uso diário, os <b>estoques musculares de creatina</b> tendem a se manter adequados.</p></div>
+      <div class="card"><span class="wm">05</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 0-4 4c0 1-1 2-1 3a5 5 0 0 0 10 0c0-1-1-2-1-3a4 4 0 0 0-4-4ZM9 17v2a3 3 0 0 0 6 0v-2"/></svg></div><h3 class="serif">Apoia o sistema nervoso</h3><p><b>O magnésio</b> contribui para o funcionamento normal do sistema nervoso.</p></div>
+      <div class="card"><span class="wm">06</span><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div><h3 class="serif">Dois ativos, uma dose</h3><p>Praticidade de combinar <b>creatina + magnésio taurato</b> sem complicar a rotina.</p></div>
+      <div class="card"><span class="wm">07</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3s6 5.5 6 11a6 6 0 0 1-12 0c0-5.5 6-11 6-11Z"/></svg></div><h3 class="serif">Dissolve fácil, sem sabor</h3><p>Misture em <b>água, suco ou shake</b> sem alterar o sabor da bebida.</p></div>
+      <div class="card"><span class="wm">08</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2M18 4v5h-5M6 20v-5h5"/></svg></div><h3 class="serif">Rotina simples</h3><p><b>Uma dose por dia.</b> Antes ou após o treino. O que conta é não parar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · RITUAL -->
+<section class="sec" id="ritual">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>06</b> Simples de manter</div>
+      <h2 class="serif hsplit" data-split>Uma dose. Todo dia. Sem drama.</h2>
+      <p class="lead">A creatina funciona por saturação e o magnésio por consistência. Não precisa de fase de <em>loading</em> — o que vale é tomar todo dia, sem pular.</p>
+    </div>
+    <div class="ritual-wrap reveal">
+      <div class="ritual-line" id="ritualLine"><svg preserveAspectRatio="none" viewBox="0 0 100 2"><path d="M0 1 H100"/></svg></div>
+      <div class="ritual" data-stagger>
+        <div class="step"><div class="n"></div><h3 class="serif">Adicione 1 porção</h3><p>Coloque 1 porção do pó (2 dosadores internos) em um copo.</p></div>
+        <div class="step"><div class="n"></div><h3 class="serif">Misture na sua bebida</h3><p>Acrescente água — ou a bebida de preferência — e misture. Sem sabor, dissolve fácil.</p></div>
+        <div class="step"><div class="n"></div><h3 class="serif">Tome perto do treino</h3><p>Preferencialmente antes ou após o treino. Em dias sem treino, no horário que preferir.</p></div>
+      </div>
+    </div>
+    <div class="tip reveal"><b>Dica Botanika:</b> a creatina funciona por saturação e o magnésio por consistência. A consistência diária é mais importante que o horário — o que vale é tomar todo dia, sem pular.</div>
+  </div>
+</section>
+
+<!-- 9 · PARA QUEM -->
+<section class="sec" id="paraquem">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div class="kicker"><span></span><b>07</b> Feito pra você</div>
+      <h2 class="serif hsplit" data-split>A Creatina + Taurato é pra você que…</h2>
+    </div>
+    <div class="forwho reveal" data-stagger>
+      <div class="frow"><span class="ck">✓</span><p>Treina <b>musculação, CrossFit, funcional</b> ou esportes de força.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Quer <b>creatina e magnésio sem comprar dois potes</b> separados.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Busca apoio para <b>desempenho e recuperação</b> muscular.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Sente <b>cãibras ou tensão muscular</b> pós-treino.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Já usa creatina e quer <b>agregar magnésio</b> à rotina.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Prefere suplemento <b>sem sabor</b> pra misturar no que quiser.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>Valoriza <b>praticidade</b>: uma dose, dois propósitos.</p></div>
+      <div class="frow"><span class="ck">✓</span><p>É <b>adulto a partir de 19 anos</b> e treina com consistência.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · DEPOIMENTOS / COMUNIDADE -->
+<section class="sec" id="provas">
+  <div class="shell">
+    <div class="tm-head reveal">
+      <div class="rating"><span class="stars">★★★★★</span> <b>4,9/5</b> · a comunidade Botanika</div>
+      <h2 class="serif hsplit" data-split>Quem já fez da Botanika <span class="grad-text">parte da rotina.</span></h2>
+      <p class="lead" style="margin-inline:auto">Relatos e reposts reais de clientes Botanika. Milhares já recompraram e sentem a diferença todos os dias — cuidando do corpo de dentro pra fora.</p>
+    </div>
+  </div>
+  <div class="tmarquee reveal"><div class="tm-track" id="tmA"></div></div>
+  <div class="tmarquee rev reveal"><div class="tm-track" id="tmB"></div></div>
+  <div class="shell">
+    <div class="tquotes reveal" data-stagger>
+      <div class="quote"><span class="st">★★★★★</span><p>“Juntei creatina e magnésio num pote só. Sem sabor de verdade — misturo no shake pós-treino e nem sinto.”</p><span class="who">Rotina Botanika · comunidade</span></div>
+      <div class="quote"><span class="st">★★★★★</span><p>“Comprei o Tri, o Hair e a Vitamina C. Com uma semana já me sinto uma pessoa completamente diferente.”</p><span class="who">Cliente Botanika · relato no direct</span></div>
+      <div class="quote"><span class="st">★★★★★</span><p>“Suplemento honesto: dose clara, fórmula limpa. Creatina que eu tomo todo dia sem pensar.”</p><span class="who">Comunidade Botanika</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · GARANTIA -->
+<section class="sec" id="garantia">
+  <div class="shell">
+    <div class="guard reveal">
+      <div class="seal"><div><b>7</b><span>dias</span></div></div>
+      <div>
+        <div class="kicker"><span></span><b>08</b> Risco zero</div>
+        <h3 class="serif" style="font-size:clamp(22px,3vw,30px)">Garantia incondicional de 7 dias.</h3>
+        <ul>
+          <li><b>✓</b> Compra na loja oficial Botanika, com pagamento 100% seguro.</li>
+          <li><b>✓</b> 7 dias de garantia legal (direito de arrependimento, conforme o CDC).</li>
+          <li><b>✓</b> Quality Premium Ingredients — sem adição de açúcares, sem glúten.</li>
+          <li><b>✓</b> Não é medicamento. Não exceder a recomendação diária de consumo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · OFERTA -->
+<section class="sec" id="oferta">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>09</b> Escolha a sua rotina</div>
+      <h2 class="serif hsplit" data-split>Sem brinde, sem pegadinha — só desconto real por quantidade.</h2>
+      <p class="lead" style="margin-inline:auto">Quanto mais potes, maior o desconto — aplicado automaticamente no checkout. Como creatina se toma todo dia, comprar mais é o que garante a constância.</p>
+    </div>
+    <div class="offer reveal">
+      <div class="offer-top">
+        <div class="kit-visual"><img id="kit-img" alt="Kit Creatina + Taurato Botanika" loading="lazy"></div>
+        <div class="toggle" id="toggle" role="tablist">
+          <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
+          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
+          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-price">
+          <div class="price-badges"><span class="price-disc" id="p-disc">−5% por quantidade</span><span class="save-badge" id="p-save">economize R$ 12,83</span></div>
+          <div class="price-parc"><span class="pl">em até</span><b id="p-parc">3× de R$ 81,26</b></div>
+          <div class="price-sub"><b>sem juros</b> · <span id="p-per">R$ 121,89 / pote</span></div>
+          <div class="price-cash">à vista <b id="p-now">R$ 243,77</b><span class="price-old" id="p-old">R$ 256,60</span></div>
+          <div class="price-dur" id="p-dur">≈ 4 meses · 1 dose/dia</div>
+        </div>
+        <div class="offer-cta">
+          <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
+          <div class="coupon" id="coupon" style="cursor:default">
+            <span>🔒 <b>Desconto já aplicado</b> no checkout — nada pra digitar</span>
+            <span>pagamento 100% seguro</span>
+          </div>
+          <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · FAQ -->
+<section class="sec" id="faq">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span><b>10</b> Perguntas frequentes</div>
+      <h2 class="serif hsplit" data-split>Ainda com dúvida?</h2>
+    </div>
+    <div class="faq reveal" data-stagger>
+      <details><summary>Qual a dose de creatina?<span class="pl">+</span></summary><div class="ans">3 g por porção, complementada com 63 mg de magnésio na forma taurato.</div></details>
+      <details><summary>3 g de creatina é suficiente?<span class="pl">+</span></summary><div class="ans">3 g é uma dose eficaz para manutenção contínua dos estoques musculares, especialmente quando combinada com uso diário consistente. A dose de 5 g é a mais comum em estudos, mas 3 g atende quem busca a combinação com magnésio.</div></details>
+      <details><summary>Preciso de fase de loading?<span class="pl">+</span></summary><div class="ans">Não. O uso diário contínuo é suficiente para saturação gradual.</div></details>
+      <details><summary>Posso tomar de forma contínua?<span class="pl">+</span></summary><div class="ans">Sim. Creatina e magnésio podem ser suplementados continuamente dentro das doses recomendadas.</div></details>
+      <details><summary>Qual o melhor horário?<span class="pl">+</span></summary><div class="ans">Antes ou após o treino. Em dias sem treino, qualquer horário. O importante é a consistência.</div></details>
+      <details><summary>Posso misturar com whey?<span class="pl">+</span></summary><div class="ans">Sim. Creatina + whey é uma combinação clássica e segura.</div></details>
+      <details><summary>O magnésio taurato é diferente do comum?<span class="pl">+</span></summary><div class="ans">Sim. Na forma taurato, o magnésio está ligado à taurina, o que melhora a tolerância e está associado ao relaxamento muscular.</div></details>
+      <details><summary>Tem sabor?<span class="pl">+</span></summary><div class="ans">Não. Sem sabor — misture em água, suco ou qualquer bebida.</div></details>
+      <details><summary>Quanto rende o pote?<span class="pl">+</span></summary><div class="ans">São 222 g, com 60 porções por embalagem — cerca de 2 meses de uso a 1 dose por dia.</div></details>
+      <details><summary>Como armazenar?<span class="pl">+</span></summary><div class="ans">Em local seco e fresco, ao abrigo do sol.</div></details>
+      <details><summary>O que fazer se esquecer uma dose?<span class="pl">+</span></summary><div class="ans">Retome no dia seguinte. Não dobre a dose.</div></details>
+      <details><summary>Contém alérgenos?<span class="pl">+</span></summary><div class="ans">Sem adição de açúcares e sem glúten. Consulte sempre o rótulo para informações completas de alérgenos.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · ESCASSEZ -->
+<section class="sec" id="escassez">
+  <div class="shell">
+    <div class="final reveal">
+      <div class="kicker center"><span></span><b>11</b> A constância começa hoje</div>
+      <h2 class="serif hsplit" data-split>Creatina só funciona se for todo dia.</h2>
+      <p class="lead" style="margin-inline:auto">E todo dia começa hoje — não no próximo treino. O desconto por quantidade está no ar; garanta a sua rotina.</p>
+      <div class="countdown" id="countdown" aria-label="A condição de hoje termina à meia-noite">
+        <div class="cd"><b id="cd-h">00</b><span>horas</span></div>
+        <div class="cd"><b id="cd-m">00</b><span>min</span></div>
+        <div class="cd"><b id="cd-s">00</b><span>seg</span></div>
+      </div>
+      <div class="stockbar">
+        <div class="track"><div class="fill" id="stockfill"></div></div>
+        <small>Estoque do lote atual — a constância não espera reposição.</small>
+      </div>
+      <div style="margin-top:26px"><a class="btn pulse" data-checkout href="#oferta">Garantir minha rotina</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="shell">
+    <div class="foot">
+      <div>
+        <div class="brand"><i></i>Botanika <small>Creatina</small></div>
+        <p>Creatina + Taurato — Creatina Monohidratada + Magnésio Taurato. Suplemento alimentar em pó · sem sabor · 222 g · 60 doses · sem adição de açúcares · sem glúten.</p>
+      </div>
+      <div style="display:grid;gap:8px;text-align:right">
+        <a class="mini" href="https://botanikabrasil.com.br" target="_blank" rel="noopener">Loja oficial ↗</a>
+        <a class="mini" href="https://wa.me/5531972679362" target="_blank" rel="noopener">Atendimento no WhatsApp ↗</a>
+      </div>
+    </div>
+    <p class="legal">Este produto é um suplemento alimentar e não substitui uma alimentação equilibrada e hábitos de vida saudáveis. Não é medicamento. Não exceder a recomendação diária de consumo. Mantenha fora do alcance de crianças. Conservar em local seco e fresco, ao abrigo do sol. Resultados variam de pessoa para pessoa e dependem de constância. Gestantes, lactantes e pessoas em uso de medicamentos devem consultar um profissional de saúde. As imagens da seção de comunidade são de clientes Botanika e ilustram a marca. © <span id="yr">2026</span> Botanika Brasil. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" aria-hidden="true"><button class="close" id="lbClose" aria-label="Fechar">✕</button><img id="lbImg" src="" alt="Depoimento Botanika"></div>
+
+<a class="wa" href="https://wa.me/5531972679362?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Creatina%20%2B%20Taurato%20da%20Botanika." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.043zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+</a>
+
+<div class="buybar" id="buybar">
+  <div class="info"><b id="bar-price">R$ 243,77</b><span id="bar-label">2 potes · −5%</span></div>
+  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+</div>
+
+<script src="vendor/lenis.min.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var doc=document, win=window;
+  var reduce=win.matchMedia&&win.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var coarse=win.matchMedia&&win.matchMedia('(pointer:coarse)').matches;
+
+
+  /* ---------- commerce config ---------- */
+  var VARIANT='48115368820968';
+  var COUPON='BOTANIKA';
+  var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
+  function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
+  function checkout(kit){var q=String(kit);var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+q;var params=[];var code=(KITS[q]&&KITS[q].code)?KITS[q].code:'';if(code)params.push('discount='+encodeURIComponent(code));var e=utmString();if(e)params.push(e);if(params.length)u+='?'+params.join('&');return u;}
+  var IMG1='pote.png';   // 1 pote (transparente, local)
+  var IMG2='pote2.png';  // 2 potes (composição transparente)
+  var IMG3='pote3.png';  // 3 potes (composição transparente)
+  // Descontos reais na loja: CREATINA5 (auto, ≥2 un.) e CREATINA10 (auto, ≥3 un.) aplicam sozinhos no checkout.
+  // BOTANIKA (5%) é código e NÃO acumula — usado só no kit de 1 pote (onde não há desconto por quantidade).
+  var KITS={
+    '1':{code:'BOTANIKA',old:'R$ 128,30',now:'R$ 121,89',parc:'3× de R$ 40,63',per:'R$ 121,89 / pote',dur:'≈ 2 meses · 1 dose/dia',disc:'cupom BOTANIKA · −5%',save:'economize R$ 6,42',label:'1 pote · −5%',img:IMG1},
+    '2':{old:'R$ 256,60',now:'R$ 243,77',parc:'3× de R$ 81,26',per:'R$ 121,89 / pote',dur:'≈ 4 meses · 1 dose/dia',disc:'−5% por quantidade',save:'economize R$ 12,83',label:'2 potes · −5%',img:IMG2},
+    '3':{old:'R$ 384,90',now:'R$ 346,41',parc:'3× de R$ 115,47',per:'R$ 115,47 / pote',dur:'≈ 6 meses · melhor valor',disc:'−10% por quantidade',save:'economize R$ 38,49',label:'3 potes · −10%',img:IMG3}
+  };
+  var currentKit='2';
+  function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
+  function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
+  function applyKit(kit){
+    currentKit=kit;var k=KITS[kit];
+    var po=doc.getElementById('p-old');if(po){po.textContent=k.old||'';po.style.display=k.old?'':'none';}
+    set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
+    var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.style.opacity='0';setTimeout(function(){ki.setAttribute('src',k.img);ki.style.opacity='1';},180);}
+    var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
+    set('bar-price',k.now);set('bar-label',k.label);
+    var href=checkout(kit);
+    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+  }
+  each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
+  /* Só o botão dentro da oferta (#buy) leva ao checkout — todos os outros botões de compra
+     são âncora e rolam até a seção de oferta, pra o cliente escolher o kit e ver o desconto. */
+  function wireCheckout(){
+    each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
+      a.addEventListener('click',function(e){
+        if(id==='buy'){return;} /* checkout real — eventos disparam no listener global de a[href*="/cart/"] */
+        e.preventDefault();var t=doc.getElementById('oferta');if(t){ if(win.__lenis) win.__lenis.scrollTo(t,{offset:-70}); else t.scrollIntoView({behavior:reduce?'auto':'smooth'}); }
+      });
+    });
+  }
+
+  /* ---------- title split ---------- */
+  function split(){
+    each(doc.querySelectorAll('[data-split]'),function(h){
+      var walk=function(node){
+        var kids=[].slice.call(node.childNodes);
+        each(kids,function(n){
+          if(n.nodeType===3){
+            var frag=doc.createDocumentFragment(),words=n.textContent.split(/(\s+)/);
+            each(words,function(w){if(w.trim()===''){frag.appendChild(doc.createTextNode(w));return;}var span=doc.createElement('span');span.className='word';var inner=doc.createElement('i');inner.textContent=w;span.appendChild(inner);frag.appendChild(span);});
+            node.replaceChild(frag,n);
+          } else if(n.nodeType===1 && !n.classList.contains('grad-text')){walk(n);}
+          else if(n.nodeType===1){var tx=n.textContent;n.textContent='';var span=doc.createElement('span');span.className='word';var inner=doc.createElement('i');inner.textContent=tx;span.appendChild(inner);n.appendChild(span);}
+        });
+      };
+      walk(h);
+      each(h.querySelectorAll('.word i'),function(i,idx){i.style.transitionDelay=(idx*0.045)+'s';});
+    });
+  }
+  split();
+
+  /* ---------- count up ---------- */
+  function countUp(el){var target=parseFloat(el.getAttribute('data-target'))||0,suffix=el.getAttribute('data-suffix')||'',dur=1600,t0=null;
+    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+
+  /* ---------- build depoimentos photo marquees ---------- */
+  var PHOTOS=[
+    {f:'proof/p01-omega-leticia.jpg',c:'Cliente Botanika'},
+    {f:'proof/p02-omega-flatlay.jpg',c:'Rotina Botanika'},
+    {f:'proof/p03-omega-aurea.jpg',c:'Repost no direct'},
+    {f:'proof/p04-depoimento-dm.jpg',c:'Relato no direct'},
+    {f:'proof/p05-rebeca.jpg',c:'Cliente Botanika'},
+    {f:'proof/p06-hotel.jpg',c:'Comunidade Botanika'},
+    {f:'proof/p07-orquideas.jpg',c:'Rotina Botanika'},
+    {f:'proof/p08-victoria-box.jpg',c:'Recebido em casa'},
+    {f:'proof/p09-dr-postreino.jpg',c:'Pós-treino'},
+    {f:'proof/p10-betynha.jpg',c:'Cliente Botanika'}
+  ];
+  function photoEl(p){
+    var d=doc.createElement('div');d.className='tphoto';d.setAttribute('data-full',p.f);
+    var img=doc.createElement('img');img.loading='lazy';img.decoding='async';img.src=p.f;img.alt='Depoimento '+p.c;
+    var cap=doc.createElement('div');cap.className='cap';cap.innerHTML='<span class="st">★★★★★</span> '+p.c;
+    d.appendChild(img);d.appendChild(cap);return d;
+  }
+  (function(){
+    var A=doc.getElementById('tmA'),B=doc.getElementById('tmB');if(!A||!B)return;
+    var rowA=PHOTOS.slice(0,5),rowB=PHOTOS.slice(5,10);
+    function fill(track,arr){for(var r=0;r<2;r++){for(var i=0;i<arr.length;i++)track.appendChild(photoEl(arr[i]));}}
+    fill(A,rowA);fill(B,rowB);
+  })();
+  /* lightbox */
+  (function(){
+    var lb=doc.getElementById('lightbox'),img=doc.getElementById('lbImg'),cl=doc.getElementById('lbClose');
+    if(!lb)return;
+    function open(src){img.setAttribute('src',src);lb.classList.add('open');lb.setAttribute('aria-hidden','false');}
+    function close(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');}
+    doc.addEventListener('click',function(e){var t=e.target.closest?e.target.closest('.tphoto'):null;if(t){open(t.getAttribute('data-full'));}});
+    cl.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close();});
+    doc.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  })();
+
+  each(doc.querySelectorAll('.imgcard'),function(ic){var r=ic.closest('.reveal');if(r)r.classList.add('rv-s');});
+
+  /* ---------- reveal + count + gauges via IntersectionObserver ---------- */
+  var bio=null,gio=null;
+  if('IntersectionObserver' in win && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    each(doc.querySelectorAll('.reveal,[data-stagger],[data-split]'),function(el){ if(el.closest('#hero'))return; io.observe(el); });
+    each(doc.querySelectorAll('[data-stagger]'),function(box){ if(box.closest('#hero'))return; each(box.children,function(c,i){c.style.transitionDelay=(i*0.07)+'s';}); });
+    var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);cio.unobserve(e.target);}});},{threshold:.5});
+    each(doc.querySelectorAll('.num'),function(n){cio.observe(n);});
+    bio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.style.width=e.target.getAttribute('data-w');bio.unobserve(e.target);}});},{threshold:.3});
+    gio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var el=e.target;var g=parseFloat(el.getAttribute('data-gauge'))||0;var C=251.3;el.style.strokeDashoffset=(C*(1-g)).toFixed(1);gio.unobserve(el);}});},{threshold:.5});
+    each(doc.querySelectorAll('.gauge .arc'),function(a){gio.observe(a);});
+  } else {
+    each(doc.querySelectorAll('.reveal,[data-stagger],[data-split]'),function(el){el.classList.add('visible');});
+    each(doc.querySelectorAll('.num'),function(n){n.textContent=n.getAttribute('data-target')+(n.getAttribute('data-suffix')||'');});
+    each(doc.querySelectorAll('.gauge .arc'),function(a){var g=parseFloat(a.getAttribute('data-gauge'))||0;a.style.strokeDashoffset=(251.3*(1-g)).toFixed(1);});
+  }
+
+  /* ---------- barras de %VD na tabela ---------- */
+  each(doc.querySelectorAll('#tabela .dose-table tbody tr'),function(tr){
+    var cell=tr.children[2]; if(!cell)return; var m=cell.textContent.match(/(\d+)/); if(!m)return;
+    var v=Math.min(parseInt(m[1],10),100); var bar=doc.createElement('span'); bar.className='vdbar'; bar.setAttribute('data-w',v+'%'); cell.appendChild(bar);
+    if(bio) bio.observe(bar); else bar.style.width=v+'%';
+  });
+
+  /* ---------- marquee ---------- */
+  (function(){var t=doc.getElementById('marq-track'); if(t) t.innerHTML+=t.innerHTML;})();
+
+  /* ---------- header + progress ---------- */
+  var hdr=doc.getElementById('hdr'),prog=doc.getElementById('progress'),lastY=0;
+  function onScroll(){var y=win.pageYOffset||doc.documentElement.scrollTop;if(hdr){hdr.classList.toggle('scrolled',y>40);hdr.classList.toggle('hide',y>420&&y>lastY+3);}var h=doc.documentElement.scrollHeight-win.innerHeight;win.__sY=h>0?(y/h):0;if(prog)prog.style.width=(h>0?(y/h*100):0)+'%';lastY=y;}
+  win.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var GS=win.gsap, ST=win.ScrollTrigger;
+  if(GS && ST){ GS.registerPlugin(ST); }
+
+  /* ---------- scroll suave (Lenis) ---------- */
+  var lenis=null;
+  if(win.Lenis && !reduce){
+    try{
+      lenis=new win.Lenis({duration:1.15,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));},smoothWheel:true,touchMultiplier:1.6,lerp:.09});
+      win.__lenis=lenis;
+      lenis.on('scroll',function(){ if(ST) ST.update(); onScroll(); });
+      if(GS){ GS.ticker.add(function(t){ lenis.raf(t*1000); }); GS.ticker.lagSmoothing(0); }
+      else { (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0); }
+    }catch(e){ lenis=null; }
+  }
+  each(doc.querySelectorAll('a[href^="#"]'),function(a){
+    a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id.length<2)return;var t=doc.querySelector(id);if(!t)return;e.preventDefault();if(lenis)lenis.scrollTo(t,{offset:-70,duration:1.2});else t.scrollIntoView({behavior:reduce?'auto':'smooth'});});
+  });
+
+  /* ---------- ScrollTrigger: parallax + cor do fundo por seção ---------- */
+  if(GS && ST && !reduce){
+    GS.utils.toArray('.band img').forEach(function(img){
+      var frame=img.closest('.band'); if(!frame)return;
+      GS.fromTo(img,{yPercent:-10},{yPercent:10,ease:'none',scrollTrigger:{trigger:frame,start:'top bottom',end:'bottom top',scrub:true}});
+    });
+    GS.utils.toArray('.mini-badge').forEach(function(b,i){ GS.to(b,{yPercent:(i%2?22:-18),ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}}); });
+    GS.utils.toArray('.card,.pain,.frow,.quote').forEach(function(el){ GS.fromTo(el,{y:0},{y:-14,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:1.1}}); });
+    // ritual connecting line draw
+    var rp=doc.querySelector('#ritualLine path');
+    if(rp){ var L=rp.getTotalLength?rp.getTotalLength():100; rp.style.strokeDasharray=L; rp.style.strokeDashoffset=L;
+      GS.to(rp,{strokeDashoffset:0,ease:'none',scrollTrigger:{trigger:'#ritual',start:'top 70%',end:'center center',scrub:true}});
+      doc.getElementById('ritualLine').style.display='block';
+    }
+    var accents={dor:[0.24,0.37,0.72],arc:[0.55,0.72,0.95],solucao:[0.49,0.70,1.0],formula:[0.68,0.75,0.85],tabela:[0.55,0.72,0.92],beneficios:[0.24,0.37,0.72],paraquem:[0.49,0.70,1.0],provas:[0.68,0.75,0.85],oferta:[0.49,0.70,1.0],escassez:[0.24,0.37,0.72]};
+    Object.keys(accents).forEach(function(id){var s=doc.getElementById(id);if(!s)return;ST.create({trigger:s,start:'top 55%',end:'bottom 45%',onToggle:function(self){if(self.isActive)win.__accentTarget=accents[id];}});});
+  }
+
+  /* ---------- IDA→VOLTA scrolly (rAF, no dependency) ---------- */
+  (function(){
+    var arc=doc.getElementById('arc'),pin=arc?arc.querySelector('.arc-pin'):null;
+    var L=doc.getElementById('arcL'),R=doc.getElementById('arcR'),labI=doc.getElementById('labIda'),labV=doc.getElementById('labVolta');
+    if(!arc||!pin)return;
+    if(reduce){pin.style.setProperty('--p',.5);return;}
+    function upd(){
+      var rect=arc.getBoundingClientRect();var vh=win.innerHeight;
+      var span=rect.height-vh; var p=span>0?( (-rect.top)/span ):0; if(p<0)p=0; if(p>1)p=1;
+      pin.style.setProperty('--p',p.toFixed(4));
+      if(L){var lo=1-Math.min(1,Math.max(0,(p-0.35)/0.3));L.style.opacity=(0.25+lo*0.75).toFixed(3);L.style.transform='translateX('+((p)* -12)+'px)';}
+      if(R){var ro=Math.min(1,Math.max(0,(p-0.35)/0.3));R.style.opacity=(0.25+ro*0.75).toFixed(3);R.style.transform='translateX('+((1-p)*12)+'px)';}
+      if(labI)labI.style.color=p<0.5?'var(--ion-hi)':'var(--muted)';
+      if(labV)labV.style.color=p>=0.5?'var(--silver-hi)':'var(--muted)';
+      requestAnimationFrame(upd);
+    }
+    requestAnimationFrame(upd);
+  })();
+
+  /* ---------- cursor customizado + trailing dot ---------- */
+  if(!coarse){
+    var cur=doc.getElementById('cursor'),cdot=doc.getElementById('cdot');
+    if(cur){
+      var cx=win.innerWidth/2,cy=win.innerHeight/2,ctgx=cx,ctgy=cy,dx=cx,dy=cy;
+      win.addEventListener('mousemove',function(e){ctgx=e.clientX;ctgy=e.clientY;cur.style.opacity='1';if(cdot)cdot.style.opacity='1';},{passive:true});
+      win.addEventListener('mouseout',function(){cur.style.opacity='0';if(cdot)cdot.style.opacity='0';});
+      (function cloop(){cx+=(ctgx-cx)*.2;cy+=(ctgy-cy)*.2;dx+=(ctgx-dx)*.35;dy+=(ctgy-dy)*.35;
+        cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
+        if(cdot)cdot.style.transform='translate('+dx+'px,'+dy+'px) translate(-50%,-50%)';
+        requestAnimationFrame(cloop);})();
+      each(doc.querySelectorAll('a,button,.card,.active-card,[data-tilt],summary,.toggle button,.tphoto'),function(el){el.addEventListener('mouseenter',function(){cur.classList.add('big');});el.addEventListener('mouseleave',function(){cur.classList.remove('big');});});
+    }
+  }
+
+  /* ---------- hero pote parallax tilt ---------- */
+  if(!coarse && !reduce){
+    var pw=doc.getElementById('poteWrap'),stage=doc.querySelector('#hero .stage');
+    if(pw&&stage){
+      stage.addEventListener('mousemove',function(e){var r=stage.getBoundingClientRect();var rx=((e.clientY-r.top)/r.height-.5)*-10,ry=((e.clientX-r.left)/r.width-.5)*14;pw.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';});
+      stage.addEventListener('mouseleave',function(){pw.style.transform='rotateX(0) rotateY(0)';});
+    }
+    // orbit dots
+    var orbit=doc.getElementById('orbit');
+    if(orbit){for(var oi=0;oi<5;oi++){var d=doc.createElement('i');orbit.appendChild(d);}
+      var dots=orbit.querySelectorAll('i');
+      (function oloop(){var t=performance.now()/1000;for(var i=0;i<dots.length;i++){var a=t*(0.5+i*0.12)+i*1.3;var rad=150+i*16;var x=Math.cos(a)*rad,y=Math.sin(a)*rad*0.62;dots[i].style.transform='translate('+x+'px,'+y+'px)';dots[i].style.opacity=(0.4+0.5*(0.5+0.5*Math.sin(a))).toFixed(2);}requestAnimationFrame(oloop);})();
+    }
+  }
+
+  /* ---------- entrada do hero ---------- */
+  function heroIntro(){
+    each(doc.querySelectorAll('#hero .reveal'),function(el,i){ setTimeout(function(){el.classList.add('visible');}, reduce?0:i*120); });
+    var h1=doc.querySelector('#hero h1'); if(h1) setTimeout(function(){h1.classList.add('visible');}, reduce?0:180);
+    if(GS && !reduce){
+      GS.from('#hero .pote-wrap',{scale:.85,y:30,opacity:0,duration:1.3,ease:'power3.out',delay:.15});
+      GS.fromTo('#hero .mini-badge',{opacity:0,scale:.82,y:12},{opacity:1,scale:1,y:0,duration:.6,stagger:.16,ease:'back.out(1.6)',delay:.6});
+    }
+  }
+  win.__afterLoader=heroIntro;
+
+  /* ---------- GSAP: botões magnéticos + tilt ---------- */
+  if(GS && !reduce){
+    each(doc.querySelectorAll('.btn'),function(btn){
+      var xT=GS.quickTo(btn,'x',{duration:.4,ease:'power3'}),yT=GS.quickTo(btn,'y',{duration:.4,ease:'power3'});
+      btn.addEventListener('mousemove',function(e){var r=btn.getBoundingClientRect();xT((e.clientX-r.left-r.width/2)*.35);yT((e.clientY-r.top-r.height/2)*.4);});
+      btn.addEventListener('mouseleave',function(){xT(0);yT(0);});
+    });
+    each(doc.querySelectorAll('.card,.active-card'),function(card){
+      card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px');var rx=((e.clientY-r.top)/r.height-.5)*-6,ry=((e.clientX-r.left)/r.width-.5)*6;GS.to(card,{rotateX:rx,rotateY:ry,transformPerspective:800,duration:.4,ease:'power2'});});
+      card.addEventListener('mouseleave',function(){GS.to(card,{rotateX:0,rotateY:0,duration:.6,ease:'power3'});});
+    });
+    each(doc.querySelectorAll('[data-tilt]'),function(el){
+      el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var rx=((e.clientY-r.top)/r.height-.5)*-5,ry=((e.clientX-r.left)/r.width-.5)*7;GS.to(el,{rotateX:rx,rotateY:ry,transformPerspective:900,duration:.5,ease:'power2'});});
+      el.addEventListener('mouseleave',function(){GS.to(el,{rotateX:0,rotateY:0,duration:.7,ease:'power3'});});
+    });
+  }
+
+  /* ---------- countdown "só hoje": começa no acesso, termina à meia-noite local ---------- */
+  function nextMidnight(){var d=new Date();d.setHours(24,0,0,0);return d.getTime();}
+  var END=nextMidnight();
+  function pad(n){return(n<10?'0':'')+n;}
+  function tick(){var now=Date.now();if(now>=END)END=nextMidnight();var d=END-now;if(d<0)d=0;
+    set('cd-h',pad(Math.floor(d/3600000)));set('cd-m',pad(Math.floor(d%3600000/60000)));set('cd-s',pad(Math.floor(d%60000/1000)));}
+  tick();setInterval(tick,1000);
+  setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
+  set('yr',(new Date()).getFullYear());
+
+  applyKit('2');wireCheckout();
+
+  /* sem loader — revela o hero direto */
+  if(win.__afterLoader) win.__afterLoader();
+})();
+</script>
+
+<script>
+(function(){var c=document.querySelector('.lux-canvas');if(!c)return;var ctx=c.getContext('2d');
+ var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;var dpr=Math.min(devicePixelRatio||1,2),W=0,H=0;
+ function rz(){W=c.width=Math.floor(innerWidth*dpr);H=c.height=Math.floor(innerHeight*dpr);}rz();addEventListener('resize',rz,{passive:true});
+ var N=innerWidth<760?10:16,d=[];for(var i=0;i<N;i++)d.push({x:Math.random(),y:Math.random(),r:46+Math.random()*104,vx:(Math.random()-.5)*.006,vy:-(0.008+Math.random()*.018),ph:Math.random()*6.283,sp:.15+Math.random()*.35,a:.06+Math.random()*.09});
+ function paint(t){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';for(var i=0;i<d.length;i++){var o=d[i],px=o.x*W,py=o.y*H,r=o.r*dpr,pu=reduce?1:(0.62+0.38*Math.sin(t*o.sp+o.ph));var g=ctx.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,'rgba(250,208,96,'+(o.a*pu).toFixed(3)+')');g.addColorStop(.45,'rgba(236,186,78,'+(o.a*pu*.45).toFixed(3)+')');g.addColorStop(1,'rgba(236,186,78,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,r,0,6.2832);ctx.fill();}}
+ if(reduce){paint(0);return;}var t0=performance.now();(function loop(now){requestAnimationFrame(loop);var dt=Math.min(.05,(now-t0)/1000);t0=now;for(var i=0;i<d.length;i++){var o=d[i];o.x+=o.vx*dt;o.y+=o.vy*dt;if(o.y<-.15){o.y=1.15;o.x=Math.random();}if(o.x<-.15)o.x=1.15;else if(o.x>1.15)o.x=-.15;}paint(now*.001);})(performance.now());})();
+</script>
+</body>
+</html>
