@@ -490,13 +490,6 @@ html.lenis{scroll-behavior:auto!important}
 </style>
 </head>
 <body>
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-in">
-    <div class="loader-brand">Botanika <span>Hair</span></div>
-    <div class="loader-count"><b id="loader-num">000</b></div>
-    <div class="loader-bar"><i id="loader-fill"></i></div>
-  </div>
-</div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
 <canvas class="lux-canvas" aria-hidden="true"></canvas>
@@ -1115,7 +1108,7 @@ html.lenis{scroll-behavior:auto!important}
 
   /* loader 000 -> 100 */
   (function(){
-    var ld=doc.getElementById('loader'); if(!ld) return;
+    var ld=doc.getElementById('loader'); if(!ld){ if(win.__afterLoader)win.__afterLoader(); return; }
     var num=doc.getElementById('loader-num'), fill=doc.getElementById('loader-fill');
     function finish(){ if(ld.classList.contains('done'))return; ld.classList.add('done'); if(win.__afterLoader)win.__afterLoader(); setTimeout(function(){ if(ld.parentNode) ld.parentNode.removeChild(ld); },800); }
     if(reduce){ finish(); return; }
