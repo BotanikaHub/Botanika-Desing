@@ -905,7 +905,7 @@ html.lenis{scroll-behavior:auto!important}
 
 <div class="buybar" id="buybar">
   <div class="info"><b id="bar-price">R$ 188,86</b><span id="bar-label">2 potes · com BOTANIKA</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">Escolher meu kit</a>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
@@ -953,7 +953,7 @@ html.lenis{scroll-behavior:auto!important}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.now);set('bar-label',k.label);
     var href=checkout(kit);
-    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));fire('AddToCart');});});
@@ -962,7 +962,7 @@ html.lenis{scroll-behavior:auto!important}
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'||id==='bar-buy'){fire('AddToCart');fire('InitiateCheckout');return;}
+        if(id==='buy'){fire('AddToCart');fire('InitiateCheckout');return;}
         e.preventDefault();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth'});
       });
     });
