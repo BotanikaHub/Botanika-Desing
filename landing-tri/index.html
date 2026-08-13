@@ -396,6 +396,7 @@
     /* ---- ambient golden light (soft, slow) ---- */
     .lux-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
     .lux-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;width:100vw;height:100vh}
+    .net-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;width:100vw;height:100vh}
     .lux-bg span{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform,opacity}
     .lux-bg span:nth-child(1){width:48vw;height:48vw;left:-10vw;top:-8vw;background:radial-gradient(circle,rgba(248,200,64,.40),transparent 66%);animation:luxDrift1 34s ease-in-out infinite}
     .lux-bg span:nth-child(2){width:42vw;height:42vw;right:-12vw;top:26vh;background:radial-gradient(circle,rgba(240,185,58,.34),transparent 66%);animation:luxDrift2 44s ease-in-out infinite}
@@ -408,6 +409,7 @@
 
 <div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
 <canvas class="lux-canvas" aria-hidden="true"></canvas>
+<canvas class="net-canvas" aria-hidden="true"></canvas>
 
 <div class="wrap">
 <header id="hd">
@@ -786,6 +788,7 @@
     /* ---- ambient golden light (soft, slow) ---- */
     .lux-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
     .lux-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;width:100vw;height:100vh}
+    .net-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;width:100vw;height:100vh}
     .lux-bg span{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform,opacity}
     .lux-bg span:nth-child(1){width:48vw;height:48vw;left:-10vw;top:-8vw;background:radial-gradient(circle,rgba(248,200,64,.40),transparent 66%);animation:luxDrift1 34s ease-in-out infinite}
     .lux-bg span:nth-child(2){width:42vw;height:42vw;right:-12vw;top:26vh;background:radial-gradient(circle,rgba(240,185,58,.34),transparent 66%);animation:luxDrift2 44s ease-in-out infinite}
@@ -838,6 +841,46 @@
             paint(now*0.001);
         })(performance.now());
     }
+})();
+
+// ---- mineral constellation (follows the mouse) ----
+(function(){
+    var c=document.querySelector('.net-canvas'); if(!c) return;
+    var x=c.getContext('2d');
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; if(reduce) return;
+    var COL='48,56,144';            // indigo network on the cream page
+    var w,h,dpr,pts=[],D,DM;
+    var mouse={x:-9999,y:-9999};
+    function size(){
+        dpr=Math.min(devicePixelRatio||1,2); w=c.width=innerWidth*dpr; h=c.height=innerHeight*dpr;
+        D=Math.min(150,innerWidth*.14)*dpr; DM=190*dpr;
+        var n=innerWidth<720?24:Math.min(62,Math.round(innerWidth*innerHeight/24000));
+        pts=[]; for(var i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.12*dpr,vy:(Math.random()-.5)*.12*dpr,r:(Math.random()*1.5+.7)*dpr,tw:Math.random()*6});
+    }
+    size(); addEventListener('resize',size,{passive:true});
+    if(matchMedia('(hover:hover)').matches){
+        addEventListener('mousemove',function(e){mouse.x=e.clientX*dpr;mouse.y=e.clientY*dpr;},{passive:true});
+        addEventListener('mouseout',function(){mouse.x=mouse.y=-9999;});
+    }
+    function frame(t){
+        x.clearRect(0,0,w,h);
+        for(var k=0;k<pts.length;k++){var p=pts[k];
+            p.x+=p.vx; p.y+=p.vy;
+            if(p.x<0)p.x+=w; else if(p.x>w)p.x-=w; if(p.y<0)p.y+=h; else if(p.y>h)p.y-=h;
+            var mdx=mouse.x-p.x,mdy=mouse.y-p.y,md2=mdx*mdx+mdy*mdy,R=200*dpr;
+            if(md2<R*R){var d=Math.sqrt(md2)||1,fF=(1-d/R)*.5;p.x+=mdx/d*fF;p.y+=mdy/d*fF;}
+        }
+        x.lineWidth=dpr*.6;
+        for(var i=0;i<pts.length;i++){var a=pts[i];
+            for(var j=i+1;j<pts.length;j++){var b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy;
+                if(d2<D*D){var al=(1-Math.sqrt(d2)/D)*.22;x.strokeStyle='rgba('+COL+','+al+')';x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}}
+            var qx=mouse.x-a.x,qy=mouse.y-a.y,q2=qx*qx+qy*qy;
+            if(q2<DM*DM){var al2=(1-Math.sqrt(q2)/DM)*.5;x.strokeStyle='rgba('+COL+','+al2+')';x.lineWidth=dpr*.85;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mouse.x,mouse.y);x.stroke();x.lineWidth=dpr*.6;}
+        }
+        for(var m=0;m<pts.length;m++){var p2=pts[m],tw=.34+Math.sin(t*.002+p2.tw)*.18;x.fillStyle='rgba('+COL+','+tw.toFixed(3)+')';x.beginPath();x.arc(p2.x,p2.y,p2.r,0,7);x.fill();}
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
 })();
 
 // ---- hero stage parallax ----
