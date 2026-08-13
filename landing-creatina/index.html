@@ -1317,52 +1317,166 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
 })();
 </script>
 
-<script>
-/* Rede-assinatura da Creatina: treliça cristalina (grade) que ondula e acende no cursor — tema claro (índigo) */
-(function(){
-  var c=document.querySelector('.lux-canvas'); if(!c) return; var ctx=c.getContext('2d');
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var dpr=Math.min(devicePixelRatio||1,2), W=0,H=0;
-  function rz(){W=c.width=Math.floor(innerWidth*dpr);H=c.height=Math.floor(innerHeight*dpr);} rz();
-  addEventListener('resize',rz,{passive:true});
-  var mob=innerWidth<760, GX=mob?14:22, GY=mob?10:13, NN=GX*GY;
-  var mx=-1,my=-1;
-  addEventListener('mousemove',function(e){mx=e.clientX/innerWidth;my=e.clientY/innerHeight;},{passive:true});
-  addEventListener('mouseout',function(){mx=-1;my=-1;});
-  var R=mob?0.16:0.13;
-  var xs=new Float32Array(NN), ys=new Float32Array(NN), en=new Float32Array(NN);
-  function draw(t){
-    ctx.clearRect(0,0,W,H); ctx.lineWidth=1*dpr;
-    var i,j,id;
-    for(j=0;j<GY;j++)for(i=0;i<GX;i++){
-      var u=i/(GX-1), v=j/(GY-1); id=j*GX+i;
-      var px=(-0.06+u*1.12)*W, py=(-0.06+v*1.12)*H;
-      var ph=u*6.0+v*4.0, ax=W*0.012, ay=H*0.016;
-      px+=Math.sin(t*0.6+ph)*ax + Math.sin(t*0.35+v*7.0)*ax*0.6;
-      py+=Math.cos(t*0.5+ph)*ay + Math.sin(t*0.4+u*6.0)*ay*0.6;
-      var e=0;
-      if(mx>=0){ var dx=px-mx*W, dy=py-my*H, d=Math.sqrt(dx*dx+dy*dy)/W;
-        if(d<R){ e=(1-d/R); px+=dx*e*0.06; py+=dy*e*0.06; } }
-      var pulse=0.5+0.5*Math.sin(t*1.4-(i+j)*0.32);
-      en[id]=Math.min(1, e*1.1 + pulse*0.18); xs[id]=px; ys[id]=py;
-    }
-    for(j=0;j<GY;j++)for(i=0;i<GX;i++){ id=j*GX+i;
-      if(i<GX-1){ var e1=(en[id]+en[id+1])*0.5; ctx.strokeStyle='rgba(48,56,144,'+(0.06+e1*0.20).toFixed(3)+')';
-        ctx.beginPath();ctx.moveTo(xs[id],ys[id]);ctx.lineTo(xs[id+1],ys[id+1]);ctx.stroke(); }
-      if(j<GY-1){ var e2=(en[id]+en[id+GX])*0.5; ctx.strokeStyle='rgba(48,56,144,'+(0.06+e2*0.20).toFixed(3)+')';
-        ctx.beginPath();ctx.moveTo(xs[id],ys[id]);ctx.lineTo(xs[id+GX],ys[id+GX]);ctx.stroke(); }
-    }
-    for(var k=0;k<NN;k++){ var ee=en[k];
-      ctx.fillStyle='rgba(48,56,144,'+(0.16+ee*0.5).toFixed(3)+')';
-      ctx.beginPath();ctx.arc(xs[k],ys[k],(1.3+ee*1.8)*dpr,0,6.2832);ctx.fill(); }
-    if(mx>=0){ var g=ctx.createRadialGradient(mx*W,my*H,0,mx*W,my*H,R*W);
-      g.addColorStop(0,'rgba(248,200,64,0.12)'); g.addColorStop(1,'rgba(248,200,64,0)');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
-  }
-  if(reduce){ draw(0); return; }
-  var start=performance.now();
-  (function loop(now){ requestAnimationFrame(loop); draw((now-start)/1000); })(performance.now());
-})();
+<!-- ===== Fundo-assinatura WebGL: "Rede cristalina de creatina" ===== -->
+<script type="module">
+try{
+  const THREE = await import('three');
+
+  const bgColor='#080b11', flameColor='#3e78f0', flameColor2='#9fb6cc', flameAmt=0.15;
+  const atmoColor='#bcd2e8', atmoCount = innerWidth<760?60:130, atmoSize=20, atmoSpeed=1.0;
+  const nodeIon='#4a52b8', nodeSilver='#2a3080';
+  const ptOpacity=0.95, lineOpacity=0.40, brightness=1.0;
+  const parallax=1.1, pointerRadius=4.6, pointerPush=0.22;
+  const Lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+  const hexToVec3=h=>{const n=parseInt(h.slice(1),16);return new THREE.Vector3(((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255);};
+
+  const canvas=document.querySelector('.lux-canvas');
+  const _t=document.createElement('canvas');
+  if(!(_t.getContext('webgl')||_t.getContext('experimental-webgl'))) throw new Error('no-webgl');
+
+  const renderer=new THREE.WebGL1Renderer({canvas,antialias:true,alpha:true}); renderer.setClearColor(0x000000,0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,400); camera.position.set(0,0,14);
+  const LAYERS={NONE:0,TORUS_SCENE:1,BLOOM_SCENE:2,ENTIRE_SCENE:3};
+  camera.layers.enable(1);camera.layers.enable(2);camera.layers.enable(3);scene.add(camera);
+  const blackTex=new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1,THREE.RGBAFormat); blackTex.needsUpdate=true;
+
+  const SNOISE=`
+    vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
+    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+    float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);
+      vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);
+      vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);
+      vec3 x1=x0-i1+1.0*C.xxx;vec3 x2=x0-i2+2.0*C.xxx;vec3 x3=x0-1.0+3.0*C.xxx;i=mod(i,289.0);
+      vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+      float n_=1.0/7.0;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);
+      vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);
+      vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));
+      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+      vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);
+      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
+      vec4 m=max(0.5-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;
+      return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
+
+  const GX = innerWidth<760?42:66, GY = innerWidth<760?24:38;
+  const EX = 21, EY = 12;
+  const nodeCount = GX*GY;
+  const gpos = new Float32Array(nodeCount*3);
+  const gcell = new Float32Array(nodeCount*2);
+  function nidx(i,j){return j*GX+i;}
+  for(let j=0;j<GY;j++){for(let i=0;i<GX;i++){
+    const id=nidx(i,j);
+    const x=(i/(GX-1)*2-1)*EX;
+    const y=(j/(GY-1)*2-1)*EY;
+    gpos[id*3]=x; gpos[id*3+1]=y; gpos[id*3+2]=0;
+    gcell[id*2]=i; gcell[id*2+1]=j;
+  }}
+  const seg=[];
+  for(let j=0;j<GY;j++){for(let i=0;i<GX;i++){
+    if(i<GX-1){seg.push(nidx(i,j),nidx(i+1,j));}
+    if(j<GY-1){seg.push(nidx(i,j),nidx(i,j+1));}
+  }}
+  const segIndex=new Uint16Array(seg);
+
+  const uniforms={
+    uTime:{value:0}, uAppear:{value:0},
+    uIon:{value:hexToVec3(nodeIon)}, uSilver:{value:hexToVec3(nodeSilver)},
+    uBrightness:{value:brightness}, uPtOpacity:{value:ptOpacity}, uLineOpacity:{value:lineOpacity},
+    uCursor:{value:new THREE.Vector3()}, uRadius:{value:pointerRadius}, uPush:{value:pointerPush}, uActivity:{value:0}
+  };
+
+  const DISP=`
+    uniform float uTime; uniform vec3 uIon; uniform vec3 uSilver; uniform float uBrightness;
+    uniform vec3 uCursor; uniform float uRadius; uniform float uPush; uniform float uActivity;
+    attribute vec2 aCell; varying vec3 vColor; varying float vEnergy;
+    ${SNOISE}
+    vec3 latticeWorld(vec3 p, out float energy){
+      float n = snoise(vec3(p.x*0.16, p.y*0.16, uTime*0.14));
+      float n2 = snoise(vec3(p.x*0.34+7.0, p.y*0.34, uTime*0.22));
+      p.z += n*0.9 + n2*0.35;
+      p.x += n2*0.16; p.y += n*0.14;
+      vec4 wp = modelMatrix * vec4(p,1.0);
+      float pulse = 0.5+0.5*sin(uTime*1.6 - length(p.xy)*0.30);
+      float dist = length(wp.xyz - uCursor);
+      float ignite = smoothstep(uRadius, 0.0, dist) * uActivity;
+      wp.xyz += normalize(wp.xyz - uCursor + vec3(0.0001)) * ignite * uPush;
+      energy = clamp(ignite*1.15 + pulse*0.16, 0.0, 1.0);
+      return wp.xyz;
+    }`;
+
+  const ptMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.NormalBlending,uniforms,
+    vertexShader:`${DISP}
+      uniform float uPtOpacity;
+      void main(){
+        float energy; vec3 wp=latticeWorld(position, energy);
+        vColor = mix(uSilver, uIon, energy)*uBrightness;
+        vEnergy = energy;
+        vec4 mv = viewMatrix * vec4(wp,1.0);
+        gl_PointSize = (2.4 + energy*5.0) * (26.0/-mv.z);
+        gl_PointSize = max(gl_PointSize,1.0);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader:`uniform float uPtOpacity; uniform float uAppear; varying vec3 vColor; varying float vEnergy;
+      void main(){vec2 xy=gl_PointCoord-0.5;float l=length(xy);if(l>0.5)discard;float a=smoothstep(0.5,0.08,l);
+        gl_FragColor=vec4(vColor,a*(uPtOpacity*0.5+vEnergy*0.5)*uAppear);}`});
+
+  const lineMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.NormalBlending,uniforms,
+    vertexShader:`${DISP}
+      void main(){float energy; vec3 wp=latticeWorld(position, energy);
+        vColor=mix(uSilver,uIon,energy)*uBrightness; vEnergy=energy;
+        gl_Position=projectionMatrix*viewMatrix*vec4(wp,1.0);}`,
+    fragmentShader:`uniform float uLineOpacity; uniform float uAppear; varying vec3 vColor; varying float vEnergy;
+      void main(){gl_FragColor=vec4(vColor,(uLineOpacity*0.6+vEnergy*0.5)*uAppear);}`});
+
+  const ptGeo=new THREE.BufferGeometry();
+  ptGeo.setAttribute('position',new THREE.BufferAttribute(gpos,3));
+  ptGeo.setAttribute('aCell',new THREE.BufferAttribute(gcell,2));
+  const points=new THREE.Points(ptGeo,ptMat);points.frustumCulled=false;points.layers.enable(3);
+
+  const lineGeo=new THREE.BufferGeometry();
+  lineGeo.setAttribute('position',new THREE.BufferAttribute(gpos,3));
+  lineGeo.setAttribute('aCell',new THREE.BufferAttribute(gcell,2));
+  lineGeo.setIndex(new THREE.BufferAttribute(segIndex,1));
+  const lines=new THREE.LineSegments(lineGeo,lineMat);lines.frustumCulled=false;lines.layers.enable(3);
+
+  const group=new THREE.Group();group.add(lines);group.add(points);group.rotation.x=-0.5;scene.add(group);
+
+
+
+
+
+  let scrollTarget=0,scrollSmooth=0,scrollCurrent=0;
+  function onScroll(){const max=document.documentElement.scrollHeight-innerHeight;scrollTarget=max>0?clamp(scrollY/max,0,1):0;}
+  addEventListener('scroll',onScroll,{passive:true});
+  const mTarget={x:0,y:0},m={x:0,y:0};
+  const POINTER={world:new THREE.Vector3(),activity:0,active:false,lastMove:performance.now()};
+  addEventListener('mousemove',e=>{mTarget.x=(e.clientX/innerWidth)*2-1;mTarget.y=-((e.clientY/innerHeight)*2-1);POINTER.active=true;POINTER.lastMove=performance.now();},{passive:true});
+  addEventListener('mouseout',()=>{POINTER.active=false;});
+  const _ndc=new THREE.Vector3(),_dir=new THREE.Vector3(),_tgt=new THREE.Vector3();
+  function updatePointerWorld(){_tgt.set(0,0,0);if(POINTER.active){_ndc.set(m.x,m.y,0.5).unproject(camera);_dir.copy(_ndc).sub(camera.position).normalize();const dn=_dir.z;if(Math.abs(dn)>1e-4){const tt=-camera.position.z/dn;if(tt>0&&Number.isFinite(tt))_tgt.copy(camera.position).addScaledVector(_dir,tt);}}POINTER.world.lerp(_tgt,0.12);const idle=(performance.now()-POINTER.lastMove)/1000;POINTER.activity+=(((POINTER.active&&idle<3)?1:0)-POINTER.activity)*0.06;}
+
+  const sceneObj={appearStart:performance.now(),t0:performance.now()/1000,
+    render(scroll,mm){const t=performance.now()/1000;const dt=Math.min(0.05,t-this.t0);this.t0=t;uniforms.uTime.value=t;
+      camera.position.set(mm.x*parallax, -mm.y*parallax*0.6, 14 - scroll*5.0);
+      camera.lookAt(mm.x*parallax*0.35, -mm.y*parallax*0.2, 0);
+      group.rotation.x=-0.5 + mm.y*0.05;
+      group.rotation.z = Math.sin(t*0.05)*0.04;
+      updatePointerWorld();uniforms.uCursor.value.copy(POINTER.world);uniforms.uActivity.value=POINTER.activity;
+      const elapsed=(performance.now()-this.appearStart)/1000;uniforms.uAppear.value=Math.max(0,Math.min(1,(elapsed-0.2)/1.6));}};
+
+  function loop(){requestAnimationFrame(loop);
+    scrollSmooth=Lerp(scrollSmooth,scrollTarget,0.10);scrollCurrent=Lerp(scrollCurrent,scrollSmooth,0.06);m.x=Lerp(m.x,mTarget.x,0.06);m.y=Lerp(m.y,mTarget.y,0.06);sceneObj.render(scrollCurrent,m);
+    renderer.render(scene,camera);}
+  function resize(){const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio,innerWidth<760?1.5:2);renderer.setPixelRatio(dpr);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();onScroll();}
+  addEventListener('resize',resize);
+  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  resize();onScroll();
+  if(rm){uniforms.uAppear.value=1;sceneObj.render(0,{x:0,y:0});renderer.render(scene,camera);}
+  else loop();
+}catch(err){
+  var g=document.querySelector('.lux-canvas'); if(g) g.style.display='none';
+}
 </script>
 </body>
 </html>
