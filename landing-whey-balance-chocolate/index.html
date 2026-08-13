@@ -28,20 +28,20 @@
 <style>
 /* ============================================================
    BOTANIKA — WHEY BALANCE CHOCOLATE
-   Identidade da marca: creme #F8F0E8 + índigo #303890 + Fraunces/Inter,
+   Identidade da marca: creme #F8F0E8 + índigo #8a5a3c + Fraunces/Inter,
    liquid-glass, luzes douradas. Acento cacau/caramelo discreto (só no Whey).
    ============================================================ */
 :root{
-  /* Botanika — sistema oficial (creme + índigo). "cream" foi repontado p/ tinta:
+  /* Botanika — creme + acento CHOCOLATE (marrom) só nesta LP. "cream" foi repontado p/ tinta:
      no tema antigo era o texto claro; agora essas mesmas chamadas viram tinta escura. */
   --bg:#F8F0E8; --bg2:#F8F0E8; --panel:rgba(255,255,255,.58);
-  --cream:#1a1626; --cream-2:#FCF7EE;
-  --indigo:#303890; --indigo-soft:#4a52b8; --indigo-deep:#20266B;
+  --cream:#241811; --cream-2:#FCF7EE;
+  --indigo:#7a4a28; --indigo-soft:#a86a3c; --indigo-deep:#4a2b14;
   --lime:#D0E088; --gold:#F8C840; --cacau:#8a5a3c; --caramelo:#cf8a43;
-  --copper:#303890; --caramel:#4a52b8;
-  --text:#1a1626; --ink:#1a1626; --muted:rgba(35,33,64,.62);
-  --glass:rgba(255,255,255,.58); --line:rgba(48,56,144,.15);
-  --grad:linear-gradient(120deg,#303890,#4a52b8);
+  --copper:#6f4426; --caramel:#a86a3c;
+  --text:#241811; --ink:#241811; --muted:rgba(74,53,38,.66);
+  --glass:rgba(255,255,255,.58); --line:rgba(111,68,38,.18);
+  --grad:linear-gradient(120deg,#6f4426,#b0763e);
   --head:'Fraunces',Georgia,serif; --body:'Inter',system-ui,sans-serif;
   --maxw:1160px; --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -50,7 +50,7 @@ html{overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:76px;-webkit-te
 body{margin:0;overflow-x:hidden;max-width:100%;background:#F8F0E8;color:var(--ink);
   background-image:
     radial-gradient(60% 44% at 88% -4%,rgba(208,224,136,.30),transparent 60%),
-    radial-gradient(52% 40% at 4% 2%,rgba(48,56,144,.10),transparent 60%),
+    radial-gradient(52% 40% at 4% 2%,rgba(138,90,60,.10),transparent 60%),
     radial-gradient(60% 50% at 50% 108%,rgba(248,200,64,.10),transparent 62%);
   background-attachment:fixed;
   font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -72,14 +72,14 @@ h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.02;margin:0;lette
 @keyframes luxC{0%,100%{transform:translate(0,0) scale(1.05);opacity:.38}50%{transform:translate(4vw,-6vh) scale(.9);opacity:.62}}
 @media (prefers-reduced-motion:reduce){.lux-bg span{animation:none}}
 /* eyebrow em pílula verde-lima (DNA Botanika) */
-.eyebrow{background:var(--lime);color:var(--indigo-deep);padding:7px 14px;border-radius:100px;letter-spacing:.16em;box-shadow:0 8px 20px -10px rgba(48,56,144,.5)}
+.eyebrow{background:var(--lime);color:var(--indigo-deep);padding:7px 14px;border-radius:100px;letter-spacing:.16em;box-shadow:0 8px 20px -10px rgba(138,90,60,.5)}
 .eyebrow::before{display:none!important}
 /* liquid-glass nos cards */
 .card,.offer-panel,.stat,.check,.seal,.nutri,.spot .q,.toggle,.chip,.tstat,.cd,.device .frame,details,.hero-badge,.buybar,.wa,.lb .x,.btn-ghost{-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6)}
-.card,.offer-panel,.stat,.check,.seal,.nutri,.spot .q,.tstat,.device .frame{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(255,255,255,.28),0 16px 40px -22px rgba(32,38,107,.42)}
+.card,.offer-panel,.stat,.check,.seal,.nutri,.spot .q,.tstat,.device .frame{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(255,255,255,.28),0 16px 40px -22px rgba(74,43,20,.42)}
 /* halo dourado do pote + brilho cacau discreto nos chocolatinhos */
 .stage::before{background:radial-gradient(circle,rgba(248,200,64,.34),rgba(248,200,64,.12) 45%,transparent 70%)}
-.choco{filter:drop-shadow(0 10px 14px rgba(32,38,107,.30)) drop-shadow(0 0 14px rgba(138,90,60,.55))}
+.choco{filter:drop-shadow(0 10px 14px rgba(74,43,20,.30)) drop-shadow(0 0 14px rgba(138,90,60,.55))}
 
 /* ---------- layout ---------- */
 .section{position:relative;max-width:var(--maxw);margin:0 auto;padding:104px 22px}
@@ -99,7 +99,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .nav{max-width:var(--maxw);margin:0 auto;padding:15px 22px;display:flex;align-items:center;gap:16px}
 .brand{display:flex;align-items:center;gap:11px;font-family:var(--body);font-weight:800}
 .brand .b{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);
-  color:#F8F0E8;font-family:var(--head);font-weight:700;font-size:22px;box-shadow:0 6px 20px rgba(48,56,144,.34)}
+  color:#F8F0E8;font-family:var(--head);font-weight:700;font-size:22px;box-shadow:0 6px 20px rgba(138,90,60,.34)}
 .brand small{display:block;font-size:10px;letter-spacing:.24em;color:var(--muted);font-weight:700;text-transform:uppercase}
 .nav-links{margin-left:auto;display:flex;gap:26px;align-items:center}
 .nav-links a{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:600;transition:.25s}
@@ -110,17 +110,17 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);
   font-weight:800;font-size:15px;padding:14px 26px;border-radius:100px;cursor:pointer;border:0;white-space:nowrap;
   transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
-.btn-buy{background:var(--grad);color:#F8F0E8;box-shadow:0 10px 30px rgba(48,56,144,.34)}
-.btn-buy:hover{box-shadow:0 16px 44px rgba(48,56,144,.5)}
+.btn-buy{background:var(--grad);color:#F8F0E8;box-shadow:0 10px 30px rgba(138,90,60,.34)}
+.btn-buy:hover{box-shadow:0 16px 44px rgba(138,90,60,.5)}
 .btn-ghost{background:var(--glass);color:var(--cream);border:1px solid var(--line)}
-.btn-ghost:hover{border-color:rgba(48,56,144,.5)}
+.btn-ghost:hover{border-color:rgba(138,90,60,.5)}
 .btn-lg{padding:17px 34px;font-size:16px}
 
 /* ---------- hero ---------- */
 .hero{position:relative;padding-top:140px;padding-bottom:40px;max-width:var(--maxw);margin:0 auto;
   display:grid;grid-template-columns:1.02fr .98fr;gap:34px;align-items:center}
 .hero-copy{padding:0 22px}
-.hero h1{font-size:clamp(46px,7.4vw,86px);line-height:.98;letter-spacing:.3px;margin-top:8px}
+.hero h1{font-size:clamp(32px,4.3vw,54px);line-height:1.02;letter-spacing:.2px;margin-top:8px;text-wrap:balance}
 .hero .sub{color:var(--muted);font-size:clamp(16px,2.2vw,19px);margin:20px 0 0;max-width:50ch;font-family:var(--body)}
 .hero-stats{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 30px}
 .stat{flex:1;min-width:120px;background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
@@ -132,15 +132,15 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 /* pote flutuante */
 .stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,rgba(48,56,144,.36),rgba(48,56,144,.12) 45%,transparent 70%);filter:blur(12px)}
+  background:radial-gradient(circle,rgba(138,90,60,.36),rgba(138,90,60,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
 .pote{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 30px 34px rgba(32,38,107,.55));
+  filter:drop-shadow(0 30px 34px rgba(74,43,20,.55));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
 /* órbita: cada chocolatinho gira devagar ao redor do pote (pivô no centro do palco) */
 .choWrap{position:absolute;top:50%;left:50%;width:0;height:0;z-index:3;will-change:transform;animation:orbit 48s linear infinite}
 .choco{position:absolute;display:block;height:auto;max-width:none;
-  filter:drop-shadow(0 10px 14px rgba(32,38,107,.55)) drop-shadow(0 0 12px rgba(48,56,144,.32));
+  filter:drop-shadow(0 10px 14px rgba(74,43,20,.55)) drop-shadow(0 0 12px rgba(138,90,60,.32));
   animation:orbitRev 48s linear infinite;will-change:transform}
 .choWrap.k1{animation-duration:46s}
 .choWrap.k1 .choco{width:112px;top:-206px;left:-56px;animation-duration:46s}
@@ -174,8 +174,8 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .split.rev .shot{order:-1}
 @media(max-width:860px){.split{grid-template-columns:1fr;gap:26px}.split.rev .shot{order:0}}
 .shot{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);
-  box-shadow:0 40px 90px -34px rgba(32,38,107,.8)}
-.shot::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 80px rgba(20,24,60,.5)}
+  box-shadow:0 40px 90px -34px rgba(74,43,20,.8)}
+.shot::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 80px rgba(40,24,12,.5)}
 .shot img{width:100%;height:auto;display:block}
 
 /* ---------- cards ---------- */
@@ -187,14 +187,14 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .card{position:relative;background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:28px 22px;
   overflow:hidden;transform-style:preserve-3d;transition:border-color .4s,box-shadow .4s}
 .card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;pointer-events:none;
-  background:radial-gradient(340px 240px at var(--mx,50%) var(--my,0%),rgba(48,56,144,.18),transparent 60%)}
+  background:radial-gradient(340px 240px at var(--mx,50%) var(--my,0%),rgba(138,90,60,.18),transparent 60%)}
 .card:hover::before{opacity:1}
-.card:hover{border-color:rgba(48,56,144,.42);box-shadow:0 24px 54px rgba(32,38,107,.5)}
+.card:hover{border-color:rgba(138,90,60,.42);box-shadow:0 24px 54px rgba(74,43,20,.5)}
 .card .wm{position:absolute;right:14px;bottom:0;font-family:var(--head);font-weight:700;font-size:96px;line-height:1;
-  color:rgba(48,56,144,.1);transition:.4s;pointer-events:none}
-.card:hover .wm{color:rgba(48,56,144,.2)}
+  color:rgba(138,90,60,.1);transition:.4s;pointer-events:none}
+.card:hover .wm{color:rgba(138,90,60,.2)}
 .ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;background:var(--grad);
-  box-shadow:0 8px 20px rgba(48,56,144,.3)}
+  box-shadow:0 8px 20px rgba(138,90,60,.3)}
 .ico svg{width:25px;height:25px;stroke:#F8F0E8;stroke-width:2;fill:none}
 .card h3{font-family:var(--body);font-weight:800;font-size:18px;margin:0 0 7px}
 .card p{margin:0;color:var(--muted);font-size:14.5px;position:relative}
@@ -228,8 +228,8 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .spot .q{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease);
   position:absolute;inset:0;pointer-events:none;
   background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:32px 34px;text-align:left;
-  box-shadow:0 34px 80px -38px rgba(32,38,107,.75)}
-.spot .q::before{content:"\201C";position:absolute;top:2px;right:26px;font-family:var(--head);font-size:120px;line-height:1;color:rgba(48,56,144,.14)}
+  box-shadow:0 34px 80px -38px rgba(74,43,20,.75)}
+.spot .q::before{content:"\201C";position:absolute;top:2px;right:26px;font-family:var(--head);font-size:120px;line-height:1;color:rgba(138,90,60,.14)}
 .spot .q.on{opacity:1;transform:none;position:relative;pointer-events:auto}
 .spot blockquote{margin:12px 0 8px;font-family:var(--head);font-style:italic;font-size:clamp(21px,3.1vw,30px);line-height:1.34;color:var(--cream);position:relative}
 .spot .sub{color:var(--muted);font-size:14.5px;font-family:var(--body);line-height:1.6;max-width:92%}
@@ -237,7 +237,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .spot .who2 b{font-size:14px;font-family:var(--body);display:flex;align-items:center;gap:6px;color:var(--cream)}
 .spot .who2 small{color:var(--muted);font-size:12px;display:block;font-family:var(--body)}
 .dots{display:flex;gap:9px;justify-content:center;margin-top:22px}
-.dots button{width:9px;height:9px;border-radius:50%;border:0;background:rgba(48,56,144,.28);cursor:pointer;padding:0;transition:.35s var(--ease)}
+.dots button{width:9px;height:9px;border-radius:50%;border:0;background:rgba(138,90,60,.28);cursor:pointer;padding:0;transition:.35s var(--ease)}
 .dots button.on{background:var(--grad);width:28px;border-radius:6px}
 
 /* prova real — cartões estilo tela de celular */
@@ -245,18 +245,18 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 @media(max-width:720px){.proof-grid{grid-template-columns:1fr;max-width:340px;gap:34px}}
 .device{position:relative;text-align:left;transform-style:preserve-3d;will-change:transform}
 .device .frame{position:relative;border-radius:28px;overflow:hidden;background:#FCF7EE;cursor:zoom-in;
-  border:1px solid rgba(48,56,144,.22);
-  box-shadow:0 34px 66px -28px rgba(32,38,107,.78),inset 0 0 0 1px rgba(48,56,144,.04);
+  border:1px solid rgba(138,90,60,.22);
+  box-shadow:0 34px 66px -28px rgba(74,43,20,.78),inset 0 0 0 1px rgba(138,90,60,.04);
   transition:border-color .45s,box-shadow .45s}
 .device .frame::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(180deg,rgba(32,38,107,.30),transparent 14%,transparent 82%,rgba(252,247,238,.5))}
+  background:linear-gradient(180deg,rgba(74,43,20,.30),transparent 14%,transparent 82%,rgba(252,247,238,.5))}
 .device .frame::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:.45s;
-  background:radial-gradient(120% 55% at 50% 0%,rgba(48,56,144,.16),transparent 62%)}
-.device:hover .frame{border-color:rgba(48,56,144,.5);box-shadow:0 46px 86px -30px rgba(32,38,107,.82),0 0 46px -12px rgba(48,56,144,.28)}
+  background:radial-gradient(120% 55% at 50% 0%,rgba(138,90,60,.16),transparent 62%)}
+.device:hover .frame{border-color:rgba(138,90,60,.5);box-shadow:0 46px 86px -30px rgba(74,43,20,.82),0 0 46px -12px rgba(138,90,60,.28)}
 .device:hover .frame::after{opacity:1}
 .device .frame img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;object-position:top center}
 .device .zoom{position:absolute;bottom:12px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;
-  background:rgba(252,247,238,.55);border:1px solid rgba(48,56,144,.35);display:grid;place-items:center;
+  background:rgba(252,247,238,.55);border:1px solid rgba(138,90,60,.35);display:grid;place-items:center;
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transform:scale(.85);transition:.4s var(--ease);pointer-events:none}
 .device:hover .zoom{opacity:1;transform:scale(1)}
 .device .zoom svg{width:15px;height:15px;stroke:var(--caramel);stroke-width:2;fill:none}
@@ -269,30 +269,30 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:24px;
-  background:rgba(20,24,60,.82);backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px);
+  background:rgba(40,24,12,.82);backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px);
   opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;
   overscroll-behavior:contain;touch-action:manipulation;cursor:zoom-out}
 .lb.open{opacity:1;visibility:visible}
-.lb img{max-height:88vh;max-width:min(94vw,430px);border-radius:24px;border:1px solid rgba(48,56,144,.3);
-  box-shadow:0 44px 110px -22px rgba(32,38,107,.88);transform:scale(.93);transition:transform .48s var(--ease);cursor:zoom-out}
+.lb img{max-height:88vh;max-width:min(94vw,430px);border-radius:24px;border:1px solid rgba(138,90,60,.3);
+  box-shadow:0 44px 110px -22px rgba(74,43,20,.88);transform:scale(.93);transition:transform .48s var(--ease);cursor:zoom-out}
 .lb.open img{transform:scale(1)}
 .lb .x{position:absolute;top:22px;right:22px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
   background:var(--glass);color:var(--cream);font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.lb .x:hover{border-color:rgba(48,56,144,.6)}
+.lb .x:hover{border-color:rgba(138,90,60,.6)}
 
 /* oferta */
 .toggle{display:inline-flex;background:var(--glass);border:1px solid var(--line);border-radius:100px;padding:5px;margin-top:30px;gap:4px}
 .toggle button{font-family:var(--body);font-weight:700;font-size:14px;color:var(--muted);background:transparent;border:0;
   padding:11px 22px;border-radius:100px;cursor:pointer;transition:.3s}
 .toggle button.on{background:var(--grad);color:#F8F0E8}
-.offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(48,56,144,.32);
-  border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(32,38,107,.7)}
+.offer-panel{max-width:520px;margin:26px auto 0;background:var(--glass);border:1px solid rgba(138,90,60,.32);
+  border-radius:22px;padding:30px;text-align:center;box-shadow:0 30px 70px -30px rgba(74,43,20,.7)}
 /* palco em leque dos potes (transparentes) — abre/fecha ao trocar o kit; overflow visível p/ não cortar */
 .kit-stage{position:relative;height:160px;margin:2px auto 16px;overflow:visible;transition:transform .42s var(--ease)}
 .kit-stage.pop{transform:scale(1.04)}
 .kit-bottle{position:absolute;left:50%;bottom:0;height:160px;width:auto;margin-left:-80px;transform-origin:50% 100%;
-  filter:drop-shadow(0 16px 20px rgba(32,38,107,.6));opacity:0;
+  filter:drop-shadow(0 16px 20px rgba(74,43,20,.6));opacity:0;
   transition:transform .55s var(--ease),opacity .45s var(--ease)}
 .kit-bottle.b1{opacity:1;z-index:3}
 .kit-bottle.b2,.kit-bottle.b3{z-index:2}
@@ -312,7 +312,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .offer-panel .kit{font-family:var(--body);font-weight:700;color:var(--muted);font-size:14px}
 /* selo de desconto em evidência */
 .offer-panel .badge{display:inline-block;margin:0 0 6px;font-family:var(--body);font-weight:800;font-size:14px;letter-spacing:.03em;
-  color:#F8F0E8;background:var(--grad);border-radius:100px;padding:7px 17px;box-shadow:0 8px 20px -6px rgba(48,56,144,.6)}
+  color:#F8F0E8;background:var(--grad);border-radius:100px;padding:7px 17px;box-shadow:0 8px 20px -6px rgba(138,90,60,.6)}
 .offer-panel .badge.hide{display:none}
 /* parcela = protagonista */
 .offer-panel .insthero{margin:10px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap}
@@ -324,25 +324,25 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 /* preço cheio / à vista = segundo plano */
 .offer-panel .avista{margin-top:8px;font-family:var(--body);font-size:13.5px;color:var(--muted)}
 .offer-panel .avista b{color:var(--cream);font-weight:700}
-.offer-panel .avista s{color:rgba(35,33,64,.4);margin-left:8px}
+.offer-panel .avista s{color:rgba(74,53,38,.4);margin-left:8px}
 .offer-panel .save{margin-top:12px;font-size:13.5px;font-weight:800;color:#3f9268}
 .offer-panel .btn{margin-top:18px;width:100%}
 .trust-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:100px;
   padding:9px 15px;font-size:13px;color:var(--muted);cursor:pointer;transition:.25s;font-family:var(--body)}
-.chip:hover{border-color:rgba(48,56,144,.5);color:var(--cream)}.chip b{color:var(--caramel)}
+.chip:hover{border-color:rgba(138,90,60,.5);color:var(--cream)}.chip b{color:var(--caramel)}
 
 /* tabela nutricional */
-.nutri{max-width:640px;margin:36px auto 0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--glass);box-shadow:0 30px 70px -30px rgba(32,38,107,.7);text-align:left}
-.nrow{display:grid;grid-template-columns:1fr auto 58px;gap:14px;align-items:baseline;padding:15px 22px;border-bottom:1px solid rgba(48,56,144,.08)}
+.nutri{max-width:640px;margin:36px auto 0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--glass);box-shadow:0 30px 70px -30px rgba(74,43,20,.7);text-align:left}
+.nrow{display:grid;grid-template-columns:1fr auto 58px;gap:14px;align-items:baseline;padding:15px 22px;border-bottom:1px solid rgba(138,90,60,.08)}
 .nrow .nm{font-family:var(--body);font-weight:600}
 .nrow .vl{font-family:var(--head);font-size:23px;color:var(--cream);text-align:right;white-space:nowrap}
 .nrow .vd{font-family:var(--body);font-size:13px;color:var(--muted);text-align:right}
-.nrow.head{background:rgba(48,56,144,.03)}
+.nrow.head{background:rgba(138,90,60,.03)}
 .nrow.head span{font-family:var(--body)!important;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
 .nrow.head .vl{font-size:11.5px}
-.nrow.hi{background:rgba(48,56,144,.08)}.nrow.hi .vl{color:var(--caramel)}.nrow.hi .nm{color:var(--cream);font-weight:800}
-.nutri .ft{padding:14px 22px;font-family:var(--body);font-size:11.5px;color:rgba(35,33,64,.5);line-height:1.5}
+.nrow.hi{background:rgba(138,90,60,.08)}.nrow.hi .vl{color:var(--caramel)}.nrow.hi .nm{color:var(--cream);font-weight:800}
+.nutri .ft{padding:14px 22px;font-family:var(--body);font-size:11.5px;color:rgba(74,53,38,.5);line-height:1.5}
 .ingr{max-width:640px;margin:18px auto 0;font-family:var(--body);font-size:13.5px;color:var(--muted);text-align:center;line-height:1.7}
 .ingr b{color:var(--cream)}
 
@@ -361,8 +361,8 @@ details[open] summary .pl{transform:rotate(90deg)}
 .faq-a{padding:0 22px 20px;color:var(--muted);font-size:15px;font-family:var(--body)}
 
 /* escassez */
-.scarcity{position:relative;overflow:hidden;border-radius:24px;border:1px solid rgba(48,56,144,.28);
-  background:linear-gradient(135deg,rgba(48,56,144,.7),rgba(48,56,144,.5))}
+.scarcity{position:relative;overflow:hidden;border-radius:24px;border:1px solid rgba(138,90,60,.28);
+  background:linear-gradient(135deg,rgba(138,90,60,.7),rgba(138,90,60,.5))}
 .scarcity .inner{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
 @media(max-width:820px){.scarcity .inner{grid-template-columns:1fr}}
 .scarcity .txt{padding:46px 40px}
@@ -383,20 +383,20 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(252,247,
 .foot-social{display:flex;gap:10px;margin-top:2px;flex-wrap:wrap}
 .foot-social a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
   color:var(--muted);margin:0;transition:color .3s,border-color .3s,transform .2s var(--ease)}
-.foot-social a:hover{color:var(--caramel);border-color:rgba(48,56,144,.6);transform:translateY(-3px)}
+.foot-social a:hover{color:var(--caramel);border-color:rgba(138,90,60,.6);transform:translateY(-3px)}
 .foot-social svg{width:19px;height:19px}
 .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .pay span{font-size:10.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:var(--glass);font-family:var(--body)}
-.legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 110px;color:rgba(35,33,64,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--line);font-family:var(--body)}
+.legal{max-width:var(--maxw);margin:0 auto;padding:20px 22px 110px;color:rgba(74,53,38,.4);font-size:12px;line-height:1.6;border-top:1px solid var(--line);font-family:var(--body)}
 @media(min-width:861px){.legal{padding-bottom:40px}}
 
 /* whatsapp + barra mobile + progresso + toast */
 .wa{position:fixed;right:18px;bottom:84px;z-index:70;width:56px;height:56px;border-radius:50%;
   background:rgba(255,255,255,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);
   display:grid;place-items:center;transition:transform .2s var(--ease),background .3s;animation:waGlow 2.6s ease-in-out infinite}
-.wa:hover{transform:scale(1.08);background:rgba(48,56,144,.14)}
+.wa:hover{transform:scale(1.08);background:rgba(138,90,60,.14)}
 .wa svg{width:30px;height:30px;fill:var(--caramel)}
-@keyframes waGlow{0%,100%{box-shadow:0 0 12px 2px rgba(48,56,144,.28)}50%{box-shadow:0 0 24px 7px rgba(48,56,144,.55)}}
+@keyframes waGlow{0%,100%{box-shadow:0 0 12px 2px rgba(138,90,60,.28)}50%{box-shadow:0 0 24px 7px rgba(138,90,60,.55)}}
 @media(min-width:861px){.wa{bottom:18px}}
 @media(prefers-reduced-motion:reduce){.wa{animation:none}}
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:75;display:none;align-items:center;gap:12px;
@@ -406,10 +406,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;background:rgba(252,247,
 .buybar .p small{display:block;color:var(--muted);font-size:11px}
 .buybar .btn{margin-left:auto}
 @media(max-width:860px){.buybar{display:flex}}
-.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;background:var(--grad);box-shadow:0 0 12px rgba(48,56,144,.5)}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;background:var(--grad);box-shadow:0 0 12px rgba(138,90,60,.5)}
 .toast{position:fixed;left:50%;bottom:96px;z-index:90;transform:translateX(-50%) translateY(20px);background:var(--caramel);
   color:#F8F0E8;font-weight:800;font-size:14px;padding:12px 22px;border-radius:100px;opacity:0;pointer-events:none;
-  transition:.35s var(--ease);box-shadow:0 12px 30px rgba(48,56,144,.4);font-family:var(--body)}
+  transition:.35s var(--ease);box-shadow:0 12px 30px rgba(138,90,60,.4);font-family:var(--body)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* scroll cue */
@@ -615,7 +615,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       <div class="stars">★★★★★</div>
       <blockquote>“Pós-treino é Whey Balance.”</blockquote>
       <div class="sub">Marcou a Botanika no story do dia a dia — o mesmo médico que assina a curadoria dos produtos.</div>
-      <div class="who2"><span class="avatar">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#303890"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#F8F0E8" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria Botanika</small></div></div>
+      <div class="who2"><span class="avatar">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#8a5a3c"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#F8F0E8" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria Botanika</small></div></div>
     </div>
   </div>
   <div class="dots" id="spotDots"></div>
@@ -634,7 +634,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
         <img loading="lazy" alt="Story do Dr. William Araújo com Whey Balance no pós-treino" src="proof/depo-drwilliam-postreino.jpg">
         <span class="zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></span>
       </div>
-      <figcaption class="cap"><span class="av">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#303890"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#F8F0E8" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria</small></div></figcaption>
+      <figcaption class="cap"><span class="av">WA</span><div><b>Dr. William Araújo <svg class="vtick" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.5 1.9 3.1-.3 1 3 2.7 1.6-.9 3 .9 3-2.7 1.6-1 3-3.1-.3L12 21.8l-2.5-1.9-3.1.3-1-3L2.7 15.8l.9-3-.9-3 2.7-1.6 1-3 3.1.3z" fill="#8a5a3c"/><path d="M8.4 12.1l2.4 2.4 4.8-4.8" stroke="#F8F0E8" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></b><small>@drwilliamaraujo · curadoria</small></div></figcaption>
       <p class="said">“Pós-treino @botanikabrasil.” — quem assina a curadoria também toma.</p>
     </figure>
     <figure class="device reveal">
