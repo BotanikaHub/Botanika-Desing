@@ -62,12 +62,6 @@
         }
 
         /* Koi: fish swim freely across the whole page (appended to body) */
-        .koi {
-            position: fixed; left: 0; top: 0; pointer-events: none; will-change: transform;
-            z-index: 6;                 /* swims in front of content, below the nav */
-            mix-blend-mode: screen;     /* black video background blends away over the dark page */
-        }
-        .koi-vid { width: 100%; height: auto; display: block; }
 
         /* Shared type */
         .gold { color: var(--gold); }
@@ -646,6 +640,11 @@
         /* ===================== Ambient golden light (very soft, slow) ===================== */
         .lux-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
         .lux-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; width: 100vw; height: 100vh; }
+        /* Koi originais da LP — no fundo claro, o filtro SVG remove o fundo preto do vídeo */
+        .koi { position: fixed; left: 0; top: 0; pointer-events: none; will-change: transform;
+            z-index: 0;                 /* nadam atrás do conteúdo, aparecem pelos cards de vidro */
+            filter: url(#koiKey); }
+        .koi-vid { width: 100%; height: auto; display: block; }
         .lux-bg span { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform, opacity; }
         .lux-bg span:nth-child(1) { width: 48vw; height: 48vw; left: -10vw; top: -8vw;
             background: radial-gradient(circle, rgba(248,200,64,0.40), transparent 66%); animation: luxDrift1 34s ease-in-out infinite; }
@@ -684,7 +683,7 @@
 <!-- ===== /Rastreamento ===== -->
     <div class="lux-bg" aria-hidden="true"><span></span><span></span><span></span></div>
     <canvas class="lux-canvas" aria-hidden="true"></canvas>
-    <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true"><defs><linearGradient id="omegaGaugeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#303890"/><stop offset="1" stop-color="#4a52b8"/></linearGradient></defs></svg>
+    <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true"><defs><filter id="koiKey" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0.5 0.6 0.4 0 0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0.12 0.5 0.85 1"/></feComponentTransfer></filter><linearGradient id="omegaGaugeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#303890"/><stop offset="1" stop-color="#4a52b8"/></linearGradient></defs></svg>
 
     <header class="header" id="header">
         <div class="logo">
@@ -1509,6 +1508,98 @@
             }
             paint(now*0.001);
         })(performance.now());
+    })();
+    </script>
+    <!-- ===== Koi originais da LP (nadam pela página) ===== -->
+    <script>
+    (function(){
+        // ===== Koi swimming through the whole page (2 start orbiting the bottle) =====
+        const KOI_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260726_152046_4b5b79c9-6468-405c-bb17-052bc53c8092.mp4';
+        // The clip has a rough intro/cut in the first ~4.3s and a loop seam at the very end.
+        // Native loop keeps playback smooth (no seek); we just hide the fish during those moments,
+        // synced to the video's own time, so only the clean straight-swim segment is ever visible.
+        const KOI_SHOW_FROM = 4.3;   // fade the fish in only after the intro/cut
+        const KOI_FADE = 0.6;        // fade length (s) at each edge of the visible window
+        const fishes = [];
+        const FISH_N = innerWidth < 760 ? 2 : 7;
+        let docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight);
+        addEventListener('resize', () => { docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, innerHeight); }, { passive: true });
+
+        function makeFish(i) {
+            const el = document.createElement('div');
+            el.className = 'koi';
+            const depth = Math.random();
+            const w = (innerWidth < 760 ? 96 : 150) + depth * (innerWidth < 760 ? 78 : 150);
+            el.style.width = w + 'px';
+            el.style.filter = `url(#koiKey) blur(${((1 - depth) * 2.0 + 0.4).toFixed(2)}px)`;
+            el.innerHTML = `<video class="koi-vid" muted loop playsinline preload="auto"><source src="${KOI_VIDEO}" type="video/mp4"></video>`;
+            const v = el.querySelector('video');
+            // start each fish at a different point in the clip so they are not all in lockstep
+            if (v) v.addEventListener('loadedmetadata', () => { try { v.currentTime = Math.random() * (v.duration || 15); } catch (e) {} }, { once: true });
+            // FIXED heading: the fish is mirrored once at birth and never flips mid-swim
+            const dir = Math.random() < 0.5 ? 1 : -1;
+            const f = {
+                el, video: v, depth, w, h: w * 0.5625, dir,
+                homeFrac: 0.08 + 0.86 * ((i + Math.random()) / FISH_N),
+                x: Math.random() * innerWidth,
+                speed: 24 + depth * 34,                 // px/s, nearer fish swim a touch faster
+                bobAmp: 12 + Math.random() * 30,        // gentle vertical sway
+                bobPhase: Math.random() * 6.28,
+                bobSpeed: 0.18 + Math.random() * 0.22,
+                op: 0.5 + depth * 0.5
+            };
+            f.y = f.homeFrac * docH;
+            document.body.appendChild(el); fishes.push(f);
+        }
+        try { for (let i = 0; i < FISH_N; i++) makeFish(i); } catch (e) { console.error("koi init", e); }
+
+        const clampv = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+        let fp = performance.now();
+        function fishLoop(now) {
+            requestAnimationFrame(fishLoop);
+            const dt = Math.min(0.05, (now - fp) / 1000); fp = now;
+            const t = now * 0.001;
+            const W = innerWidth, H = innerHeight, sY = scrollY, margin = 240;
+
+            for (const f of fishes) {
+                // steady straight swim in its fixed direction; wrap around and re-enter on the far side
+                f.x += f.dir * f.speed * dt;
+                if (f.dir > 0 && f.x - f.w / 2 > W + margin) { f.x = -margin; f.homeFrac = 0.08 + Math.random() * 0.86; f.y = f.homeFrac * docH; }
+                else if (f.dir < 0 && f.x + f.w / 2 < -margin) { f.x = W + margin; f.homeFrac = 0.08 + Math.random() * 0.86; f.y = f.homeFrac * docH; }
+
+                const phase = t * f.bobSpeed + f.bobPhase;
+                const bob = Math.sin(phase) * f.bobAmp;
+                const docY = f.homeFrac * docH + bob;
+                const screenY = docY - sY;
+                const tilt = clampv(Math.cos(phase) * f.bobSpeed * f.bobAmp * f.dir * 0.05, -6, 6);
+
+                // decode only near the viewport
+                const near = screenY > -H * 0.7 && screenY < H * 1.7;
+                if (f.video) {
+                    if (near && f.video.paused) f.video.play().catch(() => {});
+                    else if (!near && !f.video.paused) f.video.pause();
+                }
+
+                // visibility synced to the video's time: show only the clean segment [4.3s .. end],
+                // hidden across the intro and the loop seam so the fish never shows a hard cut
+                let vis = 1;
+                const vd = f.video;
+                if (vd && vd.duration) {
+                    const vt = vd.currentTime, dur = vd.duration;
+                    const inA = KOI_SHOW_FROM, inB = KOI_SHOW_FROM + KOI_FADE;
+                    const outB = dur - 0.12, outA = outB - KOI_FADE;
+                    if (vt < inA || vt >= outB) vis = 0;
+                    else if (vt < inB) vis = (vt - inA) / KOI_FADE;
+                    else if (vt > outA) vis = (outB - vt) / KOI_FADE;
+                }
+                f.el.style.opacity = f.op * clampv(vis, 0, 1);
+
+                // scaleX is the fixed heading (never changes) -> no mid-swim mirror flip
+                f.el.style.transform = `translate(${f.x - f.w / 2}px, ${screenY - f.h / 2}px) rotate(${tilt}deg) scaleX(${f.dir})`;
+            }
+        }
+        requestAnimationFrame(fishLoop);
+
     })();
     </script>
 </body>
