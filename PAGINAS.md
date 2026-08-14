@@ -48,7 +48,7 @@
 - **Shopify:** produto `sleep-inositol` · **VARIANT_ID `48115368853736`**
 - **Preço:** R$ 119,70 (3× de R$ 39,90) · kits 2 (−5% = R$ 227,43) e 3 (−10% = R$ 323,19) · frete grátis > R$349
 - **Produto:** pó · 150 g · 19 porções · 7 ativos (Taurato de Magnésio 350 mg, Inositol 2 g, Glicina 1.000 mg, Taurina 200 mg, Triptofano 100 mg, Melatonina 0,21 mg, Camomila + Lavanda) · sabor camomila/laranja/lavanda · sem açúcar/glúten
-- **Identidade:** "Crepúsculo & Camomila" — crepúsculo ameixa quente + âmbar-mel + lilás-lavanda · fundo WebGL "Aurora do Sono" (campo de pontos que reage ao mouse) + lua âmbar · fonte Newsreader + Instrument Sans
+- **Identidade:** cores da marca — **fundo creme #F8F0E8 + índigo #303890/#20266B + verde-lima #D0E088 + amarelo #F8C840** · faixa "quadro noturno" em índigo profundo · órbita de partículas no hero · fonte Newsreader + Instrument Sans (recolorida a partir da versão "Crepúsculo & Camomila")
 - **Pote:** `landing-sleep/sleep-pote.png` (render navy do Drive, transparente)
 - **Status:** ✅ pronta (dev na branch `claude/sleep-inositol-lp-9fg7bw`; publicar em `lp`)
 
