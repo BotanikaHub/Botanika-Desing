@@ -44,3 +44,17 @@ O UTM da URL do anúncio precisa **persistir até o pedido**. Solução: captura
 Um pedido novo vindo de anúncio deve mostrar os UTMs em **Pedido → Detalhes adicionais** no Shopify. A fatia "sem tag" no Utmify/Supabase deve cair bem abaixo dos 30%.
 
 **Prioridade:** Frente 2 (site) é a que mais move o ponteiro. Frente 1 (anúncio) é polimento e é rápida.
+
+---
+
+## ✅ EXECUTADO (14/08) — Frente 2 aplicada em tema-cópia (Opção B)
+O tema ao vivo (`Tema Padrão` 158421614824) **não pode** ser escrito pela API (só temas não publicados). Então: dupliquei o tema → **`Copy of Tema Padrão`** (ID 158480433384, UNPUBLISHED) e apliquei a correção lá. Falta só você **pré-visualizar** e **publicar** (publicação de tema é bloqueada pra mim).
+
+**O que foi feito no tema-cópia:**
+1. Criado o snippet `snippets/botanika-utm-capture.liquid` (captura UTM da URL → grava no carrinho → vira atributo do pedido; persiste via `localStorage` mesmo se a query string cair na navegação).
+2. Adicionada 1 linha no `layout/theme.liquid`, antes de `</body>`, junto dos outros renders da Botanika: `{%- render 'botanika-utm-capture' -%}`.
+   - Cobre as chaves: `utm_source, utm_medium, utm_campaign, utm_content, utm_term, utm_id, fbclid, gclid`.
+
+**Como publicar (você):** Shopify admin → Loja virtual → Temas → em **`Copy of Tema Padrão`** → **Visualizar** (testa a home com `?utm_source=teste&utm_campaign=x`, adiciona ao carrinho, confere que não quebrou nada) → **Publicar**.
+
+**Validar depois de publicar:** um pedido novo vindo de anúncio deve mostrar os UTMs em **Pedido → Detalhes adicionais** no Shopify. A fatia "sem tag" no Utmify/Supabase deve cair bem abaixo dos 30%.
