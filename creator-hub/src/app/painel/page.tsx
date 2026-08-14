@@ -5,7 +5,8 @@ import { getCurrentCreatorAccount } from "@/lib/auth";
 import { creatorLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
-import { getOrdersByDiscountCode, isShopifyConfigured } from "@/lib/shopify";
+import { isShopifyConfigured } from "@/lib/shopify";
+import { cachedOrders } from "@/lib/shopify-cache";
 import { formatBRL, resolvePeriod } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
 
@@ -45,7 +46,7 @@ export default async function PainelPage({
       let orders = 0;
       if (isShopifyConfigured(conn) && c.couponCode) {
         try {
-          const s = await getOrdersByDiscountCode(conn, c.couponCode, { since, until });
+          const s = await cachedOrders(c.brand.id, conn, c.couponCode, { since, until });
           sales = s.totalSales;
           orders = s.orderCount;
         } catch {

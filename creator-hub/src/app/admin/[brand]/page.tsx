@@ -2,10 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
 import { requireBrandAdmin } from "@/lib/admin-brand";
 import {
-  getBrandAnalytics,
   isShopifyConfigured,
   type BrandAnalytics,
 } from "@/lib/shopify";
+import { cachedBrandAnalytics } from "@/lib/shopify-cache";
 import { BrandSettings, type BrandView } from "../BrandSettings";
 import { BrandAnalyticsView } from "./Analytics";
 import { resolvePeriod } from "@/lib/format";
@@ -50,7 +50,7 @@ export default async function VendasTab({
       }
     }
     try {
-      analytics = await getBrandAnalytics(conn, creatorsByCode, { since, until });
+      analytics = await cachedBrandAnalytics(brand.id, conn, creatorsByCode, { since, until });
     } catch (err) {
       analyticsError = err instanceof Error ? err.message : "Erro ao analisar vendas.";
     }

@@ -6,12 +6,8 @@ import { getCurrentCreatorAccount } from "@/lib/auth";
 import { creatorLogoutAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
-import {
-  getCreatorSales,
-  getOrdersByDiscountCode,
-  isShopifyConfigured,
-  type CreatorSales,
-} from "@/lib/shopify";
+import { isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
+import { cachedCreatorSales, cachedOrders } from "@/lib/shopify-cache";
 import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
 import { PeriodFilter } from "@/components/PeriodFilter";
 import { TermGate } from "./TermGate";
@@ -100,7 +96,7 @@ export default async function PainelBrand({
   const connected = isShopifyConfigured(conn);
   if (connected) {
     try {
-      sales = await getCreatorSales(conn, couponCode, { since, until });
+      sales = await cachedCreatorSales(brand.id, conn, couponCode, { since, until });
     } catch (err) {
       salesError = err instanceof Error ? err.message : "Erro ao consultar a loja.";
     }
@@ -119,7 +115,7 @@ export default async function PainelBrand({
     const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
     const goalSince = goalPeriod === "monthly" ? monthStart : null;
     try {
-      const g = await getOrdersByDiscountCode(conn, couponCode, { since: goalSince });
+      const g = await cachedOrders(brand.id, conn, couponCode, { since: goalSince });
       goalSales = g.totalSales;
     } catch {
       goalSales = 0;

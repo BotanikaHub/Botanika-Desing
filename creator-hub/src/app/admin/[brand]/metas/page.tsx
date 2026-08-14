@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { brandConnection } from "@/lib/brand";
 import { requireBrandAdmin } from "@/lib/admin-brand";
-import { getBrandAnalytics, isShopifyConfigured } from "@/lib/shopify";
+import { isShopifyConfigured } from "@/lib/shopify";
+import { cachedBrandAnalytics } from "@/lib/shopify-cache";
 import { ProgramSettings, type ProgramView } from "../../ProgramSettings";
 import { formatBRL } from "@/lib/format";
 
@@ -50,7 +51,7 @@ export default async function MetasTab({
       if (c.couponCode) creatorsByCode[c.couponCode.toUpperCase()] = { name: c.name, rate: c.commissionRate };
     }
     try {
-      const a = await getBrandAnalytics(conn, creatorsByCode, { since });
+      const a = await cachedBrandAnalytics(brand.id, conn, creatorsByCode, { since });
       salesByCode = a.salesByCode;
     } catch (err) {
       error = err instanceof Error ? err.message : "Erro ao carregar metas.";
