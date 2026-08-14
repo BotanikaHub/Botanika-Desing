@@ -87,3 +87,21 @@ Veredito do teste LP: **site vence de lavada** (Tetra site 8,6x vs LP 2,7x; Hair
 - ⬆️ **Tri 4CONJ** R$100 → **R$150/dia** (recuperou, 3 conjuntos positivos).
 - ⏸️ **Hair C1 Lista Human** (conjunto) pausado — 0 venda.
 - ✅ Perenes mantidas: Prospecting R$600 (9,9x) · Retargeting R$120 (13,5x).
+
+---
+
+## 🔬 ESCALA POR DADO REAL + TESTE UGC→SITE (13/08)
+Cruzamento 4 fontes. **ROAS Meta é inflado ~3x** — Utmify (real) mostrou o verdadeiro:
+Prospecting 2,95x ✅ · Retargeting 2,44x ✅ · Hair 1,73x ⚠️ · Tri 1,71x (3d 2,70↑) ⚠️ · TetraVitD 0,74x 🔴 (breakeven ~2,06). Blended real 1,88x. ~75% dos pedidos sem atribuição Meta + 30% sem UTM (ponto cego).
+
+**Escala eficiente aplicada:**
+- ⬆️ Prospecting R$600 → R$800 · ⬆️ Retargeting R$120 → R$150 (os únicos acima do breakeven real)
+- 🔻 TetraVitD R$200 → R$100 (no vermelho real) · ✋ Hair R$130 e Tri R$150 mantidos
+
+**Teste UGC→site (2º anúncio nos conjuntos vencedores, mesmo destino site + UTM, sem budget extra):**
+- HAIR C4 → UGC LissiaHairBotanika (ad 120251343778960563) → /products/hair-botanika
+- TRI C2 → UGC TriMgComplex (ad 120251343782130563) → /products/tri-mg-complex
+- TETRA C1 → UGC LissiaTetraVitD (ad 120251343785080563) → /products/tetravit-d
+UTM utm_content=UGC_<produto> pra comparar UGC × campeão. Ativos.
+
+**Pendências:** corrigir rastreio de UTM (30% sem tag + truncamento) = alavanca nº1. Omega sem campanha de site (UGC LarissaOmega31 fora por ora).
