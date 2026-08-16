@@ -105,3 +105,18 @@ Prospecting 2,95x ✅ · Retargeting 2,44x ✅ · Hair 1,73x ⚠️ · Tri 1,71x
 UTM utm_content=UGC_<produto> pra comparar UGC × campeão. Ativos.
 
 **Pendências:** corrigir rastreio de UTM (30% sem tag + truncamento) = alavanca nº1. Omega sem campanha de site (UGC LarissaOmega31 fora por ora).
+
+---
+
+## ⚙️ OTIMIZAÇÃO POR DADO REAL (16/08) — cruzamento 5 fontes
+Relatório 13–16/08 cruzando Shopify (R$31,6k vendas / 103 ped), Utmify (ROAS real paga **0,84** vs Meta 5,53 inflado ~4x), Meta, Supabase (⚠️ pipeline parado desde 08/08) e ActiveCampaign (sem envio desde 08/08; abertura <5%; carrinhos por produto inativos). Só o Retargeting acima do breakeven real (2,86). Ações aplicadas via API:
+
+- 🔻 **Prospecting CBO** R$800 → **R$500/dia** (maior sangria: real 0,57, −R$990 no período) + ⏸️ **pausado o anúncio `AD | TETRAVITD_V02 (campeão)`** (120250691245230563) no conj. PROSP ADV+ BROAD (R$1.233 gastos, pior eficiência).
+- ⬆️ **Retargeting** R$150 → **R$250/dia** (único acima do breakeven real, 2,86) + ⏸️ conj. **ENG DR WILLIAM F35-60** (120250204745680563) pausado (0 venda).
+- ⏸️ **TetraVitD**: conj. **C1 / C2 / C4** pausados (R$258 sem venda) — concentra R$100 no **C3 Eng Dr William** (único que converte).
+- ⏸️ **Hair**: conj. **C4 Aberto ADV** (120251154356280563) pausado (0 venda) — concentra R$130 em **C2 + C3**.
+- ✋ **Tri** R$150 mantido (real 1,15, no limiar — observar).
+
+Orçamento diário: **R$1.330 → R$1.130** (−R$200/dia, realocado pro que dá retorno real). Obs.: cada edição força PAUSE nessa conta → Prospecting e Retargeting reativados via ads_activate_entity, confirmados ACTIVE.
+
+**Alavancas fora da mídia (p/ dev/time):** publicar tema-cópia (correção UTM) · religar pipeline Supabase · reativar carrinho abandonado + entregabilidade no ActiveCampaign.
