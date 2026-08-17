@@ -41,6 +41,23 @@ utm_source=FB&utm_medium=paid&utm_campaign=semana_imunidade&utm_content=<vitc|om
 6. [ ] Ativar campanha + conjuntos C1/C2/C4. Confirmar ACTIVE (lembrar do bug status_forced_to_paused → reativar se cair).
 7. [ ] Registrar IDs aqui.
 
-## ⏳ Pendências paralelas (quando o Meta voltar, mesma sessão)
-- ⤵️ **Reverter Retargeting** R$250 → R$150 (a escala não segurou: ROAS real 2,86 → 0,00 no pós-otimização).
-- Decidir teste UGC (pausas de Hair C4 / Tetra C1 mataram os UGC desses; só sobrou o de Tri sem entrega).
+## ✅ EXECUTADO (17/08) — CAMPANHA NO AR
+**Campanha:** `SEMANA IMUNIDADE | VID | AGO26` — ID **120251435441430563** — CBO **R$300/dia**, OUTCOME_SALES/Purchase (pixel 828186133708463), para automático **21/08 23:59** BRT. ACTIVE.
+
+Estrutura adaptada (públicos verificados, sem inventar ID): 2 conjuntos de prospecção.
+| Conjunto | ID | Público |
+|---|---|---|
+| IMU \| C1 ABERTO ADV | 120251435444130563 | Broad mulheres 35-65+ BR (exclui Compradores 14D) |
+| IMU \| C2 LAL 1% COMPRADORES | 120251435445470563 | Lookalike 1% Purchase (120250519285830563), exclui Compradores 14D |
+
+**10 anúncios** (5 vídeos × 2 conjuntos), cada vídeo → página do produto, UTM padrão limpo (utm_source=FB…utm_content=<vitc|omega|tetra>_8off_vN):
+- Vit C v1/v2 → super-vitamina-c · Ômega v1/v2 → super-omega-3-coq10 · Tetra v1 → tetravit-d
+- IDs C1: 120251435459610563 / …460080563 / …460950563 / …461880563 / …462750563
+- IDs C2: 120251435465660563 / …467080563 / …469730563 / …471690563 / …472780563
+- Status: todos ACTIVE (3 em PENDING_REVIEW no C1 na hora da criação — liberação normal do Meta).
+
+**Não incluído (operador adiciona manual se quiser):** conjuntos Eng Botanika / Eng Dr William (públicos originais não localizáveis por ID limpo aqui).
+
+## ✅ Pendência paralela resolvida
+- ⤵️ **Retargeting revertido** R$250 → **R$150** (campanha 120250204745640563) — reativado e confirmado ACTIVE.
+- Teste UGC segue de lado (pausas de Hair C4 / Tetra C1 mataram os UGC desses; só sobrou o de Tri sem entrega) — decidir depois.
