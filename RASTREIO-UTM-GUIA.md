@@ -58,3 +58,16 @@ O tema ao vivo (`Tema Padrão` 158421614824) **não pode** ser escrito pela API 
 **Como publicar (você):** Shopify admin → Loja virtual → Temas → em **`Copy of Tema Padrão`** → **Visualizar** (testa a home com `?utm_source=teste&utm_campaign=x`, adiciona ao carrinho, confere que não quebrou nada) → **Publicar**.
 
 **Validar depois de publicar:** um pedido novo vindo de anúncio deve mostrar os UTMs em **Pedido → Detalhes adicionais** no Shopify. A fatia "sem tag" no Utmify/Supabase deve cair bem abaixo dos 30%.
+
+---
+
+## ✅ CONFIRMADO NO AR (17/08) — correção viva nos dois temas
+Inspeção direta dos arquivos do tema:
+- 🟢 **`Semana da Imunidade 2.0`** (role MAIN / publicado, ID 158572183784) — **JÁ contém** o snippet `botanika-utm-capture.liquid` (772 bytes) + a linha `{%- render 'botanika-utm-capture' -%}` no `theme.liquid`. Provavelmente foi montado a partir da cópia corrigida. **Capturando e gravando UTM nos pedidos.**
+- ⚪ **`Tema Padrão`** (ID 158480433384, unpublished, volta após a semana) — também contém a correção (é a cópia que editei). Pronto pra quando reassumir.
+
+**Validação real:** pedidos recentes (inclusive de 17/08 à noite: #2892/#2891/#2890) trazem `utm_source` nos atributos, nas origens de anúncio/bio.
+
+**Reinterpretação do "30% sem tag":** boa parte dos pedidos "sem UTM" é **tráfego orgânico/direto** (Google SEO / acesso direto) que legitimamente não carrega UTM — não é falha de captura. O snippet preserva a tag de quem tem; não inventa pra quem nunca teve. O ponto cego real da paga é bem menor do que os 30% sugeriam.
+
+**Pendência real que sobra (polimento, Frente 1):** padronizar nomenclatura no Meta (`FB` vs `facebook`, `insta_org` vs `Instagram`) — só limpeza de relatório, não é bug.
