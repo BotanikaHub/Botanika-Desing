@@ -702,20 +702,39 @@ export type OrderStats = {
   }>;
 };
 
+// Fuso da loja (Brasil). Datas do filtro chegam como yyyy-mm-dd; convertemos
+// para o dia inteiro no fuso local, senão a Shopify trata a data crua como
+// meia-noite UTC e o dia final fica de fora (subcontagem de vendas).
+const STORE_TZ = "-03:00";
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function sinceFilter(since?: string | null): string {
+  if (!since) return "";
+  const v = ISO_DATE.test(since) ? `${since}T00:00:00${STORE_TZ}` : since;
+  return ` created_at:>='${v}'`;
+}
+
+function untilFilter(until?: string | null): string {
+  if (!until) return "";
+  const v = ISO_DATE.test(until) ? `${until}T23:59:59${STORE_TZ}` : until;
+  return ` created_at:<='${v}'`;
+}
+
 /** Pedidos que usaram um código de desconto. */
 export async function getOrdersByDiscountCode(
   conn: ShopifyConnection,
   code: string,
   opts: { since?: string | null; until?: string | null; maxOrders?: number } = {},
 ): Promise<OrderStats> {
-  const maxOrders = opts.maxOrders ?? 250;
-  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "") + (opts.until ? ` created_at:<=${opts.until}` : "");
+  const maxOrders = opts.maxOrders ?? 1000;
+  const q = `discount_code:${code}` + sinceFilter(opts.since) + untilFilter(opts.until);
   // Obs: NÃO pedimos dados do cliente (customer{}), pois isso exigiria o scope
   // `read_customers` (dados protegidos, com aprovação da Shopify). Para vendas e
   // comissões não é necessário.
   const query = `
-    query ordersByDiscount($q: String!, $first: Int!) {
-      orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
+    query ordersByDiscount($q: String!, $first: Int!, $after: String) {
+      orders(first: $first, after: $after, query: $q, sortKey: CREATED_AT, reverse: true) {
+        pageInfo { hasNextPage endCursor }
         nodes {
           id
           name
@@ -727,37 +746,46 @@ export async function getOrdersByDiscountCode(
     }
   `;
 
-  const data = await shopifyGraphQL<{
-    orders: {
-      nodes: Array<{
-        id: string;
-        name: string;
-        createdAt: string;
-        displayFinancialStatus: string | null;
-        currentTotalPriceSet: {
-          shopMoney: { amount: string; currencyCode: string };
-        };
-      }>;
-    };
-  }>(conn, query, { q, first: maxOrders });
+  type Node = {
+    id: string;
+    name: string;
+    createdAt: string;
+    displayFinancialStatus: string | null;
+    currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
+  };
 
-  const nodes = data.orders.nodes;
   let totalSales = 0;
   let currency = "BRL";
+  const orders: OrderStats["orders"] = [];
+  let after: string | null = null;
 
-  const orders = nodes.map((o) => {
-    const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
-    totalSales += total;
-    currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
-    return {
-      id: o.id,
-      name: o.name,
-      createdAt: o.createdAt,
-      total,
-      customer: null,
-      financialStatus: o.displayFinancialStatus,
-    };
-  });
+  // Pagina de 100 em 100 até acabar (ou atingir o teto de segurança).
+  while (orders.length < maxOrders) {
+    const data: {
+      orders: {
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+        nodes: Node[];
+      };
+    } = await shopifyGraphQL(conn, query, { q, first: 100, after });
+
+    for (const o of data.orders.nodes) {
+      const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
+      totalSales += total;
+      currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
+      orders.push({
+        id: o.id,
+        name: o.name,
+        createdAt: o.createdAt,
+        total,
+        customer: null,
+        financialStatus: o.displayFinancialStatus,
+      });
+    }
+
+    if (!data.orders.pageInfo.hasNextPage) break;
+    after = data.orders.pageInfo.endCursor;
+    if (!after) break;
+  }
 
   return { orderCount: orders.length, totalSales, currency, orders };
 }
@@ -782,11 +810,12 @@ export async function getCreatorSales(
   code: string,
   opts: { since?: string | null; until?: string | null; maxOrders?: number } = {},
 ): Promise<CreatorSales> {
-  const maxOrders = opts.maxOrders ?? 250;
-  const q = `discount_code:${code}` + (opts.since ? ` created_at:>=${opts.since}` : "") + (opts.until ? ` created_at:<=${opts.until}` : "");
+  const maxOrders = opts.maxOrders ?? 1000;
+  const q = `discount_code:${code}` + sinceFilter(opts.since) + untilFilter(opts.until);
   const query = `
-    query creatorSales($q: String!, $first: Int!) {
-      orders(first: $first, query: $q, sortKey: CREATED_AT, reverse: true) {
+    query creatorSales($q: String!, $first: Int!, $after: String) {
+      orders(first: $first, after: $after, query: $q, sortKey: CREATED_AT, reverse: true) {
+        pageInfo { hasNextPage endCursor }
         nodes {
           id
           name
@@ -805,48 +834,60 @@ export async function getCreatorSales(
     }
   `;
 
-  const data = await shopifyGraphQL<{
-    orders: {
+  type Node = {
+    id: string;
+    name: string;
+    createdAt: string;
+    displayFinancialStatus: string | null;
+    currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
+    lineItems: {
       nodes: Array<{
-        id: string;
-        name: string;
-        createdAt: string;
-        displayFinancialStatus: string | null;
-        currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
-        lineItems: {
-          nodes: Array<{
-            title: string;
-            quantity: number;
-            discountedTotalSet: { shopMoney: { amount: string } } | null;
-          }>;
-        };
+        title: string;
+        quantity: number;
+        discountedTotalSet: { shopMoney: { amount: string } } | null;
       }>;
     };
-  }>(conn, query, { q, first: maxOrders });
+  };
 
   let totalSales = 0;
   let currency = "BRL";
   const products = new Map<string, { quantity: number; revenue: number }>();
+  const orders: CreatorSales["orders"] = [];
+  let after: string | null = null;
 
-  const orders = data.orders.nodes.map((o) => {
-    const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
-    totalSales += total;
-    currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
-    for (const li of o.lineItems.nodes) {
-      const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
-      const p = products.get(li.title) || { quantity: 0, revenue: 0 };
-      p.quantity += li.quantity;
-      p.revenue += rev;
-      products.set(li.title, p);
+  // Pagina de 100 em 100 até acabar (ou atingir o teto de segurança).
+  while (orders.length < maxOrders) {
+    const data: {
+      orders: {
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+        nodes: Node[];
+      };
+    } = await shopifyGraphQL(conn, query, { q, first: 100, after });
+
+    for (const o of data.orders.nodes) {
+      const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
+      totalSales += total;
+      currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
+      for (const li of o.lineItems.nodes) {
+        const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
+        const p = products.get(li.title) || { quantity: 0, revenue: 0 };
+        p.quantity += li.quantity;
+        p.revenue += rev;
+        products.set(li.title, p);
+      }
+      orders.push({
+        id: o.id,
+        name: o.name,
+        createdAt: o.createdAt,
+        total,
+        financialStatus: o.displayFinancialStatus,
+      });
     }
-    return {
-      id: o.id,
-      name: o.name,
-      createdAt: o.createdAt,
-      total,
-      financialStatus: o.displayFinancialStatus,
-    };
-  });
+
+    if (!data.orders.pageInfo.hasNextPage) break;
+    after = data.orders.pageInfo.endCursor;
+    if (!after) break;
+  }
 
   const topProducts = [...products.entries()]
     .map(([title, v]) => ({ title, quantity: v.quantity, revenue: v.revenue }))
@@ -885,12 +926,7 @@ export async function getBrandAnalytics(
   opts: { maxOrders?: number; since?: string | null; until?: string | null } = {},
 ): Promise<BrandAnalytics> {
   const maxOrders = opts.maxOrders ?? 1000;
-  const q = [
-    opts.since ? `created_at:>=${opts.since}` : "",
-    opts.until ? `created_at:<=${opts.until}` : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const q = (sinceFilter(opts.since) + untilFilter(opts.until)).trim();
   const query = `
     query brandOrders($first: Int!, $after: String, $q: String) {
       orders(first: $first, after: $after, query: $q, sortKey: CREATED_AT, reverse: true) {

@@ -62,8 +62,9 @@ export default async function MetasTab({
     .map((c) => {
       const sales = salesByCode[(c.couponCode || "").toUpperCase()]?.sales ?? 0;
       const goal = c.goalAmount ?? brand.goalDefaultAmount;
+      // Sem meta definida (goal ≤ 0): considera atingida (nada a bater).
       const pct = goal > 0 ? (sales / goal) * 100 : 100;
-      const reached = goal > 0 && sales >= goal;
+      const reached = goal <= 0 || sales >= goal;
       const bonuses =
         brand.bonusStepAmount > 0 ? Math.floor(Math.max(0, sales - goal) / brand.bonusStepAmount) : 0;
       return { name: c.name, code: c.couponCode || "", sales, goal, pct, reached, bonuses };

@@ -4,9 +4,21 @@ import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
-const SECRET = new TextEncoder().encode(
-  process.env.SESSION_SECRET || "dev-insecure-secret-change-me",
-);
+// Calculado sob demanda (não no load do módulo), para o `next build` não
+// exigir o segredo em tempo de build. Em produção, uma requisição sem
+// SESSION_SECRET falha aqui — como deve ser.
+function sessionSecret(): Uint8Array {
+  const s = process.env.SESSION_SECRET;
+  if (!s) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "SESSION_SECRET não configurado. Defina uma chave secreta forte no ambiente.",
+      );
+    }
+    return new TextEncoder().encode("dev-insecure-secret-change-me");
+  }
+  return new TextEncoder().encode(s);
+}
 
 const CREATOR_COOKIE = "botanika_creator_session";
 const ADMIN_COOKIE = "botanika_admin_session";
@@ -31,7 +43,7 @@ async function sign(payload: SessionPayload): Promise<string> {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${MAX_AGE}s`)
-    .sign(SECRET);
+    .sign(sessionSecret());
 }
 
 async function readSession(cookieName: string): Promise<SessionPayload | null> {
@@ -39,7 +51,9 @@ async function readSession(cookieName: string): Promise<SessionPayload | null> {
   const token = store.get(cookieName)?.value;
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, SECRET);
+    const { payload } = await jwtVerify(token, sessionSecret(), {
+      algorithms: ["HS256"],
+    });
     return payload as unknown as SessionPayload;
   } catch {
     return null;

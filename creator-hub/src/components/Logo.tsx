@@ -3,7 +3,6 @@ export function Logo({
   color = "var(--brand)",
 }: {
   className?: string;
-  brandName?: string; // aceito por compatibilidade; o nome exibido é sempre "Creator Club"
   color?: string;
 }) {
   return (

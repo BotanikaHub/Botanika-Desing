@@ -23,7 +23,7 @@ export default async function ApplyPage({
       <header className="border-b bg-[var(--surface)]">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">
           <Link href={`/${brand.slug}`}>
-            <Logo brandName={brand.name} color={brand.primaryColor} />
+            <Logo color={brand.primaryColor} />
           </Link>
           <Link href={"/entrar"} className="btn btn-ghost">
             Já sou do clube

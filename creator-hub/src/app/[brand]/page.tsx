@@ -23,7 +23,7 @@ export default async function BrandLanding({
     >
       <header className="border-b bg-[var(--surface)]">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Logo brandName={brand.name} color={color} />
+          <Logo color={color} />
           <Link href={"/entrar"} className="btn btn-ghost">
             Já sou do clube
           </Link>

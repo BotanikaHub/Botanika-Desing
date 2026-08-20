@@ -9,6 +9,7 @@ import { brandConnection } from "@/lib/brand";
 import { isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
 import { cachedCreatorSales, cachedOrders } from "@/lib/shopify-cache";
 import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
+import { requestOrigin } from "@/lib/request";
 import { PeriodFilter } from "@/components/PeriodFilter";
 import { TermGate } from "./TermGate";
 import { GoalCard } from "./GoalCard";
@@ -53,8 +54,12 @@ export default async function PainelBrand({
   const rate = membership.commissionRate;
   const discountRate = membership.couponDiscountRate ?? brand.defaultDiscountRate;
 
-  // Gate do termo: enquanto não aceito, mostra o aceite eletrônico + endereço.
-  if (!membership.termsAcceptedAt) {
+  // Gate do termo: enquanto não aceito — ou aceito numa versão antiga do termo —
+  // mostra o aceite eletrônico + endereço novamente.
+  const acceptedCurrentTerm =
+    membership.termsAcceptedAt != null &&
+    (membership.termsVersion ?? 0) >= brand.termVersion;
+  if (!acceptedCurrentTerm) {
     return (
       <div className="flex min-h-screen flex-col" style={{ ["--brand" as string]: color }}>
         <header className="border-b bg-[var(--surface)]">
@@ -86,7 +91,7 @@ export default async function PainelBrand({
     );
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "") || (await requestOrigin());
   const affiliateLink = `${appUrl}/r/${brand.slug}/${couponCode}`;
   const clicks = await prisma.click.count({ where: { creatorId: membership.id } });
 

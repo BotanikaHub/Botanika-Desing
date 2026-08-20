@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
+import { revalidateShopify } from "@/lib/shopify-cache";
 import { suggestCoupon } from "@/lib/format";
 import crypto from "crypto";
 import {
@@ -137,7 +138,7 @@ export async function approveCreatorAction(
   _prev: ApproveState,
   formData: FormData,
 ): Promise<ApproveState> {
-  await ensureAdmin();
+  const admin = await ensureAdmin();
 
   const id = String(formData.get("creatorId") || "");
   const requestedCode = String(formData.get("couponCode") || "").trim();
@@ -150,6 +151,9 @@ export async function approveCreatorAction(
     include: { brand: true },
   });
   if (!creator) return { error: "Creator não encontrado." };
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    return { error: "Sem permissão para esta marca." };
+  }
   if (creator.status === "APPROVED") return { error: "Creator já aprovado." };
 
   let result: CouponResult;
@@ -190,6 +194,7 @@ export async function approveCreatorAction(
     html: tmpl.html,
   });
 
+  revalidateShopify(creator.brandId);
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
@@ -214,8 +219,8 @@ export async function addCouponAction(
   if (!code) return { error: "Informe o código do cupom." };
   const name = String(formData.get("name") || "").trim() || code;
   const rate = parseRate(String(formData.get("commissionRate") || ""));
-  const discount =
-    parseOptionalRate(String(formData.get("discountRate") || "")) ?? brand.defaultDiscountRate;
+  // Desconto informado pelo admin (fração) ou null quando o campo veio em branco.
+  const discountOpt = parseOptionalRate(String(formData.get("discountRate") || ""));
   const linkExisting = formData.get("linkExisting") === "on";
 
   const clash = await prisma.creator.findFirst({
@@ -225,21 +230,33 @@ export async function addCouponAction(
 
   const conn = brandConnection(brand);
   let shopifyDiscountId: string | null = null;
+  // Desconto que vamos registrar no banco (para exibição).
+  let discountForDb: number | null = discountOpt;
   if (isShopifyConfigured(conn)) {
     try {
       if (linkExisting) {
-        await setDiscountPercentageByCode(conn, code, discount);
+        // Só mexe no desconto do cupom existente se o admin informou um valor;
+        // em branco preserva o que já está configurado na loja.
+        if (discountOpt != null) {
+          await setDiscountPercentageByCode(conn, code, discountOpt);
+        }
       } else {
+        // Cupom novo: usa o desconto informado ou o padrão da marca.
+        const discount = discountOpt ?? brand.defaultDiscountRate;
         const created = await createDiscountCode(conn, {
           code,
           percentage: discount,
           title: `Creator ${brand.name} — ${name}`,
         });
         shopifyDiscountId = created.discountId;
+        discountForDb = discount;
       }
     } catch (err) {
       return { error: err instanceof Error ? err.message : "Erro ao salvar o cupom na Shopify." };
     }
+  } else if (!linkExisting) {
+    // Sem Shopify: registra ao menos o desconto (informado ou padrão) no banco.
+    discountForDb = discountOpt ?? brand.defaultDiscountRate;
   }
 
   await prisma.creator.create({
@@ -254,12 +271,13 @@ export async function addCouponAction(
       couponCode: code,
       desiredCoupon: code,
       commissionRate: rate,
-      couponDiscountRate: discount,
+      couponDiscountRate: discountForDb,
       shopifyDiscountId,
       approvedAt: new Date(),
     },
   });
 
+  revalidateShopify(brand.id);
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
@@ -276,6 +294,7 @@ export async function removeCreatorAction(formData: FormData) {
   if (admin.brandId && admin.brandId !== creator.brandId) return;
 
   await prisma.creator.delete({ where: { id } });
+  revalidateShopify(creator.brandId);
   revalidatePath("/admin", "layout");
 }
 
@@ -319,12 +338,15 @@ export type CouponConfigLoad = {
 
 // Lê a configuração atual do cupom na Shopify para pré-preencher o editor.
 export async function loadCouponConfigAction(creatorId: string): Promise<CouponConfigLoad> {
-  await ensureAdmin();
+  const admin = await ensureAdmin();
   const creator = await prisma.creator.findUnique({
     where: { id: creatorId },
     include: { brand: true },
   });
   if (!creator) throw new Error("Creator não encontrado.");
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    throw new Error("Sem permissão para esta marca.");
+  }
 
   const conn = brandConnection(creator.brand);
   const fallback = defaultCouponConfig(
@@ -385,7 +407,7 @@ export async function saveCouponConfigAction(
   _prev: ApproveState,
   formData: FormData,
 ): Promise<ApproveState> {
-  await ensureAdmin();
+  const admin = await ensureAdmin();
 
   const id = String(formData.get("creatorId") || "");
   const raw = String(formData.get("couponConfig") || "");
@@ -394,6 +416,9 @@ export async function saveCouponConfigAction(
     include: { brand: true },
   });
   if (!creator) return { error: "Creator não encontrado." };
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    return { error: "Sem permissão para esta marca." };
+  }
   if (!creator.couponCode) return { error: "Defina o código do cupom primeiro." };
 
   const conn = brandConnection(creator.brand);
@@ -436,6 +461,7 @@ export async function saveCouponConfigAction(
     },
   });
 
+  revalidateShopify(creator.brandId);
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
@@ -446,7 +472,7 @@ export async function editCreatorCouponAction(
   _prev: ApproveState,
   formData: FormData,
 ): Promise<ApproveState> {
-  await ensureAdmin();
+  const admin = await ensureAdmin();
 
   const id = String(formData.get("creatorId") || "");
   const requestedCode = String(formData.get("couponCode") || "").trim();
@@ -460,6 +486,9 @@ export async function editCreatorCouponAction(
     include: { brand: true },
   });
   if (!creator) return { error: "Creator não encontrado." };
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    return { error: "Sem permissão para esta marca." };
+  }
 
   // A edição rápida cuida da comissão (interna) e de qual cupom rastrear.
   // O valor/onde-aplica do cupom vive no editor de configuração (Shopify).
@@ -485,6 +514,7 @@ export async function editCreatorCouponAction(
     },
   });
 
+  revalidateShopify(creator.brandId);
   revalidatePath("/admin", "layout");
   return { ok: true };
 }
@@ -697,6 +727,7 @@ export async function importShopifyCouponsAction(
     await prisma.creator.createMany({ data: toCreate, skipDuplicates: true });
   }
 
+  revalidateShopify(brand.id);
   revalidatePath("/admin", "layout");
   return {
     imported: toCreate.length,
@@ -706,9 +737,16 @@ export async function importShopifyCouponsAction(
 }
 
 export async function rejectCreatorAction(formData: FormData) {
-  await ensureAdmin();
+  const admin = await ensureAdmin();
   const id = String(formData.get("creatorId") || "");
   const reason = String(formData.get("reason") || "").trim() || null;
+
+  const creator = await prisma.creator.findUnique({
+    where: { id },
+    select: { brandId: true },
+  });
+  if (!creator) return;
+  if (admin.brandId && admin.brandId !== creator.brandId) return;
 
   await prisma.creator.update({
     where: { id },

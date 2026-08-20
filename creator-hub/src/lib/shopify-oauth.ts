@@ -8,9 +8,20 @@ import { SignJWT, jwtVerify } from "jose";
  * O admin clica em "Conectar", instala na loja e recebemos um token offline.
  */
 
-const SECRET = new TextEncoder().encode(
-  process.env.SESSION_SECRET || "dev-insecure-secret-change-me",
-);
+// Calculado sob demanda (não no load do módulo), para o `next build` não
+// exigir o segredo em tempo de build.
+function secret(): Uint8Array {
+  const s = process.env.SESSION_SECRET;
+  if (!s) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "SESSION_SECRET não configurado. Defina uma chave secreta forte no ambiente.",
+      );
+    }
+    return new TextEncoder().encode("dev-insecure-secret-change-me");
+  }
+  return new TextEncoder().encode(s);
+}
 
 // read_products/read_product_listings: usados no seletor de produtos/coleções
 // do editor de cupom (aplicar desconto em itens/coleções específicas).
@@ -27,12 +38,14 @@ export async function signState(slug: string): Promise<string> {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("10m")
-    .sign(SECRET);
+    .sign(secret());
 }
 
 export async function verifyState(token: string): Promise<{ slug: string } | null> {
   try {
-    const { payload } = await jwtVerify(token, SECRET);
+    const { payload } = await jwtVerify(token, secret(), {
+      algorithms: ["HS256"],
+    });
     return { slug: String(payload.slug) };
   } catch {
     return null;

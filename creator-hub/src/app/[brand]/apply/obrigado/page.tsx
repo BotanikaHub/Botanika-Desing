@@ -22,7 +22,7 @@ export default async function ObrigadoPage({
       <header className="border-b bg-[var(--surface)]">
         <div className="mx-auto flex max-w-3xl items-center px-5 py-4">
           <Link href={`/${brand.slug}`}>
-            <Logo brandName={brand.name} color={brand.primaryColor} />
+            <Logo color={brand.primaryColor} />
           </Link>
         </div>
       </header>

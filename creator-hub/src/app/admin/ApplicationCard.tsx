@@ -87,7 +87,7 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
           </div>
           <div className="w-28">
             <label className="label">Desconto %</label>
-            <input name="discountRate" type="number" min={0} max={100} step={1} className="input" defaultValue={creator.defaultDiscountPct} />
+            <input name="discountRate" type="number" min={0} max={100} step={1} className="input" placeholder={String(creator.defaultDiscountPct)} />
           </div>
           <SubmitButton className="btn btn-primary" pendingLabel="Aprovando...">Aprovar</SubmitButton>
         </div>
@@ -102,7 +102,13 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         </label>
       </form>
 
-      <form action={rejectCreatorAction} className="mt-3 flex flex-wrap items-end gap-3">
+      <form
+        action={rejectCreatorAction}
+        className="mt-3 flex flex-wrap items-end gap-3"
+        onSubmit={(e) => {
+          if (!confirm(`Recusar o cadastro de ${creator.name}?`)) e.preventDefault();
+        }}
+      >
         <input type="hidden" name="creatorId" value={creator.id} />
         <div className="flex-1">
           <input name="reason" className="input" placeholder="Motivo da recusa (opcional)" />

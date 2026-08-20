@@ -94,6 +94,9 @@ export async function claimCreatorAction(
   if (!creator) {
     return { error: "Cupom não encontrado nesta marca. Confira o código." };
   }
+  if (creator.status !== "APPROVED") {
+    return { error: "Este cupom ainda não está liberado. Fale com a marca." };
+  }
   if (creator.claimed) {
     return { error: "Esse cupom já tem um painel ativo. Faça login normalmente." };
   }
