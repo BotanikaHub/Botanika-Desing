@@ -108,6 +108,8 @@ export default async function PainelBrand({
   }
 
   const totalSales = sales?.totalSales ?? 0;
+  // A creator vê somente pedidos pagos.
+  const paidOrders = sales?.orders.filter((o) => o.paid) ?? [];
   const commission = totalSales * rate;
   const maxProductRevenue = Math.max(1, ...(sales?.topProducts.map((p) => p.revenue) ?? [0]));
 
@@ -165,11 +167,15 @@ export default async function PainelBrand({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat label="Vendas totais" value={formatBRL(totalSales)} />
-          <Stat label="Pedidos" value={String(sales?.orderCount ?? 0)} />
+          <Stat label="Vendas pagas" value={formatBRL(totalSales)} />
+          <Stat label="Pedidos pagos" value={String(sales?.paidOrderCount ?? 0)} />
           <Stat label={`Comissão (${Math.round(rate * 100)}%)`} value={formatBRL(commission)} />
           <Stat label="Cliques no link" value={String(clicks)} />
         </div>
+        <p className="mt-2 text-xs text-[var(--muted)]">
+          Consideramos apenas <b>pedidos pagos</b> e a comissão é sobre o{" "}
+          <b>valor dos produtos</b> (sem frete).
+        </p>
 
         {salesError && (
           <div className="card mt-6 border-[var(--danger)] bg-[#fdecea] text-sm text-[var(--danger)]">
@@ -222,11 +228,14 @@ export default async function PainelBrand({
           )}
         </div>
 
-        {/* Pedidos */}
+        {/* Pedidos pagos */}
         <div className="card mt-6">
-          <h3 className="mb-4 text-lg font-semibold">Pedidos com seu cupom</h3>
-          {!sales || sales.orders.length === 0 ? (
-            <p className="text-sm text-[var(--muted)]">Nenhum pedido ainda.</p>
+          <h3 className="mb-1 text-lg font-semibold">Pedidos pagos com seu cupom</h3>
+          <p className="mb-4 text-xs text-[var(--muted)]">
+            Valor = produtos (sem frete). Comissão = {Math.round(rate * 100)}% desse valor.
+          </p>
+          {paidOrders.length === 0 ? (
+            <p className="text-sm text-[var(--muted)]">Nenhum pedido pago ainda.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
@@ -234,19 +243,17 @@ export default async function PainelBrand({
                   <tr className="border-b text-[var(--muted)]">
                     <th className="py-2 pr-4 font-medium">Pedido</th>
                     <th className="py-2 pr-4 font-medium">Data</th>
-                    <th className="py-2 pr-4 font-medium">Status</th>
-                    <th className="py-2 pr-4 font-medium">Valor</th>
+                    <th className="py-2 pr-4 font-medium">Valor (produtos)</th>
                     <th className="py-2 font-medium">Sua comissão</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {sales.orders.map((o) => (
+                  {paidOrders.map((o) => (
                     <tr key={o.id} className="border-b last:border-0">
                       <td className="py-2 pr-4 font-medium">{o.name}</td>
                       <td className="py-2 pr-4">{formatDate(o.createdAt)}</td>
-                      <td className="py-2 pr-4">{o.financialStatus || "—"}</td>
-                      <td className="py-2 pr-4">{formatBRL(o.total)}</td>
-                      <td className="py-2 font-semibold text-[var(--brand)]">{formatBRL(o.total * rate)}</td>
+                      <td className="py-2 pr-4">{formatBRL(o.subtotal)}</td>
+                      <td className="py-2 font-semibold text-[var(--brand)]">{formatBRL(o.subtotal * rate)}</td>
                     </tr>
                   ))}
                 </tbody>

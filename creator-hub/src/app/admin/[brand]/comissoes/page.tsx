@@ -58,9 +58,10 @@ export default async function ComissoesTab({
         </div>
       </div>
       <p className="mb-6 text-sm text-[var(--muted)]">
-        Vendas e comissão a pagar por creator, no período. Base: pedidos que usaram
-        o cupom de cada creator. Dica: para fechar pagamento, use o período
-        <b> Personalizado</b> (ex.: o mês inteiro).
+        Vendas e comissão a pagar por creator, no período. A comissão é calculada
+        sobre o <b>valor dos produtos</b> (sem frete/imposto) em pedidos{" "}
+        <b>pagos</b>. Dica: para fechar pagamento, use o período{" "}
+        <b>Personalizado</b> (ex.: o mês inteiro).
       </p>
 
       {!report.connected ? (
@@ -73,9 +74,13 @@ export default async function ComissoesTab({
         </div>
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Stat label="Vendas no período" value={formatBRL(report.totalSales)} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat label="Vendas pagas (produtos)" value={formatBRL(report.totalSales)} />
             <Stat label="Comissão a pagar" value={formatBRL(report.totalCommission)} />
+            <Stat
+              label="Pedidos pagos"
+              value={`${report.totalPaidOrders} de ${report.totalOrders}`}
+            />
             <Stat
               label="Creators com venda"
               value={`${withSales.length} de ${report.rows.length}`}
@@ -97,7 +102,8 @@ export default async function ComissoesTab({
                   <th className="py-2 pr-4 font-medium">Creator</th>
                   <th className="py-2 pr-4 font-medium">Cupom</th>
                   <th className="py-2 pr-4 text-right font-medium">Pedidos</th>
-                  <th className="py-2 pr-4 text-right font-medium">Vendas</th>
+                  <th className="py-2 pr-4 text-right font-medium">Pagos</th>
+                  <th className="py-2 pr-4 text-right font-medium">Vendas (pagas)</th>
                   <th className="py-2 pr-4 text-right font-medium">%</th>
                   <th className="py-2 text-right font-medium">Comissão a pagar</th>
                 </tr>
@@ -108,6 +114,7 @@ export default async function ComissoesTab({
                     <td className="py-2 pr-4 font-medium">{r.name}</td>
                     <td className="py-2 pr-4 font-mono text-xs">{r.code}</td>
                     <td className="py-2 pr-4 text-right tabular-nums">{r.orders}</td>
+                    <td className="py-2 pr-4 text-right tabular-nums font-semibold">{r.paidOrders}</td>
                     <td className="py-2 pr-4 text-right tabular-nums">{formatBRL(r.sales)}</td>
                     <td className="py-2 pr-4 text-right tabular-nums">{r.ratePct}%</td>
                     <td className="py-2 text-right font-semibold tabular-nums text-[var(--brand)]">
@@ -120,6 +127,7 @@ export default async function ComissoesTab({
                 <tr className="border-t-2">
                   <td className="py-3 pr-4 font-bold" colSpan={2}>Total</td>
                   <td className="py-3 pr-4 text-right font-bold tabular-nums">{report.totalOrders}</td>
+                  <td className="py-3 pr-4 text-right font-bold tabular-nums">{report.totalPaidOrders}</td>
                   <td className="py-3 pr-4 text-right font-bold tabular-nums">{formatBRL(report.totalSales)}</td>
                   <td className="py-3 pr-4"></td>
                   <td className="py-3 text-right font-bold tabular-nums text-[var(--brand)]">

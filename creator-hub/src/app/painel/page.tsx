@@ -47,8 +47,9 @@ export default async function PainelPage({
       if (isShopifyConfigured(conn) && c.couponCode) {
         try {
           const s = await cachedOrders(c.brand.id, conn, c.couponCode, { since, until });
+          // Somente pagos; vendas = valor dos produtos.
           sales = s.totalSales;
-          orders = s.orderCount;
+          orders = s.paidOrderCount;
         } catch {
           // ignora falha pontual de uma marca
         }
@@ -102,8 +103,8 @@ export default async function PainelPage({
 
         {/* Consolidado */}
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat label="Vendas totais" value={formatBRL(totalSales)} />
-          <Stat label="Pedidos" value={String(totalOrders)} />
+          <Stat label="Vendas pagas" value={formatBRL(totalSales)} />
+          <Stat label="Pedidos pagos" value={String(totalOrders)} />
           <Stat label="Comissão total" value={formatBRL(totalCommission)} />
           <Stat label="Cliques" value={String(totalClicks)} />
         </div>

@@ -8,8 +8,9 @@ import { cachedBrandAnalytics } from "./shopify-cache";
 export type CommissionRow = {
   name: string;
   code: string;
-  orders: number;
-  sales: number;
+  orders: number; // pedidos com o cupom (todos)
+  paidOrders: number; // pedidos pagos
+  sales: number; // valor dos PRODUTOS em pedidos pagos (base da comissão)
   ratePct: number;
   commission: number;
 };
@@ -18,7 +19,8 @@ export type CommissionReport = {
   rows: CommissionRow[];
   totalSales: number;
   totalCommission: number;
-  totalOrders: number;
+  totalOrders: number; // todos os pedidos com cupom
+  totalPaidOrders: number; // pedidos pagos
   connected: boolean;
   truncated: boolean; // varredura atingiu o teto → período pode estar incompleto
   error: string | null;
@@ -39,7 +41,10 @@ export async function buildCommissionReport(
 
   const conn = brandConnection(brand);
   const connected = isShopifyConfigured(conn);
-  let salesByCode: Record<string, { orders: number; sales: number }> = {};
+  let salesByCode: Record<
+    string,
+    { orders: number; paidOrders: number; sales: number; paidSales: number }
+  > = {};
   let ordersScanned = 0;
   let error: string | null = null;
 
@@ -66,15 +71,19 @@ export async function buildCommissionReport(
     .map((c) => {
       const s = salesByCode[(c.couponCode || "").toUpperCase()] || {
         orders: 0,
+        paidOrders: 0,
         sales: 0,
+        paidSales: 0,
       };
+      // Base da comissão: valor dos produtos em pedidos PAGOS.
       return {
         name: c.name,
         code: c.couponCode || "",
         orders: s.orders,
-        sales: s.sales,
+        paidOrders: s.paidOrders,
+        sales: s.paidSales,
         ratePct: Math.round(c.commissionRate * 100),
-        commission: s.sales * c.commissionRate,
+        commission: s.paidSales * c.commissionRate,
       };
     })
     .sort((a, b) => b.commission - a.commission);
@@ -84,6 +93,7 @@ export async function buildCommissionReport(
     totalSales: rows.reduce((a, b) => a + b.sales, 0),
     totalCommission: rows.reduce((a, b) => a + b.commission, 0),
     totalOrders: rows.reduce((a, b) => a + b.orders, 0),
+    totalPaidOrders: rows.reduce((a, b) => a + b.paidOrders, 0),
     connected,
     truncated: ordersScanned >= 1000,
     error,

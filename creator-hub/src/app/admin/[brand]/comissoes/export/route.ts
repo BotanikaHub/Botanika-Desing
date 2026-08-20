@@ -37,11 +37,29 @@ export async function GET(
   };
   const brl = (n: number) => n.toFixed(2).replace(".", ",");
 
-  const header = ["Creator", "Cupom", "Pedidos", "Vendas (R$)", "Comissao %", "Comissao a pagar (R$)"];
+  const header = [
+    "Creator",
+    "Cupom",
+    "Pedidos",
+    "Pedidos pagos",
+    "Vendas pagas - produtos (R$)",
+    "Comissao %",
+    "Comissao a pagar (R$)",
+  ];
   const lines = report.rows.map((r) =>
-    [r.name, r.code, r.orders, brl(r.sales), r.ratePct, brl(r.commission)].map(esc).join(";"),
+    [r.name, r.code, r.orders, r.paidOrders, brl(r.sales), r.ratePct, brl(r.commission)]
+      .map(esc)
+      .join(";"),
   );
-  const total = ["TOTAL", "", report.totalOrders, brl(report.totalSales), "", brl(report.totalCommission)]
+  const total = [
+    "TOTAL",
+    "",
+    report.totalOrders,
+    report.totalPaidOrders,
+    brl(report.totalSales),
+    "",
+    brl(report.totalCommission),
+  ]
     .map(esc)
     .join(";");
 

@@ -689,14 +689,18 @@ export async function saveDiscountByCode(
 }
 
 export type OrderStats = {
-  orderCount: number;
-  totalSales: number;
+  orderCount: number; // todos os pedidos com o cupom
+  paidOrderCount: number; // somente pedidos pagos
+  totalSales: number; // valor dos PRODUTOS em pedidos PAGOS (base de comissão)
+  grossPaidSales: number; // total pago (com frete/imposto) — referência
   currency: string;
   orders: Array<{
     id: string;
     name: string;
     createdAt: string;
-    total: number;
+    subtotal: number; // valor dos produtos (sem frete/imposto)
+    total: number; // total do pedido (com frete/imposto)
+    paid: boolean;
     customer: string | null;
     financialStatus: string | null;
   }>;
@@ -720,6 +724,13 @@ function untilFilter(until?: string | null): string {
   return ` created_at:<='${v}'`;
 }
 
+// "Pedido pago": o pagamento foi capturado. Inclui parcialmente reembolsado
+// (o dinheiro entrou; o valor de produtos já reflete o reembolso via
+// currentSubtotalPriceSet). Pendente/autorizado/estornado/anulado = não pago.
+function isPaidStatus(status: string | null): boolean {
+  return status === "PAID" || status === "PARTIALLY_REFUNDED";
+}
+
 /** Pedidos que usaram um código de desconto. */
 export async function getOrdersByDiscountCode(
   conn: ShopifyConnection,
@@ -740,6 +751,7 @@ export async function getOrdersByDiscountCode(
           name
           createdAt
           displayFinancialStatus
+          currentSubtotalPriceSet { shopMoney { amount } }
           currentTotalPriceSet { shopMoney { amount currencyCode } }
         }
       }
@@ -751,10 +763,13 @@ export async function getOrdersByDiscountCode(
     name: string;
     createdAt: string;
     displayFinancialStatus: string | null;
+    currentSubtotalPriceSet: { shopMoney: { amount: string } };
     currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
   };
 
-  let totalSales = 0;
+  let totalSales = 0; // produtos, pagos
+  let grossPaidSales = 0; // total pago (com frete)
+  let paidOrderCount = 0;
   let currency = "BRL";
   const orders: OrderStats["orders"] = [];
   let after: string | null = null;
@@ -769,14 +784,22 @@ export async function getOrdersByDiscountCode(
     } = await shopifyGraphQL(conn, query, { q, first: 100, after });
 
     for (const o of data.orders.nodes) {
+      const subtotal = parseFloat(o.currentSubtotalPriceSet.shopMoney.amount || "0");
       const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
-      totalSales += total;
+      const paid = isPaidStatus(o.displayFinancialStatus);
       currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
+      if (paid) {
+        paidOrderCount += 1;
+        totalSales += subtotal;
+        grossPaidSales += total;
+      }
       orders.push({
         id: o.id,
         name: o.name,
         createdAt: o.createdAt,
+        subtotal,
         total,
+        paid,
         customer: null,
         financialStatus: o.displayFinancialStatus,
       });
@@ -787,19 +810,30 @@ export async function getOrdersByDiscountCode(
     if (!after) break;
   }
 
-  return { orderCount: orders.length, totalSales, currency, orders };
+  return {
+    orderCount: orders.length,
+    paidOrderCount,
+    totalSales,
+    grossPaidSales,
+    currency,
+    orders,
+  };
 }
 
 export type CreatorSales = {
-  orderCount: number;
-  totalSales: number;
+  orderCount: number; // todos os pedidos com o cupom
+  paidOrderCount: number; // somente pedidos pagos
+  totalSales: number; // valor dos PRODUTOS em pedidos PAGOS
   currency: string;
+  // Produtos mais vendidos (somente pedidos pagos).
   topProducts: Array<{ title: string; quantity: number; revenue: number }>;
   orders: Array<{
     id: string;
     name: string;
     createdAt: string;
-    total: number;
+    subtotal: number; // valor dos produtos (sem frete/imposto)
+    total: number; // total do pedido (com frete/imposto)
+    paid: boolean;
     financialStatus: string | null;
   }>;
 };
@@ -821,6 +855,7 @@ export async function getCreatorSales(
           name
           createdAt
           displayFinancialStatus
+          currentSubtotalPriceSet { shopMoney { amount } }
           currentTotalPriceSet { shopMoney { amount currencyCode } }
           lineItems(first: 50) {
             nodes {
@@ -839,6 +874,7 @@ export async function getCreatorSales(
     name: string;
     createdAt: string;
     displayFinancialStatus: string | null;
+    currentSubtotalPriceSet: { shopMoney: { amount: string } };
     currentTotalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
     lineItems: {
       nodes: Array<{
@@ -849,7 +885,8 @@ export async function getCreatorSales(
     };
   };
 
-  let totalSales = 0;
+  let totalSales = 0; // produtos, pagos
+  let paidOrderCount = 0;
   let currency = "BRL";
   const products = new Map<string, { quantity: number; revenue: number }>();
   const orders: CreatorSales["orders"] = [];
@@ -865,21 +902,29 @@ export async function getCreatorSales(
     } = await shopifyGraphQL(conn, query, { q, first: 100, after });
 
     for (const o of data.orders.nodes) {
+      const subtotal = parseFloat(o.currentSubtotalPriceSet.shopMoney.amount || "0");
       const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
-      totalSales += total;
+      const paid = isPaidStatus(o.displayFinancialStatus);
       currency = o.currentTotalPriceSet.shopMoney.currencyCode || currency;
-      for (const li of o.lineItems.nodes) {
-        const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
-        const p = products.get(li.title) || { quantity: 0, revenue: 0 };
-        p.quantity += li.quantity;
-        p.revenue += rev;
-        products.set(li.title, p);
+      // Só pedidos pagos contam para vendas/produtos da creator.
+      if (paid) {
+        paidOrderCount += 1;
+        totalSales += subtotal;
+        for (const li of o.lineItems.nodes) {
+          const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
+          const p = products.get(li.title) || { quantity: 0, revenue: 0 };
+          p.quantity += li.quantity;
+          p.revenue += rev;
+          products.set(li.title, p);
+        }
       }
       orders.push({
         id: o.id,
         name: o.name,
         createdAt: o.createdAt,
+        subtotal,
         total,
+        paid,
         financialStatus: o.displayFinancialStatus,
       });
     }
@@ -894,23 +939,36 @@ export async function getCreatorSales(
     .sort((a, b) => b.revenue - a.revenue)
     .slice(0, 8);
 
-  return { orderCount: orders.length, totalSales, currency, topProducts, orders };
+  return {
+    orderCount: orders.length,
+    paidOrderCount,
+    totalSales,
+    currency,
+    topProducts,
+    orders,
+  };
 }
 
 export type BrandAnalytics = {
   ordersScanned: number;
-  trackedOrders: number;
-  trackedSales: number;
+  trackedOrders: number; // pedidos com cupom (todos)
+  trackedPaidOrders: number; // pedidos com cupom pagos
+  trackedSales: number; // valor dos PRODUTOS em pedidos PAGOS com cupom
   topInfluencers: Array<{
     code: string;
     name: string;
-    orders: number;
-    sales: number;
+    orders: number; // pedidos (todos)
+    paidOrders: number; // pedidos pagos
+    sales: number; // produtos, pagos (base de comissão)
     commission: number;
   }>;
   topProducts: Array<{ title: string; quantity: number; revenue: number }>;
-  // Vendas de TODOS os cupons rastreados (código → totais), para o ranking de metas.
-  salesByCode: Record<string, { orders: number; sales: number }>;
+  // Totais por cupom (código → { pedidos, pagos, produtos, produtos-pagos }),
+  // para os relatórios de comissão e metas.
+  salesByCode: Record<
+    string,
+    { orders: number; paidOrders: number; sales: number; paidSales: number }
+  >;
 };
 
 /**
@@ -933,7 +991,8 @@ export async function getBrandAnalytics(
         pageInfo { hasNextPage endCursor }
         nodes {
           discountCodes
-          currentTotalPriceSet { shopMoney { amount } }
+          displayFinancialStatus
+          currentSubtotalPriceSet { shopMoney { amount } }
           lineItems(first: 50) {
             nodes {
               title
@@ -948,7 +1007,8 @@ export async function getBrandAnalytics(
 
   type OrderNode = {
     discountCodes: string[];
-    currentTotalPriceSet: { shopMoney: { amount: string } };
+    displayFinancialStatus: string | null;
+    currentSubtotalPriceSet: { shopMoney: { amount: string } };
     lineItems: {
       nodes: Array<{
         title: string;
@@ -958,11 +1018,15 @@ export async function getBrandAnalytics(
     };
   };
 
-  const salesByCode = new Map<string, { orders: number; sales: number }>();
+  const salesByCode = new Map<
+    string,
+    { orders: number; paidOrders: number; sales: number; paidSales: number }
+  >();
   const products = new Map<string, { quantity: number; revenue: number }>();
   let ordersScanned = 0;
   let trackedOrders = 0;
-  let trackedSales = 0;
+  let trackedPaidOrders = 0;
+  let trackedSales = 0; // produtos, pagos
   let after: string | null = null;
 
   while (ordersScanned < maxOrders) {
@@ -980,21 +1044,35 @@ export async function getBrandAnalytics(
       if (tracked.length === 0) continue;
 
       const primary = tracked[0];
-      const total = parseFloat(o.currentTotalPriceSet.shopMoney.amount || "0");
+      const subtotal = parseFloat(o.currentSubtotalPriceSet.shopMoney.amount || "0");
+      const paid = isPaidStatus(o.displayFinancialStatus);
       trackedOrders += 1;
-      trackedSales += total;
 
-      const s = salesByCode.get(primary) || { orders: 0, sales: 0 };
+      const s = salesByCode.get(primary) || {
+        orders: 0,
+        paidOrders: 0,
+        sales: 0,
+        paidSales: 0,
+      };
       s.orders += 1;
-      s.sales += total;
+      s.sales += subtotal;
+      if (paid) {
+        s.paidOrders += 1;
+        s.paidSales += subtotal;
+        trackedPaidOrders += 1;
+        trackedSales += subtotal;
+      }
       salesByCode.set(primary, s);
 
-      for (const li of o.lineItems.nodes) {
-        const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
-        const p = products.get(li.title) || { quantity: 0, revenue: 0 };
-        p.quantity += li.quantity;
-        p.revenue += rev;
-        products.set(li.title, p);
+      // Produtos: só pedidos pagos.
+      if (paid) {
+        for (const li of o.lineItems.nodes) {
+          const rev = parseFloat(li.discountedTotalSet?.shopMoney?.amount || "0");
+          const p = products.get(li.title) || { quantity: 0, revenue: 0 };
+          p.quantity += li.quantity;
+          p.revenue += rev;
+          products.set(li.title, p);
+        }
       }
     }
 
@@ -1008,8 +1086,9 @@ export async function getBrandAnalytics(
       code,
       name: creatorsByCode[code]?.name || code,
       orders: v.orders,
-      sales: v.sales,
-      commission: v.sales * (creatorsByCode[code]?.rate ?? 0),
+      paidOrders: v.paidOrders,
+      sales: v.paidSales,
+      commission: v.paidSales * (creatorsByCode[code]?.rate ?? 0),
     }))
     .sort((a, b) => b.sales - a.sales)
     .slice(0, 10);
@@ -1019,12 +1098,13 @@ export async function getBrandAnalytics(
     .sort((a, b) => b.revenue - a.revenue)
     .slice(0, 10);
 
-  const salesByCodeObj: Record<string, { orders: number; sales: number }> = {};
+  const salesByCodeObj: BrandAnalytics["salesByCode"] = {};
   for (const [code, v] of salesByCode.entries()) salesByCodeObj[code] = v;
 
   return {
     ordersScanned,
     trackedOrders,
+    trackedPaidOrders,
     trackedSales,
     topInfluencers,
     topProducts,

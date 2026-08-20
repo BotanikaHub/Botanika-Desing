@@ -40,7 +40,10 @@ export default async function MetasTab({
   const connected = isShopifyConfigured(conn);
 
   // Vendas do período da meta por cupom.
-  let salesByCode: Record<string, { orders: number; sales: number }> = {};
+  let salesByCode: Record<
+    string,
+    { orders: number; paidOrders: number; sales: number; paidSales: number }
+  > = {};
   let error: string | null = null;
   if (connected && approved.length > 0) {
     const now = new Date();
@@ -60,7 +63,8 @@ export default async function MetasTab({
 
   const rows = approved
     .map((c) => {
-      const sales = salesByCode[(c.couponCode || "").toUpperCase()]?.sales ?? 0;
+      // Meta medida sobre vendas pagas (valor dos produtos).
+      const sales = salesByCode[(c.couponCode || "").toUpperCase()]?.paidSales ?? 0;
       const goal = c.goalAmount ?? brand.goalDefaultAmount;
       // Sem meta definida (goal ≤ 0): considera atingida (nada a bater).
       const pct = goal > 0 ? (sales / goal) * 100 : 100;

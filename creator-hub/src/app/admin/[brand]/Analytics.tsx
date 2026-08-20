@@ -19,9 +19,12 @@ export function BrandAnalyticsView({
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Stat label="Vendas por influencers" value={formatBRL(data.trackedSales)} />
-        <Stat label="Pedidos com cupom" value={String(data.trackedOrders)} />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Vendas pagas (produtos)" value={formatBRL(data.trackedSales)} />
+        <Stat
+          label="Pedidos com cupom"
+          value={`${data.trackedPaidOrders} pagos de ${data.trackedOrders}`}
+        />
         <Stat label="Pedidos analisados" value={String(data.ordersScanned)} />
       </div>
 
@@ -60,7 +63,8 @@ export function BrandAnalyticsView({
                     />
                   </div>
                   <p className="mt-0.5 text-xs text-[var(--muted)]">
-                    {inf.orders} pedido(s) · comissão {formatBRL(inf.commission)}
+                    {inf.paidOrders} pago(s) de {inf.orders} · comissão{" "}
+                    {formatBRL(inf.commission)}
                   </p>
                 </li>
               ))}
