@@ -20,11 +20,14 @@ Criativos: 4 estáticos (`ad01–04`), versão 12% e versão 10% (a arte traz o 
 - B1: anúncios `ad01–04` 12% em cada conjunto (8 ads). B2: `ad01–04` 10% (8 ads). Todos ACTIVE.
 - **Campanha A (Live):** boost do vídeo ao vivo no IG — nativo pela equipe OU enviar link do vídeo às 20h p/ eu criar o anúncio (R$400).
 
-## 🔔 Ativação por sinal (só falta apertar a campanha)
+## 🔔 Ativação (corrigido)
+> ⚠️ O agendamento nativo do Meta (start_time na campanha) NÃO segurou — resetou o start pra "agora" ao ativar. Por isso: B1 = sinal manual; B2 = despertador do agente.
 1. **Seg 20h — "live no ar"** → equipe impulsiona o vídeo da live (R$400).
-2. **Seg 21h — "12% no ar"** → ativo campanha **B1** (120251547887250563). Para sozinha ter 21h59.
-3. **Ter 21h59** → B1 encerra sozinha (stop). Gap: nada roda.
-4. **Qua (quando 10% entrar no site) — "10% no ar"** → ativo campanha **B2** (120251547887480563). Para sozinha sex 23h59.
+2. **Seg 21h — "12% no ar"** → operador me pinga, ativo a **B1** (120251547887250563). Para sozinha ter 21h59 (stop_time). Fica **PAUSADA** até o sinal.
+3. **Ter 25/08 21h59** → B1 encerra sozinha. Gap ~2,5h (preço cheio, madrugada).
+4. **Qua 26/08 00:30 — 10% entra no site (confirmado)** → **despertador automático do agente** (trigger `trig_017JAC9H6c85og6ogujKsvbT`) ativa a **B2** (120251547887480563). Para sozinha sex 23h59 (stop_time). Fica PAUSADA até 00:30.
+
+**Pixel:** operador confirmou Purchase padrão do site ativo. ✅
 
 ## Acompanhamento diário (o que vou reportar)
 - Gasto vs verba (R$400/dia), **CPA**, **ROAS Meta e ROAS real (Utmify)** por campanha/conjunto.
