@@ -120,3 +120,17 @@ Relatório 13–16/08 cruzando Shopify (R$31,6k vendas / 103 ped), Utmify (ROAS 
 Orçamento diário: **R$1.330 → R$1.130** (−R$200/dia, realocado pro que dá retorno real). Obs.: cada edição força PAUSE nessa conta → Prospecting e Retargeting reativados via ads_activate_entity, confirmados ACTIVE.
 
 **Alavancas fora da mídia (p/ dev/time):** publicar tema-cópia (correção UTM) · religar pipeline Supabase · reativar carrinho abandonado + entregabilidade no ActiveCampaign.
+
+---
+
+## ⚙️ OTIMIZAÇÃO DO PERPÉTUO (22/08) — pós Semana da Imunidade
+Semana forte (loja 15–21/08 = ~R$92,8k / 311 pedidos). Cruzamento 7d das 3 fontes. **ROAS real da paga blended 1,69** (subiu de 0,91; ainda abaixo do breakeven 2,06, mas melhorando). Ranking real 7d: **Tri 3,89** (único acima) · Tetra 1,78 · Retarget 1,42 · Hair 1,31 · Prospecting 1,18. Conjuntos fracos já estavam pausados. Ações aplicadas (aprovadas):
+- ⬆️ **Tri** R$150 → **R$250** (único vencedor real; conj. C1 Lista Human Meta 14,9).
+- ⬆️ **TetraVit D** R$100 → **R$150** (melhor tendência Meta 10→13 em 3d; estava subfinanciado).
+- ⏸️ **Prospecting**: pausado o anúncio duplicado ruim `AD | HAIR_V03` (120250691245550563, ROAS 4,9 — pior ativo). Budget mantido R$400 (motor do funil, loja quente).
+- ✋ **Retargeting** R$150 mantido (público quente pequeno — escalar demais já derrubou antes).
+- ✋ **Hair** R$130 mantido (real 1,31; observar).
+
+Orçamento diário perene: **R$930 → R$1.130** (+R$200 nos 2 melhores). Bug status_forced_to_paused: Tri e Tetra reativados e confirmados ACTIVE.
+
+**🚀 Maior oportunidade aberta:** **Whey é o produto #1 da loja (R$21,9k/semana) e NÃO tem campanha** — vende tudo no orgânico. Subir mídia de Whey (precisa de criativo) é o maior upside atual.
