@@ -23,6 +23,14 @@ Sempre que a tarefa envolver **criar ou editar uma landing page**, leia primeiro
 - **Fonte da verdade do produto:** Shopify (variant/preço) + Google Drive (rótulo/caixa/depoimentos). Cada produto DEVE ter identidade própria (paleta/fundo/fonte/assinatura).
 - **Nunca** colocar o identificador do modelo em commits, PRs ou código.
 
+## Convenção de Copies (regra da Sarah — não quebrar)
+
+- **Toda campanha entrega UM único documento de copies** (Google Doc), nunca um doc por canal.
+- Dentro desse documento, os **canais de venda** ficam como **seções internas**, na ordem que o agente já entrega (ex.: E-mail → WhatsApp Grupos/Grupo VIP → WhatsApp API → demais canais).
+- Vale **mesmo quando há uma tarefa por canal** no ClickUp: as tarefas são separadas, o documento é único.
+- Salvar em: `Botanika › 1. Campanhas › <mês> › Copies › <Campanha> › "Copies — <Campanha>"`.
+- Todo superprompt de copy deve instruir explicitamente o agente a entregar **documento único** com os canais dentro.
+
 ## Como o usuário edita uma LP específica (comando pra colar em chat novo)
 
 > "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
