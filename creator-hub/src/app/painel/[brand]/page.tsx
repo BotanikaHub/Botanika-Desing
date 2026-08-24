@@ -10,9 +10,11 @@ import { isShopifyConfigured, type CreatorSales } from "@/lib/shopify";
 import { cachedCreatorSales, cachedOrders } from "@/lib/shopify-cache";
 import { formatBRL, formatDate, resolvePeriod } from "@/lib/format";
 import { requestOrigin } from "@/lib/request";
+import { getWithdrawalSummary } from "@/lib/withdrawals";
 import { PeriodFilter } from "@/components/PeriodFilter";
 import { TermGate } from "./TermGate";
 import { GoalCard } from "./GoalCard";
+import { WithdrawalPanel, type WithdrawalRow } from "./WithdrawalPanel";
 
 const DEFAULT_TERM_TITLE = "Termo de aceite do Creator Club";
 const DEFAULT_TERM_BODY =
@@ -110,6 +112,22 @@ export default async function PainelBrand({
   const totalSales = sales?.totalSales ?? 0;
   // A creator vê somente pedidos pagos.
   const paidOrders = sales?.orders.filter((o) => o.paid) ?? [];
+
+  // Saque: resumo (comissão acumulada, disponível) + histórico.
+  const withdrawalSummary = await getWithdrawalSummary(membership, brand);
+  const withdrawalRows: WithdrawalRow[] = (
+    await prisma.withdrawal.findMany({
+      where: { creatorId: membership.id },
+      select: { id: true, amount: true, status: true, requestedAt: true, paidAt: true },
+      orderBy: { requestedAt: "desc" },
+    })
+  ).map((w) => ({
+    id: w.id,
+    amount: w.amount,
+    status: w.status,
+    requestedAt: w.requestedAt.toISOString(),
+    paidAt: w.paidAt ? w.paidAt.toISOString() : null,
+  }));
   const commission = totalSales * rate;
   const maxProductRevenue = Math.max(1, ...(sales?.topProducts.map((p) => p.revenue) ?? [0]));
 
@@ -204,6 +222,14 @@ export default async function PainelBrand({
             </div>
           </div>
         </div>
+
+        {/* Saque da comissão */}
+        <WithdrawalPanel
+          creatorId={membership.id}
+          color={color}
+          summary={withdrawalSummary}
+          withdrawals={withdrawalRows}
+        />
 
         {/* Produtos que você mais vende */}
         <div className="card mt-6">

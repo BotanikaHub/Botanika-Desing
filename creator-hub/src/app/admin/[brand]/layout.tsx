@@ -16,9 +16,14 @@ export default async function BrandAdminLayout({
   const { brand: slug } = await params;
   const { brand } = await requireBrandAdmin(slug);
 
-  const pendingCount = await prisma.creator.count({
-    where: { brandId: brand.id, status: "PENDING" },
-  });
+  const [pendingCount, withdrawalsCount] = await Promise.all([
+    prisma.creator.count({
+      where: { brandId: brand.id, status: "PENDING" },
+    }),
+    prisma.withdrawal.count({
+      where: { status: "REQUESTED", creator: { brandId: brand.id } },
+    }),
+  ]);
 
   return (
     <div
@@ -43,7 +48,12 @@ export default async function BrandAdminLayout({
             <button type="submit" className="btn btn-ghost">Sair</button>
           </form>
         </div>
-        <AdminTabs slug={brand.slug} color={brand.primaryColor} pendingCount={pendingCount} />
+        <AdminTabs
+          slug={brand.slug}
+          color={brand.primaryColor}
+          pendingCount={pendingCount}
+          withdrawalsCount={withdrawalsCount}
+        />
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">{children}</main>

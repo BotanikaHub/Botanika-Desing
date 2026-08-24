@@ -13,6 +13,7 @@ export type ProgramView = {
   goalDefaultAmount: number;
   bonusStepAmount: number;
   bonusLabel: string;
+  withdrawalMinSales: number;
 };
 
 export function ProgramSettings({ brand }: { brand: ProgramView }) {
@@ -126,6 +127,28 @@ export function ProgramSettings({ brand }: { brand: ProgramView }) {
               <p className="mt-2 text-xs text-[var(--muted)]">
                 Cada creator pode ter uma meta individual (editada no card dele); sem
                 isso, vale a meta padrão da marca.
+              </p>
+            </div>
+
+            {/* Saque */}
+            <div className="border-t pt-4">
+              <p className="mb-3 text-sm font-semibold">Saque</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="label">Mínimo de vendas p/ liberar saque (R$)</label>
+                  <input
+                    name="withdrawalMinSales"
+                    type="number"
+                    min={0}
+                    step={100}
+                    className="input"
+                    defaultValue={brand.withdrawalMinSales}
+                  />
+                </div>
+              </div>
+              <p className="mt-2 text-xs text-[var(--muted)]">
+                A creator só pode solicitar saque ao atingir esse total em vendas
+                acumuladas — e depois de anexar a Nota Fiscal.
               </p>
             </div>
 

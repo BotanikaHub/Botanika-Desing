@@ -9,16 +9,19 @@ export function AdminTabs({
   slug,
   color,
   pendingCount,
+  withdrawalsCount,
 }: {
   slug: string;
   color: string;
   pendingCount: number;
+  withdrawalsCount: number;
 }) {
   const pathname = usePathname();
   const base = `/admin/${slug}`;
   const tabs: Tab[] = [
     { label: "Vendas", href: base },
     { label: "Comissões", href: `${base}/comissoes` },
+    { label: "Saques", href: `${base}/saques`, badge: withdrawalsCount },
     { label: "Cupons", href: `${base}/cupons` },
     { label: "Metas", href: `${base}/metas` },
     { label: "Envio", href: `${base}/envio` },

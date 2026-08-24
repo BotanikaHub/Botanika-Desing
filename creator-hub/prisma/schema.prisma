@@ -17,6 +17,12 @@ enum CreatorStatus {
   REJECTED
 }
 
+enum WithdrawalStatus {
+  REQUESTED // creator solicitou; aguardando pagamento
+  PAID // pago (admin confirmou o PIX)
+  REJECTED // recusado pelo admin
+}
+
 /// Uma marca/operação (ex.: Botanika, VermeFree). Cada marca tem sua própria
 /// loja Shopify, seus creators, cupons e painel — tudo isolado por marca.
 model Brand {
@@ -60,6 +66,9 @@ model Brand {
   goalDefaultAmount Float  @default(3000) // meta padrão da marca (R$)
   bonusStepAmount   Float  @default(1000) // a cada X além da meta = 1 bônus
   bonusLabel        String @default("bônus") // o que a creator ganha (ex.: "suplemento extra")
+
+  // Saque: mínimo de vendas acumuladas para liberar a solicitação de saque.
+  withdrawalMinSales Float @default(1000)
 
   creators Creator[]
 
@@ -177,7 +186,8 @@ model Creator {
 
   rejectionReason String?
 
-  clicks Click[]
+  clicks      Click[]
+  withdrawals Withdrawal[]
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -189,6 +199,29 @@ model Creator {
   @@unique([brandId, couponCode])
   @@index([brandId, status])
   @@index([accountId])
+}
+
+/// Solicitação de saque de comissão de um creator. A NF é anexada no ato do
+/// pedido (obrigatória) e fica guardada no próprio registro (bytea). O admin
+/// paga por fora (PIX) e marca como pago.
+model Withdrawal {
+  id        String           @id @default(cuid())
+  creator   Creator          @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId String
+  amount    Float // comissão solicitada (R$), snapshot do saldo disponível no ato
+  status    WithdrawalStatus @default(REQUESTED)
+
+  // Nota fiscal anexada (obrigatória para solicitar).
+  nfName String? // nome do arquivo
+  nfMime String? // tipo (application/pdf, image/jpeg, ...)
+  nfData Bytes? // conteúdo do arquivo
+
+  adminNote   String? // observação do admin (ex.: comprovante/PIX)
+  requestedAt DateTime  @default(now())
+  paidAt      DateTime?
+
+  @@index([creatorId])
+  @@index([status])
 }
 
 /// Clique num link de afiliado (para métrica de cliques).

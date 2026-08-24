@@ -29,6 +29,7 @@ export default async function MetasTab({
     goalDefaultAmount: brand.goalDefaultAmount,
     bonusStepAmount: brand.bonusStepAmount,
     bonusLabel: brand.bonusLabel,
+    withdrawalMinSales: brand.withdrawalMinSales,
   };
 
   const approved = await prisma.creator.findMany({

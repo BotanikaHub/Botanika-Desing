@@ -617,6 +617,10 @@ export async function saveBrandProgramAction(
   const goalDefaultAmount = parseAmount(String(formData.get("goalDefaultAmount") || ""), brand.goalDefaultAmount);
   const bonusStepAmount = parseAmount(String(formData.get("bonusStepAmount") || ""), brand.bonusStepAmount);
   const bonusLabel = String(formData.get("bonusLabel") || "").trim() || brand.bonusLabel;
+  const withdrawalMinSales = parseAmount(
+    String(formData.get("withdrawalMinSales") || ""),
+    brand.withdrawalMinSales,
+  );
 
   // Sobe a versão do termo quando o texto muda (mantém rastro do que foi aceito).
   const termChanged = (termBody || "") !== (brand.termBody || "");
@@ -631,6 +635,7 @@ export async function saveBrandProgramAction(
       goalDefaultAmount,
       bonusStepAmount,
       bonusLabel,
+      withdrawalMinSales,
     },
   });
 
@@ -898,4 +903,47 @@ export async function rejectCreatorAction(formData: FormData) {
   });
 
   revalidatePath("/admin", "layout");
+}
+
+// ─────────────────────────── Saques (admin) ───────────────────────────
+
+async function withdrawalForAdmin(id: string) {
+  const admin = await ensureAdmin();
+  const w = await prisma.withdrawal.findUnique({
+    where: { id },
+    include: { creator: { select: { brandId: true, brand: { select: { slug: true } } } } },
+  });
+  if (!w) return null;
+  if (admin.brandId && admin.brandId !== w.creator.brandId) return null;
+  return w;
+}
+
+// Marca um saque como pago (o PIX é feito por fora).
+export async function markWithdrawalPaidAction(formData: FormData) {
+  const id = String(formData.get("withdrawalId") || "");
+  const note = String(formData.get("adminNote") || "").trim() || null;
+  const w = await withdrawalForAdmin(id);
+  if (!w || w.status !== "REQUESTED") return;
+
+  await prisma.withdrawal.update({
+    where: { id },
+    data: { status: "PAID", paidAt: new Date(), adminNote: note },
+  });
+  revalidatePath("/admin", "layout");
+  revalidatePath(`/painel/${w.creator.brand.slug}`);
+}
+
+// Recusa um saque (libera o saldo de volta).
+export async function rejectWithdrawalAction(formData: FormData) {
+  const id = String(formData.get("withdrawalId") || "");
+  const note = String(formData.get("adminNote") || "").trim() || null;
+  const w = await withdrawalForAdmin(id);
+  if (!w || w.status !== "REQUESTED") return;
+
+  await prisma.withdrawal.update({
+    where: { id },
+    data: { status: "REJECTED", adminNote: note },
+  });
+  revalidatePath("/admin", "layout");
+  revalidatePath(`/painel/${w.creator.brand.slug}`);
 }
