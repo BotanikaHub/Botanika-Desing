@@ -64,20 +64,75 @@ export function ApplyForm({ brandSlug }: { brandSlug: string }) {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="label" htmlFor="niche">Nicho</label>
-          <input id="niche" name="niche" className="input" placeholder="Ex.: saúde, beleza, casa" />
-        </div>
-        <div>
-          <label className="label" htmlFor="city">Cidade / UF</label>
-          <input id="city" name="city" className="input" placeholder="Ex.: São Paulo/SP" />
-        </div>
+      <div>
+        <label className="label" htmlFor="niche">Nicho</label>
+        <input id="niche" name="niche" className="input" placeholder="Ex.: saúde, beleza, casa" />
       </div>
 
       <div>
         <label className="label" htmlFor="desiredCoupon">Cupom desejado (opcional)</label>
         <input id="desiredCoupon" name="desiredCoupon" className="input" placeholder="Ex.: MARIA10 — sujeito à disponibilidade" />
+      </div>
+
+      {/* Dados para contrato e pagamento (coletados já no cadastro) */}
+      <div className="border-t pt-5">
+        <h2 className="mb-1 text-sm font-semibold">Dados para contrato e pagamento</h2>
+        <p className="mb-4 text-xs text-[var(--muted)]">
+          Usados no contrato e no pagamento da sua comissão. Ficam guardados com segurança.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className="label" htmlFor="cpf">CPF</label>
+            <input id="cpf" name="cpf" className="input" placeholder="000.000.000-00" />
+          </div>
+          <div>
+            <label className="label" htmlFor="birthDate">Data de nascimento</label>
+            <input id="birthDate" name="birthDate" type="date" className="input" />
+          </div>
+          <div>
+            <label className="label" htmlFor="pixKey">Chave PIX</label>
+            <input id="pixKey" name="pixKey" className="input" placeholder="CPF, e-mail, telefone ou aleatória" />
+          </div>
+        </div>
+      </div>
+
+      {/* Endereço completo (envio de kits) */}
+      <div className="border-t pt-5">
+        <h2 className="mb-4 text-sm font-semibold">Endereço para envio de kits</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className="label" htmlFor="shipCep">CEP</label>
+            <input id="shipCep" name="shipCep" className="input" placeholder="00000-000" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="label" htmlFor="shipStreet">Rua / logradouro</label>
+            <input id="shipStreet" name="shipStreet" className="input" />
+          </div>
+        </div>
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className="label" htmlFor="shipNumber">Número</label>
+            <input id="shipNumber" name="shipNumber" className="input" />
+          </div>
+          <div>
+            <label className="label" htmlFor="shipComplement">Complemento</label>
+            <input id="shipComplement" name="shipComplement" className="input" placeholder="Apto, bloco (opcional)" />
+          </div>
+          <div>
+            <label className="label" htmlFor="shipDistrict">Bairro</label>
+            <input id="shipDistrict" name="shipDistrict" className="input" />
+          </div>
+        </div>
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="sm:col-span-2">
+            <label className="label" htmlFor="shipCity">Cidade</label>
+            <input id="shipCity" name="shipCity" className="input" />
+          </div>
+          <div>
+            <label className="label" htmlFor="shipState">UF</label>
+            <input id="shipState" name="shipState" className="input" maxLength={2} placeholder="SP" />
+          </div>
+        </div>
       </div>
 
       <div>

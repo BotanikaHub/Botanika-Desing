@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
-import { revalidateShopify } from "@/lib/shopify-cache";
+import { revalidateShopify, cachedCreatorSales } from "@/lib/shopify-cache";
 import { suggestCoupon } from "@/lib/format";
 import crypto from "crypto";
 import {
@@ -734,6 +734,150 @@ export async function importShopifyCouponsAction(
     skipped: active.length - toCreate.length,
     updated: backfilled,
   };
+}
+
+// ─────────────────────────── Ficha do creator ───────────────────────────
+
+export type FichaData = {
+  phone: string | null;
+  instagram: string | null;
+  tiktok: string | null;
+  followers: number | null;
+  cpf: string | null;
+  pixKey: string | null;
+  birthDate: string | null;
+  contractStart: string | null;
+  contractEnd: string | null;
+  notes: string | null;
+  followsInstagram: boolean;
+  inGroup: boolean;
+  contractSigned: boolean;
+  tagged: boolean;
+  shipCep: string | null;
+  shipStreet: string | null;
+  shipNumber: string | null;
+  shipComplement: string | null;
+  shipDistrict: string | null;
+  shipCity: string | null;
+  shipState: string | null;
+};
+
+export type FichaLoad = {
+  ficha: FichaData;
+  // Vendas acumuladas (todo o período) e último pedido — da Shopify.
+  accumulatedSales: number | null;
+  lastOrderAt: string | null;
+  lastOrderName: string | null;
+  shopifyOn: boolean;
+};
+
+// Carrega a ficha completa + estatísticas de venda acumulada/último pedido.
+export async function loadCreatorFichaAction(creatorId: string): Promise<FichaLoad> {
+  const admin = await ensureAdmin();
+  const creator = await prisma.creator.findUnique({
+    where: { id: creatorId },
+    include: { brand: true },
+  });
+  if (!creator) throw new Error("Creator não encontrado.");
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    throw new Error("Sem permissão para esta marca.");
+  }
+
+  const ficha: FichaData = {
+    phone: creator.phone,
+    instagram: creator.instagram,
+    tiktok: creator.tiktok,
+    followers: creator.followers,
+    cpf: creator.cpf ?? creator.termsCpf, // usa o CPF do aceite se a ficha não tiver
+    pixKey: creator.pixKey,
+    birthDate: creator.birthDate,
+    contractStart: creator.contractStart,
+    contractEnd: creator.contractEnd,
+    notes: creator.notes,
+    followsInstagram: creator.followsInstagram,
+    inGroup: creator.inGroup,
+    contractSigned: creator.contractSigned || Boolean(creator.termsAcceptedAt),
+    tagged: creator.tagged,
+    shipCep: creator.shipCep,
+    shipStreet: creator.shipStreet,
+    shipNumber: creator.shipNumber,
+    shipComplement: creator.shipComplement,
+    shipDistrict: creator.shipDistrict,
+    shipCity: creator.shipCity,
+    shipState: creator.shipState,
+  };
+
+  // Venda acumulada (todo o período) + último pedido, quando a Shopify e o cupom existem.
+  let accumulatedSales: number | null = null;
+  let lastOrderAt: string | null = null;
+  let lastOrderName: string | null = null;
+  const conn = brandConnection(creator.brand);
+  const shopifyOn = isShopifyConfigured(conn);
+  if (shopifyOn && creator.couponCode) {
+    try {
+      const s = await cachedCreatorSales(creator.brandId, conn, creator.couponCode, {});
+      accumulatedSales = s.totalSales;
+      const last = s.orders[0]; // ordenado por data desc
+      if (last) {
+        lastOrderAt = last.createdAt;
+        lastOrderName = last.name;
+      }
+    } catch {
+      // ignora falha pontual da Shopify
+    }
+  }
+
+  return { ficha, accumulatedSales, lastOrderAt, lastOrderName, shopifyOn };
+}
+
+// Salva a ficha (dados pessoais/contrato + checklist interno).
+export async function saveCreatorFichaAction(
+  _prev: ApproveState,
+  formData: FormData,
+): Promise<ApproveState> {
+  const admin = await ensureAdmin();
+  const id = String(formData.get("creatorId") || "");
+  const creator = await prisma.creator.findUnique({
+    where: { id },
+    select: { brandId: true },
+  });
+  if (!creator) return { error: "Creator não encontrado." };
+  if (admin.brandId && admin.brandId !== creator.brandId) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  const str = (k: string) => String(formData.get(k) || "").trim() || null;
+  const followersRaw = String(formData.get("followers") || "").replace(/\D/g, "");
+
+  await prisma.creator.update({
+    where: { id },
+    data: {
+      phone: str("phone"),
+      instagram: str("instagram"),
+      tiktok: str("tiktok"),
+      followers: followersRaw ? parseInt(followersRaw, 10) : null,
+      cpf: str("cpf"),
+      pixKey: str("pixKey"),
+      birthDate: str("birthDate"),
+      contractStart: str("contractStart"),
+      contractEnd: str("contractEnd"),
+      notes: str("notes"),
+      followsInstagram: formData.get("followsInstagram") === "on",
+      inGroup: formData.get("inGroup") === "on",
+      contractSigned: formData.get("contractSigned") === "on",
+      tagged: formData.get("tagged") === "on",
+      shipCep: str("shipCep"),
+      shipStreet: str("shipStreet"),
+      shipNumber: str("shipNumber"),
+      shipComplement: str("shipComplement"),
+      shipDistrict: str("shipDistrict"),
+      shipCity: str("shipCity"),
+      shipState: str("shipState"),
+    },
+  });
+
+  revalidatePath("/admin", "layout");
+  return { ok: true };
 }
 
 export async function rejectCreatorAction(formData: FormData) {

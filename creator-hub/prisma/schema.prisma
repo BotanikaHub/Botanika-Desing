@@ -157,6 +157,20 @@ model Creator {
   shipCity       String?
   shipState      String?
 
+  // Ficha / cadastro completo (dados pessoais e de contrato).
+  cpf           String? // CPF (contrato/pagamento)
+  pixKey        String? // Chave PIX (pagamento/saque)
+  birthDate     String? // data de nascimento (yyyy-mm-dd)
+  contractStart String? // início da parceria/contrato (yyyy-mm-dd)
+  contractEnd   String? // fim da vigência do contrato (yyyy-mm-dd)
+  notes         String? // observação — campo livre interno (admin)
+
+  // Checklist interno (admin) — sim/não.
+  followsInstagram Boolean @default(false) // "Seguimos no Instagram?"
+  inGroup          Boolean @default(false) // "Está no grupo?"
+  contractSigned   Boolean @default(false) // contrato assinado
+  tagged           Boolean @default(false) // "Etiquetada"
+
   // Entrou na lista de envio ativa (aprovado + termo assinado). Admin pode
   // alternar manualmente se precisar tirar/colocar alguém.
   shippingActive Boolean @default(false)

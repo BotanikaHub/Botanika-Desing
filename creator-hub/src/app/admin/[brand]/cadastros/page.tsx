@@ -23,6 +23,17 @@ export default async function CadastrosTab({
     }),
   ]);
 
+  const addressOf = (c: (typeof pending)[number]): string | null => {
+    const parts = [
+      [c.shipStreet, c.shipNumber].filter(Boolean).join(", "),
+      c.shipComplement,
+      c.shipDistrict,
+      [c.shipCity, c.shipState].filter(Boolean).join("/"),
+      c.shipCep,
+    ].filter(Boolean);
+    return parts.length ? parts.join(" · ") : null;
+  };
+
   const toPending = (c: (typeof pending)[number]): CreatorView => ({
     id: c.id,
     brandName: brand.name,
@@ -38,6 +49,10 @@ export default async function CadastrosTab({
     city: c.city,
     pitch: c.pitch,
     desiredCoupon: c.desiredCoupon,
+    cpf: c.cpf ?? c.termsCpf,
+    pixKey: c.pixKey,
+    birthDate: c.birthDate,
+    address: addressOf(c),
     defaultRatePct: Math.round(brand.defaultCommissionRate * 100),
     defaultDiscountPct: Math.round(brand.defaultDiscountRate * 100),
   });

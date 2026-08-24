@@ -17,9 +17,20 @@ const schema = z.object({
   followers: z.string().optional(),
   niche: z.string().optional(),
   profession: z.string().optional(),
-  city: z.string().optional(),
   pitch: z.string().optional(),
   desiredCoupon: z.string().optional(),
+  // Dados para contrato/pagamento (formulário unificado — coletados já no cadastro).
+  cpf: z.string().optional(),
+  pixKey: z.string().optional(),
+  birthDate: z.string().optional(),
+  // Endereço completo (para envio de kits).
+  shipCep: z.string().optional(),
+  shipStreet: z.string().optional(),
+  shipNumber: z.string().optional(),
+  shipComplement: z.string().optional(),
+  shipDistrict: z.string().optional(),
+  shipCity: z.string().optional(),
+  shipState: z.string().optional(),
 });
 
 export type ApplyState = { error?: string } | null;
@@ -56,6 +67,13 @@ export async function applyAction(
     ? suggestCoupon(d.desiredCoupon)
     : suggestCoupon(d.instagram || d.name);
 
+  const clean = (v?: string) => v?.trim() || null;
+  // "Cidade/UF" (usada nos cards) derivada do endereço quando informado.
+  const cityLabel =
+    clean(d.shipCity) && clean(d.shipState)
+      ? `${d.shipCity!.trim()}/${d.shipState!.trim()}`
+      : clean(d.shipCity);
+
   // Conta unificada: reusa a existente (mesma senha) ou cria.
   let account = await prisma.creatorAccount.findUnique({ where: { email } });
   if (account) {
@@ -87,9 +105,21 @@ export async function applyAction(
       followers: followersNum,
       niche: d.niche?.trim() || null,
       profession: d.profession?.trim() || null,
-      city: d.city?.trim() || null,
+      city: cityLabel,
       pitch: d.pitch?.trim() || null,
       desiredCoupon: desired,
+      // Dados de contrato/pagamento (formulário unificado).
+      cpf: clean(d.cpf),
+      pixKey: clean(d.pixKey),
+      birthDate: clean(d.birthDate),
+      // Endereço completo.
+      shipCep: clean(d.shipCep),
+      shipStreet: clean(d.shipStreet),
+      shipNumber: clean(d.shipNumber),
+      shipComplement: clean(d.shipComplement),
+      shipDistrict: clean(d.shipDistrict),
+      shipCity: clean(d.shipCity),
+      shipState: clean(d.shipState),
       commissionRate: brand.defaultCommissionRate,
       status: "PENDING",
     },

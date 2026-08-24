@@ -10,6 +10,7 @@ import {
 } from "@/actions/admin";
 import { SubmitButton } from "@/components/SubmitButton";
 import { CouponEditor } from "./CouponEditor";
+import { CreatorFicha } from "./CreatorFicha";
 
 export type CreatorView = {
   id: string;
@@ -26,6 +27,10 @@ export type CreatorView = {
   city: string | null;
   pitch: string | null;
   desiredCoupon: string | null;
+  cpf: string | null;
+  pixKey: string | null;
+  birthDate: string | null;
+  address: string | null;
   defaultRatePct: number;
   defaultDiscountPct: number;
 };
@@ -60,7 +65,15 @@ export function PendingCard({ creator }: { creator: CreatorView }) {
         <Info label="Nicho" value={creator.niche} />
         <Info label="Cidade" value={creator.city} />
         <Info label="Telefone" value={creator.phone} />
+        <Info label="CPF" value={creator.cpf} />
+        <Info label="Chave PIX" value={creator.pixKey} />
+        <Info label="Nascimento" value={creator.birthDate} />
       </dl>
+      {creator.address && (
+        <p className="mt-2 text-sm text-[var(--muted)]">
+          <span className="font-medium">Endereço:</span> {creator.address}
+        </p>
+      )}
 
       {creator.pitch && (
         <p className="mt-3 rounded-lg bg-[var(--background)] p-3 text-sm text-[var(--muted)]">
@@ -261,6 +274,8 @@ export function ApprovedCard({ creator }: { creator: ApprovedView }) {
             brandId={creator.brandId}
             brandColor={creator.brandColor}
           />
+
+          <CreatorFicha creatorId={creator.id} color={creator.brandColor} />
 
           <form
             action={removeCreatorAction}
