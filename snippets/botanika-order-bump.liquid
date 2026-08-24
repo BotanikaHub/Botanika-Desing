@@ -3,7 +3,7 @@
   Shows ONE complementary product at "−10% só no carrinho".
   Priority mapping (first eligible wins). Trigger = product in cart. Bump = offered product.
   The −10% is applied automatically at checkout by a Shopify "Buy X get Y" discount.
-  This card is MESSAGING only — it shows the product's CURRENT price and indicates "−10%".
+  This card is MESSAGING only — it shows CURRENT prices and indicates where the −10% lands.
   Matriz de 9 pares (casa com os descontos [BUMP] automáticos). Whey dispara nos DOIS sabores (Chocolate + Sem Sabor):
     Whey Choco→Creatina · Whey Sem Sabor→Creatina · Hair→Vit C · Tri[Mg]→TetraVit · TetraVit→Ômega · Vit C→TetraVit · Ômega→TetraVit · Sleep→Tri[Mg] · Creatina→Whey
   Rendered in: cart drawer (snippets/minicart.liquid + sections/minicart-form.liquid) and cart page (sections/order-bump.liquid).
@@ -16,7 +16,16 @@
   assign ob_triggers = '9347155165416,9600936902888,9525143896296,9347154968808,9347154739432,9347154870504,9347154837736,9347155099880,9347155067112' | split: ','
   assign ob_bumps = 'creatina-l-carnitina,creatina-l-carnitina,super-vitamina-c,tetravit-d,super-omega-3-coq10,tetravit-d,tetravit-d,tri-mg-complex,whey-balance-chocolate' | split: ','
   assign ob_variants = '48115368820968,48115368820968,48115368460520,48115367936232,48115368034536,48115367936232,48115367936232,48115368558824,48115368919272' | split: ','
-  assign ob_headlines = 'Complete o combo de treino com Creatina~Complete o combo de treino com Creatina~Turbine cabelo e pele com Vitamina C~Ative sua vitamina D com o TetraVit D~Reforce a imunidade com Ômega 3~Feche sua base imune com o TetraVit D~Complete a dupla da imunidade: TetraVit D~Potencialize seu sono com o Tri[Mg]~Feche o combo de treino com Whey Balance' | split: '~'
+
+  # Reciprocal pairs: both directions exist as [BUMP] discounts, and Shopify applies only
+  # the one that discounts the MORE EXPENSIVE product — which is the TRIGGER, not the bump.
+  #   0/1 Whey→Creatina loses to Creatina→Whey · 6 Ômega→TetraVit loses to TetraVit→Ômega
+  # For these the card must show the −10% on the trigger, or it promises what checkout
+  # never delivers on that line. ob_shorts holds the trigger's short name for the copy.
+  assign ob_reverse = '1,1,0,0,0,0,1,0,0' | split: ','
+  assign ob_shorts = 'Whey Balance~Whey Balance~~~~~Ômega 3' | split: '~'
+
+  assign ob_headlines = 'Leve a Creatina e ganhe 10% no seu Whey~Leve a Creatina e ganhe 10% no seu Whey~Turbine cabelo e pele com Vitamina C~Ative sua vitamina D com o TetraVit D~Reforce a imunidade com Ômega 3~Feche sua base imune com o TetraVit D~Leve o TetraVit D e ganhe 10% no seu Ômega 3~Potencialize seu sono com o Tri[Mg]~Feche o combo de treino com Whey Balance' | split: '~'
   assign ob_bodies = 'Whey constrói, creatina sustenta a força. Juntos, são a base de quem treina e quer resultado consistente.~Whey constrói, creatina sustenta a força. Juntos, são a base de quem treina e quer resultado consistente.~A vitamina C é essencial pra produção de colágeno — potencializa o resultado do Hair na pele, unhas e cabelo.~O magnésio ajuda o corpo a ativar a vitamina D. Levar os dois juntos faz um trabalhar pelo outro.~Vitamina D + Ômega 3 são a dupla base da imunidade e do dia a dia. Uso contínuo, resultado que soma.~A Vit C protege as células e as vitaminas A, D, E e K do TetraVit sustentam sua imunidade no uso contínuo. Juntos, o combo fica completo.~Ômega 3 e as vitaminas lipossolúveis (A, D, E, K) se potencializam. O TetraVit fecha a base do seu dia a dia.~O magnésio ajuda no relaxamento muscular e na rotina do sono. Com o Sleep, é a dupla certa pra fechar a noite.~Creatina sustenta a força, o Whey constrói. Juntos, são a base de quem treina e quer resultado consistente.' | split: '~'
 
   # Build lookup strings of product ids currently in the cart.
@@ -65,9 +74,31 @@
     assign ob_variant_id = ob_variants[ob_index]
     assign ob_headline = ob_headlines[ob_index]
     assign ob_body = ob_bodies[ob_index]
+    assign ob_img = ob_product.featured_image
+    assign ob_is_reverse = ob_reverse[ob_index]
+
     assign ob_full = ob_product.price | money
     assign ob_deal = ob_product.price | times: 0.9 | round | money
-    assign ob_img = ob_product.featured_image
+    assign ob_cta = 'Adicionar com 10% OFF'
+    assign ob_aria = 'Adicionar ' | append: ob_product.title | append: ' com 10% de desconto'
+
+    # Reciprocal pair: the −10% lands on the trigger already in the cart, so price it.
+    if ob_is_reverse == '1'
+      assign ob_short = ob_shorts[ob_index]
+      assign ob_trig_key = ',' | append: ob_triggers[ob_index] | append: ','
+      assign ob_disc_product = ob_product
+      for ob_item in cart.items
+        assign ob_item_key = ',' | append: ob_item.product_id | append: ','
+        if ob_item_key == ob_trig_key
+          assign ob_disc_product = ob_item.product
+          break
+        endif
+      endfor
+      assign ob_disc_full = ob_disc_product.price | money
+      assign ob_disc_deal = ob_disc_product.price | times: 0.9 | round | money
+      assign ob_cta = 'Adicionar e ativar 10% OFF'
+      assign ob_aria = 'Adicionar ' | append: ob_product.title | append: ' e ativar 10% de desconto no seu ' | append: ob_short
+    endif
   -%}
   <style>
     .botanika-ob{--ob-indigo:#323c91;--ob-green:#10c322;--ob-red:#e11d2a;--ob-red-d:#b3121d;box-sizing:border-box;width:100%;max-width:100%;margin:0 0 2rem;overflow:hidden}
@@ -84,6 +115,7 @@
     .botanika-ob__price-old{font-size:1.35rem;font-weight:600;color:#9a9aa8;line-height:1;text-decoration:line-through}
     .botanika-ob__price{font-size:1.7rem;font-weight:800;color:var(--ob-red);line-height:1}
     .botanika-ob__hint{display:inline-flex;align-items:center;gap:.35rem;font-size:1.1rem;font-weight:600;color:var(--ob-green)}
+    .botanika-ob__hint s{opacity:.7;font-weight:500}
     .botanika-ob__btn{-webkit-appearance:none;appearance:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;border:0;border-radius:.7rem;background:linear-gradient(90deg,var(--ob-red),var(--ob-red-d));color:#fff;font-size:1.35rem;font-weight:800;letter-spacing:.02em;line-height:1;padding:1.25rem 1.4rem;transition:filter .2s ease,opacity .2s ease}
     .botanika-ob__btn:hover{filter:brightness(.93)}
     .botanika-ob__btn:disabled,.botanika-ob__btn.is-loading{opacity:.7;cursor:default}
@@ -116,14 +148,24 @@
         <h4 class="botanika-ob__headline">{{ ob_headline }}</h4>
         <p class="botanika-ob__body">{{ ob_body }}</p>
         <div class="botanika-ob__pricing">
-          <span class="botanika-ob__price-old">{{ ob_full }}</span>
-          <span class="botanika-ob__price">{{ ob_deal }}</span>
-          <span class="botanika-ob__hint">
-            <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="m5.5 9.2 2.3 2.3 4.7-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            10% já aplicado
-          </span>
+          {%- if ob_is_reverse == '1' -%}
+            <span class="botanika-ob__price">{{ ob_full }}</span>
+            <span class="botanika-ob__hint">
+              <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="m5.5 9.2 2.3 2.3 4.7-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              10% no seu {{ ob_short }}: <s>{{ ob_disc_full }}</s>&nbsp;{{ ob_disc_deal }}
+            </span>
+          {%- else -%}
+            <span class="botanika-ob__price-old">{{ ob_full }}</span>
+            <span class="botanika-ob__price">{{ ob_deal }}</span>
+            <span class="botanika-ob__hint">
+              <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="m5.5 9.2 2.3 2.3 4.7-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              10% já aplicado
+            </span>
+          {%- endif -%}
         </div>
         <button
           type="button"
@@ -131,12 +173,12 @@
           data-botanika-ob-add
           data-variant-id="{{ ob_variant_id }}"
           data-label-loading="Adicionando..."
-          aria-label="Adicionar {{ ob_product.title | escape }} com 10% de desconto"
+          aria-label="{{ ob_aria | escape }}"
         >
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <span data-ob-btn-label>Adicionar com 10% OFF</span>
+          <span data-ob-btn-label>{{ ob_cta }}</span>
         </button>
       </div>
     </div>

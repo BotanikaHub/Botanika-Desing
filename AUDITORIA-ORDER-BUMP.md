@@ -10,18 +10,19 @@ conferindo o preço unitário real contra o que o card promete (`price × 0,9`).
 
 | # | Trigger | Bump ofertado | Card promete | Desconto (ID) | Entregue qty 1 | qty ≥ 2 (escada no trigger) |
 |---|---|---|---|---|---|---|
-| 1 | Whey Choco | Creatina | R$ 115,47 | `[BUMP] Whey → Creatina` 1572745740520 | ❌ 128,30 | ❌ |
-| 2 | Whey Sem Sabor | Creatina | R$ 115,47 | `[BUMP] Whey → Creatina` 1572745740520 | ❌ 128,30 | ❌ |
-| 3 | Hair | Super Vit C | R$ 80,57 | `[BUMP] Hair → Vitamina C` 1572745773288 | ✅ 80,57 | ❌ 89,52 |
-| 4 | Tri[Mg] | TetraVit D | R$ 105,41 | `[BUMP] Tri[Mg] → TetraVit D` 1572746133736 | ✅ 105,41 | ❌ 117,12 |
-| 5 | TetraVit D | Super Ômega 3 | R$ 146,81 | `[BUMP] TetraVit D → Ômega 3` 1572746166504 | ✅ 146,81 | ❌ 163,12 |
-| 6 | Super Vit C | TetraVit D | R$ 105,41 | `[BUMP] Vit C / Ômega → TetraVit D` 1573508743400 | ✅ 105,41 | ❌ 117,12 |
-| 7 | Super Ômega 3 | TetraVit D | R$ 105,41 | `[BUMP] Vit C / Ômega → TetraVit D` 1573508743400 | ❌ 117,12 | ❌ |
-| 8 | Sleep | Tri[Mg] | R$ 78,75 | `[BUMP] Sleep → Tri[Mg]` 1573508776168 | ✅ 78,75 | ❌ 87,50 |
-| 9 | Creatina | Whey (Choco + Sem Sabor) | R$ 132,57 | `[BUMP] Creatina → Whey` 1574087000296 | ✅ 132,57 | ❌ 147,30 |
+| 1 | Whey Choco | Creatina (10% no Whey) | R$ 132,57 no Whey | `[BUMP] Creatina → Whey` 1574087000296 | ✅ 132,57 | oculto |
+| 2 | Whey Sem Sabor | Creatina (10% no Whey) | R$ 132,57 no Whey | `[BUMP] Creatina → Whey` 1574087000296 | ✅ 132,57 | oculto |
+| 3 | Hair | Super Vit C | R$ 80,57 | `[BUMP] Hair → Vitamina C` 1572745773288 | ✅ 80,57 | oculto |
+| 4 | Tri[Mg] | TetraVit D | R$ 105,41 | `[BUMP] Tri[Mg] → TetraVit D` 1572746133736 | ✅ 105,41 | oculto |
+| 5 | TetraVit D | Super Ômega 3 | R$ 146,81 | `[BUMP] TetraVit D → Ômega 3` 1572746166504 | ✅ 146,81 | oculto |
+| 6 | Super Vit C | TetraVit D | R$ 105,41 | `[BUMP] Vit C / Ômega → TetraVit D` 1573508743400 | ✅ 105,41 | oculto |
+| 7 | Super Ômega 3 | TetraVit D (10% no Ômega) | R$ 146,81 no Ômega | `[BUMP] TetraVit D → Ômega 3` 1572746166504 | ✅ 146,81 | oculto |
+| 8 | Sleep | Tri[Mg] | R$ 78,75 | `[BUMP] Sleep → Tri[Mg]` 1573508776168 | ✅ 78,75 | oculto |
+| 9 | Creatina | Whey (Choco + Sem Sabor) | R$ 132,57 | `[BUMP] Creatina → Whey` 1574087000296 | ✅ 132,57 | oculto |
 
 **Nenhum par órfão**: os 9 têm BxGy ATIVO, sem `endsAt`, 10% no produto ofertado,
-`combinesWith {order, product, shipping} = true`. Os ❌ são conflito, não ausência.
+`combinesWith {order, product, shipping} = true`. Os pares 1, 2 e 7 tiveram a copy invertida (FIX 3); os demais entregam direto.
+Com trigger qty >= 2 a escada assume e o card fica **oculto** pelo gate (FIX 2).
 
 ## FIX 1 — Whey Sem Sabor no par 9 (aplicado)
 
@@ -45,22 +46,29 @@ Correção no snippet: o card só aparece se a linha do trigger estiver **sem ne
 desconto de linha** (`line_level_discount_allocations.size == 0`). Regra genérica —
 não depende de hardcodar qty, e acompanha qualquer escada futura.
 
-## Defeito B — pares recíprocos (NÃO corrigido, decisão pendente)
+## FIX 3 — pares recíprocos, copy invertida (aplicado)
 
-Onde existem os dois sentidos (T→B e B→T), o Shopify aplica **um só**: o que desconta o
-produto mais caro. Atinge os pares 1, 2 e 7.
+**Defeito B.** Onde existem os dois sentidos (T→B e B→T), o Shopify aplica **um só**:
+o que desconta o produto mais caro — que é o **trigger**, não o bump. Atinge os pares 1, 2 e 7.
 
-- Whey ↔ Creatina: ganha `Creatina → Whey` (desconta 14,73 no Whey) sobre
-  `Whey → Creatina` (12,83). Card 1/2 promete Creatina 115,47, entrega 128,30.
+- Whey ↔ Creatina: ganha `Creatina → Whey` (14,73 no Whey) sobre `Whey → Creatina` (12,83).
 - Ômega ↔ TetraVit: ganha `TetraVit → Ômega` (16,31) sobre `Ômega → TetraVit` (11,71).
-  Card 7 promete TetraVit 105,41, entrega 117,12.
 
-Atenuante: nesses casos o cliente paga **menos** no total do que o card prometeu
-(o desconto é maior, só cai na outra linha). É erro de exibição, não prejuízo.
+Atenuante: o cliente pagava **menos** que o card prometia no total — o desconto é maior,
+só caía na outra linha. Era erro de exibição, não prejuízo.
 
-Opções: (a) inverter a copy desses cards — "adicione X e ganhe 10% no seu Y",
-mantendo a oferta e o valor; (b) remover os pares 1, 2 e 7 do card, perdendo o bump
-em carrinhos de Whey e de Ômega.
+Correção (opção **a**, escolhida pelo dono): esses 3 cards passam a anunciar o desconto
+no produto que de fato o recebe, mantendo a oferta e o valor. Marcados por `ob_reverse`
+(`'1,1,0,0,0,0,1,0,0'`), com o nome curto do trigger em `ob_shorts`.
+
+| # | Headline nova | Preço grande | Selo verde |
+|---|---|---|---|
+| 1 | Leve a Creatina e ganhe 10% no seu Whey | R$ 128,30 (Creatina) | 10% no seu Whey Balance: ~~R$ 147,30~~ R$ 132,57 |
+| 2 | Leve a Creatina e ganhe 10% no seu Whey | R$ 128,30 (Creatina) | 10% no seu Whey Balance: ~~R$ 147,30~~ R$ 132,57 |
+| 7 | Leve o TetraVit D e ganhe 10% no seu Ômega 3 | R$ 117,12 (TetraVit) | 10% no seu Ômega 3: ~~R$ 163,12~~ R$ 146,81 |
+
+CTA nesses casos: "Adicionar e ativar 10% OFF". Preços saem de `product.price` (nada
+hardcoded) e batem com o que o `draftOrderCalculate` entrega. **Nenhum card mente mais.**
 
 ## Teto de descontos automáticos
 
