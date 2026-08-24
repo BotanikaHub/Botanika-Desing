@@ -70,7 +70,16 @@ model Brand {
   // Saque: mínimo de vendas acumuladas para liberar a solicitação de saque.
   withdrawalMinSales Float @default(1000)
 
+  // Briefings que a creator vê no painel (por marca).
+  generalBriefing    String? // texto do briefing geral
+  generalBriefingUrl String? // link (Drive/Canva/PDF) do briefing geral
+  campaignActive     Boolean @default(false) // há campanha vigente?
+  campaignTitle      String?
+  campaignBody       String? // orientações de conteúdo (stories/posts)
+  campaignUrl        String? // link do material da campanha
+
   creators Creator[]
+  assets   BrandAsset[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -199,6 +208,21 @@ model Creator {
   @@unique([brandId, couponCode])
   @@index([brandId, status])
   @@index([accountId])
+}
+
+/// Arquivo binário de uma marca (ex.: banner da campanha). Fica em tabela
+/// separada para não carregar os bytes toda vez que a marca é lida.
+model BrandAsset {
+  id        String   @id @default(cuid())
+  brand     Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brandId   String
+  kind      String // ex.: "campaign_banner"
+  name      String?
+  mime      String?
+  data      Bytes
+  updatedAt DateTime @updatedAt
+
+  @@unique([brandId, kind])
 }
 
 /// Solicitação de saque de comissão de um creator. A NF é anexada no ato do

@@ -24,6 +24,7 @@ export function AdminTabs({
     { label: "Saques", href: `${base}/saques`, badge: withdrawalsCount },
     { label: "Cupons", href: `${base}/cupons` },
     { label: "Metas", href: `${base}/metas` },
+    { label: "Briefings", href: `${base}/briefings` },
     { label: "Envio", href: `${base}/envio` },
     { label: "Cadastros", href: `${base}/cadastros`, badge: pendingCount },
   ];

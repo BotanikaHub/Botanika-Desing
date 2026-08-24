@@ -131,6 +131,17 @@ export default async function PainelBrand({
   const commission = totalSales * rate;
   const maxProductRevenue = Math.max(1, ...(sales?.topProducts.map((p) => p.revenue) ?? [0]));
 
+  // Briefings: campanha vigente (com banner) + briefing geral.
+  const bannerAsset = await prisma.brandAsset.findUnique({
+    where: { brandId_kind: { brandId: brand.id, kind: "campaign_banner" } },
+    select: { id: true },
+  });
+  const hasBanner = Boolean(bannerAsset);
+  const showCampaign =
+    brand.campaignActive &&
+    Boolean(brand.campaignTitle || brand.campaignBody || brand.campaignUrl || hasBanner);
+  const showGeneral = Boolean(brand.generalBriefing || brand.generalBriefingUrl);
+
   // Gamificação: vendas do período da META (independente do filtro da tela).
   const goalPeriod = brand.goalPeriod === "all" ? "all" : "monthly";
   const goal = membership.goalAmount ?? brand.goalDefaultAmount;
@@ -166,6 +177,43 @@ export default async function PainelBrand({
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+        {/* Campanha vigente (briefing + banner) */}
+        {showCampaign && (
+          <div className="card mb-6 border-2" style={{ borderColor: color }}>
+            <div className="mb-2 flex items-center gap-2">
+              <span className="rounded-full px-2 py-0.5 text-xs font-bold text-white" style={{ background: color }}>
+                Campanha
+              </span>
+              {brand.campaignTitle && (
+                <h2 className="text-lg font-bold">{brand.campaignTitle}</h2>
+              )}
+            </div>
+            {hasBanner && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={`/brand-asset/${brand.slug}/campaign_banner`}
+                alt={brand.campaignTitle || "Banner da campanha"}
+                className="mb-3 w-full rounded-lg"
+              />
+            )}
+            {brand.campaignBody && (
+              <p className="whitespace-pre-line text-sm text-[var(--muted)]">
+                {brand.campaignBody}
+              </p>
+            )}
+            {brand.campaignUrl && (
+              <a
+                href={brand.campaignUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline mt-4"
+              >
+                📎 Material da campanha
+              </a>
+            )}
+          </div>
+        )}
+
         {/* Jornada / meta (usa o período da meta, não o filtro da tela) */}
         {connected && (
           <div className="mb-6">
@@ -230,6 +278,28 @@ export default async function PainelBrand({
           summary={withdrawalSummary}
           withdrawals={withdrawalRows}
         />
+
+        {/* Briefing geral */}
+        {showGeneral && (
+          <div className="card mt-6">
+            <h2 className="mb-2 text-lg font-semibold">📋 Briefing geral</h2>
+            {brand.generalBriefing && (
+              <p className="whitespace-pre-line text-sm text-[var(--muted)]">
+                {brand.generalBriefing}
+              </p>
+            )}
+            {brand.generalBriefingUrl && (
+              <a
+                href={brand.generalBriefingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline mt-4"
+              >
+                📎 Abrir material
+              </a>
+            )}
+          </div>
+        )}
 
         {/* Produtos que você mais vende */}
         <div className="card mt-6">

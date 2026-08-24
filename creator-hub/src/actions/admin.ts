@@ -947,3 +947,70 @@ export async function rejectWithdrawalAction(formData: FormData) {
   revalidatePath("/admin", "layout");
   revalidatePath(`/painel/${w.creator.brand.slug}`);
 }
+
+// ─────────────────────────── Briefings (admin) ───────────────────────────
+
+const MAX_BANNER_BYTES = 5.5 * 1024 * 1024;
+
+// Salva os briefings da marca (geral + campanha vigente) e, opcionalmente, o
+// banner da campanha (upload).
+export async function saveBrandBriefingsAction(
+  _prev: ProgramState,
+  formData: FormData,
+): Promise<ProgramState> {
+  const admin = await ensureAdmin();
+  const brandId = String(formData.get("brandId") || "");
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return { error: "Marca não encontrada." };
+  if (admin.brandId && admin.brandId !== brand.id) {
+    return { error: "Sem permissão para esta marca." };
+  }
+
+  const str = (k: string) => String(formData.get(k) || "").trim() || null;
+
+  // Banner (opcional): substitui o atual se um arquivo novo for enviado.
+  const banner = formData.get("banner");
+  if (banner instanceof File && banner.size > 0) {
+    if (banner.size > MAX_BANNER_BYTES) {
+      return { error: "Banner muito grande (máx. 5MB)." };
+    }
+    if (banner.type && !banner.type.startsWith("image/")) {
+      return { error: "O banner precisa ser uma imagem (JPG, PNG, WEBP)." };
+    }
+    const bytes = Buffer.from(await banner.arrayBuffer());
+    await prisma.brandAsset.upsert({
+      where: { brandId_kind: { brandId, kind: "campaign_banner" } },
+      create: { brandId, kind: "campaign_banner", name: banner.name, mime: banner.type, data: bytes },
+      update: { name: banner.name, mime: banner.type, data: bytes },
+    });
+  }
+
+  await prisma.brand.update({
+    where: { id: brandId },
+    data: {
+      generalBriefing: str("generalBriefing"),
+      generalBriefingUrl: str("generalBriefingUrl"),
+      campaignActive: formData.get("campaignActive") === "on",
+      campaignTitle: str("campaignTitle"),
+      campaignBody: str("campaignBody"),
+      campaignUrl: str("campaignUrl"),
+    },
+  });
+
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
+// Remove o banner da campanha.
+export async function removeCampaignBannerAction(formData: FormData) {
+  const admin = await ensureAdmin();
+  const brandId = String(formData.get("brandId") || "");
+  const brand = await prisma.brand.findUnique({ where: { id: brandId } });
+  if (!brand) return;
+  if (admin.brandId && admin.brandId !== brand.id) return;
+
+  await prisma.brandAsset
+    .delete({ where: { brandId_kind: { brandId, kind: "campaign_banner" } } })
+    .catch(() => {});
+  revalidatePath("/admin", "layout");
+}
