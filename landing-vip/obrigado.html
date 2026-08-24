@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>botanika — Pronto! Entre no Grupo VIP</title>
+<meta name="description" content="Seu lugar no Grupo VIP da Botanika está garantido. Toque no botão e entre agora no grupo do WhatsApp.">
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* === BOTANIKA LP GRUPO VIP — OBRIGADO === */
+  /* #btk-app — escopo isolado (Elementor-safe) */
+
+  #btk-app * { box-sizing: border-box; margin: 0; padding: 0; }
+  #btk-app {
+    --azul: #303890;
+    --azul-escuro: #20266B;
+    --verde-lima: #D0E088;
+    --amarelo: #F8C840;
+    --preto: #181010;
+    --creme: #F8F0E8;
+    --creme-claro: #FCF7EE;
+
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--creme);
+    background: var(--azul);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #btk-app .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-variation-settings: "opsz" 144;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  /* nav topo */
+  #btk-app .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 32px 24px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  #btk-app .wordmark {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 28px;
+    color: var(--creme);
+    letter-spacing: -0.02em;
+  }
+  #btk-app .tagline-top {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--verde-lima);
+    font-weight: 500;
+  }
+
+  /* miolo centralizado */
+  #btk-app .wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px 64px;
+  }
+  #btk-app .card {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+  }
+
+  #btk-app .check {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--verde-lima);
+    color: var(--azul);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 38px;
+    line-height: 1;
+  }
+
+  #btk-app .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: var(--amarelo);
+    color: var(--preto);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+
+  #btk-app h1.display {
+    font-size: clamp(32px, 5vw, 48px);
+    color: var(--creme);
+    margin-bottom: 18px;
+  }
+  #btk-app h1 em { font-style: italic; color: var(--amarelo); font-weight: 500; }
+
+  #btk-app .sub {
+    font-size: 16px;
+    color: rgba(248, 240, 232, 0.82);
+    max-width: 440px;
+    margin: 0 auto 36px;
+  }
+  #btk-app .sub strong { color: var(--creme); font-weight: 600; }
+
+  #btk-app a.wa-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 34px;
+    background: var(--amarelo);
+    color: var(--preto);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: transform .1s, filter .2s;
+    box-shadow: 0 16px 40px -18px rgba(0,0,0,.5);
+  }
+  #btk-app a.wa-cta:hover { filter: brightness(1.05); }
+  #btk-app a.wa-cta:active { transform: translateY(1px); }
+  #btk-app a.wa-cta svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  #btk-app .hint {
+    font-size: 13px;
+    color: rgba(248, 240, 232, 0.6);
+    margin-top: 20px;
+  }
+
+  /* footer */
+  #btk-app .footer {
+    background: var(--preto);
+    color: rgba(248, 240, 232, 0.65);
+    padding: 30px 24px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  #btk-app .footer .brand-mini {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--creme);
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  #btk-app .footer .tag-mini {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--verde-lima);
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 480px) {
+    #btk-app .nav { flex-direction: column; align-items: flex-start; gap: 8px; padding: 24px 22px 0; }
+    #btk-app .wrap { padding: 40px 22px 52px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Meta Pixel + GA4 — confirma a conversão (Lead) na página de obrigado ===== -->
+<script>
+(function(){
+  var META_PIXEL='828186133708463', GA4_ID='G-2JFV5TGHCV';
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init',META_PIXEL); fbq('track','PageView'); fbq('track','Lead',{content_name:'Grupo VIP Botanika — obrigado'});
+  var g=document.createElement('script');g.async=!0;g.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(g);
+  window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA4_ID);gtag('event','generate_lead',{group:'vip_whatsapp'});
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=828186133708463&ev=Lead&noscript=1" alt=""/></noscript>
+<!-- ===== /Rastreamento ===== -->
+
+<div id="btk-app">
+
+  <div class="nav">
+    <div class="wordmark">botanika</div>
+    <div class="tagline-top">você mais saudável</div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="check">✓</div>
+      <div class="eyebrow">Lugar garantido</div>
+      <h1 class="display">Pronto! Agora é só <em>entrar no grupo.</em></h1>
+      <p class="sub">
+        Seu cadastro está confirmado. <strong>Toque no botão abaixo</strong> para entrar agora no Grupo VIP no WhatsApp — as ofertas exclusivas já estão te esperando lá dentro.
+      </p>
+
+      <!-- TROCAR o href pelo link real do grupo do WhatsApp antes de publicar -->
+      <a href="https://chat.whatsapp.com/SEU-LINK-AQUI" class="wa-cta" id="wa-cta" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.35c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.69 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+        Entrar no grupo VIP
+      </a>
+
+      <p class="hint">Não abriu? Volte e confira seu WhatsApp — também enviamos o convite por lá.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="brand-mini">botanika</div>
+    <div class="tag-mini">você mais saudável</div>
+    © 2026 Botanika · CNPJ 65.100.830/0001-36
+  </footer>
+
+</div>
+
+</body>
+</html>
