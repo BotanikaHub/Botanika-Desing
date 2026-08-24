@@ -1,0 +1,144 @@
+{%- comment -%}
+  Botanika — Order Bump (cross-sell messaging card)
+  Shows ONE complementary product at "−10% só no carrinho".
+  Priority mapping (first eligible wins). Trigger = product in cart. Bump = offered product.
+  The −10% is applied automatically at checkout by a Shopify "Buy X get Y" discount.
+  This card is MESSAGING only — it shows the product's CURRENT price and indicates "−10%".
+  Matriz de 9 pares (casa com os descontos [BUMP] automáticos). Whey dispara nos DOIS sabores (Chocolate + Sem Sabor):
+    Whey Choco→Creatina · Whey Sem Sabor→Creatina · Hair→Vit C · Tri[Mg]→TetraVit · TetraVit→Ômega · Vit C→TetraVit · Ômega→TetraVit · Sleep→Tri[Mg] · Creatina→Whey
+  Rendered in: cart drawer (snippets/minicart.liquid + sections/minicart-form.liquid) and cart page (sections/order-bump.liquid).
+  Params: surface ('drawer' | 'cart')
+{%- endcomment -%}
+{%- liquid
+  assign ob_surface = surface | default: 'drawer'
+
+  # Priority-ordered mapping. Index i pairs trigger[i] -> bump[i]/variant[i]/headline[i]/body[i].
+  assign ob_triggers = '9347155165416,9600936902888,9525143896296,9347154968808,9347154739432,9347154870504,9347154837736,9347155099880,9347155067112' | split: ','
+  assign ob_bumps = 'creatina-l-carnitina,creatina-l-carnitina,super-vitamina-c,tetravit-d,super-omega-3-coq10,tetravit-d,tetravit-d,tri-mg-complex,whey-balance-chocolate' | split: ','
+  assign ob_variants = '48115368820968,48115368820968,48115368460520,48115367936232,48115368034536,48115367936232,48115367936232,48115368558824,48115368919272' | split: ','
+  assign ob_headlines = 'Complete o combo de treino com Creatina~Complete o combo de treino com Creatina~Turbine cabelo e pele com Vitamina C~Ative sua vitamina D com o TetraVit D~Reforce a imunidade com Ômega 3~Feche sua base imune com o TetraVit D~Complete a dupla da imunidade: TetraVit D~Potencialize seu sono com o Tri[Mg]~Feche o combo de treino com Whey Balance' | split: '~'
+  assign ob_bodies = 'Whey constrói, creatina sustenta a força. Juntos, são a base de quem treina e quer resultado consistente.~Whey constrói, creatina sustenta a força. Juntos, são a base de quem treina e quer resultado consistente.~A vitamina C é essencial pra produção de colágeno — potencializa o resultado do Hair na pele, unhas e cabelo.~O magnésio ajuda o corpo a ativar a vitamina D. Levar os dois juntos faz um trabalhar pelo outro.~Vitamina D + Ômega 3 são a dupla base da imunidade e do dia a dia. Uso contínuo, resultado que soma.~A Vit C protege as células e as vitaminas A, D, E e K do TetraVit sustentam sua imunidade no uso contínuo. Juntos, o combo fica completo.~Ômega 3 e as vitaminas lipossolúveis (A, D, E, K) se potencializam. O TetraVit fecha a base do seu dia a dia.~O magnésio ajuda no relaxamento muscular e na rotina do sono. Com o Sleep, é a dupla certa pra fechar a noite.~Creatina sustenta a força, o Whey constrói. Juntos, são a base de quem treina e quer resultado consistente.' | split: '~'
+
+  # Build lookup strings of product ids currently in the cart.
+  # ob_clean_pids holds ONLY lines with no line-level discount. A line that already
+  # carries an [ESCADA] is consumed by it, and Shopify then drops the [BUMP] BxGy
+  # entirely — the card would promise a −10% that checkout never applies.
+  # So the trigger must be a CLEAN line for the card to be honest.
+  assign ob_cart_pids = ','
+  assign ob_clean_pids = ','
+  for ob_item in cart.items
+    assign ob_cart_pids = ob_cart_pids | append: ob_item.product_id | append: ','
+    if ob_item.line_level_discount_allocations.size == 0
+      assign ob_clean_pids = ob_clean_pids | append: ob_item.product_id | append: ','
+    endif
+  endfor
+
+  # Pick the first eligible mapping: trigger in cart on a DISCOUNT-FREE line
+  # AND bump product NOT already in cart.
+  assign ob_index = -1
+  for ob_i in (0..8)
+    if ob_index == -1
+      assign ob_trigger_id = ob_triggers[ob_i]
+      assign ob_handle = ob_bumps[ob_i]
+      assign ob_candidate = all_products[ob_handle]
+      if ob_candidate != empty and ob_candidate.available
+        assign ob_trig_key = ',' | append: ob_trigger_id | append: ','
+        assign ob_bump_key = ',' | append: ob_candidate.id | append: ','
+        assign ob_has_trigger = false
+        assign ob_has_bump = false
+        if ob_clean_pids contains ob_trig_key
+          assign ob_has_trigger = true
+        endif
+        if ob_cart_pids contains ob_bump_key
+          assign ob_has_bump = true
+        endif
+        if ob_has_trigger and ob_has_bump == false
+          assign ob_index = ob_i
+        endif
+      endif
+    endif
+  endfor
+-%}
+{%- if ob_index >= 0 -%}
+  {%- liquid
+    assign ob_product = all_products[ob_bumps[ob_index]]
+    assign ob_variant_id = ob_variants[ob_index]
+    assign ob_headline = ob_headlines[ob_index]
+    assign ob_body = ob_bodies[ob_index]
+    assign ob_full = ob_product.price | money
+    assign ob_deal = ob_product.price | times: 0.9 | round | money
+    assign ob_img = ob_product.featured_image
+  -%}
+  <style>
+    .botanika-ob{--ob-indigo:#323c91;--ob-green:#10c322;--ob-red:#e11d2a;--ob-red-d:#b3121d;box-sizing:border-box;width:100%;max-width:100%;margin:0 0 2rem;overflow:hidden}
+    .botanika-ob *{box-sizing:border-box}
+    .botanika-ob__badge{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(90deg,var(--ob-red),var(--ob-red-d));color:#fff;font-size:1.05rem;font-weight:700;line-height:1;letter-spacing:.03em;text-transform:uppercase;padding:.55rem .9rem;border-radius:.6rem .6rem 0 0}
+    .botanika-ob__card{position:relative;display:flex;gap:1.3rem;align-items:flex-start;background:linear-gradient(180deg,#fff1f1 0%,#fff 44%);border:2px solid var(--ob-red);border-radius:0 .9rem .9rem .9rem;padding:1.4rem;box-shadow:0 0 0 3px rgba(225,29,42,.08),0 8px 22px rgba(225,29,42,.14)}
+    .botanika-ob__media{flex:0 0 auto;width:8rem;height:8rem;border-radius:.7rem;overflow:hidden;background:#f5f6fb;display:block;border:1px solid rgba(50,60,145,.12)}
+    .botanika-ob__media img{width:100%;height:100%;object-fit:contain;display:block}
+    .botanika-ob__content{flex:1 1 auto;min-width:0}
+    .botanika-ob__selo{display:inline-block;background:var(--ob-red);color:#fff;font-size:1.05rem;font-weight:800;line-height:1;letter-spacing:.02em;padding:.4rem .7rem;border-radius:2rem;margin-bottom:.6rem}
+    .botanika-ob__headline{margin:0 0 .4rem;font-size:1.55rem;line-height:1.25;font-weight:700;color:var(--ob-indigo)}
+    .botanika-ob__body{margin:0 0 .9rem;font-size:1.28rem;line-height:1.45;color:#4a4a5a}
+    .botanika-ob__pricing{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .7rem;margin-bottom:1rem}
+    .botanika-ob__price-old{font-size:1.35rem;font-weight:600;color:#9a9aa8;line-height:1;text-decoration:line-through}
+    .botanika-ob__price{font-size:1.7rem;font-weight:800;color:var(--ob-red);line-height:1}
+    .botanika-ob__hint{display:inline-flex;align-items:center;gap:.35rem;font-size:1.1rem;font-weight:600;color:var(--ob-green)}
+    .botanika-ob__btn{-webkit-appearance:none;appearance:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;border:0;border-radius:.7rem;background:linear-gradient(90deg,var(--ob-red),var(--ob-red-d));color:#fff;font-size:1.35rem;font-weight:800;letter-spacing:.02em;line-height:1;padding:1.25rem 1.4rem;transition:filter .2s ease,opacity .2s ease}
+    .botanika-ob__btn:hover{filter:brightness(.93)}
+    .botanika-ob__btn:disabled,.botanika-ob__btn.is-loading{opacity:.7;cursor:default}
+    .botanika-ob__btn svg{flex:0 0 auto}
+    @media (max-width:480px){
+      .botanika-ob__card{gap:1rem;padding:1.1rem}
+      .botanika-ob__media{width:6.6rem;height:6.6rem}
+      .botanika-ob__headline{font-size:1.4rem}
+    }
+    .botanika-ob-section .botanika-ob{max-width:60rem;margin-left:auto;margin-right:auto}
+  </style>
+  <div class="botanika-ob" data-surface="{{ ob_surface }}">
+    <span class="botanika-ob__badge">⚡ OFERTA EXCLUSIVA DO CARRINHO</span>
+    <div class="botanika-ob__card">
+      <a class="botanika-ob__media" href="{{ ob_product.url }}" aria-label="{{ ob_product.title | escape }}">
+        {%- if ob_img != blank -%}
+          <img
+            src="{{ ob_img | image_url: width: 180 }}"
+            srcset="{{ ob_img | image_url: width: 90 }} 90w, {{ ob_img | image_url: width: 180 }} 180w, {{ ob_img | image_url: width: 270 }} 270w"
+            sizes="80px"
+            width="180"
+            height="180"
+            alt="{{ ob_product.title | escape }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </a>
+      <div class="botanika-ob__content">
+        <span class="botanika-ob__selo">−10% só aqui</span>
+        <h4 class="botanika-ob__headline">{{ ob_headline }}</h4>
+        <p class="botanika-ob__body">{{ ob_body }}</p>
+        <div class="botanika-ob__pricing">
+          <span class="botanika-ob__price-old">{{ ob_full }}</span>
+          <span class="botanika-ob__price">{{ ob_deal }}</span>
+          <span class="botanika-ob__hint">
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="m5.5 9.2 2.3 2.3 4.7-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            10% já aplicado
+          </span>
+        </div>
+        <button
+          type="button"
+          class="botanika-ob__btn"
+          data-botanika-ob-add
+          data-variant-id="{{ ob_variant_id }}"
+          data-label-loading="Adicionando..."
+          aria-label="Adicionar {{ ob_product.title | escape }} com 10% de desconto"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span data-ob-btn-label>Adicionar com 10% OFF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
