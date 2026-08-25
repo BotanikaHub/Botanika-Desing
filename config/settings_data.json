@@ -1,15 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
+    "motion_enabled": true,
+    "popup_enabled": true,
+    "popup_text": "Cadastre seu e-mail e ganhe um cupom de boas-vindas com 5% de desconto na sua primeira compra.",
+    "popup_coupon": "BOTANIKA",
+    "cart_gift_enabled": true,
     "fs_weekend_on": false,
-    "cd_end": "2026-08-08 23:59:59",
-    "cd_message": "⚡ DIA D • 8% OFF EM TODA A LINHA — TERMINA EM",
-    "cd_bg": "#14162e",
-    "cd_text": "#ffffff",
-    "cd_hide_when_done": true,
+    "cd_end": "2026-08-15 23:59:59",
+    "cd_message": "⏳ A oferta termina em",
+    "cd_bg": "#323C91",
+    "cd_text": "#FFFFFF",
     "camp_active": true,
-    "camp_handles": "tetravit-d,super-omega-3-coq10,super-vitamina-c,tri-mg-complex,creatina-l-carnitina,sleep-inositol,whey-balance-chocolate,hair-botanika",
-    "camp_ribbon": "⚡ DIA D −8% • 07 E 08/08",
-    "camp_color": "#323C91",
+    "camp_handles": "creatina-l-carnitina",
+    "camp_ribbon": "🧠 Creatina no cérebro",
+    "camp_color": "#6D28D9",
     "favicon": "shopify://shop_images/icon.png",
     "logo": "shopify://shop_images/logo-c.png",
     "logo_on_transparent": "shopify://shop_images/logo-w.png",
@@ -53,7 +66,7 @@
     "show_search_price": true,
     "show_message_when_remove": true,
     "action_after_add_cart": "open_drawer",
-    "free_shipping_minimum": "349",
+    "free_shipping_minimum": "349.00",
     "enable_discount_code": true,
     "enable_gift_wrap": true,
     "choose_gift_wrap_product": "digital-gift-card",
@@ -207,6 +220,13 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "default": {
         "settings": {
@@ -368,12 +388,7 @@
           "button_link_hover_color": "#10c322"
         }
       }
-    },
-    "motion_enabled": true,
-    "popup_enabled": false,
-    "cart_gift_enabled": true,
-    "popup_coupon": "BOTANIKA",
-    "popup_text": "Cadastre seu e-mail e ganhe um cupom de boas-vindas com 5% de desconto na sua primeira compra."
+    }
   },
   "presets": {
     "Default": {}
@@ -381,7 +396,9 @@
   "platform_customizations": {
     "custom_css": [
       "@media (min-width: 1024px) {#topbar .text-slide {max-width: 50rem; }}",
-      ".product_submit_button {background: #10c322 !important; border-color: #10c322 !important;}"
+      ".product_submit_button {background: #10c322 !important; border-color: #10c322 !important;}",
+      ".is-camp .product-item__wrapper { animation: campGrow 1.9s ease-out infinite; }",
+      "@keyframes campGrow { 0%{box-shadow:0 0 0 2px #6D28D9,0 0 0 2px rgba(109,40,217,.55)} 70%{box-shadow:0 0 0 2px #6D28D9,0 0 0 16px rgba(109,40,217,0)} 100%{box-shadow:0 0 0 2px #6D28D9,0 0 0 0 rgba(109,40,217,0)} }"
     ]
   }
 }
