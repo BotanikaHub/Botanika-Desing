@@ -73,25 +73,31 @@
 </style>
 <script>
 (function () {
-  // Janela (UTC). Mes 0-index: 7 = Agosto.
-  // Casa exatamente com o desconto automatico
-  // "[CAMPANHA] Creatina no cerebro - 10% (prolongamento)":
-  // 2026-08-26T11:00:00Z ate 2026-08-29T02:59:59Z, 10% no produto.
+  // Janelas (UTC). Mes 0-index: 7 = Agosto.
+  // Cada fase espelha um desconto automatico real; se o desconto nao existir,
+  // a fase NAO pode aparecer -- senao a vitrine promete o que o checkout nao da.
+  // P1 = [CAMPANHA] Creatina no cerebro - 12% (relampago)
+  //      2026-08-24T15:08:43Z ate 2026-08-26T02:59:59Z
+  // P2 = [CAMPANHA] Creatina no cerebro - 10% (prolongamento)
+  //      2026-08-26T11:00:00Z ate 2026-08-29T02:59:59Z
+  var P1S = Date.UTC(2026, 7, 24, 15, 8, 43), P1E = Date.UTC(2026, 7, 26, 2, 59, 59);
   var P2S = Date.UTC(2026, 7, 26, 11, 0, 0), P2E = Date.UTC(2026, 7, 29, 2, 59, 59);
   var HANDLE = 'creatina-l-carnitina', VARIANT = 48115368820968, PRODUCT = 9347155067112;
-  // A fase de 12% (relampago) foi REMOVIDA: o desconto que a sustentava
-  // expirou em 2026-08-24T15:08:43Z (startsAt == endsAt) e nunca chegou a
-  // valer. O teste antigo era "if (n <= P1E) return P(12)" -- sem limite
-  // inferior --, entao a home e a PDP anunciavam -12% (R$ 112,90) desde
-  // sempre enquanto o checkout cobrava os R$ 128,30 cheios.
-  // Regra: so anunciar percentual que exista como desconto ativo no Shopify.
-  function P() {
+  // Precos conferidos contra o checkout: 128,30 -12% = 112,91 (nao 112,90);
+  // economia 15,39; 3x de 37,64.
+  function P(pct) {
+    if (pct === 12) return { pct: 12, from: 'R$ 128,30', to: 'R$ 112,91', save: 'R$ 15,39', inst: 'R$ 37,64', end: P1E };
     return { pct: 10, from: 'R$ 128,30', to: 'R$ 115,47', save: 'R$ 12,83', inst: 'R$ 38,49', end: P2E };
   }
   function ph() {
-    if (location.search.indexOf('crea_preview') !== -1) return P();
+    var q = location.search;
+    if (q.indexOf('crea_preview=10') !== -1) return P(10);
+    if (q.indexOf('crea_preview') !== -1) return P(12);
     var n = Date.now();
-    if (n >= P2S && n <= P2E) return P();
+    // P1 agora tem limite inferior. Sem ele, "n <= P1E" fazia os -12%
+    // aparecerem desde sempre, inclusive quando nenhum desconto existia.
+    if (n >= P1S && n <= P1E) return P(12);
+    if (n >= P2S && n <= P2E) return P(10);
     return null;
   }
   function two(n) { return (n < 10 ? '0' : '') + n; }
