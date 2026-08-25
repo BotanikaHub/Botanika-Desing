@@ -149,6 +149,13 @@
               </div>
             {%- endif -%}
           </form>
+          {%- comment -%}
+            Botanika order bump — mesma chamada que existe em sections/minicart-form.liquid.
+            Sem ela o card so aparecia depois de um update do carrinho (quando a section e
+            re-renderizada via AJAX); na PRIMEIRA abertura da gaveta, que e montada por este
+            snippet no load da pagina, o bump simplesmente nao existia.
+          {%- endcomment -%}
+          {% render 'botanika-order-bump', surface: 'drawer' %}
           {% if cart.items.size > 0 %}
             {% if action_after_add_cart == 'open_drawer' and minicart_type == 'show_inside' %}
               {%- if product_recommendations_type == 'auto' -%}
