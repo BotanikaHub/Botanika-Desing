@@ -1,17 +1,241 @@
 {%- comment -%}
-  Realce dos produtos da campanha nos cards. Renderizado uma vez no
-  theme.liquid, ligado via Configurações → "Campanha — destaque de produtos".
-  Versão premium/discreta: apenas um selo "−8% Dia D" no canto do card.
+  CSS global de destaque dos produtos da campanha (cards + PDP).
+  Renderizado uma vez no theme.liquid. Ligado/desligado e cor via
+  Configurações do tema → "Campanha — destaque de produtos".
 {%- endcomment -%}
 {%- if settings.camp_active -%}
   <style>
-    /* Selo "−8% Dia D" nos cards — discreto e premium */
+    :root { --camp: {{ settings.camp_color | default: '#323C91' }}; }
+    /* Ribbon / selo no card */
     .camp-ribbon {
       position: absolute; top: 10px; left: 10px; z-index: 6;
-      background: #E23744; color: #fff; font-size: 10.5px; font-weight: 800;
-      padding: 5px 10px; border-radius: 8px; letter-spacing: .02em; line-height: 1.1;
-      text-transform: uppercase; max-width: 80%; box-shadow: 0 2px 8px rgba(0,0,0,.16);
-      pointer-events: none;
+      background: var(--camp); color: #fff; font-size: 11px; font-weight: 800;
+      padding: 5px 11px; border-radius: 12px; letter-spacing: .01em; line-height: 1.15;
+      max-width: 72%; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none;
     }
+    /* Card destacado — moldura em volta do produto */
+    .is-camp .product-item__wrapper { border: 2.5px solid var(--camp); border-radius: 18px; padding: 12px; background: #fff; box-shadow: 0 12px 30px rgba(50,60,145,.20); }
+    .is-camp .product-item__inner { border-radius: 12px; }
+    .is-camp .product_submit_button,
+    .is-camp .product-form__submit { background: var(--camp) !important; border-color: var(--camp) !important; }
+    .is-camp .card-product-price .price,
+    .is-camp .price-regular .price { color: var(--camp) !important; }
+    /* PDP destacada */
+    .is-camp-pdp .product-form__submit,
+    .is-camp-pdp .product_submit_button { background: var(--camp) !important; border-color: var(--camp) !important; box-shadow: 0 6px 18px rgba(50,60,145,.28); }
+    .is-camp-pdp .price-regular .price,
+    .is-camp-pdp .price { color: var(--camp) !important; }
   </style>
 {%- endif -%}
+
+{%- comment -%} ===== CAMPANHA: Creatina no cérebro — overlay data-gated (fase decidida no cliente, à prova de cache) ===== {%- endcomment -%}
+<style>
+  .creabar,.creabanner,.creanotice,.creaprice,.creabump,.creabar *,.creabanner *,.creanotice *,.creaprice *,.creabump *{box-sizing:border-box}
+  .creabar{background:linear-gradient(100deg,#6D28D9,#4C1D95);color:#fff;font-weight:800;font-size:13px;letter-spacing:.03em;text-transform:uppercase;line-height:1;padding:9px 14px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;position:relative;z-index:60}
+  .creabar__t{display:inline-flex;gap:6px;align-items:baseline}
+  .creabar__t b{font-variant-numeric:tabular-nums}
+  .creabar__t i{font-style:normal;opacity:.75;font-size:.8em;font-weight:600}
+  .creabanner{margin:0 0 6px;padding:26px 20px;text-align:center;color:#fff;background:linear-gradient(120deg,#6D28D9,#4C1D95 70%);position:relative;overflow:hidden}
+  .creabanner h2{margin:0 0 6px;font-size:clamp(24px,4vw,40px);font-weight:900;line-height:1.05;color:#fff}
+  .creabanner p{margin:0 0 14px;font-size:clamp(14px,1.6vw,18px);opacity:.92}
+  .creabanner__price{display:inline-flex;gap:10px;align-items:baseline;margin-bottom:16px}
+  .creabanner__from{opacity:.7;text-decoration:line-through;font-size:16px}
+  .creabanner__to{font-size:clamp(22px,3vw,34px);font-weight:900}
+  .creabanner__pct{background:#16a34a;color:#fff;font-weight:900;border-radius:999px;padding:3px 10px;font-size:13px;align-self:center}
+  .creabanner__cta{display:inline-block;background:#fff;color:#4C1D95;font-weight:900;text-decoration:none;padding:13px 28px;border-radius:999px;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.25);margin-top:4px}
+  .creabanner__timer{margin-top:16px;font-weight:800;font-size:14px;display:flex;gap:8px;justify-content:center;align-items:baseline;opacity:.95}
+  .creabanner__timer b{font-variant-numeric:tabular-nums}
+  .creabanner__timer i{font-style:normal;opacity:.75;font-size:.8em}
+  .creanotice{display:flex;gap:8px;align-items:center;margin:0 0 12px;padding:10px 14px;border-radius:12px;background:linear-gradient(100deg,#6D28D9,#4C1D95);color:#fff;font-weight:700;font-size:14px;line-height:1.3}
+  .creanotice b{font-weight:900}
+  /* Preço da campanha na PDP (esconde o preço padrão do tema) */
+  body.crea-pdp .product-detail__price{display:none !important;}
+  .creaprice{display:flex;flex-direction:column;gap:6px;margin:0 0 16px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(109,40,217,.08),rgba(76,29,149,.12));border:1.5px solid rgba(109,40,217,.35)}
+  .creaprice__pill{align-self:flex-start;background:linear-gradient(100deg,#6D28D9,#4C1D95);color:#fff;font-weight:800;font-size:12px;border-radius:999px;padding:4px 12px;letter-spacing:.02em}
+  .creaprice__row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .creaprice__from{color:#9a9aa8;text-decoration:line-through;font-size:19px;font-weight:600}
+  .creaprice__to{color:#6D28D9;font-size:38px;font-weight:900;line-height:1}
+  .creaprice__pct{background:#16a34a;color:#fff;font-weight:800;border-radius:8px;padding:3px 9px;font-size:13px;align-self:center}
+  .creaprice__save{color:#16a34a;font-weight:800;font-size:14px}
+  .creaprice__inst{color:#555;font-size:13px}
+  /* Bump da campanha (carrinho + gaveta) */
+  .creabump{max-width:640px;margin:16px auto;padding:14px 16px;border:2px solid #6D28D9;border-radius:14px;background:linear-gradient(135deg,#fff,rgba(109,40,217,.06));box-shadow:0 6px 20px rgba(76,29,149,.15)}
+  .minicart-body .creabump{max-width:none;margin:0 0 16px}
+  .creabump__badge{display:inline-block;background:linear-gradient(100deg,#6D28D9,#4C1D95);color:#fff;font-weight:800;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border-radius:999px;padding:4px 11px;margin-bottom:8px}
+  .creabump__t{font-weight:700;font-size:14px;color:#1a1e3a;margin-bottom:6px;line-height:1.3}
+  .creabump__p{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;flex-wrap:wrap}
+  .creabump__p s{color:#9a9aa8;font-size:14px}
+  .creabump__p b{color:#6D28D9;font-size:22px;font-weight:900}
+  .creabump__pct{background:#16a34a;color:#fff;font-weight:800;font-size:12px;border-radius:8px;padding:2px 8px;align-self:center}
+  .creabump__btn{cursor:pointer;width:100%;border:0;border-radius:10px;background:linear-gradient(100deg,#6D28D9,#4C1D95);color:#fff;font-weight:800;font-size:14px;padding:12px 14px}
+  .creabump__btn:disabled{opacity:.7;cursor:default}
+  @media(max-width:480px){.creabar{font-size:11px;gap:8px}.creaprice__to{font-size:30px}}
+</style>
+<script>
+(function () {
+  // Janela (UTC). Mes 0-index: 7 = Agosto.
+  // Casa exatamente com o desconto automatico
+  // "[CAMPANHA] Creatina no cerebro - 10% (prolongamento)":
+  // 2026-08-26T11:00:00Z ate 2026-08-29T02:59:59Z, 10% no produto.
+  var P2S = Date.UTC(2026, 7, 26, 11, 0, 0), P2E = Date.UTC(2026, 7, 29, 2, 59, 59);
+  var HANDLE = 'creatina-l-carnitina', VARIANT = 48115368820968, PRODUCT = 9347155067112;
+  // A fase de 12% (relampago) foi REMOVIDA: o desconto que a sustentava
+  // expirou em 2026-08-24T15:08:43Z (startsAt == endsAt) e nunca chegou a
+  // valer. O teste antigo era "if (n <= P1E) return P(12)" -- sem limite
+  // inferior --, entao a home e a PDP anunciavam -12% (R$ 112,90) desde
+  // sempre enquanto o checkout cobrava os R$ 128,30 cheios.
+  // Regra: so anunciar percentual que exista como desconto ativo no Shopify.
+  function P() {
+    return { pct: 10, from: 'R$ 128,30', to: 'R$ 115,47', save: 'R$ 12,83', inst: 'R$ 38,49', end: P2E };
+  }
+  function ph() {
+    if (location.search.indexOf('crea_preview') !== -1) return P();
+    var n = Date.now();
+    if (n >= P2S && n <= P2E) return P();
+    return null;
+  }
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function fmt(ms) {
+    if (ms < 0) ms = 0;
+    var s = Math.floor(ms / 1000);
+    var d = Math.floor(s / 86400); s -= d * 86400;
+    var h = Math.floor(s / 3600); s -= h * 3600;
+    var m = Math.floor(s / 60); s -= m * 60;
+    return { d: d, h: h, m: m, s: s };
+  }
+  function clock(t) {
+    return '<b data-d>' + two(t.d) + '</b><i>d</i> <b data-h>' + two(t.h) + '</b><i>h</i> <b data-m>' + two(t.m) + '</b><i>m</i> <b data-s>' + two(t.s) + '</b><i>s</i>';
+  }
+  function creaInCart(cb) {
+    fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (c) {
+        var has = false, items = (c && c.items) || [];
+        for (var i = 0; i < items.length; i++) { if (items[i].product_id === PRODUCT || items[i].id === VARIANT) has = true; }
+        cb(has);
+      })
+      .catch(function () { cb(false); });
+  }
+  function bumpHTML(p) {
+    return '<div class="creabump__badge">&#129504; Oferta Creatina no c&eacute;rebro</div>'
+      + '<div class="creabump__t">Creatina + Taurato &mdash; foco, energia e recupera&ccedil;&atilde;o</div>'
+      + '<div class="creabump__p"><s>' + p.from + '</s><b>' + p.to + '</b><span class="creabump__pct">&minus;' + p.pct + '%</span></div>'
+      + '<button type="button" class="creabump__btn" data-crea-add>+ Adicionar com ' + p.pct + '% OFF</button>';
+  }
+  function placeBump(p) {
+    var surfaces = [];
+    var drawer = document.querySelector('.minicart-body');
+    if (drawer) surfaces.push(drawer);
+    if (document.body.classList.contains('cart')) {
+      var cartMain = document.getElementById('MainContent');
+      if (cartMain) surfaces.push(cartMain);
+    }
+    if (!surfaces.length) return;
+    creaInCart(function (has) {
+      var ex = document.querySelectorAll('[data-crea-bump]');
+      if (has) { for (var j = 0; j < ex.length; j++) { if (ex[j].parentNode) ex[j].parentNode.removeChild(ex[j]); } return; }
+      for (var i = 0; i < surfaces.length; i++) {
+        var s = surfaces[i];
+        if (s.querySelector('[data-crea-bump]')) continue;
+        var d = document.createElement('div');
+        d.className = 'creabump'; d.setAttribute('data-crea', '1'); d.setAttribute('data-crea-bump', '1');
+        d.innerHTML = bumpHTML(p);
+        s.insertBefore(d, s.firstChild);
+      }
+    });
+  }
+  function build() {
+    var p = ph(); if (!p) return;
+    var body = document.body; if (!body) return;
+
+    if (!body.querySelector('[data-crea-fixed]')) {
+      var bar = document.createElement('div');
+      bar.className = 'creabar'; bar.setAttribute('data-crea', '1'); bar.setAttribute('data-crea-fixed', '1');
+      bar.innerHTML = '<span>&#129504; Creatina no c&eacute;rebro &mdash; &minus;' + p.pct + '% termina em</span><span class="creabar__t" data-crea-timer data-end="' + p.end + '">' + clock(fmt(p.end - Date.now())) + '</span>';
+      body.insertBefore(bar, body.firstChild);
+
+      function banEl() {
+        var ban = document.createElement('div');
+        ban.className = 'creabanner'; ban.setAttribute('data-crea', '1'); ban.setAttribute('data-crea-fixed', '1');
+        ban.innerHTML = '<h2>Creatina no c&eacute;rebro &#129504;</h2><p>Foco, energia e recupera&ccedil;&atilde;o &mdash; s&oacute; nesta janela.</p><div class="creabanner__price"><span class="creabanner__from">' + p.from + '</span><span class="creabanner__to">' + p.to + '</span><span class="creabanner__pct">&minus;' + p.pct + '%</span></div><a class="creabanner__cta" href="/products/' + HANDLE + '">Aproveitar agora</a><div class="creabanner__timer" data-crea-timer data-end="' + p.end + '"><span>Termina em</span> ' + clock(fmt(p.end - Date.now())) + '</div>';
+        return ban;
+      }
+
+      if (body.classList.contains('index')) {
+        var anchorMV = document.getElementById('mais-vendidos');
+        var secMV = anchorMV && anchorMV.closest ? anchorMV.closest('.shopify-section') : null;
+        if (secMV && secMV.parentNode) {
+          secMV.parentNode.insertBefore(banEl(), secMV);
+        } else {
+          var main = document.getElementById('MainContent');
+          if (main) main.insertBefore(banEl(), main.firstChild);
+        }
+      }
+
+      if (body.classList.contains('product') && location.pathname.indexOf('/products/' + HANDLE) !== -1) {
+        var priceEl = document.querySelector('.product-detail__price');
+        if (priceEl && priceEl.parentNode) {
+          body.classList.add('crea-pdp');
+          var notice = document.createElement('div');
+          notice.className = 'creanotice'; notice.setAttribute('data-crea', '1'); notice.setAttribute('data-crea-fixed', '1');
+          notice.innerHTML = '<span>&#129504;</span><span>Creatina no c&eacute;rebro: <b>&minus;' + p.pct + '%</b> j&aacute; aplicado no checkout</span>';
+          var cp = document.createElement('div');
+          cp.className = 'creaprice'; cp.setAttribute('data-crea', '1'); cp.setAttribute('data-crea-fixed', '1');
+          cp.innerHTML = '<span class="creaprice__pill">&#129504; &minus;' + p.pct + '% Creatina no c&eacute;rebro</span><span class="creaprice__row"><s class="creaprice__from">' + p.from + '</s><b class="creaprice__to">' + p.to + '</b><span class="creaprice__pct">&minus;' + p.pct + '%</span></span><span class="creaprice__save">Voc&ecirc; economiza ' + p.save + ' &mdash; desconto j&aacute; no checkout</span><span class="creaprice__inst">ou 3x de ' + p.inst + ' sem juros</span>';
+          priceEl.parentNode.insertBefore(notice, priceEl);
+          priceEl.parentNode.insertBefore(cp, priceEl);
+        }
+        var docsSec = document.querySelector('.section-bt-medauth');
+        if (docsSec && docsSec.parentNode) {
+          docsSec.parentNode.insertBefore(banEl(), docsSec);
+        }
+      }
+
+      setInterval(function () {
+        var live = ph();
+        if (!live) {
+          var rm = document.querySelectorAll('[data-crea]');
+          for (var r = 0; r < rm.length; r++) { rm[r].style.display = 'none'; }
+          document.body.classList.remove('crea-pdp');
+          return;
+        }
+        var nodes = document.querySelectorAll('[data-crea-timer]');
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i]; var end = parseInt(el.getAttribute('data-end'), 10);
+          var t = fmt(end - Date.now());
+          var qd = el.querySelector('[data-d]'), qh = el.querySelector('[data-h]'), qm = el.querySelector('[data-m]'), qs = el.querySelector('[data-s]');
+          if (qd) qd.textContent = two(t.d);
+          if (qh) qh.textContent = two(t.h);
+          if (qm) qm.textContent = two(t.m);
+          if (qs) qs.textContent = two(t.s);
+        }
+      }, 1000);
+    }
+
+    placeBump(p);
+    var cn = document.querySelector('cart-notification');
+    if (cn && !cn.__creaObs) {
+      cn.__creaObs = true;
+      var bt;
+      var obs = new MutationObserver(function () {
+        var dr = document.querySelector('.minicart-body');
+        if (dr && !dr.querySelector('[data-crea-bump]')) {
+          clearTimeout(bt);
+          bt = setTimeout(function () { var lp = ph(); if (lp) placeBump(lp); }, 300);
+        }
+      });
+      obs.observe(cn, { childList: true, subtree: true });
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('[data-crea-add]') : null;
+    if (!b) return;
+    e.preventDefault();
+    b.disabled = true; var old = b.textContent; b.textContent = 'Adicionando...';
+    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: VARIANT, quantity: 1 }] }) })
+      .then(function () { location.reload(); })
+      .catch(function () { b.disabled = false; b.textContent = old; });
+  });
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); } else { build(); }
+})();
+</script>

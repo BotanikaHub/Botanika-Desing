@@ -6,6 +6,20 @@
   assign installments = bs.installments
   assign show_currency = settings.show_currency_code
 %}
+{%- comment -%}
+  Os percentuais vem SO das settings do bloco, que espelham as escadas
+  automaticas reais ([ESCADA] 5% a partir de 2un, 10% a partir de 3un).
+  Nao somar bonus de campanha aqui: o card passa a prometer um desconto
+  que o checkout nao aplica. Removido o bonus fixo de 8% "Semana Fitness"
+  (campanha encerrada em 11/08/2026), que era somado a todos os tiers
+  sempre que o produto estivesse em settings.camp_handles.
+{%- endcomment -%}
+{%- assign t1_eff = bs.tier1_discount -%}
+{%- assign t2_eff = bs.tier2_discount -%}
+{%- assign t3_eff = bs.tier3_discount -%}
+{%- assign t1_sub = bs.tier1_subtitle -%}
+{%- assign t2_sub = bs.tier2_subtitle -%}
+{%- assign t3_sub = bs.tier3_subtitle -%}
 
 <quantity-discount-cards
   class="qty-cards"
@@ -32,7 +46,7 @@
       {%- if bs.tier1_enabled -%}
         {%- liquid
           assign t1_total = unit_price | times: bs.tier1_quantity
-          assign t1_disc_amt = t1_total | times: bs.tier1_discount | divided_by: 100
+          assign t1_disc_amt = t1_total | times: t1_eff | divided_by: 100
           assign t1_price = t1_total | minus: t1_disc_amt
           assign t1_installment = t1_price | divided_by: installments
         -%}
@@ -40,7 +54,7 @@
           class="qty-card qty-card--active"
           data-tier="1"
           data-quantity="{{ bs.tier1_quantity }}"
-          data-discount="{{ bs.tier1_discount }}"
+          data-discount="{{ t1_eff }}"
           role="radio"
           aria-checked="true"
           tabindex="0"
@@ -79,13 +93,13 @@
 
           <div class="qty-card__info">
             <span class="qty-card__title">{{ bs.tier1_title }}</span>
-            {%- if bs.tier1_discount > 0 -%}
-              <span class="qty-card__discount">{{ bs.tier1_discount }}% OFF</span>
+            {%- if t1_eff > 0 -%}
+              <span class="qty-card__discount">{{ t1_eff }}% OFF</span>
             {%- else -%}
               <span class="qty-card__regular-tag">preço regular</span>
             {%- endif -%}
-            {%- if bs.tier1_subtitle != blank -%}
-              <span class="qty-card__subtitle">{{ bs.tier1_subtitle }}</span>
+            {%- if t1_sub != blank -%}
+              <span class="qty-card__subtitle">{{ t1_sub }}</span>
             {%- endif -%}
             <div class="qty-card__pricing">
               <span class="qty-card__installments-label">{{ installments }}x de</span>
@@ -101,7 +115,7 @@
               </span>
               <span class="qty-card__cash-label">à vista</span>
             </div>
-            {%- if bs.tier1_discount > 0 -%}
+            {%- if t1_eff > 0 -%}
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t1_total | money_with_currency }}{%- else -%}{{ t1_total | money }}{%- endif -%}
               </s>
@@ -120,7 +134,7 @@
       {%- if bs.tier2_enabled -%}
         {%- liquid
           assign t2_total = unit_price | times: bs.tier2_quantity
-          assign t2_disc_amt = t2_total | times: bs.tier2_discount | divided_by: 100
+          assign t2_disc_amt = t2_total | times: t2_eff | divided_by: 100
           assign t2_price = t2_total | minus: t2_disc_amt
           assign t2_installment = t2_price | divided_by: installments
         -%}
@@ -128,7 +142,7 @@
           class="qty-card"
           data-tier="2"
           data-quantity="{{ bs.tier2_quantity }}"
-          data-discount="{{ bs.tier2_discount }}"
+          data-discount="{{ t2_eff }}"
           role="radio"
           aria-checked="false"
           tabindex="0"
@@ -167,13 +181,13 @@
 
           <div class="qty-card__info">
             <span class="qty-card__title">{{ bs.tier2_title }}</span>
-            {%- if bs.tier2_discount > 0 -%}
-              <span class="qty-card__discount">{{ bs.tier2_discount }}% OFF</span>
+            {%- if t2_eff > 0 -%}
+              <span class="qty-card__discount">{{ t2_eff }}% OFF</span>
             {%- else -%}
               <span class="qty-card__regular-tag">preço regular</span>
             {%- endif -%}
-            {%- if bs.tier2_subtitle != blank -%}
-              <span class="qty-card__subtitle">{{ bs.tier2_subtitle }}</span>
+            {%- if t2_sub != blank -%}
+              <span class="qty-card__subtitle">{{ t2_sub }}</span>
             {%- endif -%}
             <div class="qty-card__pricing">
               <span class="qty-card__installments-label">{{ installments }}x de</span>
@@ -189,7 +203,7 @@
               </span>
               <span class="qty-card__cash-label">à vista</span>
             </div>
-            {%- if bs.tier2_discount > 0 -%}
+            {%- if t2_eff > 0 -%}
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t2_total | money_with_currency }}{%- else -%}{{ t2_total | money }}{%- endif -%}
               </s>
@@ -208,7 +222,7 @@
       {%- if bs.tier3_enabled -%}
         {%- liquid
           assign t3_total = unit_price | times: bs.tier3_quantity
-          assign t3_disc_amt = t3_total | times: bs.tier3_discount | divided_by: 100
+          assign t3_disc_amt = t3_total | times: t3_eff | divided_by: 100
           assign t3_price = t3_total | minus: t3_disc_amt
           assign t3_installment = t3_price | divided_by: installments
         -%}
@@ -216,7 +230,7 @@
           class="qty-card"
           data-tier="3"
           data-quantity="{{ bs.tier3_quantity }}"
-          data-discount="{{ bs.tier3_discount }}"
+          data-discount="{{ t3_eff }}"
           role="radio"
           aria-checked="false"
           tabindex="0"
@@ -255,13 +269,13 @@
 
           <div class="qty-card__info">
             <span class="qty-card__title">{{ bs.tier3_title }}</span>
-            {%- if bs.tier3_discount > 0 -%}
-              <span class="qty-card__discount">{{ bs.tier3_discount }}% OFF</span>
+            {%- if t3_eff > 0 -%}
+              <span class="qty-card__discount">{{ t3_eff }}% OFF</span>
             {%- else -%}
               <span class="qty-card__regular-tag">preço regular</span>
             {%- endif -%}
-            {%- if bs.tier3_subtitle != blank -%}
-              <span class="qty-card__subtitle">{{ bs.tier3_subtitle }}</span>
+            {%- if t3_sub != blank -%}
+              <span class="qty-card__subtitle">{{ t3_sub }}</span>
             {%- endif -%}
             <div class="qty-card__pricing">
               <span class="qty-card__installments-label">{{ installments }}x de</span>
@@ -277,7 +291,7 @@
               </span>
               <span class="qty-card__cash-label">à vista</span>
             </div>
-            {%- if bs.tier3_discount > 0 -%}
+            {%- if t3_eff > 0 -%}
               <s class="qty-card__compare" data-compare>
                 {%- if show_currency -%}{{ t3_total | money_with_currency }}{%- else -%}{{ t3_total | money }}{%- endif -%}
               </s>
@@ -489,11 +503,33 @@
   }
 
   .qty-card__discount {
+    position: relative;
     display: inline-block;
-    color: #16a34a;
-    font-weight: 700;
-    font-size: var(--body-font-size, 1.4rem);
-    margin-bottom: 6px;
+    color: #fff;
+    background: #16a34a;
+    font-weight: 800;
+    font-size: calc(var(--body-font-size, 1.4rem) * 1.18);
+    letter-spacing: .02em;
+    padding: 6px 15px;
+    border-radius: 16px;
+    margin: 4px 0 15px;
+    box-shadow: 0 6px 14px rgba(22,163,74,.42);
+    animation: discPop 1.5s ease-in-out infinite;
+  }
+  .qty-card__discount::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    bottom: -5px;
+    width: 13px;
+    height: 13px;
+    background: #16a34a;
+    transform: rotate(45deg);
+    border-bottom-right-radius: 3px;
+  }
+  @keyframes discPop {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-2px) scale(1.05); }
   }
 
   .qty-card__regular-tag {
@@ -623,6 +659,14 @@
     .qty-card__installment-value {
       font-size: calc(var(--body-font-size, 1.4rem) * 1.3);
     }
+  }
+  /* Destaque do plano mais vendido (grow azul + contorno) */
+  .qty-card { border-color: #c7ccec; }
+  .qty-card[data-tier="2"] { border-color: #323C91; animation: qtyGrow 1.8s ease-out infinite; }
+  @keyframes qtyGrow {
+    0%   { box-shadow: 0 0 0 0 rgba(50,60,145,.5); }
+    70%  { box-shadow: 0 0 0 12px rgba(50,60,145,0); }
+    100% { box-shadow: 0 0 0 0 rgba(50,60,145,0); }
   }
 {% endstylesheet %}
 

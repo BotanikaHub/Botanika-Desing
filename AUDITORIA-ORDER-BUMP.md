@@ -75,3 +75,59 @@ hardcoded) e batem com o que o `draftOrderCalculate` entrega. **Nenhum card ment
 ~25 ativos (16 `[ESCADA]`, 7 `[BUMP]`, 1 `[KIT]`, 1 app Upsell.com) + 1 `[CAMPANHA]`
 SCHEDULED. No limite. Candidatos a liberar slot: `[ESCADA] Sleep Inositol — 5% (2un)`
 (o 10% já expirou, escada pela metade) e `[KIT] Kit Whey/Crea/Taurato + Hair — 5% no Hair`.
+
+---
+
+# PDP/Home da Creatina — precos conflitantes (25/08/2026)
+
+Tema editado: **"Copy of Creatina - Tema Padrao"** (`OnlineStoreTheme/158774591720`).
+Observado: PDP anunciava R$ 112,90 (-12%) no banner roxo E R$ 118,04 (8% "Semana Fitness")
+no card 1 KIT; a home mostrava ribbon "-12% HOJE" com o preco real R$ 128,30 ao lado.
+
+## Causa 1 — fase de campanha fantasma (corrigido)
+
+`snippets/botanika-campaign-css.liquid` decidia a fase no cliente:
+
+    if (n <= P1E) return P(12);          // sem limite inferior
+    if (n >= P2S && n <= P2E) return P(10);
+
+Sem checar `P1S`, a fase de 12% valia para qualquer instante anterior a 26/08 02:59Z.
+O desconto que a sustentava — `[CAMPANHA] Creatina no cerebro — 12% (relampago)` —
+esta EXPIRED com `startsAt == endsAt == 2026-08-24T15:08:43Z`, ou seja, nunca valeu.
+
+Fase 1 removida. Ficou so a fase 2, cuja janela casa exatamente com
+`[CAMPANHA] Creatina no cerebro — 10%`: 26/08 11:00Z ate 29/08 02:59:59Z.
+
+## Causa 2 — bonus fixo de 8% "Semana Fitness" (corrigido)
+
+`blocks/_product-quantity-cards.liquid` somava 8% a TODOS os tiers sempre que o
+produto estivesse em `settings.camp_handles`:
+
+    {%- if sf_camp == 'yes' -%}{%- assign sf_bonus = 8 -%}{%- endif -%}
+    {%- assign t1_eff = bs.tier1_discount | plus: sf_bonus -%}
+
+Dai o "8% OFF / 🔥 Semana Fitness — 8%" no 1 KIT e o "13% / 5% + 8%" no 2 KITS.
+A campanha Semana Fitness encerrou em 11/08/2026. Bonus e subtitulos removidos:
+os tiers passam a usar so as settings do bloco (0 / 5 / 10).
+
+Risco que isso evitava: a partir de 26/08 a campanha de 10% entra e, com o bonus
+ativo, os cards voltariam a anunciar 8/13/18% — todos falsos de novo.
+
+## Pendente — dois textos no editor do tema
+
+Nao sobrescrevi `config/settings_data.json`: o Shopify o armazena minificado e
+devolve formatado na API, entao nao da para validar por md5 (minificado = 10416 B
+contra 10445 B reais). Reescrever a partir de uma reconstrucao nao verificavel
+arrisca apagar alguma setting em silencio.
+
+Trocar no editor → Configuracoes do tema:
+
+- **Campanha — destaque de produtos → Texto do selo**
+  `🧠 −12% HOJE` → `🧠 Creatina no cerebro` (sem percentual: o selo nao tem
+  janela de data, entao qualquer % nele fica falso fora da campanha)
+- **Contagem regressiva → Mensagem**
+  `⏳ Semana Fitness termina em` → `⏳ A oferta termina em`
+
+Tambem restam dois textos "Semana Fitness" em `templates/product.json`, ambos em
+blocos com `show: false` (`_product-campaign-selo` e `_product-countdown-bar`) —
+invisiveis hoje, mas vale limpar antes que alguem os ligue.
