@@ -1,20 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "pdp_promo": {
+      "type": "pdp-promo-banner",
+      "settings": {
+        "image_desktop": "shopify://shop_images/clube_desk_icp_2x_30c78fa7-d060-4054-be52-bd5cfdccf52e.png",
+        "image_mobile": "shopify://shop_images/clube_mob_icp_2x_f13763bc-0e77-4162-a7de-389bf034a812.png",
+        "image_alt": "Quanto mais você compra, mais você ganha",
+        "image_link": ""
+      }
+    },
     "breadcrumb": {
       "type": "breadcrumb",
+      "disabled": true,
       "settings": {
         "section_width": "container",
         "color_scheme": "",
         "next_prev": false
-      }
-    },
-    "pdp_promo": {
-      "type": "pdp-promo-banner",
-      "settings": {
-        "image_desktop": "shopify://shop_images/bannerdisplaysemana.png",
-        "image_mobile": "shopify://shop_images/semanamobile.png",
-        "image_alt": "Quanto mais você compra, mais você ganha",
-        "image_link": ""
       }
     },
     "main": {
@@ -35,12 +45,11 @@
         "campaign_selo_Im1x9k": {
           "type": "_product-campaign-selo",
           "settings": {
-            "show": true,
-            "handles": "tetravit-d,super-omega-3-coq10,super-vitamina-c,tri-mg-complex,creatina-l-carnitina,sleep-inositol,whey-balance-chocolate,hair-botanika",
-            "icon": "⚡",
-            "text": "DIA D — 8% OFF neste produto",
-            "subtext": "🎁 Manual da Suplementação grátis • 🚚 Frete grátis acima de R$349",
-            "bg_color": "#14162e",
+            "show": false,
+            "handles": "whey-balance-chocolate,creatina-l-carnitina",
+            "icon": "💪",
+            "text": "Semana Fitness — 8% OFF neste produto",
+            "bg_color": "#323c91",
             "text_color": "#ffffff"
           },
           "blocks": {}
@@ -80,6 +89,7 @@
         },
         "countdown_timer_QB4Ydn": {
           "type": "_product-countdown-timer",
+          "disabled": true,
           "settings": {
             "timer_style": "default",
             "content": "🔥 Corra! A promoção acaba em:"
@@ -128,26 +138,28 @@
             "tier1_enabled": true,
             "tier1_title": "1 KIT",
             "tier1_quantity": 1,
-            "tier1_discount": 0,
+            "tier1_discount": 12,
             "tier1_subtitle": "",
             "tier1_badge1": "",
             "tier1_badge2": "",
             "tier1_message": "",
+            "tier1_bonus": "",
             "tier2_enabled": true,
             "tier2_image": "shopify://shop_images/kit-imunidade-2-kits.png",
             "tier2_title": "2 KITS",
             "tier2_quantity": 2,
-            "tier2_discount": 5,
-            "tier2_subtitle": "",
+            "tier2_discount": 12,
+            "tier2_subtitle": "Leve 2 e economize",
             "tier2_badge1": "Mais vendido",
             "tier2_badge2": "",
             "tier2_message": "",
+            "tier2_bonus": "",
             "tier3_enabled": true,
             "tier3_image": "shopify://shop_images/kit-imunidade-3-kits.png",
             "tier3_title": "3 KITS",
             "tier3_quantity": 3,
-            "tier3_discount": 10,
-            "tier3_subtitle": "",
+            "tier3_discount": 12,
+            "tier3_subtitle": "Leve 3 — melhor preço",
             "tier3_badge1": "Menor preço",
             "tier3_badge2": "",
             "tier3_message": "",
@@ -158,8 +170,8 @@
         "countdown_bar_Cd0f1a": {
           "type": "_product-countdown-bar",
           "settings": {
-            "show": true,
-            "message": "⏳ Preço promocional termina em",
+            "show": false,
+            "message": "⏳ Semana Fitness termina em",
             "bg_color": "#323c91",
             "text_color": "#ffffff"
           },
@@ -172,6 +184,37 @@
             "show_gift_card_recipient": true,
             "show_wishlist": true,
             "show_compare": true
+          },
+          "blocks": {}
+        },
+        "depoimentos_prod_Dp1x": {
+          "type": "_product-depoimentos",
+          "settings": {
+            "heading": "O que dizem nossos clientes",
+            "subheading": "Histórias reais de quem já faz parte da Botanika.",
+            "show_stars": true,
+            "p1": "shopify://shop_images/IMG_6444.jpg",
+            "n1": "",
+            "c1": "",
+            "p2": "shopify://shop_images/IMG_6446.jpg",
+            "n2": "",
+            "c2": "",
+            "p3": "shopify://shop_images/IMG_6452.jpg",
+            "n3": "",
+            "c3": "",
+            "p4": "shopify://shop_images/IMG_6448.jpg",
+            "n4": "",
+            "c4": "",
+            "p5": "shopify://shop_images/IMG_6449.jpg",
+            "n5": "",
+            "c5": "",
+            "p6": "shopify://shop_images/IMG_6445.jpg",
+            "n6": "",
+            "c6": "",
+            "n7": "",
+            "c7": "",
+            "n8": "",
+            "c8": ""
           },
           "blocks": {}
         },
@@ -321,20 +364,6 @@
             "button_text_color": "#ffffff",
             "accent_color": "#000000"
           }
-        },
-        "depoimentos_prod_Dp1x": {
-          "type": "_product-depoimentos",
-          "settings": {
-            "heading": "O que dizem nossos clientes",
-            "subheading": "Histórias reais de quem já faz parte da Botanika.",
-            "show_stars": true,
-            "p1": "shopify://shop_images/IMG_6444.jpg",
-            "p2": "shopify://shop_images/IMG_6446.jpg",
-            "p3": "shopify://shop_images/IMG_6452.jpg",
-            "p4": "shopify://shop_images/IMG_6448.jpg",
-            "p5": "shopify://shop_images/IMG_6449.jpg",
-            "p6": "shopify://shop_images/IMG_6445.jpg"
-          }
         }
       },
       "block_order": [
@@ -381,6 +410,241 @@
         "padding_top": 0,
         "padding_bottom": 0,
         "reset_spacing": false
+      }
+    },
+    "botanika_whey_mix": {
+      "type": "botanika-whey-mix",
+      "settings": {
+        "eyebrow": "MONTE DO SEU JEITO",
+        "heading": "Escolha seus sabores",
+        "subheading": "Leve mais de um sabor e o desconto aplica sozinho no carrinho.",
+        "tier2_qty": 2,
+        "tier2_pct": 5,
+        "tier3_qty": 3,
+        "tier3_pct": 10,
+        "button_label": "Adicionar ao carrinho",
+        "note": "O desconto por quantidade é aplicado automaticamente no carrinho.",
+        "brand_color": "#323c91",
+        "accent_color": "#10c322",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "botanika_medical_authority": {
+      "type": "botanika-medical-authority",
+      "blocks": {
+        "doc_robson": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-robson.jpg",
+            "photo_zoom": 100,
+            "photo_focus_x": 50,
+            "photo_focus_y": 30,
+            "name": "Dr. Robson Araújo",
+            "crm": "CRM-MG 93.787",
+            "specialty": "Emagrecimento e saúde integrativa",
+            "quote": "<p>Acompanho pacientes em processos de emagrecimento e vejo a Botanika como <strong>uma aliada segura</strong> na rotina deles.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        },
+        "doc_raquel": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-raquel.jpg",
+            "photo_zoom": 100,
+            "photo_focus_x": 50,
+            "photo_focus_y": 30,
+            "name": "Dra. Raquel Cembranelli",
+            "crm": "CRO-SP 83.705",
+            "specialty": "Cirurgiã-dentista · odontologia integrativa",
+            "quote": "<p>Na odontologia integrativa, qualidade não é opcional — por isso <strong>recomendo a Botanika</strong> aos meus pacientes.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        },
+        "doc_eglife": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-eglife.jpg",
+            "photo_zoom": 100,
+            "photo_focus_x": 50,
+            "photo_focus_y": 30,
+            "name": "Dr. Eglife Brauher",
+            "crm": "CRM-BA 32.688",
+            "specialty": "Médico",
+            "quote": "<p>Conheço de perto os protocolos da Botanika e <strong>recomendo com tranquilidade</strong>.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        },
+        "doc_kalil": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-kalil.jpg",
+            "photo_zoom": 100,
+            "photo_focus_x": 50,
+            "photo_focus_y": 30,
+            "name": "Dr. Kalil Gibran Ferreira Lima",
+            "crm": "CRM-BA 34.392",
+            "specialty": "Médico",
+            "quote": "<p>A Botanika entrega o <strong>padrão de qualidade</strong> que busco para indicar aos meus pacientes.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        },
+        "doc_carlos": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-carlos.jpg",
+            "photo_zoom": 105,
+            "photo_focus_x": 50,
+            "photo_focus_y": 20,
+            "name": "Dr. Carlos Mateus Santos Osório",
+            "crm": "CRM-SP 215.405",
+            "specialty": "Médico",
+            "quote": "<p>Recomendo a Botanika pela <strong>consistência e qualidade</strong> dos seus produtos.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        },
+        "doc_grace": {
+          "type": "doctor",
+          "settings": {
+            "image": "shopify://shop_images/medico-grace.jpg",
+            "photo_zoom": 100,
+            "photo_focus_x": 50,
+            "photo_focus_y": 30,
+            "name": "Dra. Grace Dessirre",
+            "crm": "CFO-SP 084169",
+            "specialty": "Cirurgiã-dentista",
+            "quote": "<p>Incluo a Botanika no cuidado que ofereço, sempre com <strong>atenção à qualidade</strong>.</p>",
+            "instagram": "",
+            "instagram_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "doc_robson",
+        "doc_raquel",
+        "doc_eglife",
+        "doc_kalil",
+        "doc_carlos",
+        "doc_grace"
+      ],
+      "settings": {
+        "section_width": "container",
+        "eyebrow": "AUTORIDADE MÉDICA",
+        "heading": "Profissionais de saúde que recomendam a Botanika",
+        "subheading": "<p>Médicos e especialistas que conhecem nossos protocolos e indicam para seus pacientes.</p>",
+        "columns": 2,
+        "neutral_quote": "Conheço os protocolos da Botanika e recomendo aos meus pacientes.",
+        "brand_color": "#d0473e",
+        "accent_color": "#10c322",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "pdp_ugc": {
+      "type": "ugc-photos",
+      "blocks": {
+        "photo_HRFMcV": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/hf_20260724_210647_411433be-ca63-4ef4-8ef3-89bc30a1be27.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u1": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/UGC_TRI.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u2": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/UGC_HAIR.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u3": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ugc_tetra2.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u4": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ugc_vitc.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u5": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ugc_sleep.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u6": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ugc_tetra.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u7": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ucg_omega3.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "u8": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/ugc_whey.png",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "photo_DebGBc": {
+          "type": "photo",
+          "settings": {
+            "photo": "shopify://shop_images/hf_20260724_210654_eaa2d1ca-6030-49bd-8899-41dd317dc906.png",
+            "name": "",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_HRFMcV",
+        "u1",
+        "u2",
+        "u3",
+        "u4",
+        "u5",
+        "u6",
+        "u7",
+        "u8",
+        "photo_DebGBc"
+      ],
+      "settings": {
+        "color_scheme": "default",
+        "heading": "A Botanika na sua rotina",
+        "subheading": "Faça da Botanika parte do seu dia a dia."
       }
     },
     "pdp_guarantees": {
@@ -739,80 +1003,14 @@
         "padding_bottom": 0,
         "reset_spacing": false
       }
-    },
-    "pdp_ugc": {
-      "type": "ugc-photos",
-      "blocks": {
-        "u1": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/UGC_TRI.png"
-          }
-        },
-        "u2": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/UGC_HAIR.png"
-          }
-        },
-        "u3": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ugc_tetra2.png"
-          }
-        },
-        "u4": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ugc_vitc.png"
-          }
-        },
-        "u5": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ugc_sleep.png"
-          }
-        },
-        "u6": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ugc_tetra.png"
-          }
-        },
-        "u7": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ucg_omega3.png"
-          }
-        },
-        "u8": {
-          "type": "photo",
-          "settings": {
-            "photo": "shopify://shop_images/ugc_whey.png"
-          }
-        }
-      },
-      "block_order": [
-        "u1",
-        "u2",
-        "u3",
-        "u4",
-        "u5",
-        "u6",
-        "u7",
-        "u8"
-      ],
-      "settings": {
-        "color_scheme": "default",
-        "heading": "A Botanika na sua rotina",
-        "subheading": "Faça da Botanika parte do seu dia a dia."
-      }
     }
   },
   "order": [
-    "breadcrumb",
     "pdp_promo",
+    "breadcrumb",
     "main",
+    "botanika_whey_mix",
+    "botanika_medical_authority",
     "pdp_ugc",
     "pdp_guarantees",
     "botanika_pdp_manifesto",
