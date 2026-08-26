@@ -73,31 +73,24 @@
 </style>
 <script>
 (function () {
-  // Janelas (UTC). Mes 0-index: 7 = Agosto.
-  // Cada fase espelha um desconto automatico real; se o desconto nao existir,
-  // a fase NAO pode aparecer -- senao a vitrine promete o que o checkout nao da.
-  // P1 = [CAMPANHA] Creatina no cerebro - 12% (relampago)
-  //      2026-08-24T15:08:43Z ate 2026-08-26T02:59:59Z
-  // P2 = [CAMPANHA] Creatina no cerebro - 10% (prolongamento)
-  //      2026-08-26T11:00:00Z ate 2026-08-29T02:59:59Z
-  var P1S = Date.UTC(2026, 7, 24, 15, 8, 43), P1E = Date.UTC(2026, 7, 26, 2, 59, 59);
-  var P2S = Date.UTC(2026, 7, 26, 11, 0, 0), P2E = Date.UTC(2026, 7, 29, 2, 59, 59);
+  // Janela (UTC). Mes 0-index: 7 = Agosto.
+  // Espelha [CAMPANHA] Creatina no cerebro - 10% (prolongamento):
+  //   2026-08-26T11:00:00Z ate 2026-08-29T02:59:59Z
+  //   = quarta 26/08 08h00 ate sexta 28/08 23h59 (BRT).
+  // A fase de 12% (relampago) saiu daqui: aquele desconto termina em
+  // 2026-08-26T02:59:59Z (terca 25/08 23h59 BRT) e a campanha passa a ser 10%.
+  // Regra da casa: so anunciar percentual que exista como desconto ativo.
+  var CS = Date.UTC(2026, 7, 26, 11, 0, 0), CE = Date.UTC(2026, 7, 29, 2, 59, 59);
   var HANDLE = 'creatina-l-carnitina', VARIANT = 48115368820968, PRODUCT = 9347155067112;
-  // Precos conferidos contra o checkout: 128,30 -12% = 112,91 (nao 112,90);
-  // economia 15,39; 3x de 37,64.
-  function P(pct) {
-    if (pct === 12) return { pct: 12, from: 'R$ 128,30', to: 'R$ 112,91', save: 'R$ 15,39', inst: 'R$ 37,64', end: P1E };
-    return { pct: 10, from: 'R$ 128,30', to: 'R$ 115,47', save: 'R$ 12,83', inst: 'R$ 38,49', end: P2E };
+  // Precos conferidos contra o checkout: 128,30 -10% = 115,47; economia 12,83;
+  // 3x de 38,49. Com 10% a conta fecha exata em 1, 2 e 3 unidades.
+  function P() {
+    return { pct: 10, from: 'R$ 128,30', to: 'R$ 115,47', save: 'R$ 12,83', inst: 'R$ 38,49', end: CE };
   }
   function ph() {
-    var q = location.search;
-    if (q.indexOf('crea_preview=10') !== -1) return P(10);
-    if (q.indexOf('crea_preview') !== -1) return P(12);
+    if (location.search.indexOf('crea_preview') !== -1) return P();
     var n = Date.now();
-    // P1 agora tem limite inferior. Sem ele, "n <= P1E" fazia os -12%
-    // aparecerem desde sempre, inclusive quando nenhum desconto existia.
-    if (n >= P1S && n <= P1E) return P(12);
-    if (n >= P2S && n <= P2E) return P(10);
+    if (n >= CS && n <= CE) return P();
     return null;
   }
   function two(n) { return (n < 10 ? '0' : '') + n; }
