@@ -131,3 +131,69 @@ Trocar no editor → Configuracoes do tema:
 Tambem restam dois textos "Semana Fitness" em `templates/product.json`, ambos em
 blocos com `show: false` (`_product-campaign-selo` e `_product-countdown-bar`) —
 invisiveis hoje, mas vale limpar antes que alguem os ligue.
+
+---
+
+# Causa 3 — o 10% vazou para TODAS as PDPs (26/08/2026)
+
+**Erro meu.** Para colocar a Creatina em 10% nos cards de kit eu editei
+`tier1_discount` / `tier2_discount` / `tier3_discount` em
+`templates/product.json`. Esse arquivo e o **template padrao de produto:
+vale para todo produto que nao tem `templateSuffix`** — ou seja, a loja
+inteira. Resultado: toda PDP passou a anunciar 10% OFF.
+
+Exemplo pego pelo dono, Hair Botanika (variant `48650670670056`):
+
+| Card | O tema anunciava | Preco real no checkout | Veredito |
+|---|---|---|---|
+| 1 KIT | 10% OFF · R$ 89,46 | **R$ 99,40** (sem desconto) | mentira |
+| 2 KITS | 10% | R$ 94,43/un (5%) | mentira |
+| 3 KITS | 10% | R$ 89,46/un (10%) | ok por acaso |
+
+## Correcao
+
+1. `templates/product.json` voltou **byte a byte** ao original
+   (32088 bytes, md5 `781a26091ab1db31069a40e44855ff5a`), escada `0/5/10`.
+2. Criado `templates/product.creatina.json` (32090 bytes, md5
+   `f030fceb336523f34766652a38e3c818`) — identico ao padrao, so com os tres
+   tiers em `10/10/10`.
+3. Produto Creatina (`gid://shopify/Product/9347155067112`) recebeu
+   `templateSuffix: "creatina"`.
+
+Os dois arquivos estao espelhados em `tema-shopify/templates/`.
+
+## Por que 10/10/10 na Creatina
+
+O desconto da campanha e 10% liso, nao escada. Conferido no
+`draftOrderCalculate` com `acceptAutomaticDiscounts: true`
+(variant `48115368820968`, preco cheio R$ 128,30):
+
+| Qtd | Preco/un no checkout | % |
+|---|---|---|
+| 1 | R$ 115,47 | 10% |
+| 2 | R$ 115,47 | 10% |
+| 3 | R$ 115,47 | 10% |
+
+Hair conferido no mesmo oraculo depois do revert: R$ 99,40 / R$ 94,43 /
+R$ 89,46 — bate exatamente com a escada `0/5/10` restaurada.
+
+## Atencao — o tema ATIVO ainda esta errado
+
+O tema publicado (`Creatina 10% - Tema Padrao`, id `158803165416`) ainda
+tem o `templates/product.json` com `10/10/10` (md5 `f030fceb...`). A API
+bloqueia escrita em tema publicado, entao **a correcao so entra quando a
+copia corrigida for publicada**. Ate la, toda PDP que nao seja a da
+Creatina continua anunciando 10% que nao existe.
+
+Com o `templateSuffix` ja setado, a Creatina fica certa nos dois cenarios:
+no tema ativo cai no `product.json` (que hoje esta 10/10/10) e no tema
+novo usa o `product.creatina.json`.
+
+## Pendente
+
+- **Depois de sexta (28/08):** quando o desconto de 10% da Creatina
+  acabar, `templates/product.creatina.json` precisa voltar para `0/5/10`
+  (ou tirar o `templateSuffix` do produto). Os cards de kit nao tem trava
+  de data — so o overlay roxo tem.
+- `templates/product.kit.json` (usado pelo produto `kit-whey-balance-creatina-taurato`,
+  hoje em DRAFT) nao foi auditado.
