@@ -74,15 +74,16 @@
 <script>
 (function () {
   // Janela (UTC). Mes 0-index: 7 = Agosto.
-  // Campanha 10% da Creatina:
-  //   inicio 2026-08-26T00:00:00Z (ja passou -- a tarja, o banner e o bloco da
-  //   PDP aparecem imediatamente, sem esperar horario)
+  // Casa EXATAMENTE com [CAMPANHA] Creatina no cerebro - 10% (prolongamento):
+  //   inicio 2026-08-26T03:30:00Z = 26/08 00h30 (BRT)
   //   fim    2026-08-29T02:59:59Z = sexta 28/08 23h59 (BRT)
-  // Fora dessa janela ph() devolve null e TODOS os elementos somem sozinhos:
+  // Nao adiantar o inicio: o desconto de 12% morre 02:59:59Z e o de 10% so nasce
+  // 03:30:00Z, entao entre 00h00 e 00h30 (BRT) a Creatina fica sem desconto
+  // nenhum. Anunciar 10% nesse intervalo seria prometer o que o checkout nao da.
+  // Fora da janela ph() devolve null e TODOS os elementos somem sozinhos:
   // tarja do topo (.creabar), banner (.creabanner), aviso e caixa de preco da
   // PDP (.creanotice/.creaprice) e o bump do carrinho (.creabump).
-  // A fase de 12% saiu daqui; o desconto correspondente e trocado no admin.
-  var CS = Date.UTC(2026, 7, 26, 0, 0, 0), CE = Date.UTC(2026, 7, 29, 2, 59, 59);
+  var CS = Date.UTC(2026, 7, 26, 3, 30, 0), CE = Date.UTC(2026, 7, 29, 2, 59, 59);
   var HANDLE = 'creatina-l-carnitina', VARIANT = 48115368820968, PRODUCT = 9347155067112;
   // Precos conferidos contra o checkout: 128,30 -10% = 115,47; economia 12,83;
   // 3x de 38,49. Com 10% a conta fecha exata em 1, 2 e 3 unidades.
