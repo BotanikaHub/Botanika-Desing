@@ -13,6 +13,13 @@ Sempre que a tarefa envolver **criar ou editar uma landing page**, leia primeiro
    - `botanika-lp-kit/prompts/` — repertório de referência (recreações getlayers e outros prompts). **Use só como inspiração de técnica** (shaders, canvas de partículas, reveals, grids em rem, springs). **NUNCA copiar** um desses direto para uma LP da Botanika — cada produto precisa de identidade própria.
    - `botanika-lp-kit/zips/` — arquivos `.zip` que o usuário deixa como base de conhecimento (assets, referências, exports). Se houver zips relevantes ao produto, descompacte/leia antes de construir.
 
+## Referência de sites externos
+
+Para modelar uma LP com base em outro site, use `ferramentas/baixar-site/baixar.sh`
+(wget + Chromium: baixa HTML, CSS, JS, imagens, fontes, DOM renderizado e screenshots).
+O resultado vai para `capturas/<host>/` — leia sempre o `RELATORIO.md` de lá primeiro.
+Referência serve para **técnica e estrutura**, nunca para copiar identidade.
+
 ## Convenções fixas (não quebrar)
 
 - **Uma pasta por produto:** `landing-<slug>/index.html` — HTML **autocontido** (CSS+JS inline, sem build).
