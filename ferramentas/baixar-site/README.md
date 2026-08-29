@@ -68,7 +68,7 @@ O script não depende do repo. Para rodar de qualquer pasta:
 
 ```bash
 mkdir -p ~/baixar-site && cd ~/baixar-site
-BASE=https://raw.githubusercontent.com/BotanikaHub/Botanika-Desing/lp/ferramentas/baixar-site
+BASE=https://raw.githubusercontent.com/BotanikaHub/Botanika-Desing/claude/download-website-files-jubh7c/ferramentas/baixar-site
 curl -fsSLO $BASE/baixar.sh && curl -fsSLO $BASE/capturar.mjs && chmod +x baixar.sh
 
 ./baixar.sh https://o-site-que-quero.com --links 8
