@@ -12,11 +12,13 @@
 set -uo pipefail
 
 AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RAIZ="$(cd "$AQUI/../.." && pwd)"
+# As capturas caem em ./capturas a partir de onde você rodou o comando.
+RAIZ="$PWD"
 
 URL=""
 LINKS=0
 MODO="tudo"
+DESTINO=""
 ARGS_EXTRA=()
 
 while [[ $# -gt 0 ]]; do
@@ -24,6 +26,7 @@ while [[ $# -gt 0 ]]; do
     --rapido) MODO="wget"; shift ;;
     --render) MODO="render"; shift ;;
     --links)  LINKS="$2"; shift 2 ;;
+    --saida)  DESTINO="$2"; shift 2 ;;
     --*)      ARGS_EXTRA+=("$1"); shift ;;
     *)        [[ -z "$URL" ]] && URL="$1" || ARGS_EXTRA+=("$1"); shift ;;
   esac
@@ -35,7 +38,7 @@ if [[ -z "$URL" ]]; then
 fi
 
 HOST="$(echo "$URL" | sed -E 's#^https?://##; s#/.*##')"
-SAIDA="$RAIZ/capturas/$HOST"
+SAIDA="${DESTINO:-$RAIZ/capturas/$HOST}"
 mkdir -p "$SAIDA"
 
 echo "=============================================="
@@ -79,5 +82,5 @@ fi
 echo
 echo "----------------------------------------------"
 du -sh "$SAIDA" 2>/dev/null
-echo "Comece lendo: capturas/$HOST/RELATORIO.md"
+echo "Comece lendo: $SAIDA/RELATORIO.md"
 echo "----------------------------------------------"

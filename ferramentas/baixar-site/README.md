@@ -47,17 +47,32 @@ capturas/<host>/
 O `RELATORIO.md` já vem com a paleta, a escala tipográfica, as variáveis de `:root`,
 o outline de títulos e o peso por tipo de recurso — é o resumo que o agente lê primeiro.
 
+As capturas caem em `./capturas/` **a partir da pasta onde você rodou o comando**
+(ou onde você mandar, com `--saida ~/Desktop/minha-captura`).
+
 ## Pré-requisitos
 
 Na sua máquina (Mac):
 
 ```bash
-brew install wget node
+brew install wget node          # se não tiver o brew: https://brew.sh
 npm install -g playwright
-npx playwright install chromium
+npx playwright install chromium # baixa o navegador (~150 MB, uma vez só)
 ```
 
 Sem `wget`? Use `--render`, que só precisa do Node + Chromium.
+
+## Usar fora do repo (só os 2 arquivos)
+
+O script não depende do repo. Para rodar de qualquer pasta:
+
+```bash
+mkdir -p ~/baixar-site && cd ~/baixar-site
+BASE=https://raw.githubusercontent.com/BotanikaHub/Botanika-Desing/lp/ferramentas/baixar-site
+curl -fsSLO $BASE/baixar.sh && curl -fsSLO $BASE/capturar.mjs && chmod +x baixar.sh
+
+./baixar.sh https://o-site-que-quero.com --links 8
+```
 
 ## Como usar isso comigo (agente) depois
 
