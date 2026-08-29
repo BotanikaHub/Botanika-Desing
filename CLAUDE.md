@@ -20,6 +20,9 @@ Para modelar uma LP com base em outro site, use `ferramentas/baixar-site/baixar.
 O resultado vai para `capturas/<host>/` — leia sempre o `RELATORIO.md` de lá primeiro.
 Referência serve para **técnica e estrutura**, nunca para copiar identidade.
 
+Referências já analisadas ficam em `botanika-lp-kit/referencias/<site>/ANALISE.md`
+(hoje: `useblessy` — concorrente direto em greens/superfoods).
+
 ## Convenções fixas (não quebrar)
 
 - **Uma pasta por produto:** `landing-<slug>/index.html` — HTML **autocontido** (CSS+JS inline, sem build).
