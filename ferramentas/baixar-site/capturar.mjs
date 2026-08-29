@@ -14,6 +14,7 @@
  *   --links <n>      descobre e captura até n páginas internas a partir da 1ª (padrão: 0)
  *   --espera <ms>    espera extra após carregar cada página (padrão: 2500)
  *   --sem-mobile     não captura a versão mobile
+ *   --visivel        abre a janela do navegador (para passar por anti-bot na mão)
  */
 
 import fs from 'node:fs';
@@ -45,6 +46,7 @@ let saidaBase = null;
 let maxLinks = 0;
 let esperaExtra = 2500;
 let comMobile = true;
+let visivel = false;
 
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i];
@@ -52,6 +54,7 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--links') maxLinks = parseInt(argv[++i], 10) || 0;
   else if (a === '--espera') esperaExtra = parseInt(argv[++i], 10) || 0;
   else if (a === '--sem-mobile') comMobile = false;
+  else if (a === '--visivel') visivel = true;
   else if (a.startsWith('--')) { console.error('opção desconhecida:', a); process.exit(1); }
   else urls.push(a);
 }
@@ -250,7 +253,7 @@ async function capturarPagina(page, url, apelido) {
   });
   if (!resposta) return null;
 
-  await page.waitForTimeout(esperaExtra);
+  await page.waitForTimeout(visivel ? Math.max(esperaExtra, 15000) : esperaExtra);
   await rolarTudo(page);
   await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {});
 
@@ -274,7 +277,14 @@ async function capturarPagina(page, url, apelido) {
 
   // Não forçamos proxy: o Chromium já lê http_proxy/https_proxy/no_proxy do
   // ambiente. Passar --proxy-server explícito quebra o bypass de localhost.
-  const navegador = await chromium.launch({ headless: true });
+  const navegador = await chromium.launch({
+    headless: !visivel,
+    args: ['--disable-blink-features=AutomationControlled'],
+  });
+  if (visivel) {
+    console.log('  (modo visível: a janela vai abrir — resolva qualquer verificação');
+    console.log('   "não sou um robô" que aparecer; a captura segue sozinha depois)\n');
+  }
 
   const pendentes = [];
 
@@ -410,6 +420,10 @@ async function capturarPagina(page, url, apelido) {
 
   escreve(path.join(saida, 'RELATORIO.md'), linhas.join('\n'));
 
+  if (!paginas.length) {
+    console.log('\n!! nenhuma página capturada — veja o erro acima.');
+    console.log('   se o site tiver verificação anti-bot, tente:  --visivel\n');
+  }
   console.log(`\n✓ pronto`);
   console.log(`  ${salvos.size} arquivos · ${paginas.length} páginas · ${rede.length} requisições`);
   console.log(`  leia primeiro: ${path.join(saida, 'RELATORIO.md')}\n`);

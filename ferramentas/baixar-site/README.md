@@ -29,7 +29,12 @@ Opções:
 --render       # só o navegador (pula o wget)
 --sem-mobile   # não tira os screenshots mobile
 --espera 5000  # espera 5s a mais por página (sites lentos / muita animação)
+--visivel      # abre a janela do navegador — use quando o site tem "não sou um robô"
+--saida ~/Desktop/captura   # escolhe onde salvar
 ```
+
+No fim ele imprime um resumo dizendo quantos arquivos caíram em cada pasta. Se der
+`0` em `dom/`, a captura falhou — a mensagem na tela diz o porquê.
 
 ## O que sai
 

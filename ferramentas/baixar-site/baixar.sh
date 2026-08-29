@@ -51,6 +51,11 @@ if [[ "$MODO" == "tudo" || "$MODO" == "wget" ]]; then
   echo
   echo "[1/3] wget — HTML cru + arquivos linkados"
   mkdir -p "$SAIDA/bruto"
+  if ! command -v wget >/dev/null 2>&1; then
+    echo "  !! wget não está instalado — pulando este passe."
+    echo "     instale com:  brew install wget"
+    echo "     (o passe do navegador, que é o mais importante, continua normal)"
+  else
   wget \
     --page-requisites \
     --span-hosts \
@@ -62,6 +67,11 @@ if [[ "$MODO" == "tudo" || "$MODO" == "wget" ]]; then
     --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" \
     --directory-prefix="$SAIDA/bruto" \
     "$URL" 2>&1 | tail -20
+  if [[ -z "$(find "$SAIDA/bruto" -type f ! -name '_*' -print -quit 2>/dev/null)" ]]; then
+    echo "  !! o wget não baixou nada (site com proteção anti-bot, provavelmente)."
+    echo "     sem problema: o passe do navegador não usa wget."
+  fi
+  fi
 
   echo
   echo "[2/3] robots.txt e sitemap"
@@ -79,8 +89,29 @@ if [[ "$MODO" == "tudo" || "$MODO" == "render" ]]; then
   node "$AQUI/capturar.mjs" "$URL" --saida "$SAIDA" --links "$LINKS" "${ARGS_EXTRA[@]+"${ARGS_EXTRA[@]}"}"
 fi
 
+conta() { find "$SAIDA/$1" -type f 2>/dev/null | wc -l | tr -d ' '; }
+
 echo
-echo "----------------------------------------------"
+echo "=============================================="
+echo " RESULTADO"
+echo "=============================================="
+printf ' %-12s %5s arquivos  %s\n' "dom/"      "$(conta dom)"      "HTML renderizado"
+printf ' %-12s %5s arquivos  %s\n' "arquivos/" "$(conta arquivos)" "css, js, imagens, fontes"
+printf ' %-12s %5s arquivos  %s\n' "telas/"    "$(conta telas)"    "screenshots"
+printf ' %-12s %5s arquivos  %s\n' "bruto/"    "$(conta bruto)"    "espelho do wget"
+echo
 du -sh "$SAIDA" 2>/dev/null
-echo "Comece lendo: $SAIDA/RELATORIO.md"
-echo "----------------------------------------------"
+
+if [[ "$(conta dom)" -eq 0 ]]; then
+  echo
+  echo " !! NADA FOI CAPTURADO PELO NAVEGADOR."
+  echo "    Causas comuns:"
+  echo "      - chromium não instalado →  npx playwright install chromium"
+  echo "      - site com Cloudflare/anti-bot → rode de novo com  --visivel"
+  echo "      - sem internet ou site fora do ar"
+else
+  echo
+  echo " Comece lendo: $SAIDA/RELATORIO.md"
+  echo " Abrir no Finder:  open \"$SAIDA\""
+fi
+echo "=============================================="
