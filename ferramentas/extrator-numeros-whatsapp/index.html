@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Extrai, valida e padroniza números de telefone a partir de conversas exportadas do WhatsApp, agendas e listas. Roda inteiro no navegador.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Extrator de Números WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#F2F5F1;
+    --surface:#FFFFFF;
+    --surface-2:#E9EEE8;
+    --line:#D2DBD0;
+    --line-soft:#E2E8E0;
+    --ink:#101915;
+    --ink-2:#425049;
+    --ink-3:#6B7A72;
+    --accent:#0B6B4F;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#DCEDE4;
+    --warn:#9A5B08;
+    --warn-soft:#F6EBDA;
+    --focus:#0B6B4F;
+    --shadow:0 1px 2px rgba(16,25,21,.05), 0 8px 24px -18px rgba(16,25,21,.35);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0C110E;
+      --surface:#141B17;
+      --surface-2:#1B231E;
+      --line:#2B352E;
+      --line-soft:#222B25;
+      --ink:#E7EEE8;
+      --ink-2:#AFBCB4;
+      --ink-3:#7E8C84;
+      --accent:#4FD1A1;
+      --accent-ink:#062018;
+      --accent-soft:#16302631;
+      --warn:#E0A75C;
+      --warn-soft:#2A2114;
+      --focus:#4FD1A1;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -20px rgba(0,0,0,.8);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0C110E;
+    --surface:#141B17;
+    --surface-2:#1B231E;
+    --line:#2B352E;
+    --line-soft:#222B25;
+    --ink:#E7EEE8;
+    --ink-2:#AFBCB4;
+    --ink-3:#7E8C84;
+    --accent:#4FD1A1;
+    --accent-ink:#062018;
+    --accent-soft:#16302631;
+    --warn:#E0A75C;
+    --warn-soft:#2A2114;
+    --focus:#4FD1A1;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -20px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{overflow-x:hidden}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  :where(a){color:var(--accent)}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+  .wrap{max-width:74rem;margin:0 auto;padding:2.25rem 1.25rem 4rem;display:flex;flex-direction:column;gap:1.75rem}
+
+  /* ---- header ---- */
+  .masthead{display:flex;flex-direction:column;gap:.5rem;max-width:44rem}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:.6875rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink-3);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+  }
+  .eyebrow .dot{width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);display:inline-block}
+  h1{
+    font-family:"Familjen Grotesk","Public Sans",sans-serif;
+    font-weight:700;font-size:clamp(1.7rem,4.4vw,2.5rem);line-height:1.06;
+    letter-spacing:-.02em;margin:0;text-wrap:balance;
+  }
+  .sub{margin:0;color:var(--ink-2);max-width:38rem}
+
+  /* ---- layout ---- */
+  .board{display:grid;grid-template-columns:minmax(0,21rem) minmax(0,1fr);gap:1.25rem;align-items:start}
+  @media (max-width:56rem){.board{grid-template-columns:minmax(0,1fr)}}
+
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    box-shadow:var(--shadow);
+  }
+  .card-head{
+    padding:.85rem 1rem;border-bottom:1px solid var(--line-soft);
+    display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
+  }
+  .card-title{
+    font-family:"Familjen Grotesk",sans-serif;font-weight:600;font-size:.95rem;letter-spacing:-.01em;margin:0;
+  }
+  .card-body{padding:1rem;display:flex;flex-direction:column;gap:.9rem}
+
+  label.field{display:flex;flex-direction:column;gap:.35rem}
+  .field-label{
+    font-family:"IBM Plex Mono",monospace;font-size:.6875rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  textarea,input[type="text"]{
+    width:100%;background:var(--surface-2);color:var(--ink);
+    border:1px solid var(--line);border-radius:6px;padding:.6rem .7rem;
+    font-family:"IBM Plex Mono",monospace;font-size:.8125rem;line-height:1.5;
+    resize:vertical;
+  }
+  textarea::placeholder,input::placeholder{color:var(--ink-3)}
+  #source{min-height:11rem}
+  #blocklist{min-height:4rem}
+
+  .drop{
+    border:1px dashed var(--line);border-radius:6px;background:var(--surface-2);
+    padding:.85rem;text-align:center;color:var(--ink-2);font-size:.8125rem;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .drop.over{border-color:var(--accent);background:var(--accent-soft)}
+  .drop strong{color:var(--ink);font-weight:600}
+  .drop input{display:none}
+
+  .opts{display:flex;flex-direction:column;gap:.5rem;border-top:1px solid var(--line-soft);padding-top:.9rem}
+  .opt{display:flex;gap:.55rem;align-items:flex-start;font-size:.8125rem;color:var(--ink-2);cursor:pointer}
+  .opt input{margin:.2rem 0 0;accent-color:var(--accent);flex:none}
+  .opt b{color:var(--ink);font-weight:600;display:block}
+
+  .btn{
+    font-family:"Familjen Grotesk",sans-serif;font-weight:600;font-size:.85rem;
+    border-radius:6px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+    padding:.5rem .8rem;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .06s ease;
+  }
+  .btn:hover{border-color:var(--ink-3)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--ink-3);padding:.35rem .5rem;font-size:.78rem}
+  .btn.ghost:hover{color:var(--ink);border-color:var(--line)}
+  .row{display:flex;gap:.5rem;flex-wrap:wrap}
+
+  /* ---- stats ---- */
+  .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+  @media (max-width:34rem){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .stat{
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.7rem .8rem;
+    display:flex;flex-direction:column;gap:.15rem;box-shadow:var(--shadow);
+  }
+  .stat .n{
+    font-family:"Familjen Grotesk",sans-serif;font-weight:700;font-size:1.6rem;line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+  }
+  .stat .k{font-family:"IBM Plex Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .stat.is-accent .n{color:var(--accent)}
+
+  /* ---- tabs ---- */
+  .tabs{display:flex;gap:.25rem;flex-wrap:wrap}
+  .tab{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;
+    padding:.35rem .6rem;border-radius:5px;border:1px solid transparent;background:transparent;
+    color:var(--ink-3);cursor:pointer;
+  }
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+
+  /* ---- output ---- */
+  .out{
+    background:var(--surface-2);border-top:1px solid var(--line-soft);
+    max-height:26rem;overflow:auto;
+  }
+  .out pre{
+    margin:0;padding:.9rem 1rem;font-family:"IBM Plex Mono",monospace;font-size:.8125rem;
+    line-height:1.75;white-space:pre;font-variant-numeric:tabular-nums;color:var(--ink);
+  }
+  .empty{padding:2.5rem 1rem;text-align:center;color:var(--ink-3);font-size:.875rem}
+
+  .list{display:flex;flex-direction:column}
+  .item{
+    display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:.6rem;align-items:center;
+    padding:.5rem 1rem;border-bottom:1px solid var(--line-soft);
+  }
+  .item:last-child{border-bottom:0}
+  .item .num{font-family:"IBM Plex Mono",monospace;font-size:.85rem;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .pill{
+    font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:.15rem .4rem;border-radius:4px;border:1px solid var(--line);color:var(--ink-3);white-space:nowrap;
+  }
+  .pill.cel{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  .pill.fixo{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+  .count{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--ink-3);font-variant-numeric:tabular-nums;text-align:right;min-width:2.5rem}
+
+  .note{font-size:.78rem;color:var(--ink-3);padding:.6rem 1rem;border-top:1px solid var(--line-soft)}
+
+  /* ---- guide ---- */
+  .guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
+  .step{
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1rem;
+    display:flex;flex-direction:column;gap:.4rem;box-shadow:var(--shadow);
+  }
+  .step h3{font-family:"Familjen Grotesk",sans-serif;font-size:.95rem;font-weight:600;margin:0;letter-spacing:-.01em}
+  .step p{margin:0;font-size:.85rem;color:var(--ink-2)}
+  .step .tag{
+    align-self:flex-start;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-3);border:1px solid var(--line);border-radius:4px;padding:.12rem .4rem;
+  }
+  .step ol{margin:.2rem 0 0;padding-left:1.1rem;font-size:.85rem;color:var(--ink-2);display:flex;flex-direction:column;gap:.25rem}
+
+  details{background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
+  summary{
+    padding:.85rem 1rem;cursor:pointer;font-family:"Familjen Grotesk",sans-serif;font-weight:600;font-size:.95rem;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;gap:.75rem;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:"IBM Plex Mono",monospace;color:var(--ink-3)}
+  details[open] summary::after{content:"–"}
+  .details-body{padding:0 1rem 1rem;display:flex;flex-direction:column;gap:.75rem}
+  .details-body p{margin:0;font-size:.85rem;color:var(--ink-2)}
+  .code{
+    background:var(--surface-2);border:1px solid var(--line-soft);border-radius:6px;
+    overflow-x:auto;
+  }
+  .code pre{margin:0;padding:.8rem .9rem;font-family:"IBM Plex Mono",monospace;font-size:.75rem;line-height:1.65;white-space:pre}
+
+  footer{
+    border-top:1px solid var(--line);padding-top:1rem;font-size:.78rem;color:var(--ink-3);
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  }
+  .toast{
+    position:fixed;left:50%;bottom:1.25rem;transform:translate(-50%,1.5rem);
+    background:var(--ink);color:var(--ground);padding:.5rem .9rem;border-radius:6px;
+    font-size:.8rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;z-index:9;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow"><span class="dot"></span> ferramenta interna · roda 100% no seu navegador</div>
+    <h1>Extrator de números do WhatsApp</h1>
+    <p class="sub">Cole a conversa exportada, o arquivo de contatos ou qualquer texto com telefones. A ferramenta separa, valida o DDD, remove repetidos e devolve a lista pronta pra colar na planilha ou na ferramenta de disparo.</p>
+  </header>
+
+  <div class="board">
+
+    <!-- ENTRADA -->
+    <section class="card">
+      <div class="card-head">
+        <h2 class="card-title">1. Entrada</h2>
+        <button class="btn ghost" id="demo" type="button">Ver exemplo</button>
+      </div>
+      <div class="card-body">
+        <label class="field">
+          <span class="field-label">Cole o texto aqui</span>
+          <textarea id="source" spellcheck="false" placeholder="Cole a conversa exportada do WhatsApp, uma lista de contatos, um CSV..."></textarea>
+        </label>
+
+        <label class="drop" id="drop">
+          <input type="file" id="files" multiple accept=".txt,.csv,.vcf,.vcard,.log,text/plain">
+          <strong>Ou solte os arquivos aqui</strong><br>.txt · .csv · .vcf — pode ser mais de um
+        </label>
+
+        <div class="opts">
+          <label class="opt">
+            <input type="checkbox" id="optSenders">
+            <span><b>Só quem enviou mensagem</b>Ignora números citados dentro do texto e pega só os remetentes das linhas da conversa.</span>
+          </label>
+          <label class="opt">
+            <input type="checkbox" id="optMobile">
+            <span><b>Só celulares</b>Descarta fixos — telefone fixo não tem WhatsApp na maioria dos casos.</span>
+          </label>
+          <label class="opt">
+            <input type="checkbox" id="optNine" checked>
+            <span><b>Corrigir o nono dígito</b>Números antigos de 8 dígitos ganham o 9 na frente.</span>
+          </label>
+          <label class="opt">
+            <input type="checkbox" id="optIntl">
+            <span><b>Aceitar internacionais</b>Mantém números de fora do Brasil em vez de descartar.</span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Excluir estes números</span>
+          <textarea id="blocklist" spellcheck="false" placeholder="Seu número, o do SAC, o de teste... um por linha"></textarea>
+        </label>
+
+        <div class="row">
+          <button class="btn primary" id="run" type="button">Extrair números</button>
+          <button class="btn" id="clear" type="button">Limpar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTADO -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem;min-width:0">
+      <div class="stats">
+        <div class="stat is-accent"><span class="n" id="sUnicos">0</span><span class="k">Únicos</span></div>
+        <div class="stat"><span class="n" id="sCel">0</span><span class="k">Celulares</span></div>
+        <div class="stat"><span class="n" id="sFixo">0</span><span class="k">Fixos</span></div>
+        <div class="stat"><span class="n" id="sOut">0</span><span class="k">Descartados</span></div>
+      </div>
+
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title">2. Resultado</h2>
+          <div class="tabs" role="tablist">
+            <button class="tab" role="tab" data-fmt="lista" aria-selected="true">Lista</button>
+            <button class="tab" role="tab" data-fmt="e164" aria-selected="false">+55…</button>
+            <button class="tab" role="tab" data-fmt="digitos" aria-selected="false">Só dígitos</button>
+            <button class="tab" role="tab" data-fmt="planilha" aria-selected="false">Planilha</button>
+            <button class="tab" role="tab" data-fmt="contatos" aria-selected="false">CSV contatos</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding-bottom:.6rem">
+          <div class="row">
+            <button class="btn primary" id="copy" type="button">Copiar resultado</button>
+            <span id="hint" style="font-size:.78rem;color:var(--ink-3);align-self:center"></span>
+          </div>
+        </div>
+        <div class="out" id="out">
+          <div class="empty">Nada extraído ainda. Cole um texto à esquerda e clique em <strong>Extrair números</strong>.</div>
+        </div>
+        <div class="note" id="note" hidden></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- COMO CONSEGUIR O TEXTO -->
+  <section style="display:flex;flex-direction:column;gap:.9rem">
+    <h2 style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.25rem;margin:0;letter-spacing:-.015em">De onde tirar o texto</h2>
+    <div class="guide">
+      <article class="step">
+        <span class="tag">conversa ou grupo</span>
+        <h3>Exportar a conversa</h3>
+        <ol>
+          <li>Abra a conversa ou o grupo no celular.</li>
+          <li>Menu <strong>⋮</strong> → <strong>Mais</strong> → <strong>Exportar conversa</strong>.</li>
+          <li>Escolha <strong>Sem mídia</strong> e envie pro seu e-mail ou Drive.</li>
+          <li>Solte o <code>.txt</code> aqui em cima.</li>
+        </ol>
+      </article>
+      <article class="step">
+        <span class="tag">contatos salvos</span>
+        <h3>Exportar a agenda do aparelho</h3>
+        <ol>
+          <li>É o caminho mais rápido quando a maioria dos clientes já está salva pelo nome.</li>
+          <li>Android: <strong>contacts.google.com</strong> → <strong>Exportar</strong> → <strong>Google CSV</strong> ou <strong>vCard</strong>.</li>
+          <li>iPhone: <strong>icloud.com/contacts</strong> → selecionar tudo → <strong>Exportar vCard</strong>.</li>
+          <li>Solte o arquivo aqui — o extrator lê os dois formatos.</li>
+        </ol>
+      </article>
+      <article class="step">
+        <span class="tag">conta inteira</span>
+        <h3>Varrer o WhatsApp Web</h3>
+        <p>É o único jeito de pegar a conta inteira de uma vez, sem exportar conversa por conversa. São dois scripts abaixo: o rápido varre só a lista; o completo abre uma conversa por vez e alcança também quem está salvo pelo nome.</p>
+      </article>
+    </div>
+
+    <details open>
+      <summary>Script 1 — varredura rápida da lista de conversas</summary>
+      <div class="details-body">
+        <p>No computador, abra <strong>web.whatsapp.com</strong> com a conta conectada. Aperte <strong>F12</strong> (ou Ctrl+Shift+J / Cmd+Option+J), vá na aba <strong>Console</strong>, cole o script e dê Enter. Em dois ou três minutos ele rola a lista inteira, separa quem já aparece com número de quem está salvo pelo nome, e copia o resultado.</p>
+        <div class="code"><pre id="snippet1">(async () =&gt; {
+  const pane = document.querySelector('#pane-side');
+  if (!pane) return console.log('Abra o WhatsApp Web antes de rodar.');
+
+  const titulos = new Set();
+  const coletar = () =&gt; document
+    .querySelectorAll('#pane-side [role="listitem"] span[title]')
+    .forEach(el =&gt; titulos.add(el.getAttribute('title')));
+
+  let anterior = -1;
+  for (let i = 0; i &lt; 800 &amp;&amp; pane.scrollTop !== anterior; i++) {
+    anterior = pane.scrollTop;
+    coletar();
+    pane.scrollTop += pane.clientHeight * 0.8;
+    await new Promise(r =&gt; setTimeout(r, 400));
+  }
+  coletar();
+
+  const lista = [...titulos];
+  const temNumero = /\d[\d\s()+-]{7,}\d/;
+  const comNumero = lista.filter(t =&gt; temNumero.test(t));
+  const salvos    = lista.filter(t =&gt; !temNumero.test(t));
+
+  console.log('Conversas encontradas:', lista.length);
+  console.log('Já vêm com número:', comNumero.length);
+  console.log('Salvos na agenda, só com o nome:', salvos.length);
+  console.log(comNumero.join('\n'));
+
+  window.__numeros = comNumero.join('\n');
+  window.__salvos  = salvos.join('\n');
+  copy(window.__numeros);
+})();</pre></div>
+        <div class="row"><button class="btn" id="copySnippet1" type="button">Copiar script 1</button></div>
+        <p>Ele te dá de cara o tamanho do trabalho: quantas conversas existem e quantas estão salvas na agenda. Os salvos aparecem pelo nome e <strong>não</strong> saem por aqui — pra eles, use o script 2 ou a exportação da agenda.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Script 2 — alcança também os contatos salvos</summary>
+      <div class="details-body">
+        <p>Este abre uma conversa por vez e lê o identificador interno que o WhatsApp guarda em cada mensagem — é de lá que sai o número mesmo quando o contato está salvo pelo nome. Leva cerca de um segundo por conversa, então deixe rodando com a aba aberta e a tela ligada. Ele só lê a tela: não envia mensagem, não abre mídia, não marca nada como lido além de abrir a conversa.</p>
+        <p><strong>Teste antes:</strong> deixe <code>LIMITE = 20</code> na primeira rodada. Se os vinte primeiros vierem certos, troque para <code>0</code> e rode a lista inteira.</p>
+        <div class="code"><pre id="snippet2">(async () =&gt; {
+  const LIMITE = 20;   // 0 = todas as conversas
+  const PAUSA  = 900;  // ms de espera por conversa; aumente se vier vazio
+
+  const pane = document.querySelector('#pane-side');
+  if (!pane) return console.log('Abra o WhatsApp Web antes de rodar.');
+  const espera = ms =&gt; new Promise(r =&gt; setTimeout(r, ms));
+
+  const vistos  = new Set();
+  const achados = new Map();   // numero -&gt; rótulo da conversa
+
+  const coletarDoChat = (rotulo) =&gt; {
+    document.querySelectorAll('#main [data-id]').forEach(el =&gt; {
+      const id = el.getAttribute('data-id') || '';
+      const re = /(\d{7,15})@c\.us/g;
+      let m;
+      while ((m = re.exec(id))) if (!achados.has(m[1])) achados.set(m[1], rotulo);
+    });
+  };
+
+  let vazias = 0;
+  while (vazias &lt; 3) {
+    const itens = [...document.querySelectorAll('#pane-side [role="listitem"]')];
+    let novos = 0;
+
+    for (const li of itens) {
+      const t = li.querySelector('span[title]');
+      const rotulo = t ? t.getAttribute('title') : null;
+      if (!rotulo || vistos.has(rotulo)) continue;
+      vistos.add(rotulo);
+      novos++;
+
+      const alvo = li.querySelector('[role="gridcell"]') || li;
+      alvo.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+      alvo.dispatchEvent(new MouseEvent('mouseup',   { bubbles: true }));
+      alvo.click();
+
+      await espera(PAUSA);
+      coletarDoChat(rotulo);
+      console.log(vistos.size, '·', rotulo, '→', achados.size, 'números');
+
+      if (LIMITE &amp;&amp; vistos.size &gt;= LIMITE) { vazias = 99; break; }
+    }
+
+    if (vazias === 99) break;
+    vazias = novos ? 0 : vazias + 1;
+    pane.scrollTop += pane.clientHeight * 0.85;
+    await espera(700);
+  }
+
+  const texto = [...achados].map(([n, nome]) =&gt; n + '\t' + nome).join('\n');
+  window.__numeros = texto;
+  console.log(texto);
+  console.log('TOTAL:', achados.size, 'números em', vistos.size, 'conversas');
+  copy(texto);
+})();</pre></div>
+        <div class="row"><button class="btn" id="copySnippet2" type="button">Copiar script 2</button></div>
+        <p>A saída vem como <code>número + nome</code>, uma linha por contato — cole no campo de entrada aqui em cima que a ferramenta valida, tira repetido e padroniza. Se vier vazio, aumente a <code>PAUSA</code> para 1500. Em grupo, ele também recolhe os participantes que já mandaram mensagem.</p>
+      </div>
+    </details>
+  </section>
+
+  <footer>
+    <span>Nenhum dado sai do seu navegador — a extração acontece no seu aparelho.</span>
+    <span>Botanika · uso interno</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DDD = new Set([11,12,13,14,15,16,17,18,19,21,22,24,27,28,31,32,33,34,35,37,38,
+    41,42,43,44,45,46,47,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,
+    71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99]);
+
+  var $ = function(id){ return document.getElementById(id); };
+  var source=$("source"), out=$("out"), note=$("note"), hint=$("hint");
+  var estado = { itens: [], fmt: "lista", ignorados: 0 };
+
+  /* ---------- helpers ---------- */
+  function toast(msg){
+    var t=$("toast"); t.textContent=msg; t.classList.add("show");
+    clearTimeout(t._t); t._t=setTimeout(function(){ t.classList.remove("show"); },1600);
+  }
+
+  function digitos(s){ return (s||"").replace(/\D+/g,""); }
+
+  // Extrai só a parte do remetente das linhas de conversa exportada.
+  function apenasRemetentes(txt){
+    var linhas = txt.split(/\r?\n/), saida = [];
+    var re = /^\s*\[?\s*\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}[,\s]+\d{1,2}:\d{2}(?::\d{2})?\s*(?:[AaPp]\.?[Mm]\.?)?\s*\]?\s*[-–—]?\s*([^:]{1,60}):/;
+    for (var i=0;i<linhas.length;i++){
+      var m = re.exec(linhas[i]);
+      if (m) saida.push(m[1]);
+    }
+    return saida.join("\n");
+  }
+
+  // Normaliza um candidato para { e164, ddd, tipo } ou null.
+  function normalizar(bruto, opts){
+    var temMais = /^\s*\+/.test(String(bruto || ""));
+    var d = digitos(bruto);
+    if (!d) return null;
+
+    // tira prefixo internacional e zero de operadora
+    d = d.replace(/^00/, "");
+    if (!temMais) d = d.replace(/^0+/, "");
+    if (!d || d.length > 15) return null;
+
+    // Com "+" na frente, só é brasileiro se vier com o 55.
+    var br = null;
+    if ((d.length === 12 || d.length === 13) && d.indexOf("55") === 0) {
+      br = d.slice(2);
+    } else if (!temMais && (d.length === 10 || d.length === 11)) {
+      br = d;
+    }
+
+    if (br) {
+      var ddd = parseInt(br.slice(0,2), 10);
+      var assinante = br.slice(2);
+      if (DDD.has(ddd)) {
+        if (assinante.length === 9 && /^9/.test(assinante)) {
+          return { e164: "55"+ddd+assinante, ddd: ddd, tipo: "celular" };
+        }
+        if (assinante.length === 8) {
+          var primeiro = assinante.charAt(0);
+          if ("6789".indexOf(primeiro) >= 0) {
+            if (opts.nove) return { e164:"55"+ddd+"9"+assinante, ddd:ddd, tipo:"celular" };
+            return { e164:"55"+ddd+assinante, ddd:ddd, tipo:"celular" };
+          }
+          if ("2345".indexOf(primeiro) >= 0) {
+            return { e164:"55"+ddd+assinante, ddd:ddd, tipo:"fixo" };
+          }
+        }
+        if (assinante.length === 9 && !/^9/.test(assinante)) {
+          return { e164:"55"+ddd+assinante, ddd:ddd, tipo:"fixo" };
+        }
+      }
+    }
+
+    if (opts.intl && d.length >= 10 && d.length <= 15) {
+      return { e164: d, ddd: null, tipo: "intl" };
+    }
+    return null;
+  }
+
+  function formatar(item){
+    if (item.ddd === null) return "+" + item.e164;
+    var nac = item.e164.slice(2), ddd = nac.slice(0,2), resto = nac.slice(2);
+    var meio = resto.length === 9 ? resto.slice(0,5)+"-"+resto.slice(5) : resto.slice(0,4)+"-"+resto.slice(4);
+    return "+55 " + ddd + " " + meio;
+  }
+
+  /* ---------- núcleo ---------- */
+  var CANDIDATO = /\+?\d[\d \u00A0().-]{7,20}\d/g;
+
+  function extrair(){
+    var txt = source.value || "";
+    if (!txt.trim()){ toast("Cole algum texto primeiro."); return; }
+
+    var opts = {
+      nove: $("optNine").checked,
+      intl: $("optIntl").checked,
+      soCelular: $("optMobile").checked
+    };
+
+    if ($("optSenders").checked) {
+      var reduzido = apenasRemetentes(txt);
+      if (!reduzido.trim()){
+        toast("Nenhuma linha no formato de conversa exportada.");
+        return;
+      }
+      txt = reduzido;
+    }
+
+    // blocklist
+    var bloqueados = new Set();
+    (($("blocklist").value||"").split(/\r?\n/)).forEach(function(l){
+      var n = normalizar(l, {nove:true, intl:true});
+      if (n) bloqueados.add(n.e164);
+    });
+
+    var mapa = new Map(), ignorados = 0;
+    var m;
+    CANDIDATO.lastIndex = 0;
+    while ((m = CANDIDATO.exec(txt)) !== null){
+      var n = normalizar(m[0], opts);
+      if (!n){ ignorados++; continue; }
+      if (bloqueados.has(n.e164)){ ignorados++; continue; }
+      if (opts.soCelular && n.tipo === "fixo"){ ignorados++; continue; }
+      var atual = mapa.get(n.e164);
+      if (atual) atual.qtd++;
+      else { n.qtd = 1; mapa.set(n.e164, n); }
+    }
+
+    estado.itens = Array.from(mapa.values()).sort(function(a,b){
+      return b.qtd - a.qtd || a.e164.localeCompare(b.e164);
+    });
+    estado.ignorados = ignorados;
+    render();
+    toast(estado.itens.length + " número(s) encontrados.");
+  }
+
+  /* ---------- saída ---------- */
+  function textoSaida(){
+    var it = estado.itens;
+    switch (estado.fmt){
+      case "e164":     return it.map(function(x){ return "+"+x.e164; }).join("\n");
+      case "digitos":  return it.map(function(x){ return x.e164; }).join("\n");
+      case "planilha": return "Numero\tDDD\tTipo\tOcorrencias\n" + it.map(function(x){
+                         return "+"+x.e164+"\t"+(x.ddd||"")+"\t"+x.tipo+"\t"+x.qtd; }).join("\n");
+      case "contatos": return "Name,Given Name,Phone 1 - Type,Phone 1 - Value\n" + it.map(function(x){
+                         return formatar(x)+","+formatar(x)+",Mobile,+"+x.e164; }).join("\n");
+      default:         return it.map(formatar).join("\n");
+    }
+  }
+
+  function render(){
+    var it = estado.itens;
+    var cel = 0, fixo = 0;
+    it.forEach(function(x){ if (x.tipo === "fixo") fixo++; else cel++; });
+    $("sUnicos").textContent = it.length;
+    $("sCel").textContent = cel;
+    $("sFixo").textContent = fixo;
+    $("sOut").textContent = estado.ignorados;
+
+    if (!it.length){
+      out.innerHTML = '<div class="empty">Nenhum número válido encontrado nesse texto.</div>';
+      note.hidden = true; hint.textContent = "";
+      return;
+    }
+
+    if (estado.fmt === "lista"){
+      var limite = Math.min(it.length, 300);
+      var html = '<div class="list">';
+      for (var i=0;i<limite;i++){
+        var x = it[i];
+        var cls = x.tipo === "fixo" ? "fixo" : (x.tipo === "intl" ? "" : "cel");
+        html += '<div class="item"><span class="num">'+formatar(x)+'</span>'+
+                '<span class="pill '+cls+'">'+x.tipo+'</span>'+
+                '<span class="count">'+x.qtd+'&times;</span></div>';
+      }
+      html += '</div>';
+      out.innerHTML = html;
+      note.hidden = it.length <= limite;
+      note.textContent = "Mostrando os " + limite + " primeiros de " + it.length + ". O botão copiar leva a lista inteira.";
+    } else {
+      var pre = document.createElement("pre");
+      pre.textContent = textoSaida();
+      out.innerHTML = "";
+      out.appendChild(pre);
+      note.hidden = true;
+    }
+
+    hint.textContent = estado.fmt === "planilha" ? "Cole direto no Google Sheets — já vai em colunas."
+                     : estado.fmt === "contatos" ? "Cole no bloco de notas e salve como .csv pra importar no Google Contatos."
+                     : "";
+  }
+
+  /* ---------- eventos ---------- */
+  $("run").addEventListener("click", extrair);
+
+  $("clear").addEventListener("click", function(){
+    source.value = ""; $("blocklist").value = "";
+    estado.itens = []; estado.ignorados = 0;
+    out.innerHTML = '<div class="empty">Nada extraído ainda. Cole um texto à esquerda e clique em <strong>Extrair números</strong>.</div>';
+    ["sUnicos","sCel","sFixo","sOut"].forEach(function(k){ $(k).textContent = "0"; });
+    note.hidden = true; hint.textContent = "";
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(t){
+    t.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(o){
+        o.setAttribute("aria-selected", o === t ? "true" : "false");
+      });
+      estado.fmt = t.dataset.fmt;
+      render();
+    });
+  });
+
+  function copiar(txt, msg){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ toast(msg); }, function(){ fallback(txt, msg); });
+    } else fallback(txt, msg);
+  }
+  function fallback(txt, msg){
+    var ta = document.createElement("textarea");
+    ta.value = txt; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); toast(msg); } catch(e){ toast("Não deu pra copiar — selecione o texto na mão."); }
+    document.body.removeChild(ta);
+  }
+
+  $("copy").addEventListener("click", function(){
+    if (!estado.itens.length){ toast("Extraia os números primeiro."); return; }
+    copiar(textoSaida(), estado.itens.length + " número(s) copiados.");
+  });
+
+  ["1","2"].forEach(function(n){
+    var b = $("copySnippet"+n);
+    if (!b) return;
+    b.addEventListener("click", function(){
+      copiar($("snippet"+n).textContent, "Script "+n+" copiado.");
+    });
+  });
+
+  /* arquivos */
+  function lerArquivos(lista){
+    var pendentes = Array.prototype.slice.call(lista);
+    if (!pendentes.length) return;
+    var leituras = pendentes.map(function(f){
+      return new Promise(function(res){
+        var fr = new FileReader();
+        fr.onload = function(){ res(String(fr.result || "")); };
+        fr.onerror = function(){ res(""); };
+        fr.readAsText(f);
+      });
+    });
+    Promise.all(leituras).then(function(partes){
+      var atual = source.value ? source.value + "\n" : "";
+      source.value = atual + partes.join("\n");
+      toast(pendentes.length + " arquivo(s) carregados.");
+      extrair();
+    });
+  }
+
+  $("files").addEventListener("change", function(e){ lerArquivos(e.target.files); });
+
+  var drop = $("drop");
+  ["dragenter","dragover"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove("over"); });
+  });
+  drop.addEventListener("drop", function(e){
+    if (e.dataTransfer && e.dataTransfer.files) lerArquivos(e.dataTransfer.files);
+  });
+
+  /* exemplo */
+  $("demo").addEventListener("click", function(){
+    source.value = [
+      "31/08/2026 09:12 - +55 11 98877-6655: Oi, queria saber do frete pra SP",
+      "31/08/2026 09:14 - Botanika Atendimento: Bom dia! Frete grátis acima de R$349 :)",
+      "31/08/2026 09:15 - +55 11 98877-6655: Perfeito, vou fechar",
+      "31/08/2026 10:02 - +55 21 99123-4567: Chegou o pedido 10432, obrigada!",
+      "31/08/2026 10:40 - +55 47 3333-1122: Aqui é da transportadora, confirma o endereço?",
+      "31/08/2026 11:05 - +55 85 98812-3344: Vocês entregam em Fortaleza?",
+      "31/08/2026 11:31 - Maria Souza: Manda no meu outro número, 31 99888-7766",
+      "31/08/2026 12:00 - +55 11 98877-6655: Comprei! Cupom BOTANIKA funcionou"
+    ].join("\n");
+    extrair();
+  });
+})();
+</script>
+
+</body>
+</html>
