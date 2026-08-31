@@ -215,6 +215,13 @@
 
   .note{font-size:.78rem;color:var(--ink-3);padding:.6rem 1rem;border-top:1px solid var(--line-soft)}
 
+  .statusline{margin:0;font-size:.8rem;color:var(--ink-3);min-height:1.2em}
+  .statusline.ok{color:var(--accent);font-weight:600}
+  .statusline.err{color:var(--warn);font-weight:600}
+  .statusline.load{color:var(--ink-2)}
+  .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,13rem);gap:.7rem}
+  @media (max-width:40rem){.grid2{grid-template-columns:minmax(0,1fr)}}
+
   /* ---- guide ---- */
   .guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
   .step{
@@ -349,8 +356,122 @@
         </div>
         <div class="note" id="note" hidden></div>
       </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2 class="card-title">3. Enviar pro Google Sheets</h2>
+          <button class="btn ghost" id="toggleSetup" type="button">Como configurar</button>
+        </div>
+        <div class="card-body">
+          <label class="field">
+            <span class="field-label">Origem do lote</span>
+            <input type="text" id="origem" placeholder="Ex.: WhatsApp Clínica Dr William">
+          </label>
+          <div class="grid2">
+            <label class="field">
+              <span class="field-label">URL do app da planilha</span>
+              <input type="text" id="sheetUrl" spellcheck="false" placeholder="https://script.google.com/macros/s/.../exec">
+            </label>
+            <label class="field">
+              <span class="field-label">Senha</span>
+              <input type="text" id="sheetToken" spellcheck="false" placeholder="a mesma do script">
+            </label>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="enviar" type="button">Enviar pro Sheets</button>
+            <button class="btn" id="esquecer" type="button">Esquecer dados</button>
+          </div>
+          <p class="statusline" id="sheetStatus"></p>
+        </div>
+      </section>
     </div>
   </div>
+
+  <!-- CONFIGURAÇÃO DO SHEETS -->
+  <section id="setup" hidden style="display:flex;flex-direction:column;gap:.9rem">
+    <h2 style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.25rem;margin:0;letter-spacing:-.015em">Ligar a ferramenta na sua planilha</h2>
+    <p style="margin:0;color:var(--ink-2);max-width:44rem;font-size:.9rem">Faz-se uma vez só, leva uns três minutos. Depois disso o botão <strong>Enviar pro Sheets</strong> manda os números direto pra planilha, sem repetir o que já está lá, e com a origem e a data de cada lote.</p>
+
+    <div class="guide">
+      <article class="step">
+        <span class="tag">passo 1</span>
+        <h3>Crie a planilha</h3>
+        <ol>
+          <li>Abra uma planilha nova no Google Sheets.</li>
+          <li>Copie o <strong>ID</strong> dela: é o pedaço da URL entre <code>/d/</code> e <code>/edit</code>.</li>
+        </ol>
+      </article>
+      <article class="step">
+        <span class="tag">passo 2</span>
+        <h3>Cole o script</h3>
+        <ol>
+          <li>Na planilha: <strong>Extensões</strong> → <strong>Apps Script</strong>.</li>
+          <li>Apague o que estiver lá e cole o código abaixo.</li>
+          <li>Troque o <code>ID_DA_PLANILHA</code> e a <code>SENHA</code> nas duas primeiras linhas.</li>
+        </ol>
+      </article>
+      <article class="step">
+        <span class="tag">passo 3</span>
+        <h3>Publique</h3>
+        <ol>
+          <li><strong>Implantar</strong> → <strong>Nova implantação</strong> → tipo <strong>App da Web</strong>.</li>
+          <li>Executar como <strong>Eu</strong>, acesso para <strong>Qualquer pessoa</strong>.</li>
+          <li>Autorize quando o Google pedir e copie a URL que termina em <code>/exec</code>.</li>
+          <li>Cole essa URL e a senha nos campos aqui de cima.</li>
+        </ol>
+      </article>
+    </div>
+
+    <details>
+      <summary>Código do Apps Script</summary>
+      <div class="details-body">
+        <div class="code"><pre id="snippet3">const ID_DA_PLANILHA = 'cole-o-id-da-planilha-aqui';
+const SENHA = 'troque-esta-senha';
+const ABA = 'Contatos';
+
+function doPost(e) {
+  try {
+    const dados = JSON.parse(e.postData.contents);
+    if (dados.senha !== SENHA) return responder({ ok: false, erro: 'senha invalida' });
+
+    const planilha = SpreadsheetApp.openById(ID_DA_PLANILHA);
+    let aba = planilha.getSheetByName(ABA);
+    if (!aba) aba = planilha.insertSheet(ABA);
+    if (aba.getLastRow() === 0) {
+      aba.appendRow(['Numero', 'DDD', 'Tipo', 'Ocorrencias', 'Origem', 'Data']);
+      aba.getRange('A:A').setNumberFormat('@');
+    }
+
+    const linhas = dados.linhas || [];
+    const ultima = aba.getLastRow();
+    const jaTem = new Set(
+      ultima &gt; 1
+        ? aba.getRange(2, 1, ultima - 1, 1).getValues().map(function (l) { return String(l[0]); })
+        : []
+    );
+
+    const novas = linhas.filter(function (l) { return !jaTem.has(String(l[0])); });
+    if (novas.length) {
+      aba.getRange(ultima + 1, 1, novas.length, novas[0].length).setValues(novas);
+    }
+
+    return responder({ ok: true, recebidos: linhas.length, novos: novas.length });
+  } catch (erro) {
+    return responder({ ok: false, erro: String(erro) });
+  }
+}
+
+function responder(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre></div>
+        <div class="row"><button class="btn" id="copySnippet3" type="button">Copiar código</button></div>
+        <p>A senha existe porque o app precisa ficar aberto para qualquer pessoa conseguir receber o envio do navegador. Ela impede que alguém que descubra a URL escreva na planilha. Trate a URL como interna e não publique em lugar nenhum.</p>
+        <p>Se ao publicar aparecer um aviso de app não verificado, é esperado — é um script seu, na sua conta. Clique em <strong>Avançado</strong> e siga.</p>
+      </div>
+    </details>
+  </section>
 
   <!-- COMO CONSEGUIR O TEXTO -->
   <section style="display:flex;flex-direction:column;gap:.9rem">
@@ -730,12 +851,89 @@
     copiar(textoSaida(), estado.itens.length + " número(s) copiados.");
   });
 
-  ["1","2"].forEach(function(n){
+  ["1","2","3"].forEach(function(n){
     var b = $("copySnippet"+n);
     if (!b) return;
     b.addEventListener("click", function(){
-      copiar($("snippet"+n).textContent, "Script "+n+" copiado.");
+      copiar($("snippet"+n).textContent, "Código copiado.");
     });
+  });
+
+  /* ---------- Google Sheets ---------- */
+  var CHAVE = "botanika.extrator.sheets";
+
+  function lerCfg(){
+    try { return JSON.parse(localStorage.getItem(CHAVE) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function gravarCfg(obj){
+    try { localStorage.setItem(CHAVE, JSON.stringify(obj)); } catch (e) {}
+  }
+
+  var cfg = lerCfg();
+  if (cfg.url)    $("sheetUrl").value   = cfg.url;
+  if (cfg.senha)  $("sheetToken").value = cfg.senha;
+  if (cfg.origem) $("origem").value     = cfg.origem;
+
+  function status(msg, tipo){
+    var el = $("sheetStatus");
+    el.className = "statusline" + (tipo ? " " + tipo : "");
+    el.textContent = msg;
+  }
+
+  $("toggleSetup").addEventListener("click", function(){
+    var s = $("setup");
+    s.hidden = !s.hidden;
+    if (!s.hidden) s.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  $("esquecer").addEventListener("click", function(){
+    try { localStorage.removeItem(CHAVE); } catch (e) {}
+    $("sheetUrl").value = ""; $("sheetToken").value = ""; $("origem").value = "";
+    status("Dados apagados deste navegador.", "");
+  });
+
+  $("enviar").addEventListener("click", function(){
+    if (!estado.itens.length){ status("Extraia os números primeiro.", "err"); return; }
+
+    var url    = ($("sheetUrl").value || "").trim();
+    var senha  = ($("sheetToken").value || "").trim();
+    var origem = ($("origem").value || "").trim();
+
+    if (!/^https:\/\/script\.google\.com\/.*\/exec$/.test(url)){
+      status("Cole a URL do app da planilha, aquela que termina em /exec.", "err");
+      $("setup").hidden = false;
+      return;
+    }
+
+    gravarCfg({ url: url, senha: senha, origem: origem });
+
+    var hoje = new Date().toISOString().slice(0,10);
+    var linhas = estado.itens.map(function(x){
+      return ["+"+x.e164, x.ddd || "", x.tipo, x.qtd, origem, hoje];
+    });
+
+    $("enviar").disabled = true;
+    status("Enviando " + linhas.length + " número(s)...", "load");
+
+    // text/plain evita o preflight que o Apps Script não responde
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ senha: senha, origem: origem, linhas: linhas })
+    })
+    .then(function(r){ return r.text(); })
+    .then(function(t){
+      var d;
+      try { d = JSON.parse(t); } catch (e) { d = null; }
+      if (!d) { status("A planilha respondeu algo inesperado. Confira se a implantação está como App da Web com acesso para qualquer pessoa.", "err"); return; }
+      if (!d.ok) { status("A planilha recusou: " + (d.erro || "erro desconhecido"), "err"); return; }
+      status(d.novos + " número(s) novos gravados — " + (d.recebidos - d.novos) + " já estavam na planilha.", "ok");
+    })
+    .catch(function(){
+      status("Não consegui falar com a planilha. Verifique a URL e se a implantação está liberada para qualquer pessoa.", "err");
+    })
+    .then(function(){ $("enviar").disabled = false; });
   });
 
   /* arquivos */

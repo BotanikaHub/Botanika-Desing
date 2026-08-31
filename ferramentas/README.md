@@ -28,6 +28,21 @@ Cola-se o texto (ou solta-se o arquivo) e a ferramenta devolve a lista limpa:
 
 Aceita `.txt` (exportação do WhatsApp), `.csv` e `.vcf`/`.vcard` (agenda do Google ou do iCloud).
 
+### Envio direto pro Google Sheets
+
+O bloco **3. Enviar pro Google Sheets** manda o resultado para uma planilha sem passar por
+download nem copia-e-cola. A ligação é feita uma vez, por um Apps Script publicado como app da
+web na conta de quem for dono da planilha — o código e o passo a passo estão na própria página,
+em **Como configurar**.
+
+O script grava `Numero | DDD | Tipo | Ocorrencias | Origem | Data`, ignora número que já esteja
+na planilha e exige uma senha, definida por quem publicou, para aceitar o envio. A URL do app e
+a senha ficam guardadas só no navegador de quem usa (`localStorage`), nunca no repositório — o
+botão **Esquecer dados** limpa as duas.
+
+Como o app precisa ficar com acesso liberado para receber o envio do navegador, a URL é o que
+protege a planilha junto com a senha: trate as duas como internas.
+
 ### Os dois scripts de WhatsApp Web
 
 A página traz, no rodapé, dois scripts para colar no console do WhatsApp Web quando o objetivo
