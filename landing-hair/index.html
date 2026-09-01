@@ -253,8 +253,6 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .bump-tri.on{border-color:#8fe3c2;background:linear-gradient(120deg,#20266B,#33397f)}
 .bump-tri.on .bump-check{background:#8fe3c2;border-color:#8fe3c2;color:#16204a}
 .bump-old{opacity:.6;text-decoration:line-through;margin-right:2px;font-weight:400}
-.bump-off{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.3px;padding:1px 6px;border-radius:100px;margin-left:6px;vertical-align:middle}
-.bump-tri .bump-off{background:#8fe3c2;color:#16204a}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -928,7 +926,7 @@ html.lenis{scroll-behavior:auto!important}
           <label class="bump bump-tri" id="bump">
             <input type="checkbox" id="bump-chk">
             <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489" alt="Tri[Mg] Complex" loading="lazy">
-            <span class="bump-txt"><b>Leve junto: Tri[Mg] Complex <em class="bump-off">−5%</em></b><small>Magnésio 3 em 1 · energia e relaxamento · <s class="bump-old">R$ 87,50</s> <b class="bump-price">R$ 83,13</b></small></span>
+            <span class="bump-txt"><b>Leve junto: Tri[Mg] Complex</b><small>Magnésio 3 em 1 · energia e relaxamento · <s class="bump-old">R$ 87,50</s> <b class="bump-price">3× de R$ 29,17 sem juros</b></small></span>
             <span class="bump-check" aria-hidden="true">+</span>
           </label>
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
@@ -1068,7 +1066,7 @@ html.lenis{scroll-behavior:auto!important}
 
   /* ---------- commerce config ---------- */
   var VARIANT='48650670670056';
-  var BUMP={v:'48115368558824',full:87.50,price:83.13};  /* order bump: Tri[Mg] Complex — R$87,50 c/ −5% do BxGy [BUMP] Hair→Tri[Mg] = R$83,13 (real e ativo no Shopify) */
+  var BUMP={v:'48115368558824',price:87.50};  /* order bump: Tri[Mg] Complex — preço cheio real R$87,50 (card mostra o parcelado 3×; sem prometer desconto). BxGy [BUMP] Hair→Tri[Mg] 5% existe no Shopify mas não é divulgado */
   var bumpOn=false;
   var FRETE=349;  /* frete grátis real */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
