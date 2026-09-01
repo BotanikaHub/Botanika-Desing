@@ -9,6 +9,7 @@
   - 1 pote: R$ 89,52 · `3× de R$ 29,84` (preço cheio)
   - 2 potes: R$ 170,09 (−5%, economize R$ 8,95) · `3× de R$ 56,70`
   - 3 potes: R$ 241,70 (−10%, economize R$ 26,86) · `3× de R$ 80,57`
+  - **Pré-seleção:** o seletor do bump começa no **maior kit (3 potes)**, igual ao seletor invertido do kit principal (`btSel='3'`).
   - Preços/economia = **escada REAL e ATIVA da Vit C** (`[ESCADA] Super Vitamina C 5% 2un`, `10% 3un`) — os mesmos números da página da Vit C. Imagem do pote reaproveitada do Shopify CDN da própria LP da Vit C (`hf_20260805_161803_...png`, transparente).
   - **Reuso do design entre LPs (princípio-chave):** o card do bump **veste a identidade da LP do produto ofertado** — inclusive a **animação-assinatura** dela (aqui as laranjas). Estrutura: base `bt-*` (do `.buy-card` do Tri) + modificador `.bump-<produto>` (`.bump-vitc` = laranja) que redefine gradiente/números/selo/botão; a animação vem por classes `.bt-orbit/.bt-orb` + um IIFE de órbita portado da LP de origem. Trocar o produto do bump = trocar VARIANT + `BUMPS` + imagem + classe de tema (+ animação, se a LP tiver).
 - **Cart permalink multi-item:** `#buy` vira `/cart/48650670670056:<kit>,48115368460520:<potes>` (potes = 1/2/3 do card). Kit 1 mantém `?discount=BOTANIKA`. As escadas (Hair e Vit C) são **automáticas** e **combinam** (`combinesWith.productDiscounts:true` nas duas) — aplicam sozinhas, sem code, sem uma cancelar a outra (PDP = checkout).

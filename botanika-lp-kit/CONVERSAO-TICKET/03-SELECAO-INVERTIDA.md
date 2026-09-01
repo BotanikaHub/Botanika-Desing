@@ -18,6 +18,9 @@
 - Default = kit 3 (barra 100%, R$ 268,38); kit 1 → barra 34% (R$ 99,40); kit 2 → 67% (R$ 188,86). Ordem do seletor 3,2,1.
 - Sem overflow em 390px · `node --check` + tags OK.
 
+## Bolinha de desconto no stage do kit
+- Selo circular (`.kit-badge`, mesmo estilo do `.bt-badge` do bump, mas na cor da LP) sobre o leque de potes: kit 1 escondido, kit 2 `−5%`, kit 3 `−10%`. `applyKit` seta o texto e o `.show`. Reforça o desconto visualmente, casando com o card do bump.
+
 ## ⚠️ Cuidado de conversão (do epic)
 É a única das 4 mudanças que **pode piorar** resultado (afasta quem quer só experimentar 1). **Acompanhar ticket médio E conversão juntos** após publicar. Kit 1 continua acessível (só deixou de ser o default).
 

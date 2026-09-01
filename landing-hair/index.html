@@ -211,6 +211,9 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .offer-price.pop{animation:kitPop .42s var(--ease)}
 @keyframes kitPop{0%{transform:scale(1)}42%{transform:scale(1.04)}100%{transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.kit-bottle{transition:opacity .2s}.kit-stage.pop,.offer-price.pop{animation:none}}
+/* bolinha de desconto no kit (−5%/−10%), como no card do bump */
+.kit-badge{position:absolute;top:8%;right:20%;z-index:6;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:54px;height:54px;display:grid;place-items:center;box-shadow:0 12px 26px rgba(48,56,144,.42);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.kit-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
 /* barra de evolução do kit (regride ao escolher menos) */
 .kit-bar{max-width:420px;margin:16px auto 0}
 .kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(32,38,107,.14)}
@@ -942,6 +945,7 @@ html.lenis{scroll-behavior:auto!important}
           <img class="kit-bottle b1" src="hair-rotulo.png" alt="" loading="lazy">
           <img class="kit-bottle b2" src="hair-rotulo.png" alt="Pote do Hair Botanika" loading="lazy">
           <img class="kit-bottle b3" src="hair-rotulo.png" alt="" loading="lazy">
+          <div class="kit-badge show" id="kit-badge">−10%</div>
         </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
@@ -973,25 +977,25 @@ html.lenis{scroll-behavior:auto!important}
             <div class="bumptri-head">🍊 Leve junto: <b>Super Vitamina C</b> — vitamina C 1000&nbsp;mg + quercetina + própolis</div>
             <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade da Super Vitamina C">
               <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
-              <button type="button" data-q="1" class="on" role="tab" aria-selected="true"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+              <button type="button" data-q="1" role="tab" aria-selected="false"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
               <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
-              <button type="button" data-q="3" role="tab" aria-selected="false"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
+              <button type="button" data-q="3" class="on" role="tab" aria-selected="true"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
             </div>
             <div class="bt-card">
               <div class="bt-stage">
                 <div class="bt-shelf" aria-hidden="true"></div>
-                <div class="bt-badge" id="bt-badge" aria-hidden="true"></div>
-                <div class="bt-vis" id="bt-vis" data-n="1">
+                <div class="bt-badge show" id="bt-badge" aria-hidden="true">−10%</div>
+                <div class="bt-vis" id="bt-vis" data-n="3">
                   <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
                   <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
                   <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Super Vitamina C" loading="lazy">
                 </div>
               </div>
               <div class="bt-info">
-                <span class="bt-tag" id="bt-tag">Preço cheio · 30 doses</span>
-                <div class="bt-price">3× de <b id="bt-inst">R$ 29,84</b> <span class="bt-pm">sem juros</span></div>
-                <div class="bt-cash">ou <span id="bt-cash">R$ 89,52</span> à vista</div>
-                <div class="bt-save" id="bt-save"></div>
+                <span class="bt-tag" id="bt-tag">Melhor valor · 10% OFF</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 80,57</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 241,70</span> à vista</div>
+                <div class="bt-save" id="bt-save"><s>R$ 268,56</s> · <b>economize R$ 26,86</b></div>
                 <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
               </div>
             </div>
@@ -1142,7 +1146,7 @@ html.lenis{scroll-behavior:auto!important}
     '2':{n:2,total:170.09,inst:'R$ 56,70',cash:'R$ 170,09',tag:'Popular · 5% OFF',       save:'<s>R$ 179,04</s> · <b>economize R$ 8,95</b>',  badge:'−5%'},
     '3':{n:3,total:241.70,inst:'R$ 80,57',cash:'R$ 241,70',tag:'Melhor valor · 10% OFF',  save:'<s>R$ 268,56</s> · <b>economize R$ 26,86</b>', badge:'−10%'}
   };
-  var btSel='1';    /* pote selecionado no card */
+  var btSel='3';    /* pote pré-selecionado no card (igual ao seletor invertido do kit: começa no 3) */
   var btOn=false;   /* bump adicionado ao pedido? */
   var bumpQty=0;    /* 0 = não adicionado; senão = frascos no checkout/frete */
   var FRETE=349;  /* frete grátis real */
@@ -1196,6 +1200,7 @@ html.lenis{scroll-behavior:auto!important}
     var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='inline';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var stage=doc.getElementById('kit-stage');if(stage){stage.setAttribute('data-kit',kit);stage.classList.remove('pop');void stage.offsetWidth;stage.classList.add('pop');}
+    var kb=doc.getElementById('kit-badge');if(kb){var koff={'1':'','2':'−5%','3':'−10%'}[kit]||'';kb.textContent=koff;kb.classList.toggle('show',!!koff);}
     var op=doc.querySelector('.offer-price');if(op){op.classList.remove('pop');void op.offsetWidth;op.classList.add('pop');}
     var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
     var bm=doc.getElementById('kit-bar-msg');if(bm)bm.innerHTML=k.barmsg||'';
