@@ -11,7 +11,7 @@
 | 2 | Pop-up de diagnóstico (2 dores → e-mail → cupom) | **Por página** (exclusivo) | ✅ Hair pronto e testado — ver `02-POPUP-HAIR.md` |
 | 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ✅ Hair pronto e testado (preview) — ver `03-SELECAO-INVERTIDA.md` · ⏳ aguardando OK p/ publicar (muda conversão) |
 | 4 | Imagens de benefício/objeção | Por página | ✅ Hair pronto (preview) — 4 cards (Cabelo/Unhas/Pele/Rotina), imagens Higgsfield hospedadas no Shopify CDN — ver `04-IMAGENS.md` |
-| 5 | Order bump (Super Vit C) + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ Hair pronto e testado (preview) — ver `05-ORDER-BUMP.md` |
+| 5 | Order bump (**Tri[Mg], −5% via BxGy real**) + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ Hair pronto e testado (preview) — BxGy `[BUMP] Hair → Tri[Mg] 5%` criado e ATIVO no Shopify — ver `05-ORDER-BUMP.md` |
 
 ## Regras de ouro (herdadas da execução VermeFree, adaptadas à LP)
 - **Preço é sagrado:** nenhum número sem desconto **real e ativo** no Shopify (`automaticDiscountNodes`). Não existir → não aparece; **pare e alinhe**.
@@ -41,10 +41,10 @@ Mapa **slug LP → produto → VARIANT_ID → tag AC**:
 | creatina | Creatina + Taurato | 48115368820968 | `produto_creatina_magnesio_taurato` |
 | whey | Whey Balance Chocolate | 48115368919272 | `produto_whey_balance_chocolate` |
 
-Descontos por quantidade (confirmar ativo antes de exibir): Hair `HAIR5`/`HAIR10`; Super C `SUPER5`/`SUPER10`; demais kits 2 (−5%) / 3 (−10%). Cupom do popup: `BOTANIKA` (5%). Frete grátis: **confirmar R$349 vs R$399**.
+Descontos por quantidade (confirmar ativo antes de exibir): Hair `HAIR5`/`HAIR10`; Super C `SUPER5`/`SUPER10`; demais kits 2 (−5%) / 3 (−10%). Cupom do popup: `BOTANIKA` (5%). **Frete grátis = R$349 (confirmado)** — é regra do *delivery profile* (`TOTAL_PRICE ≥ 349 BRL → MeuCorreios grátis`), **não** um desconto; os `[FRETE]` automáticos (todos R$199) estão EXPIRADOS.
 
 ## Pendências / dependências de terceiros
 - **AC:** setar `AC_API_KEY` + `AC_API_URL` como variáveis no Cloudflare Pages (passo único, serve todas). Ver `01-ACTIVECAMPAIGN.md`.
 - **Arte** (Mudança 3): designer.
 - **ClickUp** estava offline — não deu pra ler a epic; escopo veio do prompt + repo.
-- Confirmar: frete grátis (349/399), destino do redirect do popup (loja vs PDP), ângulos do quiz da Hair.
+- ~~Confirmar frete grátis (349/399)~~ → **R$349 confirmado** (delivery profile). Confirmar ainda: destino do redirect do popup (loja vs PDP), ângulos do quiz da Hair.
