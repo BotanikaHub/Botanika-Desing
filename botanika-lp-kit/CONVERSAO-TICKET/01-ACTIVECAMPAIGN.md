@@ -15,9 +15,12 @@ A função roda no servidor, guarda a chave como secret e faz o proxy pro AC.
 - **Tags de produto (já existem):** `produto_hair_botanika` (114), `produto_super_omega3_coq10` (121),
   `produto_trimg_complex` (117), `produto_sleep_inositol` (115), `produto_super_vitamina_c` (120),
   `produto_tetravit_d` (126), `produto_creatina_magnesio_taurato` (119), `produto_whey_balance_chocolate` (118).
-- **Tag de origem (nova, criada on-the-fly pela função):** `lp_popup_lead`.
-- **Ângulo do quiz (opcional):** `lp_<angulo>` (ex.: `lp_queda`, `lp_unhas`).
-- **Segmento sugerido no AC:** contatos com tag `lp_popup_lead` (para automação de boas-vindas + cupom).
+- **Tags aplicadas pela função (criadas on-the-fly):**
+  - `lp_popup_lead` — veio de um popup de LP (qualquer).
+  - **`lp_<slug>`** — **qual LP** (ex.: `lp_hair`, `lp_omega3`). ← é a que identifica a origem.
+  - `produto_<...>` — interesse no produto (reaproveita as tags que já existem).
+  - `dor_<angulo>` — a dor escolhida no quiz (ex.: `dor_cabelo`, `dor_unhas`, `dor_pele`).
+- **Segmento sugerido no AC:** List 7 **+** tag `lp_hair` = leads que vieram só da LP da Hair (funciona como "lista por LP" sem criar lista nova).
 
 ## Setup no Cloudflare (passo ÚNICO — serve todas as LPs)
 No projeto Pages `botanika-desing` → **Settings → Variables and Secrets**, adicionar:

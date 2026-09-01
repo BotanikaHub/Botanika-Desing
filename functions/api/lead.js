@@ -69,10 +69,13 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({ contactList: { list: LIST_ID, contact: id, status: 1 } })
     });
 
-    // 3) tags: origem + produto + (opcional) angulo do quiz
+    // 3) tags: origem + QUAL LP (lp_<slug>) + produto + (opcional) dor do quiz
     const tags = ['lp_popup_lead'];
-    if (body.produto && PRODUCT_TAG[body.produto]) tags.push(PRODUCT_TAG[body.produto]);
-    if (body.angulo) tags.push('lp_' + String(body.angulo).replace(/[^a-z0-9_]+/gi, '_').toLowerCase());
+    if (body.produto) {
+      tags.push('lp_' + String(body.produto).replace(/[^a-z0-9_]+/gi, '_').toLowerCase()); // qual LP: lp_hair
+      if (PRODUCT_TAG[body.produto]) tags.push(PRODUCT_TAG[body.produto]);                 // interesse: produto_*
+    }
+    if (body.angulo) tags.push('dor_' + String(body.angulo).replace(/[^a-z0-9_]+/gi, '_').toLowerCase()); // dor_cabelo
     for (let i = 0; i < tags.length; i++) await tagContact(base, H, id, tags[i]);
 
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
