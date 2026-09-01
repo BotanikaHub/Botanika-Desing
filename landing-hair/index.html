@@ -223,6 +223,25 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .bcard-selo{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo-deep);background:var(--lime);padding:5px 11px;border-radius:100px}
 .bcard b{font-family:var(--head);font-weight:600;font-size:clamp(15px,1.5vw,18px);line-height:1.16;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45)}
 @media(max-width:820px){.bcards{grid-template-columns:1fr 1fr}}
+/* order bump + barra de frete grátis */
+.frete{display:grid;gap:7px;margin-bottom:2px}
+#frete-msg{font-size:13px;color:var(--ink)}
+#frete-msg b{color:var(--indigo-deep)}
+.frete.done #frete-msg b{color:#2e7d32}
+.frete-track{height:8px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden}
+.frete-fill{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.frete.done .frete-fill{background:linear-gradient(90deg,#7cb342,#c0ca33)}
+.bump{position:relative;display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);cursor:pointer;transition:border-color .2s,background .2s}
+.bump:hover{border-color:var(--indigo)}
+.bump.on{border-style:solid;border-color:var(--indigo);background:linear-gradient(120deg,rgba(208,224,136,.28),rgba(255,255,255,.55))}
+.bump input{position:absolute;opacity:0;pointer-events:none}
+.bump img{width:46px;height:46px;object-fit:contain;flex:none;filter:drop-shadow(0 6px 12px rgba(32,38,107,.3))}
+.bump-txt{flex:1;line-height:1.25}
+.bump-txt b{font-size:13.5px;color:var(--ink)}
+.bump-txt small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.bump-txt .bump-price{color:var(--indigo-deep)}
+.bump-check{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;color:var(--indigo);font-weight:800;font-size:15px;transition:.2s}
+.bump.on .bump-check{background:var(--indigo);border-color:var(--indigo);color:#fff}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -889,6 +908,16 @@ html.lenis{scroll-behavior:auto!important}
           </div>
         </div>
         <div class="offer-cta">
+          <div class="frete" id="frete">
+            <div id="frete-msg">Faltam <b>R$ 80,62</b> pra frete grátis</div>
+            <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
+          </div>
+          <label class="bump" id="bump">
+            <input type="checkbox" id="bump-chk">
+            <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_213101_e3fc602a-df19-4359-afcc-43fbeddf1127.png?v=1788213165" alt="Super Vitamina C" loading="lazy">
+            <span class="bump-txt"><b>Leve junto: Super Vitamina C</b><small>Imunidade + antioxidante · <b class="bump-price">R$ 89,52</b></small></span>
+            <span class="bump-check" aria-hidden="true">+</span>
+          </label>
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
           <div class="coupon" aria-hidden="true">
             <span>🔒 desconto por quantidade <b>já aplicado</b> no checkout</span>
@@ -1026,9 +1055,19 @@ html.lenis{scroll-behavior:auto!important}
 
   /* ---------- commerce config ---------- */
   var VARIANT='48650670670056';
+  var SUPERC={v:'48115368460520',price:89.52};  /* order bump: Super Vitamina C (preço real confirmado no Shopify) */
+  var bumpOn=false;
+  var FRETE=349;  /* frete grátis real */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpOn?','+SUPERC.v+':1':'');var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
+  function brl(n){return n.toFixed(2).replace('.',',');}
+  function updateFrete(){
+    var k=KITS[currentKit]||{},total=money(k.now)+(bumpOn?SUPERC.price:0);
+    var fill=doc.getElementById('frete-fill');if(fill)fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
+    var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
+    var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
+  }
   var KITS={
     '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png',bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e o ciclo não trava no meio.'},
     '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png',bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e o ciclo completo.'},
@@ -1064,8 +1103,17 @@ html.lenis{scroll-behavior:auto!important}
     var href=checkout(kit);
     each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+    updateFrete();
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));fire('AddToCart');});});
+  /* order bump: Super Vitamina C */
+  (function(){var chk=doc.getElementById('bump-chk');if(!chk)return;chk.addEventListener('change',function(){
+    bumpOn=chk.checked;
+    var lb=doc.getElementById('bump');if(lb)lb.classList.toggle('on',bumpOn);
+    var ck=lb&&lb.querySelector('.bump-check');if(ck)ck.textContent=bumpOn?'✓':'+';
+    var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
+    updateFrete();
+  });})();
   /* WhatsApp = Lead */
   each(doc.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp"]'),function(a){a.addEventListener('click',function(){fire('Lead');});});
   function wireCheckout(){
