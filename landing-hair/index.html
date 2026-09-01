@@ -1233,8 +1233,8 @@ html.lenis{scroll-behavior:auto!important}
   /* gatilho: 8s OU rolar >45% (o que vier antes), 1x por sessão, nunca se já converteu */
   if(!flag('localStorage',DONE) && !flag('sessionStorage',SEEN)){
     var fired=false, fire1=function(){if(!fired){fired=true;open();}};
-    var t=setTimeout(fire1,8000);
-    var onSc=function(){var h=doc.documentElement.scrollHeight-win.innerHeight;if(h>0 && (win.pageYOffset/h)>.45){fire1();win.removeEventListener('scroll',onSc);}};
+    var t=setTimeout(fire1,4000);
+    var onSc=function(){var h=doc.documentElement.scrollHeight-win.innerHeight;if(h>0 && (win.pageYOffset/h)>.35){fire1();win.removeEventListener('scroll',onSc);}};
     win.addEventListener('scroll',onSc,{passive:true});
   }
 
