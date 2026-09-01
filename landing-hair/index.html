@@ -125,8 +125,10 @@ a{color:inherit;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--indigo);border:1px solid var(--line-2);box-shadow:none}
 .btn.ghost:hover{border-color:var(--rose);background:var(--glass)}
 .btn.block{width:100%}
-/* CTA principal pode ter texto longo (kit Hair + bump) → quebra em vez de cortar na lateral */
-#buy{white-space:normal;line-height:1.18;text-align:center;font-size:14.5px;padding-top:13px;padding-bottom:13px}
+/* CTA principal: ação em destaque + detalhe do combo embaixo (organizado, sem quebra solta) */
+#buy{flex-direction:column;gap:2px;white-space:normal;line-height:1.1;text-align:center;padding-top:12px;padding-bottom:12px}
+#buy .buy-main{font-size:15px;font-weight:800;letter-spacing:.02em}
+#buy .buy-sub{font-size:11px;font-weight:600;opacity:.92;letter-spacing:.01em}
 
 /* sections */
 main{position:relative;z-index:1}
@@ -1163,8 +1165,9 @@ html.lenis{scroll-behavior:auto!important}
   /* CTA principal: mostra kit Hair + bump (quando adicionado) */
   function setCTA(){
     var kn=parseInt(currentKit,10)||1;
-    var t=bumpQty ? ('Comprar · kit Hair '+potes(kn)+' + Super Vit C '+potes(bumpQty)) : 'COMPRAR AGORA';
-    each(doc.querySelectorAll('#buy'),function(a){a.textContent=t;});
+    var sub=bumpQty ? ('Kit Hair '+potes(kn)+' + Super Vit C '+potes(bumpQty)) : '';
+    var html='<span class="buy-main">COMPRAR AGORA</span>'+(sub?'<span class="buy-sub">'+sub+'</span>':'');
+    each(doc.querySelectorAll('#buy'),function(a){a.innerHTML=html;});
   }
   var KITS={
     '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png',bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e o ciclo não trava no meio.'},
