@@ -219,6 +219,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(32,38,107,.14)}
 .kit-bar-fill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
 .kit-bar-msg{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:9px;min-height:2.6em}
+.kb-add{color:var(--indigo)}.kb-add b{color:var(--indigo-deep)}
 .kit-bar-msg b{color:var(--indigo-deep);font-weight:700}
 @media(prefers-reduced-motion:reduce){.kit-bar-fill{transition:none}}
 /* cards de benefício/objeção (imagens) */
@@ -1160,6 +1161,20 @@ html.lenis{scroll-behavior:auto!important}
     var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
     var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
   }
+  /* barra de evolução do kit: fill pela escada do kit; mensagem passa a mencionar o bump/frete quando o bump entra (sincroniza com a barra de frete) */
+  function updateKitBar(){
+    var k=KITS[currentKit]||{};
+    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
+    var bm=doc.getElementById('kit-bar-msg');if(!bm)return;
+    var msg=k.barmsg||'';
+    if(bumpQty){
+      var total=money(k.now)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
+      msg+=(total>=FRETE)
+        ? ' <span class="kb-add">— e com a <b>Super Vit C</b> o <b>frete grátis</b> já está garantido 🎉</span>'
+        : ' <span class="kb-add">— a <b>Super Vit C</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>';
+    }
+    bm.innerHTML=msg;
+  }
   /* buybar: só a imagem dos potes do kit (sem texto) — reflete o kit selecionado */
   function updateBar(){
     var k=KITS[currentKit]||{},img=doc.getElementById('bar-img');
@@ -1202,8 +1217,7 @@ html.lenis{scroll-behavior:auto!important}
     var stage=doc.getElementById('kit-stage');if(stage){stage.setAttribute('data-kit',kit);stage.classList.remove('pop');void stage.offsetWidth;stage.classList.add('pop');}
     var kb=doc.getElementById('kit-badge');if(kb){var koff={'1':'','2':'−5%','3':'−10%'}[kit]||'';kb.textContent=koff;kb.classList.toggle('show',!!koff);}
     var op=doc.querySelector('.offer-price');if(op){op.classList.remove('pop');void op.offsetWidth;op.classList.add('pop');}
-    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
-    var bm=doc.getElementById('kit-bar-msg');if(bm)bm.innerHTML=k.barmsg||'';
+    updateKitBar();
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     updateBar();setCTA();
     var href=checkout(kit);
@@ -1230,7 +1244,7 @@ html.lenis{scroll-behavior:auto!important}
       var add=doc.getElementById('bt-add');
       if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
       bumpQty=btOn?(parseInt(btSel,10)||0):0;
-      refreshBuy();updateFrete();updateBar();setCTA();
+      refreshBuy();updateFrete();updateKitBar();updateBar();setCTA();
     }
     each(qbtns,function(b){b.addEventListener('click',function(){
       each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
