@@ -188,7 +188,8 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 /* offer kit image */
 /* palco em leque (padrão Tetra Vit): potes fixos que abrem ao trocar o kit */
 .kit-stage{position:relative;height:clamp(160px,22vw,200px);display:grid;place-items:center;margin-bottom:6px;overflow:visible;perspective:900px;transition:transform .42s var(--ease)}
-.kit-stage.pop{transform:scale(1.04)}
+.kit-stage.pop{animation:kitPop .42s var(--ease)}
+@keyframes kitPop{0%{transform:scale(1)}42%{transform:scale(1.04)}100%{transform:scale(1)}}
 .kit-bottle{position:absolute;height:100%;width:auto;object-fit:contain;opacity:0;transform:translateX(0) rotate(0) scale(1);transform-origin:bottom center;
   filter:drop-shadow(0 22px 30px rgba(32,38,107,.55)) drop-shadow(0 0 26px rgba(48,56,144,.22));
   transition:transform .55s var(--ease),opacity .45s var(--ease)}
@@ -369,7 +370,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 @keyframes discglow{0%,100%{box-shadow:0 10px 26px -8px rgba(248,200,64,.8),inset 0 1px 0 rgba(48,56,144,.4)}50%{box-shadow:0 12px 34px -6px rgba(48,56,144,.9),inset 0 1px 0 rgba(48,56,144,.5)}}
 .price-lead{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);margin-bottom:2px}
 .price-now{font-family:var(--head);font-weight:700;font-size:clamp(48px,7.4vw,70px);line-height:.98;margin:2px 0;color:var(--cream);transform-origin:left center;transition:transform .3s var(--ease)}
-.price-now.pop{transform:scale(1.04)}
+.price-now.pop{animation:kitPop .42s var(--ease)}
 .price-now small{font-family:var(--head);font-size:.44em;font-weight:700;margin-right:4px;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .price-now em{display:block;font-family:var(--body);font-style:normal;font-size:.19em;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
@@ -506,6 +507,141 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   .kit-stage[data-kit="3"] .b2{transform:translateX(26%) rotate(8deg) scale(.9)}
 }
 @media(max-width:380px){ .cd{min-width:62px}.countdown{gap:8px} }
+/* ===== Conversão & Ticket ===== */
+/* bolinha de desconto no stage do kit (−5%/−10%) */
+.kit-badge{position:absolute;top:8%;right:20%;z-index:6;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:54px;height:54px;display:grid;place-items:center;box-shadow:0 12px 26px rgba(48,56,144,.42);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.kit-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+/* barra de evolução do kit (regride ao escolher menos) */
+.kit-bar{max-width:420px;margin:16px auto 0}
+.kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(32,38,107,.14)}
+.kit-bar-fill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:100px;background:linear-gradient(90deg,var(--ink),var(--amber));transition:width .5s var(--ease)}
+.kit-bar-msg{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:9px;min-height:2.6em}
+.kb-add{color:var(--ink)}.kb-add b{color:var(--indigo)}
+.kit-bar-msg b{color:var(--indigo);font-weight:700}
+@media(prefers-reduced-motion:reduce){.kit-bar-fill{transition:none}}
+/* cards de benefício (#resultados) */
+.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,18px)}
+.bcard{position:relative;aspect-ratio:4/5;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);background:var(--bg2);box-shadow:0 16px 40px -24px rgba(32,38,107,.42)}
+.bcard img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.bcard:hover img{transform:scale(1.05)}
+.bcard figcaption{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px;background:linear-gradient(180deg,rgba(32,38,107,.06),transparent 32%,transparent 52%,rgba(20,16,34,.74))}
+.bcard-selo{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo);background:var(--lime);padding:5px 11px;border-radius:100px}
+.bcard b{font-family:var(--head);font-weight:600;font-size:clamp(15px,1.5vw,18px);line-height:1.16;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.bcard-ph{width:100%;height:100%;display:grid;place-items:center;background:linear-gradient(160deg,#262c7e,#20266B)}
+@media(max-width:820px){.bcards{grid-template-columns:1fr 1fr}}
+/* order bump + barra de frete grátis */
+.frete{display:grid;gap:7px;margin-bottom:2px}
+#frete-msg{font-size:13px;color:var(--text)}
+#frete-msg b{color:var(--indigo)}
+.frete.done #frete-msg b{color:#2e7d32}
+.frete-track{height:8px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden}
+.frete-fill{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--ink),var(--amber));transition:width .5s var(--ease)}
+.frete.done .frete-fill{background:linear-gradient(90deg,#7cb342,#c0ca33)}
+.bumptri{position:relative;border-radius:20px;padding:14px;background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.5));border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.bumptri[data-on="1"]{border-color:var(--ink);box-shadow:0 0 0 3px rgba(48,56,144,.12),0 18px 40px -26px rgba(20,24,74,.6)}
+.bumptri-head{font-size:12px;color:var(--muted);line-height:1.35;text-align:center;margin-bottom:10px}
+.bumptri-head b{color:var(--text)}
+.bt-qty{position:relative;display:flex;background:rgba(48,56,144,.04);border:1px solid var(--line-2);border-radius:100px;padding:.3rem;gap:.1rem;margin:0 auto 14px;width:fit-content}
+.bt-qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--text);opacity:.6;font-family:var(--body);font-weight:700;font-size:12.5px;padding:.5rem 1.05rem;border-radius:100px;cursor:pointer;transition:color .35s,opacity .3s}
+.bt-qty button:hover{opacity:1}
+.bt-qty button.on{color:#fff;opacity:1}
+.bt-pill{position:absolute;top:.3rem;bottom:.3rem;left:.3rem;width:80px;border-radius:100px;background:var(--grad);box-shadow:0 6px 16px rgba(48,56,144,.4);transition:left .45s var(--ease),width .45s var(--ease);z-index:0}
+.bt-card{display:grid;grid-template-columns:1fr;gap:6px;align-items:center}
+@media(min-width:480px){.bt-card{grid-template-columns:.9fr 1.1fr;gap:10px}}
+.bt-stage{position:relative;display:grid;place-items:center;min-height:150px}
+.bt-shelf{position:absolute;bottom:20px;width:74%;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(48,56,144,.26),transparent 70%);filter:blur(4px);z-index:0}
+.bt-vis{position:relative;z-index:2;width:100%;min-height:132px;transition:transform .4s var(--ease)}
+.bt-vis.pop{animation:btpop .5s var(--ease)}
+@keyframes btpop{0%{transform:scale(.97)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);max-width:none;transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
+.bt-vis .b1{z-index:3}.bt-vis .b2{z-index:2}.bt-vis .b3{z-index:1}
+.bt-vis .b2,.bt-vis .b3{opacity:0}
+.bt-vis[data-n="2"] .b1{transform:translateX(-30%) rotate(4deg)}
+.bt-vis[data-n="2"] .b2{opacity:1;transform:translateX(-70%) rotate(-4deg)}
+.bt-vis[data-n="3"] .b1{transform:translateX(-50%) scale(1.02)}
+.bt-vis[data-n="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-9deg) scale(.9)}
+.bt-vis[data-n="3"] .b3{opacity:1;transform:translateX(-16%) rotate(9deg) scale(.9)}
+.bt-badge{position:absolute;top:12px;right:16%;z-index:5;font-family:var(--head);font-weight:700;font-size:.8rem;color:#fff;background:var(--grad);border-radius:50%;width:46px;height:46px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.bt-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+.bt-info{position:relative;z-index:1;text-align:center}
+@media(min-width:480px){.bt-info{text-align:left}}
+.bt-tag{display:inline-block;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink);border:1px solid var(--line-2);border-radius:100px;padding:.28rem .7rem;margin-bottom:.7rem}
+.bt-price{font-family:var(--head);font-size:clamp(1.5rem,5.4vw,2rem);font-weight:700;line-height:1.05;color:var(--text)}
+.bt-price b{color:var(--amber-lo)}
+.bt-pm{font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--muted)}
+.bt-cash{color:var(--muted);font-size:.74rem;opacity:.75;margin-top:.15rem}
+.bt-save{font-size:.86rem;color:var(--muted);margin-top:.55rem;min-height:1.1em}
+.bt-save s{opacity:.5}
+.bt-save b{color:var(--ink);font-weight:800;background:rgba(48,56,144,.12);padding:.12rem .55rem;border-radius:100px}
+.bt-add{margin-top:.9rem;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--body);font-weight:700;font-size:.9rem;color:#fff;background:var(--grad);border:none;border-radius:100px;padding:.8rem 1rem;cursor:pointer;transition:filter .2s,transform .1s}
+.bt-add:hover{filter:brightness(1.05)}
+.bt-add:active{transform:scale(.99)}
+.bt-add-ic{font-size:1.05rem;line-height:1;font-weight:800}
+.bumptri[data-on="1"] .bt-add{background:rgba(48,56,144,.1);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.bt-qty button .bt-main{display:block;line-height:1.05}
+.bt-qty button .bt-sub{display:block;font-size:8.5px;font-weight:700;letter-spacing:.01em;opacity:.72;margin-top:1px;white-space:nowrap}
+/* tema Tri[Mg] (menta + violeta) + molécula/minerais orbitando o pote */
+.bump-tri{--bo:#1f9e86;--bo-hi:#8f7fe8;--bograd:linear-gradient(135deg,#1f9e86,#7a6be0)}
+.bump-tri[data-on="1"]{border-color:var(--bo);box-shadow:0 0 0 3px rgba(31,158,134,.14),0 18px 40px -26px rgba(20,60,80,.5)}
+.bump-tri .bt-qty{width:100%;background:rgba(31,158,134,.05);border-color:rgba(31,158,134,.28);justify-content:space-between}
+.bump-tri .bt-qty button{flex:1;padding:.42rem .3rem;text-align:center}
+.bump-tri .bt-pill{background:var(--bograd);box-shadow:0 6px 16px rgba(31,158,134,.4)}
+.bump-tri .bt-tag{color:var(--bo);border-color:rgba(31,158,134,.3)}
+.bump-tri .bt-price b{color:var(--bo)}
+.bump-tri .bt-badge{background:var(--bograd);box-shadow:0 10px 22px rgba(122,107,224,.4)}
+.bump-tri .bt-shelf{background:radial-gradient(ellipse,rgba(122,107,224,.2),transparent 70%)}
+.bump-tri .bt-vis img{filter:drop-shadow(0 14px 18px rgba(30,50,90,.26))}
+.bump-tri .bt-save b{color:#1f7a5e;background:rgba(111,224,192,.28)}
+.bump-tri .bt-add{background:var(--bograd)}
+.bump-tri[data-on="1"] .bt-add{background:rgba(31,158,134,.1);color:var(--bo);box-shadow:inset 0 0 0 1.5px var(--bo)}
+.bt-orbit{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden;border-radius:16px}
+.bt-orb{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;will-change:transform;
+  background:radial-gradient(circle at 34% 30%,#e6fff7,#6fe0c0 46%,#2fa88f);
+  box-shadow:inset -3px -4px 7px rgba(18,86,68,.5),inset 3px 3px 6px rgba(230,255,247,.4),0 8px 16px rgba(18,60,54,.3);
+  filter:drop-shadow(0 0 6px rgba(111,224,192,.4))}
+.bt-orb:nth-child(even){background:radial-gradient(circle at 34% 30%,#efeaff,#9b8cf0 46%,#6a5bd6);
+  box-shadow:inset -3px -4px 7px rgba(60,44,140,.5),inset 3px 3px 6px rgba(239,234,255,.4),0 8px 16px rgba(40,30,100,.3);
+  filter:drop-shadow(0 0 6px rgba(155,140,240,.4))}
+.bt-orb::after{content:"";position:absolute;top:14%;left:22%;width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.75),transparent 70%)}
+/* CTA principal em 2 linhas (reage ao bump) */
+#buy{flex-direction:column;gap:2px;white-space:normal;line-height:1.1;text-align:center;padding-top:14px;padding-bottom:14px}
+#buy .buy-main{font-size:15.5px;font-weight:800;letter-spacing:.02em}
+#buy .buy-sub{font-size:11px;font-weight:600;opacity:.92;letter-spacing:.01em}
+/* buybar: só a imagem do pote do kit */
+.buybar .bar-img{height:46px;width:auto;flex:none;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(32,38,107,.28))}
+/* Pop-up de diagnóstico */
+.lpq-ov{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(32,38,107,.30);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lpq-ov.open{display:flex}
+.lpq{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 36px);overflow:hidden auto;-webkit-overflow-scrolling:touch;border-radius:22px;background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 30px 70px -30px rgba(32,38,107,.55);transform:translateY(14px) scale(.98);opacity:0;transition:transform .4s var(--ease),opacity .4s var(--ease)}
+.lpq-ov.open .lpq{transform:none;opacity:1}
+.lpq-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--text);font-size:14px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2}
+.lpq-hd{padding:22px 22px 4px}
+.lpq-eye{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);background:var(--lime);padding:5px 12px;border-radius:100px}
+.lpq h3{font-family:var(--head);font-weight:600;font-size:clamp(20px,5vw,25px);color:var(--text);line-height:1.14;margin:12px 0 0}
+.lpq-bd{padding:6px 22px 22px}
+.lpq-p{font-size:14.5px;color:var(--muted);line-height:1.5;margin:8px 0 0}
+.lpq-p b{color:var(--text);font-weight:600}
+.lpq-opts{display:grid;gap:10px;margin-top:16px}
+.lpq-opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px 16px;border-radius:14px;cursor:pointer;border:1px solid var(--line-2);background:var(--glass);color:var(--text);font-family:var(--body);font-size:15px;font-weight:600;transition:border-color .2s,transform .2s,box-shadow .2s}
+.lpq-opt:hover{border-color:var(--ink);transform:translateY(-1px);box-shadow:0 12px 26px -18px rgba(32,38,107,.6)}
+.lpq-opt .ic{font-size:22px;flex:none}
+.lpq-opt small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-top:2px}
+.lpq-field{margin-top:16px}
+.lpq-field input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line-2);background:#fff;font-family:var(--body);font-size:16px;color:var(--text)}
+.lpq-field input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(48,56,144,.12)}
+.lpq-cta{width:100%;margin-top:12px;padding:14px 18px;border-radius:100px;border:0;cursor:pointer;font-family:var(--body);font-weight:700;font-size:15px;color:#fff;background:var(--grad);box-shadow:0 12px 26px -12px rgba(48,56,144,.7);transition:transform .2s;white-space:normal}
+.lpq-cta:hover{transform:translateY(-1px)}
+.lpq-cta[disabled]{opacity:.6;cursor:default;transform:none}
+.lpq-legal{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+.lpq-back{background:none;border:0;color:var(--ink);font-size:12.5px;cursor:pointer;margin-top:12px;padding:0}
+.lpq-coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;padding:14px 16px;border-radius:14px;border:1px dashed rgba(224,178,58,.6);background:linear-gradient(120deg,rgba(248,200,64,.28),rgba(248,200,64,.12))}
+.lpq-coupon b{font-family:var(--head);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--indigo)}
+.lpq-coupon span{font-size:12px;color:var(--text)}
+.lpq-copy{border:1px solid var(--ink);background:transparent;color:var(--ink);font-weight:700;font-size:12.5px;padding:8px 12px;border-radius:100px;cursor:pointer}
+.lpq-step{display:none}
+.lpq-step.on{display:block}
+@media(max-width:420px){.lpq{max-width:100%}}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;scroll-behavior:auto!important}
   .reveal,[data-stagger]>*,.word i,#hero .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
@@ -749,6 +885,34 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   </div>
 </section>
 
+<!-- 6.5 · RESULTADOS (benefício/objeção) -->
+<section class="sec" id="resultados">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span>No fim do dia</div>
+      <h2 class="serif hsplit" data-split>O que muda quando a noite vira ritual</h2>
+    </div>
+    <div class="bcards reveal" data-stagger>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_135912_dec5a8dc-647a-458c-943b-74915e8310d8.png?v=1788271716" alt="Relaxar a mente à noite" loading="lazy">
+        <figcaption><span class="bcard-selo">Relaxamento</span><b>O corpo relaxa, a mente desacelera.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_135912_8f6fbd5a-256a-43a8-a874-0e1668d4d229.png?v=1788271717" alt="Rotina do sono" loading="lazy">
+        <figcaption><span class="bcard-selo">Rotina do sono</span><b>Uma noite com hora pra desligar.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_135912_94635988-8919-4796-b79e-106af37b4873.png?v=1788271717" alt="Ritual noturno em um copo" loading="lazy">
+        <figcaption><span class="bcard-selo">Ritual</span><b>Um copo, um momento só seu.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_135912_2d3142a1-4471-4678-859a-b6f8c3c57234.png?v=1788271723" alt="Desacelerar o dia" loading="lazy">
+        <figcaption><span class="bcard-selo">Sem drama</span><b>Pronto em segundos, toda noite.</b></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- 7 · RITUAL -->
 <section class="sec" id="ritual">
   <div class="shell">
@@ -840,34 +1004,70 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-stage" id="kit-stage" data-kit="2">
+        <div class="kit-stage" id="kit-stage" data-kit="3">
           <img class="kit-bottle b1" src="sleep-pote.png" alt="Pote do Sleep Inositol Botanika" loading="lazy">
           <img class="kit-bottle b2" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
           <img class="kit-bottle b3" src="sleep-pote.png" alt="" aria-hidden="true" loading="lazy">
+          <div class="kit-badge show" id="kit-badge">−10%</div>
         </div>
         <div class="toggle" id="toggle" role="tablist">
+          <button data-kit="3" class="active" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+          <button data-kit="2" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
-          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
-          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+        <div class="kit-bar" aria-hidden="true">
+          <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
+          <p class="kit-bar-msg" id="kit-bar-msg">—</p>
         </div>
       </div>
       <div class="offer-body">
         <div class="offer-price">
           <div class="price-badges">
-            <span class="disc-badge" id="p-disc">🏷️ −5% automático</span>
-            <span class="save-badge" id="p-save">economize R$ 11,97</span>
+            <span class="disc-badge" id="p-disc">🏷️ −10% automático</span>
+            <span class="save-badge" id="p-save">economize R$ 35,91</span>
           </div>
-          <div class="price-now" id="price-now"><span class="price-lead">Parcele em</span><small>3×</small><span id="p-parc">R$ 75,81</span><em>sem juros no cartão</em></div>
-          <div class="price-full"><span class="price-old" id="p-old">R$ 239,40</span><span id="p-avista">ou R$ 227,43 à vista</span></div>
+          <div class="price-now" id="price-now"><span class="price-lead">Parcele em</span><small>3×</small><span id="p-parc">R$ 107,73</span><em>sem juros no cartão</em></div>
+          <div class="price-full"><span class="price-old" id="p-old">R$ 359,10</span><span id="p-avista">ou R$ 323,19 à vista</span></div>
           <div class="price-meta">
-            <div class="li"><i>◆</i> <span id="p-per">R$ 113,72 por pote</span></div>
-            <div class="li"><i>◆</i> <span id="p-dur">≈ 38 noites de ritual</span></div>
+            <div class="li"><i>◆</i> <span id="p-per">R$ 107,73 por pote</span></div>
+            <div class="li"><i>◆</i> <span id="p-dur">≈ 57 noites · ritual completo</span></div>
             <div class="li"><i>◆</i> <span>desconto por quantidade aplicado automaticamente</span></div>
           </div>
-          <span class="bonus" id="p-bonus">🎁 Bônus: Guia do Ritual do Sono (e-book)</span>
+          <span class="bonus on" id="p-bonus">🎁 Bônus: Guia do Ritual do Sono (e-book)</span>
         </div>
         <div class="offer-cta">
-          <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
+          <div class="frete" id="frete">
+            <div id="frete-msg">Faltam <b>R$ 25,81</b> pra frete grátis</div>
+            <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
+          </div>
+          <div class="bumptri bump-tri" id="bumptri" data-on="0">
+            <div class="bumptri-head">🌙 Leve junto: <b>Tri[Mg] Complex</b> — magnésio 3 em 1 pro seu dia. <b>Tri de dia, Sleep de noite.</b></div>
+            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade do Tri[Mg] Complex">
+              <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
+              <button type="button" data-q="1" role="tab" aria-selected="false"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+              <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
+              <button type="button" data-q="3" class="on" role="tab" aria-selected="true"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
+            </div>
+            <div class="bt-card">
+              <div class="bt-stage">
+                <div class="bt-shelf" aria-hidden="true"></div>
+                <div class="bt-badge show" id="bt-badge" aria-hidden="true">−10%</div>
+                <div class="bt-vis" id="bt-vis" data-n="3">
+                  <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="Tri[Mg] Complex" loading="lazy">
+                </div>
+              </div>
+              <div class="bt-info">
+                <span class="bt-tag" id="bt-tag">Melhor valor · 10% OFF</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 78,75</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 236,25</span> à vista</div>
+                <div class="bt-save" id="bt-save"><s>R$ 262,50</s> · <b>economize R$ 26,25</b></div>
+                <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
+              </div>
+            </div>
+          </div>
+          <a class="btn block" id="buy" data-checkout href="#"><span class="buy-main">COMPRAR AGORA</span></a>
           <div class="coupon" aria-hidden="true">
             <span>🔒 desconto por quantidade <b>automático</b> — sem precisar de cupom</span>
           </div>
@@ -955,8 +1155,41 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">3× R$ 75,81</b><span id="bar-label">2 potes · −5% · R$ 227,43 à vista</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#comprar">Ver oferta</a>
+  <img class="bar-img" id="bar-img" src="sleep-pote.png" alt="Kit Sleep Inositol" aria-hidden="true">
+  <a class="btn" id="bar-buy" data-checkout href="#comprar">Escolher meu kit</a>
+</div>
+
+<!-- Pop-up de diagnóstico + captura de lead (ActiveCampaign) -->
+<div class="lpq-ov" id="lpq" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Diagnóstico Sleep Inositol">
+  <div class="lpq">
+    <button class="lpq-x" id="lpq-x" aria-label="Fechar">✕</button>
+    <div class="lpq-hd"><span class="lpq-eye">◆ Diagnóstico · 10 segundos</span></div>
+    <div class="lpq-bd">
+      <div class="lpq-step on" data-step="1">
+        <h3>O que mais atrapalha a sua noite?</h3>
+        <p class="lpq-p">Escolhe onde aperta — o Sleep foi pensado pra ser o seu <b>ritual de desacelerar</b>.</p>
+        <div class="lpq-opts">
+          <button class="lpq-opt" data-angulo="mente"><span class="ic">🧠</span><span>Mente acelerada<small>deita e o pensamento não para</small></span></button>
+          <button class="lpq-opt" data-angulo="pegar-no-sono"><span class="ic">🌙</span><span>Demora pra pegar no sono<small>rola na cama, olha o relógio</small></span></button>
+          <button class="lpq-opt" data-angulo="ritual"><span class="ic">🍵</span><span>Falta um ritual pra desligar<small>o dia termina no meio da tela</small></span></button>
+        </div>
+      </div>
+      <div class="lpq-step" data-step="2">
+        <h3 id="lpq-title">—</h3>
+        <p class="lpq-p" id="lpq-body">—</p>
+        <div class="lpq-field"><input type="email" id="lpq-email" inputmode="email" autocomplete="email" placeholder="seu melhor e-mail" required></div>
+        <button class="lpq-cta" id="lpq-send">Quero meu desconto</button>
+        <p class="lpq-legal">Você passa a receber conteúdos e novidades da Botanika. Sai quando quiser.</p>
+        <button class="lpq-back" id="lpq-back">← voltar</button>
+      </div>
+      <div class="lpq-step" data-step="3">
+        <h3>Prontinho! Seu cupom de boas-vindas 🌙</h3>
+        <p class="lpq-p">Use no checkout. Nos kits de 2 ou 3 potes, o desconto por quantidade já entra sozinho.</p>
+        <div class="lpq-coupon"><b id="lpq-code">BOTANIKA</b><span>5% OFF</span><button class="lpq-copy" id="lpq-copy">copiar</button></div>
+        <button class="lpq-cta" id="lpq-go" style="margin-top:16px">Ir para a oferta →</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="vendor/gsap.min.js"></script>
@@ -970,50 +1203,152 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
   /* fundo escuro removido — página em creme da marca */
 
   /* ---------- commerce config ---------- */
-  var VARIANT='48115368853736';
-  // Descontos SLEEP5 (−5% a partir de 2 un.) e SLEEP10 (−10% a partir de 3 un.) são
-  // automáticos por quantidade na Shopify — aplicam sozinhos no checkout, sem cupom no link.
+  var VARIANT='48115368853736';            /* Sleep Inositol */
+  /* Descontos SLEEP5/SLEEP10 (−5% em 2un / −10% em 3un) e TRIMG5/TRIMG10 do bump são
+     AUTOMÁTICOS por quantidade e combinam (combinesWith.productDiscounts:true) — aplicam
+     sozinhos no checkout, sem cupom no link. Kit 1 leva ?discount=BOTANIKA (5%). */
+  var BUMPV='48115368558824';              /* Tri[Mg] Complex (order bump) */
+  var BUMPS={
+    '1':{n:1,total:87.50, inst:'R$ 29,17',cash:'R$ 87,50', tag:'Preço cheio · dia a dia', save:'', badge:''},
+    '2':{n:2,total:166.25,inst:'R$ 55,42',cash:'R$ 166,25',tag:'Popular · 5% OFF',       save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',  badge:'−5%'},
+    '3':{n:3,total:236.25,inst:'R$ 78,75',cash:'R$ 236,25',tag:'Melhor valor · 10% OFF',  save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>', badge:'−10%'}
+  };
+  var btSel='3';    /* pote pré-selecionado no card (começa no 3, igual ao kit) */
+  var btOn=false;   /* bump adicionado ao pedido? */
+  var bumpQty=0;    /* 0 = não adicionado; senão = potes de Tri no checkout/frete */
+  var FRETE=349;    /* frete grátis real (delivery profile) */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var e=utmString();if(e)u+='?'+e;return u;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpQty?','+BUMPV+':'+bumpQty:'');var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
+  function money(s){var m=String(s||'').replace(/[^\d,]/g,'').replace(',','.');return parseFloat(m)||0;}
+  function brl(n){return n.toFixed(2).replace('.',',');}
   var KITS={
-    '1':{qty:1,old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',bonus:false,barlabel:'1 pote · à vista R$ 119,70'},
-    '2':{qty:2,old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% automático',save:'economize R$ 11,97',bonus:false,barlabel:'2 potes · −5% · R$ 227,43 à vista'},
-    '3':{qty:3,old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% automático',save:'economize R$ 35,91',bonus:true,barlabel:'3 potes · −10% · R$ 323,19 à vista'}
+    '1':{qty:1,now:'R$ 119,70',old:'',avista:'R$ 119,70 à vista',parc:'R$ 39,90',per:'R$ 119,70 por pote',dur:'≈ 19 noites de ritual',disc:'',save:'',bonus:false,img:'sleep-pote.png',bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e o ritual não trava no meio.'},
+    '2':{qty:2,now:'R$ 227,43',old:'R$ 239,40',avista:'ou R$ 227,43 à vista',parc:'R$ 75,81',per:'R$ 113,72 por pote',dur:'≈ 38 noites de ritual',disc:'🏷️ −5% automático',save:'economize R$ 11,97',bonus:false,img:'sleep-pote.png',bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e o ritual mais longo.'},
+    '3':{qty:3,now:'R$ 323,19',old:'R$ 359,10',avista:'ou R$ 323,19 à vista',parc:'R$ 107,73',per:'R$ 107,73 por pote',dur:'≈ 57 noites · ritual completo',disc:'🏷️ −10% automático',save:'economize R$ 35,91',bonus:true,img:'sleep-pote.png',bar:100,barmsg:'🔥 <b>Melhor valor</b> — −10% no total e <b>ritual completo</b> (≈57 noites). Menor preço por pote.'}
   };
-  var currentKit='2';
+  var currentKit='3';
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
   function toggleEl(id,val,disp){var el=doc.getElementById(id);if(!el)return;if(val){el.style.display=disp;el.textContent=val;}else el.style.display='none';}
+  function potes(n){return n+(n>1?' potes':' pote');}
+  /* barra de frete grátis: soma kit + bump vs R$349 */
+  function updateFrete(){
+    var k=KITS[currentKit]||{},total=money(k.now)+(bumpQty?BUMPS[bumpQty].total:0);
+    var fill=doc.getElementById('frete-fill');if(fill)fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
+    var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
+    var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
+  }
+  /* barra do kit: fill pela escada; mensagem passa a mencionar o frete/bump (mesmo número da barra de frete) */
+  function updateKitBar(){
+    var k=KITS[currentKit]||{};
+    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
+    var bm=doc.getElementById('kit-bar-msg');if(!bm)return;
+    var msg=k.barmsg||'';
+    if(bumpQty){
+      var total=money(k.now)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
+      msg+=(total>=FRETE)
+        ? ' <span class="kb-add">— e com a <b>Tri[Mg]</b> o <b>frete grátis</b> já está garantido 🎉</span>'
+        : ' <span class="kb-add">— a <b>Tri[Mg]</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>';
+    }
+    bm.innerHTML=msg;
+  }
+  /* buybar: só a imagem do pote do kit (sem texto) */
+  function updateBar(){var k=KITS[currentKit]||{},img=doc.getElementById('bar-img');if(img&&k.img)img.setAttribute('src',k.img);}
+  /* CTA principal: mostra kit Sleep + bump (quando adicionado) */
+  function setCTA(){
+    var kn=parseInt(currentKit,10)||1;
+    var sub=bumpQty ? ('Kit Sleep '+potes(kn)+' + Tri[Mg] '+potes(bumpQty)) : '';
+    var html='<span class="buy-main">COMPRAR AGORA</span>'+(sub?'<span class="buy-sub">'+sub+'</span>':'');
+    each(doc.querySelectorAll('#buy'),function(a){a.innerHTML=html;});
+  }
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
     toggleEl('p-old',k.old,'inline');
     toggleEl('p-disc',k.disc,'inline-flex');
     toggleEl('p-save',k.save,'inline-flex');
     set('p-parc',k.parc);set('p-avista',k.avista);set('p-per',k.per);set('p-dur',k.dur);
-    set('bar-price','3× '+k.parc);set('bar-label',k.barlabel);
     var bn=doc.getElementById('p-bonus');if(bn)bn.classList.toggle('on',!!k.bonus);
-    /* palco em leque + "pop" no palco e no preço */
+    /* leque + bolinha de desconto + "pop" no palco e no preço */
     var stg=doc.getElementById('kit-stage'),pn=doc.getElementById('price-now');
-    if(stg){stg.setAttribute('data-kit',kit);stg.classList.add('pop');}
-    if(pn)pn.classList.add('pop');
-    setTimeout(function(){if(stg)stg.classList.remove('pop');if(pn)pn.classList.remove('pop');},420);
+    if(stg){stg.setAttribute('data-kit',kit);stg.classList.remove('pop');void stg.offsetWidth;stg.classList.add('pop');}
+    var kb=doc.getElementById('kit-badge');if(kb){var koff={'1':'','2':'−5%','3':'−10%'}[kit]||'';kb.textContent=koff;kb.classList.toggle('show',!!koff);}
+    if(pn){pn.classList.remove('pop');void pn.offsetWidth;pn.classList.add('pop');}
+    updateKitBar();updateBar();setCTA();
     var buy=doc.getElementById('buy');if(buy)buy.setAttribute('href',checkout(kit));
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+    updateFrete();
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
   function scrollToOffer(){var t=doc.getElementById('comprar');if(t){var top=t.getBoundingClientRect().top+win.pageYOffset-70;win.scrollTo({top:top,behavior:reduce?'auto':'smooth'});}}
   function wireCheckout(){
-    // Único botão de checkout real = "COMPRAR AGORA" da oferta (#buy, aponta p/ /cart/).
-    // Todos os outros botões de compra funcionam como âncora para a seção de oferta.
-    // O rastreamento de AddToCart/InitiateCheckout fica no listener de captura no document.
+    /* Único checkout real = #buy (aponta p/ /cart/ multi-item). Demais botões âncoram na oferta. */
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
-      a.addEventListener('click',function(e){
-        if(id==='buy')return;
-        e.preventDefault();scrollToOffer();
-      });
+      a.addEventListener('click',function(e){ if(id==='buy')return; e.preventDefault();scrollToOffer(); });
     });
   }
+  /* order bump Tri[Mg]: seletor 1/2/3 potes + adicionar ao pedido (réplica premium do card do Tri) */
+  (function(){
+    var wrap=doc.getElementById('bumptri');if(!wrap)return;
+    var qbtns=doc.querySelectorAll('#bt-qty button');
+    function pill(){var b=doc.querySelector('#bt-qty button.on'),p=doc.getElementById('bt-pill');if(b&&p){p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px';}}
+    function refreshBuy(){var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});}
+    function render(){
+      var d=BUMPS[btSel];if(!d)return;
+      set('bt-inst',d.inst);set('bt-cash',d.cash);set('bt-tag',d.tag);
+      var sv=doc.getElementById('bt-save');if(sv)sv.innerHTML=d.save;
+      var bg=doc.getElementById('bt-badge');if(bg){bg.textContent=d.badge;bg.classList.toggle('show',!!d.badge);}
+      var vis=doc.getElementById('bt-vis');if(vis){vis.setAttribute('data-n',d.n);vis.classList.remove('pop');void vis.offsetWidth;vis.classList.add('pop');}
+    }
+    function apply(){
+      wrap.setAttribute('data-on',btOn?'1':'0');
+      var add=doc.getElementById('bt-add');
+      if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
+      bumpQty=btOn?(parseInt(btSel,10)||0):0;
+      refreshBuy();updateFrete();updateKitBar();updateBar();setCTA();
+    }
+    each(qbtns,function(b){b.addEventListener('click',function(){
+      each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
+      b.classList.add('on');b.setAttribute('aria-selected','true');
+      btSel=b.getAttribute('data-q');render();pill();
+      if(btOn)apply();
+    });});
+    var add=doc.getElementById('bt-add');
+    if(add)add.addEventListener('click',function(){btOn=!btOn;apply();});
+    render();pill();
+    if(win.addEventListener){win.addEventListener('resize',pill);win.addEventListener('load',pill);}
+    var qEl=doc.getElementById('bt-qty');
+    if(win.ResizeObserver&&qEl){try{new win.ResizeObserver(function(){pill();}).observe(qEl);}catch(e){}}
+    win.requestAnimationFrame(pill);
+    /* minerais/molécula (menta+violeta) orbitando o pote — assinatura da LP do Tri, contida no card */
+    (function(){
+      var stage=wrap.querySelector('.bt-stage'), bottle=doc.getElementById('bt-vis');
+      if(!stage||!bottle)return;
+      var orbit=doc.createElement('div');orbit.className='bt-orbit';orbit.setAttribute('aria-hidden','true');stage.appendChild(orbit);
+      function rnd(a,b){return a+(b-a)*Math.random();}
+      var N=win.innerWidth<760?3:4, orbs=[];
+      for(var i=0;i<N;i++){var el=doc.createElement('span');el.className='bt-orb';var base=win.innerWidth<760?14:18;var sz=base*(0.8+Math.random()*0.5);el.style.width=sz+'px';el.style.height=sz+'px';orbit.appendChild(el);
+        orbs.push({el:el,ang:(i/N)*6.2832+Math.random(),spd:rnd(.26,.46)*(Math.random()<.5?1:-1),tilt:rnd(.42,.56),ox:0,oy:0});}
+      var mx=-1e4,my=-1e4,last=0;
+      win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+      function frame(now){var dt=(now-last)/1000;if(!(dt>0))dt=.016;if(dt>.05)dt=.05;last=now;
+        var r=stage.getBoundingClientRect(), bt=bottle.getBoundingClientRect();
+        var cx=r.left+r.width/2, cy=r.top+r.height/2;
+        var ox=(bt.left+bt.width/2)-cx, oy=(bt.top+bt.height/2)-cy, R=(bt.width||r.width)*0.34;
+        for(var i=0;i<orbs.length;i++){var o=orbs[i];o.ang+=o.spd*dt;
+          var ppx=ox+Math.cos(o.ang)*R, ppy=oy+Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
+          var sx=cx+ppx, sy=cy+ppy, dx=sx-mx, dy=sy-my, dd=Math.sqrt(dx*dx+dy*dy), RR=110;
+          if(dd<RR){var f=(1-dd/RR);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*34-o.ox)*.2;o.oy+=(Math.sin(a)*f*34-o.oy)*.2;}
+          else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
+          o.el.style.transform='translate(-50%,-50%) translate('+(ppx+o.ox).toFixed(1)+'px,'+(ppy+o.oy).toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+          o.el.style.zIndex=dep>0?6:1;o.el.style.opacity=(.5+.45*((dep+1)/2)).toFixed(2);
+        }
+        win.requestAnimationFrame(frame);
+      }
+      if(reduce){for(var j=0;j<orbs.length;j++){var q=orbs[j];q.el.style.transform='translate(-50%,-50%) translate('+(Math.cos(q.ang)*52).toFixed(0)+'px,'+(Math.sin(q.ang)*24).toFixed(0)+'px)';}}
+      else{last=performance.now();win.requestAnimationFrame(frame);}
+    })();
+  })();
   /* ---------- rastreamento: clique em qualquer link de carrinho (captura no document) ---------- */
   doc.addEventListener('click',function(e){
     var a=e.target&&e.target.closest?e.target.closest('a[href*="/cart/"]'):null;if(!a)return;
@@ -1201,12 +1536,63 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     if(reduce)each(steps,function(s){s.classList.add('active');});
   })();
 
-  applyKit('2');wireCheckout();
+  applyKit('3');wireCheckout();
   if(win.fbq)fbq('track','ViewContent',{content_name:'Sleep Inositol',content_ids:[VARIANT],content_type:'product'});
   if(win.gtag)win.gtag('event','view_item',{items:[{item_id:VARIANT,item_name:'Sleep Inositol'}]});
 
   /* loader removido — dispara a entrada do hero direto */
   if(win.__afterLoader)win.__afterLoader();
+})();
+</script>
+
+<!-- Pop-up de diagnóstico: fluxo + captura AC (/api/lead) -->
+<script>
+(function(){
+  var doc=document, win=window, DONE='lp_popup_done', SEEN='lp_popup_seen', CUPOM='BOTANIKA';
+  var ov=doc.getElementById('lpq'); if(!ov) return;
+  var RES={
+    mente:{t:'Pra mente que não desliga.',b:'O Sleep leva <b>taurato de magnésio, glicina e inositol</b> — que <b>auxiliam no relaxamento</b> muscular e no funcionamento normal do sistema nervoso. No fim do dia: um ritual que ajuda o corpo a reconhecer a hora de desacelerar. 1 dose antes de dormir.'},
+    'pegar-no-sono':{t:'Pra noite que demora a chegar.',b:'<b>Melatonina e triptofano</b> <b>auxiliam na rotina do sono</b> e no ajuste do ciclo circadiano. Em um copo saboroso de camomila, laranja e lavanda — o sinal de que a noite começou. 1 dose, 30 a 60 min antes de dormir.'},
+    ritual:{t:'Pra fechar o dia com calma.',b:'Um copo de <b>camomila e lavanda</b> transforma a suplementação num <b>momento só seu</b> — o último do dia. <b>Inositol e taurina</b> contribuem para a sensação de equilíbrio. Dissolve na água gelada, pronto em segundos.'}
+  };
+  var angulo='';
+  function get(id){return doc.getElementById(id);}
+  function eachEl(sel,fn){var l=ov.querySelectorAll(sel);for(var i=0;i<l.length;i++)fn(l[i]);}
+  function flag(store,key){try{return win[store].getItem(key)==='1';}catch(e){return false;}}
+  function setFlag(store,key){try{win[store].setItem(key,'1');}catch(e){}}
+  function step(n){eachEl('.lpq-step',function(el){el.classList.toggle('on',el.getAttribute('data-step')===String(n));});}
+  function open(){if(flag('localStorage',DONE)||ov.classList.contains('open'))return;ov.classList.add('open');ov.setAttribute('aria-hidden','false');}
+  function close(){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');setFlag('sessionStorage',SEEN);}
+  /* gatilho: 8s OU rolar >35% (o que vier antes), 1x por sessão, nunca se já converteu */
+  if(!flag('localStorage',DONE) && !flag('sessionStorage',SEEN)){
+    var fired=false, fire1=function(){if(!fired){fired=true;open();}};
+    setTimeout(fire1,8000);
+    var onSc=function(){var h=doc.documentElement.scrollHeight-win.innerHeight;if(h>0 && (win.pageYOffset/h)>.35){fire1();win.removeEventListener('scroll',onSc);}};
+    win.addEventListener('scroll',onSc,{passive:true});
+  }
+  eachEl('.lpq-opt',function(b){b.addEventListener('click',function(){
+    angulo=b.getAttribute('data-angulo'); var r=RES[angulo]||RES.mente;
+    get('lpq-title').textContent=r.t; get('lpq-body').innerHTML=r.b; step(2);
+    var em=get('lpq-email'); setTimeout(function(){if(em)em.focus();},80);
+  });});
+  get('lpq-back').addEventListener('click',function(){step(1);});
+  var send=get('lpq-send');
+  send.addEventListener('click',function(){
+    var em=get('lpq-email'), email=(em.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){em.focus();em.style.borderColor='#c0392b';return;}
+    send.setAttribute('disabled','1'); send.textContent='Liberando...';
+    try{fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,produto:'sleep',angulo:angulo})});}catch(e){}
+    try{if(win.fbq)win.fbq('track','Lead',{content_name:'Sleep Inositol'});}catch(e){}
+    try{if(win.gtag)win.gtag('event','generate_lead',{currency:'BRL'});}catch(e){}
+    setFlag('localStorage',DONE);
+    step(3);
+  });
+  get('lpq-copy').addEventListener('click',function(){var c=this;var ok=function(){c.textContent='copiado ✓';};
+    try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(CUPOM).then(ok,ok);else ok();}catch(e){ok();}});
+  get('lpq-go').addEventListener('click',function(){close();var t=doc.getElementById('comprar');if(t)t.scrollIntoView({behavior:'smooth'});});
+  get('lpq-x').addEventListener('click',close);
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  win.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))close();});
 })();
 </script>
 
