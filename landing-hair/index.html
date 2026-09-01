@@ -207,6 +207,13 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .offer-price.pop{animation:kitPop .42s var(--ease)}
 @keyframes kitPop{0%{transform:scale(1)}42%{transform:scale(1.04)}100%{transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.kit-bottle{transition:opacity .2s}.kit-stage.pop,.offer-price.pop{animation:none}}
+/* barra de evolução do kit (regride ao escolher menos) */
+.kit-bar{max-width:420px;margin:16px auto 0}
+.kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(32,38,107,.14)}
+.kit-bar-fill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.kit-bar-msg{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:9px;min-height:2.6em}
+.kit-bar-msg b{color:var(--indigo-deep);font-weight:700}
+@media(prefers-reduced-motion:reduce){.kit-bar-fill{transition:none}}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -818,15 +825,19 @@ html.lenis{scroll-behavior:auto!important}
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-stage" id="kit-stage" data-kit="2" aria-hidden="true">
+        <div class="kit-stage" id="kit-stage" data-kit="3" aria-hidden="true">
           <img class="kit-bottle b1" src="hair-rotulo.png" alt="" loading="lazy">
           <img class="kit-bottle b2" src="hair-rotulo.png" alt="Pote do Hair Botanika" loading="lazy">
           <img class="kit-bottle b3" src="hair-rotulo.png" alt="" loading="lazy">
         </div>
         <div class="toggle" id="toggle" role="tablist">
+          <button data-kit="3" class="active" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+          <button data-kit="2" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
-          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
-          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+        <div class="kit-bar" aria-hidden="true">
+          <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
+          <p class="kit-bar-msg" id="kit-bar-msg">—</p>
         </div>
       </div>
       <div class="offer-body">
@@ -982,11 +993,11 @@ html.lenis{scroll-behavior:auto!important}
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
   function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
   var KITS={
-    '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png'},
-    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png'},
-    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png'}
+    '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png',bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e o ciclo não trava no meio.'},
+    '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png',bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e o ciclo completo.'},
+    '3':{old:'R$ 298,20',now:'R$ 268,38',parc:'3× de R$ 89,46 sem juros',per:'R$ 89,46 por pote',dur:'≈ 6 meses · ciclo completo',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 29,82',label:'3 potes · −10%',img:'bottle-3.png',bar:100,barmsg:'🔥 <b>Melhor valor</b> — −10% no total e <b>ciclo completo</b> (≈6 meses). Menor preço por pote.'}
   };
-  var currentKit='2';
+  var currentKit='3';
 
   /* ---------- funil de eventos: Meta Pixel + Google (uma vez cada) ---------- */
   /* Hierarquia: PageView › ViewContent › AddToWishlist › Lead › AddToCart › InitiateCheckout › AddPaymentInfo › Purchase(Shopify) */
@@ -1009,6 +1020,8 @@ html.lenis{scroll-behavior:auto!important}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
     var stage=doc.getElementById('kit-stage');if(stage){stage.setAttribute('data-kit',kit);stage.classList.remove('pop');void stage.offsetWidth;stage.classList.add('pop');}
     var op=doc.querySelector('.offer-price');if(op){op.classList.remove('pop');void op.offsetWidth;op.classList.add('pop');}
+    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
+    var bm=doc.getElementById('kit-bar-msg');if(bm)bm.innerHTML=k.barmsg||'';
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
     set('bar-price',k.now);set('bar-label',k.label);
     var href=checkout(kit);
@@ -1166,7 +1179,7 @@ html.lenis{scroll-behavior:auto!important}
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='72%';},600);
   set('yr',(new Date()).getFullYear());
 
-  applyKit('2');wireCheckout();
+  applyKit('3');wireCheckout();
   fire('ViewContent');
   /* AddToWishlist = rolou até a oferta */
   (function(){var t=doc.getElementById('oferta');if(!t)return;if(!win.IntersectionObserver){fire('AddToWishlist');return;}
