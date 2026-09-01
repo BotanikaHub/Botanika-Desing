@@ -645,6 +645,132 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 @media(prefers-reduced-motion:reduce){
   .stage-ring,.marquee .track,.hero-copy h1 .grad-text i{animation:none!important}
 }
+/* ============ CONVERSÃO & TICKET — pacote (bolinha, barra kit, resultados, frete, order bump Hair, popup) ============ */
+/* bolinha de desconto no stage do kit (−5%/−10%) — tema Vit C (laranja) */
+.kit-badge{position:absolute;top:6%;right:16%;z-index:6;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:54px;height:54px;display:grid;place-items:center;box-shadow:0 12px 26px rgba(210,86,20,.42);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.kit-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+/* barra de evolução do kit (regride ao escolher menos) */
+.kit-bar{max-width:420px;margin:14px auto 0}
+.kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(210,86,20,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(78,42,16,.14)}
+.kit-bar-fill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.kit-bar-msg{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:9px;min-height:2.6em;text-align:center}
+.kit-bar-msg b{color:var(--indigo-deep);font-weight:700}
+.kb-add b{color:var(--indigo-deep)}
+@media(prefers-reduced-motion:reduce){.kit-bar-fill{transition:none}}
+/* cards de benefício/objeção (#resultados) */
+.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,18px)}
+.bcard{position:relative;aspect-ratio:4/5;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);background:var(--panel-2);box-shadow:0 16px 40px -24px rgba(78,42,16,.42)}
+.bcard img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.bcard:hover img{transform:scale(1.05)}
+.bcard figcaption{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px;background:linear-gradient(180deg,rgba(210,86,20,.05),transparent 32%,transparent 52%,rgba(26,22,38,.74))}
+.bcard-selo{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--indigo-deep);background:var(--lime);padding:5px 11px;border-radius:100px}
+.bcard b{font-family:var(--head);font-weight:600;font-size:clamp(15px,1.5vw,18px);line-height:1.16;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+@media(max-width:820px){.bcards{grid-template-columns:1fr 1fr}}
+/* barra de frete grátis */
+.frete{display:grid;gap:7px;margin-bottom:12px}
+#frete-msg{font-size:13px;color:var(--ink)}
+#frete-msg b{color:var(--indigo-deep)}
+.frete.done #frete-msg b{color:#2e7d32}
+.frete-track{height:8px;border-radius:100px;background:rgba(210,86,20,.12);overflow:hidden}
+.frete-fill{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.frete.done .frete-fill{background:linear-gradient(90deg,#7cb342,#c0ca33)}
+/* order bump — card premium (base bt-*, do card de oferta do Tri/Hair) */
+.bumptri{position:relative;border-radius:20px;padding:14px;background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.5));border:1px solid var(--line);transition:border-color .3s,box-shadow .3s;margin-bottom:12px}
+.bumptri-head{font-size:12px;color:var(--muted);line-height:1.35;text-align:center;margin-bottom:10px}
+.bumptri-head b{color:var(--ink)}
+.bt-qty{position:relative;display:flex;background:rgba(48,56,144,.04);border:1px solid var(--line-2);border-radius:100px;padding:.3rem;gap:.1rem;margin:0 auto 14px;width:fit-content}
+.bt-qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--text);opacity:.6;font-family:var(--body);font-weight:700;font-size:12.5px;padding:.5rem 1.05rem;border-radius:100px;cursor:pointer;transition:color .35s,opacity .3s}
+.bt-qty button:hover{opacity:1}
+.bt-qty button.on{color:#fff;opacity:1}
+.bt-pill{position:absolute;top:.3rem;bottom:.3rem;left:.3rem;width:80px;border-radius:100px;background:var(--grad);box-shadow:0 6px 16px rgba(48,56,144,.4);transition:left .45s var(--ease),width .45s var(--ease);z-index:0}
+.bt-card{display:grid;grid-template-columns:1fr;gap:6px;align-items:center}
+@media(min-width:480px){.bt-card{grid-template-columns:.9fr 1.1fr;gap:10px}}
+.bt-stage{position:relative;display:grid;place-items:center;min-height:150px}
+.bt-shelf{position:absolute;bottom:20px;width:74%;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(48,56,144,.26),transparent 70%);filter:blur(4px);z-index:0}
+.bt-vis{position:relative;z-index:2;width:100%;min-height:132px;transition:transform .4s var(--ease)}
+.bt-vis.pop{animation:btpop .5s var(--ease)}
+@keyframes btpop{0%{transform:scale(.97)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);max-width:none;transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
+.bt-vis .b1{z-index:3}.bt-vis .b2{z-index:2}.bt-vis .b3{z-index:1}
+.bt-vis .b2,.bt-vis .b3{opacity:0}
+.bt-vis[data-n="2"] .b1{transform:translateX(-30%) rotate(4deg)}
+.bt-vis[data-n="2"] .b2{opacity:1;transform:translateX(-70%) rotate(-4deg)}
+.bt-vis[data-n="3"] .b1{transform:translateX(-50%) scale(1.02)}
+.bt-vis[data-n="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-9deg) scale(.9)}
+.bt-vis[data-n="3"] .b3{opacity:1;transform:translateX(-16%) rotate(9deg) scale(.9)}
+.bt-badge{position:absolute;top:12px;right:16%;z-index:5;font-family:var(--head);font-weight:700;font-size:.8rem;color:#fff;background:var(--grad);border-radius:50%;width:46px;height:46px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.bt-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+.bt-info{position:relative;z-index:1;text-align:center}
+@media(min-width:480px){.bt-info{text-align:left}}
+.bt-tag{display:inline-block;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--indigo);border:1px solid var(--line-2);border-radius:100px;padding:.28rem .7rem;margin-bottom:.7rem}
+.bt-price{font-family:var(--head);font-size:clamp(1.5rem,5.4vw,2rem);font-weight:700;line-height:1.05;color:var(--ink)}
+.bt-price b{color:var(--gold)}
+.bt-pm{font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--muted)}
+.bt-cash{color:var(--muted);font-size:.74rem;opacity:.8;margin-top:.15rem}
+.bt-save{font-size:.86rem;color:var(--muted);margin-top:.55rem;min-height:1.1em}
+.bt-save s{opacity:.5}
+.bt-save b{color:var(--indigo);font-weight:800;background:rgba(48,56,144,.12);padding:.12rem .55rem;border-radius:100px}
+.bt-add{margin-top:.9rem;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--body);font-weight:700;font-size:.9rem;color:#fff;background:var(--grad);border:none;border-radius:100px;padding:.8rem 1rem;cursor:pointer;transition:filter .2s,transform .1s}
+.bt-add:hover{filter:brightness(1.05)}
+.bt-add:active{transform:scale(.99)}
+.bt-add-ic{font-size:1.05rem;line-height:1;font-weight:800}
+.bt-qty button .bt-main{display:block;line-height:1.05}
+.bt-qty button .bt-sub{display:block;font-size:8.5px;font-weight:700;letter-spacing:.01em;opacity:.72;margin-top:1px;white-space:nowrap}
+/* ===== tema Hair Botanika (índigo) — card do bump veste a identidade da LP da Hair ===== */
+.bump-hair{--bo:#303890;--bo-hi:#4a52b8;--bograd:linear-gradient(135deg,#303890,#4a52b8)}
+.bump-hair[data-on="1"]{border-color:var(--bo);box-shadow:0 0 0 3px rgba(48,56,144,.14),0 18px 40px -26px rgba(20,24,74,.55)}
+.bump-hair .bt-qty{width:100%;background:rgba(48,56,144,.05);border-color:rgba(48,56,144,.28);justify-content:space-between}
+.bump-hair .bt-qty button{flex:1;padding:.42rem .3rem;text-align:center}
+.bump-hair .bt-pill{background:var(--bograd);box-shadow:0 6px 16px rgba(48,56,144,.4)}
+.bump-hair .bt-tag{color:var(--bo);border-color:rgba(48,56,144,.3)}
+.bump-hair .bt-price b{color:var(--bo)}
+.bump-hair .bt-badge{background:var(--bograd);box-shadow:0 10px 22px rgba(48,56,144,.4)}
+.bump-hair .bt-shelf{background:radial-gradient(ellipse,rgba(48,56,144,.22),transparent 70%)}
+.bump-hair .bt-vis img{filter:drop-shadow(0 14px 18px rgba(30,34,90,.28))}
+.bump-hair .bt-save b{color:#7a5a12;background:rgba(248,200,64,.34)}
+.bump-hair .bt-add{background:var(--bograd)}
+.bump-hair[data-on="1"] .bt-add{background:rgba(48,56,144,.1);color:var(--bo);box-shadow:inset 0 0 0 1.5px var(--bo)}
+/* animação-assinatura da Hair: cascata de fios luminosos (contida no palco) */
+.bt-orbit{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:16px}
+.bt-fios{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
+/* CTA principal em 2 linhas quando há bump (libera quebra só no #buy) */
+#buy{white-space:normal;line-height:1.16;text-align:center;flex-direction:column;gap:2px}
+#buy .buy-main{display:block;font-size:15px;font-weight:800;letter-spacing:.02em}
+#buy .buy-sub{display:block;font-size:11px;font-weight:600;opacity:.92;letter-spacing:.01em}
+/* buybar: imagem dos potes do kit (sem texto de preço) */
+.buybar .bar-img{height:46px;width:auto;flex:none;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(78,42,16,.28))}
+/* ===== Pop-up de diagnóstico + captura (ActiveCampaign) ===== */
+.lpq-ov{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(78,42,16,.34);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lpq-ov.open{display:flex}
+.lpq{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 36px);overflow:hidden auto;-webkit-overflow-scrolling:touch;border-radius:22px;background:linear-gradient(180deg,#FCF7EE,#F8F0E8);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 30px 70px -30px rgba(78,42,16,.5);transform:translateY(14px) scale(.98);opacity:0;transition:transform .4s var(--ease),opacity .4s var(--ease)}
+.lpq-ov.open .lpq{transform:none;opacity:1}
+.lpq-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--ink);font-size:14px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2}
+.lpq-hd{padding:22px 22px 4px}
+.lpq-eye{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo-deep);background:var(--lime);padding:5px 12px;border-radius:100px}
+.lpq h3{font-family:var(--head);font-weight:600;font-size:clamp(20px,5vw,25px);color:var(--ink);line-height:1.14;margin:12px 0 0}
+.lpq-bd{padding:6px 22px 22px}
+.lpq-p{font-size:14.5px;color:var(--muted);line-height:1.5;margin:8px 0 0}
+.lpq-p b{color:var(--ink);font-weight:600}
+.lpq-opts{display:grid;gap:10px;margin-top:16px}
+.lpq-opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px 16px;border-radius:14px;cursor:pointer;border:1px solid var(--line-2);background:var(--glass);color:var(--ink);font-family:var(--body);font-size:15px;font-weight:600;transition:border-color .2s,transform .2s,box-shadow .2s}
+.lpq-opt:hover{border-color:var(--indigo);transform:translateY(-1px);box-shadow:0 12px 26px -18px rgba(78,42,16,.6)}
+.lpq-opt .ic{font-size:22px;flex:none}
+.lpq-opt small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-top:2px}
+.lpq-field{margin-top:16px}
+.lpq-field input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line-2);background:#fff;font-family:var(--body);font-size:16px;color:var(--ink)}
+.lpq-field input:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(210,86,20,.14)}
+.lpq-cta{width:100%;margin-top:12px;padding:14px 18px;border-radius:100px;border:0;cursor:pointer;font-family:var(--body);font-weight:700;font-size:15px;color:var(--cream);background:var(--grad);box-shadow:0 12px 26px -12px rgba(210,86,20,.6);transition:transform .2s;white-space:normal}
+.lpq-cta:hover{transform:translateY(-1px)}
+.lpq-cta[disabled]{opacity:.6;cursor:default;transform:none}
+.lpq-legal{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+.lpq-back{background:none;border:0;color:var(--indigo);font-size:12.5px;cursor:pointer;margin-top:12px;padding:0}
+.lpq-coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;padding:14px 16px;border-radius:14px;border:1px dashed rgba(224,178,58,.6);background:linear-gradient(120deg,rgba(248,200,64,.28),rgba(248,200,64,.12))}
+.lpq-coupon b{font-family:var(--head);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--indigo-deep)}
+.lpq-coupon span{font-size:12px;color:var(--ink)}
+.lpq-copy{border:1px solid var(--indigo);background:transparent;color:var(--indigo);font-weight:700;font-size:12.5px;padding:8px 12px;border-radius:100px;cursor:pointer}
+.lpq-step{display:none}
+.lpq-step.on{display:block}
+@media(max-width:420px){.lpq{max-width:100%}}
 </style>
 </head>
 <body>
@@ -941,6 +1067,34 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   </div>
 </section>
 
+<!-- 10b · RESULTADOS (cards de benefício · imagens) -->
+<section class="sec" id="resultados">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="kicker center"><span></span>No dia a dia</div>
+      <h2 class="serif hsplit" data-split>O que muda quando a vitamina C entra na rotina</h2>
+    </div>
+    <div class="bcards reveal" data-stagger>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_140432_3096f44b-2b99-4feb-b543-7f72ad7a0f07.png?v=1788271536" alt="Imunidade em dia o ano todo" loading="lazy">
+        <figcaption><span class="bcard-selo">Imunidade</span><b>Defesas em dia — o ano todo.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_140432_23f8a30e-b068-45aa-9923-a8aa5f13820a.png?v=1788271536" alt="Viço e proteção antioxidante" loading="lazy">
+        <figcaption><span class="bcard-selo">Antioxidante</span><b>Menos desgaste, mais viço.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_140432_82807925-aa5d-41f6-8e12-71be8dcff26c.png?v=1788271535" alt="Disposição para o dia" loading="lazy">
+        <figcaption><span class="bcard-selo">Disposição</span><b>A energia que acompanha o dia.</b></figcaption>
+      </figure>
+      <figure class="bcard">
+        <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260901_140432_281e164a-2ac0-45dc-8087-b654f2ea0978.png?v=1788271535" alt="Duas cápsulas por dia, prático" loading="lazy">
+        <figcaption><span class="bcard-selo">2 por dia</span><b>Duas cápsulas. Sem complicação.</b></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- 11 · OFERTA -->
 <section class="sec" id="oferta">
   <div class="shell">
@@ -951,15 +1105,20 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-stage" id="kitStage" data-n="2">
+        <div class="kit-stage" id="kitStage" data-n="3">
           <img class="kit-bottle b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
           <img class="kit-bottle b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
           <img class="kit-bottle b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Pote da Super Vitamina C" loading="lazy">
+          <div class="kit-badge show" id="kit-badge">−10%</div>
         </div>
         <div class="toggle" id="toggle" role="tablist">
+          <button data-kit="3" class="active" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+          <button data-kit="2" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
-          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
-          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+        <div class="kit-bar" aria-hidden="true">
+          <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
+          <p class="kit-bar-msg" id="kit-bar-msg">—</p>
         </div>
       </div>
       <div class="offer-body">
@@ -982,7 +1141,39 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
           <div class="save-badge" id="p-save">Você economiza R$ 8,95</div>
         </div>
         <div class="offer-cta">
-          <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
+          <div class="frete" id="frete">
+            <div id="frete-msg">Faltam <b>R$ 107,30</b> pra frete grátis</div>
+            <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
+          </div>
+          <div class="bumptri bump-hair" id="bumptri" data-on="0">
+            <div class="bumptri-head">💧 Leve junto: <b>Hair Botanika</b> — biotina, zinco, cisteína e silício <span style="opacity:.8">(cabelos, unhas e pele)</span></div>
+            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade do Hair Botanika">
+              <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
+              <button type="button" data-q="1" role="tab" aria-selected="false"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+              <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
+              <button type="button" data-q="3" class="on" role="tab" aria-selected="true"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
+            </div>
+            <div class="bt-card">
+              <div class="bt-stage">
+                <div class="bt-shelf" aria-hidden="true"></div>
+                <canvas class="bt-fios" aria-hidden="true"></canvas>
+                <div class="bt-badge show" id="bt-badge" aria-hidden="true">−10%</div>
+                <div class="bt-vis" id="bt-vis" data-n="3">
+                  <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hair-botanika-transparente.png?v=1788271461" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hair-botanika-transparente.png?v=1788271461" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hair-botanika-transparente.png?v=1788271461" alt="Hair Botanika" loading="lazy">
+                </div>
+              </div>
+              <div class="bt-info">
+                <span class="bt-tag" id="bt-tag">Melhor valor · 10% OFF</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 89,46</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 268,38</span> à vista</div>
+                <div class="bt-save" id="bt-save"><s>R$ 298,20</s> · <b>economize R$ 29,82</b></div>
+                <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
+              </div>
+            </div>
+          </div>
+          <a class="btn block" id="buy" data-checkout href="#"><span class="buy-main">COMPRAR AGORA</span></a>
           <div class="coupon" id="coupon">
             <span>🔒 <b>BOTANIKA</b> · 5% OFF no pote avulso</span>
             <span id="coupon-hint">toque pra copiar</span>
@@ -1069,8 +1260,41 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">3× R$ 56,70</b><span id="bar-label">−5% · 2 potes · R$ 170,09 à vista</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#oferta">COMPRAR AGORA</a>
+  <img class="bar-img" id="bar-img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Kit Super Vitamina C" aria-hidden="true">
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">Escolher meu kit</a>
+</div>
+
+<!-- Pop-up de diagnóstico + captura de lead (ActiveCampaign) -->
+<div class="lpq-ov" id="lpq" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Diagnóstico Super Vitamina C">
+  <div class="lpq">
+    <button class="lpq-x" id="lpq-x" aria-label="Fechar">✕</button>
+    <div class="lpq-hd"><span class="lpq-eye">◆ Diagnóstico · 10 segundos</span></div>
+    <div class="lpq-bd">
+      <div class="lpq-step on" data-step="1">
+        <h3>O que você mais quer cuidar agora?</h3>
+        <p class="lpq-p">Escolhe seu foco — a <b>vitamina C</b> entra de um jeito diferente em cada um.</p>
+        <div class="lpq-opts">
+          <button class="lpq-opt" data-angulo="imunidade"><span class="ic">🛡️</span><span>Imunidade<small>cair doente a cada virada de tempo</small></span></button>
+          <button class="lpq-opt" data-angulo="energia"><span class="ic">⚡</span><span>Disposição<small>cansaço e falta de energia no dia</small></span></button>
+          <button class="lpq-opt" data-angulo="antioxidante"><span class="ic">✨</span><span>Viço &amp; antioxidante<small>sinais de desgaste, pele sem viço</small></span></button>
+        </div>
+      </div>
+      <div class="lpq-step" data-step="2">
+        <h3 id="lpq-title">—</h3>
+        <p class="lpq-p" id="lpq-body">—</p>
+        <div class="lpq-field"><input type="email" id="lpq-email" inputmode="email" autocomplete="email" placeholder="seu melhor e-mail" required></div>
+        <button class="lpq-cta" id="lpq-send">Quero meu desconto</button>
+        <p class="lpq-legal">Você passa a receber conteúdos e novidades da Botanika. Sai quando quiser.</p>
+        <button class="lpq-back" id="lpq-back">← voltar</button>
+      </div>
+      <div class="lpq-step" data-step="3">
+        <h3>Prontinho! Seu cupom de boas-vindas 🍊</h3>
+        <p class="lpq-p">Use no checkout. Nos kits de 2 ou 3 potes, o desconto por quantidade já entra sozinho.</p>
+        <div class="lpq-coupon"><b id="lpq-code">BOTANIKA</b><span>5% OFF</span><button class="lpq-copy" id="lpq-copy">copiar</button></div>
+        <button class="lpq-cta" id="lpq-go" style="margin-top:16px">Ir para a oferta →</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -1129,8 +1353,18 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   var COUPON='BOTANIKA';
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmParts(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out;}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty;var parts=utmParts();
-    /* pote avulso ganha o cupom BOTANIKA (5%); kits 2/3 deixam o desconto automático (SUPER5/SUPER10) aplicar sozinho */
+  /* order bump: Hair Botanika (variante 48650670670056, R$99,40/pote real). Escada REAL e ATIVA da Hair: 2un −5%=R$188,86 · 3un −10%=R$268,38 (combinam com a escada da Vit C — PDP=checkout). Card veste a identidade da LP da Hair (índigo + fios luminosos). Seletor 1/2/3 potes + adicionar (opcional). */
+  var BUMPV='48650670670056';
+  var BUMPS={
+    '1':{n:1,total:99.40, inst:'R$ 33,13',cash:'R$ 99,40', tag:'Preço cheio · 60 cápsulas', save:'',                                            badge:''},
+    '2':{n:2,total:188.86,inst:'R$ 62,95',cash:'R$ 188,86',tag:'Popular · 5% OFF',          save:'<s>R$ 198,80</s> · <b>economize R$ 9,94</b>',  badge:'−5%'},
+    '3':{n:3,total:268.38,inst:'R$ 89,46',cash:'R$ 268,38',tag:'Melhor valor · 10% OFF',     save:'<s>R$ 298,20</s> · <b>economize R$ 29,82</b>', badge:'−10%'}
+  };
+  var btSel='3', btOn=false, bumpQty=0, FRETE=349;
+  function money(s){var m=String(s||'').replace(/[^\d,]/g,'').replace(',','.');return parseFloat(m)||0;}
+  function brl(n){return n.toFixed(2).replace('.',',');}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpQty?','+BUMPV+':'+bumpQty:'');var parts=utmParts();
+    /* pote avulso ganha o cupom BOTANIKA (5%); kits 2/3 deixam o desconto automático aplicar sozinho. Bump Hair = escada automática, combina. */
     if(qty==='1'||qty===1)parts.unshift('discount='+COUPON);
     if(parts.length)u+='?'+parts.join('&');return u;}
   var TIER_IMG={
@@ -1139,14 +1373,45 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     '3':'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888'
   };
   var KITS={
-    '1':{old:'',now:'R$ 89,52',parcx:'3×',parcv:'R$ 29,84',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',off:'',disc:'🏷️ Cupom BOTANIKA já aplicado · 5% OFF no avulso',save:'',label:'1 pote',img:TIER_IMG['1']},
-    '2':{old:'R$ 179,04',now:'R$ 170,09',parcx:'3×',parcv:'R$ 56,70',per:'R$ 85,04 por pote',dur:'≈ 2 meses de rotina',off:'−5%',disc:'🍊 Desconto de 5% por quantidade · aplicado no checkout',save:'Você economiza R$ 8,95',label:'2 potes · −5%',img:TIER_IMG['2']},
-    '3':{old:'R$ 268,56',now:'R$ 241,70',parcx:'3×',parcv:'R$ 80,57',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',off:'−10%',disc:'🍊 Desconto de 10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3']}
+    '1':{old:'',now:'R$ 89,52',parcx:'3×',parcv:'R$ 29,84',per:'R$ 89,52 · 30 doses',dur:'≈ 1 mês de rotina',off:'',disc:'🏷️ Cupom BOTANIKA já aplicado · 5% OFF no avulso',save:'',label:'1 pote',img:TIER_IMG['1'],bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e não fica sem no meio do mês.'},
+    '2':{old:'R$ 179,04',now:'R$ 170,09',parcx:'3×',parcv:'R$ 56,70',per:'R$ 85,04 por pote',dur:'≈ 2 meses de rotina',off:'−5%',disc:'🍊 Desconto de 5% por quantidade · aplicado no checkout',save:'Você economiza R$ 8,95',label:'2 potes · −5%',img:TIER_IMG['2'],bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e a rotina inteira coberta.'},
+    '3':{old:'R$ 268,56',now:'R$ 241,70',parcx:'3×',parcv:'R$ 80,57',per:'R$ 80,57 por pote',dur:'≈ 3 meses · melhor valor',off:'−10%',disc:'🍊 Desconto de 10% por quantidade · aplicado no checkout',save:'Você economiza R$ 26,86',label:'3 potes · −10%',img:TIER_IMG['3'],bar:100,barmsg:'🔥 <b>Melhor valor</b> — −10% no total e o menor preço por pote. Vitamina C é de uso diário e contínuo.'}
   };
-  var currentKit='2';
+  var currentKit='3';
   var setOfferOrangeCount=function(){}; /* preenchido pela camada de laranjas da oferta */
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
+  function potes(n){return n+(n>1?' potes':' pote');}
+  /* barra de frete grátis: soma kit + bump e compara com R$349 */
+  function updateFrete(){
+    var k=KITS[currentKit]||{},total=money(k.now)+(bumpQty?BUMPS[bumpQty].total:0);
+    var fill=doc.getElementById('frete-fill');if(fill)fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
+    var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
+    var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
+  }
+  /* barra de evolução do kit: fill pela escada; mensagem passa a mencionar o frete/bump quando o bump entra (sincroniza com a barra de frete) */
+  function updateKitBar(){
+    var k=KITS[currentKit]||{};
+    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
+    var bm=doc.getElementById('kit-bar-msg');if(!bm)return;
+    var msg=k.barmsg||'';
+    if(bumpQty){
+      var total=money(k.now)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
+      msg+=(total>=FRETE)
+        ? ' <span class="kb-add">— e com o <b>Hair Botanika</b> o <b>frete grátis</b> já está garantido 🎉</span>'
+        : ' <span class="kb-add">— o <b>Hair Botanika</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>';
+    }
+    bm.innerHTML=msg;
+  }
+  /* buybar: só a imagem dos potes do kit (sem texto de preço) */
+  function updateBar(){var k=KITS[currentKit]||{},img=doc.getElementById('bar-img');if(img&&k.img)img.setAttribute('src',k.img);}
+  /* CTA principal: 2 linhas — kit Vit C + bump Hair (quando adicionado) */
+  function setCTA(){
+    var kn=parseInt(currentKit,10)||1;
+    var sub=bumpQty?('Kit Vit C '+potes(kn)+' + Hair '+potes(bumpQty)):'';
+    var html='<span class="buy-main">COMPRAR AGORA</span>'+(sub?'<span class="buy-sub">'+sub+'</span>':'');
+    each(doc.querySelectorAll('#buy'),function(a){a.innerHTML=html;});
+  }
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];if(!k)return;
     setOfferOrangeCount(kit);
@@ -1157,14 +1422,71 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
     var pb=doc.getElementById('p-bonus');if(pb)pb.style.display=(kit==='3'?'inline-flex':'none');
     var pv=doc.getElementById('p-parc-v');if(pv&&!reduce){pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop');setTimeout(function(){pv.classList.remove('pop');},420);}
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
-    set('bar-price',k.parcx+' '+k.parcv);set('bar-label',(k.off?k.off+' · ':'')+k.label+' · '+k.now+' à vista');
+    var kb=doc.getElementById('kit-badge');if(kb){var koff={'1':'','2':'−5%','3':'−10%'}[kit]||'';kb.textContent=koff;kb.classList.toggle('show',!!koff);}
+    updateKitBar();updateBar();setCTA();
     var href=checkout(kit);
     var buyEl=doc.getElementById('buy');if(buyEl)buyEl.setAttribute('href',href); /* só o COMPRAR AGORA da oferta vai pro checkout */
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+    updateFrete();
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
   var coupon=doc.getElementById('coupon');
   if(coupon)coupon.addEventListener('click',function(){var done=function(){var h=doc.getElementById('coupon-hint');if(h){h.textContent='copiado ✓';setTimeout(function(){h.textContent='toque pra copiar';},1800);}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(COUPON).then(done,done);else done();});
+  /* ---------- order bump Hair: card premium — seletor 1/2/3 potes + adicionar ao pedido ---------- */
+  (function(){
+    var wrap=doc.getElementById('bumptri');if(!wrap)return;
+    var qbtns=doc.querySelectorAll('#bt-qty button');
+    function pill(){var b=doc.querySelector('#bt-qty button.on'),p=doc.getElementById('bt-pill');if(b&&p){p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px';}}
+    function refreshBuy(){var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});}
+    function render(){
+      var d=BUMPS[btSel];if(!d)return;
+      set('bt-inst',d.inst);set('bt-cash',d.cash);set('bt-tag',d.tag);
+      var sv=doc.getElementById('bt-save');if(sv)sv.innerHTML=d.save;
+      var bg=doc.getElementById('bt-badge');if(bg){bg.textContent=d.badge;bg.classList.toggle('show',!!d.badge);}
+      var vis=doc.getElementById('bt-vis');if(vis){vis.setAttribute('data-n',d.n);vis.classList.remove('pop');void vis.offsetWidth;vis.classList.add('pop');}
+    }
+    function apply(){
+      wrap.setAttribute('data-on',btOn?'1':'0');
+      var add=doc.getElementById('bt-add');
+      if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
+      bumpQty=btOn?(parseInt(btSel,10)||0):0;
+      refreshBuy();updateFrete();updateKitBar();updateBar();setCTA();
+    }
+    each(qbtns,function(b){b.addEventListener('click',function(){
+      each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
+      b.classList.add('on');b.setAttribute('aria-selected','true');
+      btSel=b.getAttribute('data-q');render();pill();
+      if(btOn){apply();}
+    });});
+    var add=doc.getElementById('bt-add');
+    if(add)add.addEventListener('click',function(){btOn=!btOn;apply();});
+    render();pill();
+    if(win.addEventListener){win.addEventListener('resize',pill);win.addEventListener('load',pill);}
+    var qEl=doc.getElementById('bt-qty');
+    if(win.ResizeObserver&&qEl){try{new win.ResizeObserver(function(){pill();}).observe(qEl);}catch(e){}}
+    win.requestAnimationFrame(pill);
+    /* animação-assinatura da Hair: cascata de fios luminosos (localizada no palco, índigo→dourado) */
+    (function(){
+      var cv=wrap.querySelector('.bt-fios'); if(!cv)return; var ctx=cv.getContext('2d'); if(!ctx)return;
+      var stage=wrap.querySelector('.bt-stage'); var W=0,H=0,DPR=1,fios=[],t=0,run=false,mx=.5;
+      function rnd(a,b){return a+(b-a)*Math.random();}
+      function size(){var r=stage.getBoundingClientRect();DPR=Math.min(win.devicePixelRatio||1,2);W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);}
+      function build(){fios=[];var N=win.innerWidth<760?7:10;for(var i=0;i<N;i++){fios.push({x:(i+.5)/N,amp:rnd(.03,.09),k:rnd(1.0,2.2),ph:rnd(0,6.28),sp:rnd(.25,.6),w:rnd(1.0,2.4),a:rnd(.10,.22)});}}
+      function draw(){
+        ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';var influ=(mx-.5);
+        for(var i=0;i<fios.length;i++){var f=fios[i];ctx.beginPath();
+          for(var yp=0;yp<=H;yp+=Math.max(6,H/40)){var yn=yp/H;var xx=f.x*W+f.amp*W*Math.sin(f.k*yn*6.2832+f.ph+t*f.sp)+influ*f.amp*W*.6;if(yp===0)ctx.moveTo(xx,yp);else ctx.lineTo(xx,yp);}
+          var lg=ctx.createLinearGradient(0,0,0,H);lg.addColorStop(0,'rgba(48,56,144,0)');lg.addColorStop(.4,'rgba(74,82,184,'+f.a+')');lg.addColorStop(.75,'rgba(248,200,64,'+(f.a*.9)+')');lg.addColorStop(1,'rgba(248,200,64,0)');
+          ctx.strokeStyle=lg;ctx.lineWidth=f.w;ctx.stroke();}
+        ctx.globalCompositeOperation='source-over';
+      }
+      function loop(){if(!run)return;t+=.01;draw();win.requestAnimationFrame(loop);}
+      stage.addEventListener('mousemove',function(e){var r=stage.getBoundingClientRect();mx=(e.clientX-r.left)/Math.max(1,r.width);},{passive:true});
+      win.addEventListener('resize',function(){size();build();},{passive:true});
+      size();build();
+      if(reduce){draw();}else{run=true;win.requestAnimationFrame(loop);}
+    })();
+  })();
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
@@ -1381,7 +1703,7 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
   set('yr',(new Date()).getFullYear());
 
-  applyKit('2');wireCheckout();
+  applyKit('3');wireCheckout();
   /* PageView/ViewContent/AddToCart/InitiateCheckout centralizados no bloco de rastreamento padrão */
 
   /* loader 000 -> 100 */
@@ -1408,6 +1730,54 @@ html{scrollbar-width:thin;scrollbar-color:var(--amber-lo) #0e0602}
  var N=innerWidth<760?10:16,d=[];for(var i=0;i<N;i++)d.push({x:Math.random(),y:Math.random(),r:46+Math.random()*104,vx:(Math.random()-.5)*.006,vy:-(0.008+Math.random()*.018),ph:Math.random()*6.283,sp:.15+Math.random()*.35,a:.06+Math.random()*.09});
  function paint(t){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';for(var i=0;i<d.length;i++){var o=d[i],px=o.x*W,py=o.y*H,r=o.r*dpr,pu=reduce?1:(0.62+0.38*Math.sin(t*o.sp+o.ph));var g=ctx.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,'rgba(250,208,96,'+(o.a*pu).toFixed(3)+')');g.addColorStop(.45,'rgba(236,186,78,'+(o.a*pu*.45).toFixed(3)+')');g.addColorStop(1,'rgba(236,186,78,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,r,0,6.2832);ctx.fill();}}
  if(reduce){paint(0);return;}var t0=performance.now();(function loop(now){requestAnimationFrame(loop);var dt=Math.min(.05,(now-t0)/1000);t0=now;for(var i=0;i<d.length;i++){var o=d[i];o.x+=o.vx*dt;o.y+=o.vy*dt;if(o.y<-.15){o.y=1.15;o.x=Math.random();}if(o.x<-.15)o.x=1.15;else if(o.x>1.15)o.x=-.15;}paint(now*.001);})(performance.now());})();
+</script>
+<script>
+/* ===== Pop-up de diagnóstico + captura de lead (ActiveCampaign) ===== */
+(function(){
+  var doc=document, win=window, DONE='lp_popup_done', SEEN='lp_popup_seen', CUPOM='BOTANIKA';
+  var ov=doc.getElementById('lpq'); if(!ov) return;
+  var RES={
+    imunidade:{t:'Reforço pras suas defesas.',b:'A <b>vitamina C</b> <b>contribui para o funcionamento normal do sistema imune</b> e a <b>quercetina</b> soma ação antioxidante. Na rotina: aquele apoio a mais nas viradas de tempo, quando o corpo pede reforço. 2 cápsulas por dia.'},
+    energia:{t:'Menos cansaço no dia.',b:'A <b>vitamina C</b> <b>auxilia na redução do cansaço e da fadiga</b> e participa do metabolismo que gera energia. No dia a dia: mais disposição pra dar conta da rotina, sem depender de estimulante. 2 cápsulas por dia.'},
+    antioxidante:{t:'Proteção que vem de dentro.',b:'<b>Vitamina C + quercetina + própolis</b> oferecem <b>proteção antioxidante</b> às células contra o desgaste do dia a dia — o que também aparece no <b>viço da pele</b>. 2 cápsulas por dia.'}
+  };
+  var angulo='';
+  function get(id){return doc.getElementById(id);}
+  function eachEl(sel,fn){var l=ov.querySelectorAll(sel);for(var i=0;i<l.length;i++)fn(l[i]);}
+  function flag(store,key){try{return win[store].getItem(key)==='1';}catch(e){return false;}}
+  function setFlag(store,key){try{win[store].setItem(key,'1');}catch(e){}}
+  function step(n){eachEl('.lpq-step',function(el){el.classList.toggle('on',el.getAttribute('data-step')===String(n));});}
+  function open(){if(flag('localStorage',DONE)||ov.classList.contains('open'))return;ov.classList.add('open');ov.setAttribute('aria-hidden','false');}
+  function close(){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');setFlag('sessionStorage',SEEN);}
+  if(!flag('localStorage',DONE) && !flag('sessionStorage',SEEN)){
+    var fired=false, fire1=function(){if(!fired){fired=true;open();}};
+    setTimeout(fire1,8000);
+    var onSc=function(){var h=doc.documentElement.scrollHeight-win.innerHeight;if(h>0 && (win.pageYOffset/h)>.45){fire1();win.removeEventListener('scroll',onSc);}};
+    win.addEventListener('scroll',onSc,{passive:true});
+  }
+  eachEl('.lpq-opt',function(b){b.addEventListener('click',function(){
+    angulo=b.getAttribute('data-angulo'); var r=RES[angulo]||RES.imunidade;
+    get('lpq-title').textContent=r.t; get('lpq-body').innerHTML=r.b; step(2);
+    var em=get('lpq-email'); setTimeout(function(){if(em)em.focus();},80);
+  });});
+  get('lpq-back').addEventListener('click',function(){step(1);});
+  var send=get('lpq-send');
+  send.addEventListener('click',function(){
+    var em=get('lpq-email'), email=(em.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){em.focus();em.style.borderColor='#c0392b';return;}
+    send.setAttribute('disabled','1'); send.textContent='Liberando...';
+    try{fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,produto:'vitaminac',angulo:angulo})});}catch(e){}
+    if(win.fbq)try{win.fbq('track','Lead');}catch(e){}
+    setFlag('localStorage',DONE);
+    step(3);
+  });
+  get('lpq-copy').addEventListener('click',function(){var c=this;var ok=function(){c.textContent='copiado ✓';};
+    try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(CUPOM).then(ok,ok);else ok();}catch(e){ok();}});
+  get('lpq-go').addEventListener('click',function(){close();var t=doc.getElementById('oferta');if(t)t.scrollIntoView({behavior:'smooth'});});
+  get('lpq-x').addEventListener('click',close);
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  win.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))close();});
+})();
 </script>
 </body>
 </html>
