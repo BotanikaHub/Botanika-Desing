@@ -11,7 +11,7 @@
 | 2 | Pop-up de diagnóstico (2 dores → e-mail → cupom) | **Por página** (exclusivo) | ✅ Hair pronto e testado — ver `02-POPUP-HAIR.md` |
 | 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ✅ Hair pronto e testado (preview) — ver `03-SELECAO-INVERTIDA.md` · ⏳ aguardando OK p/ publicar (muda conversão) |
 | 4 | Imagens de benefício/objeção | Por página | ✅ Hair pronto (preview) — 4 cards (Cabelo/Unhas/Pele/Rotina), imagens Higgsfield hospedadas no Shopify CDN — ver `04-IMAGENS.md` |
-| 5 | Order bump **Tri[Mg] — 3 cards de quantidade (1/2/3 frascos, escolha única)** com economia real da escada do Tri + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ Hair pronto e testado (preview) — usa `[ESCADA] Tri 5%/10%` (ativos); BxGy `[BUMP] Hair→Tri 5%` existe mas não é divulgado — ver `05-ORDER-BUMP.md` |
+| 5 | Order bump **Tri[Mg] — réplica do card de oferta da página do Tri** (seletor 1/2/3 frascos + "Adicionar ao pedido") com economia real da escada do Tri + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ Hair pronto e testado (preview) — usa `[ESCADA] Tri 5%/10%` (ativos); BxGy `[BUMP] Hair→Tri 5%` existe mas não é divulgado — ver `05-ORDER-BUMP.md` |
 
 ## Regras de ouro (herdadas da execução VermeFree, adaptadas à LP)
 - **Preço é sagrado:** nenhum número sem desconto **real e ativo** no Shopify (`automaticDiscountNodes`). Não existir → não aparece; **pare e alinhe**.

@@ -231,31 +231,48 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .frete-track{height:8px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden}
 .frete-fill{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
 .frete.done .frete-fill{background:linear-gradient(90deg,#7cb342,#c0ca33)}
-.bumps{display:flex;flex-direction:column;gap:8px}
-.bumps-head{font-size:12px;color:var(--muted);padding:0 2px;line-height:1.3}
-.bumps-head b{color:var(--ink)}
-.bump{position:relative;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:14px;border:1px dashed var(--line-2);background:var(--glass);cursor:pointer;transition:border-color .2s,background .2s}
-.bump:hover{border-color:var(--indigo)}
-.bump.on{border-style:solid;border-color:var(--indigo);background:linear-gradient(120deg,rgba(208,224,136,.28),rgba(255,255,255,.55))}
-.bump input{position:absolute;opacity:0;pointer-events:none}
-.bump img{width:42px;height:42px;object-fit:contain;flex:none;filter:drop-shadow(0 6px 12px rgba(32,38,107,.3))}
-.bump-txt{flex:1;line-height:1.25}
-.bump-txt b{font-size:13.5px;color:var(--ink)}
-.bump-txt small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
-.bump-txt .bump-price{color:var(--indigo-deep)}
-.bump-check{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;color:var(--indigo);font-weight:800;font-size:15px;transition:.2s}
-.bump.on .bump-check{background:var(--indigo);border-color:var(--indigo);color:#fff}
-/* tema do PRODUTO do bump (Tri[Mg]: meia-noite índigo + menta) — só este card ganha a cor do produto */
-.bump-tri{border-style:solid;border-color:#3b3f86;background:linear-gradient(120deg,#1b1f52,#2a2f72);box-shadow:0 14px 34px -20px rgba(20,24,74,.7)}
-.bump-tri:hover{border-color:#8fe3c2}
-.bump-tri .bump-txt b{color:#fff}
-.bump-tri .bump-txt small{color:rgba(255,255,255,.74)}
-.bump-tri .bump-txt .bump-price{color:#8fe3c2}
-.bump-tri img{background:#fff;border-radius:8px}
-.bump-tri .bump-check{border-color:rgba(255,255,255,.42);color:#fff}
-.bump-tri.on{border-color:#8fe3c2;background:linear-gradient(120deg,#20266B,#33397f)}
-.bump-tri.on .bump-check{background:#8fe3c2;border-color:#8fe3c2;color:#16204a}
-.bump-eco{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.3px;padding:1px 6px;border-radius:100px;margin-left:6px;vertical-align:middle;background:#8fe3c2;color:#16204a}
+/* order bump — réplica do card de oferta da página do Tri[Mg] (premium, tema do produto) */
+.bumptri{position:relative;border-radius:20px;padding:14px;background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.5));border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.bumptri[data-on="1"]{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(48,56,144,.12),0 18px 40px -26px rgba(20,24,74,.6)}
+.bumptri-head{font-size:12px;color:var(--muted);line-height:1.35;text-align:center;margin-bottom:10px}
+.bumptri-head b{color:var(--ink)}
+.bt-qty{position:relative;display:flex;background:rgba(48,56,144,.04);border:1px solid var(--line-2);border-radius:100px;padding:.3rem;gap:.1rem;margin:0 auto 14px;width:fit-content}
+.bt-qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--text);opacity:.6;font-family:var(--body);font-weight:700;font-size:12.5px;padding:.5rem 1.05rem;border-radius:100px;cursor:pointer;transition:color .35s,opacity .3s}
+.bt-qty button:hover{opacity:1}
+.bt-qty button.on{color:#fff;opacity:1}
+.bt-pill{position:absolute;top:.3rem;bottom:.3rem;left:.3rem;width:80px;border-radius:100px;background:var(--grad);box-shadow:0 6px 16px rgba(48,56,144,.4);transition:left .45s var(--ease),width .45s var(--ease);z-index:0}
+.bt-card{display:grid;grid-template-columns:1fr;gap:6px;align-items:center}
+@media(min-width:480px){.bt-card{grid-template-columns:.9fr 1.1fr;gap:10px}}
+.bt-stage{position:relative;display:grid;place-items:center;min-height:150px}
+.bt-shelf{position:absolute;bottom:20px;width:74%;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(48,56,144,.26),transparent 70%);filter:blur(4px);z-index:0}
+.bt-vis{position:relative;z-index:2;min-height:132px;transition:transform .4s var(--ease)}
+.bt-vis.pop{animation:btpop .5s var(--ease)}
+@keyframes btpop{0%{transform:scale(.97)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
+.bt-vis .b1{z-index:3}.bt-vis .b2{z-index:2}.bt-vis .b3{z-index:1}
+.bt-vis .b2,.bt-vis .b3{opacity:0}
+.bt-vis[data-n="2"] .b1{transform:translateX(-30%) rotate(4deg)}
+.bt-vis[data-n="2"] .b2{opacity:1;transform:translateX(-70%) rotate(-4deg)}
+.bt-vis[data-n="3"] .b1{transform:translateX(-50%) scale(1.02)}
+.bt-vis[data-n="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-9deg) scale(.9)}
+.bt-vis[data-n="3"] .b3{opacity:1;transform:translateX(-16%) rotate(9deg) scale(.9)}
+.bt-badge{position:absolute;top:2px;right:2px;z-index:5;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:52px;height:52px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.bt-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+.bt-info{position:relative;z-index:1;text-align:center}
+@media(min-width:480px){.bt-info{text-align:left}}
+.bt-tag{display:inline-block;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--indigo);border:1px solid var(--line-2);border-radius:100px;padding:.28rem .7rem;margin-bottom:.7rem}
+.bt-price{font-family:var(--head);font-size:clamp(1.5rem,5.4vw,2rem);font-weight:700;line-height:1.05;color:var(--ink)}
+.bt-price b{color:var(--gold)}
+.bt-pm{font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--muted)}
+.bt-cash{color:var(--muted);font-size:.74rem;opacity:.7;margin-top:.15rem}
+.bt-save{font-size:.86rem;color:var(--muted);margin-top:.55rem;min-height:1.1em}
+.bt-save s{opacity:.5}
+.bt-save b{color:var(--indigo);font-weight:800;background:rgba(48,56,144,.12);padding:.12rem .55rem;border-radius:100px}
+.bt-add{margin-top:.9rem;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--body);font-weight:700;font-size:.9rem;color:#fff;background:var(--grad);border:none;border-radius:100px;padding:.8rem 1rem;cursor:pointer;transition:filter .2s,transform .1s}
+.bt-add:hover{filter:brightness(1.05)}
+.bt-add:active{transform:scale(.99)}
+.bt-add-ic{font-size:1.05rem;line-height:1;font-weight:800}
+.bumptri[data-on="1"] .bt-add{background:rgba(48,56,144,.1);color:var(--indigo);box-shadow:inset 0 0 0 1.5px var(--indigo)}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -926,26 +943,32 @@ html.lenis{scroll-behavior:auto!important}
             <div id="frete-msg">Faltam <b>R$ 80,62</b> pra frete grátis</div>
             <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
           </div>
-          <div class="bumps" id="bumps">
-            <div class="bumps-head">Leve junto: <b>Tri[Mg] Complex</b> · magnésio 3 em 1, energia e relaxamento</div>
-            <label class="bump bump-tri" data-qty="1">
-              <input type="checkbox" class="bump-chk" data-qty="1">
-              <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489" alt="Tri[Mg] Complex · 1 frasco" loading="lazy">
-              <span class="bump-txt"><b>1 frasco</b><small>Rotina de ≈1 mês · <b class="bump-price">3× de R$ 29,17 sem juros</b></small></span>
-              <span class="bump-check" aria-hidden="true">+</span>
-            </label>
-            <label class="bump bump-tri" data-qty="2">
-              <input type="checkbox" class="bump-chk" data-qty="2">
-              <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489" alt="Tri[Mg] Complex · 2 frascos" loading="lazy">
-              <span class="bump-txt"><b>2 frascos <em class="bump-eco">−5%</em></b><small>Economia de R$ 8,75 · <b class="bump-price">3× de R$ 55,42 sem juros</b></small></span>
-              <span class="bump-check" aria-hidden="true">+</span>
-            </label>
-            <label class="bump bump-tri" data-qty="3">
-              <input type="checkbox" class="bump-chk" data-qty="3">
-              <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489" alt="Tri[Mg] Complex · 3 frascos" loading="lazy">
-              <span class="bump-txt"><b>3 frascos <em class="bump-eco">−10%</em></b><small>Economia de R$ 26,25 · <b class="bump-price">3× de R$ 78,75 sem juros</b></small></span>
-              <span class="bump-check" aria-hidden="true">+</span>
-            </label>
+          <div class="bumptri" id="bumptri" data-on="0">
+            <div class="bumptri-head">🎁 Leve junto: <b>Tri[Mg] Complex</b> — magnésio 3 em 1, energia e relaxamento</div>
+            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade do Tri[Mg]">
+              <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
+              <button type="button" data-q="1" class="on" role="tab" aria-selected="true">1 frasco</button>
+              <button type="button" data-q="2" role="tab" aria-selected="false">2 frascos</button>
+              <button type="button" data-q="3" role="tab" aria-selected="false">3 frascos</button>
+            </div>
+            <div class="bt-card">
+              <div class="bt-stage">
+                <div class="bt-shelf" aria-hidden="true"></div>
+                <div class="bt-badge" id="bt-badge" aria-hidden="true"></div>
+                <div class="bt-vis" id="bt-vis" data-n="1">
+                  <img class="b2" src="bottle-tri.png" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b3" src="bottle-tri.png" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b1" src="bottle-tri.png" alt="Tri[Mg] Complex" loading="lazy">
+                </div>
+              </div>
+              <div class="bt-info">
+                <span class="bt-tag" id="bt-tag">Preço regular</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 29,17</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 87,50</span> à vista</div>
+                <div class="bt-save" id="bt-save"></div>
+                <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
+              </div>
+            </div>
           </div>
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
           <div class="coupon" aria-hidden="true">
@@ -1085,11 +1108,17 @@ html.lenis{scroll-behavior:auto!important}
   /* ---------- commerce config ---------- */
   var VARIANT='48650670670056';
   /* order bump: Tri[Mg] Complex (variante 48115368558824, R$87,50/frasco real).
-     Kits de quantidade seguem a escada REAL do Tri no Shopify: 2un −5% = R$166,25 · 3un −10% = R$236,25.
-     Escolha única (1, 2 ou 3 frascos) ou nenhum; a barra de frete usa o total do kit escolhido. */
+     Card = réplica do card de oferta da página do Tri; kits seguem a escada REAL do Tri (2un −5% = R$166,25 · 3un −10% = R$236,25).
+     Seletor 1/2/3 frascos + "Adicionar ao pedido" (opcional). A barra de frete usa o total do kit selecionado quando adicionado. */
   var BUMPV='48115368558824';
-  var BUMPS={'1':{qty:1,total:87.50},'2':{qty:2,total:166.25},'3':{qty:3,total:236.25}};
-  var bumpQty=0;
+  var BUMPS={
+    '1':{n:1,total:87.50, inst:'R$ 29,17',cash:'R$ 87,50', tag:'Preço regular · 30 dias',  save:'', badge:''},
+    '2':{n:2,total:166.25,inst:'R$ 55,42',cash:'R$ 166,25',tag:'Mais vendido · 5% OFF',    save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',  badge:'−5%'},
+    '3':{n:3,total:236.25,inst:'R$ 78,75',cash:'R$ 236,25',tag:'Menor preço · 10% OFF',     save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>', badge:'−10%'}
+  };
+  var btSel='1';    /* frasco selecionado no card */
+  var btOn=false;   /* bump adicionado ao pedido? */
+  var bumpQty=0;    /* 0 = não adicionado; senão = frascos no checkout/frete */
   var FRETE=349;  /* frete grátis real */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
@@ -1139,20 +1168,36 @@ html.lenis{scroll-behavior:auto!important}
     updateFrete();
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));fire('AddToCart');});});
-  /* order bump Tri[Mg]: escolha única entre 1/2/3 frascos (ou nenhum) — total do kit escolhido move a barra de frete */
+  /* order bump Tri[Mg]: card premium (réplica do Tri) — seletor 1/2/3 frascos + adicionar ao pedido */
   (function(){
-    var boxes=doc.querySelectorAll('#bumps .bump-chk');if(!boxes.length)return;
-    function sync(){
-      each(boxes,function(b){var on=b.checked,lb=b.closest('.bump');
-        if(lb){lb.classList.toggle('on',on);var ck=lb.querySelector('.bump-check');if(ck)ck.textContent=on?'✓':'+';}});
-      var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
-      updateFrete();
+    var wrap=doc.getElementById('bumptri');if(!wrap)return;
+    var qbtns=doc.querySelectorAll('#bt-qty button');
+    function pill(){var b=doc.querySelector('#bt-qty button.on'),p=doc.getElementById('bt-pill');if(b&&p){p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px';}}
+    function refreshBuy(){var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});}
+    function render(){
+      var d=BUMPS[btSel];if(!d)return;
+      set('bt-inst',d.inst);set('bt-cash',d.cash);set('bt-tag',d.tag);
+      var sv=doc.getElementById('bt-save');if(sv)sv.innerHTML=d.save;
+      var bg=doc.getElementById('bt-badge');if(bg){bg.textContent=d.badge;bg.classList.toggle('show',!!d.badge);}
+      var vis=doc.getElementById('bt-vis');if(vis){vis.setAttribute('data-n',d.n);vis.classList.remove('pop');void vis.offsetWidth;vis.classList.add('pop');}
     }
-    each(boxes,function(b){b.addEventListener('change',function(){
-      if(b.checked){each(boxes,function(o){if(o!==b)o.checked=false;});bumpQty=parseInt(b.getAttribute('data-qty'),10)||0;fire('AddToCart');}
-      else{bumpQty=0;}
-      sync();
+    function apply(){
+      wrap.setAttribute('data-on',btOn?'1':'0');
+      var add=doc.getElementById('bt-add');
+      if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
+      bumpQty=btOn?(parseInt(btSel,10)||0):0;
+      refreshBuy();updateFrete();
+    }
+    each(qbtns,function(b){b.addEventListener('click',function(){
+      each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
+      b.classList.add('on');b.setAttribute('aria-selected','true');
+      btSel=b.getAttribute('data-q');render();pill();
+      if(btOn){apply();fire('AddToCart');}
     });});
+    var add=doc.getElementById('bt-add');
+    if(add)add.addEventListener('click',function(){btOn=!btOn;apply();if(btOn)fire('AddToCart');});
+    render();pill();
+    if(win.addEventListener)win.addEventListener('resize',pill);
   })();
   /* WhatsApp = Lead */
   each(doc.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp"]'),function(a){a.addEventListener('click',function(){fire('Lead');});});
