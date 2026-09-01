@@ -595,6 +595,133 @@ body{background:#F8F0E8;color:var(--ink);max-width:100%;
 .tphoto::after{background:linear-gradient(180deg,transparent 52%,rgba(26,22,38,.66))}
 .tphoto .cap{color:#F8F0E8}
 .stockbar .track,.arc-track{background:rgba(48,56,144,.12)}
+
+/* ===================== CONVERSÃO & TICKET (portado da Hair) ===================== */
+/* palco de potes em leque + bolinha de desconto */
+.kit-stage{position:relative;height:clamp(196px,26vw,248px);display:grid;place-items:center;overflow:visible;margin-bottom:4px}
+.kit-bottle{position:absolute;height:clamp(148px,22vw,212px);width:auto;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(32,38,107,.45));transform-origin:50% 88%;opacity:0;transition:transform .55s var(--ease),opacity .45s var(--ease);will-change:transform,opacity}
+.kit-bottle.b2{z-index:3}.kit-bottle.b1,.kit-bottle.b3{z-index:2}
+.kit-stage[data-kit="1"] .b2{opacity:1;transform:translateX(0) rotate(0deg) scale(1)}
+.kit-stage[data-kit="2"] .b1{opacity:1;transform:translateX(-20%) rotate(-4deg)}
+.kit-stage[data-kit="2"] .b3{opacity:1;transform:translateX(20%) rotate(4deg)}
+.kit-stage[data-kit="3"] .b1{opacity:1;transform:translateX(-32%) rotate(-9deg) scale(.9)}
+.kit-stage[data-kit="3"] .b2{opacity:1;transform:translateX(0) rotate(0deg) scale(1)}
+.kit-stage[data-kit="3"] .b3{opacity:1;transform:translateX(32%) rotate(9deg) scale(.9)}
+.kit-stage.pop,.offer-price.pop{animation:kitPop .42s var(--ease)}
+@keyframes kitPop{0%{transform:scale(1)}42%{transform:scale(1.04)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.kit-bottle{transition:opacity .2s}.kit-stage.pop,.offer-price.pop{animation:none}}
+.kit-badge{position:absolute;top:8%;right:20%;z-index:6;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:54px;height:54px;display:grid;place-items:center;box-shadow:0 12px 26px rgba(48,56,144,.42);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.kit-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+/* barra de evolução do kit (regride ao escolher menos) */
+.kit-bar{max-width:420px;margin:16px auto 0}
+.kit-bar-track{position:relative;height:9px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(32,38,107,.14)}
+.kit-bar-fill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.kit-bar-msg{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:9px;min-height:2.6em}
+.kb-add{color:var(--indigo)}.kb-add b,.kit-bar-msg b{color:var(--indigo-deep);font-weight:700}
+@media(prefers-reduced-motion:reduce){.kit-bar-fill{transition:none}}
+/* order bump + barra de frete grátis */
+.frete{display:grid;gap:7px;margin-bottom:2px}
+#frete-msg{font-size:13px;color:var(--ink)}#frete-msg b{color:var(--indigo-deep)}
+.frete.done #frete-msg b{color:#2e7d32}
+.frete-track{height:8px;border-radius:100px;background:rgba(48,56,144,.12);overflow:hidden}
+.frete-fill{display:block;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--indigo),var(--gold));transition:width .5s var(--ease)}
+.frete.done .frete-fill{background:linear-gradient(90deg,#7cb342,#c0ca33)}
+/* card do bump (base do buy-card do Tri, adaptada) */
+.bumptri{position:relative;border-radius:20px;padding:14px;background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.5));border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.bumptri[data-on="1"]{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(48,56,144,.12),0 18px 40px -26px rgba(20,24,74,.6)}
+.bumptri-head{font-size:12px;color:var(--muted);line-height:1.35;text-align:center;margin-bottom:10px}
+.bumptri-head b{color:var(--ink)}
+.bt-qty{position:relative;display:flex;background:rgba(48,56,144,.04);border:1px solid var(--line-2);border-radius:100px;padding:.3rem;gap:.1rem;margin:0 auto 14px;width:fit-content}
+.bt-qty button{position:relative;z-index:1;border:none;background:transparent;color:var(--text);opacity:.6;font-family:var(--body);font-weight:700;font-size:12.5px;padding:.5rem 1.05rem;border-radius:100px;cursor:pointer;transition:color .35s,opacity .3s}
+.bt-qty button:hover{opacity:1}.bt-qty button.on{color:#fff;opacity:1}
+.bt-pill{position:absolute;top:.3rem;bottom:.3rem;left:.3rem;width:80px;border-radius:100px;background:var(--grad);box-shadow:0 6px 16px rgba(48,56,144,.4);transition:left .45s var(--ease),width .45s var(--ease);z-index:0}
+.bt-card{display:grid;grid-template-columns:1fr;gap:6px;align-items:center}
+@media(min-width:480px){.bt-card{grid-template-columns:.9fr 1.1fr;gap:10px}}
+.bt-stage{position:relative;display:grid;place-items:center;min-height:150px}
+.bt-shelf{position:absolute;bottom:20px;width:74%;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(48,56,144,.26),transparent 70%);filter:blur(4px);z-index:0}
+.bt-vis{position:relative;z-index:2;width:100%;min-height:132px;transition:transform .4s var(--ease)}
+.bt-vis.pop{animation:btpop .5s var(--ease)}
+@keyframes btpop{0%{transform:scale(.97)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);max-width:none;transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
+.bt-vis .b1{z-index:3}.bt-vis .b2{z-index:2}.bt-vis .b3{z-index:1}
+.bt-vis .b2,.bt-vis .b3{opacity:0}
+.bt-vis[data-n="2"] .b1{transform:translateX(-30%) rotate(4deg)}
+.bt-vis[data-n="2"] .b2{opacity:1;transform:translateX(-70%) rotate(-4deg)}
+.bt-vis[data-n="3"] .b1{transform:translateX(-50%) scale(1.02)}
+.bt-vis[data-n="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-9deg) scale(.9)}
+.bt-vis[data-n="3"] .b3{opacity:1;transform:translateX(-16%) rotate(9deg) scale(.9)}
+.bt-badge{position:absolute;top:12px;right:16%;z-index:5;font-family:var(--head);font-weight:700;font-size:.8rem;color:#fff;background:var(--grad);border-radius:50%;width:46px;height:46px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.bt-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
+.bt-info{position:relative;z-index:1;text-align:center}
+@media(min-width:480px){.bt-info{text-align:left}}
+.bt-tag{display:inline-block;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--indigo);border:1px solid var(--line-2);border-radius:100px;padding:.28rem .7rem;margin-bottom:.7rem}
+.bt-price{font-family:var(--head);font-size:clamp(1.5rem,5.4vw,2rem);font-weight:700;line-height:1.05;color:var(--ink)}
+.bt-price b{color:var(--gold)}
+.bt-pm{font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--muted)}
+.bt-cash{color:var(--muted);font-size:.74rem;opacity:.7;margin-top:.15rem}
+.bt-save{font-size:.86rem;color:var(--muted);margin-top:.55rem;min-height:1.1em}
+.bt-save s{opacity:.5}.bt-save b{color:var(--indigo);font-weight:800;background:rgba(48,56,144,.12);padding:.12rem .55rem;border-radius:100px}
+.bt-add{margin-top:.9rem;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--body);font-weight:700;font-size:.9rem;color:#fff;background:var(--grad);border:none;border-radius:100px;padding:.8rem 1rem;cursor:pointer;transition:filter .2s,transform .1s}
+.bt-add:hover{filter:brightness(1.05)}.bt-add:active{transform:scale(.99)}
+.bt-add-ic{font-size:1.05rem;line-height:1;font-weight:800}
+.bumptri[data-on="1"] .bt-add{background:rgba(48,56,144,.1);color:var(--indigo);box-shadow:inset 0 0 0 1.5px var(--indigo)}
+.bt-qty button .bt-main{display:block;line-height:1.05}
+.bt-qty button .bt-sub{display:block;font-size:8.5px;font-weight:700;letter-spacing:.01em;opacity:.72;margin-top:1px;white-space:nowrap}
+/* ===== tema Whey Balance Chocolate (cacau/cobre) + cacau orbitando o pote ===== */
+.bump-whey{--bo:#7a4a28;--bo-hi:#b0763e;--bograd:linear-gradient(135deg,#6f4426,#b0763e)}
+.bump-whey[data-on="1"]{border-color:var(--bo);box-shadow:0 0 0 3px rgba(122,74,40,.16),0 18px 40px -26px rgba(74,43,20,.55)}
+.bump-whey .bt-qty{width:100%;background:rgba(122,74,40,.05);border-color:rgba(122,74,40,.28);justify-content:space-between}
+.bump-whey .bt-qty button{flex:1;padding:.42rem .3rem;text-align:center}
+.bump-whey .bt-pill{background:var(--bograd);box-shadow:0 6px 16px rgba(122,74,40,.4)}
+.bump-whey .bt-tag{color:var(--bo);border-color:rgba(122,74,40,.3)}
+.bump-whey .bt-price b{color:var(--bo)}
+.bump-whey .bt-badge{background:var(--bograd);box-shadow:0 10px 22px rgba(122,74,40,.4)}
+.bump-whey .bt-shelf{background:radial-gradient(ellipse,rgba(122,74,40,.22),transparent 70%)}
+.bump-whey .bt-vis img{filter:drop-shadow(0 14px 18px rgba(90,58,28,.28))}
+.bump-whey .bt-save b{color:#5a3a1c;background:rgba(207,138,67,.3)}
+.bump-whey .bt-add{background:var(--bograd)}
+.bump-whey[data-on="1"] .bt-add{background:rgba(122,74,40,.1);color:var(--bo);box-shadow:inset 0 0 0 1.5px var(--bo)}
+.bt-orbit{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden;border-radius:16px}
+.bt-orb{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;will-change:transform;
+  background:radial-gradient(circle at 34% 30%,#f0d0a8,#b0763e 46%,#5a3a1c);
+  box-shadow:inset -3px -4px 7px rgba(60,34,14,.55),inset 3px 3px 6px rgba(255,235,200,.35),0 8px 16px rgba(50,28,12,.35);
+  filter:drop-shadow(0 0 6px rgba(176,118,62,.4))}
+.bt-orb::after{content:"";position:absolute;top:14%;left:22%;width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.6),transparent 70%)}
+/* CTA principal em 2 linhas (quebra liberada só no #buy) */
+#buy{white-space:normal;line-height:1.18;text-align:center}
+#buy .buy-main{font-size:15px;font-weight:800;letter-spacing:.02em}
+#buy .buy-sub{display:block;font-size:11px;font-weight:600;opacity:.92;letter-spacing:.01em}
+/* buybar: só a imagem dos potes do kit */
+.buybar .bar-img{height:46px;width:auto;flex:none;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(32,38,107,.28))}
+/* ===== Pop-up de diagnóstico ===== */
+.lpq-ov{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(32,38,107,.30);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lpq-ov.open{display:flex}
+.lpq{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 36px);overflow:hidden auto;-webkit-overflow-scrolling:touch;border-radius:22px;background:linear-gradient(180deg,var(--cream-2),var(--cream));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 30px 70px -30px rgba(32,38,107,.55);transform:translateY(14px) scale(.98);opacity:0;transition:transform .4s var(--ease),opacity .4s var(--ease)}
+.lpq-ov.open .lpq{transform:none;opacity:1}
+.lpq-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--ink);font-size:14px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2}
+.lpq-hd{padding:22px 22px 4px}
+.lpq-eye{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo-deep);background:var(--lime);padding:5px 12px;border-radius:100px}
+.lpq h3{font-family:var(--head);font-weight:600;font-size:clamp(20px,5vw,25px);color:var(--ink);line-height:1.14;margin:12px 0 0}
+.lpq-bd{padding:6px 22px 22px}
+.lpq-p{font-size:14.5px;color:var(--muted);line-height:1.5;margin:8px 0 0}.lpq-p b{color:var(--ink);font-weight:600}
+.lpq-opts{display:grid;gap:10px;margin-top:16px}
+.lpq-opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px 16px;border-radius:14px;cursor:pointer;border:1px solid var(--line-2);background:var(--glass);color:var(--ink);font-family:var(--body);font-size:15px;font-weight:600;transition:border-color .2s,transform .2s,box-shadow .2s}
+.lpq-opt:hover{border-color:var(--indigo);transform:translateY(-1px);box-shadow:0 12px 26px -18px rgba(32,38,107,.6)}
+.lpq-opt .ic{font-size:22px;flex:none}
+.lpq-opt small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-top:2px}
+.lpq-field{margin-top:16px}
+.lpq-field input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line-2);background:#fff;font-family:var(--body);font-size:16px;color:var(--ink)}
+.lpq-field input:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(48,56,144,.12)}
+.lpq-cta{width:100%;margin-top:12px;padding:14px 18px;border-radius:100px;border:0;cursor:pointer;font-family:var(--body);font-weight:700;font-size:15px;color:var(--cream);background:var(--grad);box-shadow:0 12px 26px -12px rgba(48,56,144,.7);transition:transform .2s;white-space:normal}
+.lpq-cta:hover{transform:translateY(-1px)}.lpq-cta[disabled]{opacity:.6;cursor:default;transform:none}
+.lpq-legal{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+.lpq-back{background:none;border:0;color:var(--indigo);font-size:12.5px;cursor:pointer;margin-top:12px;padding:0}
+.lpq-coupon{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;padding:14px 16px;border-radius:14px;border:1px dashed rgba(224,178,58,.6);background:linear-gradient(120deg,rgba(248,200,64,.28),rgba(248,200,64,.12))}
+.lpq-coupon b{font-family:var(--head);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--indigo-deep)}
+.lpq-coupon span{font-size:12px;color:var(--ink)}
+.lpq-copy{border:1px solid var(--indigo);background:transparent;color:var(--indigo);font-weight:700;font-size:12.5px;padding:8px 12px;border-radius:100px;cursor:pointer}
+.lpq-step{display:none}.lpq-step.on{display:block}
+@media(max-width:420px){.lpq{max-width:100%}}
 </style>
 </head>
 <body>
@@ -939,27 +1066,63 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
     </div>
     <div class="offer reveal">
       <div class="offer-top">
-        <div class="kit-visual"><img id="kit-img" alt="Kit Creatina + Taurato Botanika" loading="lazy"></div>
+        <div class="kit-stage" id="kit-stage" data-kit="3" aria-hidden="true">
+          <img class="kit-bottle b1" src="pote.png" alt="" loading="lazy">
+          <img class="kit-bottle b2" src="pote.png" alt="Pote da Creatina + Taurato" loading="lazy">
+          <img class="kit-bottle b3" src="pote.png" alt="" loading="lazy">
+          <div class="kit-badge show" id="kit-badge">−10%</div>
+        </div>
         <div class="toggle" id="toggle" role="tablist">
           <button data-kit="1" role="tab"><span>1 pote</span><span class="tag">preço cheio</span></button>
-          <button data-kit="2" class="active" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
-          <button data-kit="3" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+          <button data-kit="2" role="tab"><span>2 potes</span><span class="tag">−5% · popular</span></button>
+          <button data-kit="3" class="active" role="tab"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
+        </div>
+        <div class="kit-bar" aria-hidden="true">
+          <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
+          <p class="kit-bar-msg" id="kit-bar-msg">—</p>
         </div>
       </div>
       <div class="offer-body">
         <div class="offer-price">
-          <div class="price-badges"><span class="price-disc" id="p-disc">−5% por quantidade</span><span class="save-badge" id="p-save">economize R$ 12,83</span></div>
-          <div class="price-parc"><span class="pl">em até</span><b id="p-parc">3× de R$ 81,26</b></div>
-          <div class="price-sub"><b>sem juros</b> · <span id="p-per">R$ 121,89 / pote</span></div>
-          <div class="price-cash">à vista <b id="p-now">R$ 243,77</b><span class="price-old" id="p-old">R$ 256,60</span></div>
-          <div class="price-dur" id="p-dur">≈ 4 meses · 1 dose/dia</div>
+          <div class="price-badges"><span class="price-disc" id="p-disc">🏷️ −10% por quantidade · aplicado no checkout</span><span class="save-badge" id="p-save">Você economiza R$ 38,49</span></div>
+          <div class="price-parc"><span class="pl">em até</span><b id="p-parc">3× de R$ 115,47</b></div>
+          <div class="price-sub"><b>sem juros</b> · <span id="p-per">R$ 115,47 / pote</span></div>
+          <div class="price-cash">à vista <b id="p-now">R$ 346,41</b><span class="price-old" id="p-old">R$ 384,90</span></div>
+          <div class="price-dur" id="p-dur">≈ 6 meses · melhor valor</div>
         </div>
         <div class="offer-cta">
-          <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
-          <div class="coupon" id="coupon" style="cursor:default">
-            <span>🔒 <b>Desconto já aplicado</b> no checkout — nada pra digitar</span>
-            <span>pagamento 100% seguro</span>
+          <div class="frete" id="frete">
+            <div id="frete-msg">Faltam <b>R$ 2,59</b> pra frete grátis</div>
+            <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
           </div>
+          <div class="bumptri bump-whey" id="bumptri" data-on="0">
+            <div class="bumptri-head">🍫 Leve junto: <b>Whey Balance Chocolate</b> — 23 g de proteína + colágeno C-PURE®</div>
+            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade do Whey Balance">
+              <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
+              <button type="button" data-q="1" role="tab" aria-selected="false"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+              <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
+              <button type="button" data-q="3" class="on" role="tab" aria-selected="true"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
+            </div>
+            <div class="bt-card">
+              <div class="bt-stage">
+                <div class="bt-shelf" aria-hidden="true"></div>
+                <div class="bt-badge show" id="bt-badge" aria-hidden="true">−10%</div>
+                <div class="bt-vis" id="bt-vis" data-n="3">
+                  <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="Whey Balance Chocolate" loading="lazy">
+                </div>
+              </div>
+              <div class="bt-info">
+                <span class="bt-tag" id="bt-tag">Melhor valor · 10% OFF</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 132,57</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 397,71</span> à vista</div>
+                <div class="bt-save" id="bt-save"><s>R$ 441,90</s> · <b>economize R$ 44,19</b></div>
+                <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
+              </div>
+            </div>
+          </div>
+          <a class="btn block" id="buy" data-checkout href="#"><span class="buy-main">COMPRAR AGORA</span></a>
           <div class="ship">🚚 <b>Frete grátis</b> em pedidos acima de R$ 349 · envio para todo o Brasil</div>
         </div>
       </div>
@@ -1036,8 +1199,41 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">R$ 243,77</b><span id="bar-label">2 potes · −5%</span></div>
-  <a class="btn" id="bar-buy" data-checkout href="#">COMPRAR AGORA</a>
+  <img class="bar-img" id="bar-img" src="pote3.png" alt="Kit Creatina + Taurato" aria-hidden="true">
+  <a class="btn" id="bar-buy" data-checkout href="#oferta">Escolher meu kit</a>
+</div>
+
+<!-- Pop-up de diagnóstico (foco de performance) -->
+<div class="lpq-ov" id="lpq" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Diagnóstico Creatina Botanika">
+  <div class="lpq">
+    <button class="lpq-x" id="lpq-x" aria-label="Fechar">✕</button>
+    <div class="lpq-hd"><span class="lpq-eye">◆ Diagnóstico · 10 segundos</span></div>
+    <div class="lpq-bd">
+      <div class="lpq-step on" data-step="1">
+        <h3>O que você quer destravar primeiro?</h3>
+        <p class="lpq-p">Escolhe o teu foco — a creatina certa <b>trabalha por dentro</b>, todo dia.</p>
+        <div class="lpq-opts">
+          <button class="lpq-opt" data-angulo="forca"><span class="ic">🏋️</span><span>Força &amp; desempenho<small>mais gás nas últimas repetições</small></span></button>
+          <button class="lpq-opt" data-angulo="recuperacao"><span class="ic">🔋</span><span>Recuperação &amp; cãibra<small>voltar melhor pro próximo treino</small></span></button>
+          <button class="lpq-opt" data-angulo="praticidade"><span class="ic">🎯</span><span>Praticidade 2-em-1<small>creatina + magnésio numa dose só</small></span></button>
+        </div>
+      </div>
+      <div class="lpq-step" data-step="2">
+        <h3 id="lpq-title">—</h3>
+        <p class="lpq-p" id="lpq-body">—</p>
+        <div class="lpq-field"><input type="email" id="lpq-email" inputmode="email" autocomplete="email" placeholder="seu melhor e-mail" required></div>
+        <button class="lpq-cta" id="lpq-send">Quero meu desconto</button>
+        <p class="lpq-legal">Você passa a receber conteúdos e novidades da Botanika. Sai quando quiser.</p>
+        <button class="lpq-back" id="lpq-back">← voltar</button>
+      </div>
+      <div class="lpq-step" data-step="3">
+        <h3>Prontinho! Seu cupom de boas-vindas 🌿</h3>
+        <p class="lpq-p">Use no checkout. Nos kits de 2 ou 3 potes, o desconto por quantidade já entra sozinho.</p>
+        <div class="lpq-coupon"><b id="lpq-code">BOTANIKA</b><span>5% OFF</span><button class="lpq-copy" id="lpq-copy">copiar</button></div>
+        <button class="lpq-cta" id="lpq-go" style="margin-top:16px">Ir para a oferta →</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="vendor/lenis.min.js"></script>
@@ -1052,42 +1248,157 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
 
 
   /* ---------- commerce config ---------- */
-  var VARIANT='48115368820968';
-  var COUPON='BOTANIKA';
+  var VARIANT='48115368820968';   /* Creatina Mono + Magnésio Taurato (R$128,30/pote) */
+  /* order bump: Whey Balance Chocolate (variante 48115368919272, R$147,30/pote real).
+     Card = identidade da LP do Whey (chocolate/cacau + esferas de cacau orbitando o pote).
+     Escada REAL da Whey Balance: 2un −5% (R$279,87) · 3un −10% (R$397,71), ATIVAS e combinam com a escada da Creatina.
+     Seletor 1/2/3 potes + "Adicionar ao pedido" (opcional). A barra de frete usa o total do kit selecionado quando adicionado. */
+  var BUMPV='48115368919272';
+  var BUMPS={
+    '1':{n:1,total:147.30,inst:'R$ 49,10', cash:'R$ 147,30',tag:'Preço cheio · 30 doses',  save:'', badge:''},
+    '2':{n:2,total:279.87,inst:'R$ 93,29', cash:'R$ 279,87',tag:'Popular · 5% OFF',        save:'<s>R$ 294,60</s> · <b>economize R$ 14,73</b>', badge:'−5%'},
+    '3':{n:3,total:397.71,inst:'R$ 132,57',cash:'R$ 397,71',tag:'Melhor valor · 10% OFF',   save:'<s>R$ 441,90</s> · <b>economize R$ 44,19</b>', badge:'−10%'}
+  };
+  var btSel='3';    /* pote pré-selecionado no card (igual ao seletor invertido do kit: começa no 3) */
+  var btOn=false;   /* bump adicionado ao pedido? */
+  var bumpQty=0;    /* 0 = não adicionado; senão = frascos no checkout/frete */
+  var FRETE=349;    /* frete grátis real */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(kit){var q=String(kit);var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+q;var params=[];var code=(KITS[q]&&KITS[q].code)?KITS[q].code:'';if(code)params.push('discount='+encodeURIComponent(code));var e=utmString();if(e)params.push(e);if(params.length)u+='?'+params.join('&');return u;}
-  var IMG1='pote.png';   // 1 pote (transparente, local)
-  var IMG2='pote2.png';  // 2 potes (composição transparente)
-  var IMG3='pote3.png';  // 3 potes (composição transparente)
-  // Descontos reais na loja: CREATINA5 (auto, ≥2 un.) e CREATINA10 (auto, ≥3 un.) aplicam sozinhos no checkout.
-  // BOTANIKA (5%) é código e NÃO acumula — usado só no kit de 1 pote (onde não há desconto por quantidade).
-  var KITS={
-    '1':{code:'BOTANIKA',old:'R$ 128,30',now:'R$ 121,89',parc:'3× de R$ 40,63',per:'R$ 121,89 / pote',dur:'≈ 2 meses · 1 dose/dia',disc:'cupom BOTANIKA · −5%',save:'economize R$ 6,42',label:'1 pote · −5%',img:IMG1},
-    '2':{old:'R$ 256,60',now:'R$ 243,77',parc:'3× de R$ 81,26',per:'R$ 121,89 / pote',dur:'≈ 4 meses · 1 dose/dia',disc:'−5% por quantidade',save:'economize R$ 12,83',label:'2 potes · −5%',img:IMG2},
-    '3':{old:'R$ 384,90',now:'R$ 346,41',parc:'3× de R$ 115,47',per:'R$ 115,47 / pote',dur:'≈ 6 meses · melhor valor',disc:'−10% por quantidade',save:'economize R$ 38,49',label:'3 potes · −10%',img:IMG3}
-  };
-  var currentKit='2';
+  /* checkout multi-item: kit da creatina (+ whey quando adicionado). Só o kit de 1 pote usa o cupom BOTANIKA
+     (−5%); nos kits 2/3 a escada automática da creatina já aplica sozinha e o cupom não acumula. */
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpQty?','+BUMPV+':'+bumpQty:'');var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
+  function brl(n){return n.toFixed(2).replace('.',',');}
+  function money(s){var m=String(s||'').replace(/[^\d,]/g,'').replace(',','.');return parseFloat(m)||0;}
   function set(id,txt){var el=doc.getElementById(id);if(el)el.textContent=txt;}
   function each(list,fn){for(var i=0;i<list.length;i++)fn(list[i],i);}
+  function potes(n){return n+(n>1?' potes':' pote');}
+  function updateFrete(){
+    var k=KITS[currentKit]||{},total=money(k.now)+(bumpQty?BUMPS[bumpQty].total:0);
+    var fill=doc.getElementById('frete-fill');if(fill)fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
+    var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
+    var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
+  }
+  /* barra de evolução do kit: fill pela escada do kit; mensagem passa a mencionar o bump/frete quando o bump entra (sincroniza com a barra de frete) */
+  function updateKitBar(){
+    var k=KITS[currentKit]||{};
+    var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
+    var bm=doc.getElementById('kit-bar-msg');if(!bm)return;
+    var msg=k.barmsg||'';
+    if(bumpQty){
+      var total=money(k.now)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
+      msg+=(total>=FRETE)
+        ? ' <span class="kb-add">— e com o <b>Whey Balance</b> o <b>frete grátis</b> já está garantido 🎉</span>'
+        : ' <span class="kb-add">— o <b>Whey Balance</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>';
+    }
+    bm.innerHTML=msg;
+  }
+  /* buybar: só a imagem dos potes do kit (sem texto) — reflete o kit selecionado */
+  function updateBar(){
+    var k=KITS[currentKit]||{},img=doc.getElementById('bar-img');
+    if(img&&k.img)img.setAttribute('src',k.img);
+  }
+  /* CTA principal: mostra kit Creatina + bump Whey (quando adicionado) */
+  function setCTA(){
+    var kn=parseInt(currentKit,10)||1;
+    var sub=bumpQty ? ('Kit Creatina '+potes(kn)+' + Whey '+potes(bumpQty)) : '';
+    var html='<span class="buy-main">COMPRAR AGORA</span>'+(sub?'<span class="buy-sub">'+sub+'</span>':'');
+    each(doc.querySelectorAll('#buy'),function(a){a.innerHTML=html;});
+  }
+  /* Descontos reais na loja: [ESCADA] Creatina 5% (≥2un) e 10% (≥3un) aplicam sozinhas no checkout.
+     BOTANIKA (5%) é código e é usado só no kit de 1 pote (onde não há desconto por quantidade). */
+  var KITS={
+    '1':{old:'R$ 128,30',now:'R$ 121,89',parc:'3× de R$ 40,63',per:'R$ 121,89 / pote',dur:'≈ 2 meses · 1 dose/dia',disc:'🏷️ cupom BOTANIKA · −5% aplicado no checkout',save:'Você economiza R$ 6,42',label:'1 pote · −5%',img:'pote.png',bar:34,barmsg:'−5% com o cupom BOTANIKA. Levando <b>2 potes</b> você garante o desconto por quantidade — e a creatina precisa de constância diária pra saturar.'},
+    '2':{old:'R$ 256,60',now:'R$ 243,77',parc:'3× de R$ 81,26',per:'R$ 121,89 / pote',dur:'≈ 4 meses · 1 dose/dia',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 12,83',label:'2 potes · −5%',img:'pote2.png',bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e ~6 meses de constância.'},
+    '3':{old:'R$ 384,90',now:'R$ 346,41',parc:'3× de R$ 115,47',per:'R$ 115,47 / pote',dur:'≈ 6 meses · melhor valor',disc:'🏷️ −10% por quantidade · aplicado no checkout',save:'Você economiza R$ 38,49',label:'3 potes · −10%',img:'pote3.png',bar:100,barmsg:'🔥 <b>Melhor valor</b> — −10% no total e ~6 meses de creatina todo dia. Menor preço por pote.'}
+  };
+  var currentKit='3';
   function applyKit(kit){
     currentKit=kit;var k=KITS[kit];
-    var po=doc.getElementById('p-old');if(po){po.textContent=k.old||'';po.style.display=k.old?'':'none';}
+    var po=doc.getElementById('p-old');if(po){if(k.old){po.style.display='inline';po.textContent=k.old;}else po.style.display='none';}
     set('p-disc',k.disc);set('p-now',k.now);set('p-parc',k.parc);set('p-per',k.per);set('p-dur',k.dur);
-    var ki=doc.getElementById('kit-img');if(ki&&k.img){ki.style.opacity='0';setTimeout(function(){ki.setAttribute('src',k.img);ki.style.opacity='1';},180);}
+    var stage=doc.getElementById('kit-stage');if(stage){stage.setAttribute('data-kit',kit);stage.classList.remove('pop');void stage.offsetWidth;stage.classList.add('pop');}
+    var kb=doc.getElementById('kit-badge');if(kb){var koff={'1':'','2':'−5%','3':'−10%'}[kit]||'';kb.textContent=koff;kb.classList.toggle('show',!!koff);}
+    var op=doc.querySelector('.offer-price');if(op){op.classList.remove('pop');void op.offsetWidth;op.classList.add('pop');}
+    updateKitBar();
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
-    set('bar-price',k.now);set('bar-label',k.label);
+    updateBar();setCTA();
     var href=checkout(kit);
-    each(doc.querySelectorAll('#buy,#bar-buy'),function(a){a.setAttribute('href',href);});
+    each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
+    updateFrete();
   }
   each(doc.querySelectorAll('#toggle button'),function(b){b.addEventListener('click',function(){applyKit(b.getAttribute('data-kit'));});});
+  /* order bump Whey Balance: card premium com identidade chocolate — seletor 1/2/3 potes + adicionar ao pedido */
+  (function(){
+    var wrap=doc.getElementById('bumptri');if(!wrap)return;
+    var qbtns=doc.querySelectorAll('#bt-qty button');
+    function pill(){var b=doc.querySelector('#bt-qty button.on'),p=doc.getElementById('bt-pill');if(b&&p){p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px';}}
+    function refreshBuy(){var href=checkout(currentKit);each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});}
+    function render(){
+      var d=BUMPS[btSel];if(!d)return;
+      set('bt-inst',d.inst);set('bt-cash',d.cash);set('bt-tag',d.tag);
+      var sv=doc.getElementById('bt-save');if(sv)sv.innerHTML=d.save;
+      var bg=doc.getElementById('bt-badge');if(bg){bg.textContent=d.badge;bg.classList.toggle('show',!!d.badge);}
+      var vis=doc.getElementById('bt-vis');if(vis){vis.setAttribute('data-n',d.n);vis.classList.remove('pop');void vis.offsetWidth;vis.classList.add('pop');}
+    }
+    function apply(){
+      wrap.setAttribute('data-on',btOn?'1':'0');
+      var add=doc.getElementById('bt-add');
+      if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
+      bumpQty=btOn?(parseInt(btSel,10)||0):0;
+      refreshBuy();updateFrete();updateKitBar();updateBar();setCTA();
+    }
+    each(qbtns,function(b){b.addEventListener('click',function(){
+      each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
+      b.classList.add('on');b.setAttribute('aria-selected','true');
+      btSel=b.getAttribute('data-q');render();pill();
+      if(btOn){apply();}
+    });});
+    var add=doc.getElementById('bt-add');
+    if(add)add.addEventListener('click',function(){btOn=!btOn;apply();});
+    render();pill();
+    /* realinha o pill sempre que o seletor muda de tamanho (layout assenta tarde: fontes, reveal, imagens) */
+    if(win.addEventListener){win.addEventListener('resize',pill);win.addEventListener('load',pill);}
+    var qEl=doc.getElementById('bt-qty');
+    if(win.ResizeObserver&&qEl){try{new win.ResizeObserver(function(){pill();}).observe(qEl);}catch(e){}}
+    win.requestAnimationFrame(pill);
+    /* esferas de cacau orbitando o pote (localizado no card, tema chocolate) */
+    (function(){
+      var stage=wrap.querySelector('.bt-stage'), bottle=doc.getElementById('bt-vis');
+      if(!stage||!bottle)return;
+      var orbit=doc.createElement('div');orbit.className='bt-orbit';orbit.setAttribute('aria-hidden','true');stage.appendChild(orbit);
+      function rnd(a,b){return a+(b-a)*Math.random();}
+      var N=win.innerWidth<760?3:4, orbs=[];
+      for(var i=0;i<N;i++){var el=doc.createElement('span');el.className='bt-orb';var base=win.innerWidth<760?15:19;var sz=base*(0.8+Math.random()*0.5);el.style.width=sz+'px';el.style.height=sz+'px';orbit.appendChild(el);
+        orbs.push({el:el,ang:(i/N)*6.2832+Math.random(),spd:rnd(.28,.5)*(Math.random()<.5?1:-1),tilt:rnd(.42,.56),ox:0,oy:0});}
+      var mx=-1e4,my=-1e4,last=0;
+      win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+      function frame(now){var dt=(now-last)/1000;if(!(dt>0))dt=.016;if(dt>.05)dt=.05;last=now;
+        var r=stage.getBoundingClientRect(), bt=bottle.getBoundingClientRect();
+        var cx=r.left+r.width/2, cy=r.top+r.height/2;
+        var ox=(bt.left+bt.width/2)-cx, oy=(bt.top+bt.height/2)-cy, R=(bt.width||r.width)*0.34;
+        for(var i=0;i<orbs.length;i++){var o=orbs[i];o.ang+=o.spd*dt;
+          var ppx=ox+Math.cos(o.ang)*R, ppy=oy+Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
+          var sx=cx+ppx, sy=cy+ppy, dx=sx-mx, dy=sy-my, dd=Math.sqrt(dx*dx+dy*dy), RR=110;
+          if(dd<RR){var f=(1-dd/RR);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*36-o.ox)*.2;o.oy+=(Math.sin(a)*f*36-o.oy)*.2;}
+          else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
+          o.el.style.transform='translate(-50%,-50%) translate('+(ppx+o.ox).toFixed(1)+'px,'+(ppy+o.oy).toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+          o.el.style.zIndex=dep>0?6:1;o.el.style.opacity=(.5+.45*((dep+1)/2)).toFixed(2);
+        }
+        win.requestAnimationFrame(frame);
+      }
+      if(reduce){for(var i=0;i<orbs.length;i++){var o=orbs[i];o.el.style.transform='translate(-50%,-50%) translate('+(Math.cos(o.ang)*54).toFixed(0)+'px,'+(Math.sin(o.ang)*26).toFixed(0)+'px)';}}
+      else{last=performance.now();win.requestAnimationFrame(frame);}
+    })();
+  })();
   /* Só o botão dentro da oferta (#buy) leva ao checkout — todos os outros botões de compra
-     são âncora e rolam até a seção de oferta, pra o cliente escolher o kit e ver o desconto. */
+     são âncora e rolam até a seção de oferta, pra o cliente escolher o kit e ver o desconto.
+     Eventos de compra disparam no listener global de a[href*="/cart/"] (bloco de rastreamento no topo). */
   function wireCheckout(){
     each(doc.querySelectorAll('a[data-checkout]'),function(a){var id=a.id;
       a.addEventListener('click',function(e){
-        if(id==='buy'){return;} /* checkout real — eventos disparam no listener global de a[href*="/cart/"] */
+        if(id==='buy'){return;} /* checkout real */
         e.preventDefault();var t=doc.getElementById('oferta');if(t){ if(win.__lenis) win.__lenis.scrollTo(t,{offset:-70}); else t.scrollIntoView({behavior:reduce?'auto':'smooth'}); }
       });
     });
@@ -1310,7 +1621,7 @@ gtag('js',new Date());gtag('config','G-2JFV5TGHCV');
   setTimeout(function(){var f=doc.getElementById('stockfill');if(f)f.style.width='68%';},600);
   set('yr',(new Date()).getFullYear());
 
-  applyKit('2');wireCheckout();
+  applyKit('3');wireCheckout();
 
   /* sem loader — revela o hero direto */
   if(win.__afterLoader) win.__afterLoader();
@@ -1477,6 +1788,64 @@ try{
 }catch(err){
   var g=document.querySelector('.lux-canvas'); if(g) g.style.display='none';
 }
+</script>
+
+<!-- Pop-up de diagnóstico: fluxo + captura AC (/api/lead) -->
+<script>
+(function(){
+  var doc=document, win=window, DONE='lp_popup_done', SEEN='lp_popup_seen', CUPOM='BOTANIKA';
+  var ov=doc.getElementById('lpq'); if(!ov) return;
+  var RES={
+    forca:{t:'Força que aparece na série.',b:'A <b>creatina monohidratada</b> é o suplemento mais estudado para <b>força e desempenho em exercícios de alta intensidade e curta duração</b>. Com a dose diária certa — a constância é o que satura os músculos —, você sente mais gás nas últimas repetições. 1 dose por dia, todo dia.'},
+    recuperacao:{t:'Recupera melhor, sem cãibra.',b:'O <b>magnésio taurato</b> <b>auxilia no funcionamento muscular</b> e no <b>metabolismo energético</b> — o mineral que costuma faltar em quem treina forte. No dia a dia: menos aquela cãibra chata e uma recuperação mais tranquila entre os treinos. 1 dose por dia.'},
+    praticidade:{t:'Dois suplementos, uma dose só.',b:'Creatina <b>e</b> magnésio taurato na <b>mesma dose</b> — você para de comprar e de lembrar de tomar dois potes separados. A base pra performance somada à recuperação, num scoop só. 1 dose por dia, sem complicação.'}
+  };
+  var angulo='';
+  function get(id){return doc.getElementById(id);}
+  function eachEl(sel,fn){var l=ov.querySelectorAll(sel);for(var i=0;i<l.length;i++)fn(l[i]);}
+  function flag(store,key){try{return win[store].getItem(key)==='1';}catch(e){return false;}}
+  function setFlag(store,key){try{win[store].setItem(key,'1');}catch(e){}}
+  function step(n){eachEl('.lpq-step',function(el){el.classList.toggle('on',el.getAttribute('data-step')===String(n));});}
+  function open(){if(flag('localStorage',DONE)||ov.classList.contains('open'))return;ov.classList.add('open');ov.setAttribute('aria-hidden','false');}
+  function close(){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');setFlag('sessionStorage',SEEN);}
+
+  /* gatilho: 8s OU rolar >45% (o que vier antes), 1x por sessão, nunca se já converteu */
+  if(!flag('localStorage',DONE) && !flag('sessionStorage',SEEN)){
+    var fired=false, fire1=function(){if(!fired){fired=true;open();}};
+    var t=setTimeout(fire1,8000);
+    var onSc=function(){var h=doc.documentElement.scrollHeight-win.innerHeight;if(h>0 && (win.pageYOffset/h)>.45){fire1();win.removeEventListener('scroll',onSc);}};
+    win.addEventListener('scroll',onSc,{passive:true});
+  }
+
+  /* passo 1 → 2 */
+  eachEl('.lpq-opt',function(b){b.addEventListener('click',function(){
+    angulo=b.getAttribute('data-angulo'); var r=RES[angulo]||RES.forca;
+    get('lpq-title').textContent=r.t; get('lpq-body').innerHTML=r.b; step(2);
+    var em=get('lpq-email'); setTimeout(function(){if(em)em.focus();},80);
+  });});
+  get('lpq-back').addEventListener('click',function(){step(1);});
+
+  /* passo 2 → 3 (captura no AC, não-bloqueante) */
+  var send=get('lpq-send');
+  send.addEventListener('click',function(){
+    var em=get('lpq-email'), email=(em.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){em.focus();em.style.borderColor='#c0392b';return;}
+    send.setAttribute('disabled','1'); send.textContent='Liberando...';
+    try{fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,produto:'creatina',angulo:angulo})});}catch(e){}
+    setFlag('localStorage',DONE);
+    step(3);
+  });
+
+  /* passo 3 */
+  get('lpq-copy').addEventListener('click',function(){var c=this;var ok=function(){c.textContent='copiado ✓';};
+    try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(CUPOM).then(ok,ok);else ok();}catch(e){ok();}});
+  get('lpq-go').addEventListener('click',function(){close();var t=doc.getElementById('oferta');if(t){if(win.__lenis)win.__lenis.scrollTo(t,{offset:-70});else t.scrollIntoView({behavior:'smooth'});}});
+
+  /* fechar */
+  get('lpq-x').addEventListener('click',close);
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  win.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))close();});
+})();
 </script>
 </body>
 </html>
