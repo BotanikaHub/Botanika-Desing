@@ -273,6 +273,30 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .bt-add:active{transform:scale(.99)}
 .bt-add-ic{font-size:1.05rem;line-height:1;font-weight:800}
 .bumptri[data-on="1"] .bt-add{background:rgba(48,56,144,.1);color:var(--indigo);box-shadow:inset 0 0 0 1.5px var(--indigo)}
+/* seletor de duas linhas (1 pote / preço cheio) */
+.bt-qty button .bt-main{display:block;line-height:1.05}
+.bt-qty button .bt-sub{display:block;font-size:8.5px;font-weight:700;letter-spacing:.01em;opacity:.72;margin-top:1px;white-space:nowrap}
+/* ===== tema Super Vitamina C (laranja cítrico) + laranjas orbitando o pote ===== */
+.bump-vitc{--bo:#E8661B;--bo-hi:#FF8A3D;--bograd:linear-gradient(135deg,#E8661B,#FF8A3D)}
+.bump-vitc[data-on="1"]{border-color:var(--bo);box-shadow:0 0 0 3px rgba(232,102,27,.14),0 18px 40px -26px rgba(140,60,10,.55)}
+.bump-vitc .bt-qty{width:100%;background:rgba(232,102,27,.05);border-color:rgba(232,102,27,.28);justify-content:space-between}
+.bump-vitc .bt-qty button{flex:1;padding:.42rem .3rem;text-align:center}
+.bump-vitc .bt-pill{background:var(--bograd);box-shadow:0 6px 16px rgba(232,102,27,.4)}
+.bump-vitc .bt-tag{color:var(--bo);border-color:rgba(232,102,27,.3)}
+.bump-vitc .bt-price b{color:var(--bo)}
+.bump-vitc .bt-badge{background:var(--bograd);box-shadow:0 10px 22px rgba(232,102,27,.4)}
+.bump-vitc .bt-shelf{background:radial-gradient(ellipse,rgba(232,102,27,.22),transparent 70%)}
+.bump-vitc .bt-vis img{filter:drop-shadow(0 14px 18px rgba(180,80,20,.26))}
+.bump-vitc .bt-save b{color:#4d6b16;background:rgba(160,190,70,.3)}
+.bump-vitc .bt-add{background:var(--bograd)}
+.bump-vitc[data-on="1"] .bt-add{background:rgba(232,102,27,.1);color:var(--bo);box-shadow:inset 0 0 0 1.5px var(--bo)}
+.bt-orbit{position:absolute;inset:0;pointer-events:none;z-index:4}
+.bt-orb{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;will-change:transform;
+  background:radial-gradient(circle at 34% 30%,#ffe6a0,#ff8a1e 46%,#b5500d);
+  box-shadow:inset -3px -4px 7px rgba(120,58,8,.55),inset 3px 3px 6px rgba(255,230,170,.35),0 8px 16px rgba(78,42,16,.35);
+  filter:drop-shadow(0 0 6px rgba(255,140,30,.35))}
+.bt-orb::before{content:"";position:absolute;top:-10%;left:50%;width:44%;height:26%;background:linear-gradient(140deg,#a6d95a,#6faf30);border-radius:70% 20% 60% 20%;transform:translateX(-40%) rotate(-38deg);transform-origin:left center}
+.bt-orb::after{content:"";position:absolute;top:14%;left:22%;width:26%;height:26%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.7),transparent 70%)}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -943,28 +967,28 @@ html.lenis{scroll-behavior:auto!important}
             <div id="frete-msg">Faltam <b>R$ 80,62</b> pra frete grátis</div>
             <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
           </div>
-          <div class="bumptri" id="bumptri" data-on="0">
-            <div class="bumptri-head">🎁 Leve junto: <b>Tri[Mg] Complex</b> — magnésio 3 em 1, energia e relaxamento</div>
-            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade do Tri[Mg]">
+          <div class="bumptri bump-vitc" id="bumptri" data-on="0">
+            <div class="bumptri-head">🍊 Leve junto: <b>Super Vitamina C</b> — vitamina C 1000&nbsp;mg + quercetina + própolis</div>
+            <div class="bt-qty" id="bt-qty" role="tablist" aria-label="Quantidade da Super Vitamina C">
               <span class="bt-pill" id="bt-pill" aria-hidden="true"></span>
-              <button type="button" data-q="1" class="on" role="tab" aria-selected="true">1 frasco</button>
-              <button type="button" data-q="2" role="tab" aria-selected="false">2 frascos</button>
-              <button type="button" data-q="3" role="tab" aria-selected="false">3 frascos</button>
+              <button type="button" data-q="1" class="on" role="tab" aria-selected="true"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+              <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
+              <button type="button" data-q="3" role="tab" aria-selected="false"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
             </div>
             <div class="bt-card">
               <div class="bt-stage">
                 <div class="bt-shelf" aria-hidden="true"></div>
                 <div class="bt-badge" id="bt-badge" aria-hidden="true"></div>
                 <div class="bt-vis" id="bt-vis" data-n="1">
-                  <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="" aria-hidden="true" loading="lazy">
-                  <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="" aria-hidden="true" loading="lazy">
-                  <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/bottle-tri-transparente.png?v=1788232874" alt="Tri[Mg] Complex" loading="lazy">
+                  <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="" aria-hidden="true" loading="lazy">
+                  <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260805_161803_31f7677e-216d-4190-8514-9a906b32b1b9.png?v=1786365888" alt="Super Vitamina C" loading="lazy">
                 </div>
               </div>
               <div class="bt-info">
-                <span class="bt-tag" id="bt-tag">Preço regular</span>
-                <div class="bt-price">3× de <b id="bt-inst">R$ 29,17</b> <span class="bt-pm">sem juros</span></div>
-                <div class="bt-cash">ou <span id="bt-cash">R$ 87,50</span> à vista</div>
+                <span class="bt-tag" id="bt-tag">Preço cheio · 30 doses</span>
+                <div class="bt-price">3× de <b id="bt-inst">R$ 29,84</b> <span class="bt-pm">sem juros</span></div>
+                <div class="bt-cash">ou <span id="bt-cash">R$ 89,52</span> à vista</div>
                 <div class="bt-save" id="bt-save"></div>
                 <button type="button" class="bt-add" id="bt-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
               </div>
@@ -1107,16 +1131,16 @@ html.lenis{scroll-behavior:auto!important}
 
   /* ---------- commerce config ---------- */
   var VARIANT='48650670670056';
-  /* order bump: Tri[Mg] Complex (variante 48115368558824, R$87,50/frasco real).
-     Card = réplica do card de oferta da página do Tri; kits seguem a escada REAL do Tri (2un −5% = R$166,25 · 3un −10% = R$236,25).
-     Seletor 1/2/3 frascos + "Adicionar ao pedido" (opcional). A barra de frete usa o total do kit selecionado quando adicionado. */
-  var BUMPV='48115368558824';
+  /* order bump: Super Vitamina C (variante 48115368460520, R$89,52/pote real — mesmos números da LP da Vit C).
+     Card = design da LP da Super Vitamina C (laranja + laranjas orbitando); kits seguem a escada REAL da Vit C (2un −5% = R$170,09 · 3un −10% = R$241,70, ATIVAS e combinam com a escada do Hair).
+     Seletor 1/2/3 potes + "Adicionar ao pedido" (opcional). A barra de frete usa o total do kit selecionado quando adicionado. */
+  var BUMPV='48115368460520';
   var BUMPS={
-    '1':{n:1,total:87.50, inst:'R$ 29,17',cash:'R$ 87,50', tag:'Preço regular · 30 dias',  save:'', badge:''},
-    '2':{n:2,total:166.25,inst:'R$ 55,42',cash:'R$ 166,25',tag:'Mais vendido · 5% OFF',    save:'<s>R$ 175,00</s> · <b>economize R$ 8,75</b>',  badge:'−5%'},
-    '3':{n:3,total:236.25,inst:'R$ 78,75',cash:'R$ 236,25',tag:'Menor preço · 10% OFF',     save:'<s>R$ 262,50</s> · <b>economize R$ 26,25</b>', badge:'−10%'}
+    '1':{n:1,total:89.52, inst:'R$ 29,84',cash:'R$ 89,52', tag:'Preço cheio · 30 doses', save:'', badge:''},
+    '2':{n:2,total:170.09,inst:'R$ 56,70',cash:'R$ 170,09',tag:'Popular · 5% OFF',       save:'<s>R$ 179,04</s> · <b>economize R$ 8,95</b>',  badge:'−5%'},
+    '3':{n:3,total:241.70,inst:'R$ 80,57',cash:'R$ 241,70',tag:'Melhor valor · 10% OFF',  save:'<s>R$ 268,56</s> · <b>economize R$ 26,86</b>', badge:'−10%'}
   };
-  var btSel='1';    /* frasco selecionado no card */
+  var btSel='1';    /* pote selecionado no card */
   var btOn=false;   /* bump adicionado ao pedido? */
   var bumpQty=0;    /* 0 = não adicionado; senão = frascos no checkout/frete */
   var FRETE=349;  /* frete grátis real */
@@ -1186,7 +1210,7 @@ html.lenis{scroll-behavior:auto!important}
       var add=doc.getElementById('bt-add');
       if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
       bumpQty=btOn?(parseInt(btSel,10)||0):0;
-      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?('COMPRAR KIT + TRI[MG] ('+bumpQty+(bumpQty>1?' FRASCOS)':' FRASCO)')):'COMPRAR AGORA';});
+      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?('COMPRAR KIT + SUPER VIT C ('+bumpQty+(bumpQty>1?' POTES)':' POTE)')):'COMPRAR AGORA';});
       refreshBuy();updateFrete();
     }
     each(qbtns,function(b){b.addEventListener('click',function(){
@@ -1199,6 +1223,34 @@ html.lenis{scroll-behavior:auto!important}
     if(add)add.addEventListener('click',function(){btOn=!btOn;apply();if(btOn)fire('AddToCart');});
     render();pill();
     if(win.addEventListener)win.addEventListener('resize',pill);
+    /* laranjas orbitando o pote (localizado no card, tema Vit C) */
+    (function(){
+      var stage=wrap.querySelector('.bt-stage'), bottle=doc.getElementById('bt-vis');
+      if(!stage||!bottle)return;
+      var orbit=doc.createElement('div');orbit.className='bt-orbit';orbit.setAttribute('aria-hidden','true');stage.appendChild(orbit);
+      function rnd(a,b){return a+(b-a)*Math.random();}
+      var N=win.innerWidth<760?3:4, orbs=[];
+      for(var i=0;i<N;i++){var el=doc.createElement('span');el.className='bt-orb';var base=win.innerWidth<760?15:19;var sz=base*(0.8+Math.random()*0.5);el.style.width=sz+'px';el.style.height=sz+'px';orbit.appendChild(el);
+        orbs.push({el:el,ang:(i/N)*6.2832+Math.random(),spd:rnd(.28,.5)*(Math.random()<.5?1:-1),tilt:rnd(.42,.56),ox:0,oy:0});}
+      var mx=-1e4,my=-1e4,last=0;
+      win.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+      function frame(now){var dt=(now-last)/1000;if(!(dt>0))dt=.016;if(dt>.05)dt=.05;last=now;
+        var r=stage.getBoundingClientRect(), bt=bottle.getBoundingClientRect();
+        var cx=r.left+r.width/2, cy=r.top+r.height/2;
+        var ox=(bt.left+bt.width/2)-cx, oy=(bt.top+bt.height/2)-cy, R=(bt.width||r.width)*0.42;
+        for(var i=0;i<orbs.length;i++){var o=orbs[i];o.ang+=o.spd*dt;
+          var ppx=ox+Math.cos(o.ang)*R, ppy=oy+Math.sin(o.ang)*R*o.tilt, dep=Math.sin(o.ang), sc=.7+.32*((dep+1)/2);
+          var sx=cx+ppx, sy=cy+ppy, dx=sx-mx, dy=sy-my, dd=Math.sqrt(dx*dx+dy*dy), RR=110;
+          if(dd<RR){var f=(1-dd/RR);f=f*f;var a=Math.atan2(dy,dx);o.ox+=(Math.cos(a)*f*36-o.ox)*.2;o.oy+=(Math.sin(a)*f*36-o.oy)*.2;}
+          else{o.ox+=(0-o.ox)*.08;o.oy+=(0-o.oy)*.08;}
+          o.el.style.transform='translate(-50%,-50%) translate('+(ppx+o.ox).toFixed(1)+'px,'+(ppy+o.oy).toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+          o.el.style.zIndex=dep>0?6:1;o.el.style.opacity=(.5+.45*((dep+1)/2)).toFixed(2);
+        }
+        win.requestAnimationFrame(frame);
+      }
+      if(reduce){for(var i=0;i<orbs.length;i++){var o=orbs[i];o.el.style.transform='translate(-50%,-50%) translate('+(Math.cos(o.ang)*54).toFixed(0)+'px,'+(Math.sin(o.ang)*26).toFixed(0)+'px)';}}
+      else{last=performance.now();win.requestAnimationFrame(frame);}
+    })();
   })();
   /* WhatsApp = Lead */
   each(doc.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp"]'),function(a){a.addEventListener('click',function(){fire('Lead');});});
