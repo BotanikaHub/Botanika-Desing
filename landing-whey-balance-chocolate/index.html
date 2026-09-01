@@ -555,8 +555,18 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 #offerBuy .buy-main{font-size:15px;font-weight:800;letter-spacing:.02em}
 #offerBuy .buy-sub{font-size:11px;font-weight:600;opacity:.92}
 /* buybar: imagem do kit (sem preço) */
-.buybar .bar-img{height:46px;width:auto;max-width:none;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(74,43,20,.3))}
+.buybar .bar-fan{position:relative;width:78px;height:48px;flex:0 0 auto}
+.buybar .bar-fan .bf{position:absolute;bottom:0;left:50%;height:48px;width:auto;max-width:none;aspect-ratio:860/1109;object-fit:contain;transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 5px 8px rgba(74,43,20,.35));transition:transform .45s var(--ease),opacity .4s ease}
+.buybar .bar-fan .b1{z-index:3}.buybar .bar-fan .b2{z-index:2}.buybar .bar-fan .b3{z-index:1}
+.buybar .bar-fan .b2,.buybar .bar-fan .b3{opacity:0}
+.buybar .bar-fan[data-kit="1"] .b1{transform:translateX(-50%)}
+.buybar .bar-fan[data-kit="2"] .b1{transform:translateX(-72%) rotate(-5deg)}
+.buybar .bar-fan[data-kit="2"] .b2{opacity:1;transform:translateX(-28%) rotate(5deg)}
+.buybar .bar-fan[data-kit="3"] .b1{transform:translateX(-50%)}
+.buybar .bar-fan[data-kit="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-8deg) scale(.92)}
+.buybar .bar-fan[data-kit="3"] .b3{opacity:1;transform:translateX(-16%) rotate(8deg) scale(.92)}
 .buybar .bar-buy{margin-left:auto}
+@media(prefers-reduced-motion:reduce){.buybar .bar-fan .bf{transition:none}}
 /* ===== Pop-up de diagnóstico ===== */
 .lpq-ov{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(36,24,17,.34);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .lpq-ov.open{display:flex}
@@ -843,9 +853,9 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
   <h2 class="title reveal">Escolha seu <em>kit</em>.</h2>
   <p class="lead reveal">Quanto mais potes, mais economia — o desconto entra <b>automático no carrinho</b>, sem precisar de cupom.</p>
   <div class="toggle reveal" id="toggle" role="tablist">
-    <button class="on" data-qty="3"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
-    <button data-qty="2"><span>2 potes</span><span class="tag">−5% · popular</span></button>
     <button data-qty="1"><span>1 pote</span><span class="tag">preço cheio</span></button>
+    <button data-qty="2"><span>2 potes</span><span class="tag">−5% · popular</span></button>
+    <button class="on" data-qty="3"><span>3 potes</span><span class="tag">−10% · melhor valor</span></button>
   </div>
   <div class="kit-bar reveal" aria-hidden="true">
     <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
@@ -960,7 +970,11 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 </a>
 
 <div class="buybar">
-  <img class="bar-img" id="bar-img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="Whey Balance Chocolate" aria-hidden="true">
+  <div class="bar-fan" id="bar-fan" data-kit="3" aria-hidden="true">
+    <img class="bf b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="">
+    <img class="bf b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="">
+    <img class="bf b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt="">
+  </div>
   <a class="btn btn-buy bar-buy js-top" href="#oferta">Escolher meu kit</a>
 </div>
 <!-- Pop-up de diagnóstico + captura de lead (ActiveCampaign) -->
@@ -1100,7 +1114,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     if(bumpQty){ var total=(TOTALS[qn(currentKit)]||0)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
       msg+=(total>=FRETE)?' <span class="kb-add">— e com a <b>Creatina</b> o <b>frete grátis</b> já está garantido 🎉</span>':' <span class="kb-add">— a <b>Creatina</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>'; }
     bm.innerHTML=msg; }
-  function updateBar(){ /* buybar mostra só a imagem do produto (sem preço) */ }
+  function updateBar(){ var bf=doc.getElementById('bar-fan'); if(bf) bf.setAttribute('data-kit',currentKit); }
   function potes(nn){ return nn+(nn>1?' potes':' pote'); }
   function setCTA(){ var kn=qn(currentKit);
     var sub=bumpQty?('Kit Whey '+potes(kn)+' + Creatina '+potes(bumpQty)):'';
