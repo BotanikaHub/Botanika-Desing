@@ -1,17 +1,19 @@
 # Conversão & Ticket — Execução (log vivo + método reutilizável)
 
-> **Escopo:** aplicar as 4 melhorias de conversão **nas LPs** (HTML autocontido em `landing-<slug>/`), **não** no tema Shopify.
-> **Piloto:** `landing-hair`. Depois este doc vira **prompt genérico** pros agentes das outras LPs.
+> **Escopo:** aplicar as melhorias de conversão **nas LPs** (HTML autocontido em `landing-<slug>/`), **não** no tema Shopify.
+> **Piloto (régua): `landing-hair` — CONCLUÍDO E PUBLICADO na `lp`.** Aplicar nas outras 7 LPs seguindo o **`COMANDO-APLICAR.md`** (playbook genérico consolidado).
 > **Referências de UX (capturas):** lojas Blessy (`useblessy.com.br`) e Bigens (`www.bigens.com.br`) — bundle/seleção invertida + popup.
 
-## Estado (marcar conforme avança)
+## Estado — Hair (piloto): tudo pronto e publicado
 | # | Mudança | Genérica ou por-página | Status Hair |
 |---|---------|------------------------|-------------|
-| 1 | **ActiveCampaign** (captura de lead) | **Genérica** (mesma p/ todas) | ✅ código pronto (`functions/api/lead.js`) · ⏳ falta setar `AC_API_KEY`/`AC_API_URL` no Cloudflare — ver `01-ACTIVECAMPAIGN.md` |
-| 2 | Pop-up de diagnóstico (2 dores → e-mail → cupom) | **Por página** (exclusivo) | ✅ Hair pronto e testado — ver `02-POPUP-HAIR.md` |
-| 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ✅ Hair pronto e testado (preview) — ver `03-SELECAO-INVERTIDA.md` · ⏳ aguardando OK p/ publicar (muda conversão) |
-| 4 | Imagens de benefício/objeção | Por página | ✅ Hair pronto (preview) — 4 cards (Cabelo/Unhas/Pele/Rotina), imagens Higgsfield hospedadas no Shopify CDN — ver `04-IMAGENS.md` |
-| 5 | Order bump **Super Vitamina C — card com a identidade da LP da Vit C** (laranja + laranjas orbitando; seletor 1/2/3 potes + "Adicionar ao pedido"; CTA principal reage) + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ Hair pronto e testado (preview) — usa `[ESCADA] Super Vitamina C 5%/10%` (ativos, combinam c/ Hair) — ver `05-ORDER-BUMP.md` |
+| 1 | **ActiveCampaign** (captura de lead) | **Genérica** (mesma p/ todas) | ✅ código pronto (`functions/api/lead.js`) · setar `AC_API_KEY`/`AC_API_URL` no Cloudflare (passo único) — ver `01-ACTIVECAMPAIGN.md` |
+| 2 | Pop-up de diagnóstico (3 focos → e-mail → cupom) | **Por página** (exclusivo) | ✅ publicado — ver `02-POPUP-HAIR.md` |
+| 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ✅ publicado — ver `03-SELECAO-INVERTIDA.md` (acompanhar ticket **e** conversão) |
+| 4 | Imagens de benefício/objeção | Por página | ✅ publicado — 4 cards, imagens Higgsfield no Shopify CDN — ver `04-IMAGENS.md` |
+| 5 | Order bump **Super Vitamina C — card com a identidade da LP da Vit C** (laranja + laranjas orbitando; seletor 1/2/3 potes; CTA reage) + barra de frete grátis (R$349) + cart multi-item | Por página | ✅ **publicado na `lp`** — usa `[ESCADA] Super Vitamina C 5%/10%` (ativos, combinam c/ Hair). Variação **Tri[Mg]** salva na branch `bump-tri-magnesio`; BxGy órfão `[BUMP] Hair→Tri 5%` desativado — ver `05-ORDER-BUMP.md` |
+
+**➡️ Para replicar nas demais LPs: siga o `COMANDO-APLICAR.md`.**
 
 ## Regras de ouro (herdadas da execução VermeFree, adaptadas à LP)
 - **Preço é sagrado:** nenhum número sem desconto **real e ativo** no Shopify (`automaticDiscountNodes`). Não existir → não aparece; **pare e alinhe**.
