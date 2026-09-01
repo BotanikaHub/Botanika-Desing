@@ -114,6 +114,9 @@ Prefira **reaproveitar** a imagem que a LP de origem já usa (ex.: a Vit C já t
 - **`git rm`/asset local não propaga no preview** → hospede no Shopify CDN.
 - **Não confie nos `[FRETE]` automáticos** (podem estar expirados e com valor antigo) — o frete real está no **delivery profile**.
 - **Higgsfield** gera URL cloudfront **temporária** → sempre reingira no Shopify (`fileCreate`).
+- **Pill do seletor "torto":** `pill()` mede `offsetLeft/offsetWidth` que mudam quando o layout assenta tarde (fontes/reveal/imagens). Fix: `ResizeObserver` no seletor + `pill()` no `load`/`rAF`.
+- **Animação-assinatura escapando pro resto do card:** contenha com `overflow:hidden` na camada da animação (`.bt-orbit`) e raio moderado.
+- **CTA e buybar têm que reagir ao bump** (`COMPRAR KIT + <PRODUTO>` e total kit+bump na barra fixa) — senão o usuário adiciona e nada muda visualmente.
 - Ao rodar teste headless, **não use `pkill -f "http.server"`** no mesmo comando: o padrão casa a própria linha do shell e mata o processo (SIGTERM/exit 144). Mate por **PID** (`SRV=$!; kill $SRV`).
 
 ---

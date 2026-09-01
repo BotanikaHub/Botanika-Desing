@@ -36,7 +36,10 @@ Frete grátis = **R$349** (confirmado: não é um desconto — é uma regra de f
 
 ## Gotchas (bugs reais que apareceram)
 - **Frasco em leque some (0×0):** o reset global `img,video{max-width:100%}` + `.bt-vis` sem largura (filhos `position:absolute` → largura 0) fazia `max-width:100%` = 0px e o frasco colapsava. Fix: `.bt-vis{width:100%}` + `.bt-vis img{max-width:none}`. **Não era problema da imagem** (local nem CDN) — era CSS. Replicar esse fix em qualquer LP que usar o leque.
-- **CTA principal reage ao bump:** ao adicionar, o `#buy` vira `COMPRAR KIT + TRI[MG] (N FRASCO/S)`; ao remover, volta a `COMPRAR AGORA`. Sem isso o usuário adiciona e o botão não muda → confuso.
+- **CTA principal reage ao bump:** ao adicionar, o `#buy` vira `COMPRAR KIT + <PRODUTO> (N un)`; ao remover, volta a `COMPRAR AGORA`. Sem isso o usuário adiciona e o botão não muda → confuso.
+- **Buybar (barra fixa) também reflete o bump:** `updateBar()` mostra o **total kit+bump** e o rótulo `<kit> + N× <produto>` (chamada no `applyKit` e no `apply()` do bump). Sem isso o preço da barra não muda ao adicionar → confuso.
+- **Pill do seletor "torto"/deslocado:** o `pill()` (que posiciona o destaque via `offsetLeft/offsetWidth`) pode medir **antes do layout assentar** (fontes/reveal/imagens mudam a largura depois). Fix: **`ResizeObserver` no `#bt-qty`** + `pill()` no `load` e num `requestAnimationFrame` — realinha sempre que o seletor muda de tamanho.
+- **Laranjas "saindo pra lado"/por cima do seletor:** a órbita não pode invadir o resto do card. Fix: **`.bt-orbit{overflow:hidden}`** (recorta ao palco) + raio da órbita moderado (`bt.width*0.34`). A animação-assinatura fica contida no `.bt-stage`.
 
 ## Testado (headless)
 - Trocar frasco (sem adicionar) **pré-visualiza** tag/preço/selo (qty3 → "Menor preço · 10% OFF", R$78,75, selo −10%, "economize R$26,25") sem mexer no frete/checkout. **Adicionar** → `data-on=1`, botão "✓ Adicionado", frete kit3+3fr **"desbloqueado!"** (100%), href `...:3,48115368558824:3`. Trocar p/ 2 frascos com o bump ligado atualiza href `...:3,...:2` ao vivo. **Remover** volta pra 77%/kit3. `bottle-tri.png` carrega; leque + pill deslizante OK. Sem overflow 390px · `node --check` + tags OK.
