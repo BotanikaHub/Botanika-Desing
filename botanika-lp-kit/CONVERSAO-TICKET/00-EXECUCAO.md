@@ -10,7 +10,7 @@
 | 1 | **ActiveCampaign** (captura de lead) | **Genérica** (mesma p/ todas) | ✅ código pronto (`functions/api/lead.js`) · ⏳ falta setar `AC_API_KEY`/`AC_API_URL` no Cloudflare — ver `01-ACTIVECAMPAIGN.md` |
 | 2 | Pop-up de diagnóstico (2 dores → e-mail → cupom) | **Por página** (exclusivo) | ✅ Hair pronto e testado — ver `02-POPUP-HAIR.md` |
 | 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ✅ Hair pronto e testado (preview) — ver `03-SELECAO-INVERTIDA.md` · ⏳ aguardando OK p/ publicar (muda conversão) |
-| 4 | Imagens de benefício/objeção | Por página (depende de arte) | ⬜ |
+| 4 | Imagens de benefício/objeção | Por página | ✅ Hair pronto (preview) — 4 cards (Cabelo/Unhas/Pele/Rotina), imagens Higgsfield hospedadas no Shopify CDN — ver `04-IMAGENS.md` |
 | 5 | "Carrinho contínuo" → na LP vira order bump + barra de frete + cart multi-item | Por página | ⬜ |
 
 ## Regras de ouro (herdadas da execução VermeFree, adaptadas à LP)
