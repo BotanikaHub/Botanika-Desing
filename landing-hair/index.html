@@ -125,6 +125,8 @@ a{color:inherit;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--indigo);border:1px solid var(--line-2);box-shadow:none}
 .btn.ghost:hover{border-color:var(--rose);background:var(--glass)}
 .btn.block{width:100%}
+/* CTA principal pode ter texto longo (kit Hair + bump) → quebra em vez de cortar na lateral */
+#buy{white-space:normal;line-height:1.18;text-align:center;font-size:14.5px;padding-top:13px;padding-bottom:13px}
 
 /* sections */
 main{position:relative;z-index:1}
@@ -1161,6 +1163,13 @@ html.lenis{scroll-behavior:auto!important}
       set('bar-price','R$ '+brl(total));set('bar-label',(k.label||'')+' + '+bumpQty+'× Vit C');}
     else{set('bar-price',k.now);set('bar-label',k.label);}
   }
+  function potes(n){return n+(n>1?' potes':' pote');}
+  /* CTA principal: mostra kit Hair + bump (quando adicionado) */
+  function setCTA(){
+    var kn=parseInt(currentKit,10)||1;
+    var t=bumpQty ? ('Comprar · kit Hair '+potes(kn)+' + Super Vit C '+potes(bumpQty)) : 'COMPRAR AGORA';
+    each(doc.querySelectorAll('#buy'),function(a){a.textContent=t;});
+  }
   var KITS={
     '1':{old:'',now:'R$ 99,40',parc:'3× de R$ 33,13 sem juros',per:'R$ 99,40 por pote',dur:'≈ 2 meses de rotina',disc:'Preço cheio · sem desconto',save:'',label:'1 pote',img:'hair-rotulo.png',bar:34,barmsg:'Preço cheio, <b>sem desconto</b>. Levando 2 potes você já garante −5% — e o ciclo não trava no meio.'},
     '2':{old:'R$ 198,80',now:'R$ 188,86',parc:'3× de R$ 62,95 sem juros',per:'R$ 94,43 por pote',dur:'≈ 4 meses de rotina',disc:'🏷️ −5% por quantidade · aplicado no checkout',save:'Você economiza R$ 9,94',label:'2 potes · −5%',img:'bottle-2.png',bar:67,barmsg:'−5% ativo. <b>Falta 1 pote</b> pra destravar o melhor valor: −10% e o ciclo completo.'},
@@ -1192,7 +1201,7 @@ html.lenis{scroll-behavior:auto!important}
     var bf=doc.getElementById('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
     var bm=doc.getElementById('kit-bar-msg');if(bm)bm.innerHTML=k.barmsg||'';
     var sb=doc.getElementById('p-save');if(sb){if(k.save){sb.style.display='inline-block';sb.textContent=k.save;}else sb.style.display='none';}
-    updateBar();
+    updateBar();setCTA();
     var href=checkout(kit);
     each(doc.querySelectorAll('#buy'),function(a){a.setAttribute('href',href);});
     each(doc.querySelectorAll('#toggle button'),function(b){b.classList.toggle('active',b.getAttribute('data-kit')===kit);});
@@ -1217,8 +1226,7 @@ html.lenis{scroll-behavior:auto!important}
       var add=doc.getElementById('bt-add');
       if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
       bumpQty=btOn?(parseInt(btSel,10)||0):0;
-      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?'COMPRAR KIT + SUPER VIT C':'COMPRAR AGORA';});
-      refreshBuy();updateFrete();updateBar();
+      refreshBuy();updateFrete();updateBar();setCTA();
     }
     each(qbtns,function(b){b.addEventListener('click',function(){
       each(qbtns,function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
