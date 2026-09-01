@@ -502,9 +502,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 /* mobile buy bar */
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:56;display:none;gap:12px;align-items:center;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
   background:rgba(252,247,238,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line-2)}
-.buybar .info{line-height:1.15}
-.buybar .info b{font-family:var(--head);font-size:19px}
-.buybar .info span{display:block;font-size:11px;color:var(--muted)}
+.buybar .bar-img{height:46px;width:auto;flex:none;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(32,38,107,.28))}
 .buybar .btn{flex:1;justify-content:center}
 
 /* smooth scroll (lenis) */
@@ -1085,7 +1083,7 @@ html.lenis{scroll-behavior:auto!important}
 </a>
 
 <div class="buybar" id="buybar">
-  <div class="info"><b id="bar-price">R$ 188,86</b><span id="bar-label">2 potes · com BOTANIKA</span></div>
+  <img class="bar-img" id="bar-img" src="bottle-3.png" alt="Kit Hair Botanika" aria-hidden="true">
   <a class="btn" id="bar-buy" data-checkout href="#oferta">Escolher meu kit</a>
 </div>
 
@@ -1156,12 +1154,10 @@ html.lenis{scroll-behavior:auto!important}
     var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
     var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
   }
-  /* buybar reflete kit + bump (preço e rótulo mudam junto com o cálculo) */
+  /* buybar: só a imagem dos potes do kit (sem texto) — reflete o kit selecionado */
   function updateBar(){
-    var k=KITS[currentKit]||{};
-    if(bumpQty){var total=money(k.now)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
-      set('bar-price','R$ '+brl(total));set('bar-label',(k.label||'')+' + '+bumpQty+'× Vit C');}
-    else{set('bar-price',k.now);set('bar-label',k.label);}
+    var k=KITS[currentKit]||{},img=doc.getElementById('bar-img');
+    if(img&&k.img)img.setAttribute('src',k.img);
   }
   function potes(n){return n+(n>1?' potes':' pote');}
   /* CTA principal: mostra kit Hair + bump (quando adicionado) */
