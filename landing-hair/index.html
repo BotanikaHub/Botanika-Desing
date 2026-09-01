@@ -491,7 +491,7 @@ html.lenis{scroll-behavior:auto!important}
 /* ===== Pop-up de diagnóstico + captura (ActiveCampaign) ===== */
 .lpq-ov{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(32,38,107,.30);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .lpq-ov.open{display:flex}
-.lpq{position:relative;width:100%;max-width:440px;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,var(--cream-2),var(--cream));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 30px 70px -30px rgba(32,38,107,.55);transform:translateY(14px) scale(.98);opacity:0;transition:transform .4s var(--ease),opacity .4s var(--ease)}
+.lpq{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 36px);overflow:hidden auto;-webkit-overflow-scrolling:touch;border-radius:22px;background:linear-gradient(180deg,var(--cream-2),var(--cream));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 30px 70px -30px rgba(32,38,107,.55);transform:translateY(14px) scale(.98);opacity:0;transition:transform .4s var(--ease),opacity .4s var(--ease)}
 .lpq-ov.open .lpq{transform:none;opacity:1}
 .lpq-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--ink);font-size:14px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2}
 .lpq-hd{padding:22px 22px 4px}
@@ -941,18 +941,19 @@ html.lenis{scroll-behavior:auto!important}
     <div class="lpq-hd"><span class="lpq-eye">◆ Diagnóstico · 10 segundos</span></div>
     <div class="lpq-bd">
       <div class="lpq-step on" data-step="1">
-        <h3>O que você mais quer cuidar?</h3>
-        <p class="lpq-p">Monta sua recomendação num toque — sem cadastro chato.</p>
+        <h3>O que mais te incomoda hoje?</h3>
+        <p class="lpq-p">Escolhe onde aperta — a resposta quase sempre está <b>por dentro</b>.</p>
         <div class="lpq-opts">
-          <button class="lpq-opt" data-angulo="cabelo"><span class="ic">💇‍♀️</span><span>Cabelo<small>queda, quebra, não cresce</small></span></button>
-          <button class="lpq-opt" data-angulo="unhas"><span class="ic">💅</span><span>Unhas<small>fracas, lascam, quebram</small></span></button>
+          <button class="lpq-opt" data-angulo="cabelo"><span class="ic">💇‍♀️</span><span>Cabelo<small>caindo, quebrando, sem crescer</small></span></button>
+          <button class="lpq-opt" data-angulo="unhas"><span class="ic">💅</span><span>Unhas<small>fracas, lascando, quebram fácil</small></span></button>
+          <button class="lpq-opt" data-angulo="pele"><span class="ic">✨</span><span>Pele<small>sem viço, opaca, ressecada</small></span></button>
         </div>
       </div>
       <div class="lpq-step" data-step="2">
         <h3 id="lpq-title">—</h3>
         <p class="lpq-p" id="lpq-body">—</p>
         <div class="lpq-field"><input type="email" id="lpq-email" inputmode="email" autocomplete="email" placeholder="seu melhor e-mail" required></div>
-        <button class="lpq-cta" id="lpq-send">Quero meu cupom</button>
+        <button class="lpq-cta" id="lpq-send">Quero meu desconto</button>
         <p class="lpq-legal">Você passa a receber conteúdos e novidades da Botanika. Sai quando quiser.</p>
         <button class="lpq-back" id="lpq-back">← voltar</button>
       </div>
@@ -960,7 +961,7 @@ html.lenis{scroll-behavior:auto!important}
         <h3>Prontinho! Seu cupom de boas-vindas 🌿</h3>
         <p class="lpq-p">Use no checkout. Nos kits de 2 ou 3 potes, o desconto por quantidade já entra sozinho.</p>
         <div class="lpq-coupon"><b id="lpq-code">BOTANIKA</b><span>5% OFF</span><button class="lpq-copy" id="lpq-copy">copiar</button></div>
-        <button class="lpq-cta" id="lpq-go" style="margin-top:16px">Ver meus kits →</button>
+        <button class="lpq-cta" id="lpq-go" style="margin-top:16px">Ir para a oferta →</button>
       </div>
     </div>
   </div>
@@ -1203,8 +1204,9 @@ html.lenis{scroll-behavior:auto!important}
   var doc=document, win=window, DONE='lp_popup_done', SEEN='lp_popup_seen', CUPOM='BOTANIKA';
   var ov=doc.getElementById('lpq'); if(!ov) return;
   var RES={
-    cabelo:{t:'A força do fio se constrói por dentro.',b:'O Hair Botanika reúne <b>13 ativos</b> (biotina, zinco, ferro, silício e mais) que <b>auxiliam na manutenção de cabelos normais</b> — de dentro pra fora. 1 cápsula por dia.'},
-    unhas:{t:'Unha forte é estrutura, não só esmalte.',b:'Cisteína e silício orgânico são <b>componentes da queratina</b> que forma as unhas. O Hair Botanika traz esses ativos em dose relevante — 1 cápsula por dia.'}
+    cabelo:{t:'Direto na raiz do fio.',b:'O Hair Botanika leva <b>biotina, zinco, ferro e silício</b> pra dentro — ativos que <b>auxiliam na manutenção de cabelos normais</b>. No dia a dia: fios mais nutridos, com força e brilho, e a base que o cabelo precisa pra crescer saudável. 1 cápsula por dia.'},
+    unhas:{t:'Estrutura, não esmalte.',b:'<b>Cisteína e silício orgânico</b> são componentes da <b>queratina</b> que forma a unha. Em dose relevante, no dia a dia: unhas mais firmes e resistentes — do jeito que se constrói por dentro. 1 cápsula por dia.'},
+    pele:{t:'Viço vem de dentro.',b:'<b>Vitaminas A, E, B2 e zinco</b> <b>contribuem para a manutenção da pele</b> e para a <b>proteção antioxidante</b> das células. No dia a dia: pele mais nutrida e com aparência saudável — além do que você passa por fora. 1 cápsula por dia.'}
   };
   var angulo='';
   function get(id){return doc.getElementById(id);}

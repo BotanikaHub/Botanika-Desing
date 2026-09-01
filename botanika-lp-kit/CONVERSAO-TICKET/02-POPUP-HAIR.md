@@ -4,9 +4,9 @@
 
 ## Como ficou (Hair)
 Modal na identidade da página (creme + índigo + Fraunces + eyebrow lima + chip dourado), **3 passos**:
-1. **Diagnóstico (2 dores):** "O que você mais quer cuidar?" → **Cabelo** (`angulo=cabelo`) ou **Unhas** (`angulo=unhas`).
-2. **Resultado + captura:** headline/parágrafo por dor (linguagem ANVISA-safe) + campo de e-mail + "Quero meu cupom" + micro-copy LGPD.
-3. **Cupom (só depois do e-mail):** revela **BOTANIKA · 5% OFF** (copiável) + CTA "Ver meus kits →" que fecha e rola pra `#oferta`.
+1. **Dor logo de cara (3 dores):** "O que mais te incomoda hoje?" → **Cabelo** (`cabelo`), **Unhas** (`unhas`) ou **Pele** (`pele`), cada um com subtítulo que bate na dor.
+2. **Como o produto age NAquela dor + benefícios do dia a dia:** headline/parágrafo específico por dor (ANVISA-safe) + campo de e-mail + "Quero meu desconto" + micro-copy LGPD.
+3. **Desconto (só depois do e-mail):** revela **BOTANIKA · 5% OFF** (copiável) + CTA "Ir para a oferta →" que fecha o modal e **rola pra `#oferta`** na própria LP.
 
 ## Mecânica (o molde reutilizável)
 - **Gatilho:** abre em **8s OU** ao rolar **>45%** (o que vier antes). Nunca imediato.
@@ -31,7 +31,9 @@ Modal na identidade da página (creme + índigo + Fraunces + eyebrow lima + chip
 > Mantenha: gatilho 8s/45%, flags anti-reexibição, cupom só no passo 3 (após e-mail), CTA rolando pra `#oferta`. Valide overflow 390px."
 
 ## Decisões desta rodada (Hair)
-- **2 dores** (não 3): Cabelo e Unhas (pele fica implícita no produto).
-- **Cupom só no final**, depois do e-mail (passo 3).
-- Cupom `BOTANIKA` (5%). Destino: **fica na própria LP** (CTA rola pra `#oferta`) — melhor pra conversão; o desconto por quantidade dos kits já entra sozinho no checkout.
-- **Não** citamos frete no pop-up (evita depender do valor 349/399, que segue pendente de confirmação — só será usado na barra de frete da Mudança 4).
+- **3 dores** — Cabelo, Unhas e **Pele** — pra bater na dor logo de cara (passo 1).
+- **Passo 2 = ação do produto naquela dor + benefícios do dia a dia** (não é só "resultado" genérico).
+- **Desconto só no final**, depois do e-mail (passo 3); ao submeter, revela o cupom e o CTA leva pra `#oferta` na própria LP (melhor pra conversão; o desconto por quantidade dos kits já entra sozinho no checkout).
+- Cupom `BOTANIKA` (5%).
+- **Não** citamos frete no pop-up (evita depender do valor 349/399, pendente — só entra na barra de frete da Mudança 4).
+- Modal com `max-height` + rolagem interna → cabe em telas curtas (testado 360×640).
