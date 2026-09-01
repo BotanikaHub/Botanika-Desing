@@ -242,6 +242,16 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .bump-txt .bump-price{color:var(--indigo-deep)}
 .bump-check{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;color:var(--indigo);font-weight:800;font-size:15px;transition:.2s}
 .bump.on .bump-check{background:var(--indigo);border-color:var(--indigo);color:#fff}
+/* tema do PRODUTO do bump (Tri[Mg]: meia-noite índigo + menta) — só este card ganha a cor do produto */
+.bump-tri{border-style:solid;border-color:#3b3f86;background:linear-gradient(120deg,#1b1f52,#2a2f72);box-shadow:0 14px 34px -20px rgba(20,24,74,.7)}
+.bump-tri:hover{border-color:#8fe3c2}
+.bump-tri .bump-txt b{color:#fff}
+.bump-tri .bump-txt small{color:rgba(255,255,255,.74)}
+.bump-tri .bump-txt .bump-price{color:#8fe3c2}
+.bump-tri img{background:#fff;border-radius:8px}
+.bump-tri .bump-check{border-color:rgba(255,255,255,.42);color:#fff}
+.bump-tri.on{border-color:#8fe3c2;background:linear-gradient(120deg,#20266B,#33397f)}
+.bump-tri.on .bump-check{background:#8fe3c2;border-color:#8fe3c2;color:#16204a}
 /* loader */
 .loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
 .loader.done{opacity:0;visibility:hidden}
@@ -912,10 +922,10 @@ html.lenis{scroll-behavior:auto!important}
             <div id="frete-msg">Faltam <b>R$ 80,62</b> pra frete grátis</div>
             <div class="frete-track"><i class="frete-fill" id="frete-fill"></i></div>
           </div>
-          <label class="bump" id="bump">
+          <label class="bump bump-tri" id="bump">
             <input type="checkbox" id="bump-chk">
-            <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_213101_e3fc602a-df19-4359-afcc-43fbeddf1127.png?v=1788213165" alt="Super Vitamina C" loading="lazy">
-            <span class="bump-txt"><b>Leve junto: Super Vitamina C</b><small>Imunidade + antioxidante · <b class="bump-price">R$ 89,52</b></small></span>
+            <img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489" alt="Tri[Mg] Complex" loading="lazy">
+            <span class="bump-txt"><b>Leve junto: Tri[Mg] Complex</b><small>Magnésio 3 em 1 · energia e relaxamento · <b class="bump-price">R$ 87,50</b></small></span>
             <span class="bump-check" aria-hidden="true">+</span>
           </label>
           <a class="btn block" id="buy" data-checkout href="#">COMPRAR AGORA</a>
@@ -1055,15 +1065,15 @@ html.lenis{scroll-behavior:auto!important}
 
   /* ---------- commerce config ---------- */
   var VARIANT='48650670670056';
-  var SUPERC={v:'48115368460520',price:89.52};  /* order bump: Super Vitamina C (preço real confirmado no Shopify) */
+  var BUMP={v:'48115368558824',price:87.50};  /* order bump: Tri[Mg] Complex (preço real confirmado no Shopify) */
   var bumpOn=false;
   var FRETE=349;  /* frete grátis real */
   var PASS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid','src','sck'];
   function utmString(){var q=new URLSearchParams(win.location.search),out=[];for(var i=0;i<PASS.length;i++){var k=PASS[i];var v=q.get(k);if(v)out.push(encodeURIComponent(k)+'='+encodeURIComponent(v));}return out.join('&');}
-  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpOn?','+SUPERC.v+':1':'');var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
+  function checkout(qty){var u='https://botanikabrasil.com.br/cart/'+VARIANT+':'+qty+(bumpOn?','+BUMP.v+':1':'');var p=[];if(String(qty)==='1')p.push('discount=BOTANIKA');var e=utmString();if(e)p.push(e);if(p.length)u+='?'+p.join('&');return u;}
   function brl(n){return n.toFixed(2).replace('.',',');}
   function updateFrete(){
-    var k=KITS[currentKit]||{},total=money(k.now)+(bumpOn?SUPERC.price:0);
+    var k=KITS[currentKit]||{},total=money(k.now)+(bumpOn?BUMP.price:0);
     var fill=doc.getElementById('frete-fill');if(fill)fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
     var msg=doc.getElementById('frete-msg');if(msg)msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
     var fr=doc.getElementById('frete');if(fr)fr.classList.toggle('done',total>=FRETE);
