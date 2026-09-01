@@ -553,7 +553,9 @@ html.lenis{scroll-behavior:auto!important}
   .g-3{grid-template-columns:repeat(2,1fr)}
   .offer-body{grid-template-columns:1fr}
   .nav-links{display:none}
-  .scroll-cue{display:none}  /* esconde no mobile: hero curto sobrepunha a nota do hero */
+  /* mobile: reserva espaço no rodapé do hero p/ o scroll-cue caber ABAIXO da nota (sem sobrepor) */
+  #hero{padding-bottom:96px}
+  .scroll-cue{bottom:30px}
 }
 @media(max-width:760px){
   .hdr .btn.sm{display:none}
