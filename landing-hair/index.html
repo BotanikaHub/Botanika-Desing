@@ -245,10 +245,10 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 @media(min-width:480px){.bt-card{grid-template-columns:.9fr 1.1fr;gap:10px}}
 .bt-stage{position:relative;display:grid;place-items:center;min-height:150px}
 .bt-shelf{position:absolute;bottom:20px;width:74%;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(48,56,144,.26),transparent 70%);filter:blur(4px);z-index:0}
-.bt-vis{position:relative;z-index:2;min-height:132px;transition:transform .4s var(--ease)}
+.bt-vis{position:relative;z-index:2;width:100%;min-height:132px;transition:transform .4s var(--ease)}
 .bt-vis.pop{animation:btpop .5s var(--ease)}
 @keyframes btpop{0%{transform:scale(.97)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
-.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
+.bt-vis img{position:absolute;bottom:0;left:50%;width:clamp(84px,22vw,116px);max-width:none;transform:translateX(-50%);transform-origin:bottom center;filter:drop-shadow(0 14px 18px rgba(32,38,107,.24));transition:transform .55s var(--ease),opacity .45s ease}
 .bt-vis .b1{z-index:3}.bt-vis .b2{z-index:2}.bt-vis .b3{z-index:1}
 .bt-vis .b2,.bt-vis .b3{opacity:0}
 .bt-vis[data-n="2"] .b1{transform:translateX(-30%) rotate(4deg)}
@@ -1186,6 +1186,7 @@ html.lenis{scroll-behavior:auto!important}
       var add=doc.getElementById('bt-add');
       if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
       bumpQty=btOn?(parseInt(btSel,10)||0):0;
+      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?('COMPRAR KIT + TRI[MG] ('+bumpQty+(bumpQty>1?' FRASCOS)':' FRASCO)')):'COMPRAR AGORA';});
       refreshBuy();updateFrete();
     }
     each(qbtns,function(b){b.addEventListener('click',function(){

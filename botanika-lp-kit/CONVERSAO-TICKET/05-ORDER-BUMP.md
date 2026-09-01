@@ -35,6 +35,10 @@ Frete grátis = **R$349** (confirmado: não é um desconto — é uma regra de f
 - Markup: `.frete` + `<div class="bumptri" id="bumptri" data-on>` (heading + `.bt-qty` pill 1/2/3 + `.bt-card` [stage com 3× `bottle-tri.png` + `#bt-badge`] [info: `#bt-tag`/`#bt-price`/`#bt-cash`/`#bt-save` + botão `#bt-add`]) no `.offer-cta`, antes do `#buy`.
 - JS: `BUMPV` + `BUMPS={'1':{n,total,inst,cash,tag,save,badge},...}` (números REAIS da escada do Tri) + `btSel` (frasco selecionado), `btOn` (adicionado?), `bumpQty` (0 ou frascos). IIFE `#bumptri`: `render()` (atualiza tag/preço/cash/save/badge/leque), `pill()` (desliza sob o botão ativo), `apply()` (liga/desliga o bump → `data-on`, texto do botão, `bumpQty`, href, frete). `checkout()` anexa `,BUMPV:bumpQty`; `updateFrete()` soma `BUMPS[bumpQty].total`.
 
+## Gotchas (bugs reais que apareceram)
+- **Frasco em leque some (0×0):** o reset global `img,video{max-width:100%}` + `.bt-vis` sem largura (filhos `position:absolute` → largura 0) fazia `max-width:100%` = 0px e o frasco colapsava. Fix: `.bt-vis{width:100%}` + `.bt-vis img{max-width:none}`. **Não era problema da imagem** (local nem CDN) — era CSS. Replicar esse fix em qualquer LP que usar o leque.
+- **CTA principal reage ao bump:** ao adicionar, o `#buy` vira `COMPRAR KIT + TRI[MG] (N FRASCO/S)`; ao remover, volta a `COMPRAR AGORA`. Sem isso o usuário adiciona e o botão não muda → confuso.
+
 ## Testado (headless)
 - Trocar frasco (sem adicionar) **pré-visualiza** tag/preço/selo (qty3 → "Menor preço · 10% OFF", R$78,75, selo −10%, "economize R$26,25") sem mexer no frete/checkout. **Adicionar** → `data-on=1`, botão "✓ Adicionado", frete kit3+3fr **"desbloqueado!"** (100%), href `...:3,48115368558824:3`. Trocar p/ 2 frascos com o bump ligado atualiza href `...:3,...:2` ao vivo. **Remover** volta pra 77%/kit3. `bottle-tri.png` carrega; leque + pill deslizante OK. Sem overflow 390px · `node --check` + tags OK.
 
