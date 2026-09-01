@@ -7,8 +7,8 @@
 ## Estado (marcar conforme avança)
 | # | Mudança | Genérica ou por-página | Status Hair |
 |---|---------|------------------------|-------------|
-| 1 | **ActiveCampaign** (captura de lead) | **Genérica** (mesma p/ todas) | 🟡 em execução — ver `01-ACTIVECAMPAIGN.md` |
-| 2 | Pop-up de diagnóstico | **Por página** (exclusivo) | ⬜ próximo |
+| 1 | **ActiveCampaign** (captura de lead) | **Genérica** (mesma p/ todas) | ✅ código pronto (`functions/api/lead.js`) · ⏳ falta setar `AC_API_KEY`/`AC_API_URL` no Cloudflare — ver `01-ACTIVECAMPAIGN.md` |
+| 2 | Pop-up de diagnóstico (2 dores → e-mail → cupom) | **Por página** (exclusivo) | ✅ Hair pronto e testado — ver `02-POPUP-HAIR.md` |
 | 3 | Seleção invertida 3→2→1 (barra que regride) | Por página (usa descontos reais) | ⬜ |
 | 4 | Imagens de benefício/objeção | Por página (depende de arte) | ⬜ |
 | 5 | "Carrinho contínuo" → na LP vira order bump + barra de frete + cart multi-item | Por página | ⬜ |
