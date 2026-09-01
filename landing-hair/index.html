@@ -256,7 +256,7 @@ h3{font-size:clamp(19px,2.2vw,23px)}
 .bt-vis[data-n="3"] .b1{transform:translateX(-50%) scale(1.02)}
 .bt-vis[data-n="3"] .b2{opacity:1;transform:translateX(-84%) rotate(-9deg) scale(.9)}
 .bt-vis[data-n="3"] .b3{opacity:1;transform:translateX(-16%) rotate(9deg) scale(.9)}
-.bt-badge{position:absolute;top:2px;right:2px;z-index:5;font-family:var(--head);font-weight:700;font-size:.92rem;color:#fff;background:var(--grad);border-radius:50%;width:52px;height:52px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.bt-badge{position:absolute;top:12px;right:16%;z-index:5;font-family:var(--head);font-weight:700;font-size:.8rem;color:#fff;background:var(--grad);border-radius:50%;width:46px;height:46px;display:grid;place-items:center;box-shadow:0 10px 22px rgba(48,56,144,.4);opacity:0;transform:scale(.5) rotate(-12deg);transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .bt-badge.show{opacity:1;transform:scale(1) rotate(-12deg)}
 .bt-info{position:relative;z-index:1;text-align:center}
 @media(min-width:480px){.bt-info{text-align:left}}
@@ -1217,7 +1217,7 @@ html.lenis{scroll-behavior:auto!important}
       var add=doc.getElementById('bt-add');
       if(add){add.setAttribute('aria-pressed',btOn?'true':'false');add.innerHTML=btOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido';}
       bumpQty=btOn?(parseInt(btSel,10)||0):0;
-      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?('COMPRAR KIT + SUPER VIT C ('+bumpQty+(bumpQty>1?' POTES)':' POTE)')):'COMPRAR AGORA';});
+      each(doc.querySelectorAll('#buy'),function(a){a.textContent=btOn?'COMPRAR KIT + SUPER VIT C':'COMPRAR AGORA';});
       refreshBuy();updateFrete();updateBar();
     }
     each(qbtns,function(b){b.addEventListener('click',function(){
