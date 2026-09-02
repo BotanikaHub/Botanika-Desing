@@ -1,0 +1,19 @@
+{% comment %} Captura UTMs da URL e grava como atributos do carrinho -> pedido. {% endcomment %}
+<script>
+(function () {
+  try {
+    var p = new URLSearchParams(location.search);
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id','fbclid','gclid'];
+    var found = {};
+    keys.forEach(function (k){ var v = p.get(k); if (v) found[k] = v; });
+    if (Object.keys(found).length) localStorage.setItem('btnk_utms', JSON.stringify(found));
+    var s = JSON.parse(localStorage.getItem('btnk_utms') || '{}');
+    if (Object.keys(s).length) {
+      fetch('/cart/update.js', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ attributes: s })
+      });
+    }
+  } catch(e){}
+})();
+</script>

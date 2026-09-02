@@ -1,0 +1,66 @@
+{%- comment -%}
+  Botanika — Order Bump (cart page)
+  Card custom desativado nesta pagina (o carrinho usa o bump do Upsell.com).
+  Esta secao agora so reposiciona o bump do Upsell.com para logo acima dos selos.
+{%- endcomment -%}
+<script>
+  (function () {
+    if (location.pathname.indexOf('/cart') === -1) return;
+    var KEY = '1787323159ca9b883c';
+    var stop = Date.now() + 20000;
+    function getBump() {
+      var s = document.querySelector('[id*="' + KEY + '"]');
+      if (s) return s;
+      var nodes = document.querySelectorAll('button, a, [role="button"], span, div');
+      for (var i = 0; i < nodes.length; i++) {
+        if (/adicionar com 10\s*%\s*off/i.test(nodes[i].textContent || '')) {
+          return nodes[i].closest('.shopify-section') || nodes[i];
+        }
+      }
+      return null;
+    }
+    function getBadges() {
+      return document.querySelector('.icon-box.grid_scroll')
+          || document.querySelector('.icon-box.mt-60')
+          || document.querySelector('.icon-box');
+    }
+    function place() {
+      var bump = getBump(), badges = getBadges();
+      if (!bump || !badges || !badges.parentNode) return;
+      if (bump.contains(badges) || badges.contains(bump)) return;
+      if (badges.previousElementSibling === bump) return;
+      badges.parentNode.insertBefore(bump, badges);
+    }
+    var iv = setInterval(function () {
+      place();
+      if (Date.now() > stop) clearInterval(iv);
+    }, 300);
+  })();
+</script>
+{% schema %}
+{
+  "name": "Order Bump",
+  "tag": "section",
+  "class": "section botanika-order-bump-section",
+  "enabled_on": {
+    "templates": ["cart"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Reposiciona o bump do Upsell.com no carrinho (logo acima dos selos). O card custom foi desativado nesta pagina; a gaveta continua usando o snippet botanika-order-bump."
+    },
+    {
+      "type": "checkbox",
+      "id": "show",
+      "label": "Mostrar order bump",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Order Bump"
+    }
+  ]
+}
+{% endschema %}

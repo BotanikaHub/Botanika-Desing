@@ -1,0 +1,226 @@
+{%- comment -%}
+  Botanika · Seção UNIFICADA de objeções "Mitos & verdades"
+  UMA seção pra todos os produtos — o conteúdo (título + 4 cards) troca por product.handle.
+  Renderiza apenas nas PDPs mapeadas abaixo; nos demais produtos não mostra nada.
+  Pra adicionar um produto novo: acrescente um bloco "when '<handle>'" no case.
+  Imagens hospedadas em Shopify Files (CDN permanente).
+{%- endcomment -%}
+
+{%- liquid
+  assign obj_show = false
+  assign eyebrow = 'Mitos & verdades'
+  assign cdn = 'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/'
+
+  case product.handle
+    when 'whey-balance-chocolate', 'whey-balance-sem-sabor'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre o whey'
+      assign img1 = cdn | append: 'hf_20260830_221929_8bb6b2bd-eec1-4f3c-9ca5-d6d74ae5933e.png?v=1788128685'
+      assign badge1 = 'Mito × Verdade'
+      assign line1 = 'Whey não é bomba nem anabolizante. É a proteína do leite, concentrada e pronta pra usar.'
+      assign img2 = cdn | append: 'hf_20260830_223138_fcb21669-c537-4c5d-874d-ddf91b976d12.png?v=1788129276'
+      assign badge2 = 'Não sobrecarrega'
+      assign line2 = 'Em quem é saudável, proteína não faz mal ao rim. É nutriente, não remédio.'
+      assign img3 = cdn | append: 'hf_20260830_223443_321f21c1-1c8d-4921-9028-5e2a92ab36e4.png?v=1788129779'
+      if product.handle == 'whey-balance-sem-sabor'
+        assign img3 = cdn | append: 'hf_20260830_223625_297cae0a-6fca-4d49-97b1-f53cc9aff975.png?v=1788129680'
+      endif
+      assign badge3 = '2 em 1'
+      assign line3 = 'Aqui vem com Colágeno C-PURE®: músculo, pele e articulação na mesma dose.'
+      assign img4 = cdn | append: 'hf_20260830_224305_99306d8b-08ea-4aa1-b5f5-5cc24dc322c0.png?v=1788130091'
+      assign badge4 = '23g por dose'
+      assign line4 = 'A proteína que o corpo usa pra construir e manter massa — todo dia, sem complicar.'
+
+    when 'tri-mg-complex'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre magnésio'
+      assign img1 = cdn | append: 'hf_20260831_014000_0eacb434-83c3-410d-adb9-2caf40440a0f.png?v=1788140520'
+      assign badge1 = 'Não é tudo igual'
+      assign line1 = 'Óxido de magnésio o corpo mal absorve. Aqui são 3 formas de rápida absorção.'
+      assign img2 = cdn | append: 'hf_20260831_005225_970308d6-7436-48fa-b731-23700dbfe484.png?v=1788137844'
+      assign badge2 = 'Não é laxante'
+      assign line2 = 'As formas queladas são suaves no intestino — nada do efeito do óxido/citrato.'
+      assign img3 = cdn | append: 'hf_20260831_005235_bb09f3df-61db-46f8-ad58-3ecac9c568bd.png?v=1788137844'
+      assign badge3 = 'Músculo & sono'
+      assign line3 = 'Magnésio ajuda no relaxamento muscular, na cãibra e na qualidade do sono.'
+      assign img4 = cdn | append: 'hf_20260831_005244_ede531de-874c-432f-a84f-4a10ba0d5f4e.png?v=1788137844'
+      assign badge4 = 'Faltar é comum'
+      assign line4 = 'Dieta moderna e estresse drenam seu magnésio. Repor virou rotina de quem cuida.'
+
+    when 'hair-botanika'
+      assign obj_show = true
+      assign heading = 'O que ninguém te conta sobre cabelo'
+      assign img1 = cdn | append: 'hf_20260831_021800_b77197d0-ca69-47f4-ba2f-6e1492159838.png?v=1788143267'
+      assign badge1 = 'Não é só biotina'
+      assign line1 = 'Biotina sozinha não resolve. Aqui são 13 ativos — Biotina, Zinco, Cisteína, Silício e mais — que o fio precisa de verdade.'
+      assign img2 = cdn | append: 'hf_20260831_022113_f89c5b14-1cb5-4595-bc47-f53161caa5c3.png?v=1788143267'
+      assign badge2 = 'Queda tem causa'
+      assign line2 = 'Estresse, dieta e falta de nutrientes enfraquecem o fio. Repor o que falta é o 1º passo pra frear a queda.'
+      assign img3 = cdn | append: 'hf_20260831_022321_1bf53449-781d-4265-9ade-aefa33959ae8.png?v=1788143267'
+      assign badge3 = 'Não é só cabelo'
+      assign line3 = 'Cabelos, unhas e pele no mesmo pote. Biotina, Silício e Zinco cuidam dos três de uma vez.'
+      assign img4 = cdn | append: 'hf_20260831_022506_96741d38-1fb1-4bd5-ace8-0f548964435a.png?v=1788143267'
+      assign badge4 = 'Resultado tem tempo'
+      assign line4 = 'O cabelo cresce em ciclos. A constância de ~90 dias é o que vira resultado — não é mágica de 1 semana.'
+
+    when 'tetravit-d'
+      assign obj_show = true
+      assign heading = 'O que ninguém te conta sobre vitamina D'
+      assign img1 = cdn | append: 'hf_20260831_030736_df9b9762-1440-42d4-a28d-654d76798e67.png?v=1788146299'
+      assign badge1 = '4 em 1'
+      assign line1 = 'Não é só vitamina D. São A, D, E e K juntas — as lipossolúveis que trabalham em equipe.'
+      assign img2 = cdn | append: 'hf_20260831_031023_6f403045-3870-420c-ac06-4888b0d833c5.png?v=1788146299'
+      assign badge2 = 'D pede K2'
+      assign line2 = 'Vitamina D sem K2 é meio caminho. A K2 direciona o cálcio pro osso, não pra artéria.'
+      assign img3 = cdn | append: 'hf_20260831_031332_d3a9c898-ac3c-45f0-a0fa-8202360eff76.png?v=1788146299'
+      assign badge3 = 'Sol não basta'
+      assign line3 = 'Pele coberta, vida indoor e protetor solar derrubam sua vitamina D. Repor virou regra.'
+      assign img4 = cdn | append: 'hf_20260831_031629_f6f4fc29-6a58-40ff-84eb-f69813da6e37.png?v=1788146299'
+      assign badge4 = '2 gotinhas'
+      assign line4 = 'Sem engolir cápsula: 2 gotas ao dia, absorção rápida em base de óleo (TCM).'
+
+    when 'creatina-l-carnitina'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre creatina'
+      assign img1 = cdn | append: 'hf_20260830_180127_4d755cf7-fa70-466f-a90d-b9c02482d880.png?v=1788114019'
+      assign badge1 = 'Mito × Fórmula'
+      assign line1 = 'Creatina não incha. O que enche é o músculo — água intramuscular, não retenção.'
+      assign img2 = cdn | append: 'hf_20260830_180637_bd44c285-463a-4a0c-beb8-0f143b943884.png?v=1788114019'
+      assign badge2 = 'Sem medo'
+      assign line2 = 'É a molécula que seu músculo já produz. Repor é força, não hormônio.'
+      assign img3 = cdn | append: 'hf_20260830_180821_6ec2b700-23fe-4bcd-ae17-6dd70104be19.png?v=1788114018'
+      assign badge3 = 'Com taurato'
+      assign line3 = 'Creatina + Magnésio Taurato: força no treino, sem cãibra depois.'
+      assign img4 = cdn | append: 'hf_20260830_181108_d8bbcf8b-c90d-4780-a5c3-bd3f3a908b88.png?v=1788114019'
+      assign badge4 = 'Depois dos 30'
+      assign line4 = 'Sua produção de creatina cai ~5% por década. Repor é matemática.'
+
+    when 'super-omega-3-coq10'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre Ômega 3'
+      assign img1 = cdn | append: 'hf_20260831_121934_934796f1-dcd6-48bf-b389-483970532bc9.png?v=1788179087'
+      assign badge1 = 'Concentrado'
+      assign line1 = 'Ômega 3 comum tem pouco ativo. Aqui são 990mg de EPA + 660mg de DHA por dose — concentração de verdade.'
+      assign img2 = cdn | append: 'hf_20260831_121937_1fa56fc2-8776-495f-bad1-ecaaa3b83556.png?v=1788179087'
+      assign badge2 = 'Sem repetir'
+      assign line2 = 'Óleo purificado em cápsula: sem aquele gosto de peixe que faz repetir depois.'
+      assign img3 = cdn | append: 'hf_20260831_121941_6d36fead-b39b-4824-ba82-f9418641fc93.png?v=1788179087'
+      assign badge3 = '2 em 1'
+      assign line3 = 'Vem com Coenzima Q10 (100mg): o antioxidante que trabalha junto com o Ômega 3.'
+      assign img4 = cdn | append: 'hf_20260831_121948_23d132ca-a768-459f-b501-a2a72eeb2a27.png?v=1788179087'
+      assign badge4 = 'Faz falta'
+      assign line4 = 'A dieta do dia a dia tem pouco peixe. Repor EPA e DHA virou rotina de quem se cuida.'
+
+    when 'super-vitamina-c'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre Vitamina C'
+      assign img1 = cdn | append: 'hf_20260831_143528_66d93af9-a77b-4bed-81bf-5b6e5fcb07e7.png?v=1788188859'
+      assign badge1 = '3 em 1'
+      assign line1 = 'Não é só vitamina C: vem com Quercetina e Própolis — o trio que reforça a imunidade.'
+      assign img2 = cdn | append: 'hf_20260831_150423_54da26d6-9be8-4312-809c-868a0fb4143a.png?v=1788188858'
+      assign badge2 = 'Dose de verdade'
+      assign line2 = 'São 600mg de Vitamina C por dose (1333% VD). Não é a dosinha de sempre.'
+      assign img3 = cdn | append: 'hf_20260831_143536_8468afd2-11f6-4ec5-8a20-dbb271933969.png?v=1788188859'
+      assign badge3 = 'Além da laranja'
+      assign line3 = 'Uma laranja tem ~50mg. Pra chegar aos 600mg todo dia, repor é o caminho.'
+      assign img4 = cdn | append: 'hf_20260831_143539_808ba430-17f6-44d6-a0a7-8d8c7a122090.png?v=1788188858'
+      assign badge4 = 'O ano todo'
+      assign line4 = 'Imunidade se cuida o ano inteiro — não só quando a gripe aparece. Constância é tudo.'
+
+    when 'sleep-inositol'
+      assign obj_show = true
+      assign heading = 'O que ninguém te contou sobre o sono'
+      assign img1 = cdn | append: 'hf_20260831_153703_8a93dde5-a7d0-4ff6-9645-a5450649e78f.png?v=1788191225'
+      assign badge1 = 'Não vicia'
+      assign line1 = 'Não é remédio de dormir. São nutrientes que ajudam o corpo a relaxar — sem dependência.'
+      assign img2 = cdn | append: 'hf_20260831_153707_54915ca1-e328-4811-959f-0ec8b776756e.png?v=1788191225'
+      assign badge2 = 'Não é só melatonina'
+      assign line2 = '6 ativos juntos: Magnésio, Glicina, Taurina, Inositol, Triptofano e Melatonina.'
+      assign img3 = cdn | append: 'hf_20260831_153711_b5155200-51a7-4114-80ff-be1a1e502f15.png?v=1788191225'
+      assign badge3 = 'Sem grogue'
+      assign line3 = 'Melatonina em dose baixa (0,21mg): relaxa sem aquele efeito ressaca no dia seguinte.'
+      assign img4 = cdn | append: 'hf_20260831_153723_691d2396-e37b-4ddc-bfe6-ece6530abd3a.png?v=1788191225'
+      assign badge4 = 'Vira ritual'
+      assign line4 = 'Sono bom se constrói com constância. Um copo morno à noite vira o sinal de desacelerar.'
+  endcase
+-%}
+
+{%- if obj_show -%}
+<section class="btk-obj" aria-label="{{ heading | escape }}">
+  <div class="btk-obj__head">
+    <span class="btk-obj__eyebrow">{{ eyebrow }}</span>
+    <h2 class="btk-obj__title">{{ heading }}</h2>
+  </div>
+
+  <ul class="btk-obj__track" role="list">
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="{{ img1 }}" alt="{{ badge1 | escape }} — Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ badge1 }}</span>
+      <p class="btk-obj__line">{{ line1 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="{{ img2 }}" alt="{{ badge2 | escape }} — Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ badge2 }}</span>
+      <p class="btk-obj__line">{{ line2 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="{{ img3 }}" alt="{{ badge3 | escape }} — Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ badge3 }}</span>
+      <p class="btk-obj__line">{{ line3 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="{{ img4 }}" alt="{{ badge4 | escape }} — Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ badge4 }}</span>
+      <p class="btk-obj__line">{{ line4 }}</p>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .btk-obj{
+    --navy:#15265c;
+    --navy-2:#0d1836;
+    --ink:#15265c;
+    --radius:20px;
+    --gap:16px;
+    box-sizing:border-box;width:100%;max-width:1200px;
+    margin:0 auto;padding:{{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    font-family:inherit;-webkit-font-smoothing:antialiased;
+  }
+  .btk-obj *{box-sizing:border-box;}
+  .btk-obj__head{text-align:center;margin:0 auto 28px;max-width:640px;}
+  .btk-obj__eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:#7a8bb8;margin-bottom:8px;}
+  .btk-obj__title{margin:0;font-size:clamp(22px,3.4vw,32px);line-height:1.15;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .btk-obj__track{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);}
+  .btk-obj__card{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--navy);box-shadow:0 10px 30px rgba(13,24,54,.14);isolation:isolate;}
+  .btk-obj__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:0;}
+  .btk-obj__card::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(13,24,54,.92) 0%,rgba(13,24,54,.72) 26%,rgba(13,24,54,.10) 52%,rgba(13,24,54,0) 68%);}
+  .btk-obj__badge{position:absolute;top:14px;left:14px;z-index:2;display:inline-block;padding:7px 13px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(13,24,54,.18);}
+  .btk-obj__line{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;margin:0;color:#fff;font-size:clamp(14px,1.15vw,16px);line-height:1.32;font-weight:600;text-shadow:0 1px 12px rgba(13,24,54,.45);}
+  @media (max-width:900px){.btk-obj__track{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){
+    .btk-obj{padding-left:0;padding-right:0;}
+    .btk-obj__head{padding:0 20px;}
+    .btk-obj__track{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .btk-obj__track::-webkit-scrollbar{display:none;}
+    .btk-obj__card{flex:0 0 78%;scroll-snap-align:center;}
+    .btk-obj__line{font-size:15px;}
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Botanika — objeções",
+  "tag": "section",
+  "class": "btk-obj-section",
+  "settings": [
+    { "type": "paragraph", "content": "Seção única de \"Mitos & verdades\". O conteúdo troca automaticamente conforme o produto da página (whey, Tri[Mg], Hair, TetraVit, Creatina, Super Ômega 3, Super Vitamina C, Sleep Inositol). Textos e imagens ficam no arquivo da seção." },
+    { "type": "range", "id": "padding_top", "label": "Espaço acima", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espaço abaixo", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [
+    { "name": "Botanika — objeções" }
+  ]
+}
+{% endschema %}

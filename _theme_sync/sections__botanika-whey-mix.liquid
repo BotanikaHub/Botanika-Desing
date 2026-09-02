@@ -1,0 +1,233 @@
+{%- comment -%}
+  Botanika — Mix de Sabores (Whey) para PDP
+  Renderiza SÓ em produtos que têm o metafield custom.whey_flavors (lista de produtos).
+  Deixa o cliente escolher quantidade por sabor e adicionar tudo ao carrinho sem sair da PDP.
+  O desconto progressivo (2un = 5% / 3un = 10%) é aplicado automaticamente no carrinho
+  pela escada "[ESCADA] Whey Balance (Choco + Sem Sabor)".
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign flavors = product.metafields.custom.whey_flavors.value
+-%}
+{%- if flavors != blank and flavors.size > 0 -%}
+  <div
+    class="bt-mix"
+    data-bt-mix
+    data-t2-qty="{{ s.tier2_qty }}"
+    data-t2-pct="{{ s.tier2_pct }}"
+    data-t3-qty="{{ s.tier3_qty }}"
+    data-t3-pct="{{ s.tier3_pct }}"
+    style="--bt-brand: {{ s.brand_color }}; --bt-accent: {{ s.accent_color }}; --bt-pt: {{ s.padding_top }}px; --bt-pb: {{ s.padding_bottom }}px;"
+  >
+    <div class="bt-mix__wrap">
+      <div class="bt-mix__head">
+        {%- if s.eyebrow != blank -%}<p class="bt-mix__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+        {%- if s.heading != blank -%}<h3 class="bt-mix__title">{{ s.heading }}</h3>{%- endif -%}
+        {%- if s.subheading != blank -%}<p class="bt-mix__sub">{{ s.subheading }}</p>{%- endif -%}
+      </div>
+
+      <div class="bt-mix__rows">
+        {%- for fp in flavors -%}
+          {%- assign v = fp.selected_or_first_available_variant -%}
+          {%- if v == nil -%}{%- continue -%}{%- endif -%}
+          {%- assign is_current = false -%}
+          {%- if fp.id == product.id -%}{%- assign is_current = true -%}{%- endif -%}
+          <div
+            class="bt-mix__row{% if is_current %} is-current{% endif %}"
+            data-row
+            data-variant-id="{{ v.id }}"
+            data-price="{{ v.price }}"
+            data-available="{{ v.available }}"
+          >
+            <div class="bt-mix__thumb">
+              {%- if fp.featured_image -%}
+                {{ fp.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,120,160', alt: fp.title, class: 'bt-mix__img' }}
+              {%- else -%}
+                <div class="bt-mix__img bt-mix__ph">🥤</div>
+              {%- endif -%}
+            </div>
+            <div class="bt-mix__info">
+              <p class="bt-mix__name">
+                {{ fp.metafields.custom.card_name | default: fp.title }}
+                {%- if is_current -%}<span class="bt-mix__badge">esta página</span>{%- endif -%}
+              </p>
+              <p class="bt-mix__price">
+                {%- if v.available -%}{{ v.price | money }}{%- else -%}<span class="bt-mix__out">Indisponível</span>{%- endif -%}
+              </p>
+            </div>
+            <div class="bt-mix__qty">
+              <button type="button" class="bt-mix__step" data-dec aria-label="Diminuir {{ fp.title }}"{% unless v.available %} disabled{% endunless %}>−</button>
+              <input
+                class="bt-mix__num"
+                type="text"
+                inputmode="numeric"
+                value="{% if is_current and v.available %}1{% else %}0{% endif %}"
+                data-num
+                readonly
+                aria-label="Quantidade de {{ fp.title }}"
+              >
+              <button type="button" class="bt-mix__step" data-inc aria-label="Aumentar {{ fp.title }}"{% unless v.available %} disabled{% endunless %}>+</button>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="bt-mix__foot">
+        <div class="bt-mix__summary">
+          <strong data-units>0</strong> un · <strong data-total>{{ 0 | money }}</strong>
+          <span class="bt-mix__disc" data-disc hidden></span>
+        </div>
+        <button type="button" class="bt-mix__cta" data-add disabled>{{ s.button_label }}</button>
+      </div>
+
+      {%- if s.note != blank -%}<p class="bt-mix__note">{{ s.note }}</p>{%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+    .bt-mix { padding-top: var(--bt-pt, 24px); padding-bottom: var(--bt-pb, 24px); }
+    .bt-mix__wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    .bt-mix__head { margin-bottom: 16px; }
+    .bt-mix__eyebrow { color: var(--bt-accent, #10c322); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 12px; margin: 0 0 6px; }
+    .bt-mix__title { color: var(--bt-brand, #323c91); font-weight: 800; font-size: clamp(18px, 2.4vw, 24px); line-height: 1.2; margin: 0 0 4px; }
+    .bt-mix__sub { color: #6b7080; font-size: 14px; line-height: 1.4; margin: 0; }
+
+    .bt-mix__rows { display: flex; flex-direction: column; gap: 10px; }
+    .bt-mix__row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1.5px solid #e7e9f2; border-radius: 16px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
+    .bt-mix__row.is-current { border-color: var(--bt-brand, #323c91); box-shadow: 0 6px 18px rgba(50, 60, 145, .08); }
+    .bt-mix__thumb { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 12px; overflow: hidden; background: #f2f4fb; }
+    .bt-mix__img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .bt-mix__ph { display: flex; align-items: center; justify-content: center; font-size: 26px; }
+    .bt-mix__info { flex: 1 1 auto; min-width: 0; }
+    .bt-mix__name { color: #14173a; font-weight: 700; font-size: 15px; line-height: 1.25; margin: 0 0 2px; }
+    .bt-mix__badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(50,60,145,.08); color: var(--bt-brand, #323c91); font-size: 11px; font-weight: 700; vertical-align: middle; }
+    .bt-mix__price { color: #4a4d57; font-weight: 700; font-size: 14px; margin: 0; }
+    .bt-mix__out { color: #b0b4c0; font-weight: 600; }
+
+    .bt-mix__qty { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0; border: 1.5px solid #e7e9f2; border-radius: 999px; overflow: hidden; }
+    .bt-mix__step { width: 36px; height: 36px; border: 0; background: #f7f8fc; color: var(--bt-brand, #323c91); font-size: 20px; line-height: 1; cursor: pointer; font-weight: 700; }
+    .bt-mix__step:hover { background: #eef0f9; }
+    .bt-mix__step:disabled { opacity: .4; cursor: default; }
+    .bt-mix__num { width: 40px; height: 36px; border: 0; text-align: center; font-size: 15px; font-weight: 700; color: #14173a; background: #fff; }
+
+    .bt-mix__foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 16px; flex-wrap: wrap; }
+    .bt-mix__summary { color: #14173a; font-size: 15px; }
+    .bt-mix__summary strong { color: var(--bt-brand, #323c91); }
+    .bt-mix__disc { display: inline-block; margin-left: 8px; padding: 3px 10px; border-radius: 999px; background: rgba(16,195,34,.12); color: #0a9a1c; font-size: 13px; font-weight: 800; }
+    .bt-mix__cta { flex: 1 1 220px; min-height: 50px; border: 0; border-radius: 14px; background: var(--bt-accent, #10c322); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; transition: filter .15s ease, opacity .15s ease; }
+    .bt-mix__cta:hover { filter: brightness(1.05); }
+    .bt-mix__cta:disabled { opacity: .5; cursor: default; }
+    .bt-mix__cta.is-loading { opacity: .7; cursor: wait; }
+    .bt-mix__note { color: #9a9ea8; font-size: 12px; margin: 10px 0 0; text-align: center; }
+
+    @media (max-width: 480px) {
+      .bt-mix__row { gap: 10px; padding: 10px; }
+      .bt-mix__thumb { width: 48px; height: 48px; }
+      .bt-mix__foot { flex-direction: column; align-items: stretch; gap: 10px; }
+      .bt-mix__summary { text-align: center; }
+      .bt-mix__cta { flex: 0 0 auto; width: 100%; min-height: 52px; }
+    }
+  {% endstylesheet %}
+
+  <script>
+    (function () {
+      var root = document.currentScript && document.currentScript.previousElementSibling;
+      function init(scope) {
+        (scope || document).querySelectorAll('[data-bt-mix]').forEach(function (el) {
+          if (el.dataset.btMixInit) return;
+          el.dataset.btMixInit = '1';
+          var t2q = parseInt(el.dataset.t2Qty, 10) || 2;
+          var t2p = parseFloat(el.dataset.t2Pct) || 0;
+          var t3q = parseInt(el.dataset.t3Qty, 10) || 3;
+          var t3p = parseFloat(el.dataset.t3Pct) || 0;
+          var rows = [].slice.call(el.querySelectorAll('[data-row]'));
+          var unitsEl = el.querySelector('[data-units]');
+          var totalEl = el.querySelector('[data-total]');
+          var discEl = el.querySelector('[data-disc]');
+          var addBtn = el.querySelector('[data-add]');
+          var fmt = function (cents) {
+            try { return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+            catch (e) { return 'R$ ' + (cents / 100).toFixed(2).replace('.', ','); }
+          };
+          function recompute() {
+            var units = 0, subtotal = 0;
+            rows.forEach(function (r) {
+              var q = parseInt(r.querySelector('[data-num]').value, 10) || 0;
+              units += q;
+              subtotal += q * (parseInt(r.dataset.price, 10) || 0);
+            });
+            unitsEl.textContent = units;
+            var pct = 0;
+            if (units >= t3q) pct = t3p; else if (units >= t2q) pct = t2p;
+            var finalCents = Math.round(subtotal * (1 - pct / 100));
+            totalEl.textContent = fmt(finalCents);
+            if (pct > 0) { discEl.hidden = false; discEl.textContent = '-' + pct + '% aplicado'; }
+            else { discEl.hidden = true; }
+            addBtn.disabled = units < 1;
+          }
+          rows.forEach(function (r) {
+            var num = r.querySelector('[data-num]');
+            var avail = r.dataset.available === 'true';
+            r.querySelector('[data-inc]').addEventListener('click', function () {
+              if (!avail) return;
+              num.value = (parseInt(num.value, 10) || 0) + 1; recompute();
+            });
+            r.querySelector('[data-dec]').addEventListener('click', function () {
+              var v = (parseInt(num.value, 10) || 0) - 1; if (v < 0) v = 0; num.value = v; recompute();
+            });
+          });
+          addBtn.addEventListener('click', function () {
+            var items = [];
+            rows.forEach(function (r) {
+              var q = parseInt(r.querySelector('[data-num]').value, 10) || 0;
+              if (q > 0) items.push({ id: parseInt(r.dataset.variantId, 10), quantity: q });
+            });
+            if (!items.length) return;
+            addBtn.classList.add('is-loading'); addBtn.disabled = true;
+            fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ items: items })
+            }).then(function (res) {
+              if (!res.ok) throw new Error('add failed');
+              window.location.href = '/cart';
+            }).catch(function () {
+              addBtn.classList.remove('is-loading'); addBtn.disabled = false;
+              alert('Não foi possível adicionar ao carrinho. Tente novamente.');
+            });
+          });
+          recompute();
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { init(); });
+      } else { init(); }
+      document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+    })();
+  </script>
+
+  {% schema %}
+  {
+    "name": "Mix de Sabores (Whey)",
+    "tag": "section",
+    "class": "section-bt-mix",
+    "settings": [
+      { "type": "paragraph", "content": "Aparece apenas em produtos que tenham o metafield custom.whey_flavors preenchido (lista de sabores). Configure a lista de sabores no metafield do produto." },
+      { "type": "text", "id": "eyebrow", "label": "Sobre-título", "default": "MONTE DO SEU JEITO" },
+      { "type": "text", "id": "heading", "label": "Título", "default": "Escolha seus sabores" },
+      { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Leve mais de um sabor e o desconto aplica sozinho no carrinho." },
+      { "type": "range", "id": "tier2_qty", "label": "Qtd. p/ 1º desconto", "min": 2, "max": 5, "step": 1, "default": 2 },
+      { "type": "range", "id": "tier2_pct", "label": "% do 1º desconto", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 5 },
+      { "type": "range", "id": "tier3_qty", "label": "Qtd. p/ 2º desconto", "min": 3, "max": 8, "step": 1, "default": 3 },
+      { "type": "range", "id": "tier3_pct", "label": "% do 2º desconto", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 10 },
+      { "type": "text", "id": "button_label", "label": "Texto do botão", "default": "Adicionar ao carrinho" },
+      { "type": "text", "id": "note", "label": "Nota (rodapé)", "default": "O desconto por quantidade é aplicado automaticamente no carrinho." },
+      { "type": "color", "id": "brand_color", "label": "Cor da marca", "default": "#323c91" },
+      { "type": "color", "id": "accent_color", "label": "Cor de destaque", "default": "#10c322" },
+      { "type": "range", "id": "padding_top", "label": "Espaço acima", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" },
+      { "type": "range", "id": "padding_bottom", "label": "Espaço abaixo", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" }
+    ],
+    "presets": [ { "name": "Mix de Sabores (Whey)" } ]
+  }
+  {% endschema %}

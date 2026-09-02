@@ -1,0 +1,106 @@
+{%- comment -%}
+  Botanika · TetraVit D · Cards de objecao "Mitos & verdades"
+  Renderiza SOMENTE na PDP do TetraVit D (gate por handle).
+  Imagens hospedadas em Shopify Files (CDN permanente).
+  Textos editaveis nas configuracoes da secao (theme editor).
+{%- endcomment -%}
+
+{%- if product.handle == 'tetravit-d' -%}
+<section class="btk-obj" aria-label="{{ section.settings.heading | escape }}">
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="btk-obj__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="btk-obj__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="btk-obj__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <ul class="btk-obj__track" role="list">
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_030736_df9b9762-1440-42d4-a28d-654d76798e67.png?v=1788146299" alt="{{ section.settings.badge_1 | escape }} — TetraVit D Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ section.settings.badge_1 }}</span>
+      <p class="btk-obj__line">{{ section.settings.line_1 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_031023_6f403045-3870-420c-ac06-4888b0d833c5.png?v=1788146299" alt="{{ section.settings.badge_2 | escape }} — TetraVit D Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ section.settings.badge_2 }}</span>
+      <p class="btk-obj__line">{{ section.settings.line_2 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_031332_d3a9c898-ac3c-45f0-a0fa-8202360eff76.png?v=1788146299" alt="{{ section.settings.badge_3 | escape }} — TetraVit D Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ section.settings.badge_3 }}</span>
+      <p class="btk-obj__line">{{ section.settings.line_3 }}</p>
+    </li>
+    <li class="btk-obj__card">
+      <img class="btk-obj__img" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_031629_f6f4fc29-6a58-40ff-84eb-f69813da6e37.png?v=1788146299" alt="{{ section.settings.badge_4 | escape }} — TetraVit D Botanika" loading="lazy" width="1856" height="2304">
+      <span class="btk-obj__badge">{{ section.settings.badge_4 }}</span>
+      <p class="btk-obj__line">{{ section.settings.line_4 }}</p>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .btk-obj{
+    --navy:#15265c;
+    --navy-2:#0d1836;
+    --ink:#15265c;
+    --radius:20px;
+    --gap:16px;
+    box-sizing:border-box;width:100%;max-width:1200px;
+    margin:0 auto;padding:{{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    font-family:inherit;-webkit-font-smoothing:antialiased;
+  }
+  .btk-obj *{box-sizing:border-box;}
+  .btk-obj__head{text-align:center;margin:0 auto 28px;max-width:640px;}
+  .btk-obj__eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:#7a8bb8;margin-bottom:8px;}
+  .btk-obj__title{margin:0;font-size:clamp(22px,3.4vw,32px);line-height:1.15;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .btk-obj__track{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);}
+  .btk-obj__card{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--navy);box-shadow:0 10px 30px rgba(13,24,54,.14);isolation:isolate;}
+  .btk-obj__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:0;}
+  .btk-obj__card::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(13,24,54,.92) 0%,rgba(13,24,54,.72) 26%,rgba(13,24,54,.10) 52%,rgba(13,24,54,0) 68%);}
+  .btk-obj__badge{position:absolute;top:14px;left:14px;z-index:2;display:inline-block;padding:7px 13px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(13,24,54,.18);}
+  .btk-obj__line{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;margin:0;color:#fff;font-size:clamp(14px,1.15vw,16px);line-height:1.32;font-weight:600;text-shadow:0 1px 12px rgba(13,24,54,.45);}
+  @media (max-width:900px){.btk-obj__track{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){
+    .btk-obj{padding-left:0;padding-right:0;}
+    .btk-obj__head{padding:0 20px;}
+    .btk-obj__track{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .btk-obj__track::-webkit-scrollbar{display:none;}
+    .btk-obj__card{flex:0 0 78%;scroll-snap-align:center;}
+    .btk-obj__line{font-size:15px;}
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "TetraVit — objeções",
+  "tag": "section",
+  "class": "btk-obj-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Mitos & verdades" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "O que ninguém te conta sobre vitamina D" },
+    { "type": "header", "content": "Card 1" },
+    { "type": "text", "id": "badge_1", "label": "Selo 1", "default": "4 em 1" },
+    { "type": "textarea", "id": "line_1", "label": "Frase 1", "default": "Não é só vitamina D. São A, D, E e K juntas — as lipossolúveis que trabalham em equipe." },
+    { "type": "header", "content": "Card 2" },
+    { "type": "text", "id": "badge_2", "label": "Selo 2", "default": "D pede K2" },
+    { "type": "textarea", "id": "line_2", "label": "Frase 2", "default": "Vitamina D sem K2 é meio caminho. A K2 direciona o cálcio pro osso, não pra artéria." },
+    { "type": "header", "content": "Card 3" },
+    { "type": "text", "id": "badge_3", "label": "Selo 3", "default": "Sol não basta" },
+    { "type": "textarea", "id": "line_3", "label": "Frase 3", "default": "Pele coberta, vida indoor e protetor solar derrubam sua vitamina D. Repor virou regra." },
+    { "type": "header", "content": "Card 4" },
+    { "type": "text", "id": "badge_4", "label": "Selo 4", "default": "2 gotinhas" },
+    { "type": "textarea", "id": "line_4", "label": "Frase 4", "default": "Sem engolir cápsula: 2 gotas ao dia, absorção rápida em base de óleo (TCM)." },
+    { "type": "header", "content": "Espaçamento" },
+    { "type": "range", "id": "padding_top", "label": "Espaço acima", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espaço abaixo", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [
+    { "name": "TetraVit — objeções" }
+  ]
+}
+{% endschema %}

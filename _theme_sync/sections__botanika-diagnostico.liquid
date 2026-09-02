@@ -1,0 +1,231 @@
+{%- comment -%}
+  Pop-up de Diagnóstico Botanika — SOMENTE na home.
+  Captura via Cloudflare /api/lead (origem:site) -> ActiveCampaign. Redireciona pra PDP.
+  Abre 5s OU exit-intent, 1x por sessão.
+{%- endcomment -%}
+{%- if request.page_type == 'index' and section.settings.enable -%}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap">
+  <div id="botanika-dg" data-delay="{{ section.settings.delay_seconds }}" data-coupon="{{ section.settings.coupon | escape }}" data-endpoint="{{ section.settings.lead_endpoint | escape }}" hidden>
+    <div class="dg-ov" role="dialog" aria-modal="true" aria-label="Diagnóstico Botanika">
+      <div class="dg">
+        <button class="dg__x" type="button" aria-label="Fechar" data-dg-close>✕</button>
+
+        <div data-step="1">
+          <div class="dg__head">
+            <div class="dg__eyebrow">Diagnóstico Botanika · 30s</div>
+            <h2 class="dg__title">{{ section.settings.heading }}</h2>
+            <p class="dg__sub">{{ section.settings.subheading }}</p>
+          </div>
+          <div class="dg__body">
+            <div class="dg__list" data-dg-dores></div>
+            <div class="dg__foot">Sem enrolação · recomendação na hora</div>
+          </div>
+        </div>
+
+        <div data-step="2" hidden>
+          <div class="dg__body">
+            <button class="dg__back" type="button" data-dg-back><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>voltar</button>
+            <div class="dg__rec" data-dg-rec></div>
+            <form data-dg-form>
+              <div class="dg__fld">
+                <label for="dg-mail">Pra onde enviamos sua recomendação + cupom?</label>
+                <input type="email" id="dg-mail" placeholder="seu@email.com" required inputmode="email" autocomplete="email">
+              </div>
+              <button type="submit" class="dg__cta" data-dg-submit>
+                <span data-dg-submit-lbl>Quero minha recomendação</span>
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="dg__skip" data-dg-skip>Só quero ver o produto</button>
+              <p class="dg__consent">Ao continuar, você aceita receber e-mails da Botanika. Pode sair quando quiser. 🔒</p>
+            </form>
+          </div>
+        </div>
+
+        <div data-step="3" hidden>
+          <div class="dg__body">
+            <div class="dg__done">
+              <div class="dg__done-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <h2 class="dg__done-t">Prontinho! 🎉</h2>
+              <p class="dg__done-s">Sua recomendação foi pro e-mail. Copie o cupom e garanta <b>5% OFF</b> no <b data-dg-name>produto</b>.</p>
+              <div class="dg__coupon">
+                <div class="dg__coupon-lbl">Seu cupom de boas-vindas</div>
+                <div class="dg__coupon-row">
+                  <span class="dg__coupon-code" data-dg-code>BOTANIKA</span>
+                  <button class="dg__coupon-copy" type="button" data-dg-copy>Copiar</button>
+                </div>
+              </div>
+              <p class="dg__coupon-hint" data-dg-hint></p>
+              <button class="dg__cta" type="button" data-dg-go>
+                <span data-dg-go-lbl>Copiar cupom e ver produto</span>
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #botanika-dg{--blue:#323C91;--navy:#15265c;--ink:#1a2340;--muted:#6b7392;--line:#e6e8f2;--tint:#eef1fb;--tintA:#f5f6fc;--gold:#f4b325;--ok:#1a8f3c;--ok-tint:#e9f6ee;}
+    #botanika-dg[hidden]{display:none!important}
+    #botanika-dg .dg-ov{position:fixed;inset:0;z-index:99999;background:rgba(15,20,45,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;font-family:'Inter',system-ui,-apple-system,sans-serif;overflow-y:auto;}
+    #botanika-dg.is-open .dg-ov{opacity:1;}
+    #botanika-dg .dg{position:relative;width:100%;max-width:432px;background:#fff;color:var(--ink);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px -20px rgba(21,38,92,.5);transform:translateY(16px) scale(.98);transition:transform .28s cubic-bezier(.22,.61,.36,1);-webkit-font-smoothing:antialiased;}
+    #botanika-dg.is-open .dg{transform:none;}
+    #botanika-dg .dg__x{position:absolute;top:12px;right:12px;z-index:3;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.85);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;display:grid;place-items:center;}
+    #botanika-dg .dg__x:hover{background:#fff;color:var(--ink);}
+    #botanika-dg .dg__head{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;padding:26px 24px 22px;text-align:center;}
+    #botanika-dg .dg__eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-bottom:8px;}
+    #botanika-dg .dg__title{font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:0;text-wrap:balance;}
+    #botanika-dg .dg__sub{font-size:13px;opacity:.85;margin:8px 0 0;line-height:1.4;}
+    #botanika-dg .dg__body{padding:18px;}
+    #botanika-dg .dg__list{display:flex;flex-direction:column;gap:9px;}
+    #botanika-dg .dg-dor{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;font:inherit;transition:.15s;color:var(--ink);}
+    #botanika-dg .dg-dor:hover{border-color:var(--blue);background:var(--tintA);transform:translateY(-1px);}
+    #botanika-dg .dg-dor__ic{flex:0 0 38px;height:38px;border-radius:11px;background:var(--tint);display:grid;place-items:center;font-size:19px;}
+    #botanika-dg .dg-dor__l{flex:1;min-width:0;}
+    #botanika-dg .dg-dor__t{font-size:14px;font-weight:700;line-height:1.2;letter-spacing:-.01em;}
+    #botanika-dg .dg-dor__s{font-size:11.5px;color:var(--muted);margin-top:1px;}
+    #botanika-dg .dg-dor__ch{flex:0 0 auto;color:#c2c8e4;}
+    #botanika-dg .dg-dor__ch svg{width:16px;height:16px;display:block;}
+    #botanika-dg .dg__foot{text-align:center;font-size:11px;color:var(--muted);margin-top:14px;}
+    #botanika-dg .dg__back{display:inline-flex;align-items:center;gap:5px;background:none;border:0;color:var(--muted);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:0;margin-bottom:14px;}
+    #botanika-dg .dg__back svg{width:14px;height:14px;}
+    #botanika-dg .dg__rec{display:flex;align-items:center;gap:13px;background:var(--tintA);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:16px;}
+    #botanika-dg .dg__rec img{flex:0 0 62px;width:62px;height:62px;border-radius:12px;background:#fff;object-fit:contain;padding:4px;border:1px solid var(--line);}
+    #botanika-dg .dg__rec-l{min-width:0;}
+    #botanika-dg .dg__rec-tag{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-bottom:5px;}
+    #botanika-dg .dg__rec-t{font-size:15px;font-weight:800;line-height:1.15;letter-spacing:-.01em;font-family:'Fraunces',serif;}
+    #botanika-dg .dg__rec-s{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.35;}
+    #botanika-dg .dg__fld{margin-bottom:14px;}
+    #botanika-dg .dg__fld label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+    #botanika-dg .dg__fld input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:13px 14px;font:inherit;font-size:15px;color:var(--ink);outline:none;transition:.15s;background:#fff;}
+    #botanika-dg .dg__fld input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(50,60,145,.12);}
+    #botanika-dg .dg__cta{width:100%;border:0;border-radius:12px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:15px;padding:16px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    #botanika-dg .dg__cta:hover{background:var(--navy);}
+    #botanika-dg .dg__cta:disabled{opacity:.6;cursor:not-allowed;}
+    #botanika-dg .dg__cta svg{width:17px;height:17px;}
+    #botanika-dg .dg__skip{display:block;width:100%;text-align:center;background:none;border:0;color:var(--muted);font:inherit;font-size:11.5px;margin-top:12px;cursor:pointer;text-decoration:underline;}
+    #botanika-dg .dg__consent{font-size:10.5px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.45;}
+    #botanika-dg .dg__done{text-align:center;padding:6px 2px 2px;}
+    #botanika-dg .dg__done-ic{width:60px;height:60px;border-radius:50%;background:var(--ok-tint);display:grid;place-items:center;margin:2px auto 14px;}
+    #botanika-dg .dg__done-ic svg{width:30px;height:30px;color:var(--ok);}
+    #botanika-dg .dg__done-t{font-family:'Fraunces',serif;font-size:21px;font-weight:600;letter-spacing:-.01em;margin:0 0 6px;}
+    #botanika-dg .dg__done-s{font-size:13px;color:var(--muted);line-height:1.45;margin:0 0 18px;}
+    #botanika-dg .dg__done-s b{color:var(--ink);}
+    #botanika-dg .dg__coupon{border:1.5px dashed var(--blue);background:var(--tint);border-radius:14px;padding:14px;margin-bottom:8px;}
+    #botanika-dg .dg__coupon-lbl{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+    #botanika-dg .dg__coupon-row{display:flex;align-items:center;gap:10px;}
+    #botanika-dg .dg__coupon-code{flex:1;font-family:'Fraunces',serif;font-size:22px;font-weight:700;letter-spacing:.04em;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;}
+    #botanika-dg .dg__coupon-copy{flex:0 0 auto;border:0;border-radius:10px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:13px;padding:12px 16px;cursor:pointer;transition:.15s;white-space:nowrap;}
+    #botanika-dg .dg__coupon-copy:hover{background:var(--navy);}
+    #botanika-dg .dg__coupon-copy.ok{background:var(--ok);}
+    #botanika-dg .dg__coupon-hint{font-size:11px;color:var(--ok);font-weight:700;margin:8px 0 0;min-height:15px;}
+    #botanika-dg [hidden]{display:none!important}
+    @media (prefers-reduced-motion:reduce){#botanika-dg *{transition:none!important}}
+  </style>
+
+  <script>
+    (function(){
+      var root=document.getElementById('botanika-dg');
+      if(!root||root.dataset.dgInit==='1') return; root.dataset.dgInit='1';
+      var KEY='botanika_dg_seen';
+      var MAP=[
+        {tag:'dor_cabelo',emoji:'💇',t:'Cabelo, pele e unhas',s:'Queda, unhas fracas, pele',handle:'hair-botanika',name:'Hair Botanika',desc:'Biotina, zinco e silício pra cabelo, pele e unhas.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_212436_2eecf689-332d-4c84-9e71-7376ec2a844e.png?v=1788211809'},
+        {tag:'dor_imunidade',emoji:'🛡️',t:'Imunidade e disposição',s:'Gripes, cansaço, defesa baixa',handle:'super-vitamina-c',name:'Super Vitamina C',desc:'Vitamina C + quercetina + própolis pra sua defesa.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_213101_e3fc602a-df19-4359-afcc-43fbeddf1127.png?v=1788213165'},
+        {tag:'dor_sono',emoji:'🌙',t:'Sono e ansiedade',s:'Dorme mal, mente agitada',handle:'sleep-inositol',name:'Sleep Inositol',desc:'Relaxamento e uma rotina de sono melhor.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_212436_21a15001-aa66-48cd-babf-0163d14b64e6.png?v=1788211802'},
+        {tag:'dor_magnesio',emoji:'⚡',t:'Estresse, cãibra e TPM',s:'Falta de magnésio',handle:'tri-mg-complex',name:'Tri[Mg] Complex',desc:'Magnésio 3 em 1 de rápida absorção.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco-pote_1731ec88-ac8c-47b6-b330-23cb8da5e990.png?v=1788210489'},
+        {tag:'dor_treino',emoji:'💪',t:'Energia e treino',s:'Performance, massa, força',handle:'creatina-l-carnitina',name:'Creatina + Mg Taurato',desc:'Creatina + magnésio taurato pra performance.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/creatina-taurato-fundo-branco_f3c5386a-b3a9-40e6-8544-504bb393c627.png?v=1788210481'},
+        {tag:'dor_coracao',emoji:'❤️',t:'Coração e inflamação',s:'Colesterol, articulações',handle:'super-omega-3-coq10',name:'Super Ômega 3 + CoQ10',desc:'Ômega 3 concentrado + CoQ10.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260831_212436_377326e1-99a8-4c12-944f-7ce849e17a76.png?v=1788211804'},
+        {tag:'dor_proteina',emoji:'🥤',t:'Proteína e recuperação',s:'Massa, saciedade, treino',handle:'whey-balance-chocolate',name:'Whey Balance Chocolate',desc:'Whey concentrado + colágeno C-PURE®.',img:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/01-principal-fundo-branco_c7317567-dd83-4df7-89fe-c5d7f1f5524b.png?v=1788210490'}
+      ];
+      var COUPON=root.dataset.coupon||'BOTANIKA';
+      var DELAY=(parseInt(root.dataset.delay)||5)*1000;
+      var chosen=null, opened=false;
+      var q=function(s){return root.querySelector(s);};
+      var steps={1:q('[data-step="1"]'),2:q('[data-step="2"]'),3:q('[data-step="3"]')};
+      function show(n){ [1,2,3].forEach(function(k){ steps[k].hidden=(k!==n); }); }
+
+      var list=q('[data-dg-dores]');
+      MAP.forEach(function(d){
+        var b=document.createElement('button'); b.type='button'; b.className='dg-dor';
+        b.innerHTML='<span class="dg-dor__ic">'+d.emoji+'</span><span class="dg-dor__l"><span class="dg-dor__t">'+d.t+'</span><span class="dg-dor__s">'+d.s+'</span></span><span class="dg-dor__ch"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+        b.addEventListener('click',function(){ chosen=d; toStep2(d); });
+        list.appendChild(b);
+      });
+
+      function toStep2(d){
+        q('[data-dg-rec]').innerHTML='<img src="'+d.img+'" alt="'+d.name+'"><div class="dg__rec-l"><span class="dg__rec-tag">Recomendado pra você</span><div class="dg__rec-t">'+d.name+'</div><div class="dg__rec-s">'+d.desc+'</div></div>';
+        show(2);
+      }
+      function dest(d){ return '/products/'+d.handle; }
+      function go(d){ window.location.href = dest(d); }
+
+      var EP=root.dataset.endpoint||'';
+      var SLUG={'hair-botanika':'hair','super-vitamina-c':'vitaminac','sleep-inositol':'sleep','tri-mg-complex':'trimagnesio','creatina-l-carnitina':'creatina','super-omega-3-coq10':'omega3','whey-balance-chocolate':'whey'};
+      function capture(email,d){
+        if(!EP) return Promise.resolve();
+        var payload={ email:email, produto:(SLUG[d.handle]||d.handle), angulo:(d.tag||'').replace('dor_',''), origem:'site' };
+        return fetch(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
+      }
+
+      q('[data-dg-form]').addEventListener('submit',function(e){
+        e.preventDefault();
+        var email=q('#dg-mail').value;
+        var btn=q('[data-dg-submit]'),lbl=q('[data-dg-submit-lbl]');
+        btn.disabled=true; lbl.textContent='Enviando…';
+        capture(email,chosen).then(function(){
+          btn.disabled=false; lbl.textContent='Quero minha recomendação';
+          q('[data-dg-name]').textContent=chosen.name;
+          q('[data-dg-code]').textContent=COUPON;
+          show(3);
+        });
+      });
+      q('[data-dg-skip]').addEventListener('click',function(){ go(chosen); });
+      q('[data-dg-back]').addEventListener('click',function(){ show(1); });
+
+      function copyCoupon(){
+        var ok=function(){ var b=q('[data-dg-copy]'); b.textContent='Copiado ✓'; b.classList.add('ok'); q('[data-dg-hint]').textContent='Cupom copiado! É só colar no carrinho.'; };
+        if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(COUPON).then(ok,ok); } else { ok(); }
+      }
+      q('[data-dg-copy]').addEventListener('click',copyCoupon);
+      q('[data-dg-go]').addEventListener('click',function(){
+        copyCoupon(); q('[data-dg-go-lbl]').textContent='Redirecionando…';
+        setTimeout(function(){ go(chosen); },1100);
+      });
+
+      function open(){
+        if(opened) return; opened=true;
+        try{ sessionStorage.setItem(KEY,'1'); }catch(e){}
+        root.hidden=false;
+        requestAnimationFrame(function(){ root.classList.add('is-open'); });
+        document.documentElement.style.overflow='hidden';
+      }
+      function close(){ root.classList.remove('is-open'); document.documentElement.style.overflow=''; setTimeout(function(){ root.hidden=true; },260); }
+      q('[data-dg-close]').addEventListener('click',close);
+      root.querySelector('.dg-ov').addEventListener('click',function(e){ if(e.target===this) close(); });
+      document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!root.hidden) close(); });
+
+      var seen=false; try{ seen=sessionStorage.getItem(KEY)==='1'; }catch(e){}
+      if(!seen){
+        setTimeout(open, DELAY);
+        document.addEventListener('mouseout',function(e){ if(!opened && e.clientY<=0){ open(); } });
+      }
+    })();
+  </script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Pop-up Diagnóstico",
+  "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Ativar pop-up (só na home)", "default": true },
+    { "type": "range", "id": "delay_seconds", "label": "Atraso pra abrir (s)", "min": 0, "max": 30, "step": 1, "unit": "s", "default": 5 },
+    { "type": "text", "id": "coupon", "label": "Cupom", "default": "BOTANIKA" },
+    { "type": "text", "id": "lead_endpoint", "label": "Endpoint de captura (Cloudflare)", "default": "https://botanika-desing.pages.dev/api/lead" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Qual seu maior objetivo hoje?" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "A gente te recomenda o produto certo pra sua meta." }
+  ]
+}
+{% endschema %}

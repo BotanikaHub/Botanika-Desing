@@ -1,0 +1,340 @@
+{%- comment -%}
+  ============================================================
+  Conteúdo extra da gaveta de menu (mobile) — identidade Botanika.
+
+  Deixa a gaveta mobile "botanika": painel inteiro na cor da marca,
+  canto arredondado, texto branco, e conteúdo que vende ANTES dos
+  links — categorias em círculo e prévia de "Mais vendidos" —, com
+  contato (WhatsApp) e assinatura depois. Referência: Guday/Blessy.
+
+  POR QUE INJETADO POR JS: a gaveta é montada dentro de
+  snippets/horizontal-menu.liquid (60k caracteres). Em vez de
+  reescrever esse arquivo por API (onde um erro derruba a loja), o
+  conteúdo é renderizado aqui pelo Liquid (imagens, preços e links
+  vêm do servidor) e um script curto só o MOVE para dentro da
+  gaveta. Se o script falhar, os blocos ficam escondidos e o menu
+  continua funcionando normalmente.
+
+  Autocontido: o CSS abaixo estiliza só a gaveta mobile e os blocos
+  .bkm — não altera o header/desktop. Renderizado por
+  snippets/toggle-menu.liquid (presente em todas as páginas).
+  ============================================================
+{%- endcomment -%}
+<style>
+  :root {
+    --bk-azul: #323C91;
+    --bk-azul-esc: #1B2560;
+    --bk-verde: #C4D78A;
+  }
+
+  @media (max-width: 1024.98px) {
+    nav.navigation.horizontal.mobile {
+      background: var(--bk-azul) !important;
+      border-radius: 0 26px 26px 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    nav.navigation.horizontal.mobile .menu-mobile-title {
+      background: transparent !important;
+      min-height: 62px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+    }
+    nav.navigation.horizontal.mobile .menu-mobile-title a {
+      color: #fff !important;
+      font-size: 17px;
+      letter-spacing: .005em;
+    }
+    nav.navigation.horizontal.mobile .menu-mobile-title a:not(.active) { opacity: .6; }
+    nav.navigation.horizontal.mobile > close-menu svg { color: #fff !important; }
+
+    nav.navigation.horizontal.mobile .horizontal-list > li.level0 > menu-item > a {
+      font-size: 15.5px !important;
+      font-weight: 600 !important;
+      color: #fff !important;
+    }
+    nav.navigation.horizontal.mobile .horizontal-list > li.level0 > menu-item {
+      border-color: rgba(255, 255, 255, .14) !important;
+    }
+    nav.navigation.horizontal.mobile open-children-toggle svg.icon-down {
+      color: #fff;
+      opacity: .65;
+    }
+
+    nav.navigation.horizontal.mobile .submenu {
+      background: var(--bk-azul) !important;
+      --gradient-background: var(--bk-azul);
+    }
+    nav.navigation.horizontal.mobile .submenu a,
+    nav.navigation.horizontal.mobile .submenu back-menu,
+    nav.navigation.horizontal.mobile .submenu .heading-style { color: #fff !important; }
+    nav.navigation.horizontal.mobile .submenu .grey-bg {
+      background: rgba(255, 255, 255, .08) !important;
+      border-color: rgba(255, 255, 255, .14) !important;
+    }
+    nav.navigation.horizontal.mobile .submenu menu-item,
+    nav.navigation.horizontal.mobile .submenu .border-bottom {
+      border-color: rgba(255, 255, 255, .14) !important;
+    }
+
+    nav.navigation.horizontal.mobile .horizontal-list a.account-login,
+    nav.navigation.horizontal.mobile .horizontal-list a.account-url {
+      margin: 20px 0 8px !important;
+      border: 1.5px solid rgba(255, 255, 255, .55) !important;
+      border-radius: 999px !important;
+      min-height: 48px !important;
+      justify-content: center !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      gap: 8px;
+    }
+    nav.navigation.horizontal.mobile .horizontal-list a.account-login svg,
+    nav.navigation.horizontal.mobile .horizontal-list a.account-url svg { color: #fff; }
+
+    nav.navigation.horizontal.mobile .lang__currency-on-nav {
+      border-color: rgba(255, 255, 255, .16) !important;
+      color: #fff;
+    }
+    nav.navigation.horizontal.mobile .lang__currency-on-nav a,
+    nav.navigation.horizontal.mobile .lang__currency-on-nav button,
+    nav.navigation.horizontal.mobile .lang__currency-on-nav span { color: #fff !important; }
+
+    #bk-menu-topo { padding: 20px 30px 4px; color: #fff; }
+    #bk-menu-extra { padding: 14px 30px 34px; color: #fff; }
+    .bkm__bloco { margin-bottom: 24px; }
+    .bkm__titulo {
+      margin: 0 0 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .6;
+    }
+
+    .bkm__cat-nome,
+    .bkm__prod-nome {
+      word-break: normal !important;
+      overflow-wrap: break-word;
+      hyphens: none;
+    }
+
+    .bkm__cats,
+    .bkm__prods {
+      display: flex;
+      overflow-x: auto;
+      margin-inline: -30px;
+      padding-inline: 30px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .bkm__cats::-webkit-scrollbar,
+    .bkm__prods::-webkit-scrollbar { display: none; }
+
+    .bkm__cats { gap: 12px; }
+    .bkm__cat {
+      flex: 0 0 auto;
+      width: 82px;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+    }
+    .bkm__cat-simbolo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      background: var(--bk-verde);
+      color: #fff;
+    }
+    .bkm__cat-simbolo .ttb__ico { stroke-width: 1.6; }
+    .bkm__cat-nome {
+      display: block;
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .bkm__prods { gap: 12px; padding-bottom: 4px; }
+    .bkm__prod {
+      flex: 0 0 142px;
+      display: flex;
+      flex-direction: column;
+      padding: 9px 9px 12px;
+      border-radius: 18px;
+      background: #fff;
+      text-decoration: none;
+      color: var(--bk-azul-esc);
+    }
+    .bkm__prod-foto {
+      display: block;
+      margin-bottom: 9px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f3f4f8;
+      aspect-ratio: 1 / 1;
+    }
+    .bkm__prod-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bkm__prod-nome {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.6em;
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 600;
+    }
+    .bkm__prod-preco {
+      display: block;
+      margin-top: 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--bk-azul);
+    }
+    .bkm__prod-de {
+      margin-left: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+      opacity: .45;
+    }
+    .bkm__todos {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--bk-verde);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .bkm__wpp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      border-radius: 999px;
+      background: var(--bk-verde);
+      color: var(--bk-azul-esc);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .bkm__assinatura {
+      margin: 22px 0 0;
+      text-align: center;
+      font-size: 11.5px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .55;
+    }
+    .bkm__assinatura span { color: var(--bk-verde); }
+  }
+
+  @media (min-width: 1025px) {
+    #bk-menu-topo,
+    #bk-menu-extra { display: none !important; }
+  }
+</style>
+{%- liquid
+  assign cats = 'imunidade,sono-e-relaxamento,estetica-e-beleza,emagrecimento,saude-da-mulher,saude-do-homem,vitaminas-e-minerais' | split: ','
+  assign icones = 'escudo,lua,brilho,chama,venus,marte,capsula' | split: ','
+  assign vitrine = collections['frontpage']
+
+  assign wpp = settings.whatsapp | default: settings.whatsapp_number | default: settings.whatsapp_link | default: settings.social_whatsapp_link
+  if wpp != blank
+    if wpp contains 'http'
+      assign wpp_url = wpp
+    else
+      assign so_digitos = wpp | remove: '+' | remove: '-' | remove: ' ' | remove: '(' | remove: ')'
+      assign wpp_url = 'https://wa.me/' | append: so_digitos
+    endif
+  endif
+-%}
+
+{%- comment -%} ===== Vai ACIMA da lista de links ===== {%- endcomment -%}
+<div id="bk-menu-topo" hidden>
+
+  {%- if vitrine.products.size > 0 -%}
+    <div class="bkm__bloco">
+      <p class="bkm__titulo">Mais vendidos</p>
+      <div class="bkm__prods">
+        {%- for p in vitrine.products limit: 8 -%}
+          <a class="bkm__prod" href="{{ p.url }}">
+            <span class="bkm__prod-foto">
+              {%- if p.featured_image -%}
+                <img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" loading="lazy" width="150" height="150">
+              {%- endif -%}
+            </span>
+            <span class="bkm__prod-nome">{{ p.title | truncate: 38 }}</span>
+            <span class="bkm__prod-preco">
+              {{- p.price | money -}}
+              {%- if p.compare_at_price > p.price -%}
+                <s class="bkm__prod-de">{{ p.compare_at_price | money }}</s>
+              {%- endif -%}
+            </span>
+          </a>
+        {%- endfor -%}
+      </div>
+      <a class="bkm__todos" href="{{ routes.all_products_collection_url }}">Ver todos os produtos →</a>
+    </div>
+  {%- endif -%}
+
+  <div class="bkm__bloco">
+    <p class="bkm__titulo">Categorias</p>
+    <div class="bkm__cats">
+      {%- for h in cats -%}
+        {%- assign c = collections[h] -%}
+        {%- if c != empty -%}
+          <a class="bkm__cat" href="{{ c.url }}">
+            <span class="bkm__cat-simbolo">
+              {%- render 'botanika-trust-icon', nome: icones[forloop.index0], tamanho: 30 -%}
+            </span>
+            <span class="bkm__cat-nome">{{ c.title }}</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+</div>
+
+{%- comment -%} ===== Vai ABAIXO da lista de links ===== {%- endcomment -%}
+<div id="bk-menu-extra" hidden>
+  {%- if wpp_url != blank -%}
+    <a class="bkm__wpp" href="{{ wpp_url }}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.5 1 2.6a9.3 9.3 0 0 0 3.7 3.3c1.3.5 1.8.6 2.5.5.7-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2Z"/>
+      </svg>
+      Falar no WhatsApp
+    </a>
+  {%- endif -%}
+
+  <p class="bkm__assinatura">Suplemento <span>✦</span> de verdade</p>
+</div>
+
+<script>
+  (function () {
+    function mover(id, antes) {
+      var bloco = document.getElementById(id);
+      if (!bloco || bloco.dataset.pronto) return;
+      var lista = document.querySelector('nav.navigation.horizontal.mobile .horizontal-list');
+      if (!lista || !lista.parentNode) return;
+      lista.parentNode.insertBefore(bloco, antes ? lista : lista.nextSibling);
+      bloco.removeAttribute('hidden');
+      bloco.dataset.pronto = '1';
+    }
+    function injetar() {
+      mover('bk-menu-topo', true);
+      mover('bk-menu-extra', false);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injetar);
+    } else {
+      injetar();
+    }
+  })();
+</script>
