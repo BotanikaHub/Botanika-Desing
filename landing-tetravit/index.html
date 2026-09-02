@@ -198,14 +198,14 @@ h1 .grad-text i,.hsplit .grad-text i{background:var(--grad);-webkit-background-c
 @keyframes spin-rev-y{to{transform:translateY(-50%) rotate(-360deg)}}
 .vnode.a2{left:auto;right:-24px;top:50%;transform:translateY(-50%);animation-name:spin-rev-y}
 /* dropper */
-.dropper{position:absolute;top:2%;left:50%;transform:translateX(-50%);z-index:4;width:60px;height:96px;pointer-events:none}
+.dropper{display:none}
 .dropper .bulb{position:absolute;top:0;left:50%;transform:translateX(-50%);width:34px;height:22px;border-radius:12px 12px 8px 8px;background:linear-gradient(160deg,#4a52b8,#303890);border:1px solid var(--line-2)}
 .dropper .tube{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:8px;height:56px;border-radius:4px;background:linear-gradient(180deg,rgba(248,200,64,.35),rgba(48,56,144,.7));border:1px solid var(--line)}
 .drip{position:absolute;top:74px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
   background:radial-gradient(circle at 40% 35%,#fff6e1,var(--amber));box-shadow:0 0 12px rgba(248,200,64,.7);opacity:0;animation:drip 3.4s ease-in infinite}
 .drip.d2{animation-delay:1.7s}
 @keyframes drip{0%{opacity:0;transform:translateY(0) scale(.6)}12%{opacity:1;transform:translateY(0) scale(1)}70%{opacity:1;transform:translateY(120px) scale(.9)}80%{opacity:0;transform:translateY(140px) scale(.4)}100%{opacity:0}}
-.bottle-wrap{position:relative;width:min(52%,250px);z-index:3;animation:float 6.5s ease-in-out infinite;display:flex;justify-content:center}
+.bottle-wrap{position:relative;width:min(78%,340px);z-index:3;animation:float 6.5s ease-in-out infinite;display:flex;justify-content:center}
 @keyframes float{0%,100%{transform:translateY(-10px) rotate(-.5deg)}50%{transform:translateY(12px) rotate(.5deg)}}
 .bottle-wrap img{width:100%;height:auto;filter:drop-shadow(0 26px 34px rgba(32,38,107,.26)) drop-shadow(0 0 30px rgba(48,56,144,.16))}
 .stage-floor{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);width:46%;height:22px;border-radius:50%;
@@ -590,7 +590,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
 @media(max-width:600px){
   body{font-size:16px}
   .g-2,.g-3,.g-4,.forwho{grid-template-columns:1fr}
-  .toggle{flex-wrap:wrap;justify-content:center}
+  .toggle{flex-wrap:nowrap;justify-content:center;width:100%;max-width:360px;gap:4px}
+  .toggle button{flex:1 1 0;padding:9px 6px;font-size:12.5px}
+  .toggle button .tag{font-size:9px}
   .hero-stats{gap:18px}
   .pain-ghost{display:none}
   .countdown{gap:7px}
@@ -822,7 +824,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
         <div class="mini-badge b par" data-speed="0.16">💧 <span><b>2</b> gotas · 300 doses</span></div>
         <div class="stage-floor" aria-hidden="true"></div>
         <div class="bottle-wrap par" data-speed="0.08">
-          <img src="caixa-tetravit.png" alt="Caixa do TetraVit D — vitaminas A, D3, E e K2 em gotas" width="620" height="1410" fetchpriority="high">
+          <img src="frasco-tetravit.png" alt="Frasco do TetraVit D — vitaminas A, D3, E e K2 em gotas" width="1732" height="1712" fetchpriority="high">
         </div>
       </div>
     </div>
@@ -1244,9 +1246,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
       <div class="offer-top">
         <p class="muted" style="font-size:14px">Frasco de 30 ml · 300 doses · 2 gotas por dia</p>
         <div class="toggle" id="kitToggle" role="tablist">
-          <button data-kit="3" class="active">3 frascos<span class="tag">melhor valor</span></button>
-          <button data-kit="2">2 frascos<span class="tag">mais vendido</span></button>
           <button data-kit="1">1 frasco<span class="tag">experimentar</span></button>
+          <button data-kit="2">2 frascos<span class="tag">mais vendido</span></button>
+          <button data-kit="3" class="active">3 frascos<span class="tag">melhor valor</span></button>
         </div>
         <div class="kit-bar" aria-hidden="true">
           <div class="kit-bar-track"><i class="kit-bar-fill" id="kit-bar-fill"></i></div>
@@ -1725,8 +1727,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 120px;position:relative;z
     var m=get('frete-msg');if(m)m.innerHTML=(t>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-t)+'</b> pra frete grátis';
     var f=get('frete');if(f)f.classList.toggle('done',t>=FRETE);}
   function updateKitBar(){var k=KITS[currentKit]||{};var bf=get('kit-bar-fill');if(bf)bf.style.width=(k.bar||34)+'%';
-    var bm=get('kit-bar-msg');if(!bm)return;var msg=k.barmsg||'';
-    if(bumpQty){var t=total();msg+=(t>=FRETE)?' <span class="kb-add">— e com o <b>Tri[Mg]</b> o <b>frete grátis</b> já está garantido 🎉</span>':' <span class="kb-add">— o <b>Tri[Mg]</b> te deixa a <b>R$ '+brl(FRETE-t)+'</b> do frete grátis</span>';}
+    var bm=get('kit-bar-msg');if(!bm)return;var msg=k.barmsg||'';var t=total();
+    if(t>=FRETE){msg+=' <span class="kb-add">— '+(bumpQty?'com o <b>Tri[Mg]</b> o ':'')+'<b>frete grátis</b> já está garantido 🎉</span>';}
+    else{msg+=' <span class="kb-add">— '+(bumpQty?'com o <b>Tri[Mg]</b> você fica ':'')+'a <b>R$ '+brl(FRETE-t)+'</b> do frete grátis</span>';}
     bm.innerHTML=msg;}
   function updateBar(){var bf=get('barFan');if(bf)bf.setAttribute('data-n',KITS[currentKit]?KITS[currentKit].qty:1);}
   function potes(n){return n+(n>1?' potes':' pote');}
