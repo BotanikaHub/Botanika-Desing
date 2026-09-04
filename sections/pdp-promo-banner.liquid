@@ -5,11 +5,24 @@
   da pagina (classe .container do tema).
   ============================================================
 {%- endcomment -%}
+{%- comment -%}
+  A imagem promocional entra por DOIS caminhos independentes:
+  1. promo de frete de fim de semana (sábado e domingo)
+  2. janela da ação, que vale em qualquer dia da semana
+  Basta um dos dois estar ativo. O de fim de semana continua
+  exatamente como era — quem controla o piso do frete no carrinho
+  é ele, e nada aqui o altera.
+{%- endcomment -%}
 {%- capture pp_fs_active -%}{%- render 'botanika-freeship-weekend', mode: 'active' -%}{%- endcapture -%}
 {%- assign pp_fs_active = pp_fs_active | strip -%}
+{%- capture pp_acao_active -%}{%- render 'botanika-janela-acao' -%}{%- endcapture -%}
+{%- assign pp_acao_active = pp_acao_active | strip -%}
 {%- assign pp_d = section.settings.image_desktop -%}
 {%- assign pp_m = section.settings.image_mobile -%}
-{%- if pp_fs_active == 'yes' and section.settings.image_desktop_promo != blank -%}
+{%- assign pp_promo = false -%}
+{%- if pp_fs_active == 'yes' -%}{%- assign pp_promo = true -%}{%- endif -%}
+{%- if pp_acao_active == 'yes' -%}{%- assign pp_promo = true -%}{%- endif -%}
+{%- if pp_promo and section.settings.image_desktop_promo != blank -%}
   {%- assign pp_d = section.settings.image_desktop_promo -%}
   {%- assign pp_m = section.settings.image_mobile_promo -%}
 {%- endif -%}
@@ -49,8 +62,8 @@
     { "type": "paragraph", "content": "Se ficar vazio, usa a imagem embutida atual. Recomendado 1600×260 px (desktop) e 1080×520 px (mobile)." },
     { "type": "image_picker", "id": "image_desktop", "label": "Imagem (desktop)" },
     { "type": "image_picker", "id": "image_mobile", "label": "Imagem (mobile)" },
-    { "type": "header", "content": "Imagem promocional (fim de semana)" },
-    { "type": "paragraph", "content": "Aparece automaticamente nos sábados/domingos quando a promo de frete estiver ligada (Config. do tema). Deixe vazio para não usar." },
+    { "type": "header", "content": "Imagem promocional (ação ou fim de semana)" },
+    { "type": "paragraph", "content": "Aparece automaticamente em dois casos: nos sábados/domingos com a promo de frete ligada, OU dentro da Janela da ação — que vale em qualquer dia da semana. Os dois ficam em Config. do tema. Deixe vazio para não usar." },
     { "type": "image_picker", "id": "image_desktop_promo", "label": "Imagem promo (desktop)" },
     { "type": "image_picker", "id": "image_mobile_promo", "label": "Imagem promo (mobile)" },
     { "type": "header", "content": "Geral" },

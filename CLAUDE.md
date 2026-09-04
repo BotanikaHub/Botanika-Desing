@@ -23,6 +23,28 @@ Sempre que a tarefa envolver **criar ou editar uma landing page**, leia primeiro
 - **Fonte da verdade do produto:** Shopify (variant/preço) + Google Drive (rótulo/caixa/depoimentos). Cada produto DEVE ter identidade própria (paleta/fundo/fonte/assinatura).
 - **Nunca** colocar o identificador do modelo em commits, PRs ou código.
 
+## Tarefa de tráfego: criativo antes de campanha (regra fixa)
+
+Toda tarefa que envolva **subir campanha, subir criativo ou preparar tráfego** começa conferindo se as imagens e vídeos **já existem**. Nunca monte campanha assumindo que a arte apareceu.
+
+**1. Procure as peças, nesta ordem:**
+- anexos da tarefa que cria as artes (`clickup_get_task` com `include: ["attachments"]`)
+- comentários dessa tarefa
+- `clickup_search` pelo nome da campanha e por "arte", "criativo", "estático"
+- pergunte ao Pedro e ao Ítalo
+
+Tarefa marcada como **feito não significa arte entregue** — já aconteceu mais de uma vez de a tarefa fechar com o checklist pedindo anexo e ficar sem nenhum.
+
+**2. Se as peças não existirem, PARE.** Não monte a campanha, não improvise criativo genérico, não reaproveite arte de outra ação só trocando o link. A tarefa vira duas etapas, nesta ordem:
+1. criar as imagens (e vídeos, quando houver)
+2. só então criar a campanha
+
+Reporte o bloqueio em vez de entregar campanha pela metade.
+
+**3. Se existirem, confira o formato antes de subir.** O gerenciador do Meta recusa **`.webp`** em anúncio de imagem — converta para JPG ou PNG, uma vez só, direto do original. As artes do Ítalo costumam vir em webp. Para o site (tema Shopify) o webp serve normalmente.
+
+**4. Confira também se as peças cobrem os ângulos do briefing.** Vieram 5 quando o briefing pedia 4? Diga qual é o quinto. Faltou um ângulo? Isso é lacuna, não sobra.
+
 ## Como o usuário edita uma LP específica (comando pra colar em chat novo)
 
 > "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
