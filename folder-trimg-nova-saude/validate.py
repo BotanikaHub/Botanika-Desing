@@ -102,14 +102,36 @@ check(len(lidos) == 1 and lidos[0].text == B.QR_URL,
 if lidos:
     # tamanho do modulo: abaixo de ~0,4 mm a leitura no papel fica instavel
     n = len(B.qr_matrix(B.QR_URL))
-    mod_mm = 17.0 / n
+    mod_mm = B.QR_SIZE_MM / n
     check(mod_mm >= 0.4,
-          f"modulo do QR = {mod_mm:.2f} mm ({n}x{n} modulos em 17 mm)",
+          f"modulo do QR = {mod_mm:.2f} mm ({n}x{n} modulos em {B.QR_SIZE_MM} mm)",
           f"modulo do QR = {mod_mm:.2f} mm — muito fino para impressao", hard=False)
+
+# 4b. espaco de cor das imagens embutidas ------------------------------------
+# Um PDF CMYK com imagem RGB dentro e recusado no preflight de muitas graficas.
+imgs = []
+for page in reader.pages:
+    xo = page.get("/Resources", {}).get("/XObject", {})
+    for k in xo:
+        o = xo[k].get_object()
+        if o.get("/Subtype") == "/Image":
+            imgs.append((str(o.get("/ColorSpace")), int(o.get("/Width", 0)),
+                         int(o.get("/Height", 0))))
+ruins = [i for i in imgs if "CMYK" not in i[0]]
+check(not ruins,
+      f"{len(imgs)} imagem(ns) embutida(s), todas em DeviceCMYK "
+      + ", ".join(f"{w}x{h}" for _, w, h in imgs),
+      f"imagem(ns) fora de CMYK: {ruins}")
+
+for cs, w, h in imgs:
+    dpi = w / (B.PAGE_W / 25.4)
+    check(dpi >= 300, f"imagem {w}x{h} px = {dpi:.0f} dpi na largura da peca",
+          f"imagem {w}x{h} px rende so {dpi:.0f} dpi", hard=False)
 
 # 5. cobertura de tinta -------------------------------------------------------
 pior = max(((c.name, sum(c.cmyk) * 100) for c in
-            [B.PAPER, B.INK, B.TEXT, B.MUTED, B.GOLD, B.GOLDL, B.INDIGO, B.MINT]),
+            [B.AZUL, B.AZUL_DEEP, B.CREAM, B.LIMA, B.LIMA_VIVO, B.AMARELO,
+             B.TEXT, B.MUTED]),
            key=lambda t: t[1])
 check(pior[1] <= 300,
       f"cobertura maxima de tinta: {pior[1]:.0f}% (cor '{pior[0]}'), limite 300%",

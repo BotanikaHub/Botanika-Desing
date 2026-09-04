@@ -2,7 +2,8 @@
 
 Campo a campo, na ordem em que aparece na peça. Para revisão.
 
-**Contagem:** frente ≈ 62 palavras · verso ≈ 95 palavras (fora rodapé legal).
+**Contagem:** frente ≈ 48 palavras · verso ≈ 95 palavras (fora rodapé legal).
+A frente encurtou na v2 porque a faixa de imagem ocupa os 80 mm superiores.
 Uma pessoa abrindo caixa lê ~15 s. A frente resolve em ~8 s; o verso só é lido
 por quem decidiu continuar.
 
@@ -12,15 +13,12 @@ por quem decidiu continuar.
 
 | Campo | Texto |
 | --- | --- |
-| Marca (topo) | **NOVA SAÚDE** |
-| Linha de apoio | PLATAFORMA DE CONHECIMENTO · DR. WILLIAM |
+| Assinatura (topo) | logo **Botanika** (cream, sobre a imagem) |
+| Crédito (topo dir.) | CURSO NOVA SAÚDE · DR. WILLIAM |
 | Eyebrow | VOCÊ ENTROU ENTRE OS PRIMEIROS |
 | Título | **Boas-vindas à Nova Saúde.** |
-| Lead | A plataforma, as aulas e tudo o que o Dr. William preparou para esta turma já são seus. Aproveite com calma: conhecimento bom não tem pressa. |
-| Eyebrow 2 | E TEM MAIS UMA COISA NESTA CAIXA |
-| Corpo 2 | O pote que veio junto é um presente da Botanika. Sem pegadinha e sem cobrança — é o nosso jeito de comemorar que você chegou cedo. |
-| Assinatura | **BOTANIKA** |
-| Tagline | SUPLEMENTOS PARA A ROTINA |
+| Lead | A plataforma, as aulas e tudo o que o Dr. William preparou para esta turma já são seus. |
+| Corpo 2 (após filete) | O pote nesta caixa é um presente da Botanika. Sem pegadinha e sem cobrança — só o nosso jeito de comemorar que você chegou cedo. |
 
 ### Notas de copy
 
@@ -44,7 +42,8 @@ por quem decidiu continuar.
 | Campo | Texto |
 | --- | --- |
 | Eyebrow | QUEM MANDOU O PRESENTE |
-| Título | **Botanika** |
+| Título | logo **Botanika** (azul) |
+| Tagline | VOCÊ MAIS SAUDÁVEL |
 | Corpo | Somos uma marca brasileira de suplementos. Fórmula curta, dose que aparece no rótulo e nenhuma promessa milagrosa. A gente prefere o que dá para manter todo dia. |
 
 ### Bloco 2 — por que o Tri[Mg]
