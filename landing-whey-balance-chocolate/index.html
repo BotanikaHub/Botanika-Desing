@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 
 <style>
 /* ============================================================
@@ -134,6 +135,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(138,90,60,.36),rgba(138,90,60,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
+model-viewer.pote{width:100%;height:clamp(340px,54vh,540px);--poster-color:transparent;--progress-bar-color:transparent;--progress-mask:transparent;background:transparent;outline:none}
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 30px 34px rgba(74,43,20,.55));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
@@ -647,7 +649,7 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
     <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
     <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
-    <div class="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126"></div>
+    <div class="poteWrap"><model-viewer class="pote" id="pote3d" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_233627_b88ce4a8-1961-4d26-8a37-3859204f3da5.glb?v=1788565192" alt="Pote 3D de Whey Balance Chocolate" environment-image="neutral" exposure="1.1" shadow-intensity="0" interaction-prompt="none" camera-orbit="0deg 82deg 100%" field-of-view="30deg" disable-zoom loading="eager" reveal="auto"></model-viewer></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
@@ -1061,9 +1063,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     b.addEventListener('mousemove',function(ev){ var r=b.getBoundingClientRect(); if(G){ bx((ev.clientX-r.left-r.width/2)*.25); by((ev.clientY-r.top-r.height/2)*.4);} });
     b.addEventListener('mouseleave',function(){ if(G){ bx(0); by(0);} });
   });
-  var poteW=doc.querySelector('.poteWrap');
-  if(poteW && G){ var rx=G.quickTo(poteW,'rotationY',{duration:.7,ease:'power3'}), ry=G.quickTo(poteW,'rotationX',{duration:.7,ease:'power3'});
-    window.addEventListener('mousemove',function(e){ rx((e.clientX/innerWidth-.5)*12); ry((.5-e.clientY/innerHeight)*9); },{passive:true}); }
+  /* pote 3D: tilt de câmera seguindo o cursor (soda-style), suavizado */
+  var pote3d=doc.getElementById('pote3d');
+  if(pote3d){ var tmx=0,tmy=0,cmx=0,cmy=0;
+    window.addEventListener('mousemove',function(e){ tmx=(e.clientX/innerWidth-.5); tmy=(e.clientY/innerHeight-.5); },{passive:true});
+    (function orbit(){ cmx+=(tmx-cmx)*.06; cmy+=(tmy-cmy)*.06;
+      try{ pote3d.cameraOrbit=(cmx*35).toFixed(2)+'deg '+(82+cmy*14).toFixed(2)+'deg 100%'; }catch(_){}
+      requestAnimationFrame(orbit); })(); }
   }
 
   /* ===== Tracking: Meta Pixel + Google (GTM/dataLayer) — hierarquia de eventos ===== */
