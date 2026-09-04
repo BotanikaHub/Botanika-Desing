@@ -24,7 +24,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 
 <style>
 /* ============================================================
@@ -135,7 +134,6 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(138,90,60,.36),rgba(138,90,60,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
-model-viewer.pote{width:100%;height:clamp(340px,54vh,540px);--poster-color:transparent;--progress-bar-color:transparent;--progress-mask:transparent;background:transparent;outline:none}
 .pote{width:100%;height:auto;display:block;
   filter:drop-shadow(0 30px 34px rgba(74,43,20,.55));
   animation:floaty 7s ease-in-out infinite;will-change:transform}
@@ -602,6 +600,25 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
 .lpq-step.on{display:block}
 @media(max-width:420px){.lpq{max-width:100%}}
 
+/* ===== seletor de sabor (Chocolate <-> Sem Sabor) ===== */
+.flavor-switch{display:flex;gap:10px;margin:2px 0 0;flex-wrap:wrap}
+.fcard{display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:8px 13px 8px 8px;cursor:pointer;transition:border-color .3s,background .3s,transform .2s var(--ease);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fcard:hover{transform:translateY(-2px)}
+.fcard img{width:32px;height:42px;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(74,43,20,.3));pointer-events:none}
+.fcard>span{display:flex;flex-direction:column;line-height:1.16;text-align:left}
+.fcard .fc-t{font-family:var(--body);font-weight:700;font-size:13px}
+.fcard .fc-s{font-size:11px;color:var(--muted)}
+.fcard .fc-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:0 0 auto}
+.fcard.on{border-color:var(--copper);background:rgba(255,255,255,.72);box-shadow:0 8px 20px -12px rgba(74,43,20,.5)}
+.fcard.on .fc-check{background:var(--grad);border-color:transparent}
+.fcard.on .fc-check::after{content:"";width:5px;height:9px;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg) translateY(-1px)}
+@media(max-width:600px){.fcard .fc-s{display:none}.fcard{padding:7px 11px 7px 7px}}
+/* tema Sem Sabor = baunilha quente (creme + dourado/champagne); troca só o ACENTO */
+body.sem{--copper:#9a7b1e;--caramel:#c9a83e;--grad:linear-gradient(120deg,#8a6a16,#d9b64c);--indigo:#9a7b1e;--indigo-soft:#c9a83e;--indigo-deep:#6b4e12}
+body.sem .stage::before{background:radial-gradient(circle,rgba(248,200,64,.44),rgba(248,200,64,.14) 45%,transparent 70%)}
+/* chocolatinhos somem no Sem Sabor (não há chocolate) */
+.choWrap{transition:opacity .5s ease}
+body.sem .choWrap{opacity:0}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -644,12 +661,16 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
       <a class="btn btn-buy btn-lg js-top" href="#oferta">Quero experimentar</a>
       <div class="price-hint">a partir de<br><b>3x R$ 49,10</b> <span class="tnum">· ou R$ 147,30</span></div>
     </div>
+    <div class="flavor-switch" role="tablist" aria-label="Escolha o sabor">
+      <button class="fcard on" data-flavor="choco" role="tab" aria-selected="true"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt=""><span><span class="fc-t">Chocolate</span><span class="fc-s">sabor cremoso</span></span><span class="fc-check"></span></button>
+      <button class="fcard" data-flavor="sem" role="tab" aria-selected="false"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt=""><span><span class="fc-t">Sem Sabor</span><span class="fc-s">puro &amp; versátil</span></span><span class="fc-check"></span></button>
+    </div>
   </div>
   <div class="stage reveal">
     <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
     <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
     <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
-    <div class="poteWrap"><model-viewer class="pote" id="pote3d" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_233627_b88ce4a8-1961-4d26-8a37-3859204f3da5.glb?v=1788565192" alt="Pote 3D de Whey Balance Chocolate" environment-image="neutral" exposure="1.1" shadow-intensity="0" interaction-prompt="none" camera-orbit="0deg 82deg 100%" field-of-view="30deg" disable-zoom loading="eager" reveal="auto"></model-viewer></div>
+    <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
@@ -1063,13 +1084,13 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     b.addEventListener('mousemove',function(ev){ var r=b.getBoundingClientRect(); if(G){ bx((ev.clientX-r.left-r.width/2)*.25); by((ev.clientY-r.top-r.height/2)*.4);} });
     b.addEventListener('mouseleave',function(){ if(G){ bx(0); by(0);} });
   });
-  /* pote 3D: tilt de câmera seguindo o cursor (soda-style), suavizado */
-  var pote3d=doc.getElementById('pote3d');
-  if(pote3d){ var tmx=0,tmy=0,cmx=0,cmy=0;
+  /* pseudo-3D: tilt do pote (wrapper) seguindo o cursor, suavizado. window.__poteFlip pausa o tilt durante o giro da troca de sabor. */
+  var poteWrapEl=doc.getElementById('poteWrap');
+  if(poteWrapEl){ var tmx=0,tmy=0,cmx=0,cmy=0; window.__poteBusy=false;
     window.addEventListener('mousemove',function(e){ tmx=(e.clientX/innerWidth-.5); tmy=(e.clientY/innerHeight-.5); },{passive:true});
-    (function orbit(){ cmx+=(tmx-cmx)*.06; cmy+=(tmy-cmy)*.06;
-      try{ pote3d.cameraOrbit=(cmx*35).toFixed(2)+'deg '+(82+cmy*14).toFixed(2)+'deg 100%'; }catch(_){}
-      requestAnimationFrame(orbit); })(); }
+    (function tilt(){ if(!window.__poteBusy){ cmx+=(tmx-cmx)*.06; cmy+=(tmy-cmy)*.06;
+        poteWrapEl.style.transform='perspective(1200px) rotateY('+(cmx*16).toFixed(2)+'deg) rotateX('+(-cmy*10).toFixed(2)+'deg)'; }
+      requestAnimationFrame(tilt); })(); }
   }
 
   /* ===== Tracking: Meta Pixel + Google (GTM/dataLayer) — hierarquia de eventos ===== */
@@ -1146,6 +1167,46 @@ h2.title.reveal,.hero h1.reveal{opacity:1;transform:none}
     dle('add_to_wishlist',q);
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
+
+  /* ===== seletor de sabor: Chocolate <-> Sem Sabor (religa a LP + giro coreografado) ===== */
+  (function(){
+    var POTE={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013'};
+    var VARF={choco:'48115368919272', sem:'48908527108328'};
+    var NAMEF={choco:'Whey Balance Chocolate', sem:'Whey Balance Sem Sabor'};
+    var COPY={
+      choco:{
+        eyebrow:'Whey Balance · Sabor Chocolate',
+        h1:'Treino em dia, mas o whey te dá barriga e gosto de remédio. <em>Proteína boa não devia pesar assim.</em>',
+        sub:'Whey concentrado <b>+ colágeno C‑PURE®</b>. 23 g de proteína por porção, adoçado naturalmente — <b>força e tônus</b> de verdade, com sabor de chocolate que você quer tomar todo dia.',
+        ingr:'<b>Ingredientes:</b> whey concentrado, colágeno hidrolisado C‑PURE®, cacau em pó, aroma natural de chocolate, goma guar e edulcorantes naturais (glicosídeos de esteviol e taumatina). Contém lactose. Não contém glúten. Pode conter traços de soja e ovo.',
+        alt:'Pote de Whey Balance Chocolate'
+      },
+      sem:{
+        eyebrow:'Whey Balance · Sem Sabor',
+        h1:'Whey com gosto de tudo, menos de proteína? <em>Sem Sabor: puro — e o gosto quem escolhe é você.</em>',
+        sub:'Whey concentrado <b>+ colágeno C‑PURE®</b>. 23 g de proteína por porção, <b>sem sabor</b> — mistura na água, no leite, na vitamina ou na receita <b>sem mudar o gosto</b>.',
+        ingr:'<b>Ingredientes:</b> whey concentrado, colágeno hidrolisado C‑PURE®, goma guar e edulcorantes naturais (glicosídeos de esteviol e taumatina). Sem cacau e sem aroma. Contém lactose. Não contém glúten. Pode conter traços de soja e ovo.',
+        alt:'Pote de Whey Balance Sem Sabor'
+      }
+    };
+    var cur='choco', body=doc.body;
+    var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
+    var fcards=doc.querySelectorAll('.fcard');
+    function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && im.closest('.fcard')) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260810_173053')>-1 || sc.indexOf('hf_20260904_235111')>-1){ im.setAttribute('src',url); } }); }
+    function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
+    function setFlavor(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
+      [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
+      body.classList.toggle('sem',f==='sem'); applyCopy(f); swapPotes(POTE[f]); try{ setKit(currentKit); }catch(e){}
+      fbqc('FlavorSwitch',{flavor:f}); }
+    function flipTo(f){ if(f===cur) return; var pw=doc.getElementById('poteWrap');
+      if(!G || !pw){ setFlavor(f); return; }
+      window.__poteBusy=true; var o={ry:0,bl:0};
+      G.to(o,{ry:90,bl:13,duration:.34,ease:'power2.in',onUpdate:function(){ pw.style.transform='perspective(1200px) rotateY('+o.ry+'deg)'; pw.style.filter='blur('+o.bl+'px)'; },
+        onComplete:function(){ setFlavor(f); G.set(o,{ry:-90}); pw.style.transform='perspective(1200px) rotateY(-90deg)';
+          G.to(o,{ry:0,bl:0,duration:.5,ease:'back.out(1.4)',onUpdate:function(){ pw.style.transform='perspective(1200px) rotateY('+o.ry+'deg)'; pw.style.filter='blur('+o.bl+'px)'; },
+            onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }}); } }); }
+    [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
+  })();
   /* ===== order bump — Creatina + Taurato (card premium, tema Creatina + íons orbitando) ===== */
   (function(){
     var wrap=doc.getElementById('bumptri'); if(!wrap) return;
