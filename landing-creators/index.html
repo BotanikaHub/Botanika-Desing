@@ -160,7 +160,7 @@
   @media (min-width:1024px){
     .hero-photo{display:block;position:absolute;top:0;bottom:0;right:0;width:49%;z-index:0;overflow:hidden;background:var(--surface)}
   }
-  .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:saturate(.9) brightness(1.02)}
+  .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:grayscale(.6) saturate(.5) brightness(.95) contrast(1.05)}
   .hp-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   .hp-fade{position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(90deg, var(--bg) 1%, rgba(250,247,241,.55) 20%, rgba(250,247,241,0) 54%),
@@ -401,7 +401,7 @@
   <section id="home">
     <div class="hero-photo" aria-hidden="true">
       <img class="hp-base" id="hpImg" alt=""
-           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_144248_0a539978-4bc8-437c-a112-7a9eee9debdd.png" />
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_145331_7ace7b7e-f051-49c5-b877-b858ec71bf52.png" />
       <canvas class="hp-canvas" id="hpCanvas"></canvas>
       <div class="hp-fade"></div>
     </div>
@@ -830,7 +830,7 @@ var LEADS_TABLE = "creator_signups";
     var cx2 = cv.getContext("2d"); if (!cx2) return;
     img.addEventListener("error", function () { wrap.style.display = "none"; });
     if (reduce) return;
-    var dpr2 = Math.min(window.devicePixelRatio || 1, 2), brushR = 120;
+    var dpr2 = Math.min(window.devicePixelRatio || 1, 2), brushR = 145;
     var cover = document.createElement("canvas"), cctx = cover.getContext("2d");
     var brush = document.createElement("canvas"), bctx = brush.getContext("2d");
     var W2 = 0, H2 = 0, rad = 0, diam = 0, ready = false, pts = [], last = null, idle = 0, drawing = false;
@@ -841,7 +841,7 @@ var LEADS_TABLE = "creator_signups";
       var w = img.naturalWidth * s, h = img.naturalHeight * s;
       var ox = (W2 - w) * 0.5, oy = (H2 - h) * 0.20;
       cctx.clearRect(0, 0, W2, H2);
-      cctx.filter = "saturate(1.22) contrast(1.05) brightness(1.03) sepia(.06)";
+      cctx.filter = "saturate(1.35) contrast(1.08) brightness(1.07) sepia(.05)";
       cctx.drawImage(img, ox, oy, w, h);
       cctx.filter = "none";
     }
