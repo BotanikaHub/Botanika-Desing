@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Seja um Creator Botanika — Creator Club</title>
-<meta name="description" content="Entre para o Creator Club da Botanika: receba os produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Vagas limitadas para a primeira turma." />
+<title>Seja um Creator — Botanika &amp; VermeFree · Creator Club</title>
+<meta name="description" content="Creator Club da Botanika e da VermeFree: receba os produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Um formulário só para as duas marcas." />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Seja um Creator Botanika — Creator Club" />
 <meta property="og:description" content="Produtos + comissão + painel próprio. Recrutamento aberto para a primeira turma de creators da Botanika." />
@@ -241,9 +241,9 @@
   <!-- HERO -->
   <section id="hero">
     <div class="wrap">
-      <span class="eyebrow reveal"><span class="pulse"></span> Recrutamento aberto · 1ª turma</span>
-      <h1 id="heroTitle">Seja um <span class="gold">creator</span> Botanika.</h1>
-      <p class="lead reveal">Entre para o Creator Club: receba os nossos produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Sem mensalidade, sem planilha, sem achismo.</p>
+      <span class="eyebrow reveal"><span class="pulse"></span> Recrutamento aberto · Botanika &amp; VermeFree</span>
+      <h1 id="heroTitle">Seja um <span class="gold">creator</span>.</h1>
+      <p class="lead reveal">Entre para o Creator Club da <b>Botanika</b> e da <b>VermeFree</b>: receba os produtos, ganhe comissão pelo que você já recomenda e acompanhe cada venda num painel só seu. Você escolhe a marca no formulário — é só se candidatar uma vez.</p>
       <div class="hero-cta reveal">
         <a href="#candidatar" class="btn btn-gold" data-mag>Quero me candidatar</a>
         <a href="#como" class="btn btn-ghost" data-mag>Como funciona</a>
@@ -331,9 +331,9 @@
       <div class="form-shell reveal">
         <aside class="form-aside">
           <h2>Candidatura</h2>
-          <p>Conte sobre você e sua audiência. Quanto mais real, melhor a gente te conhece.</p>
+          <p>Leva 1 minuto. Esta é a <b>porta de entrada</b> — a equipe analisa seu perfil e, se fizer sentido, chama você para conversar antes de qualquer contrato.</p>
           <ul>
-            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Leva 2 minutos</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Leva 1 minuto</li>
             <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Sem custo, sem compromisso</li>
             <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Resposta do time após a análise</li>
           </ul>
@@ -341,91 +341,43 @@
 
         <form id="leadForm" novalidate>
           <div class="fld">
-            <label>Nome completo <span class="req">*</span></label>
+            <label>Nome <span class="req">*</span></label>
             <input class="inp" name="name" required placeholder="Seu nome" autocomplete="name" />
           </div>
 
-          <div class="grid2">
-            <div class="fld">
-              <label>@ do seu perfil principal <span class="req">*</span></label>
-              <input class="inp" name="handle" required placeholder="@seuperfil" />
-            </div>
-            <div class="fld">
-              <label>Rede principal <span class="req">*</span></label>
-              <select name="network" required>
-                <option value="" disabled selected>Selecione</option>
-                <option>Instagram</option><option>TikTok</option><option>YouTube</option>
-              </select>
-            </div>
+          <div class="fld">
+            <label>@ do seu Instagram <span class="req">*</span></label>
+            <input class="inp" name="instagram" required placeholder="@seuperfil"
+                   autocapitalize="none" autocorrect="off" spellcheck="false" />
+            <p class="form-note">É por aqui que a gente avalia seu perfil e fala com você.</p>
           </div>
 
-          <div class="grid2">
-            <div class="fld">
-              <label>Nº de seguidores <span class="req">*</span></label>
-              <select name="followers_range" required>
-                <option value="" disabled selected>Selecione</option>
-                <option>Menos de 5 mil</option><option>5 mil a 20 mil</option>
-                <option>20 mil a 100 mil</option><option>Mais de 100 mil</option>
-              </select>
+          <div class="fld">
+            <label>Você quer participar como <span class="req">*</span></label>
+            <div class="seg" role="radiogroup" aria-label="Papel">
+              <label><input type="radio" name="role" value="creator" required /><span>Creator</span></label>
+              <label><input type="radio" name="role" value="ugc" /><span>UGC</span></label>
+              <label><input type="radio" name="role" value="prescritor" /><span>Prescritor(a)</span></label>
             </div>
-            <div class="fld">
-              <label>Nicho <span class="req">*</span></label>
-              <select name="niche" required>
-                <option value="" disabled selected>Selecione</option>
-                <option>Saúde</option><option>Fitness</option><option>Bem-estar</option>
-                <option>Maternidade</option><option>Outro</option>
-              </select>
+            <p class="form-note">Prescritor(a) = médico(a) ou profissional de saúde — o fluxo é um pouco diferente e a gente te explica depois.</p>
+          </div>
+
+          <div class="fld">
+            <label>Qual marca você quer divulgar <span class="req">*</span></label>
+            <div class="seg" role="radiogroup" aria-label="Marca">
+              <label><input type="radio" name="brand" value="botanika" required /><span>Botanika</span></label>
+              <label><input type="radio" name="brand" value="vermefree" /><span>VermeFree</span></label>
+              <label><input type="radio" name="brand" value="ambas" /><span>As duas</span></label>
             </div>
           </div>
 
           <div class="fld">
-            <label>Você já produz conteúdo de suplementos / saúde? <span class="req">*</span></label>
-            <div class="seg">
-              <label><input type="radio" name="produces_health_content" value="Sim" required /><span>Sim</span></label>
-              <label><input type="radio" name="produces_health_content" value="Não" /><span>Não</span></label>
-            </div>
+            <label>Por que você quer participar? <span class="req">*</span></label>
+            <input class="inp" name="motivation" required maxlength="180"
+                   placeholder="Uma linha sobre você e por que quer entrar" />
           </div>
 
-          <div class="grid2">
-            <div class="fld">
-              <label>Já é cliente Botanika? <span class="req">*</span></label>
-              <div class="seg">
-                <label><input type="radio" name="is_botanika_customer" value="Sim" required /><span>Sim</span></label>
-                <label><input type="radio" name="is_botanika_customer" value="Não" /><span>Não</span></label>
-              </div>
-            </div>
-            <div class="fld">
-              <label>Taxa de engajamento média</label>
-              <input class="inp" name="engagement_rate" placeholder="Ex.: 4% (opcional)" />
-            </div>
-          </div>
-
-          <div class="grid2">
-            <div class="fld">
-              <label>Formato que mais produz <span class="req">*</span></label>
-              <select name="main_format" required>
-                <option value="" disabled selected>Selecione</option>
-                <option>Reels</option><option>UGC</option><option>Stories</option><option>Vídeo longo</option>
-              </select>
-            </div>
-            <div class="fld">
-              <label>Cidade / UF <span class="req">*</span></label>
-              <input class="inp" name="city_uf" required placeholder="Ex.: Betim / MG" />
-            </div>
-          </div>
-
-          <div class="grid2">
-            <div class="fld">
-              <label>WhatsApp <span class="req">*</span></label>
-              <input class="inp" name="whatsapp" required placeholder="(00) 00000-0000" inputmode="tel" />
-            </div>
-            <div class="fld">
-              <label>E-mail <span class="req">*</span></label>
-              <input class="inp" name="email" type="email" required placeholder="voce@email.com" autocomplete="email" />
-            </div>
-          </div>
-
-          <!-- Atribuição (ocultos) -->
+          <!-- Atribuição (ocultos) — padronização de UTM (tarefa 86akbgc47) -->
           <input type="hidden" name="utm_source" />
           <input type="hidden" name="utm_medium" />
           <input type="hidden" name="utm_campaign" />
@@ -437,7 +389,7 @@
           <div class="msg" id="formMsg" role="status"></div>
           <div class="submit-row">
             <button type="submit" class="btn btn-gold" id="submitBtn" data-mag>Enviar candidatura</button>
-            <p class="form-note">Ao enviar, você concorda em ser contatado(a) pela equipe da Botanika sobre o Creator Club.</p>
+            <p class="form-note">Inscrever-se não é aprovação: a equipe analisa cada perfil e chama quem tem fit. Usamos seus dados só para avaliar sua candidatura e falar com você — sem compartilhar com terceiros.</p>
           </div>
         </form>
       </div>
@@ -472,16 +424,16 @@
 <script src="vendor/ScrollTrigger.min.js"></script>
 <script>
 /* ============================================================
-   Creator Club — LP de recrutamento
-   CONFIG DO FORMULÁRIO (preencher para persistir os leads):
-   Crie a tabela `creators_leads` no Supabase e cole abaixo a
-   URL do projeto e a ANON KEY (com policy de INSERT liberada).
-   Enquanto ficar em branco, a LP funciona em modo demonstração
-   (mostra sucesso na tela, sem gravar).
+   Creator Club — LP de captação (Botanika + VermeFree)
+   As respostas gravam na tabela public.creator_signups do projeto
+   Supabase da casa (sjkuysdmixfzeerxuudn), via chave PÚBLICA (anon).
+   A policy de RLS só permite INSERT pelo anon; leitura fica restrita
+   ao painel/serviço (a Ana vê pelo Supabase). A chave anon é pública
+   por design — não expõe dado (não há policy de SELECT para anon).
    ============================================================ */
-var SUPABASE_URL = "";                 // ex.: https://xxxx.supabase.co   (PENDENTE)
-var SUPABASE_ANON_KEY = "";            // ex.: eyJhbGciOi...               (PENDENTE)
-var LEADS_TABLE = "creators_leads";
+var SUPABASE_URL = "https://sjkuysdmixfzeerxuudn.supabase.co";
+var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqa3V5c2RtaXhmemVlcnh1dWRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMTMxNDQsImV4cCI6MjA5NjY4OTE0NH0.oMbvy25V6-W7YvF70zNb1xVfRwH_tGBWp3NPHGtpOtM";
+var LEADS_TABLE = "creator_signups";
 
 (function () {
   "use strict";
