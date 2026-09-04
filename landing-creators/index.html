@@ -107,8 +107,10 @@
   .brand{display:flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.2rem;letter-spacing:.01em}
   .brand svg{width:1.4rem;height:1.4rem;color:var(--gold)}
   .brand b{font-weight:400}
+  .brand{white-space:nowrap}
   .brand .tc{font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-deep);padding-left:.6rem;margin-left:.2rem;border-left:1px solid var(--line)}
+  @media (max-width:560px){ .brand .tc{display:none} }
   .nav-right{display:flex;align-items:center;gap:.7rem}
   .chip{display:none;align-items:center;gap:.7rem;border:1px solid var(--line);background:rgba(255,253,248,.5);
     backdrop-filter:blur(6px);border-radius:var(--r-ctl);padding:.5rem .8rem;font-size:.72rem;color:var(--muted)}
@@ -156,12 +158,13 @@
   /* ============ Hero ============ */
   #home{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 var(--r-card) var(--r-card);
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 3rem}
+  #home>.wrap{width:100%}   /* evita que margin:auto encolha o wrap dentro do flex-column */
   /* mobile-first: card de foto arredondado, cor cheia, editorial */
-  .hero-photo{position:relative;z-index:0;display:block;margin:0 1.5rem;height:42vh;max-height:20rem;
+  .hero-photo{position:relative;z-index:0;display:block;margin:1.75rem 1.5rem 0;height:42vh;max-height:20rem;
     border-radius:var(--r-card);overflow:hidden;background:var(--surface);
     box-shadow:0 34px 64px -40px rgba(20,32,26,.55);
     -webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
-  @media (min-width:640px) and (max-width:1023px){ .hero-photo{margin:0 2.5rem;max-height:24rem} }
+  @media (min-width:640px) and (max-width:1023px){ .hero-photo{margin:2rem 2.5rem 0;max-height:24rem} }
   .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
   .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
@@ -176,7 +179,7 @@
   .hp-tag .ld{flex:none;width:.5rem;height:.5rem;border-radius:9999px;background:var(--green);
     box-shadow:0 0 0 3px rgba(63,138,86,.28)}
   @media (min-width:1024px){
-    .hero-photo{position:absolute;top:0;bottom:0;right:0;left:auto;width:49%;height:auto;max-height:none;
+    .hero-photo{position:absolute;top:0;bottom:0;right:0;left:auto;width:46%;height:auto;max-height:none;
       margin:0;border-radius:0;box-shadow:none}
     .hero-photo::after{display:none}
     .hp-tag{display:none}
@@ -208,17 +211,20 @@
     transition:opacity 1s ease .3s, transform 1s ease .3s}
   body.ready .hero-mark{opacity:1;transform:none}
   @media (max-width:640px){ .hero-mark{font-size:26vw;bottom:5.5rem} }
-  .hero-grid{display:grid;grid-template-columns:1fr;gap:2.4rem;align-items:center}
-  @media (min-width:1024px){ .hero-grid{grid-template-columns:1.15fr .85fr;gap:3rem} }
-  .hero-l{display:flex;flex-direction:column;gap:1.6rem}
-  #heroTitle{font-size:3rem;line-height:1;letter-spacing:-.025em;max-width:15ch}
-  @media (min-width:640px){ #heroTitle{font-size:4rem} }
-  @media (min-width:1024px){ #heroTitle{font-size:5rem} }
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:start}
+  /* desktop: todo o conteúdo na metade esquerda, livre da foto (49% à direita) */
+  @media (min-width:1024px){ .hero-grid{grid-template-columns:1fr;gap:1.4rem;justify-items:start} }
+  .hero-l{display:flex;flex-direction:column;align-items:flex-start;gap:1.5rem}
+  @media (min-width:1024px){ .hero-l,.hero-r{max-width:33rem} }
+  #heroTitle{font-size:3rem;line-height:1.02;letter-spacing:-.025em;max-width:15ch}
+  @media (min-width:640px){ #heroTitle{font-size:3.4rem} }
+  @media (min-width:1024px){ #heroTitle{font-size:3.5rem} }
+  @media (min-width:1440px){ #heroTitle{font-size:4rem} }
   .rating{display:flex;align-items:center;gap:.7rem;font-size:.9rem;color:var(--muted)}
   .rating .stars{display:inline-flex;color:var(--gold)} .rating .stars svg{width:1rem;height:1rem}
   .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.4rem}
   .hero-r{display:flex;flex-direction:column;gap:1.6rem;align-items:stretch}
-  @media (min-width:1024px){ .hero-r{align-items:flex-end} }
+  @media (min-width:1024px){ .hero-r{align-items:flex-start} }
 
   /* HeroCard carrossel */
   .hcard{width:100%;max-width:22rem;border-radius:var(--r-sm);background:rgba(255,253,248,.7);
@@ -245,9 +251,7 @@
   .hcard-nav button:hover{color:var(--fg)} .hcard-nav svg{width:.9rem;height:.9rem}
   .brands{width:100%;max-width:22rem}
   .brands .bl{margin-bottom:.7rem;font-size:.72rem;font-weight:500;color:var(--subtle)}
-  @media (min-width:1024px){ .brands .bl{text-align:right} }
   .brands ul{display:flex;flex-wrap:wrap;gap:.5rem .9rem}
-  @media (min-width:1024px){ .brands ul{justify-content:flex-end} }
   .brands li{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted)}
   .brands li svg{width:.9rem;height:.9rem;color:var(--gold)}
   .hero-bar{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:3rem;
@@ -435,14 +439,6 @@
 
   <!-- HERO -->
   <section id="home">
-    <div class="hero-photo" aria-hidden="true">
-      <img class="hp-base" id="hpImg" alt=""
-           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_155632_3c55aa25-e4b4-4891-8f8f-ba53423c05e6.png" />
-      <canvas class="hp-canvas" id="hpCanvas"></canvas>
-      <div class="hp-fade"></div>
-      <div class="hp-tag"><span class="ld"></span> Creators reais · <b>conteúdo que vende</b></div>
-    </div>
-    <div class="hero-mark" aria-hidden="true">CREATOR</div>
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-l">
@@ -472,25 +468,6 @@
         </div>
 
         <div class="hero-r">
-          <div class="hcard reveal" data-hero="6">
-            <button class="hcard-in" id="hcardBtn" aria-label="Próximo">
-              <span class="hcard-tile"><svg viewBox="0 0 48 48" fill="currentColor" aria-hidden="true"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg></span>
-              <span class="hcard-body">
-                <span class="hcard-slot" id="hcardSlot">
-                  <span class="hcard-item on"><span class="hcard-cap">Produtos</span><span class="hcard-ttl">Enviados na sua casa.</span></span>
-                  <span class="hcard-item"><span class="hcard-cap">Comissão</span><span class="hcard-ttl">Em tempo real, no seu painel.</span></span>
-                  <span class="hcard-item"><span class="hcard-cap">Conteúdo</span><span class="hcard-ttl">Coproduzido com o time.</span></span>
-                </span>
-                <span class="hcard-foot">
-                  <span class="hcard-dots" id="hcardDots"><i class="on"></i><i></i><i></i></span>
-                  <span class="hcard-nav">
-                    <button type="button" id="hcardPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="transform:rotate(180deg)"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-                    <button type="button" id="hcardNext" aria-label="Próximo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-                  </span>
-                </span>
-              </span>
-            </button>
-          </div>
           <div class="brands reveal" data-hero="7">
             <p class="bl">Para creators, UGC e prescritores — nas marcas</p>
             <ul>
@@ -506,6 +483,14 @@
         <span class="mid">Brasil todo · 100% online</span>
         <span>Role para conhecer ↓</span>
       </div>
+    </div>
+
+    <div class="hero-photo" aria-hidden="true">
+      <img class="hp-base" id="hpImg" alt=""
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_155632_3c55aa25-e4b4-4891-8f8f-ba53423c05e6.png" />
+      <canvas class="hp-canvas" id="hpCanvas"></canvas>
+      <div class="hp-fade"></div>
+      <div class="hp-tag"><span class="ld"></span> Creators reais · <b>conteúdo que vende</b></div>
     </div>
   </section>
 
@@ -972,23 +957,6 @@ var LEADS_TABLE = "creator_signups";
   $("#navClose").addEventListener("click", closeNav);
   addEventListener("keydown", function (e) { if (e.key === "Escape") closeNav(); });
   $$("#nav .nav-mid a").forEach(function (a, i) { a.style.transitionDelay = (i * 45 + 90) + "ms"; });
-
-  /* ---------- HeroCard carrossel ---------- */
-  (function () {
-    var items = $$("#hcardSlot .hcard-item"), dots = $$("#hcardDots i"), n = items.length, cur = 0, timer;
-    function go(i) {
-      cur = (i + n) % n;
-      items.forEach(function (el, k) { el.classList.toggle("on", k === cur); });
-      dots.forEach(function (el, k) { el.classList.toggle("on", k === cur); });
-    }
-    function next() { go(cur + 1); }
-    function prev() { go(cur - 1); }
-    $("#hcardBtn").addEventListener("click", next);
-    $("#hcardNext").addEventListener("click", function (e) { e.stopPropagation(); next(); reset(); });
-    $("#hcardPrev").addEventListener("click", function (e) { e.stopPropagation(); prev(); reset(); });
-    function reset() { clearInterval(timer); timer = setInterval(next, 3600); }
-    if (!reduce) reset();
-  })();
 
   /* ---------- Count-up dos números ---------- */
   (function () {
