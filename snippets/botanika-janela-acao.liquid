@@ -1,0 +1,58 @@
+{%- comment -%}
+  ============================================================
+  Janela da ação (reutilizável).
+
+  Responde se a ação promocional está no ar AGORA, comparando a
+  hora do servidor com o intervalo definido em
+  Configurações do tema → "Janela da ação".
+
+  Por que existe: o botanika-freeship-weekend só liga aos SÁBADOS
+  e DOMINGOS, e ação relâmpago cai em qualquer dia da semana — o
+  Dia D de 09/09 é numa quarta. Este snippet é independente dele
+  de propósito: aquele controla o piso do frete grátis no carrinho,
+  no minicart e na barra de confiança, e mexer lá mudaria o site
+  inteiro.
+
+  Resolve também o agendamento: como o Liquid é avaliado a cada
+  requisição, a peça entra e sai sozinha na hora marcada, sem
+  ninguém precisar apertar botão à meia-noite.
+
+  Uso:
+    {%- capture ativo -%}{%- render 'botanika-janela-acao' -%}{%- endcapture -%}
+    {%- assign ativo = ativo | strip -%}
+    {%- if ativo == 'yes' -%} ... {%- endif -%}
+
+  Mesmo motor do botanika-countdown: alvo calculado server-side em
+  epoch, fuso fixo -03:00 (Brasília não tem horário de verão desde
+  2019, então o offset é constante).
+
+  Data mal preenchida vira 0 no epoch e a janela fica desligada —
+  falha para o lado seguro, nunca liga por engano.
+  ============================================================
+{%- endcomment -%}
+{%- liquid
+  assign raw_ini = settings.acao_inicio | default: ''
+  assign raw_fim = settings.acao_fim | default: ''
+
+  assign agora = 'now' | date: '%s' | plus: 0
+  assign ini = raw_ini | strip | replace: ' ', 'T' | append: '-03:00' | date: '%s' | plus: 0
+  assign fim = raw_fim | strip | replace: ' ', 'T' | append: '-03:00' | date: '%s' | plus: 0
+
+  assign ativo = false
+
+  if settings.acao_on
+    if ini > 0
+      if fim > ini
+        if agora >= ini
+          if agora <= fim
+            assign ativo = true
+          endif
+        endif
+      endif
+    endif
+  endif
+
+  if ativo
+    echo 'yes'
+  endif
+-%}

@@ -103,6 +103,36 @@
     ]
   },
   {
+    "name": "Janela da ação",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Liga e desliga sozinha as peças da ação relâmpago no intervalo definido aqui — inclusive o aviso no topo da página de produto. Vale para QUALQUER dia da semana, diferente da promo de frete, que só roda sábado e domingo. Horário de Brasília."
+      },
+      {
+        "type": "checkbox",
+        "id": "acao_on",
+        "label": "Ação programada ligada",
+        "info": "Desmarque para desligar tudo na hora, sem precisar mexer nas datas.",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "acao_inicio",
+        "label": "Início da ação",
+        "info": "Formato AAAA-MM-DD HH:MM (horário de Brasília). Ex.: 2026-09-09 00:00",
+        "default": "2026-09-09 00:00"
+      },
+      {
+        "type": "text",
+        "id": "acao_fim",
+        "label": "Fim da ação",
+        "info": "Formato AAAA-MM-DD HH:MM (horário de Brasília). Ex.: 2026-09-09 23:59",
+        "default": "2026-09-09 23:59"
+      }
+    ]
+  },
+  {
     "name": "Campanha — destaque de produtos",
     "settings": [
       {
