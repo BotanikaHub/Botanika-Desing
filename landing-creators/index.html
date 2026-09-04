@@ -28,13 +28,13 @@
     --serif:"Marcellus",Georgia,serif;
     --sans:"Onest",system-ui,-apple-system,sans-serif;
     --wrap:82rem; --pill:9999px; --r-card:1.75rem; --r-sm:1.1rem; --r-ctl:.8rem;
-    /* ---- Liquid glass (estilo Apple) ---- */
-    --glass:rgba(255,255,255,.44);
-    --glass-strong:rgba(255,255,255,.58);
-    --glass-brd:rgba(255,255,255,.55);
-    --glass-blur:saturate(1.7) blur(20px);
-    --glass-sh:0 24px 60px -34px rgba(30,42,30,.5), 0 2px 8px -4px rgba(30,42,30,.18);
-    --glass-inset:inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 1px rgba(255,255,255,.18), inset 0 0 0 1px rgba(255,255,255,.06);
+    /* ---- Liquid glass (estilo Apple) — vidro bem translúcido ---- */
+    --glass:rgba(255,255,255,.14);
+    --glass-strong:rgba(255,255,255,.34);
+    --glass-brd:rgba(255,255,255,.7);
+    --glass-blur:saturate(1.9) blur(30px);
+    --glass-sh:0 30px 70px -34px rgba(30,42,30,.5), 0 3px 12px -6px rgba(30,42,30,.2);
+    --glass-inset:inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(255,255,255,.1), inset 0 -10px 24px -12px rgba(255,255,255,.35);
     --glass-dark:rgba(20,29,23,.5);
     --glass-dark-brd:rgba(255,255,255,.14);
     --glass-dark-inset:inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px rgba(255,255,255,.05);
@@ -65,9 +65,9 @@
   /* ============ Fundo / camadas ============ */
   #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
   .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(90% 60% at 82% 12%, rgba(63,138,86,.12), transparent 55%),
-               radial-gradient(120% 80% at 10% 0%, rgba(180,134,59,.16), transparent 52%),
-               linear-gradient(180deg, rgba(250,247,241,.04), rgba(250,247,241,.34))}
+    background:radial-gradient(90% 60% at 82% 12%, rgba(63,138,86,.14), transparent 55%),
+               radial-gradient(120% 80% at 10% 0%, rgba(180,134,59,.18), transparent 52%),
+               linear-gradient(180deg, rgba(250,247,241,.02), rgba(250,247,241,.24))}
   .glow{position:fixed;top:0;left:0;width:34rem;height:34rem;border-radius:50%;z-index:2;
     pointer-events:none;transform:translate(-50%,-50%);opacity:0;transition:opacity .5s ease;
     background:radial-gradient(circle, rgba(180,134,59,.14), transparent 62%);mix-blend-mode:multiply}
@@ -867,9 +867,11 @@ var LEADS_TABLE = "creator_signups";
   function draw() {
     t += 0.0032; ctx.clearRect(0, 0, W, H);
     var cx = W * (0.28 + Math.sin(t) * 0.12), cy = H * (0.3 + Math.cos(t * 0.8) * 0.08);
-    blob(cx, cy, Math.max(W, H) * 0.5, "rgba(180,134,59,0.18)", "rgba(180,134,59,0)");
+    blob(cx, cy, Math.max(W, H) * 0.58, "rgba(180,134,59,0.28)", "rgba(180,134,59,0)");
     var gx = W * (0.74 + Math.cos(t * 0.7) * 0.1), gy = H * (0.72 + Math.sin(t * 0.9) * 0.1);
-    blob(gx, gy, Math.max(W, H) * 0.42, "rgba(63,138,86,0.14)", "rgba(63,138,86,0)");
+    blob(gx, gy, Math.max(W, H) * 0.5, "rgba(63,138,86,0.22)", "rgba(63,138,86,0)");
+    var bx = W * (0.5 + Math.sin(t * 0.5) * 0.18), by = H * (0.5 + Math.cos(t * 0.6) * 0.14);
+    blob(bx, by, Math.max(W, H) * 0.34, "rgba(198,166,103,0.16)", "rgba(198,166,103,0)");
     mouse.x += (mouse.tx - mouse.x) * 0.06; mouse.y += (mouse.ty - mouse.y) * 0.06;
     if (mouse.x > -500) blob(mouse.x, mouse.y, 200 * DPR, "rgba(198,166,103,0.10)", "rgba(198,166,103,0)");
     for (var i = 0; i < motes.length; i++) {
