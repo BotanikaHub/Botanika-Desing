@@ -13,10 +13,10 @@ para transformar essa boa vontade numa segunda compra, sem queimar o presente.
 
 | Arquivo | Para quê |
 | --- | --- |
-| `out/folder-trimg-nova-saude_CMYK_sangria3mm.pdf` | **PDF fechado para a gráfica.** CMYK, 111 × 154 mm (105 × 148 + 3 mm de sangria), marcas de corte, fontes embutidas, imagens em DeviceCMYK. |
-| `out/folder-trimg-nova-saude_RGB_tela.pdf` | Visualização em tela, RGB, no tamanho final cortado. |
-| `out/frente.svg` · `out/verso.svg` | **Arquivos abertos**, editáveis em Illustrator / Inkscape / Figma. Fontes embutidas em base64. |
-| `out/preview_*.png` | Prova de tela, 300 dpi. |
+| `out/<conceito>/*_CMYK_sangria3mm.pdf` | **PDF fechado para a gráfica.** CMYK, 111 × 154 mm (105 × 148 + 3 mm de sangria), marcas de corte, fontes embutidas, imagens em DeviceCMYK. |
+| `out/<conceito>/*_RGB_tela.pdf` | Visualização em tela, RGB, no tamanho final cortado. |
+| `out/<conceito>/frente.svg` · `verso.svg` | **Arquivos abertos**, editáveis em Illustrator / Inkscape / Figma. Fontes embutidas em base64. |
+| `out/<conceito>/preview_*.png` | Prova de tela, 300 dpi. |
 | `build.py` | Fonte do layout. Gera todos os arquivos acima. |
 | `validate.py` | Preflight: página, CMYK puro (vetor **e** imagens), fontes embutidas, leitura do QR, dpi das imagens, cobertura de tinta. |
 | `copy.md` | Copy campo a campo + notas de conformidade. |
@@ -33,15 +33,26 @@ caixa, muda os dois números e roda de novo — o layout se recompõe e o build
 
 ---
 
-## A imagem da frente
+## A imagem da frente — um jogo de arquivos por conceito
 
-A faixa superior (80 mm) é a arte gerada na Higgsfield — **conceito 03**,
-4800 × 3584 px, nano_banana_pro 4K.
+A faixa superior (80 mm) é a arte gerada na Higgsfield (nano_banana_pro 4K,
+4800 × 3584 px). A peça está fechada para rodar em **mais de um conceito**.
 
-**Para fechar a peça:** salve o arquivo como `brand/hero.png` e rode o build.
-Ele entra sozinho, com recorte *cover*, degradê de contraste no topo e o logo
-composto por cima. Sem esse arquivo o build usa o fundo gráfico da marca,
-carimba **"PROVA"** na arte e avisa no terminal.
+**Para fechar:** salve as imagens em `brand/` com este nome e rode o build.
+
+```
+brand/hero-01.png   ->  out/conceito-01/
+brand/hero-03.png   ->  out/conceito-03/
+```
+
+O build descobre sozinho todo `brand/hero-<id>.png` e gera um jogo completo
+por conceito: PDF de gráfica, PDF de tela, SVGs abertos e provas em 300 dpi.
+A imagem entra com recorte *cover*, degradê de contraste no topo (para o logo
+ficar legível sobre qualquer foto) e o logo composto por cima, tudo achatado
+em CMYK a 400 dpi.
+
+Sem nenhuma imagem, o build gera `out/prova/` com o fundo gráfico da marca e
+carimba **"PROVA"** na arte. O caminho da imagem foi testado de ponta a ponta.
 
 > ⚠️ Não consegui baixar a imagem para dentro da sessão: o proxy de saída da
 > organização bloqueia o CDN da Higgsfield (`d8j0ntlcm91z4.cloudfront.net`,

@@ -40,7 +40,13 @@ BRAND = os.path.join(HERE, "brand")
 OUT = os.path.join(HERE, "out")
 os.makedirs(OUT, exist_ok=True)
 
-HERO = os.path.join(BRAND, "hero.png")          # conceito 03 da Higgsfield
+def heros_disponiveis():
+    """Descobre brand/hero-<id>.png. Sem nenhum, roda em modo PROVA."""
+    import glob
+    achados = []
+    for p in sorted(glob.glob(os.path.join(BRAND, "hero-*.png"))):
+        achados.append((os.path.basename(p)[5:-4], p))
+    return achados or [(None, None)]
 LOGO_CREAM = os.path.join(BRAND, "botanika-logo-full-cream.png")
 LOGO_AZUL = os.path.join(BRAND, "botanika-logo-full-azul.png")
 MARCA_LIMA = os.path.join(BRAND, "botanika-marca-lima.png")
@@ -155,8 +161,9 @@ def wrap(s, font, size_pt, max_mm, tracking_pt=0.0):
 # 4. RENDERERS  (mm, origem no canto superior esquerdo da sangria, y p/ baixo)
 # ----------------------------------------------------------------------------
 class PDFRenderer:
-    def __init__(self, path, mode):
+    def __init__(self, path, mode, hero_path, outdir):
         self.mode = mode
+        self.hero_path, self.outdir = hero_path, outdir
         self.bleed = (mode == "cmyk")
         w = PAGE_W if self.bleed else TRIM_W
         h = PAGE_H if self.bleed else TRIM_H
@@ -168,7 +175,7 @@ class PDFRenderer:
                                   initialFontName="JO", initialFontSize=8)
         self.c.setTitle("Folder Tri[Mg] Complex — Boas-vindas Nova Saude")
         self.c.setAuthor("Botanika Brasil")
-        self.band_path = build_hero_band(mode)
+        self.band_path = build_hero_band(mode, hero_path, outdir)
 
     def _y(self, y):
         return (self.h - (y - self.off)) * mm
@@ -261,9 +268,10 @@ class SVGRenderer:
 
     mode = "rgb"
 
-    def __init__(self, path):
+    def __init__(self, path, hero_path, outdir):
         self.path, self.parts, self.clips = path, [], 0
-        self.band_path = build_hero_band("rgb")
+        self.hero_path, self.outdir = hero_path, outdir
+        self.band_path = build_hero_band("rgb", hero_path, outdir)
 
     def rect(self, x, y, w, h, fill=None, stroke=None, lw=0.3, r=0.0, alpha=1.0):
         a = f'x="{x:.3f}" y="{y:.3f}" width="{w:.3f}" height="{h:.3f}"'
@@ -352,7 +360,7 @@ def eyebrow(r, x, y, s, color, size=5.8, tracking=1.5, align="left"):
     r.text(x, y, s.upper(), "JO-SB", size, color, tracking, align)
 
 
-def cmyk_asset(png_path, frente, fundo):
+def cmyk_asset(png_path, frente, fundo, outdir):
     """Rasteriza um asset de cor chapada direto em CMYK, sobre um fundo chapado.
 
     Necessario porque um PDF de grafica em CMYK nao pode carregar imagem RGB
@@ -361,10 +369,12 @@ def cmyk_asset(png_path, frente, fundo):
     """
     from PIL import Image
     Image.MAX_IMAGE_PIXELS = None
-    cache = os.path.join(OUT, "_band",
+    cache = os.path.join(outdir, "_band",
                          os.path.basename(png_path).replace(".png", "_cmyk.jpg"))
     os.makedirs(os.path.dirname(cache), exist_ok=True)
     src = Image.open(png_path).convert("RGBA")
+    if src.width > 1400:          # ~1000 dpi na colocacao real; acima disso so pesa
+        src = src.resize((1400, int(src.height * 1400 / src.width)), Image.LANCZOS)
     alpha = src.split()[3]
     # PIL guarda CMYK como 0..255 por canal, 0 = sem tinta
     f = [int(round(v * 255)) for v in frente.cmyk]
@@ -375,14 +385,14 @@ def cmyk_asset(png_path, frente, fundo):
         base = Image.new("L", src.size, b[i])
         cheio = Image.new("L", src.size, f[i])
         canais.append(Image.composite(cheio, base, alpha))
-    Image.merge("CMYK", canais).save(cache, "JPEG", quality=100, subsampling=0)
+    Image.merge("CMYK", canais).save(cache, "JPEG", quality=96, subsampling=0)
     return cache
 
 
 def logo(r, path, x, y, altura_mm, ratio, frente=None, fundo=None):
     """Coloca o logo pela ALTURA — a largura sai da proporcao do arquivo."""
     if r.mode == "cmyk" and frente is not None:
-        path = cmyk_asset(path, frente, fundo)
+        path = cmyk_asset(path, frente, fundo, r.outdir)
     r.image(path, x, y, altura_mm * ratio, altura_mm)
 
 
@@ -412,7 +422,7 @@ def _px(mm_val):
     return int(round(mm_val / 25.4 * BAND_DPI))
 
 
-def build_hero_band(mode):
+def build_hero_band(mode, hero_path, outdir):
     """Achata a faixa de imagem da frente num unico bitmap e devolve o caminho.
 
     Por que achatar em vez de empilhar imagem + degrade + logo no PDF:
@@ -430,8 +440,8 @@ def build_hero_band(mode):
     fundo = tuple(int(AZUL_DEEP.rgb[i:i + 2], 16) for i in (1, 3, 5))
     band = Image.new("RGB", (W, H), fundo)
 
-    if os.path.exists(HERO):
-        src = Image.open(HERO).convert("RGB")
+    if hero_path:
+        src = Image.open(hero_path).convert("RGB")
         # cobre a area inteira preservando proporcao (cover), depois recorta
         k = max(W / src.width, H / src.height)
         src = src.resize((max(W, int(src.width * k)), max(H, int(src.height * k))),
@@ -447,7 +457,7 @@ def build_hero_band(mode):
         a = marca.split()[3].point(lambda v: int(v * 0.20))
         marca.putalpha(a)
         band.paste(marca, (W - marca.width + _px(11), H - marca.height + _px(8)), marca)
-        AVISOS.append("brand/hero.png ausente — usado o fundo grafico da marca "
+        AVISOS.append("sem brand/hero-<id>.png — usado o fundo grafico da marca "
                       "e marcado como PROVA. Nao mandar para a grafica assim.")
 
     # scrim: degrade do topo, garante contraste do logo sobre qualquer imagem
@@ -466,12 +476,12 @@ def build_hero_band(mode):
     logo_im = logo_im.resize((int(lh * RATIO_LOGO), lh), Image.LANCZOS)
     band.paste(logo_im, (_px(CX0), _px(11.0 - 4.3)), logo_im)
 
-    os.makedirs(os.path.join(OUT, "_band"), exist_ok=True)
+    os.makedirs(os.path.join(outdir, "_band"), exist_ok=True)
     if mode == "cmyk":
-        path = os.path.join(OUT, "_band", "hero_cmyk.jpg")
+        path = os.path.join(outdir, "_band", "hero_cmyk.jpg")
         band.convert("CMYK").save(path, "JPEG", quality=95, dpi=(BAND_DPI, BAND_DPI))
     else:
-        path = os.path.join(OUT, "_band", "hero_rgb.png")
+        path = os.path.join(outdir, "_band", "hero_rgb.png")
         band.save(path, dpi=(BAND_DPI, BAND_DPI))
     return path
 
@@ -524,35 +534,12 @@ RATIO_LOGO = 4000 / 749.0
 RATIO_MARCA = 2349 / 3025.0
 
 
-def draw_hero_unused(r, y0, h):
-    """Mantido so como referencia — a faixa agora vem achatada de build_hero_band."""
-    if os.path.exists(HERO):
-        r.clip_push(0, y0, PAGE_W, h)
-        r.image(HERO, 0, y0, PAGE_W, h)
-        r.clip_pop()
-    else:
-        # Fundo grafico da marca, para a peca fechar mesmo sem a foto.
-        # A marca-folha entra num tamanho que se le como marca d'agua, nao
-        # como mancha: escalada demais ela vira um bloco chapado.
-        r.rect(0, y0, PAGE_W, h, fill=AZUL_DEEP)
-        r.clip_push(0, y0, PAGE_W, h)
-        alt = 58.0
-        r.image(MARCA_LIMA, PAGE_W - alt * RATIO_MARCA - 6, y0 + h - alt - 9,
-                alt * RATIO_MARCA, alt, alpha=0.34)
-        r.clip_pop()
-        # marcacao de prova — some sozinha quando o hero.png for colocado
-        r.text(CX0, y0 + h - 6.5, "PROVA · IMAGEM (CONCEITO 03) ENTRA NESTA ÁREA",
-               "JO-M", 4.6, LIMA, 1.0)
-        AVISOS.append("brand/hero.png ausente — usado o fundo grafico da marca "
-                      "e marcado como PROVA. Nao mandar para a grafica assim.")
-
-
 def draw_front(r):
     r.rect(0, 0, PAGE_W, PAGE_H, fill=AZUL)          # base azul, sangria total
 
     # faixa de imagem: um unico bitmap ja com scrim e logo compostos
     r.image(r.band_path, 0, 0, PAGE_W, HERO_H)
-    if not os.path.exists(HERO):
+    if not r.hero_path:
         r.text(CX0, HERO_H - 6.5, "PROVA · IMAGEM (CONCEITO 03) ENTRA NESTA ÁREA",
                "JO-M", 4.6, LIMA, 1.0)
 
@@ -630,10 +617,10 @@ def draw_back(r):
 
 
 # ----------------------------------------------------------------------------
-# 7. BUILD
+# 7. BUILD — um jogo completo de arquivos por conceito de imagem
 # ----------------------------------------------------------------------------
-def build_pdf(path, mode):
-    r = PDFRenderer(path, mode)
+def build_pdf(path, mode, hero_path, outdir):
+    r = PDFRenderer(path, mode, hero_path, outdir)
     draw_front(r)
     r.crop_marks()
     r.page_break()
@@ -643,8 +630,8 @@ def build_pdf(path, mode):
     return path
 
 
-def build_svg(path, which):
-    r = SVGRenderer(path)
+def build_svg(path, which, hero_path, outdir):
+    r = SVGRenderer(path, hero_path, outdir)
     (draw_front if which == "front" else draw_back)(r)
     r.save()
     return path
@@ -659,35 +646,61 @@ def check_safe_area():
             bad.append(f"  fora da area segura: {s[:46]!r} (x {x0:.1f}..{x1:.1f}, y {y:.1f})")
     if bad:
         raise SystemExit("ERRO DE LAYOUT:\n" + "\n".join(bad))
-    print(f"area de seguranca: OK ({len(EXTENTS)} blocos de texto conferidos)")
 
 
-def check_hero_dpi():
-    if not os.path.exists(HERO):
+def check_hero_dpi(hero_path):
+    """A imagem precisa render 300 dpi na area em que e usada."""
+    if not hero_path:
         return
     from PIL import Image
     Image.MAX_IMAGE_PIXELS = None
-    w, h = Image.open(HERO).size
-    dpi_x = w / (PAGE_W / 25.4)
-    dpi_y = h / (HERO_H / 25.4)
-    ok = min(dpi_x, dpi_y) >= 300
-    print(f"imagem da frente: {w}x{h} px -> {dpi_x:.0f} x {dpi_y:.0f} dpi "
-          f"{'OK' if ok else 'ABAIXO DE 300 dpi'}")
-    if not ok:
-        AVISOS.append(f"hero.png rende {min(dpi_x, dpi_y):.0f} dpi, abaixo dos 300")
+    w, h = Image.open(hero_path).size
+    # o recorte e 'cover': o fator limitante e o menor dos dois eixos
+    dpi = min(w / (PAGE_W / 25.4), h / (HERO_H / 25.4))
+    print(f"  imagem {w}x{h} px -> {dpi:.0f} dpi na faixa "
+          f"{'OK' if dpi >= 300 else 'ABAIXO DE 300'}")
+    if dpi < 300:
+        AVISOS.append(f"{os.path.basename(hero_path)} rende {dpi:.0f} dpi, abaixo dos 300")
+
+
+def build_concept(cid, hero_path):
+    nome = f"conceito-{cid}" if cid else "prova"
+    outdir = os.path.join(OUT, nome)
+    os.makedirs(outdir, exist_ok=True)
+    EXTENTS.clear()
+    AVISOS.clear()
+
+    print(f"\n[{nome}]" + (f"  <- {os.path.relpath(hero_path, HERE)}" if hero_path
+                            else "  <- sem imagem, fundo grafico da marca"))
+    base = f"folder-trimg-nova-saude_{nome}"
+    p1 = build_pdf(os.path.join(outdir, base + "_CMYK_sangria3mm.pdf"), "cmyk", hero_path, outdir)
+    p2 = build_pdf(os.path.join(outdir, base + "_RGB_tela.pdf"), "rgb", hero_path, outdir)
+    s1 = build_svg(os.path.join(outdir, "frente.svg"), "front", hero_path, outdir)
+    s2 = build_svg(os.path.join(outdir, "verso.svg"), "back", hero_path, outdir)
+
+    check_safe_area()
+    check_hero_dpi(hero_path)
+
+    # prova de tela
+    import pypdfium2 as pdfium
+    doc = pdfium.PdfDocument(p2)
+    for i, n in enumerate(("preview_frente", "preview_verso")):
+        doc[i].render(scale=300 / 72).to_pil().save(os.path.join(outdir, n + ".png"))
+
+    for p in (p1, p2, s1, s2):
+        print("  gerado:", os.path.relpath(p, HERE), os.path.getsize(p), "bytes")
+    print("  area de seguranca: OK")
+    for a in dict.fromkeys(AVISOS):
+        print("  AVISO:", a)
+    return p1
 
 
 def main():
-    p1 = build_pdf(os.path.join(OUT, "folder-trimg-nova-saude_CMYK_sangria3mm.pdf"), "cmyk")
-    p2 = build_pdf(os.path.join(OUT, "folder-trimg-nova-saude_RGB_tela.pdf"), "rgb")
-    s1 = build_svg(os.path.join(OUT, "frente.svg"), "front")
-    s2 = build_svg(os.path.join(OUT, "verso.svg"), "back")
-    for p in (p1, p2, s1, s2):
-        print("gerado:", os.path.relpath(p, HERE), os.path.getsize(p), "bytes")
-    check_safe_area()
-    check_hero_dpi()
-    for a in dict.fromkeys(AVISOS):
-        print("AVISO:", a)
+    conceitos = heros_disponiveis()
+    feitos = [build_concept(cid, hero) for cid, hero in conceitos]
+    print(f"\n{len(feitos)} jogo(s) de arquivos gerado(s).")
+    if conceitos == [(None, None)]:
+        print("Coloque brand/hero-01.png e brand/hero-03.png para fechar a arte.")
 
 
 if __name__ == "__main__":

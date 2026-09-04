@@ -5,6 +5,6 @@ node_modules/
 scratchpad/
 
 __pycache__/
-folder-trimg-nova-saude/out/_band/
+folder-trimg-nova-saude/out/*/_band/
 folder-trimg-nova-saude/out/_crop_*.png
 folder-trimg-nova-saude/brand/_*.png
