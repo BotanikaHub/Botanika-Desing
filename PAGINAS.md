@@ -130,9 +130,9 @@ As LPs são servidas no domínio da marca via **Cloudflare Pages** (host) + **Go
 - **O que é:** **formulário único** de captação de creators, UGCs e prescritores das **duas marcas** — a pessoa escolhe a marca dentro do formulário (um link só). É a **porta de entrada**: a triagem detalhada e o contrato acontecem depois, com a Ana.
 - **Campos (5):** Nome · Instagram · Papel (creator/UGC/prescritor) · Marca (Botanika/VermeFree/as duas) · Motivação. + campos ocultos de UTM/referrer/landing_url (atribuição — tarefa 86akbgc47).
 - **Respostas:** Supabase da casa (projeto `sjkuysdmixfzeerxuudn`) → tabela `public.creator_signups`. RLS: a chave pública (anon) **só INSERE**; leitura fica pelo painel/serviço (a Ana vê pelo Supabase). Chave anon embutida na página é pública por design.
-- **Identidade:** "Herbário Botanika" (verde-floresta + dourado) reaproveitada da LP existente.
+- **Identidade:** premium editorial — creme quente + tinta near-black + dourado Botanika (toque verde), **Marcellus + Onest**, grid adaptativo em rem, loader 000→100, hero-assinatura (canvas aurora + relógio ao vivo + carrossel), reveals com mola, painel de números com count-up e menu overlay. Autocontido (sem libs externas).
 - **Publicação:** Ítalo publica nas redes (link raw.githack acima). Prescritor segue fluxo separado depois da triagem.
-- **Status:** ✅ formulário de 5 campos + gravação no Supabase validada (anon insere, não lê)
+- **Status:** ✅ redesign premium + formulário de 5 campos + gravação no Supabase validada (anon insere, não lê)
 
 <!-- PRÓXIMOS PRODUTOS (modelo — copiar ao criar):
 ### N. <Nome do produto>
