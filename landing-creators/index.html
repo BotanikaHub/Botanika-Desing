@@ -156,6 +156,16 @@
   /* ============ Hero ============ */
   #home{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 var(--r-card) var(--r-card);
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 3rem}
+  .hero-photo{display:none}
+  @media (min-width:1024px){
+    .hero-photo{display:block;position:absolute;top:0;bottom:0;right:0;width:49%;z-index:0;overflow:hidden;background:var(--surface)}
+  }
+  .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:saturate(.9) brightness(1.02)}
+  .hp-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .hp-fade{position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg, var(--bg) 1%, rgba(250,247,241,.55) 20%, rgba(250,247,241,0) 54%),
+               linear-gradient(0deg, rgba(250,247,241,.9), transparent 30%),
+               linear-gradient(180deg, rgba(250,247,241,.5), transparent 22%)}
   .hero-mark{position:absolute;inset-inline:0;bottom:3.5rem;z-index:1;text-align:center;pointer-events:none;
     user-select:none;font-family:var(--serif);font-weight:400;line-height:.9;font-size:13rem;
     color:rgba(180,134,59,.10);letter-spacing:.02em;opacity:0;transform:translateY(1.2rem);
@@ -182,12 +192,13 @@
   .hcard-tile svg{width:2rem;height:2rem;color:var(--gold-2)}
   .hcard-body{flex:1;border-radius:var(--r-ctl);background:rgba(242,239,231,.8);padding:.85rem;
     display:flex;flex-direction:column;justify-content:space-between;min-height:6.2rem}
-  .hcard-slot{position:relative;min-height:3.3rem}
-  .hcard-item{position:absolute;inset:0;opacity:0;transform:translateY(.9rem);
+  .hcard-slot{position:relative;min-height:3.6rem}
+  .hcard-item{position:absolute;inset:0;display:flex;flex-direction:column;gap:.15rem;
+    opacity:0;transform:translateY(.9rem);pointer-events:none;
     transition:opacity .35s ease, transform .35s ease}
-  .hcard-item.on{opacity:1;transform:none}
-  .hcard-cap{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--subtle)}
-  .hcard-ttl{margin-top:.15rem;max-width:9rem;font-family:var(--serif);font-size:1.05rem;line-height:1.2;color:var(--fg)}
+  .hcard-item.on{opacity:1;transform:none;pointer-events:auto}
+  .hcard-cap{display:block;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--subtle)}
+  .hcard-ttl{display:block;font-family:var(--serif);font-size:1.05rem;line-height:1.2;color:var(--fg)}
   .hcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem}
   .hcard-dots{display:flex;gap:.28rem}
   .hcard-dots i{height:.25rem;border-radius:9999px;background:rgba(23,26,20,.2);width:.4rem;transition:all .3s}
@@ -388,6 +399,12 @@
 
   <!-- HERO -->
   <section id="home">
+    <div class="hero-photo" aria-hidden="true">
+      <img class="hp-base" id="hpImg" alt=""
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_144248_0a539978-4bc8-437c-a112-7a9eee9debdd.png" />
+      <canvas class="hp-canvas" id="hpCanvas"></canvas>
+      <div class="hp-fade"></div>
+    </div>
     <div class="hero-mark" aria-hidden="true">CREATOR</div>
     <div class="wrap">
       <div class="hero-grid">
@@ -805,6 +822,74 @@ var LEADS_TABLE = "creator_signups";
     mouse.tx = e.clientX * DPR; mouse.ty = e.clientY * DPR;
     if (fine) { glow.style.opacity = "1"; glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"; }
   });
+
+  /* ---------- Hero: revelação líquida (base fria -> pincel quente) ---------- */
+  (function () {
+    var wrap = $(".hero-photo"), img = $("#hpImg"), cv = $("#hpCanvas");
+    if (!wrap || !img || !cv || !cv.getContext) return;
+    var cx2 = cv.getContext("2d"); if (!cx2) return;
+    img.addEventListener("error", function () { wrap.style.display = "none"; });
+    if (reduce) return;
+    var dpr2 = Math.min(window.devicePixelRatio || 1, 2), brushR = 120;
+    var cover = document.createElement("canvas"), cctx = cover.getContext("2d");
+    var brush = document.createElement("canvas"), bctx = brush.getContext("2d");
+    var W2 = 0, H2 = 0, rad = 0, diam = 0, ready = false, pts = [], last = null, idle = 0, drawing = false;
+    function buildCover() {
+      if (!img.naturalWidth) return;
+      cover.width = W2; cover.height = H2;
+      var s = Math.max(W2 / img.naturalWidth, H2 / img.naturalHeight);
+      var w = img.naturalWidth * s, h = img.naturalHeight * s;
+      var ox = (W2 - w) * 0.5, oy = (H2 - h) * 0.20;
+      cctx.clearRect(0, 0, W2, H2);
+      cctx.filter = "saturate(1.22) contrast(1.05) brightness(1.03) sepia(.06)";
+      cctx.drawImage(img, ox, oy, w, h);
+      cctx.filter = "none";
+    }
+    function size() {
+      var r = wrap.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) return;
+      cv.width = Math.floor(r.width * dpr2); cv.height = Math.floor(r.height * dpr2);
+      W2 = cv.width; H2 = cv.height; rad = brushR * dpr2; diam = Math.ceil(rad * 2);
+      brush.width = diam; brush.height = diam;
+      ready = img.complete && img.naturalWidth > 0; buildCover(); cx2.clearRect(0, 0, W2, H2);
+    }
+    img.addEventListener("load", function () { ready = true; buildCover(); });
+    if ("ResizeObserver" in window) new ResizeObserver(size).observe(wrap); else addEventListener("resize", size);
+    size();
+    function stamp(x, y) {
+      bctx.clearRect(0, 0, diam, diam); bctx.globalCompositeOperation = "source-over";
+      var g = bctx.createRadialGradient(rad, rad, 0, rad, rad, rad);
+      g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(.55, "rgba(255,255,255,.82)"); g.addColorStop(1, "rgba(255,255,255,0)");
+      bctx.fillStyle = g; bctx.fillRect(0, 0, diam, diam);
+      bctx.globalCompositeOperation = "source-in";
+      bctx.drawImage(cover, x - rad, y - rad, diam, diam, 0, 0, diam, diam);
+      cx2.globalCompositeOperation = "source-over"; cx2.drawImage(brush, x - rad, y - rad);
+    }
+    addEventListener("pointermove", function (e) {
+      if (!ready || W2 < 2) return;
+      var r = cv.getBoundingClientRect();
+      var x = (e.clientX - r.left) * (cv.width / r.width), y = (e.clientY - r.top) * (cv.height / r.height);
+      if (x < -rad || x > cv.width + rad || y < -rad || y > cv.height + rad) { last = null; return; }
+      if (last) {
+        var dx = x - last.x, dy = y - last.y, dist = Math.sqrt(dx * dx + dy * dy);
+        var st = Math.max(rad * 0.3, 1), n = Math.min(Math.ceil(dist / st), 60);
+        for (var i = 1; i <= n; i++) pts.push({ x: last.x + dx * i / n, y: last.y + dy * i / n });
+      } else pts.push({ x: x, y: y });
+      last = { x: x, y: y }; drawing = true;
+    });
+    function tick2() {
+      if (ready && W2 > 1) {
+        if (pts.length) idle = 0; else idle++;
+        var fade = drawing ? 0.016 : Math.min(0.016 + idle * 0.004, 0.5);
+        cx2.globalCompositeOperation = "destination-out";
+        cx2.fillStyle = "rgba(0,0,0," + fade + ")"; cx2.fillRect(0, 0, W2, H2);
+        if (pts.length) { for (var i = 0; i < pts.length; i++) stamp(pts[i].x, pts[i].y); pts.length = 0; drawing = false; }
+        if (idle > 120) cx2.clearRect(0, 0, W2, H2);
+      }
+      requestAnimationFrame(tick2);
+    }
+    tick2();
+  })();
 
   /* ---------- Header hide + progress ---------- */
   var header = $("#header"), progress = $("#progress"), lastY = 0;
