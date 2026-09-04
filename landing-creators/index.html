@@ -34,8 +34,8 @@
   html{font-size:16px}
   @media (max-width:1920px){ html{font-size:.8333vw} }
   @media (max-width:1440px){ html{font-size:1.1111vw} }
-  @media (max-width:1024px){ html{font-size:1.5625vw} }
-  @media (max-width:640px){  html{font-size:4.15vw} }
+  @media (max-width:1024px){ html{font-size:clamp(12px,1.5625vw,16px)} }
+  @media (max-width:640px){  html{font-size:clamp(14.5px,4.15vw,17px)} }
 
   /* ============ Reset / base ============ */
   *{box-sizing:border-box;margin:0;padding:0}
@@ -157,10 +157,11 @@
   #home{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 var(--r-card) var(--r-card);
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 3rem}
   /* mobile-first: card de foto arredondado, cor cheia, editorial */
-  .hero-photo{position:relative;z-index:0;display:block;margin:0 1.1rem;height:44vh;max-height:22rem;
+  .hero-photo{position:relative;z-index:0;display:block;margin:0 1.5rem;height:42vh;max-height:20rem;
     border-radius:var(--r-card);overflow:hidden;background:var(--surface);
     box-shadow:0 34px 64px -40px rgba(20,32,26,.55);
     -webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
+  @media (min-width:640px) and (max-width:1023px){ .hero-photo{margin:0 2.5rem;max-height:24rem} }
   .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
   .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
@@ -186,16 +187,20 @@
       linear-gradient(180deg, rgba(250,247,241,.5), transparent 22%)}
   }
   @media (max-width:1023px){
-    #home{justify-content:flex-start;min-height:auto;padding:5rem 0 2.8rem}
+    #home{justify-content:flex-start;min-height:auto;padding:4.75rem 0 3rem}
     .hero-mark{display:none}
-    .hero-grid{margin-top:1.9rem;gap:1.9rem}
+    .hero-grid{margin-top:1.75rem;gap:1.6rem}
     .hcard{display:none}
-    .hero-l{gap:1.25rem}
+    .hero-l{gap:1.1rem}
     #heroTitle{margin-top:.1rem}
+    .lead-tail{display:none}         /* enxuga o texto no mobile */
+    .hero-bar{margin-top:2rem;flex-wrap:wrap;row-gap:.4rem;padding-top:1.1rem}
   }
   @media (max-width:560px){
     .hero-cta{flex-direction:column}
     .hero-cta .btn{width:100%;justify-content:center}
+    .hero-bar{gap:.5rem;justify-content:flex-start}
+    .hero-bar>span{width:100%}
   }
   .hero-mark{position:absolute;inset-inline:0;bottom:3.5rem;z-index:1;text-align:center;pointer-events:none;
     user-select:none;font-family:var(--serif);font-weight:400;line-height:.9;font-size:13rem;
@@ -447,7 +452,7 @@
             <span class="rl"><span>Agora <em>ganhe</em></span></span>
             <span class="rl"><span>por isso.</span></span>
           </h1>
-          <p class="lead reveal" data-hero="3">Entre para o Creator Club da <b>Botanika</b> e da <b>VermeFree</b>: receba os produtos, ganhe comissão em tempo real pelo que você já indica e acompanhe cada venda num painel só seu. Você escolhe a marca no formulário — candidate-se uma vez.</p>
+          <p class="lead reveal" data-hero="3">Entre para o Creator Club da <b>Botanika</b> e da <b>VermeFree</b>: receba os produtos, ganhe comissão em tempo real pelo que você já indica e acompanhe cada venda num painel só seu.<span class="lead-tail"> Você escolhe a marca no formulário — candidate-se uma vez.</span></p>
           <div class="rating reveal" data-hero="4">
             <span class="stars" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
