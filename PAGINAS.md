@@ -54,3 +54,21 @@
 
 ## Como editar uma página específica (comando pra colar num chat novo)
 > "Leia o `PAGINAS.md`, o `botanika-lp-superprompt.md` e a pasta `botanika-lp-kit/` no repo `botanikahub/botanika-desing`. Vou editar a LP do **[produto]**. Me confirma qual pasta/arquivo você vai mexer antes de começar."
+
+---
+
+## Peças impressas (não são LPs)
+
+Mesma regra de pasta isolada, mas saída em PDF/SVG para gráfica — não HTML.
+
+### Folder Tri[Mg] — boas-vindas Nova Saúde
+- **Pasta:** `folder-trimg-nova-saude/`
+- **O que é:** folder A6 (105 × 148 mm, chapado, frente e verso) que vai dentro
+  da caixa do Tri[Mg] enviado de presente aos ~100 primeiros alunos do curso
+  Nova Saúde.
+- **Cupons exclusivos da peça:** `ALUNONOVA15` (15%) + `ALUNONOVAFRETE` (frete
+  grátis sem mínimo). **Não usar em nenhum outro canal** — são o único rastreio
+  que o papel tem.
+- **QR:** `botanikabrasil.com.br/folder` · **endereço impresso:** `botanikabrasil.com.br/tri`
+- **Build:** `python3 build.py && python3 validate.py`
+- **Status:** arte fechada e validada · pendente medida da caixa e logos vetoriais
