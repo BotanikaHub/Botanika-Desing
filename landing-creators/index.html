@@ -156,16 +156,47 @@
   /* ============ Hero ============ */
   #home{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 var(--r-card) var(--r-card);
     min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 3rem}
-  .hero-photo{display:none}
-  @media (min-width:1024px){
-    .hero-photo{display:block;position:absolute;top:0;bottom:0;right:0;width:49%;z-index:0;overflow:hidden;background:var(--surface)}
-  }
-  .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:grayscale(.6) saturate(.5) brightness(.95) contrast(1.05)}
+  /* mobile-first: card de foto arredondado, cor cheia, editorial */
+  .hero-photo{position:relative;z-index:0;display:block;margin:0 1.1rem;height:44vh;max-height:22rem;
+    border-radius:var(--r-card);overflow:hidden;background:var(--surface);
+    box-shadow:0 34px 64px -40px rgba(20,32,26,.55);
+    -webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
+  .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  .hp-base{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
   .hp-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   .hp-fade{position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(90deg, var(--bg) 1%, rgba(250,247,241,.55) 20%, rgba(250,247,241,0) 54%),
-               linear-gradient(0deg, rgba(250,247,241,.9), transparent 30%),
-               linear-gradient(180deg, rgba(250,247,241,.5), transparent 22%)}
+    background:linear-gradient(0deg, rgba(12,20,16,.52), rgba(12,20,16,.06) 44%, transparent 66%)}
+  .hp-tag{position:absolute;left:.9rem;bottom:.9rem;right:.9rem;z-index:2;display:inline-flex;align-items:center;
+    gap:.55rem;width:max-content;max-width:calc(100% - 1.8rem);padding:.5rem .85rem;border-radius:9999px;
+    background:rgba(18,26,20,.44);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.16);color:#fff;font-size:.72rem;font-weight:500;letter-spacing:.005em}
+  .hp-tag b{color:var(--gold-2);font-weight:600}
+  .hp-tag .ld{flex:none;width:.5rem;height:.5rem;border-radius:9999px;background:var(--green);
+    box-shadow:0 0 0 3px rgba(63,138,86,.28)}
+  @media (min-width:1024px){
+    .hero-photo{position:absolute;top:0;bottom:0;right:0;left:auto;width:49%;height:auto;max-height:none;
+      margin:0;border-radius:0;box-shadow:none}
+    .hero-photo::after{display:none}
+    .hp-tag{display:none}
+    .hp-base{object-position:50% 20%;filter:grayscale(.6) saturate(.5) brightness(.95) contrast(1.05)}
+    .hp-fade{background:
+      linear-gradient(90deg, var(--bg) 1%, rgba(250,247,241,.55) 20%, rgba(250,247,241,0) 54%),
+      linear-gradient(0deg, rgba(250,247,241,.9), transparent 30%),
+      linear-gradient(180deg, rgba(250,247,241,.5), transparent 22%)}
+  }
+  @media (max-width:1023px){
+    #home{justify-content:flex-start;min-height:auto;padding:5rem 0 2.8rem}
+    .hero-mark{display:none}
+    .hero-grid{margin-top:1.9rem;gap:1.9rem}
+    .hcard{display:none}
+    .hero-l{gap:1.25rem}
+    #heroTitle{margin-top:.1rem}
+  }
+  @media (max-width:560px){
+    .hero-cta{flex-direction:column}
+    .hero-cta .btn{width:100%;justify-content:center}
+  }
   .hero-mark{position:absolute;inset-inline:0;bottom:3.5rem;z-index:1;text-align:center;pointer-events:none;
     user-select:none;font-family:var(--serif);font-weight:400;line-height:.9;font-size:13rem;
     color:rgba(180,134,59,.10);letter-spacing:.02em;opacity:0;transform:translateY(1.2rem);
@@ -401,9 +432,10 @@
   <section id="home">
     <div class="hero-photo" aria-hidden="true">
       <img class="hp-base" id="hpImg" alt=""
-           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_145331_7ace7b7e-f051-49c5-b877-b858ec71bf52.png" />
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_3G8JflzxGLjgF5BzXPb0aaKiMmm/hf_20260904_155632_3c55aa25-e4b4-4891-8f8f-ba53423c05e6.png" />
       <canvas class="hp-canvas" id="hpCanvas"></canvas>
       <div class="hp-fade"></div>
+      <div class="hp-tag"><span class="ld"></span> Creators reais · <b>conteúdo que vende</b></div>
     </div>
     <div class="hero-mark" aria-hidden="true">CREATOR</div>
     <div class="wrap">
