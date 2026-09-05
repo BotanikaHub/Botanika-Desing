@@ -619,6 +619,13 @@ body.sem .stage::before{background:radial-gradient(circle,rgba(248,200,64,.44),r
 /* chocolatinhos somem no Sem Sabor (não há chocolate) */
 .choWrap{transition:opacity .5s ease}
 body.sem .choWrap{opacity:0}
+/* seletor de sabor compacto no header */
+.hdr-flavor{gap:7px;margin:0;flex-wrap:nowrap}
+.hdr-flavor .fcard{padding:5px 11px 5px 5px;border-radius:13px;gap:8px;white-space:nowrap}
+.hdr-flavor .fcard img{width:26px;height:33px}
+.hdr-flavor .fcard .fc-s,.hdr-flavor .fcard .fc-check{display:none}
+.hdr-flavor .fcard .fc-t{font-size:12.5px}
+@media(max-width:560px){.hdr-flavor{gap:6px}.hdr-flavor .fcard img{display:none}.hdr-flavor .fcard{padding:7px 12px}.hdr-flavor .fcard .fc-t{font-size:11.5px}}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -640,7 +647,10 @@ body.sem .choWrap{opacity:0}
       <a href="#beneficios">Benefícios</a>
       <a href="#depoimentos">Depoimentos</a>
       <a href="#oferta">Oferta</a>
-      <a class="btn btn-buy js-top" href="#oferta">Comprar agora</a>
+      <div class="flavor-switch hdr-flavor" role="tablist" aria-label="Escolha o sabor">
+        <button class="fcard on" data-flavor="choco" role="tab" aria-selected="true"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt=""><span><span class="fc-t">Chocolate</span><span class="fc-s">sabor cremoso</span></span><span class="fc-check"></span></button>
+        <button class="fcard" data-flavor="sem" role="tab" aria-selected="false"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt=""><span><span class="fc-t">Sem Sabor</span><span class="fc-s">puro &amp; versátil</span></span><span class="fc-check"></span></button>
+      </div>
     </nav>
   </div>
 </header>
@@ -660,10 +670,6 @@ body.sem .choWrap{opacity:0}
     <div class="hero-cta">
       <a class="btn btn-buy btn-lg js-top" href="#oferta">Quero experimentar</a>
       <div class="price-hint">a partir de<br><b>3x R$ 49,10</b> <span class="tnum">· ou R$ 147,30</span></div>
-    </div>
-    <div class="flavor-switch" role="tablist" aria-label="Escolha o sabor">
-      <button class="fcard on" data-flavor="choco" role="tab" aria-selected="true"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt=""><span><span class="fc-t">Chocolate</span><span class="fc-s">sabor cremoso</span></span><span class="fc-check"></span></button>
-      <button class="fcard" data-flavor="sem" role="tab" aria-selected="false"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt=""><span><span class="fc-t">Sem Sabor</span><span class="fc-s">puro &amp; versátil</span></span><span class="fc-check"></span></button>
     </div>
   </div>
   <div class="stage reveal">
