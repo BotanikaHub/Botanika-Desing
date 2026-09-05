@@ -618,7 +618,7 @@ body.sem{--copper:#9a7b1e;--caramel:#c9a83e;--grad:linear-gradient(120deg,#8a6a1
 body.sem .stage::before{background:radial-gradient(circle,rgba(248,200,64,.44),rgba(248,200,64,.14) 45%,transparent 70%)}
 /* chocolatinhos somem no Sem Sabor (não há chocolate) */
 .choWrap{transition:opacity .5s ease}
-body.sem .choWrap{opacity:1}
+body.sem .choWrap{opacity:0}
 /* seletor de sabor compacto no header */
 .hdr-flavor{gap:7px;margin:0;flex-wrap:nowrap}
 .hdr-flavor .fcard{padding:5px 11px 5px 5px;border-radius:13px;gap:8px;white-space:nowrap}
@@ -646,6 +646,10 @@ body.sem .choWrap{opacity:1}
 .flavor-ring{position:absolute;inset:0;margin:auto;width:min(62%,300px);height:min(62%,300px);border-radius:50%;border:3px solid var(--caramel);opacity:0;pointer-events:none;z-index:4;will-change:transform,opacity}
 .stage-flash{position:absolute;inset:0;margin:auto;width:min(78%,380px);height:min(78%,380px);border-radius:50%;background:radial-gradient(circle,rgba(248,200,64,.9),rgba(248,200,64,.22) 42%,transparent 70%);opacity:0;pointer-events:none;z-index:3;mix-blend-mode:screen;will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.flavor-ring,.stage-flash{display:none}}
+.splash{position:absolute;top:50%;left:50%;width:min(122%,560px);max-width:none;transform:translate(-50%,-50%);z-index:1;pointer-events:none;filter:drop-shadow(0 24px 34px rgba(74,43,20,.26));opacity:.97;animation:splashFloat 15s ease-in-out infinite;will-change:transform}
+@keyframes splashFloat{0%,100%{transform:translate(-50%,-50%) rotate(-3deg) scale(1)}50%{transform:translate(-50%,-52%) rotate(3deg) scale(1.045)}}
+@media(max-width:900px){.splash{width:min(138%,410px)}}
+@media(prefers-reduced-motion:reduce){.splash{animation:none}}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -695,9 +699,10 @@ body.sem .choWrap{opacity:1}
   <div class="stage reveal">
     <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
     <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
-    <span class="choWrap k1"><img class="choco" alt="" src="shake1.svg"></span>
-    <span class="choWrap k2"><img class="choco" alt="" src="shake2.svg"></span>
-    <span class="choWrap k3"><img class="choco" alt="" src="shake3.svg"></span>
+    <img class="splash" id="splash" alt="" aria-hidden="true" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147">
+    <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
+    <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
+    <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
     <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
@@ -1259,13 +1264,14 @@ body.sem .choWrap{opacity:1}
     };
     var cur='choco', body=doc.body, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
-    var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap'));
+    var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap')), splashEl=doc.getElementById('splash');
+    var SPLASH={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013416_35484131-c62f-4b69-806c-cab519e3b7f7.png?v=1788572147'};
     function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260905_005856')>-1 || sc.indexOf('hf_20260905_004735')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
     /* troca todo o conteúdo do sabor MENOS a paleta (a paleta morfa suave à parte) */
     function commitContent(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
       [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
-      applyCopy(f); swapPotes(POTE[f]);
+      applyCopy(f); swapPotes(POTE[f]); if(splashEl) splashEl.setAttribute('src',SPLASH[f]);
       var other=(f==='choco')?'sem':'choco'; BUMPVW=VARF[other]; bumpWName=NAMEF[other]; bumpWShort=(other==='sem')?'Sem Sabor':'Chocolate';
       var bw=doc.getElementById('bumpwhey');
       if(bw){ bw.classList.toggle('theme-sem',other==='sem'); bw.classList.toggle('theme-choco',other==='choco');
@@ -1302,12 +1308,14 @@ body.sem .choWrap{opacity:1}
       var tl=G.timeline({onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }});
       tl.to(copyEls,{autoAlpha:0,y:-10,duration:.2,ease:'power1.in'},0);
       tl.to(chws,{opacity:0,duration:.26,ease:'power1.in'},0);
+      if(splashEl) tl.to(splashEl,{opacity:0,duration:.24,ease:'power1.in'},0);
       tl.to(ps,{ry:180,bl:16,sc:.72,duration:T,ease:'power2.in',onUpdate:applyPote},0);
       tl.call(function(){ commitContent(f); morphPalette(from,f); fxBurst(); },null,T);
       tl.set(ps,{ry:-180},T);
       tl.to(ps,{ry:0,bl:0,sc:1,duration:.72,ease:'back.out(1.5)',onUpdate:applyPote},T);
       tl.to(copyEls,{autoAlpha:1,y:0,duration:.4,ease:'power2.out'},T+0.26);
-      tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2);
+      if(f==='choco'){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
+      if(splashEl) tl.to(splashEl,{opacity:.97,duration:.5,ease:'power2.out'},T+0.18);
     }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
   })();
