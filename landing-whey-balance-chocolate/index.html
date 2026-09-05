@@ -699,7 +699,7 @@ body.sem .choWrap{opacity:0}
   <div class="stage reveal">
     <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
     <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
-    <video class="splash" id="splash" muted loop playsinline autoplay preload="auto" aria-hidden="true" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" poster="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013937_83276661-ec47-454a-b25c-070afc55929f.mp4?v=1788573120"></video>
+    <img class="splash" id="splash" alt="" aria-hidden="true" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/6bed1b86-90c5-4af3-9d17-2ba607cc63c5.webp?v=1788576358">
     <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
@@ -1262,11 +1262,9 @@ body.sem .choWrap{opacity:0}
     var cur='choco', body=doc.body, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
     var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap')), splashEl=doc.getElementById('splash');
-    var SPLASH={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013937_83276661-ec47-454a-b25c-070afc55929f.mp4?v=1788573120', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013937_01f7dd3b-1e14-43c6-bfb1-c0bed1b6544f.mp4?v=1788573120'};
+    var SPLASH={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/6bed1b86-90c5-4af3-9d17-2ba607cc63c5.webp?v=1788576358', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/5e089aae-6277-471d-8e59-6cc4597780c9.webp?v=1788576358'};
     var SPLASHPOSTER={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013416_35484131-c62f-4b69-806c-cab519e3b7f7.png?v=1788572147'};
-    function setSplash(f){ if(!splashEl) return; try{ splashEl.setAttribute('poster',SPLASHPOSTER[f]); }catch(e){}
-      if(reduce){ try{ splashEl.removeAttribute('src'); splashEl.load(); }catch(e){} return; }
-      try{ if((splashEl.getAttribute('src')||'')!==SPLASH[f]){ splashEl.setAttribute('src',SPLASH[f]); splashEl.load(); } var pr=splashEl.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){} }
+    function setSplash(f){ if(!splashEl) return; var url=reduce?SPLASHPOSTER[f]:SPLASH[f]; try{ if((splashEl.getAttribute('src')||'')!==url) splashEl.setAttribute('src',url); }catch(e){} }
     function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260905_005856')>-1 || sc.indexOf('hf_20260905_004735')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
     /* troca todo o conteúdo do sabor MENOS a paleta (a paleta morfa suave à parte) */
@@ -1319,7 +1317,7 @@ body.sem .choWrap{opacity:0}
       if(splashEl) tl.to(splashEl,{opacity:.97,duration:.5,ease:'power2.out'},T+0.18);
     }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
-    if(splashEl){ if(reduce){ try{ splashEl.removeAttribute('autoplay'); splashEl.pause(); splashEl.removeAttribute('src'); splashEl.load(); }catch(e){} } else { setSplash(cur); } }
+    if(splashEl) setSplash(cur);
   })();
 
   /* ===== bump cross-sabor: o OUTRO sabor do Whey (inverte com o seletor) ===== */
