@@ -130,7 +130,7 @@ header.scrolled{background:rgba(252,247,238,.72);backdrop-filter:blur(14px);bord
 .price-hint{font-size:13px;color:var(--muted);font-family:var(--body)}
 .price-hint b{color:var(--cream);font-size:16px}
 /* pote flutuante */
-.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px;margin-top:-32px;background:var(--bg);isolation:isolate}
+.stage{position:relative;display:grid;place-items:center;min-height:min(58vw,520px);padding:0 22px;perspective:1200px;margin-top:-32px}
 .stage::before{content:"";position:absolute;width:98%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle,rgba(138,90,60,.36),rgba(138,90,60,.12) 45%,transparent 70%);filter:blur(12px)}
 .poteWrap{position:relative;z-index:2;width:min(76%,392px);will-change:transform}
@@ -646,10 +646,9 @@ body.sem .choWrap{opacity:0}
 .flavor-ring{position:absolute;inset:0;margin:auto;width:min(62%,300px);height:min(62%,300px);border-radius:50%;border:3px solid var(--caramel);opacity:0;pointer-events:none;z-index:4;will-change:transform,opacity}
 .stage-flash{position:absolute;inset:0;margin:auto;width:min(78%,380px);height:min(78%,380px);border-radius:50%;background:radial-gradient(circle,rgba(248,200,64,.9),rgba(248,200,64,.22) 42%,transparent 70%);opacity:0;pointer-events:none;z-index:3;mix-blend-mode:screen;will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.flavor-ring,.stage-flash{display:none}}
-.splash{position:absolute;top:50%;left:50%;width:min(150%,720px);height:auto;max-width:none;transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:.97;background:transparent;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 38%,rgba(0,0,0,.55) 66%,transparent 96%);mask-image:radial-gradient(closest-side,#000 38%,rgba(0,0,0,.55) 66%,transparent 96%);animation:splashFloat 15s ease-in-out infinite;will-change:transform;display:block}
-@keyframes splashFloat{0%,100%{transform:translate(-50%,-50%) rotate(-3deg) scale(1)}50%{transform:translate(-50%,-52%) rotate(3deg) scale(1.045)}}
-@media(max-width:900px){.splash{width:min(165%,480px)}}
-@media(prefers-reduced-motion:reduce){.splash{animation:none}}
+.orbit{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block}
+.orbit-back{z-index:1}
+.orbit-front{z-index:5}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -699,8 +698,9 @@ body.sem .choWrap{opacity:0}
   <div class="stage reveal">
     <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
     <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
-    <img class="splash" id="splash" alt="" aria-hidden="true" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/6bed1b86-90c5-4af3-9d17-2ba607cc63c5.webp?v=1788576358">
+    <canvas class="orbit orbit-back" id="orbitBack" aria-hidden="true"></canvas>
     <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951"></div>
+    <canvas class="orbit orbit-front" id="orbitFront" aria-hidden="true"></canvas>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
 </section>
@@ -1261,16 +1261,13 @@ body.sem .choWrap{opacity:0}
     };
     var cur='choco', body=doc.body, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
-    var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap')), splashEl=doc.getElementById('splash');
-    var SPLASH={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/6bed1b86-90c5-4af3-9d17-2ba607cc63c5.webp?v=1788576358', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/5e089aae-6277-471d-8e59-6cc4597780c9.webp?v=1788576358'};
-    var SPLASHPOSTER={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013416_35484131-c62f-4b69-806c-cab519e3b7f7.png?v=1788572147'};
-    function setSplash(f){ if(!splashEl) return; var url=reduce?SPLASHPOSTER[f]:SPLASH[f]; try{ if((splashEl.getAttribute('src')||'')!==url) splashEl.setAttribute('src',url); }catch(e){} }
+    var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap'));
     function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260905_005856')>-1 || sc.indexOf('hf_20260905_004735')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
     /* troca todo o conteúdo do sabor MENOS a paleta (a paleta morfa suave à parte) */
     function commitContent(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
       [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
-      applyCopy(f); swapPotes(POTE[f]); setSplash(f);
+      applyCopy(f); swapPotes(POTE[f]); if(window.__orbitFlavor) window.__orbitFlavor(f);
       var other=(f==='choco')?'sem':'choco'; BUMPVW=VARF[other]; bumpWName=NAMEF[other]; bumpWShort=(other==='sem')?'Sem Sabor':'Chocolate';
       var bw=doc.getElementById('bumpwhey');
       if(bw){ bw.classList.toggle('theme-sem',other==='sem'); bw.classList.toggle('theme-choco',other==='choco');
@@ -1307,17 +1304,61 @@ body.sem .choWrap{opacity:0}
       var tl=G.timeline({onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }});
       tl.to(copyEls,{autoAlpha:0,y:-10,duration:.2,ease:'power1.in'},0);
       if(chws.length) tl.to(chws,{opacity:0,duration:.26,ease:'power1.in'},0);
-      if(splashEl) tl.to(splashEl,{opacity:0,duration:.24,ease:'power1.in'},0);
       tl.to(ps,{ry:180,bl:16,sc:.72,duration:T,ease:'power2.in',onUpdate:applyPote},0);
       tl.call(function(){ commitContent(f); morphPalette(from,f); fxBurst(); },null,T);
       tl.set(ps,{ry:-180},T);
       tl.to(ps,{ry:0,bl:0,sc:1,duration:.72,ease:'back.out(1.5)',onUpdate:applyPote},T);
       tl.to(copyEls,{autoAlpha:1,y:0,duration:.4,ease:'power2.out'},T+0.26);
       if(f==='choco'&&chws.length){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
-      if(splashEl) tl.to(splashEl,{opacity:.97,duration:.5,ease:'power2.out'},T+0.18);
     }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
-    if(splashEl) setSplash(cur);
+  })();
+
+  /* ===== partículas orbitando o pote (em volta), tingidas por sabor ===== */
+  (function(){
+    var back=document.getElementById('orbitBack'), front=document.getElementById('orbitFront');
+    if(!back||!front||!back.getContext) return;
+    var stage=back.parentNode, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var bc=back.getContext('2d'), fc=front.getContext('2d');
+    var W=0,H=0,cx=0,cy=0,dpr=Math.min(window.devicePixelRatio||1,1.75);
+    var PAL={
+      choco:['#7a4a24','#a86a34','#c98a45','#e6c79a','#f3e6d2','#5c3418'],
+      sem:  ['#b98f2e','#d9b64c','#e8d3a0','#f3ead0','#fff6e0','#9c7a1e']
+    };
+    var pal=PAL.choco, palTarget=PAL.choco, palMix=1;
+    var N=reduce?0:38, parts=[];
+    function rnd(a,b){return a+Math.random()*(b-a);}
+    function make(){ parts=[]; for(var i=0;i<N;i++){ parts.push({
+      a:rnd(0,Math.PI*2), sp:rnd(.16,.5)*(Math.random()<.5?-1:1), rr:rnd(.62,1.08),
+      tilt:rnd(.32,.5), yb:rnd(-.06,.05), sz:rnd(1.5,4.4), ci:(Math.random()*6|0),
+      tw:rnd(0,Math.PI*2), tws:rnd(.6,1.7) }); } }
+    function resize(){ var r=stage.getBoundingClientRect(); W=r.width; H=r.height;
+      [back,front].forEach(function(c){ c.width=Math.max(1,W*dpr); c.height=Math.max(1,H*dpr); c.style.width=W+'px'; c.style.height=H+'px'; });
+      bc.setTransform(dpr,0,0,dpr,0,0); fc.setTransform(dpr,0,0,dpr,0,0); cx=W/2; cy=H/2; }
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function hx(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+    function mixcol(c1,c2,t){var A=hx(c1),B=hx(c2);return [Math.round(lerp(A[0],B[0],t)),Math.round(lerp(A[1],B[1],t)),Math.round(lerp(A[2],B[2],t))];}
+    var last=0, raf=null;
+    function frame(ts){ if(!last)last=ts; var dt=Math.min((ts-last)/1000,.05); last=ts;
+      if(palMix<1) palMix=Math.min(1,palMix+dt*1.5);
+      bc.clearRect(0,0,W,H); fc.clearRect(0,0,W,H);
+      if(W&&H){ var base=Math.min(W,H)*0.42;
+        for(var i=0;i<parts.length;i++){ var p=parts[i]; p.a+=p.sp*dt; p.tw+=p.tws*dt;
+          var depth=Math.sin(p.a), x=cx+Math.cos(p.a)*base*p.rr, y=cy+p.yb*H+depth*base*p.rr*p.tilt;
+          var dsc=0.55+(depth+1)/2*0.95, tw=0.6+0.4*Math.sin(p.tw), r=p.sz*dsc;
+          var c=mixcol(pal[p.ci],palTarget[p.ci],palMix), rgb=c[0]+','+c[1]+','+c[2];
+          var ctx=depth>=0?fc:bc, a0=(depth>=0?0.92:0.6)*tw;
+          ctx.beginPath(); ctx.fillStyle='rgba('+rgb+','+(a0*0.16).toFixed(3)+')'; ctx.arc(x,y,r*2.6,0,6.2832); ctx.fill();
+          ctx.beginPath(); ctx.fillStyle='rgba('+rgb+','+(a0*0.28).toFixed(3)+')'; ctx.arc(x,y,r*1.6,0,6.2832); ctx.fill();
+          ctx.beginPath(); ctx.fillStyle='rgba('+rgb+','+a0.toFixed(3)+')'; ctx.arc(x,y,r,0,6.2832); ctx.fill(); } }
+      raf=requestAnimationFrame(frame); }
+    function start(){ if(reduce||raf)return; last=0; raf=requestAnimationFrame(frame); }
+    function stop(){ if(raf){cancelAnimationFrame(raf);raf=null;} }
+    window.__orbitFlavor=function(f){ if(palMix<1) pal=palTarget; palTarget=PAL[f]||PAL.choco; palMix=0; };
+    window.addEventListener('resize',resize); window.addEventListener('load',resize);
+    if(window.ResizeObserver){ try{ new ResizeObserver(resize).observe(stage); }catch(e){} }
+    document.addEventListener('visibilitychange',function(){ if(document.hidden) stop(); else start(); });
+    resize(); make(); if(!reduce) start();
   })();
 
   /* ===== bump cross-sabor: o OUTRO sabor do Whey (inverte com o seletor) ===== */
