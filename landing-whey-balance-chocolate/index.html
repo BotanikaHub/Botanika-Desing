@@ -642,6 +642,10 @@ body.sem .choWrap{opacity:0}
 .bump-whey[data-on="1"] .bt-add{background:rgba(74,43,20,.08);color:var(--ci);box-shadow:inset 0 0 0 1.5px var(--ci)}
 .bump-whey.theme-choco{--ci:#6f4426;--ci-hi:rgba(111,68,38,.32);--ci-lo:#4a2b14;--cig:linear-gradient(135deg,#6f4426,#b0763e)}
 .bump-whey.theme-sem{--ci:#9a7b1e;--ci-hi:rgba(154,123,30,.34);--ci-lo:#6b4e12;--cig:linear-gradient(135deg,#8a6a16,#d9b64c)}
+/* transição de sabor: anel de choque + flash dourado */
+.flavor-ring{position:absolute;inset:0;margin:auto;width:min(62%,300px);height:min(62%,300px);border-radius:50%;border:3px solid var(--caramel);opacity:0;pointer-events:none;z-index:4;will-change:transform,opacity}
+.stage-flash{position:absolute;inset:0;margin:auto;width:min(78%,380px);height:min(78%,380px);border-radius:50%;background:radial-gradient(circle,rgba(248,200,64,.9),rgba(248,200,64,.22) 42%,transparent 70%);opacity:0;pointer-events:none;z-index:3;mix-blend-mode:screen;will-change:transform,opacity}
+@media(prefers-reduced-motion:reduce){.flavor-ring,.stage-flash{display:none}}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -689,6 +693,8 @@ body.sem .choWrap{opacity:0}
     </div>
   </div>
   <div class="stage reveal">
+    <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
+    <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
     <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
     <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
     <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
@@ -1226,11 +1232,15 @@ body.sem .choWrap{opacity:0}
     [].slice.call(tg.children).forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-qty')===q); }); }
   [].slice.call(tg.children).forEach(function(b){ b.addEventListener('click',function(){ setKit(b.getAttribute('data-qty')); }); });
 
-  /* ===== seletor de sabor: Chocolate <-> Sem Sabor (religa a LP + giro coreografado) ===== */
+  /* ===== seletor de sabor: Chocolate <-> Sem Sabor (religa a LP + transição caprichada) ===== */
   (function(){
     var POTE={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271'};
     var VARF={choco:'48115368919272', sem:'48908527108328'};
     var NAMEF={choco:'Whey Balance Chocolate', sem:'Whey Balance Sem Sabor'};
+    var ACC={
+      choco:{copper:'#6f4426',caramel:'#a86a3c',indigo:'#7a4a28',isoft:'#a86a3c',ideep:'#4a2b14',grad:'linear-gradient(120deg,#6f4426,#b0763e)'},
+      sem:{copper:'#9a7b1e',caramel:'#c9a83e',indigo:'#9a7b1e',isoft:'#c9a83e',ideep:'#6b4e12',grad:'linear-gradient(120deg,#8a6a16,#d9b64c)'}
+    };
     var COPY={
       choco:{
         eyebrow:'Whey Balance · Sabor Chocolate',
@@ -1247,14 +1257,15 @@ body.sem .choWrap{opacity:0}
         alt:'Pote de Whey Balance Sem Sabor'
       }
     };
-    var cur='choco', body=doc.body;
+    var cur='choco', body=doc.body, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
-    var fcards=doc.querySelectorAll('.fcard');
+    var fcards=doc.querySelectorAll('.fcard'), chws=[].slice.call(doc.querySelectorAll('.choWrap'));
     function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260905_005856')>-1 || sc.indexOf('hf_20260905_004735')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
-    function setFlavor(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
+    /* troca todo o conteúdo do sabor MENOS a paleta (a paleta morfa suave à parte) */
+    function commitContent(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
       [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
-      body.classList.toggle('sem',f==='sem'); applyCopy(f); swapPotes(POTE[f]);
+      applyCopy(f); swapPotes(POTE[f]);
       var other=(f==='choco')?'sem':'choco'; BUMPVW=VARF[other]; bumpWName=NAMEF[other]; bumpWShort=(other==='sem')?'Sem Sabor':'Chocolate';
       var bw=doc.getElementById('bumpwhey');
       if(bw){ bw.classList.toggle('theme-sem',other==='sem'); bw.classList.toggle('theme-choco',other==='choco');
@@ -1264,13 +1275,40 @@ body.sem .choWrap{opacity:0}
       if(window.__bwRefresh) window.__bwRefresh();
       try{ setKit(currentKit); }catch(e){}
       fbqc('FlavorSwitch',{flavor:f}); }
-    function flipTo(f){ if(f===cur) return; var pw=doc.getElementById('poteWrap');
-      if(!G || !pw){ setFlavor(f); return; }
-      window.__poteBusy=true; var o={ry:0,bl:0};
-      G.to(o,{ry:90,bl:13,duration:.34,ease:'power2.in',onUpdate:function(){ pw.style.transform='perspective(1200px) rotateY('+o.ry+'deg)'; pw.style.filter='blur('+o.bl+'px)'; },
-        onComplete:function(){ setFlavor(f); G.set(o,{ry:-90}); pw.style.transform='perspective(1200px) rotateY(-90deg)';
-          G.to(o,{ry:0,bl:0,duration:.5,ease:'back.out(1.4)',onUpdate:function(){ pw.style.transform='perspective(1200px) rotateY('+o.ry+'deg)'; pw.style.filter='blur('+o.bl+'px)'; },
-            onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }}); } }); }
+    function setFlavor(f){ commitContent(f); body.classList.toggle('sem',f==='sem'); }
+    /* morph suave da paleta (cocoa <-> baunilha) */
+    function hx(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+    function hexLerp(a,b,t){var A=hx(a),B=hx(b);function c(i){var v=Math.round(A[i]+(B[i]-A[i])*t);return ('0'+v.toString(16)).slice(-2);}return '#'+c(0)+c(1)+c(2);}
+    function morphPalette(a,b){ if(!G){ body.classList.toggle('sem',b==='sem'); return; }
+      var A=ACC[a],B=ACC[b],st={p:0},gset=false;
+      G.to(st,{p:1,duration:.75,ease:'power2.inOut',onUpdate:function(){ var p=st.p;
+        body.style.setProperty('--copper',hexLerp(A.copper,B.copper,p));
+        body.style.setProperty('--caramel',hexLerp(A.caramel,B.caramel,p));
+        body.style.setProperty('--indigo',hexLerp(A.indigo,B.indigo,p));
+        body.style.setProperty('--indigo-soft',hexLerp(A.isoft,B.isoft,p));
+        body.style.setProperty('--indigo-deep',hexLerp(A.ideep,B.ideep,p));
+        if(!gset&&p>=.5){ body.style.setProperty('--grad',B.grad); gset=true; } },
+        onComplete:function(){ body.classList.toggle('sem',b==='sem');
+          ['--copper','--caramel','--indigo','--indigo-soft','--indigo-deep','--grad'].forEach(function(k){ body.style.removeProperty(k); }); } }); }
+    function fxBurst(){ var ring=doc.getElementById('flavorRing'), flash=doc.getElementById('stageFlash');
+      if(ring&&G) G.fromTo(ring,{scale:.25,opacity:.75},{scale:2.5,opacity:0,duration:.7,ease:'power2.out'});
+      if(flash&&G) G.fromTo(flash,{opacity:0,scale:.6},{opacity:.85,scale:1.25,duration:.16,ease:'power2.out',yoyo:true,repeat:1}); }
+    function flipTo(f){ if(f===cur) return; var pw=doc.getElementById('poteWrap'), from=cur;
+      if(reduce||!G||!pw){ setFlavor(f); return; }
+      window.__poteBusy=true;
+      var ps={ry:0,bl:0,sc:1};
+      function applyPote(){ pw.style.transform='perspective(1200px) rotateY('+ps.ry.toFixed(2)+'deg) scale('+ps.sc.toFixed(3)+')'; pw.style.filter='blur('+ps.bl.toFixed(2)+'px)'; }
+      var copyEls=[eyeb,h1,sub].filter(Boolean), T=0.42;
+      var tl=G.timeline({onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }});
+      tl.to(copyEls,{autoAlpha:0,y:-10,duration:.2,ease:'power1.in'},0);
+      tl.to(chws,{opacity:0,duration:.26,ease:'power1.in'},0);
+      tl.to(ps,{ry:180,bl:16,sc:.72,duration:T,ease:'power2.in',onUpdate:applyPote},0);
+      tl.call(function(){ commitContent(f); morphPalette(from,f); fxBurst(); },null,T);
+      tl.set(ps,{ry:-180},T);
+      tl.to(ps,{ry:0,bl:0,sc:1,duration:.72,ease:'back.out(1.5)',onUpdate:applyPote},T);
+      tl.to(copyEls,{autoAlpha:1,y:0,duration:.4,ease:'power2.out'},T+0.26);
+      if(f==='choco'){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
+    }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
   })();
 
