@@ -665,7 +665,7 @@ body.sem .choWrap{opacity:0}
       <a href="#oferta">Oferta</a>
       <div class="flavor-switch hdr-flavor" role="tablist" aria-label="Escolha o sabor">
         <button class="fcard on" data-flavor="choco" role="tab" aria-selected="true"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126" alt=""><span><span class="fc-t">Chocolate</span><span class="fc-s">sabor cremoso</span></span><span class="fc-check"></span></button>
-        <button class="fcard" data-flavor="sem" role="tab" aria-selected="false"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt=""><span><span class="fc-t">Sem Sabor</span><span class="fc-s">puro &amp; versátil</span></span><span class="fc-check"></span></button>
+        <button class="fcard" data-flavor="sem" role="tab" aria-selected="false"><img src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271" alt=""><span><span class="fc-t">Sem Sabor</span><span class="fc-s">puro &amp; versátil</span></span><span class="fc-check"></span></button>
       </div>
     </nav>
   </div>
@@ -935,9 +935,9 @@ body.sem .choWrap{opacity:0}
           <div class="bt-shelf" aria-hidden="true"></div>
           <div class="bt-badge show" id="bw-badge" aria-hidden="true">−10%</div>
           <div class="bt-vis" id="bw-vis" data-n="3">
-            <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="" aria-hidden="true" loading="lazy">
-            <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="" aria-hidden="true" loading="lazy">
-            <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="Outro sabor do Whey Balance" loading="lazy">
+            <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271" alt="" aria-hidden="true" loading="lazy">
+            <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271" alt="" aria-hidden="true" loading="lazy">
+            <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271" alt="Outro sabor do Whey Balance" loading="lazy">
           </div>
         </div>
         <div class="bt-info">
@@ -1228,7 +1228,7 @@ body.sem .choWrap{opacity:0}
 
   /* ===== seletor de sabor: Chocolate <-> Sem Sabor (religa a LP + giro coreografado) ===== */
   (function(){
-    var POTE={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013'};
+    var POTE={choco:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260810_173053_82b97fea-0d54-46f5-b201-b8ef73056092.png?v=1786383126', sem:'https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_004735_a017f6d4-da91-48a3-9372-9aebaa4a2af5.png?v=1788569271'};
     var VARF={choco:'48115368919272', sem:'48908527108328'};
     var NAMEF={choco:'Whey Balance Chocolate', sem:'Whey Balance Sem Sabor'};
     var COPY={
@@ -1250,7 +1250,7 @@ body.sem .choWrap{opacity:0}
     var cur='choco', body=doc.body;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
     var fcards=doc.querySelectorAll('.fcard');
-    function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260810_173053')>-1 || sc.indexOf('hf_20260904_235111')>-1){ im.setAttribute('src',url); } }); }
+    function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260810_173053')>-1 || sc.indexOf('hf_20260905_004735')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
     function setFlavor(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
       [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
