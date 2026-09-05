@@ -647,13 +647,13 @@ body.sem .choWrap{opacity:0}
 .flavor-ring{position:absolute;inset:0;margin:auto;width:min(62%,300px);height:min(62%,300px);border-radius:50%;border:3px solid var(--caramel);opacity:0;pointer-events:none;z-index:4;will-change:transform,opacity}
 .stage-flash{position:absolute;inset:0;margin:auto;width:min(78%,380px);height:min(78%,380px);border-radius:50%;background:radial-gradient(circle,rgba(248,200,64,.9),rgba(248,200,64,.22) 42%,transparent 70%);opacity:0;pointer-events:none;z-index:3;mix-blend-mode:screen;will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.flavor-ring,.stage-flash{display:none}}
-.orbit{position:absolute;top:50%;left:50%;width:0;height:0;pointer-events:none;--orbR:150px;transform:scaleY(.62)}
-.orbit-back{z-index:1}
-.orbit-front{z-index:5}
+.orbit{position:absolute;top:50%;left:50%;width:0;height:0;pointer-events:none;--orbR:150px}
+.orbit-back{z-index:1;transform:rotate(-8deg)}
+.orbit-front{z-index:5;transform:rotate(-8deg)}
 .orb{position:absolute;top:0;left:0;width:0;height:0;transform-origin:0 0;animation:orbSpin var(--dur,40s) linear infinite;animation-delay:var(--dly,0s);will-change:transform}
 .orb.rev{animation-direction:reverse}
 .drop{position:absolute;top:0;left:calc(var(--orbR) * var(--k,1));width:var(--sz,14px);height:var(--sz,14px);border-radius:50%;
-  transform:translate(-50%,-50%) scaleY(1.612);
+  transform:translate(-50%,-50%);
   background:radial-gradient(circle at 34% 30%,rgba(255,250,244,.9),var(--dropA) 46%,var(--dropB) 100%);
   box-shadow:0 5px 12px -4px rgba(74,43,20,.5)}
 @keyframes orbSpin{to{transform:rotate(360deg)}}
