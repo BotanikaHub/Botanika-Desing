@@ -618,7 +618,7 @@ body.sem{--copper:#9a7b1e;--caramel:#c9a83e;--grad:linear-gradient(120deg,#8a6a1
 body.sem .stage::before{background:radial-gradient(circle,rgba(248,200,64,.44),rgba(248,200,64,.14) 45%,transparent 70%)}
 /* chocolatinhos somem no Sem Sabor (não há chocolate) */
 .choWrap{transition:opacity .5s ease}
-body.sem .choWrap{opacity:0}
+body.sem .choWrap{opacity:1}
 /* seletor de sabor compacto no header */
 .hdr-flavor{gap:7px;margin:0;flex-wrap:nowrap}
 .hdr-flavor .fcard{padding:5px 11px 5px 5px;border-radius:13px;gap:8px;white-space:nowrap}
@@ -695,9 +695,9 @@ body.sem .choWrap{opacity:0}
   <div class="stage reveal">
     <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
     <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
-    <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
-    <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
-    <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
+    <span class="choWrap k1"><img class="choco" alt="" src="shake1.svg"></span>
+    <span class="choWrap k2"><img class="choco" alt="" src="shake2.svg"></span>
+    <span class="choWrap k3"><img class="choco" alt="" src="shake3.svg"></span>
     <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
@@ -1307,7 +1307,7 @@ body.sem .choWrap{opacity:0}
       tl.set(ps,{ry:-180},T);
       tl.to(ps,{ry:0,bl:0,sc:1,duration:.72,ease:'back.out(1.5)',onUpdate:applyPote},T);
       tl.to(copyEls,{autoAlpha:1,y:0,duration:.4,ease:'power2.out'},T+0.26);
-      if(f==='choco'){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
+      tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2);
     }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
   })();

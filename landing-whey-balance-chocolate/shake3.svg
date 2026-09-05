@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Dosador de whey com proteína">
+  <defs>
+    <linearGradient id="s3scoop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#e2d7c3" stop-opacity=".92"/>
+    </linearGradient>
+    <linearGradient id="s3pow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eccfa2"/>
+      <stop offset="1" stop-color="#cf9f66"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="60" cy="104" rx="34" ry="6" fill="#000" opacity=".22"/>
+  <!-- monte de proteína -->
+  <path d="M28 78 q10 -34 32 -34 q22 0 32 34 Z" fill="url(#s3pow)"/>
+  <path d="M28 78 q10 -34 32 -34 q22 0 32 34" fill="none" stroke="#a86a3c" stroke-opacity=".4" stroke-width="1.6"/>
+  <!-- grãos soltos -->
+  <circle cx="46" cy="70" r="2.2" fill="#e9c79a"/>
+  <circle cx="72" cy="66" r="1.8" fill="#e9c79a"/>
+  <circle cx="60" cy="60" r="2" fill="#f0d8b4"/>
+  <!-- cuia do dosador -->
+  <path d="M22 78 h76 a4 4 0 0 1 4 4 v2 a20 20 0 0 1 -20 20 h-44 a20 20 0 0 1 -20 -20 v-2 a4 4 0 0 1 4 -4 Z" fill="url(#s3scoop)" stroke="#6f4426" stroke-opacity=".42" stroke-width="2"/>
+  <!-- cabo -->
+  <path d="M98 82 q18 2 16 20 q-1 8 -8 9" fill="none" stroke="#4a52b8" stroke-width="7" stroke-linecap="round"/>
+  <!-- brilho -->
+  <path d="M30 84 q22 14 60 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+</svg>
