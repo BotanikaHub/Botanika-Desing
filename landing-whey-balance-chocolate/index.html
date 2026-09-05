@@ -646,9 +646,9 @@ body.sem .choWrap{opacity:0}
 .flavor-ring{position:absolute;inset:0;margin:auto;width:min(62%,300px);height:min(62%,300px);border-radius:50%;border:3px solid var(--caramel);opacity:0;pointer-events:none;z-index:4;will-change:transform,opacity}
 .stage-flash{position:absolute;inset:0;margin:auto;width:min(78%,380px);height:min(78%,380px);border-radius:50%;background:radial-gradient(circle,rgba(248,200,64,.9),rgba(248,200,64,.22) 42%,transparent 70%);opacity:0;pointer-events:none;z-index:3;mix-blend-mode:screen;will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.flavor-ring,.stage-flash{display:none}}
-.splash{position:absolute;top:50%;left:50%;width:min(122%,560px);height:auto;max-width:none;transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:.97;background:transparent;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 48%,#000 52%,transparent 80%);mask-image:radial-gradient(ellipse 74% 74% at 50% 48%,#000 52%,transparent 80%);animation:splashFloat 15s ease-in-out infinite;will-change:transform;display:block}
+.splash{position:absolute;top:50%;left:50%;width:min(150%,720px);height:auto;max-width:none;transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:.97;background:transparent;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 38%,rgba(0,0,0,.55) 66%,transparent 96%);mask-image:radial-gradient(closest-side,#000 38%,rgba(0,0,0,.55) 66%,transparent 96%);animation:splashFloat 15s ease-in-out infinite;will-change:transform;display:block}
 @keyframes splashFloat{0%,100%{transform:translate(-50%,-50%) rotate(-3deg) scale(1)}50%{transform:translate(-50%,-52%) rotate(3deg) scale(1.045)}}
-@media(max-width:900px){.splash{width:min(138%,410px)}}
+@media(max-width:900px){.splash{width:min(165%,480px)}}
 @media(prefers-reduced-motion:reduce){.splash{animation:none}}
 </style>
 
@@ -700,9 +700,6 @@ body.sem .choWrap{opacity:0}
     <div class="stage-flash" id="stageFlash" aria-hidden="true"></div>
     <div class="flavor-ring" id="flavorRing" aria-hidden="true"></div>
     <video class="splash" id="splash" muted loop playsinline autoplay preload="auto" aria-hidden="true" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" poster="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013412_b139213e-e634-48ea-b863-ccae6673310e.png?v=1788572147" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_013937_83276661-ec47-454a-b25c-070afc55929f.mp4?v=1788573120"></video>
-    <span class="choWrap k1"><img class="choco" alt="" src="choco.svg"></span>
-    <span class="choWrap k2"><img class="choco" alt="" src="choco2.svg"></span>
-    <span class="choWrap k3"><img class="choco" alt="" src="choco4.svg"></span>
     <div class="poteWrap" id="poteWrap"><img class="pote" id="pote" loading="eager" alt="Pote de Whey Balance Chocolate" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260905_005856_494dbc8d-4876-4c29-bba0-7ef2e9d72333.png?v=1788569951"></div>
     <div class="hero-badge"><span class="dot"></span><div><b>Sem glúten · Sem corantes</b><small>Adoçado naturalmente</small></div></div>
   </div>
@@ -1311,14 +1308,14 @@ body.sem .choWrap{opacity:0}
       var copyEls=[eyeb,h1,sub].filter(Boolean), T=0.42;
       var tl=G.timeline({onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }});
       tl.to(copyEls,{autoAlpha:0,y:-10,duration:.2,ease:'power1.in'},0);
-      tl.to(chws,{opacity:0,duration:.26,ease:'power1.in'},0);
+      if(chws.length) tl.to(chws,{opacity:0,duration:.26,ease:'power1.in'},0);
       if(splashEl) tl.to(splashEl,{opacity:0,duration:.24,ease:'power1.in'},0);
       tl.to(ps,{ry:180,bl:16,sc:.72,duration:T,ease:'power2.in',onUpdate:applyPote},0);
       tl.call(function(){ commitContent(f); morphPalette(from,f); fxBurst(); },null,T);
       tl.set(ps,{ry:-180},T);
       tl.to(ps,{ry:0,bl:0,sc:1,duration:.72,ease:'back.out(1.5)',onUpdate:applyPote},T);
       tl.to(copyEls,{autoAlpha:1,y:0,duration:.4,ease:'power2.out'},T+0.26);
-      if(f==='choco'){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
+      if(f==='choco'&&chws.length){ tl.to(chws,{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},T+0.2); }
       if(splashEl) tl.to(splashEl,{opacity:.97,duration:.5,ease:'power2.out'},T+0.18);
     }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
