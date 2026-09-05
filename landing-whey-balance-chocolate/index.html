@@ -626,6 +626,22 @@ body.sem .choWrap{opacity:0}
 .hdr-flavor .fcard .fc-s,.hdr-flavor .fcard .fc-check{display:none}
 .hdr-flavor .fcard .fc-t{font-size:12.5px}
 @media(max-width:560px){.hdr-flavor{gap:6px}.hdr-flavor .fcard img{display:none}.hdr-flavor .fcard{padding:7px 12px}.hdr-flavor .fcard .fc-t{font-size:11.5px}}
+/* bump cross-sabor (o OUTRO sabor do Whey) — tema cocoa/baunilha via tokens */
+.bump-whey[data-on="1"]{border-color:var(--ci);box-shadow:0 0 0 3px rgba(74,43,20,.10),0 18px 40px -26px rgba(74,43,20,.5)}
+.bump-whey .bt-qty{background:rgba(74,43,20,.05);border:1px solid var(--ci-hi)}
+.bump-whey .bt-qty button{color:var(--ci-lo)}
+.bump-whey .bt-qty button.on{color:#fff}
+.bump-whey .bt-pill{background:var(--cig);box-shadow:0 6px 16px rgba(74,43,20,.35)}
+.bump-whey .bt-tag{color:var(--ci);border-color:var(--ci-hi)}
+.bump-whey .bt-price b{color:var(--ci)}
+.bump-whey .bt-badge{background:var(--cig);box-shadow:0 10px 22px rgba(74,43,20,.4)}
+.bump-whey .bt-shelf{background:radial-gradient(ellipse,rgba(138,90,60,.22),transparent 70%)}
+.bump-whey .bt-vis img{filter:drop-shadow(0 14px 18px rgba(74,43,20,.24))}
+.bump-whey .bt-save b{color:#4d6b16;background:rgba(160,190,70,.3);padding:.12rem .55rem;border-radius:100px;font-weight:800}
+.bump-whey .bt-add{background:var(--cig)}
+.bump-whey[data-on="1"] .bt-add{background:rgba(74,43,20,.08);color:var(--ci);box-shadow:inset 0 0 0 1.5px var(--ci)}
+.bump-whey.theme-choco{--ci:#6f4426;--ci-hi:rgba(111,68,38,.32);--ci-lo:#4a2b14;--cig:linear-gradient(135deg,#6f4426,#b0763e)}
+.bump-whey.theme-sem{--ci:#9a7b1e;--ci-hi:rgba(154,123,30,.34);--ci-lo:#6b4e12;--cig:linear-gradient(135deg,#8a6a16,#d9b64c)}
 </style>
 
 <!-- IMAGENS: todas as imagens de seção + og:image foram rehospedadas do cloudfront/Higgsfield
@@ -933,6 +949,33 @@ body.sem .choWrap{opacity:0}
         </div>
       </div>
     </div>
+    <div class="bumptri bump-whey theme-sem" id="bumpwhey" data-on="0">
+      <div class="bumptri-head">🥤 Leve um de cada: <b id="bw-name">Whey Balance Sem Sabor</b> — o mesmo whey + colágeno C‑PURE®, <span id="bw-headtxt">sem sabor, pra variar e misturar em tudo</span></div>
+      <div class="bt-qty" id="bw-qty" role="tablist" aria-label="Quantidade do outro sabor">
+        <span class="bt-pill" id="bw-pill" aria-hidden="true"></span>
+        <button type="button" data-q="1" role="tab" aria-selected="false"><span class="bt-main">1 pote</span><span class="bt-sub">preço cheio</span></button>
+        <button type="button" data-q="2" role="tab" aria-selected="false"><span class="bt-main">2 potes</span><span class="bt-sub">−5% · popular</span></button>
+        <button type="button" data-q="3" class="on" role="tab" aria-selected="true"><span class="bt-main">3 potes</span><span class="bt-sub">−10% · melhor valor</span></button>
+      </div>
+      <div class="bt-card">
+        <div class="bt-stage">
+          <div class="bt-shelf" aria-hidden="true"></div>
+          <div class="bt-badge show" id="bw-badge" aria-hidden="true">−10%</div>
+          <div class="bt-vis" id="bw-vis" data-n="3">
+            <img class="b2" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="" aria-hidden="true" loading="lazy">
+            <img class="b3" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="" aria-hidden="true" loading="lazy">
+            <img class="b1" src="https://cdn.shopify.com/s/files/1/0780/7238/1672/files/hf_20260904_235111_87950f81-7e43-438f-8afb-22cc3f9590c2.png?v=1788566013" alt="Outro sabor do Whey Balance" loading="lazy">
+          </div>
+        </div>
+        <div class="bt-info">
+          <span class="bt-tag" id="bw-tag">Melhor valor · 10% OFF</span>
+          <div class="bt-price">3× de <b id="bw-inst">R$ 132,57</b> <span class="bt-pm">sem juros</span></div>
+          <div class="bt-cash">ou <span id="bw-cash">R$ 397,71</span> à vista</div>
+          <div class="bt-save" id="bw-save"><s>R$ 441,90</s> · <b>economize R$ 44,19</b></div>
+          <button type="button" class="bt-add" id="bw-add" aria-pressed="false"><span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido</button>
+        </div>
+      </div>
+    </div>
     <a class="btn btn-buy btn-lg" id="offerBuy" href="https://botanikabrasil.com.br/cart/48115368919272:3"><span class="buy-main">COMPRAR AGORA</span></a>
   </div>
   <div class="trust-row reveal">
@@ -1135,22 +1178,31 @@ body.sem .choWrap{opacity:0}
     '3':{n:3,total:346.41,inst:'R$ 115,47',cash:'R$ 346,41',tag:'Melhor valor · 10% OFF',     save:'<s>R$ 384,90</s> · <b>economize R$ 38,49</b>', badge:'−10%'}
   };
   var btSel='3', btOn=false, bumpQty=0, FRETE=349;
+  /* bump cross-sabor (o OUTRO sabor do Whey) — mesma escada REAL do Whey (147,30 · -5% · -10%); a [ESCADA] Whey Balance cobre os dois produtos. Mostrar a escada padrão é sempre <= o desconto real (nunca mais). */
+  var bwSel='3', bwOn=false, bumpQty2=0, BUMPVW='48908527108328', bumpWName='Whey Balance Sem Sabor', bumpWShort='Sem Sabor';
+  var BUMPSW={
+    '1':{n:1,total:147.30,inst:'R$ 49,10', cash:'R$ 147,30',tag:'Preço cheio · 13 doses',   save:'', badge:''},
+    '2':{n:2,total:279.87,inst:'R$ 93,29', cash:'R$ 279,87',tag:'Popular · 5% OFF',          save:'<s>R$ 294,60</s> · <b>economize R$ 14,73</b>', badge:'−5%'},
+    '3':{n:3,total:397.71,inst:'R$ 132,57',cash:'R$ 397,71',tag:'Melhor valor · 10% OFF',     save:'<s>R$ 441,90</s> · <b>economize R$ 44,19</b>', badge:'−10%'}
+  };
   function brl(x){ return x.toFixed(2).replace('.',','); }
-  function checkout(q){ var u=base+VAR+':'+q+(bumpQty?(','+BUMPV+':'+bumpQty):''); u=withParams(u); if(q==='1'){ u+=(u.indexOf('?')>-1?'&':'?')+'discount=BOTANIKA'; } return u; }
-  function updateFrete(){ var total=(TOTALS[qn(currentKit)]||0)+(bumpQty?BUMPS[bumpQty].total:0);
+  function checkout(q){ var u=base+VAR+':'+q+(bumpQty?(','+BUMPV+':'+bumpQty):'')+(bumpQty2?(','+BUMPVW+':'+bumpQty2):''); u=withParams(u); if(q==='1'){ u+=(u.indexOf('?')>-1?'&':'?')+'discount=BOTANIKA'; } return u; }
+  function updateFrete(){ var total=(TOTALS[qn(currentKit)]||0)+(bumpQty?BUMPS[bumpQty].total:0)+(bumpQty2?BUMPSW[bumpQty2].total:0);
     var fill=doc.getElementById('frete-fill'); if(fill) fill.style.width=Math.min(100,Math.round(total/FRETE*100))+'%';
     var msg=doc.getElementById('frete-msg'); if(msg) msg.innerHTML=(total>=FRETE)?'🎉 <b>Frete grátis desbloqueado!</b>':'Faltam <b>R$ '+brl(FRETE-total)+'</b> pra frete grátis';
     var fr=doc.getElementById('frete'); if(fr) fr.classList.toggle('done',total>=FRETE); }
   function updateKitBar(){ var k=KITS[currentKit]||{};
     var bf=doc.getElementById('kit-bar-fill'); if(bf) bf.style.width=(k.bar||34)+'%';
     var bm=doc.getElementById('kit-bar-msg'); if(!bm) return; var msg=k.barmsg||'';
-    if(bumpQty){ var total=(TOTALS[qn(currentKit)]||0)+(BUMPS[bumpQty]?BUMPS[bumpQty].total:0);
-      msg+=(total>=FRETE)?' <span class="kb-add">— e com a <b>Creatina</b> o <b>frete grátis</b> já está garantido 🎉</span>':' <span class="kb-add">— a <b>Creatina</b> te deixa a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>'; }
+    if(bumpQty||bumpQty2){ var total=(TOTALS[qn(currentKit)]||0)+(bumpQty&&BUMPS[bumpQty]?BUMPS[bumpQty].total:0)+(bumpQty2&&BUMPSW[bumpQty2]?BUMPSW[bumpQty2].total:0);
+      msg+=(total>=FRETE)?' <span class="kb-add">— com os <b>extras</b> o <b>frete grátis</b> já está garantido 🎉</span>':' <span class="kb-add">— os <b>extras</b> te deixam a <b>R$ '+brl(FRETE-total)+'</b> do frete grátis</span>'; }
     bm.innerHTML=msg; }
   function updateBar(){ var bf=doc.getElementById('bar-fan'); if(bf) bf.setAttribute('data-kit',currentKit); }
   function potes(nn){ return nn+(nn>1?' potes':' pote'); }
-  function setCTA(){ var kn=qn(currentKit);
-    var sub=bumpQty?('Kit Whey '+potes(kn)+' + Creatina '+potes(bumpQty)):'';
+  function setCTA(){ var kn=qn(currentKit); var parts=[];
+    if(bumpQty) parts.push('Creatina '+potes(bumpQty));
+    if(bumpQty2) parts.push('Whey '+bumpWShort+' '+potes(bumpQty2));
+    var sub=parts.length?('Kit Whey '+potes(kn)+' + '+parts.join(' + ')):'';
     if(buy) buy.innerHTML='<span class="buy-main">COMPRAR AGORA</span>'+(sub?'<span class="buy-sub">'+sub+'</span>':''); }
   /* leque dos potes: abre/fecha conforme o kit + "pop" no palco e no preço (~420ms) */
   function fan(q){ if(stage) stage.setAttribute('data-kit',q);
@@ -1198,11 +1250,19 @@ body.sem .choWrap{opacity:0}
     var cur='choco', body=doc.body;
     var eyeb=doc.querySelector('.hero-copy .eyebrow'), h1=doc.querySelector('.hero h1'), sub=doc.querySelector('.hero .sub'), ingr=doc.querySelector('.ingr'), poteImg=doc.getElementById('pote');
     var fcards=doc.querySelectorAll('.fcard');
-    function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && im.closest('.fcard')) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260810_173053')>-1 || sc.indexOf('hf_20260904_235111')>-1){ im.setAttribute('src',url); } }); }
+    function swapPotes(url){ [].slice.call(doc.querySelectorAll('img')).forEach(function(im){ if(im.closest && (im.closest('.fcard')||im.closest('#bumpwhey'))) return; var sc=im.getAttribute('src')||''; if(sc.indexOf('hf_20260810_173053')>-1 || sc.indexOf('hf_20260904_235111')>-1){ im.setAttribute('src',url); } }); }
     function applyCopy(f){ var c=COPY[f]; if(eyeb) eyeb.textContent=c.eyebrow; if(h1) h1.innerHTML=c.h1; if(sub) sub.innerHTML=c.sub; if(ingr) ingr.innerHTML=c.ingr; if(poteImg) poteImg.setAttribute('alt',c.alt); }
     function setFlavor(f){ cur=f; VAR=VARF[f]; PID=VARF[f]; PNAME=NAMEF[f];
       [].slice.call(fcards).forEach(function(b){ var on=b.getAttribute('data-flavor')===f; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
-      body.classList.toggle('sem',f==='sem'); applyCopy(f); swapPotes(POTE[f]); try{ setKit(currentKit); }catch(e){}
+      body.classList.toggle('sem',f==='sem'); applyCopy(f); swapPotes(POTE[f]);
+      var other=(f==='choco')?'sem':'choco'; BUMPVW=VARF[other]; bumpWName=NAMEF[other]; bumpWShort=(other==='sem')?'Sem Sabor':'Chocolate';
+      var bw=doc.getElementById('bumpwhey');
+      if(bw){ bw.classList.toggle('theme-sem',other==='sem'); bw.classList.toggle('theme-choco',other==='choco');
+        var bn=doc.getElementById('bw-name'); if(bn) bn.textContent=NAMEF[other];
+        var bh=doc.getElementById('bw-headtxt'); if(bh) bh.textContent=(other==='sem')?'sem sabor, pra variar e misturar em tudo':'sabor chocolate cremoso, pro dia que bate a vontade';
+        [].slice.call(bw.querySelectorAll('.bt-vis img')).forEach(function(im){ im.setAttribute('src',POTE[other]); }); }
+      if(window.__bwRefresh) window.__bwRefresh();
+      try{ setKit(currentKit); }catch(e){}
       fbqc('FlavorSwitch',{flavor:f}); }
     function flipTo(f){ if(f===cur) return; var pw=doc.getElementById('poteWrap');
       if(!G || !pw){ setFlavor(f); return; }
@@ -1212,6 +1272,34 @@ body.sem .choWrap{opacity:0}
           G.to(o,{ry:0,bl:0,duration:.5,ease:'back.out(1.4)',onUpdate:function(){ pw.style.transform='perspective(1200px) rotateY('+o.ry+'deg)'; pw.style.filter='blur('+o.bl+'px)'; },
             onComplete:function(){ pw.style.filter='none'; window.__poteBusy=false; }}); } }); }
     [].slice.call(fcards).forEach(function(b){ b.addEventListener('click',function(){ flipTo(b.getAttribute('data-flavor')); }); });
+  })();
+
+  /* ===== bump cross-sabor: o OUTRO sabor do Whey (inverte com o seletor) ===== */
+  (function(){
+    var wrap=doc.getElementById('bumpwhey'); if(!wrap) return;
+    var qbtns=doc.querySelectorAll('#bw-qty button');
+    function pill(){ var b=doc.querySelector('#bw-qty button.on'), p=doc.getElementById('bw-pill'); if(b&&p){ p.style.left=b.offsetLeft+'px'; p.style.width=b.offsetWidth+'px'; } }
+    function render(){ var d=BUMPSW[bwSel]; if(!d) return;
+      set('bw-inst',d.inst); set('bw-cash',d.cash); set('bw-tag',d.tag);
+      var sv=doc.getElementById('bw-save'); if(sv) sv.innerHTML=d.save;
+      var bg=doc.getElementById('bw-badge'); if(bg){ bg.textContent=d.badge; bg.classList.toggle('show',!!d.badge); }
+      var vis=doc.getElementById('bw-vis'); if(vis){ vis.setAttribute('data-n',d.n); vis.classList.remove('pop'); void vis.offsetWidth; vis.classList.add('pop'); } }
+    function apply(){ wrap.setAttribute('data-on',bwOn?'1':'0');
+      var add=doc.getElementById('bw-add');
+      if(add){ add.setAttribute('aria-pressed',bwOn?'true':'false'); add.innerHTML=bwOn?'<span class="bt-add-ic" aria-hidden="true">✓</span> Adicionado ao pedido':'<span class="bt-add-ic" aria-hidden="true">+</span> Adicionar ao meu pedido'; }
+      bumpQty2=bwOn?(parseInt(bwSel,10)||0):0;
+      buy.setAttribute('href',checkout(currentKit)); updateFrete(); updateKitBar(); setCTA(); }
+    [].slice.call(qbtns).forEach(function(b){ b.addEventListener('click',function(){
+      [].slice.call(qbtns).forEach(function(o){ o.classList.remove('on'); o.setAttribute('aria-selected','false'); });
+      b.classList.add('on'); b.setAttribute('aria-selected','true'); bwSel=b.getAttribute('data-q'); render(); pill();
+      if(bwOn){ apply(); fbqt('AddToCart',{content_name:bumpWName,content_ids:[BUMPVW],content_type:'product',value:BUMPSW[bwSel].total,currency:'BRL'}); } }); });
+    var add=doc.getElementById('bw-add');
+    if(add) add.addEventListener('click',function(){ bwOn=!bwOn; apply(); if(bwOn){ fbqt('AddToCart',{content_name:bumpWName,content_ids:[BUMPVW],content_type:'product',value:BUMPSW[bwSel].total,currency:'BRL'}); dle('add_to_cart',currentKit); } });
+    render(); pill();
+    window.addEventListener('resize',pill); window.addEventListener('load',pill);
+    var qEl=doc.getElementById('bw-qty'); if(window.ResizeObserver&&qEl){ try{ new window.ResizeObserver(function(){ pill(); }).observe(qEl); }catch(e){} }
+    window.requestAnimationFrame(pill);
+    window.__bwRefresh=function(){ render(); pill(); };
   })();
   /* ===== order bump — Creatina + Taurato (card premium, tema Creatina + íons orbitando) ===== */
   (function(){
